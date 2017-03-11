@@ -15,7 +15,7 @@
  *
  * (c)reated 10.03.17 by oliver (ob@jfachwert.de)
  */
-package jfachwert.bank;
+package de.jfachwert.bank;
 
 import org.apache.commons.lang3.StringUtils;
 

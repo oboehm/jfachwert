@@ -15,7 +15,7 @@
  *
  * (c)reated 10.03.2017 by oboehm (ob@jfachwert.de)
  */
-package jfachwert.bank;
+package de.jfachwert.bank;
 
 import org.junit.Test;
 
