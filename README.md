@@ -30,7 +30,8 @@ der createBankverbindung-Methode schauen, aber mal ehrlich - wer macht das schon
 Verwendung von Fachwerten:
 
 ```java
-Bankverbindung neu = createBankverbindung(new  IBAN("DE41300606010006605605"), new BIC("GENODEF1JEV"), "Jever Volksbank");
+Bankverbindung neu = createBankverbindung(new IBAN("DE41300606010006605605"), 
+                                          new BIC("GENODEF1JEV"), "Jever Volksbank");
 ```
 
 Jetzt kann man die Argumente nicht mehr verwechseln, weil sonst der Compiler meckert.
@@ -56,5 +57,5 @@ Maerz 2017, Oli B.
 
 # Weitere Infos
 
-* CI-Build: https://travis-ci.org/oboehm/jenkins
+* CI-Build: https://travis-ci.org/oboehm/jfachwert
 * Projekt-Seite: http://www.jfachwert.de/ (geplant)
