@@ -17,6 +17,7 @@
  */
 package de.jfachwert.bank;
 
+import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -26,9 +27,18 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public final class IBANTest {
+public final class IBANTest extends AbstractFachwertTest {
 
     private final IBAN iban = new IBAN("DE41300606010006605605");
+
+    /**
+     * Hierueber stellen wir fuer die Oberklasse eine Test-IBAN zur Verfuegung.
+     *
+     * @return Test-IBAN
+     */
+    protected IBAN getFachwert() {
+        return iban;
+    }
 
     /**
      * Test method for {@link IBAN#getFormatted()}.

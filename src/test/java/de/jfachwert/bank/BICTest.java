@@ -17,6 +17,7 @@
  */
 package de.jfachwert.bank;
 
+import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -24,13 +25,23 @@ import static org.junit.Assert.assertEquals;
 /**
  * Unit-Tests fuer die {@link BIC}-Klasse.
  */
-public final class BICTest {
+public final class BICTest extends AbstractFachwertTest {
 
     private final BIC bic = new BIC("GENODEF1JEV");
 
     /**
+     * Hierueber stellen wir fuer die Oberklasse eine Test-BIC zur Verfuegung.
+     *
+     * @return Test-BIC
+     */
+    protected BIC getFachwert() {
+        return bic;
+    }
+
+    /**
      * Die toString-Methode sollte die BIC im Klartext ausgeben.
      */
+    @Override
     @Test
     public void testToString() {
         assertEquals("GENODEF1JEV", bic.toString());

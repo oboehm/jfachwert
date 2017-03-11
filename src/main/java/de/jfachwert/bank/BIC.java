@@ -17,6 +17,8 @@
  */
 package de.jfachwert.bank;
 
+import de.jfachwert.Fachwert;
+
 /**
  * BIC steht fuer Bank (oder auch Businiess) Identifier Code und kennzeichnet
  * weltweit Kreditinstitute, Broker oder aehnliche Unternehmen. Im Allegemeinen
@@ -45,7 +47,7 @@ package de.jfachwert.bank;
  *
  * @author <a href="ob@aosd.de">oliver</a>
  */
-public class BIC {
+public class BIC implements Fachwert {
 
     private final String code;
 

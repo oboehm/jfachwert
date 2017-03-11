@@ -17,9 +17,8 @@
  */
 package de.jfachwert.bank;
 
+import de.jfachwert.Fachwert;
 import org.apache.commons.lang3.StringUtils;
-
-import java.io.Serializable;
 
 
 /**
@@ -27,7 +26,7 @@ import java.io.Serializable;
  *
  * @author oboehm
  */
-public class IBAN implements Serializable {
+public class IBAN implements Fachwert {
 
     /** Konstante fuer unbekannte IBAN (aus Wikipedia). */
     public static final IBAN UNBEKANNT = new IBAN("DE19123412341234123412");
