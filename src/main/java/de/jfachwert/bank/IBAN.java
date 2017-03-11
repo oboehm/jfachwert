@@ -22,7 +22,9 @@ import org.apache.commons.lang3.StringUtils;
 
 
 /**
- * Repraesentation der IBAN.
+ * Die IBAN (International Bank Account Number) ist eine international
+ * standardisierte Notation fuer Bankkonten, die durch die ISO-Norm ISO 13616-1
+ * beschrieben wird.
  *
  * @author oboehm
  */
@@ -40,17 +42,6 @@ public class IBAN implements Fachwert {
      */
     public IBAN(String iban) {
         this.raw = StringUtils.remove(iban, ' ');
-    }
-
-    private static String formatted(String iban) {
-        String ibanStripped = StringUtils.remove(iban, ' ');
-        String input = ibanStripped + "   ";
-        StringBuilder buf = new StringBuilder();
-        for (int i = 0; i < ibanStripped.length(); i+= 4) {
-            buf.append(input.substring(i, i+4));
-            buf.append(' ');
-        }
-        return buf.toString().trim().toUpperCase();
     }
 
     /**

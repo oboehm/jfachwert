@@ -19,6 +19,9 @@ package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
+import patterntesting.runtime.junit.ObjectTester;
+
+import java.io.NotSerializableException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -62,6 +65,17 @@ public final class IBANTest extends AbstractFachwertTest {
     @Test
     public void testGetFormattedUppercase() {
         assertEquals("DE41 3006 0601 0006 6056 05", new IBAN("de41300606010006605605").getFormatted());
+    }
+
+    /**
+     * Hierueber testen wir die equals- und hashCode-Implemnentierung.
+     *
+     * @throws NotSerializableException the not serializable exception
+     */
+    @Test
+    public void testEquals() throws NotSerializableException {
+        ObjectTester.assertEquals(iban);
+
     }
 
 }
