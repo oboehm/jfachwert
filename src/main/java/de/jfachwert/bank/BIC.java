@@ -1,0 +1,66 @@
+/*
+ * Copyright (c) 2017 by Oliver Boehm
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express orimplied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * (c)reated 11.03.17 by oliver (ob@oasd.de)
+ */
+package de.jfachwert.bank;
+
+/**
+ * BIC steht fuer Bank (oder auch Businiess) Identifier Code und kennzeichnet
+ * weltweit Kreditinstitute, Broker oder aehnliche Unternehmen. Im Allegemeinen
+ * wird die BIC im Zahlungsverkehr zusammen mit der IBAN verwendet.
+ * <p>
+ *     Der BIC hat eine Laenge von 8 oder 11 alphanumerischen Zeichen mit
+ *     folgendem Aufbau: BBBBCCLLbbb
+ * </p>
+ * <ul>
+ *     <li>
+ *         BBBB: 4-stelliger Bankcode, vom Geldinstitut frei waehlbar
+ *         (nur Buchstaben)
+ *     </li>
+ *     <li>
+ *         CC: 2-stelliger Laendercode nach ISO 3166-1 (nur Buchstaben)
+ *     </li>
+ *     <li>
+ *         LL: 2-stellige Codierung des Ortes (Buchstaben/Ziffern)
+ *     </li>
+ *     <li>
+ *         bbb: 3-stellige Kennzeichnung (Branche-Code) der Filiale oder
+ *         Abteilung. Kann um "XXX" auf 6-stellig erwgaenzt werden
+ *         (Buchstaben/Ziffern)
+ *     </li>
+ * </ul>
+ *
+ * @author <a href="ob@aosd.de">oliver</a>
+ */
+public class BIC {
+
+    private final String code;
+
+    public BIC(String code) {
+        this.code = code;
+    }
+
+    /**
+     * Als String-Repraesentation wird die BIC ausgegeben.
+     *
+     * @return BIC
+     */
+    @Override
+    public String toString() {
+        return code;
+    }
+
+}
