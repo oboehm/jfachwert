@@ -10,13 +10,9 @@
 <project name="gdv.xport">
 
   <bannerLeft>
-    <name> jFachwert </name>
-  </bannerLeft>
- 
-  <bannerRight>
-    <name> jFachwert </name>
+    <name>jFachwert</name>
     <src>img/jfachwert.png</src>
-  </bannerRight>
+  </bannerLeft>
  
   <version position="left"/>
 

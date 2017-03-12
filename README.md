@@ -8,7 +8,7 @@ jFachwert erweitert die primitive Datentypen von Java um einige weitere Datentyp
 vielen Business-Programmen zwar gebraucht werden, aber immer wieder neu implmentiert werden (muessen).
 
 Fachwerte sind sehr eng mit den [Value Objecs](https://de.wikipedia.org/wiki/Value_Object) aus Domain Driven Design (DDD)
-verwand und besitzen folgende Eigenschaften:
+verwandt und besitzen folgende Eigenschaften:
 
 * unveraenderlich (immutable),
 * einfacher Datentyp,
