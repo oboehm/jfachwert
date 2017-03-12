@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<!-- 
+    A kind of release notes. This document describes the changes in the
+    different releases.
+    
+    see http://maven.apache.org/plugins/maven-changes-plugin/usage.html
+    see http://maven.apache.org/plugins/maven-changes-plugin/changes.html
+ -->
+
+<document>
+
+  <properties>
+    <title>Main changes</title>
+    <author email="ob@jfachwert.de">Oli B.</author>
+  </properties>
+
+  <body>
+
+    <release version="0.0.1" date="12-M&#228;r-2017"
+             description="Start">
+      <action dev="oboehm" type="add" date="12-M&#228;r-2017">
+        Aufnahme ins Maven-Repository beantragt
+        (https://issues.sonatype.org/browse/OSSRH-28810).
+      </action>
+      <action dev="oboehm" type="add" date="11-M&#228;r-2017">
+        Projekt mit IBAN- und BIC-Klasse auf GitHub angelegt
+        und Build bei travis-ci.org aufgesetzt.
+      </action>
+    </release>
+
+  </body>
+
+</document>
