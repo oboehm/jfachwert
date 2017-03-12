@@ -59,3 +59,4 @@ Maerz 2017, Oli B.
 
 * CI-Build: https://travis-ci.org/oboehm/jfachwert
 * Projekt-Seite: http://www.jfachwert.de/ (geplant)
+* OSSRH-Ticket: https://issues.sonatype.org/browse/OSSRH-28810

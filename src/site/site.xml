@@ -30,7 +30,7 @@
     </links>
     
     <menu name="jFachwert">
-      <item name="about gdv.xport"			href="index.html" />
+      <item name="about jFachwert"			href="index.html" />
     </menu>
 
     <menu ref="modules" />
