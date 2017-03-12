@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <title>Was ist "jFachwert"?</title>
+    <author email="ob@jfachwert.de">Oliver Boehm</author>
+  </properties>
+
+  <body>
+
+    <section name="Was ist jFachwert?">
+      <p>
+        <i>jFachwert</i> ist eine Java-Bibliothek, die einige fachlichen Datentypen wie IBAN oder BIC zur Verf&#252;gung
+        stelle, die in vielen Programmen ben&#246;tigt werden, aber f&#252;r die es keine Bibliothek gibt.
+      </p>
+    </section>
+
+  </body>
+
+</document>
