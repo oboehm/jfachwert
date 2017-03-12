@@ -30,7 +30,8 @@
     </links>
     
     <menu name="jFachwert">
-      <item name="about jFachwert"			href="index.html" />
+      <item name="Release Notes"  href="changes-report.html" />
+      <item name="Infos"		  href="index.html" />
     </menu>
 
     <menu ref="modules" />

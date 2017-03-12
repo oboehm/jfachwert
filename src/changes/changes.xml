@@ -17,6 +17,13 @@
 
   <body>
 
+    <release version="0.0.2" date="M&#228;r-2017"
+             description="Aufnahme ins Maven-Repository">
+      <action dev="oboehm" type="update" date="12-M&#228;r-2017">
+        Dokumentation aktualisiert.
+      </action>
+    </release>
+
     <release version="0.0.1" date="12-M&#228;r-2017"
              description="Start">
       <action dev="oboehm" type="add" date="12-M&#228;r-2017">
