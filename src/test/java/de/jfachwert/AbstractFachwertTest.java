@@ -24,9 +24,11 @@ import patterntesting.runtime.junit.SerializableTester;
 
 import java.io.NotSerializableException;
 import java.io.Serializable;
+import java.lang.reflect.Modifier;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.IsInstanceOf.*;
 
@@ -91,6 +93,16 @@ public abstract class AbstractFachwertTest {
     public void testToString() {
         String s = fachwert.toString();
         assertThat("looks like default implementation", s, not(containsString("@")));
+    }
+
+    /**
+     * Alle Fachwerte sollten ableitbar sein, damit sie auch fuer eigene Zwecke
+     * ueberschrieben werden koennen. Dazu duerfen die Klassen nicht final sein.
+     */
+    @Test
+    public void testNotFinal() {
+        Class<? extends Fachwert> clazz = fachwert.getClass();
+        assertFalse(clazz + " should be not final", Modifier.isFinal(clazz.getModifiers()));
     }
 
 }
