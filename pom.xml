@@ -6,7 +6,7 @@
 
   <groupId>de.jfachwert</groupId>
   <artifactId>jfachwert</artifactId>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>0.0.2</version>
   <description>Implementierung einiger Fachwerte nach dem WAM-Ansatz</description>
   <inceptionYear>2017</inceptionYear>
   <url>http://www.jfachwert.de/</url>
