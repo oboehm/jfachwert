@@ -32,6 +32,7 @@
     <menu name="jFachwert">
       <item name="Release Notes"  href="changes-report.html" />
       <item name="Infos"		  href="index.html" />
+      <item name="JavaDoc API"    href="apidocs/index.html" />
     </menu>
 
     <menu ref="modules" />
