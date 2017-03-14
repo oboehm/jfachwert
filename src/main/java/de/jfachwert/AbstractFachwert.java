@@ -40,7 +40,27 @@ public class AbstractFachwert implements Fachwert {
      * @return die interne Repraesentation
      */
     protected final String getCode() {
-        return this.getCode();
+        return this.code;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return this.code.hashCode();
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof AbstractFachwert)) {
+            return false;
+        }
+        AbstractFachwert other = (AbstractFachwert) obj;
+        return this.code.equals(other.getCode());
     }
 
     /**

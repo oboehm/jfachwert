@@ -17,7 +17,7 @@
  */
 package de.jfachwert.bank;
 
-import de.jfachwert.Fachwert;
+import de.jfachwert.AbstractFachwert;
 import org.apache.commons.lang3.StringUtils;
 
 
@@ -28,12 +28,10 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author oboehm
  */
-public class IBAN implements Fachwert {
+public class IBAN extends AbstractFachwert {
 
     /** Konstante fuer unbekannte IBAN (aus Wikipedia). */
     public static final IBAN UNBEKANNT = new IBAN("DE19123412341234123412");
-
-    private final String raw;
 
     /**
      * Instantiiert eine neue IBAN.
@@ -41,7 +39,7 @@ public class IBAN implements Fachwert {
      * @param iban im unformattierten Format
      */
     public IBAN(String iban) {
-        this.raw = StringUtils.remove(iban, ' ');
+        super(StringUtils.remove(iban, ' ').toUpperCase());
     }
 
     /**
@@ -52,13 +50,13 @@ public class IBAN implements Fachwert {
      * @return formatierte IBAN, z.B. "DE19 1234 1234 1234 1234 12"
      */
     public String getFormatted() {
-        String input = this.raw + "   ";
+        String input = this.getUnformatted() + "   ";
         StringBuilder buf = new StringBuilder();
-        for (int i = 0; i < this.raw.length(); i+= 4) {
+        for (int i = 0; i < this.getUnformatted().length(); i+= 4) {
             buf.append(input.substring(i, i+4));
             buf.append(' ');
         }
-        return buf.toString().trim().toUpperCase();
+        return buf.toString().trim();
     }
 
     /**
@@ -67,38 +65,7 @@ public class IBAN implements Fachwert {
      * @return unformattierte IBA
      */
     public String getUnformatted() {
-        return this.raw;
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        return this.raw.hashCode();
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof IBAN)) {
-            return false;
-        }
-        IBAN other = (IBAN) obj;
-        return this.raw.equalsIgnoreCase(other.raw);
-    }
-
-    /**
-     * Hierueber wird die nackte IBAN (ohne Formattierung) ausgegeben.
-     *
-     * @return the string
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return this.raw;
+        return this.getCode();
     }
 
 }

@@ -1,8 +1,3 @@
-package de.jfachwert.steuer;
-
-import de.jfachwert.AbstractFachwertTest;
-import de.jfachwert.Fachwert;
-
 /*
  * Copyright (c) 2017 by Oliver Boehm
  *
@@ -20,8 +15,21 @@ import de.jfachwert.Fachwert;
  *
  * (c)reated 14.03.2017 by oboehm (ob@jfachwert.de)
  */
+package de.jfachwert.steuer;
+
+import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.Fachwert;
+
+/**
+ * Unit-Tests fuer die {@link Steuernummer}-Klasse.
+ */
 public class SteuernummerTest extends AbstractFachwertTest {
 
+    /**
+     * Die Steuernummer aus diesem Beispiel stammt aus Wikipedia.
+     *
+     * @return eine Steuernummer aus Baden Wuerttemberg
+     */
     protected Fachwert getFachwert() {
         return new Steuernummer("2893081508152");
     }

@@ -17,7 +17,7 @@
  */
 package de.jfachwert.bank;
 
-import de.jfachwert.Fachwert;
+import de.jfachwert.AbstractFachwert;
 
 /**
  * BIC steht fuer Bank (oder auch Businiess) Identifier Code und kennzeichnet
@@ -47,22 +47,15 @@ import de.jfachwert.Fachwert;
  *
  * @author <a href="ob@aosd.de">oliver</a>
  */
-public class BIC implements Fachwert {
-
-    private final String code;
-
-    public BIC(String code) {
-        this.code = code;
-    }
+public class BIC extends AbstractFachwert {
 
     /**
-     * Als String-Repraesentation wird die BIC ausgegeben.
+     * Hierueber wird eine neue BIC angelegt.
      *
-     * @return BIC
+     * @param code eine 8- oder 11-stellige BIC
      */
-    @Override
-    public String toString() {
-        return code;
+    public BIC(String code) {
+        super(code);
     }
 
 }

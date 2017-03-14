@@ -24,13 +24,22 @@ import de.jfachwert.AbstractFachwert;
  * Finanzamt vergeben wird. Die Nummer ist eindeutig einem Steuerpflichtigen
  * zugeordnet.
  *
+ * Die Laenge der Steuernummer variierte beim Standardschema der Laender
+ * zwischen 10 und 11 Ziffern und hatte für das Bundesschema einheitlich 13
+ * Ziffern.
+ *
  * @author oboehm
  * @since 0.0.2
  */
 public class Steuernummer extends AbstractFachwert {
 
-    public Steuernummer(String code) {
-        super(code);
+    /**
+     * Hierueber wird eine neue Steuernummer angelegt.
+     *
+     * @param nr eine 10- bis 13-stellige Steuernummer.
+     */
+    public Steuernummer(String nr) {
+        super(nr);
     }
 
 }
