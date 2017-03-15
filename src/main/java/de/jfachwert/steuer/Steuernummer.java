@@ -28,6 +28,10 @@ import de.jfachwert.AbstractFachwert;
  * zwischen 10 und 11 Ziffern und hatte für das Bundesschema einheitlich 13
  * Ziffern.
  *
+ * Seit 2008 ist die Steuernummer durch die Steuer-Identifikationsnummer
+ * abgeloest, die aus 10 Ziffer + Pruefziffer besteht. Diese Unterscheidung
+ * wird in dieser Klasse aber (noch) nicht vorgenommen.
+ *
  * @author oboehm
  * @since 0.0.2
  */
@@ -40,6 +44,17 @@ public class Steuernummer extends AbstractFachwert {
      */
     public Steuernummer(String nr) {
         super(nr);
+    }
+
+    /**
+     * Die letzte Ziffer ist die Pruefziffer, die hierueber abgefragt werden
+     * kann.
+     *
+     * @return Wert zwischen 0 und 9
+     */
+    public int getPruefziffer() {
+        String s = this.getCode();
+        return Integer.valueOf(s.substring(s.length() - 1));
     }
 
 }

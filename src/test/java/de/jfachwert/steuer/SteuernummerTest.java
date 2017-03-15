@@ -19,6 +19,9 @@ package de.jfachwert.steuer;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Fachwert;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Unit-Tests fuer die {@link Steuernummer}-Klasse.
@@ -32,6 +35,16 @@ public class SteuernummerTest extends AbstractFachwertTest {
      */
     protected Fachwert getFachwert() {
         return new Steuernummer("2893081508152");
+    }
+
+    /**
+     * Das Beispiel fuer diesen Test stammt aus
+     * https://de.wikipedia.org/wiki/Steuernummer.
+     */
+    @Test
+    public void testGetPruefziffer() {
+        Steuernummer nr = new Steuernummer("1121081508150");
+        assertEquals(0, nr.getPruefziffer());
     }
 
 }
