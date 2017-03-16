@@ -68,4 +68,15 @@ public class IBAN extends AbstractFachwert {
         return this.getCode();
     }
 
+    /**
+     * Extrahiert aus der IBAN die Kontonummer.
+     *
+     * @return 10-stellige Kontonummer
+     * @since 0.1.0
+     */
+    public Kontonummer getKontonummer() {
+        String iban = this.getUnformatted();
+        return new Kontonummer(iban.substring(12));
+    }
+
 }

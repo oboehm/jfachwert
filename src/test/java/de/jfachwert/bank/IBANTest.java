@@ -64,4 +64,12 @@ public final class IBANTest extends AbstractFachwertTest {
         assertEquals("DE41 3006 0601 0006 6056 05", new IBAN("de41300606010006605605").getFormatted());
     }
 
+    /**
+     * Test-Methode fuer {@link IBAN#getKontonummer()}.
+     */
+    @Test
+    public void testGetKontonummer() {
+        assertEquals(new Kontonummer("0006605605"), iban.getKontonummer());
+    }
+
 }
