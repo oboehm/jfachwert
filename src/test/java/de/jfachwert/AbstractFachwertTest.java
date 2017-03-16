@@ -110,6 +110,8 @@ public abstract class AbstractFachwertTest {
 
     /**
      * Falls die equals- und hashCode-Methode von {@link AbstractFachwert}
+     * ueberschrieben werden, wird die Korrektheit hier zur Sicherheit
+     * ueberprueft.
      */
     @Test
     public void testEquals() {

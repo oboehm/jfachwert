@@ -51,12 +51,17 @@ public class AbstractFachwert implements Fachwert {
         return this.code.hashCode();
     }
 
-    /* (non-Javadoc)
+    /**
+     * Zwei Fachwerte sind nur dann gleich, wenn sie vom gleichen Typ sind und
+     * den gleichen Wert besitzen.
+     *
+     * @param obj zu vergleichender Fachwert
+     * @return true bei Gleichheit
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof AbstractFachwert)) {
+        if (!(obj instanceof AbstractFachwert) || (!this.getClass().isAssignableFrom(obj.getClass()))) {
             return false;
         }
         AbstractFachwert other = (AbstractFachwert) obj;
