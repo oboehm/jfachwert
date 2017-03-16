@@ -16,6 +16,8 @@ package de.jfachwert;/*
  * (c)reated 14.03.2017 by oboehm (ob@jfachwert.de)
  */
 
+import java.util.Objects;
+
 /**
  * Die meisten Fachwerte sind nur ein ganz duenner Wrapper um ein Attribut vom
  * Typ 'String'. Fuer diese Fachwerte duerfte diese Implementierung ausreichen.
@@ -24,11 +26,11 @@ package de.jfachwert;/*
  * @since 14.03.2017
  * @since 0.0.2
  */
-public class AbstractFachwert implements Fachwert {
+public class AbstractFachwert<T> implements Fachwert {
 
-    private final String code;
+    private final T code;
 
-    protected AbstractFachwert(String code) {
+    protected AbstractFachwert(T code) {
         this.code = code;
     }
 
@@ -39,7 +41,7 @@ public class AbstractFachwert implements Fachwert {
      *
      * @return die interne Repraesentation
      */
-    protected final String getCode() {
+    protected final T getCode() {
         return this.code;
     }
 
@@ -76,7 +78,7 @@ public class AbstractFachwert implements Fachwert {
      */
     @Override
     public String toString() {
-        return code;
+        return Objects.toString(this.code);
     }
 
 }

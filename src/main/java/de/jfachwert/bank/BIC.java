@@ -47,7 +47,7 @@ import de.jfachwert.AbstractFachwert;
  *
  * @author <a href="ob@aosd.de">oliver</a>
  */
-public class BIC extends AbstractFachwert {
+public class BIC extends AbstractFachwert<String> {
 
     /**
      * Hierueber wird eine neue BIC angelegt.

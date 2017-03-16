@@ -28,7 +28,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author oboehm
  */
-public class IBAN extends AbstractFachwert {
+public class IBAN extends AbstractFachwert<String> {
 
     /** Konstante fuer unbekannte IBAN (aus Wikipedia). */
     public static final IBAN UNBEKANNT = new IBAN("DE19123412341234123412");

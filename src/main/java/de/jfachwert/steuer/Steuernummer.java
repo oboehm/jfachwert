@@ -35,7 +35,7 @@ import de.jfachwert.AbstractFachwert;
  * @author oboehm
  * @since 0.0.2
  */
-public class Steuernummer extends AbstractFachwert {
+public class Steuernummer extends AbstractFachwert<String> {
 
     /**
      * Hierueber wird eine neue Steuernummer angelegt.
