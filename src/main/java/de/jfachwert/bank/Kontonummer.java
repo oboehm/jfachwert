@@ -17,7 +17,9 @@
  */
 package de.jfachwert.bank;
 
-import de.jfachwert.AbstractFachwert;
+import de.jfachwert.Fachwert;
+
+import java.util.HashMap;
 
 /**
  * Eigentlich ist die Kontonummer Bestandteil der IBAN. Trotzdem wird sie
@@ -26,7 +28,9 @@ import de.jfachwert.AbstractFachwert;
  * @author oboehm
  * @since 0.1.0
  */
-public class Kontonummer extends AbstractFachwert {
+public class Kontonummer implements Fachwert {
+
+    private final long kontonr;
 
     /**
      * Hierueber wird eine neue Kontonummer angelegt.
@@ -34,7 +38,55 @@ public class Kontonummer extends AbstractFachwert {
      * @param nr eine maximal 10-stellige Zahl
      */
     public Kontonummer(String nr) {
-        super(nr);
+        this(Long.valueOf(nr));
+    }
+
+    /**
+     * Hier gehen wir davon aus, dass eine Kontonummer immer eine Zahl ist und
+     * fuehrende Nullen keine Rollen spielen.
+     *
+     * @param nr the nr
+     */
+    public Kontonummer(long nr) {
+        this.kontonr = nr;
+    }
+
+    /**
+     * Die Kontonummer ist auch gleichzeitg der Hashcode.
+     *
+     * @return HashCode
+     * @see Object#equals(Object)
+     * @see System#identityHashCode
+     */
+    @Override
+    public int hashCode() {
+        return (int) this.kontonr;
+    }
+
+    /**
+     *
+     * @see #hashCode()
+     * @see HashMap
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof  Kontonummer)) {
+            return false;
+        }
+        Kontonummer other = (Kontonummer) obj;
+        return this.kontonr == other.kontonr;
+    }
+
+    /**
+     * Um ein einheitliches Format der Kontonummer zu bekommen, geben wir
+     * sie immer 10-stellig aus und fuellen sie notfalls mit fuehrenden
+     * Nullen auf.
+     *
+     * @return a string representation of the object.
+     */
+    @Override
+    public String toString() {
+        return String.format("%010d", this.kontonr);
     }
 
 }

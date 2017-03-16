@@ -19,6 +19,9 @@ package de.jfachwert.bank;
  */
 
 import de.jfachwert.AbstractFachwertTest;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Unit-Tests fuer {@link Kontonummer}-Klasse.
@@ -35,6 +38,23 @@ public final class KontonummerTest extends AbstractFachwertTest {
     @Override
     protected Kontonummer createFachwert() {
         return new Kontonummer("0006605605");
+    }
+
+    /**
+     * Fuehrende Nullen sollten beim Vergleich keine Rollen spielen.
+     */
+    @Test
+    public void testEqualsWithLeadingZeros() {
+        assertEquals(new Kontonummer("6605605"), new Kontonummer("0006605605"));
+    }
+
+    /**
+     * Die Ausgabe sollte mit fuehrenden Nullen erfolgen.
+     */
+    @Override
+    @Test
+    public void testToString() {
+        assertEquals("0006605605", new Kontonummer("6605605").toString());
     }
 
 }
