@@ -20,6 +20,7 @@ package de.jfachwert;
 import org.junit.Before;
 import org.junit.Test;
 import patterntesting.runtime.junit.ImmutableTester;
+import patterntesting.runtime.junit.ObjectTester;
 import patterntesting.runtime.junit.SerializableTester;
 
 import java.io.NotSerializableException;
@@ -50,11 +51,13 @@ public abstract class AbstractFachwertTest {
 
     /**
      * Zum Testen brauchen wir ein Test-Objekt. Dies muss hierueber von den
-     * abgeleiteten Unit-Tests bereitgestellt werden.
+     * abgeleiteten Unit-Tests bereitgestellt werden. Und zwar muss jedesmal
+     * der gleiche Fachwert erzeugt werden, weil sonst der equals-Test nicht
+     * funktioniert.
      *
      * @return Test-Objekt zum Testen
      */
-    protected abstract Fachwert getFachwert();
+    protected abstract Fachwert createFachwert();
 
     /**
      * Wir setzen den Fachwert nicht waehrend der Initialisierungsphase auf,
@@ -63,7 +66,7 @@ public abstract class AbstractFachwertTest {
      */
     @Before
     public void setUpFachwert() {
-        this.fachwert = this.getFachwert();
+        this.fachwert = this.createFachwert();
     }
 
     /**
@@ -103,6 +106,16 @@ public abstract class AbstractFachwertTest {
     public void testNotFinal() {
         Class<? extends Fachwert> clazz = fachwert.getClass();
         assertFalse(clazz + " should be not final", Modifier.isFinal(clazz.getModifiers()));
+    }
+
+    /**
+     * Falls die equals- und hashCode-Methode von {@link AbstractFachwert}
+     */
+    @Test
+    public void testEquals() {
+        Fachwert one = this.createFachwert();
+        Fachwert anotherOne = this.createFachwert();
+        ObjectTester.assertEquals(one, anotherOne);
     }
 
 }

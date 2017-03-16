@@ -34,8 +34,8 @@ public final class BICTest extends AbstractFachwertTest {
      *
      * @return Test-BIC
      */
-    protected BIC getFachwert() {
-        return bic;
+    protected BIC createFachwert() {
+        return new BIC("GENODEF1JEV");
     }
 
     /**

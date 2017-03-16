@@ -33,7 +33,7 @@ public class SteuernummerTest extends AbstractFachwertTest {
      *
      * @return eine Steuernummer aus Baden Wuerttemberg
      */
-    protected Fachwert getFachwert() {
+    protected Fachwert createFachwert() {
         return new Steuernummer("2893081508152");
     }
 
