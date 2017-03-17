@@ -65,6 +65,14 @@ public final class IBANTest extends AbstractFachwertTest {
     }
 
     /**
+     * Test-Methode fuer {@link IBAN#getBLZ()}.
+     */
+    @Test
+    public void testGetBLZ() {
+        assertEquals(new BLZ("30060601"), iban.getBLZ());
+    }
+
+    /**
      * Test-Methode fuer {@link IBAN#getKontonummer()}.
      */
     @Test

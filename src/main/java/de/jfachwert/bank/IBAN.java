@@ -69,6 +69,17 @@ public class IBAN extends AbstractFachwert<String> {
     }
 
     /**
+     * Extrahiert aus der IBAN die Bankleitzahl.
+     *
+     * @return Bankleitzahl
+     * @since 0.1.0
+     */
+    public BLZ getBLZ() {
+        String iban = this.getUnformatted();
+        return new BLZ(iban.substring(4, 12));
+    }
+
+    /**
      * Extrahiert aus der IBAN die Kontonummer.
      *
      * @return 10-stellige Kontonummer
