@@ -37,6 +37,8 @@ import de.jfachwert.AbstractFachwert;
  */
 public class Steuernummer extends AbstractFachwert<String> {
 
+    public static final SteuernummerPruefer PRUEFZIFFER_VERFAHREN = SteuernummerPruefer.getInstance();
+
     /**
      * Hierueber wird eine neue Steuernummer angelegt.
      *
@@ -53,8 +55,19 @@ public class Steuernummer extends AbstractFachwert<String> {
      * @return Wert zwischen 0 und 9
      */
     public int getPruefziffer() {
-        String s = this.getCode();
-        return Integer.valueOf(s.substring(s.length() - 1));
+        return Integer.valueOf(PRUEFZIFFER_VERFAHREN.getPruefziffer(this.getCode()));
+    }
+
+    /**
+     * Ueberprueft anhand der Pruefziffer, ob die Steuernummer gueltig ist.
+     * Diese Methode ist aber nur fuer die 11-stellige Steuer-Identifikationsnummer
+     * (TIN) implementiert. Fuer andere Steuernummer kommt eine
+     * {@link IllegalArgumentException}.
+     *
+     * @return true, falls Pruefziffer gueltig ist
+     */
+    public boolean isValid() {
+        return PRUEFZIFFER_VERFAHREN.isValid(this.getCode());
     }
 
 }
