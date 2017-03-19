@@ -22,6 +22,8 @@ import de.jfachwert.Fachwert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit-Tests fuer die {@link Steuernummer}-Klasse.
@@ -45,6 +47,24 @@ public class SteuernummerTest extends AbstractFachwertTest {
     public void testGetPruefziffer() {
         Steuernummer nr = new Steuernummer("1121081508150");
         assertEquals(0, nr.getPruefziffer());
+    }
+
+    /**
+     * Test-Methode fuer {@link Steuernummer#isValid()}.
+     */
+    @Test
+    public void testIsValid() {
+        Steuernummer nr = new Steuernummer("12345678000");
+        assertTrue(nr + " should be valid", nr.isValid());
+    }
+
+    /**
+     * Test-Methode fuer {@link Steuernummer#isValid()}.
+     */
+    @Test
+    public void testIsNotValid() {
+        Steuernummer nr = new Steuernummer("12345678001");
+        assertFalse(nr + " should be not valid", nr.isValid());
     }
 
 }
