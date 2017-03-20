@@ -17,6 +17,13 @@
 
   <body>
 
+    <release version="0.1.0" date="Apr-2017"
+             description="Unterst&#252;tzung f&#252;r Pr&#252;fziffern">
+      <action dev="oboehm" type="add" date="19-M&#228;r-2017">
+        Interface PruefzifferVerfahren eingef&#252;hrt.
+      </action>
+    </release>
+
     <release version="0.0.2" date="15-M&#228;r-2017"
              description="Aufnahme ins Maven-Repository">
       <action dev="oboehm" type="update" date="12-M&#228;r-2017">

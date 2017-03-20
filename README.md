@@ -39,12 +39,13 @@ Jetzt kann man die Argumente nicht mehr verwechseln, weil sonst der Compiler mec
 
 ## Aktueller Stand
 
-Die Arbeit hat erst gerade begonnen und die Funktionaliaeten bei den wenig vorhandenen Fachwerten ist noch ausserst
+Die Arbeit hat erst gerade begonnen und die Funktionaliaeten bei den wenig vorhandenen Fachwerten ist noch aeusserst
 bescheiden. Dennoch kann man sie bereits einsetzen und profitiert von sprechenderen Methoden-Parametern, die nicht
 mehr verwechselt werden koennen. Wer Ideen fuer weitere Fachwerte hat, darf gerne mitmachen - sei es durch Code,
 sei es durch Dokumentation oder einem schoenen Icon, oder sei es durch Anregungen und konstruktive Kritik.
 
-Die erste Version 0.0.2 mit einer einfache IBAN- und BIC-Klasse liegt bereits vor und ist im Maven-Repository
+Die erste Version 0.0.2 mit einer einfache IBAN- und BIC-Klasse liegt bereits vor und ist im 
+[Maven-Repository](http://search.maven.org/#search%7Cga%7C1%7Cjfachwert)
 unter folgenden Koordinaten zu finden:
 
 ```xml

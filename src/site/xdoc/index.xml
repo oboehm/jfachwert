@@ -14,6 +14,37 @@
         <i>jFachwert</i> ist eine Java-Bibliothek, die einige fachlichen Datentypen wie IBAN oder BIC zur Verf&#252;gung
         stelle, die in vielen Programmen ben&#246;tigt werden, aber f&#252;r die es keine Bibliothek gibt.
       </p>
+      <subsection name="Was sind Fachwerte?">
+        <p>
+          Im Werkzeug- und Material-Ansatz (WAM) gibt es das Fachwert-Konzept, das sehr stark mit
+          den <i>Value Objects</i> aus Domain Driven Design (DDD) verwandt ist.
+          Grundlegende Eigenschaften von Fachwerten sind:
+        </p>
+        <ul>
+          <li>einfacher Datentyp, der einen Wert repr&#228;sentiert (so wie z.B. BigDecimal in Java)</li>
+          <li>unver&#228;nderlich (immutable), d.h. sie haben keinen Status</li>
+        </ul>
+        <p>
+          Damit eignen sich Fachwerte sowhl f&#252;r die Weitergabe von Daten (Werte), als auch als
+          Erweiterung von Basis-Typen f&#252;r den Aufbau von Domain-Klassen.
+        </p>
+      </subsection>
+      <subsection name="Erfahrungswerte">
+        <p>
+          Als ich 2000 in den genossenschaftlichen Bankbereich gewechselt bin,
+          war man gerade dabei, den GEBOS-Bankarbeitsplatz von C++ nach Java zu portieren.
+          GEBOS war eine Client-Server-Anwendung mit einem graphischer Client unter OS/2,
+          dessen Beliebtheit u.a. darauf beruhte, das er Metaphern aus dem Bank-Bereich
+          wie Ordner, Formulare oder Kopien (f&#252;r Offline-Verarbeitung) verwendete,
+          die nach dem WAM-Ansatz (Werkzeuge, Automat, Material) gestaltet wurde.
+        </p>
+        <p>
+          Fachwerte sind Teil des WAM-Ansatzes und waren Basis des jGEBOS-Frameworks, mit dem
+          der C++-Client abgel&#246;st wurde. Es tauchte auch die Idee auf,
+          den Fachwert-Teil des Frameworks als OpenSource auszugliedern, was aber
+          aufgrund diverser Fusionen wieder in Vergessenheit geriet.
+        </p>
+      </subsection>
     </section>
 
     <section name="Weitere Infos">
