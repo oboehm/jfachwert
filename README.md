@@ -5,7 +5,7 @@
 jFachwert ist die Java-Implementierung des [Fachwert](https://de.wikipedia.org/wiki/Werkzeug-_und_Materialansatz#Fachwerte)-Konzepts
 aus dem [Werkzeug- und Material](https://de.wikipedia.org/wiki/Werkzeug-_und_Materialansatz)-Ansatzes (WAM).
 jFachwert erweitert die primitive Datentypen von Java um einige weitere Datentypen wie IBAN oder BIC, die in
-vielen Business-Programmen zwar gebraucht werden, aber immer wieder neu implmentiert werden (muessen).
+vielen Business-Programmen zwar gebraucht werden, aber immer wieder neu implementiert werden (muessen).
 
 Fachwerte sind sehr eng mit den [Value Objecs](https://de.wikipedia.org/wiki/Value_Object) aus Domain Driven Design (DDD)
 verwandt und besitzen folgende Eigenschaften:
@@ -44,6 +44,14 @@ bescheiden. Dennoch kann man sie bereits einsetzen und profitiert von sprechende
 mehr verwechselt werden koennen. Wer Ideen fuer weitere Fachwerte hat, darf gerne mitmachen - sei es durch Code,
 sei es durch Dokumentation oder einem schoenen Icon, oder sei es durch Anregungen und konstruktive Kritik.
 
+Die erste Version 0.0.2 mit einer einfache IBAN- und BIC-Klasse liegt bereits vor und ist im Maven-Repository
+unter folgenden Koordinaten zu finden:
+
+```xml
+  <groupId>de.jfachwert</groupId>
+  <artifactId>jfachwert</artifactId>
+```
+
 
 # Ziele
 
@@ -58,5 +66,5 @@ Maerz 2017, Oli B.
 # Weitere Infos
 
 * CI-Build: https://travis-ci.org/oboehm/jfachwert
-* Projekt-Seite: http://www.jfachwert.de/ (geplant)
+* Projekt-Seite: http://www.jfachwert.de/
 * OSSRH-Ticket: https://issues.sonatype.org/browse/OSSRH-28810
