@@ -20,6 +20,8 @@ package de.jfachwert.bank;
 import de.jfachwert.AbstractFachwert;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Locale;
+
 
 /**
  * Die IBAN (International Bank Account Number) ist eine international
@@ -66,6 +68,17 @@ public class IBAN extends AbstractFachwert<String> {
      */
     public String getUnformatted() {
         return this.getCode();
+    }
+
+    /**
+     * Liefert das Land, zu dem die IBAN gehoert.
+     *
+     * @return z.B. "DE" (als Locale)
+     * @since 0.1.0
+     */
+    public Locale getLand() {
+        String country = this.getUnformatted().substring(0, 2);
+        return new Locale(country);
     }
 
     /**

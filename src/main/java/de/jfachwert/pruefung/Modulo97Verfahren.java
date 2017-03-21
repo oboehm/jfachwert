@@ -100,10 +100,45 @@ public class Modulo97Verfahren implements PruefzifferVerfahren<String> {
      * @param raw z.B. "DE00 2105 0170 0012 3456 78"
      * @return z.B. "68"
      */
-    // FIXME: hart codiert auf DE (= "1314")
     @Override
     public String berechnePruefziffer(String raw) {
-        IBAN iban = new IBAN(raw);
+        return berechnePruefziffer(new IBAN(raw));
+    }
+
+    /**
+     * Berechnet die Pruefziffer des uebergebenen Wertes (ohne Pruefziffer).
+     * Ohne Pruefziffer heisst dabei, dass anstelle der Pruefziffer die
+     * uebergebene IBAN eine "00" enthalten kann.
+     * <p>
+     * Die Pruefziffer selbst wird dabei nach dem Verfahren umgesetzt, das in
+     * Wikipedia beschrieben ist:
+     * </p>
+     * <ol>
+     *     <li>
+     *         Setze die beiden Pruefziffern auf 00 (die IBAN beginnt dann z. B.
+     *         mit DE00 für Deutschland).
+     *     </li>
+     *     <li>
+     *         Stelle die vier ersten Stellen an das Ende der IBAN.
+     *     </li>
+     *     <li>
+     *         Ersetze alle Buchstaben durch Zahlen, wobei A = 10, B = 11, …, Z = 35.
+     *     </li>
+     *     <li>
+     *         Berechne den ganzzahligen Rest, der bei Division durch 97 bleibt.
+     *     </li>
+     *     <li>
+     *         Subtrahiere den Rest von 98, das Ergebnis sind die beiden
+     *         Pruefziffern. Falls das Ergebnis einstellig ist, wird es mit
+     *         einer fuehrenden Null ergaenzt.
+     *     </li>
+     * </ol>
+     *
+     * @param iban z.B. "DE00 2105 0170 0012 3456 78"
+     * @return z.B. "68"
+     */
+    // FIXME: hart codiert auf DE (= "1314")
+    public String berechnePruefziffer(IBAN iban) {
         String umgestellt = iban.getBLZ().toString() + iban.getKontonummer() + "131400";
         BigDecimal number = new BigDecimal(umgestellt);
         BigDecimal modulo = number.remainder(BigDecimal.valueOf(97));
