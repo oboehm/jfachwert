@@ -13,48 +13,47 @@ package de.jfachwert.pruefung;/*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * (c)reated 21.03.2017 by oboehm (ob@jfachwert.de)
+ * (c)reated 22.03.2017 by oboehm (ob@jfachwert.de)
  */
 
 import de.jfachwert.PruefzifferVerfahren;
-import de.jfachwert.bank.IBAN;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Unit-Test fuer {@link Modulo97Verfahren-Klasse.
+ * Unit-Test fuer {@link Mod11Verfahren -Klasse.
  *
  * @author oboehm
  */
-public final class Modulo97VerfahrenTest {
+public final class Mod11VerfahrenTest {
 
-    private static final PruefzifferVerfahren<String> MODULO97 = Modulo97Verfahren.getInstance();
-    private final IBAN iban = new IBAN("DE68 2105 0170 0012 3456 78");
+    private static final PruefzifferVerfahren<String> MOD11 = Mod11Verfahren.getInstance();
+    private static final String STEUERNUMMER = "12345678000";
 
     /**
-     * Test-Methode fuer {@link Modulo97Verfahren#getPruefziffer(String)}.
+     * Testmethode fuer {@link Mod11Verfahren#getPruefziffer(String)}.
      */
     @Test
     public void getPruefziffer() {
-        assertEquals("68", MODULO97.getPruefziffer(iban.getUnformatted()));
+        assertEquals("0", MOD11.getPruefziffer(STEUERNUMMER));
     }
 
     /**
-     * Test-Methode fuer {@link Modulo97Verfahren#isValid(String)}.
+     * Testmethode fuer {@link Mod11Verfahren#isValid(String)}.
      */
     @Test
     public void isValid() {
-        assertTrue("should be valid: " + iban, MODULO97.isValid(iban.getUnformatted()));
+        assertTrue("should be valid: " + STEUERNUMMER, MOD11.isValid(STEUERNUMMER));
     }
 
     /**
-     * Test-Methode fuer {@link Modulo97Verfahren#getPruefziffer(String)}.
+     * Testmethode fuer {@link Mod11Verfahren#berechnePruefziffer(String)}.
      */
     @Test
     public void berechnePruefziffer() {
-        assertEquals("68", MODULO97.berechnePruefziffer(iban.getUnformatted()));
+        assertEquals("0", MOD11.berechnePruefziffer(STEUERNUMMER));
     }
 
 }

@@ -19,6 +19,13 @@
 /**
  * In diesem Package sind die verschiedenen Pruefziffernverfahren versammelt,
  * die das Interface {@link de.jfachwert.PruefzifferVerfahren} implementieren.
+ * Meist basieren diese Pruefziffernverfahren auf dem Modulo-Operator,
+ * dementsprechend heissen die Klassen dazu z.B.
+ * {@link de.jfachwert.pruefung.Mod11Verfahren}.
+ * <p>
+ * Anmerkung: da Modulo11 leicht mit Modul011 verwechselt werden kann, wurde
+ * statt "Modulo" nur "Mod" als Prefix genommen.
+ * </p>
  *
  * @author oboehm
  * @since 0.1.0

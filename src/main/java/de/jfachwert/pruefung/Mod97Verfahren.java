@@ -22,17 +22,17 @@ import de.jfachwert.PruefzifferVerfahren;
 import java.math.BigDecimal;
 
 /**
- * Die Klasse Modulo97Verfahren implementiert das Modulo97-Verfahren nach
+ * Die Klasse Mod97Verfahren implementiert das Modulo97-Verfahren nach
  * ISO 7064, das fuer die Validierung einer IBAN verwendet wird.
  *
  * @author oboehm
  * @since 0.1.0
  */
-public class Modulo97Verfahren implements PruefzifferVerfahren<String> {
+public class Mod97Verfahren implements PruefzifferVerfahren<String> {
 
-    private static final Modulo97Verfahren INSTANCE = new Modulo97Verfahren();
+    private static final Mod97Verfahren INSTANCE = new Mod97Verfahren();
 
-    private Modulo97Verfahren() {
+    private Mod97Verfahren() {
     }
 
     /**

@@ -20,18 +20,18 @@ package de.jfachwert.pruefung;
 import de.jfachwert.PruefzifferVerfahren;
 
 /**
- * Die Modulo11Verfahren-Klasse ueberprueft momentan nur die 11-stellige
+ * Das Modulo-11-Verfahren ueberprueft momentan nur die 11-stellige
  * Steuer-Identifikationsnummer. Andere Steuernummern werden (noch) nicht
  * unterstuetzt.
  *
  * @author <a href="ob@aosd.de">oliver</a>
  * @since 0.1.0
  */
-public class Modulo11Verfahren implements PruefzifferVerfahren<String> {
+public class Mod11Verfahren implements PruefzifferVerfahren<String> {
 
-    private static final Modulo11Verfahren INSTANCE = new Modulo11Verfahren();
+    private static final Mod11Verfahren INSTANCE = new Mod11Verfahren();
 
-    private Modulo11Verfahren() {
+    private Mod11Verfahren() {
     }
 
     /**
