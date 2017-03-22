@@ -137,13 +137,17 @@ public class Modulo97Verfahren implements PruefzifferVerfahren<String> {
      * @param iban z.B. "DE00 2105 0170 0012 3456 78"
      * @return z.B. "68"
      */
-    // FIXME: hart codiert auf DE (= "1314")
     public String berechnePruefziffer(IBAN iban) {
-        String umgestellt = iban.getBLZ().toString() + iban.getKontonummer() + "131400";
+        char[] land = iban.getLand().toString().toUpperCase().toCharArray();
+        String umgestellt = iban.getBLZ().toString() + iban.getKontonummer() + toZahl(land[0]) + toZahl(land[1]) + "00";
         BigDecimal number = new BigDecimal(umgestellt);
         BigDecimal modulo = number.remainder(BigDecimal.valueOf(97));
         int ergebnis = 98 - modulo.intValue();
         return String.format("%02d", ergebnis);
+    }
+
+    private static int toZahl(char c) {
+        return 10 + c - 'A';
     }
 
 }
