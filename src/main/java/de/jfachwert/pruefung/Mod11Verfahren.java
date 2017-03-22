@@ -78,7 +78,9 @@ public class Mod11Verfahren implements PruefzifferVerfahren<String> {
      */
     public void validate(String wert) {
         if (!isValid(wert)) {
-            throw new ValidationException(wert);
+            String pruefziffer = getPruefziffer(wert);
+            String expected = berechnePruefziffer(wert);
+            throw new ValidationException(wert + ": '" + expected + "' expected as Pruefziffer but got '" + pruefziffer + "'");
         }
     }
 

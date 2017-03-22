@@ -19,6 +19,8 @@ package de.jfachwert.pruefung;/*
 import de.jfachwert.PruefzifferVerfahren;
 import org.junit.Test;
 
+import javax.validation.ValidationException;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -63,6 +65,14 @@ public final class Mod97VerfahrenTest extends AbstractPruefzifferVerfahrenTest<S
     @Test
     public void berechnePruefziffer() {
         assertEquals("68", MOD97.berechnePruefziffer(iban));
+    }
+
+    /**
+     * Testmethode fuer {@link Mod97Verfahren#validate(String)}.
+     */
+    @Test(expected = ValidationException.class)
+    public void testValidateWithException() {
+        MOD97.validate("DE99210501700012345678");
     }
 
 }

@@ -19,6 +19,8 @@ package de.jfachwert.pruefung;/*
 import de.jfachwert.PruefzifferVerfahren;
 import org.junit.Test;
 
+import javax.validation.ValidationException;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -64,6 +66,14 @@ public final class Mod11VerfahrenTest extends AbstractPruefzifferVerfahrenTest<S
     @Test
     public void berechnePruefziffer() {
         assertEquals("0", MOD11.berechnePruefziffer(STEUERNUMMER));
+    }
+
+    /**
+     * Testmethode fuer {@link Mod11Verfahren#validate(String)}.
+     */
+    @Test(expected = ValidationException.class)
+    public void testValidateWithException() {
+        MOD11.validate("12345678001");
     }
 
 }
