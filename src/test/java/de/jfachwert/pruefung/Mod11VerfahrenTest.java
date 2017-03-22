@@ -20,17 +20,35 @@ import de.jfachwert.PruefzifferVerfahren;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Unit-Test fuer {@link Mod11Verfahren}-Klasse.
  *
  * @author oboehm
  */
-public final class Mod11VerfahrenTest {
+public final class Mod11VerfahrenTest extends AbstractPruefzifferVerfahrenTest<String> {
 
     private static final PruefzifferVerfahren<String> MOD11 = Mod11Verfahren.getInstance();
     private static final String STEUERNUMMER = "12345678000";
+
+    /**
+     * Hierueber wird das Pruefziffer-Verfahren fuer den Test erwartet.
+     *
+     * @return Pruefzifferverfahren zum Testen
+     */
+    protected PruefzifferVerfahren<String> getPruefzifferVerfahren() {
+        return MOD11;
+    }
+
+    /**
+     * Zum Testen des Pruefzifferverfahrens liefenrn wir hierueber eine
+     * gueltige Steuernummer.
+     *
+     * @return eine gueltige 11-stellige Steuernummer
+     */
+    protected String getValidWert() {
+        return STEUERNUMMER;
+    }
 
     /**
      * Testmethode fuer {@link Mod11Verfahren#getPruefziffer(String)}.
@@ -38,14 +56,6 @@ public final class Mod11VerfahrenTest {
     @Test
     public void getPruefziffer() {
         assertEquals("0", MOD11.getPruefziffer(STEUERNUMMER));
-    }
-
-    /**
-     * Testmethode fuer {@link Mod11Verfahren#isValid(String)}.
-     */
-    @Test
-    public void isValid() {
-        assertTrue("should be valid: " + STEUERNUMMER, MOD11.isValid(STEUERNUMMER));
     }
 
     /**

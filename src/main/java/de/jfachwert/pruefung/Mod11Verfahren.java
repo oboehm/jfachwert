@@ -19,6 +19,8 @@ package de.jfachwert.pruefung;
 
 import de.jfachwert.PruefzifferVerfahren;
 
+import javax.validation.ValidationException;
+
 /**
  * Das Modulo-11-Verfahren ueberprueft momentan nur die 11-stellige
  * Steuer-Identifikationsnummer. Andere Steuernummern werden (noch) nicht
@@ -69,6 +71,18 @@ public class Mod11Verfahren implements PruefzifferVerfahren<String> {
     }
 
     /**
+     * Validiert den uebergebenen Wert. Falls dieser nicht stimmt, wird eine
+     * {@link ValidationException} geworfen werden.
+     *
+     * @param wert zu ueberpruefender Wert
+     */
+    public void validate(String wert) {
+        if (!isValid(wert)) {
+            throw new ValidationException(wert);
+        }
+    }
+
+    /**
      * Berechnet die Pruefziffer des uebergebenen Wertes.
      * Die Berechung stammt aus Wikipedia und wurde nach Java uebersetzt
      * (s. https://de.wikipedia.org/wiki/Steuer-Identifikationsnummer).
@@ -78,11 +92,11 @@ public class Mod11Verfahren implements PruefzifferVerfahren<String> {
      * der Pruefziffer herangezogen.
      * </p>
      *
-     * @param raw Wert (mit oder ohne Pruefziffer)
+     * @param wert Wert (mit oder ohne Pruefziffer)
      * @return errechnete Pruefziffer
      */
-    public String berechnePruefziffer(String raw) {
-        char[] ziffernfolge = raw.toCharArray();
+    public String berechnePruefziffer(String wert) {
+        char[] ziffernfolge = wert.toCharArray();
         int produkt = 10;
         for (int stelle = 1; stelle <= 10; stelle++) {
             int summe = (Character.getNumericValue(ziffernfolge[stelle-1]) + produkt) % 10;

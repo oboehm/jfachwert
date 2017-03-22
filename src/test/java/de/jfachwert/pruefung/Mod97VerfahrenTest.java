@@ -17,36 +17,44 @@ package de.jfachwert.pruefung;/*
  */
 
 import de.jfachwert.PruefzifferVerfahren;
-import de.jfachwert.bank.IBAN;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Unit-Test fuer {@link Mod97Verfahren -Klasse.
  *
  * @author oboehm
  */
-public final class Mod97VerfahrenTest {
+public final class Mod97VerfahrenTest extends AbstractPruefzifferVerfahrenTest<String> {
 
-    private static final PruefzifferVerfahren<String> MODULO97 = Mod97Verfahren.getInstance();
-    private final IBAN iban = new IBAN("DE68 2105 0170 0012 3456 78");
+    private static final PruefzifferVerfahren<String> MOD97 = Mod97Verfahren.getInstance();
+    private final String iban = getValidWert();
+
+    /**
+     * Hierueber liefern wird das Modulo-97-Verfahren zum Testen.
+     *
+     * @return Pruefzifferverfahren zum Testen
+     */
+    protected PruefzifferVerfahren<String> getPruefzifferVerfahren() {
+        return MOD97;
+    }
+
+    /**
+     * Zum Testen des Pruefzifferverfahrens liefern wir eine gueltige IBAN.
+     *
+     * @return ein gueltiger Wert
+     */
+    protected String getValidWert() {
+        return "DE68210501700012345678";
+    }
 
     /**
      * Test-Methode fuer {@link Mod97Verfahren#getPruefziffer(String)}.
      */
     @Test
     public void getPruefziffer() {
-        assertEquals("68", MODULO97.getPruefziffer(iban.getUnformatted()));
-    }
-
-    /**
-     * Test-Methode fuer {@link Mod97Verfahren#isValid(String)}.
-     */
-    @Test
-    public void isValid() {
-        assertTrue("should be valid: " + iban, MODULO97.isValid(iban.getUnformatted()));
+        assertEquals("68", MOD97.getPruefziffer(iban));
     }
 
     /**
@@ -54,7 +62,7 @@ public final class Mod97VerfahrenTest {
      */
     @Test
     public void berechnePruefziffer() {
-        assertEquals("68", MODULO97.berechnePruefziffer(iban.getUnformatted()));
+        assertEquals("68", MOD97.berechnePruefziffer(iban));
     }
 
 }

@@ -42,19 +42,27 @@ public interface PruefzifferVerfahren<T> extends Serializable {
     T getPruefziffer(T wert);
 
     /**
-     * Is valid boolean.
+     * Berechnet die Pruefziffer des uebergebenen Wertes.
+     *
+     * @param wert Wert
+     * @return errechnete Pruefziffer
+     */
+    T berechnePruefziffer(T wert);
+
+    /**
+     * Liefert true zurueck, wenn der uebergebene Wert gueltig ist.
      *
      * @param wert Fachwert oder gekapselter Wert
-     * @return the boolean
+     * @return true oder false
      */
     boolean isValid(T wert);
 
     /**
-     * Berechnet die Pruefziffer des uebergebenen Wertes (ohne Pruefziffer).
+     * Validiert den uebergebenen Wert. Falls dieser nicht stimmt, sollte eine
+     * javax.validation.ValidationException geworfen werden.
      *
-     * @param raw Wert ohne Pruefziffer
-     * @return errechnete Pruefziffer
+     * @param wert zu ueberpruefender Wert
      */
-    T berechnePruefziffer(T raw);
+    void validate(T wert);
 
 }

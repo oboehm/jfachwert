@@ -19,6 +19,7 @@ package de.jfachwert.pruefung;
 
 import de.jfachwert.PruefzifferVerfahren;
 
+import javax.validation.ValidationException;
 import java.math.BigDecimal;
 
 /**
@@ -40,7 +41,7 @@ public class Mod97Verfahren implements PruefzifferVerfahren<String> {
      *
      * @return the instance
      */
-    public static PruefzifferVerfahren getInstance() {
+    public static PruefzifferVerfahren<String> getInstance() {
         return INSTANCE;
     }
 
@@ -50,7 +51,6 @@ public class Mod97Verfahren implements PruefzifferVerfahren<String> {
      * @param wert z.B. "DE68 2105 0170 0012 3456 78"
      * @return z.B. "68"
      */
-    @Override
     public String getPruefziffer(String wert) {
         return wert.substring(2, 4);
     }
@@ -61,10 +61,21 @@ public class Mod97Verfahren implements PruefzifferVerfahren<String> {
      * @param wert z.B. "DE68 2105 0170 0012 3456 78"
      * @return true, falls die Pruefziffer uebereinstimmt
      */
-    @Override
     public boolean isValid(String wert) {
         String pruefziffer = getPruefziffer(wert);
         return pruefziffer.equals(berechnePruefziffer(wert));
+    }
+
+    /**
+     * Validiert den uebergebenen Wert. Falls dieser nicht stimmt, wird eine
+     * {@link ValidationException} geworfen werden.
+     *
+     * @param wert zu ueberpruefender Wert
+     */
+    public void validate(String wert) {
+        if (!isValid(wert)) {
+            throw new ValidationException(wert);
+        }
     }
 
     /**
@@ -96,13 +107,12 @@ public class Mod97Verfahren implements PruefzifferVerfahren<String> {
      *     </li>
      * </ol>
      *
-     * @param raw z.B. "DE00 2105 0170 0012 3456 78"
+     * @param wert z.B. "DE00 2105 0170 0012 3456 78"
      * @return z.B. "68"
      */
-    @Override
-    public String berechnePruefziffer(String raw) {
-        char[] land = raw.substring(0, 2).toUpperCase().toCharArray();
-        String umgestellt = raw.substring(4) + toZahl(land[0]) + toZahl(land[1]) + "00";
+    public String berechnePruefziffer(String wert) {
+        char[] land = wert.substring(0, 2).toUpperCase().toCharArray();
+        String umgestellt = wert.substring(4) + toZahl(land[0]) + toZahl(land[1]) + "00";
         BigDecimal number = new BigDecimal(umgestellt);
         BigDecimal modulo = number.remainder(BigDecimal.valueOf(97));
         int ergebnis = 98 - modulo.intValue();
