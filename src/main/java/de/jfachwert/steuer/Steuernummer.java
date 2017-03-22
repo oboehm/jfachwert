@@ -18,6 +18,8 @@
 package de.jfachwert.steuer;
 
 import de.jfachwert.AbstractFachwert;
+import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.pruefung.Modulo11Verfahren;
 
 /**
  * Die Steuernummer oder Steuer-Identnummer ist eine eindeutige Nummer, die vom
@@ -37,7 +39,7 @@ import de.jfachwert.AbstractFachwert;
  */
 public class Steuernummer extends AbstractFachwert<String> {
 
-    public static final SteuernummerPruefer PRUEFZIFFER_VERFAHREN = SteuernummerPruefer.getInstance();
+    public static final PruefzifferVerfahren<String> PRUEFZIFFER_VERFAHREN = Modulo11Verfahren.getInstance();
 
     /**
      * Hierueber wird eine neue Steuernummer angelegt.

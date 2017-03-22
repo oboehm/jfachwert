@@ -15,23 +15,23 @@
  *
  * (c)reated 19.03.17 by oliver (ob@oasd.de)
  */
-package de.jfachwert.steuer;
+package de.jfachwert.pruefung;
 
 import de.jfachwert.PruefzifferVerfahren;
 
 /**
- * Der SteuernummerPruefer ueberprueft momentan nur die 11-stellige
+ * Die Modulo11Verfahren-Klasse ueberprueft momentan nur die 11-stellige
  * Steuer-Identifikationsnummer. Andere Steuernummern werden (noch) nicht
  * unterstuetzt.
  *
  * @author <a href="ob@aosd.de">oliver</a>
  * @since 0.1.0
  */
-public class SteuernummerPruefer implements PruefzifferVerfahren<String> {
+public class Modulo11Verfahren implements PruefzifferVerfahren<String> {
 
-    private static final SteuernummerPruefer INSTANCE = new SteuernummerPruefer();
+    private static final Modulo11Verfahren INSTANCE = new Modulo11Verfahren();
 
-    private SteuernummerPruefer() {
+    private Modulo11Verfahren() {
     }
 
     /**
@@ -39,7 +39,7 @@ public class SteuernummerPruefer implements PruefzifferVerfahren<String> {
      *
      * @return die einzige Instanz
      */
-    public static SteuernummerPruefer getInstance() {
+    public static PruefzifferVerfahren<String> getInstance() {
         return INSTANCE;
     }
 
@@ -69,17 +69,22 @@ public class SteuernummerPruefer implements PruefzifferVerfahren<String> {
     }
 
     /**
-     * Berechnet die Pruefziffer des uebergebenen Wertes (ohne Pruefziffer).
+     * Berechnet die Pruefziffer des uebergebenen Wertes.
      * Die Berechung stammt aus Wikipedia und wurde nach Java uebersetzt
      * (s. https://de.wikipedia.org/wiki/Steuer-Identifikationsnummer).
+     * <p>
+     * Der Ausgangswert fuer die Berechnung kann mit oder ohne Pruefziffer
+     * uebergeben werden. Es werden nur die ersten 10 Ziffern zur Ermittlung
+     * der Pruefziffer herangezogen.
+     * </p>
      *
-     * @param raw Wert ohne Pruefziffer
+     * @param raw Wert (mit oder ohne Pruefziffer)
      * @return errechnete Pruefziffer
      */
     public String berechnePruefziffer(String raw) {
         char[] ziffernfolge = raw.toCharArray();
         int produkt = 10;
-        for (int stelle = 1; stelle <= ziffernfolge.length; stelle++) {
+        for (int stelle = 1; stelle <= 10; stelle++) {
             int summe = (Character.getNumericValue(ziffernfolge[stelle-1]) + produkt) % 10;
             if (summe == 0) {
                 summe = 10;
