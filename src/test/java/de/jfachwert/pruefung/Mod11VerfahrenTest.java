@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Unit-Test fuer {@link Mod11Verfahren -Klasse.
+ * Unit-Test fuer {@link Mod11Verfahren}-Klasse.
  *
  * @author oboehm
  */
