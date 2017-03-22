@@ -74,7 +74,7 @@ public class Mod97Verfahren implements PruefzifferVerfahren<String> {
      */
     public void validate(String wert) {
         if (!isValid(wert)) {
-            throw new ValidationException(wert);
+            throw new PruefzifferException(wert, this);
         }
     }
 
