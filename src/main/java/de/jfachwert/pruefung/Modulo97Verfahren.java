@@ -18,7 +18,6 @@
 package de.jfachwert.pruefung;
 
 import de.jfachwert.PruefzifferVerfahren;
-import de.jfachwert.bank.IBAN;
 
 import java.math.BigDecimal;
 
@@ -102,44 +101,8 @@ public class Modulo97Verfahren implements PruefzifferVerfahren<String> {
      */
     @Override
     public String berechnePruefziffer(String raw) {
-        return berechnePruefziffer(new IBAN(raw));
-    }
-
-    /**
-     * Berechnet die Pruefziffer des uebergebenen Wertes (ohne Pruefziffer).
-     * Ohne Pruefziffer heisst dabei, dass anstelle der Pruefziffer die
-     * uebergebene IBAN eine "00" enthalten kann.
-     * <p>
-     * Die Pruefziffer selbst wird dabei nach dem Verfahren umgesetzt, das in
-     * Wikipedia beschrieben ist:
-     * </p>
-     * <ol>
-     *     <li>
-     *         Setze die beiden Pruefziffern auf 00 (die IBAN beginnt dann z. B.
-     *         mit DE00 für Deutschland).
-     *     </li>
-     *     <li>
-     *         Stelle die vier ersten Stellen an das Ende der IBAN.
-     *     </li>
-     *     <li>
-     *         Ersetze alle Buchstaben durch Zahlen, wobei A = 10, B = 11, …, Z = 35.
-     *     </li>
-     *     <li>
-     *         Berechne den ganzzahligen Rest, der bei Division durch 97 bleibt.
-     *     </li>
-     *     <li>
-     *         Subtrahiere den Rest von 98, das Ergebnis sind die beiden
-     *         Pruefziffern. Falls das Ergebnis einstellig ist, wird es mit
-     *         einer fuehrenden Null ergaenzt.
-     *     </li>
-     * </ol>
-     *
-     * @param iban z.B. "DE00 2105 0170 0012 3456 78"
-     * @return z.B. "68"
-     */
-    public String berechnePruefziffer(IBAN iban) {
-        char[] land = iban.getLand().toString().toUpperCase().toCharArray();
-        String umgestellt = iban.getBLZ().toString() + iban.getKontonummer() + toZahl(land[0]) + toZahl(land[1]) + "00";
+        char[] land = raw.substring(0, 2).toUpperCase().toCharArray();
+        String umgestellt = raw.substring(4) + toZahl(land[0]) + toZahl(land[1]) + "00";
         BigDecimal number = new BigDecimal(umgestellt);
         BigDecimal modulo = number.remainder(BigDecimal.valueOf(97));
         int ergebnis = 98 - modulo.intValue();
