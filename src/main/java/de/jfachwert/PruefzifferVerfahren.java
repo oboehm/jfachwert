@@ -19,6 +19,8 @@
  */
 package de.jfachwert;
 
+import de.jfachwert.pruefung.PruefzifferException;
+
 import java.io.Serializable;
 
 /**
@@ -55,7 +57,10 @@ public interface PruefzifferVerfahren<T> extends Serializable {
      * @param wert Fachwert oder gekapselter Wert
      * @return true oder false
      */
-    boolean isValid(T wert);
+    default boolean isValid(T wert) {
+        T pruefziffer = getPruefziffer(wert);
+        return pruefziffer.equals(berechnePruefziffer(wert));
+    }
 
     /**
      * Validiert den uebergebenen Wert. Falls dieser nicht stimmt, sollte eine
@@ -64,6 +69,11 @@ public interface PruefzifferVerfahren<T> extends Serializable {
      * @param wert zu ueberpruefender Wert
      * @return den ueberprueften Wert (zur Weiterverarbeitung)
      */
-    T validate(T wert);
+    default T validate(T wert) {
+        if (!isValid(wert)) {
+            throw new PruefzifferException(wert, berechnePruefziffer(wert), getPruefziffer(wert));
+        }
+        return wert;
+    }
 
 }

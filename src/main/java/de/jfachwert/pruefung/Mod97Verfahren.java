@@ -19,7 +19,6 @@ package de.jfachwert.pruefung;
 
 import de.jfachwert.PruefzifferVerfahren;
 
-import javax.validation.ValidationException;
 import java.math.BigDecimal;
 
 /**
@@ -53,31 +52,6 @@ public class Mod97Verfahren implements PruefzifferVerfahren<String> {
      */
     public String getPruefziffer(String wert) {
         return wert.substring(2, 4);
-    }
-
-    /**
-     * Ueberprueft die Pruefziffer.
-     *
-     * @param wert z.B. "DE68 2105 0170 0012 3456 78"
-     * @return true, falls die Pruefziffer uebereinstimmt
-     */
-    public boolean isValid(String wert) {
-        String pruefziffer = getPruefziffer(wert);
-        return pruefziffer.equals(berechnePruefziffer(wert));
-    }
-
-    /**
-     * Validiert den uebergebenen Wert. Falls dieser nicht stimmt, wird eine
-     * {@link ValidationException} geworfen werden.
-     *
-     * @param wert zu ueberpruefender Wert
-     * @return den ueberprueften Wert (zur Weiterverarbeitung)
-     */
-    public String validate(String wert) {
-        if (!isValid(wert)) {
-            throw new PruefzifferException(wert, this);
-        }
-        return wert;
     }
 
     /**
