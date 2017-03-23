@@ -20,6 +20,8 @@ package de.jfachwert.pruefung;
 import de.jfachwert.PruefzifferVerfahren;
 
 import javax.validation.ValidationException;
+import java.text.MessageFormat;
+import java.util.ResourceBundle;
 
 /**
  * Die PruefzifferException gibt neben dem Wert auch die fehlerhafte
@@ -29,6 +31,10 @@ import javax.validation.ValidationException;
  * @since 0.1.0
  */
 public class PruefzifferException extends ValidationException {
+
+    private final Object wert;
+    private final Object expected;
+    private final Object pruefziffer;
 
     /**
      * Gibt neben dem Wert auch die erwartete Pruefziffer mit aus.
@@ -49,6 +55,22 @@ public class PruefzifferException extends ValidationException {
      */
     public <T> PruefzifferException(T wert, T expected, T pruefziffer) {
         super(wert + ": Pruefziffer=" + expected + " expected but got '" + pruefziffer + "'");
+        this.wert = wert;
+        this.expected = expected;
+        this.pruefziffer = pruefziffer;
+    }
+
+    /**
+     * Im Gegensatz {@code getMessage()} wird hier die Beschreibung auf deutsch
+     * zurueckgegeben, wenn die Loacale auf Deutsch steht.
+     *
+     * @return lokalisierte Beschreibung
+     */
+    @Override
+    public String getLocalizedMessage() {
+        ResourceBundle bundle = ResourceBundle.getBundle("de.jfachwert.messages");
+        return MessageFormat.format(bundle.getString("pruefung.pruefziffer.exception.message"), wert, expected,
+                pruefziffer);
     }
 
 }
