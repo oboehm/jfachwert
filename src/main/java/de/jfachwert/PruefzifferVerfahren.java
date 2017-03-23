@@ -62,7 +62,8 @@ public interface PruefzifferVerfahren<T> extends Serializable {
      * javax.validation.ValidationException geworfen werden.
      *
      * @param wert zu ueberpruefender Wert
+     * @return den ueberprueften Wert (zur Weiterverarbeitung)
      */
-    void validate(T wert);
+    T validate(T wert);
 
 }

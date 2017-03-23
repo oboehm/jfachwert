@@ -38,7 +38,7 @@ public final class FachwertTest {
     @Test
     public void testEqualWithDifferentTypes() {
         Fachwert bic = new BIC("12345678900");
-        Fachwert stnr = new Steuernummer("12345678900");
+        Fachwert stnr = new Steuernummer("12345678903");
         assertThat(bic, not(stnr));
     }
 

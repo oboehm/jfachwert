@@ -20,6 +20,7 @@ package de.jfachwert.bank;
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
+import javax.validation.ValidationException;
 import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
@@ -40,6 +41,14 @@ public final class IBANTest extends AbstractFachwertTest {
      */
     protected IBAN createFachwert() {
         return new IBAN("DE41300606010006605605");
+    }
+
+    /**
+     * Ungueltige IBANs sollten nicht erzeugt werden koennen.
+     */
+    @Test(expected = ValidationException.class)
+    public void testIbanInvalid() {
+        new IBAN("DE99300606010006605605");
     }
 
     /**

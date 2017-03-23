@@ -39,7 +39,7 @@ import de.jfachwert.pruefung.Mod11Verfahren;
  */
 public class Steuernummer extends AbstractFachwert<String> {
 
-    public static final PruefzifferVerfahren<String> PRUEFZIFFER_VERFAHREN = Mod11Verfahren.getInstance();
+    public static final PruefzifferVerfahren<String> MOD11 = Mod11Verfahren.getInstance();
 
     /**
      * Hierueber wird eine neue Steuernummer angelegt.
@@ -47,7 +47,14 @@ public class Steuernummer extends AbstractFachwert<String> {
      * @param nr eine 10- bis 13-stellige Steuernummer.
      */
     public Steuernummer(String nr) {
-        super(nr);
+        super(validate(nr));
+    }
+
+    private static String validate(String nr) {
+        if (nr.length() == 11) {
+            return MOD11.validate(nr);
+        }
+        return nr;
     }
 
     /**
@@ -57,19 +64,7 @@ public class Steuernummer extends AbstractFachwert<String> {
      * @return Wert zwischen 0 und 9
      */
     public int getPruefziffer() {
-        return Integer.valueOf(PRUEFZIFFER_VERFAHREN.getPruefziffer(this.getCode()));
-    }
-
-    /**
-     * Ueberprueft anhand der Pruefziffer, ob die Steuernummer gueltig ist.
-     * Diese Methode ist aber nur fuer die 11-stellige Steuer-Identifikationsnummer
-     * (TIN) implementiert. Fuer andere Steuernummer kommt eine
-     * {@link IllegalArgumentException}.
-     *
-     * @return true, falls Pruefziffer gueltig ist
-     */
-    public boolean isValid() {
-        return PRUEFZIFFER_VERFAHREN.isValid(this.getCode());
+        return Integer.valueOf(MOD11.getPruefziffer(this.getCode()));
     }
 
 }

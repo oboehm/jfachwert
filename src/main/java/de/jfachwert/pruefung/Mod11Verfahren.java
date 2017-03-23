@@ -57,7 +57,9 @@ public class Mod11Verfahren implements PruefzifferVerfahren<String> {
     }
 
     /**
-     * Is valid boolean.
+     * Diese Methode ist aber nur fuer die 11-stellige Steuer-Identifikationsnummer
+     * (TIN) implementiert. Fuer andere Steuernummer kommt eine
+     * {@link IllegalArgumentException}.
      *
      * @param wert Fachwert oder gekapselter Wert
      * @return the boolean
@@ -75,11 +77,13 @@ public class Mod11Verfahren implements PruefzifferVerfahren<String> {
      * {@link ValidationException} geworfen werden.
      *
      * @param wert zu ueberpruefender Wert
+     * @return den ueberprueften Wert (zur Weiterverarbeitung)
      */
-    public void validate(String wert) {
+    public String validate(String wert) {
         if (!isValid(wert)) {
             throw new PruefzifferException(wert, this);
         }
+        return wert;
     }
 
     /**

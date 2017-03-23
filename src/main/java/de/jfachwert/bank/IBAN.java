@@ -18,6 +18,8 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwert;
+import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.pruefung.Mod97Verfahren;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Locale;
@@ -32,8 +34,10 @@ import java.util.Locale;
  */
 public class IBAN extends AbstractFachwert<String> {
 
-    /** Konstante fuer unbekannte IBAN (aus Wikipedia). */
-    public static final IBAN UNBEKANNT = new IBAN("DE19123412341234123412");
+    private static final PruefzifferVerfahren<String> MOD97 = Mod97Verfahren.getInstance();
+
+    /** Konstante fuer unbekannte IBAN (aus Wikipedia, aber mit korrigierter Pruefziffer). */
+    public static final IBAN UNBEKANNT = new IBAN("DE07123412341234123412");
 
     /**
      * Instantiiert eine neue IBAN.
@@ -41,7 +45,7 @@ public class IBAN extends AbstractFachwert<String> {
      * @param iban im unformattierten Format
      */
     public IBAN(String iban) {
-        super(StringUtils.remove(iban, ' ').toUpperCase());
+        super(MOD97.validate(StringUtils.remove(iban, ' ').toUpperCase()));
     }
 
     /**
