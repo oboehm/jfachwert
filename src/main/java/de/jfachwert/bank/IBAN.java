@@ -86,6 +86,16 @@ public class IBAN extends AbstractFachwert<String> {
     }
 
     /**
+     * Liefert die 2-stellige Pruefziffer, die nach der Laenderkennung steht.
+     *
+     * @return the pruefziffer
+     * @since 0.1.0
+     */
+    public String getPruefziffer() {
+        return MOD97.getPruefziffer(this.getUnformatted());
+    }
+
+    /**
      * Extrahiert aus der IBAN die Bankleitzahl.
      *
      * @return Bankleitzahl

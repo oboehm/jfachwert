@@ -84,6 +84,14 @@ public final class IBANTest extends AbstractFachwertTest {
     }
 
     /**
+     * Test-Methode fuer {@link IBAN#getPruefziffer()}.
+     */
+    @Test
+    public void testGetPruefziffer() {
+        assertEquals("41", iban.getPruefziffer());
+    }
+
+    /**
      * Test-Methode fuer {@link IBAN#getBLZ()}.
      */
     @Test
