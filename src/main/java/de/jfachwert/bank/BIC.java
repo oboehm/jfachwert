@@ -24,7 +24,7 @@ import de.jfachwert.AbstractFachwert;
  * weltweit Kreditinstitute, Broker oder aehnliche Unternehmen. Im Allegemeinen
  * wird die BIC im Zahlungsverkehr zusammen mit der IBAN verwendet.
  * <p>
- *     Der BIC hat eine Laenge von 8 oder 11 alphanumerischen Zeichen mit
+ *     Der BIC hat eine Laenge von 11 oder 14 alphanumerischen Zeichen mit
  *     folgendem Aufbau: BBBBCCLLbbb
  * </p>
  * <ul>
@@ -40,7 +40,7 @@ import de.jfachwert.AbstractFachwert;
  *     </li>
  *     <li>
  *         bbb: 3-stellige Kennzeichnung (Branche-Code) der Filiale oder
- *         Abteilung. Kann um "XXX" auf 6-stellig erwgaenzt werden
+ *         Abteilung. Kann um "XXX" auf 6-stellig ergaenzt werden
  *         (Buchstaben/Ziffern)
  *     </li>
  * </ul>
@@ -52,10 +52,17 @@ public class BIC extends AbstractFachwert<String> {
     /**
      * Hierueber wird eine neue BIC angelegt.
      *
-     * @param code eine 8- oder 11-stellige BIC
+     * @param code eine 11- oder 14-stellige BIC
      */
     public BIC(String code) {
-        super(code);
+        super(check(code));
+    }
+
+    private static String check(String bic) {
+        if ((bic.length() != 11) && (bic.length() != 14)) {
+            throw new IllegalArgumentException("'" + bic + "' has not 11 or 14 characters");
+        }
+        return bic;
     }
 
 }

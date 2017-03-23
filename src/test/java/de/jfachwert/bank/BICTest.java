@@ -39,6 +39,22 @@ public final class BICTest extends AbstractFachwertTest {
     }
 
     /**
+     * Hier testen wir den Konstruktor mit einer gueltigen BIC.
+     */
+    @Test
+    public void testBICvalid() {
+        new BIC("GENODEF1JEVxxx");
+    }
+
+    /**
+     * Hier testen wir den Konstruktor mit einer ungueltigen BIC.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testBICinvalid() {
+        new BIC("GENODEF1J");
+    }
+
+    /**
      * Die toString-Methode sollte die BIC im Klartext ausgeben.
      */
     @Override
