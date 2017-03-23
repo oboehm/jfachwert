@@ -37,8 +37,18 @@ public class PruefzifferException extends ValidationException {
      * @param verfahren Verfahren zur Bestimmung der Pruefziffer
      */
     public <T> PruefzifferException(T wert, PruefzifferVerfahren<T> verfahren) {
-        super(wert + ": Pruefziffer=" + verfahren.berechnePruefziffer(wert) + " expected but got '"
-                + verfahren.getPruefziffer(wert) + "'");
+        this(wert, verfahren.berechnePruefziffer(wert), verfahren.getPruefziffer(wert));
+    }
+
+    /**
+     * Gibt neben dem Wert auch die erwartete Pruefziffer mit aus.
+     *
+     * @param wert        Wert
+     * @param expected    erwartete Pruefziffer
+     * @param pruefziffer tatsaechliche Pruefziffer
+     */
+    public <T> PruefzifferException(T wert, T expected, T pruefziffer) {
+        super(wert + ": Pruefziffer=" + expected + " expected but got '" + pruefziffer + "'");
     }
 
 }
