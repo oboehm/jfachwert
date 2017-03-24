@@ -20,9 +20,10 @@ package de.jfachwert.pruefung;
 import de.jfachwert.PruefzifferVerfahren;
 
 /**
- * Das Modulo-11-Verfahren ueberprueft momentan nur die 11-stellige
- * Steuer-Identifikationsnummer. Andere Steuernummern werden (noch) nicht
- * unterstuetzt.
+ * Das Modulo-11-Verfahren wird fuer die 11-stellige Steuer-Identifikationsnummer
+ * und die Umsatzsteuer-Identificationsnummer verwendet. Sie ist in
+ * "DIN ISO 7964, Mod 11, 10" beschreiben (s.a.
+ * http://www.jura.uni-sb.de/BGBl/TEIL1/1993/19930736.1.HTML).
  *
  * @author <a href="ob@aosd.de">oliver</a>
  * @since 0.1.0
@@ -30,8 +31,14 @@ import de.jfachwert.PruefzifferVerfahren;
 public class Mod11Verfahren implements PruefzifferVerfahren<String> {
 
     private static final Mod11Verfahren INSTANCE = new Mod11Verfahren();
+    private final int anzahlStellen;
 
     private Mod11Verfahren() {
+        this(10);
+    }
+
+    public Mod11Verfahren(int anzahlStellen) {
+        this.anzahlStellen = anzahlStellen;
     }
 
     /**
@@ -63,8 +70,9 @@ public class Mod11Verfahren implements PruefzifferVerfahren<String> {
      * @return the boolean
      */
     public boolean isValid(String wert) {
-        if (wert.length() != 11) {
-            throw new IllegalArgumentException("Steuernummer '" + wert + "' ist nicht 11 Zeichen lang");
+        int n = anzahlStellen + 1;
+        if (wert.length() != n) {
+            throw new IllegalArgumentException("Steuernummer '" + wert + "' ist nicht " + n + " Zeichen lang");
         }
         String pruefziffer = getPruefziffer(wert);
         return pruefziffer.equals(berechnePruefziffer(wert.substring(0, wert.length() - 1)));
@@ -86,7 +94,7 @@ public class Mod11Verfahren implements PruefzifferVerfahren<String> {
     public String berechnePruefziffer(String wert) {
         char[] ziffernfolge = wert.toCharArray();
         int produkt = 10;
-        for (int stelle = 1; stelle <= 10; stelle++) {
+        for (int stelle = 1; stelle <= this.anzahlStellen; stelle++) {
             int summe = (Character.getNumericValue(ziffernfolge[stelle-1]) + produkt) % 10;
             if (summe == 0) {
                 summe = 10;

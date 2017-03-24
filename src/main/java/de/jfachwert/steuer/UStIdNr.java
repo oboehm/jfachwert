@@ -18,6 +18,12 @@
 package de.jfachwert.steuer;
 
 import de.jfachwert.AbstractFachwert;
+import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.pruefung.Mod11Verfahren;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Die Umsatzsteuer-Identifikationsnummer (USt-IdNr)[1] ist eine eindeutige
@@ -29,6 +35,12 @@ import de.jfachwert.AbstractFachwert;
  */
 public class UStIdNr extends AbstractFachwert<String> {
 
+    private static final Map<String, PruefzifferVerfahren<String>> PRUEFZIFFER_VERFAHREN = new HashMap<>();
+
+    static {
+        PRUEFZIFFER_VERFAHREN.put("DE", new Mod11Verfahren(8));
+    }
+
     /**
      * Erzeugt eine Umsatzsteuer-IdNr. Die uebergebene Nummer besteht aus
      * einer 2-stelligen Laenderkennung, gefolgt von maximal alphanumerischen
@@ -37,7 +49,17 @@ public class UStIdNr extends AbstractFachwert<String> {
      * @param nr, .B. "DE999999999"
      */
     public UStIdNr(String nr) {
-        super(nr);
+        super(validate(nr));
+    }
+
+    private static String validate(String nr) {
+        String unformatted = StringUtils.remove(nr, ' ');
+        String land = unformatted.substring(0, 2).toUpperCase();
+        PruefzifferVerfahren<String> verfahren = PRUEFZIFFER_VERFAHREN.get(land);
+        if (verfahren != null) {
+            unformatted = verfahren.validate(unformatted.substring(2));
+        }
+        return unformatted;
     }
 
 }

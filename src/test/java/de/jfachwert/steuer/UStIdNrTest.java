@@ -19,6 +19,9 @@ package de.jfachwert.steuer;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Fachwert;
+import org.junit.Test;
+
+import javax.validation.ValidationException;
 
 /**
  * Unit-Test fuer {@link UStIdNr}-Klasse.
@@ -28,16 +31,23 @@ import de.jfachwert.Fachwert;
 public final class UStIdNrTest extends AbstractFachwertTest {
 
     /**
-     * Zum Testen brauchen wir ein Test-Objekt. Dies muss hierueber von den
-     * abgeleiteten Unit-Tests bereitgestellt werden. Und zwar muss jedesmal
-     * der gleiche Fachwert erzeugt werden, weil sonst der equals-Test nicht
-     * funktioniert.
+     * Zum Testen wird hier eine deutsche Umsatzsteuer-IdNr mit gueltiger
+     * Pruefziffer verwendet.
      *
      * @return Test-Objekt zum Testen
      */
     @Override
     protected Fachwert createFachwert() {
         return new UStIdNr("DE 136 695 976");
+    }
+
+    /**
+     * Falls die UStIdNr eine falsche Pruefziffer enthaelt, soll sie nicht
+     * erzeugt werden koennen.
+     */
+    @Test(expected = ValidationException.class)
+    public void testUStIdNrInvalid() {
+        new UStIdNr("DE136695970");
     }
 
 }
