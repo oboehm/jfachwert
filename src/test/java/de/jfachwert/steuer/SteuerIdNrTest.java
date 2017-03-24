@@ -17,9 +17,10 @@
  */
 package de.jfachwert.steuer;
 
+import de.jfachwert.Fachwert;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import javax.validation.ValidationException;
 
 /**
  * Unit-Test fuer {@link SteuerIdNr-Klasse. Die Beispiel-Id stammt aus
@@ -27,16 +28,32 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public final class SteuerIdNrTest {
-
-    private final SteuerIdNr idNr = new SteuerIdNr("12365489753");
+public final class SteuerIdNrTest extends SteuernummerTest {
 
     /**
-     * Die letzte Ziffer ist die Pruefziffer.
+     * Die Steuernummer aus diesem Beispiel stammt aus Wikipedia.
+     *
+     * @return eine Steuer-IdNr
      */
-    @Test
-    public void getPruefziffer() {
-        assertEquals(3, idNr.getPruefziffer());
+    protected Fachwert createFachwert() {
+        return new SteuerIdNr("12365489753");
+    }
+
+    /**
+     * Ungueltige Steuernummern sollten nicht erzeugt werden koennen.
+     */
+    @Test(expected = ValidationException.class)
+    public void testSteuerIdNrInvalid() {
+        new SteuerIdNr("12365489750");
+    }
+
+    /**
+     * Alte Steuernnummern und Nummer, die zu lang sind, sollten auch nicht
+     * angelegt werden koennen.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testSteuerIdNrZuLang() {
+        new SteuerIdNr("1121081508150");
     }
 
 }

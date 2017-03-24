@@ -17,6 +17,8 @@
  */
 package de.jfachwert.steuer;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Die steuerliche Identifikationsnummer (SteuerIdNr) ist eine
  * bundeseinheitliche und dauerhafte Identifikationsnummer von in
@@ -35,7 +37,15 @@ public class SteuerIdNr extends Steuernummer {
      * @param idNr 11-stellige Zahl
      */
     public SteuerIdNr(String idNr) {
-        super(idNr);
+        super(check(idNr));
+    }
+
+    private static String check(String nr) {
+        int length = StringUtils.length(nr);
+        if (length != 11) {
+            throw new IllegalArgumentException(nr + " has " + length + " characters and not 11");
+        }
+        return nr;
     }
 
 }
