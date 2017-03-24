@@ -22,6 +22,9 @@ import de.jfachwert.Fachwert;
 import org.junit.Test;
 
 import javax.validation.ValidationException;
+import java.util.Locale;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Unit-Test fuer {@link UStIdNr}-Klasse.
@@ -48,6 +51,14 @@ public final class UStIdNrTest extends AbstractFachwertTest {
     @Test(expected = ValidationException.class)
     public void testUStIdNrInvalid() {
         new UStIdNr("DE136695970");
+    }
+
+    /**
+     * Testmethode fuer {@link UStIdNr#getLand()}.
+     */
+    @Test
+    public void testGetLand() {
+        assertEquals(new Locale("DE"), new UStIdNr("DE136695976").getLand());
     }
 
 }

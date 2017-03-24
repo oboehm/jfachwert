@@ -23,6 +23,7 @@ import de.jfachwert.pruefung.Mod11Verfahren;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -54,12 +55,25 @@ public class UStIdNr extends AbstractFachwert<String> {
 
     private static String validate(String nr) {
         String unformatted = StringUtils.remove(nr, ' ');
-        String land = unformatted.substring(0, 2).toUpperCase();
+        String land = toLaenderkuerzel(unformatted);
         PruefzifferVerfahren<String> verfahren = PRUEFZIFFER_VERFAHREN.get(land);
         if (verfahren != null) {
-            unformatted = verfahren.validate(unformatted.substring(2));
+            verfahren.validate(unformatted.substring(2));
         }
         return unformatted;
+    }
+
+    /**
+     * Liefert das Land, zu dem die IBAN gehoert.
+     *
+     * @return z.B. "DE" (als Locale)
+     */
+    public Locale getLand() {
+        return new Locale(toLaenderkuerzel(this.getCode()));
+    }
+
+    private static String toLaenderkuerzel(String nr) {
+        return nr.substring(0, 2).toUpperCase();
     }
 
 }
