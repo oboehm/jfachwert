@@ -39,7 +39,7 @@ import de.jfachwert.pruefung.Mod11Verfahren;
  */
 public class Steuernummer extends AbstractFachwert<String> {
 
-    public static final PruefzifferVerfahren<String> MOD11 = Mod11Verfahren.getInstance();
+    public static final PruefzifferVerfahren<String> MOD11 = new Mod11Verfahren(10);
 
     /**
      * Hierueber wird eine neue Steuernummer angelegt.

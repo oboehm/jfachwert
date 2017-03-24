@@ -30,7 +30,7 @@ import static org.junit.Assert.assertEquals;
  */
 public final class Mod11VerfahrenTest extends AbstractPruefzifferVerfahrenTest<String> {
 
-    private static final PruefzifferVerfahren<String> MOD11 = Mod11Verfahren.getInstance();
+    private static final PruefzifferVerfahren<String> MOD11 = new Mod11Verfahren(10);
     private static final String STEUERNUMMER = "12345678000";
 
     /**
@@ -69,7 +69,7 @@ public final class Mod11VerfahrenTest extends AbstractPruefzifferVerfahrenTest<S
     }
 
     /**
-     * Testmethode fuer {@link Mod11Verfahren#validate(String)}.
+     * Testmethode fuer {@link Mod11Verfahren#validate(Object)}.
      */
     @Test(expected = ValidationException.class)
     public void testValidateWithException() {

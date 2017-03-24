@@ -30,24 +30,10 @@ import de.jfachwert.PruefzifferVerfahren;
  */
 public class Mod11Verfahren implements PruefzifferVerfahren<String> {
 
-    private static final Mod11Verfahren INSTANCE = new Mod11Verfahren();
     private final int anzahlStellen;
-
-    private Mod11Verfahren() {
-        this(10);
-    }
 
     public Mod11Verfahren(int anzahlStellen) {
         this.anzahlStellen = anzahlStellen;
-    }
-
-    /**
-     * Liefert die einzigen Instanz.
-     *
-     * @return die einzige Instanz
-     */
-    public static PruefzifferVerfahren<String> getInstance() {
-        return INSTANCE;
     }
 
     /**
