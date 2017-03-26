@@ -45,7 +45,19 @@ public class IBAN extends AbstractFachwert<String> {
      * @param iban im unformattierten Format
      */
     public IBAN(String iban) {
-        super(MOD97.validate(StringUtils.remove(iban, ' ').toUpperCase()));
+        this(iban, MOD97);
+    }
+
+    /**
+     * Dieser Konstruktor ist hauptsaechlich fuer abgeleitete Klassen gedacht,
+     * damit diese das {@link PruefzifferVerfahren} ueberschreiben koennen.
+     * Man kann es auch verwenden, um das PruefzifferVerfahren abzuschalten,
+     *
+     * @param iban        die IBAN
+     * @param pzVerfahren das verwendete PruefzifferVerfahren
+     */
+    public IBAN(String iban, PruefzifferVerfahren<String> pzVerfahren) {
+        super(pzVerfahren.validate(StringUtils.remove(iban, ' ').toUpperCase()));
     }
 
     /**
