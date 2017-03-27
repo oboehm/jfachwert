@@ -52,6 +52,7 @@ public class IBAN extends AbstractFachwert<String> {
      * Dieser Konstruktor ist hauptsaechlich fuer abgeleitete Klassen gedacht,
      * damit diese das {@link PruefzifferVerfahren} ueberschreiben koennen.
      * Man kann es auch verwenden, um das PruefzifferVerfahren abzuschalten,
+     * indem man das {@link de.jfachwert.pruefung.NoopVerfahren} verwendet.
      *
      * @param iban        die IBAN
      * @param pzVerfahren das verwendete PruefzifferVerfahren

@@ -27,7 +27,7 @@ import de.jfachwert.PruefzifferVerfahren;
  * @author oboehm
  * @since 0.1.0
  */
-public class NoopVerfahren implements PruefzifferVerfahren<Object> {
+public class NoopVerfahren<T> implements PruefzifferVerfahren<T> {
 
     /**
      * Meistens ist die letzte Ziffer die Pruefziffer, die hierueber abgefragt
@@ -37,7 +37,7 @@ public class NoopVerfahren implements PruefzifferVerfahren<Object> {
      * @return meist ein Wert zwischen 0 und 9
      */
     @Override
-    public Object getPruefziffer(Object wert) {
+    public T getPruefziffer(T wert) {
         return wert;
     }
 
@@ -48,7 +48,7 @@ public class NoopVerfahren implements PruefzifferVerfahren<Object> {
      * @return errechnete Pruefziffer
      */
     @Override
-    public Object berechnePruefziffer(Object wert) {
+    public T berechnePruefziffer(T wert) {
         return wert;
     }
 

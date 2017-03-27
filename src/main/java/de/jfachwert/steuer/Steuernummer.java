@@ -39,7 +39,7 @@ import de.jfachwert.pruefung.Mod11Verfahren;
  */
 public class Steuernummer extends AbstractFachwert<String> {
 
-    public static final PruefzifferVerfahren<String> MOD11 = new Mod11Verfahren(10);
+    private static final PruefzifferVerfahren<String> MOD11 = new Mod11Verfahren(10);
 
     /**
      * Hierueber wird eine neue Steuernummer angelegt.
@@ -47,12 +47,25 @@ public class Steuernummer extends AbstractFachwert<String> {
      * @param nr eine 10- bis 13-stellige Steuernummer.
      */
     public Steuernummer(String nr) {
-        super(validate(nr));
+        this(nr, MOD11);
     }
 
-    private static String validate(String nr) {
+    /**
+     * Dieser Konstruktor ist hauptsaechlich fuer abgeleitete Klassen gedacht,
+     * damit diese das {@link PruefzifferVerfahren} ueberschreiben koennen.
+     * Man kann es auch verwenden, um das PruefzifferVerfahren abzuschalten,
+     * indem man das {@link de.jfachwert.pruefung.NoopVerfahren} verwendet.
+     *
+     * @param nr          die Steuernummer
+     * @param pzVerfahren das verwendete PruefzifferVerfahren
+     */
+    public Steuernummer(String nr, PruefzifferVerfahren<String> pzVerfahren) {
+        super(validate(nr, pzVerfahren));
+    }
+
+    private static String validate(String nr, PruefzifferVerfahren<String> pzVerfahren) {
         if (nr.length() == 11) {
-            return MOD11.validate(nr);
+            return pzVerfahren.validate(nr);
         }
         return nr;
     }

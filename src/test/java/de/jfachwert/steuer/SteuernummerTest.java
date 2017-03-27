@@ -19,6 +19,7 @@ package de.jfachwert.steuer;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Fachwert;
+import de.jfachwert.pruefung.NoopVerfahren;
 import org.junit.Test;
 
 import javax.validation.ValidationException;
@@ -45,6 +46,11 @@ public class SteuernummerTest extends AbstractFachwertTest {
     @Test(expected = ValidationException.class)
     public void testSteuernummerInvalid() {
         new Steuernummer("12345678001");
+    }
+
+    @Test
+    public void testSteuernummerWithoutValidation() {
+        Steuernummer stnr = new Steuernummer("12345678001", new NoopVerfahren<>());
     }
 
     /**
