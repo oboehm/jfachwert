@@ -20,6 +20,7 @@ package de.jfachwert.steuer;
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.PruefzifferVerfahren;
 import de.jfachwert.pruefung.Mod11Verfahren;
+import de.jfachwert.pruefung.NoopVerfahren;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
@@ -50,16 +51,34 @@ public class UStIdNr extends AbstractFachwert<String> {
      * @param nr, .B. "DE999999999"
      */
     public UStIdNr(String nr) {
-        super(validate(nr));
+        this(nr, selectPruefzifferVerfahrenFor(nr));
     }
 
-    private static String validate(String nr) {
-        String unformatted = StringUtils.remove(nr, ' ');
-        String land = toLaenderkuerzel(unformatted);
-        PruefzifferVerfahren<String> verfahren = PRUEFZIFFER_VERFAHREN.get(land);
-        if (verfahren != null) {
-            verfahren.validate(unformatted.substring(2));
+    /**
+     * Dieser Konstruktor ist hauptsaechlich fuer abgeleitete Klassen gedacht,
+     * damit diese das {@link PruefzifferVerfahren} ueberschreiben koennen.
+     * Man kann es auch verwenden, um das PruefzifferVerfahren abzuschalten,
+     * indem man das {@link de.jfachwert.pruefung.NoopVerfahren} verwendet.
+     *
+     * @param nr          die Umsatzsteuer-IdNr.
+     * @param pzVerfahren das verwendete PruefzifferVerfahren
+     */
+    public UStIdNr(String nr, PruefzifferVerfahren<String> pzVerfahren) {
+        super(validate(nr, pzVerfahren));
+    }
+
+    private static PruefzifferVerfahren<String> selectPruefzifferVerfahrenFor(String nr) {
+        String laenderkuerzel = toLaenderkuerzel(nr);
+        PruefzifferVerfahren<String> verfahren = PRUEFZIFFER_VERFAHREN.get(laenderkuerzel);
+        if (verfahren == null) {
+            verfahren = new NoopVerfahren<>();
         }
+        return verfahren;
+    }
+
+    private static String validate(String nr, PruefzifferVerfahren<String> verfahren) {
+        String unformatted = StringUtils.remove(nr, ' ');
+        verfahren.validate(unformatted.substring(2));
         return unformatted;
     }
 
