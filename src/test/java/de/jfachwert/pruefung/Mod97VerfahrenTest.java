@@ -24,7 +24,7 @@ import javax.validation.ValidationException;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Unit-Test fuer {@link Mod97Verfahren -Klasse.
+ * Unit-Test fuer {@link Mod97Verfahren}-Klasse.
  *
  * @author oboehm
  */
@@ -68,7 +68,7 @@ public final class Mod97VerfahrenTest extends AbstractPruefzifferVerfahrenTest<S
     }
 
     /**
-     * Testmethode fuer {@link Mod97Verfahren#validate(String)}.
+     * Testmethode fuer {@link Mod97Verfahren#validate(Object)}.
      */
     @Test(expected = ValidationException.class)
     public void testValidateWithException() {

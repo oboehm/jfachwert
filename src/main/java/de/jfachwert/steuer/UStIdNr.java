@@ -28,7 +28,7 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Die Umsatzsteuer-Identifikationsnummer (USt-IdNr)[1] ist eine eindeutige
+ * Die Umsatzsteuer-Identifikationsnummer (USt-IdNr) ist eine eindeutige
  * Kennzeichnung eines Unternehmens innerhalb der Europaeischen Union im
  * umsatzsteuerlichen Sinne.
  *

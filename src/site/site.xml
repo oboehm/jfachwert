@@ -7,13 +7,17 @@
 	(c)reated: 26-Oct-2009 by oliver.boehm@agentes.de
 -->
 
-<project name="gdv.xport">
+<project name="jFachwert">
 
   <bannerLeft>
-    <name>jFachwert</name>
+    <name> jFachwert </name>
     <src>img/jfachwert.png</src>
   </bannerLeft>
- 
+
+  <bannerRight>
+    <name> jFachwert </name>
+  </bannerRight>
+
   <version position="left"/>
 
   <publishDate position="navigation-bottom" format="dd-MMM-yyyy" />

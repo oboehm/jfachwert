@@ -23,7 +23,7 @@ import org.junit.Test;
 import javax.validation.ValidationException;
 
 /**
- * Unit-Test fuer {@link SteuerIdNr-Klasse. Die Beispiel-Id stammt aus
+ * Unit-Test fuer {@link SteuerIdNr}-Klasse. Die Beispiel-Id stammt aus
  * https://www.lohnsteuer-kompakt.de/fag/2016/39/wo_kann_ich_meine_steuer-identifikationsnummer_finden.
  *
  * @author oboehm
