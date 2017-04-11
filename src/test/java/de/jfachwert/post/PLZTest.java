@@ -18,9 +18,12 @@ package de.jfachwert.post;/*
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Fachwert;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
- * Unit-Teests fuer de.jfachwert.post.PLZ.
+ * Unit-Tests fuer die PLZ-Klasse.
  *
  * @author oboehm
  */
@@ -34,6 +37,45 @@ public class PLZTest extends AbstractFachwertTest {
     @Override
     protected Fachwert createFachwert() {
         return new PLZ("D-70839");
+    }
+
+    /**
+     * Test-Methode fuer {@link PLZ#getLandeskennung()}.
+     */
+    @Test
+    public void testGetLandeskennung() {
+        PLZ dresden = new PLZ("D-01001");
+        assertEquals("D", dresden.getLandeskennung());
+    }
+
+    /**
+     * Es gibt verschiedene Moeglichkeiten, den Prefix vor der eigentlichen
+     * PLZ zu schreiben. Allerdings sollte es dennoch die gleiche PLZ sein.
+     */
+    @Test
+    public void testEqualsForDE() {
+        PLZ one = new PLZ("D01001");
+        PLZ anotherOne = new PLZ("d-01001");
+        assertEquals(one, anotherOne);
+    }
+
+    /**
+     * Aus Lesbarkeitgruenden sollte zwischen Landeskennung und PLZ ein
+     * Trennzeichen sein.
+     */
+    @Test
+    public void testToString() {
+        PLZ dresden = new PLZ("D01001");
+        assertEquals("D-01001", dresden.toString());
+    }
+
+    /**
+     * Normale Postleitzahlen sollten in kompakter Schreibweise ausgegeben
+     * werden.
+     */
+    @Test
+    public void testToStringOhneLandeskennung() {
+        assertEquals("70178", new PLZ("70 178").toString());
     }
 
 }
