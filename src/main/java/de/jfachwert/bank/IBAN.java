@@ -90,12 +90,19 @@ public class IBAN extends AbstractFachwert<String> {
     /**
      * Liefert das Land, zu dem die IBAN gehoert.
      *
-     * @return z.B. "DE" (als Locale)
+     * @return z.B. "de_DE" (als Locale)
      * @since 0.1.0
      */
     public Locale getLand() {
         String country = this.getUnformatted().substring(0, 2);
-        return new Locale(country);
+        String language = country.toLowerCase();
+        switch (country) {
+            case "AT":
+            case "CH":
+                language = "de";
+                break;
+        }
+        return new Locale(language, country);
     }
 
     /**

@@ -80,7 +80,7 @@ public final class IBANTest extends AbstractFachwertTest {
      */
     @Test
     public void testGetLand() {
-        assertEquals(new Locale("DE"), iban.getLand());
+        assertEquals(new Locale("de", "DE"), iban.getLand());
     }
 
     /**
