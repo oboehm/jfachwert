@@ -20,6 +20,8 @@ import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Fachwert;
 import org.junit.Test;
 
+import java.util.Locale;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -76,6 +78,15 @@ public class PLZTest extends AbstractFachwertTest {
     @Test
     public void testToStringOhneLandeskennung() {
         assertEquals("70178", new PLZ("70 178").toString());
+    }
+
+    /**
+     * Test-Methode fuer {@link PLZ#getLand()}.
+     */
+    @Test
+    public void testGetLand() {
+        PLZ stuttgart = new PLZ("D-70435");
+        assertEquals(new Locale("de", "DE"), stuttgart.getLand());
     }
 
 }

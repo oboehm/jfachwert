@@ -20,6 +20,8 @@ package de.jfachwert.post;
 import de.jfachwert.AbstractFachwert;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Locale;
+
 /**
  * Eine Postleitzahl (PLZ) kennzeichnet den Zustellort auf Briefen, Paketten
  * oder Paeckchen. In Deutschland ist es eine 5-stellige Zahl, wobei auch
@@ -61,15 +63,25 @@ public class PLZ extends AbstractFachwert<String> {
      * @return z.B. "D" fuer Deutschland
      */
     public String getLandeskennung() {
-        String plz = this.getCode();
-        if (plz.startsWith("D")) {
-            return "D";
-        } else if (plz.startsWith("A")) {
-            return "A";
-        } else if (plz.startsWith("CH")) {
-            return "CH";
+        if (!this.hasLandeskennung()) {
+            throw new IllegalStateException("keine Landeskennung angegeben");
         }
-        throw new UnsupportedOperationException("unbekannte Landeskennung: " + plz);
+        return StringUtils.substringBefore(this.toLongString(), "-");
+    }
+
+    /**
+     * Liefert das Land, die der Landeskennung entspricht.
+     *
+     * @return z.B. "de_CH" (fuer die Schweiz)
+     */
+    public Locale getLand() {
+        String kennung = this.getLandeskennung();
+        switch (kennung) {
+            case "D":   return new Locale("de", "DE");
+            case "A":   return new Locale("de", "AT");
+            case "CH":  return new Locale("de", "CH");
+            default:    throw new UnsupportedOperationException("unbekannte Landeskennung '" + kennung + "'");
+        }
     }
 
     /**
