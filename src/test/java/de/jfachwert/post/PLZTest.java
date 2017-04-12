@@ -89,4 +89,13 @@ public class PLZTest extends AbstractFachwertTest {
         assertEquals(new Locale("de", "DE"), stuttgart.getLand());
     }
 
+    /**
+     * Test-Methode fuer {@link PLZ#getLand()}.
+     */
+    @Test
+    public void testGetLandCH() {
+        PLZ vaduz = new PLZ("CH-9490");
+        assertEquals("CH", vaduz.getLand().getCountry());
+    }
+
 }
