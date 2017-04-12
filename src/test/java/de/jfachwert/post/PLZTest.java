@@ -42,6 +42,15 @@ public class PLZTest extends AbstractFachwertTest {
     }
 
     /**
+     * Postleitzahlen in Oesterreich sind 4-stellig. D.h. eine 5-stellige
+     * oesterreichische PLZ sollte nicht erstellt werden koennen.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidPLZ() {
+        new PLZ("A-12345");
+    }
+
+    /**
      * Test-Methode fuer {@link PLZ#getLandeskennung()}.
      */
     @Test
@@ -96,6 +105,15 @@ public class PLZTest extends AbstractFachwertTest {
     public void testGetLandCH() {
         PLZ vaduz = new PLZ("CH-9490");
         assertEquals("CH", vaduz.getLand().getCountry());
+    }
+
+    /**
+     * Test-Methode fuer {@link PLZ#getLand()}.
+     */
+    @Test
+    public void testGetLandAT() {
+        PLZ weyer = new PLZ("A-3335");
+        assertEquals(new Locale("de", "AT"), weyer.getLand());
     }
 
 }

@@ -38,7 +38,7 @@ public class PLZ extends AbstractFachwert<String> {
      * @param plz z.B. "70839" oder "D-70839"
      */
     public PLZ(String plz) {
-        super(normalize(plz));
+        super(validate(plz));
     }
 
     private static String validate(String code) {
@@ -51,19 +51,23 @@ public class PLZ extends AbstractFachwert<String> {
 
     private static String validateNumberOf(String plz) {
         String kennung = getLandeskennung(plz);
+        String zahl = getPostleitZahl(plz);
         switch (kennung) {
             case "D":
-                if (plz.length() != 6) {
-                    throw new IllegalArgumentException(toLongString(plz) + ": nur 5 Ziffern fuer PLZ sind erlaubt");
-                }
+                validateNumberWith(5, kennung, zahl);
                 break;
+            case "A":
             case "CH":
-                if (plz.length() != 6) {
-                    throw new IllegalArgumentException(toLongString(plz) + ": nur 4 Ziffern fuer PLZ sind erlaubt");
-                }
+                validateNumberWith(4, kennung, zahl);
                 break;
         }
         return plz;
+    }
+
+    private static void validateNumberWith(int length, String kennung, String zahl) {
+        if (zahl.length() != length) {
+            throw new IllegalArgumentException(zahl + ": nur " + length + " Ziffern fuer PLZ sind erlaubt in " + kennung);
+        }
     }
 
     private static String normalize(String plz) {
@@ -115,6 +119,22 @@ public class PLZ extends AbstractFachwert<String> {
             case "CH":  return new Locale("de", "CH");
             default:    throw new UnsupportedOperationException("unbekannte Landeskennung '" + kennung + "'");
         }
+    }
+
+    /**
+     * Liefert die eigentliche Postleitzahl ohne Landeskennung.
+     *
+     * @return z,B. "01001"
+     */
+    public String getPostleitZahl() {
+        return getPostleitZahl(this.getCode());
+    }
+
+    private static String getPostleitZahl(String plz) {
+        if (!hasLandeskennung(plz)) {
+            return plz;
+        }
+        return StringUtils.substringAfter(toLongString(plz), "-");
     }
 
     /**
