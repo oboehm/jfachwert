@@ -41,6 +41,31 @@ public class PLZ extends AbstractFachwert<String> {
         super(normalize(plz));
     }
 
+    private static String validate(String code) {
+        String plz = normalize(code);
+        if (hasLandeskennung(plz)) {
+            plz = validateNumberOf(plz);
+        }
+        return plz;
+    }
+
+    private static String validateNumberOf(String plz) {
+        String kennung = getLandeskennung(plz);
+        switch (kennung) {
+            case "D":
+                if (plz.length() != 6) {
+                    throw new IllegalArgumentException(toLongString(plz) + ": nur 5 Ziffern fuer PLZ sind erlaubt");
+                }
+                break;
+            case "CH":
+                if (plz.length() != 6) {
+                    throw new IllegalArgumentException(toLongString(plz) + ": nur 4 Ziffern fuer PLZ sind erlaubt");
+                }
+                break;
+        }
+        return plz;
+    }
+
     private static String normalize(String plz) {
         return StringUtils.replaceChars(plz, " -", "").toUpperCase();
     }
@@ -52,7 +77,11 @@ public class PLZ extends AbstractFachwert<String> {
      * @return true, falls PLZ eine Kennung besitzt
      */
     public boolean hasLandeskennung() {
-        char kennung = this.getCode().charAt(0);
+        return hasLandeskennung(this.getCode());
+    }
+
+    private static boolean hasLandeskennung(String plz) {
+        char kennung = plz.charAt(0);
         return Character.isLetter(kennung);
     }
 
@@ -66,7 +95,11 @@ public class PLZ extends AbstractFachwert<String> {
         if (!this.hasLandeskennung()) {
             throw new IllegalStateException("keine Landeskennung angegeben");
         }
-        return StringUtils.substringBefore(this.toLongString(), "-");
+        return getLandeskennung(this.getCode());
+    }
+
+    private static String getLandeskennung(String plz) {
+        return StringUtils.substringBefore(toLongString(plz), "-");
     }
 
     /**
@@ -103,10 +136,14 @@ public class PLZ extends AbstractFachwert<String> {
     public String toLongString() {
         String plz = this.getCode();
         if (this.hasLandeskennung()) {
-            int i = StringUtils.indexOfAny(plz, "0123456789");
-            plz = plz.substring(0, i) + "-" + plz.substring(i);
+            plz = toLongString(plz);
         }
         return plz;
+    }
+
+    private static String toLongString(String plz) {
+        int i = StringUtils.indexOfAny(plz, "0123456789");
+        return plz.substring(0, i) + "-" + plz.substring(i);
     }
 
     /**

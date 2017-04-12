@@ -19,6 +19,11 @@
 /**
  * Dies ist das oberste Package von jFachwert. Unterhalb diese Bereichs sind
  * die einzelne Fachwerte thematisch aufgeteilt.
+ * <p>
+ * Die meisten Implementierung verhindern, dass ungueltige Fachwerte angelegt
+ * werden koennen, indem die Parameter im Konstruktor validiert werden. Dies
+ * ist beim Aufruf des Konstruktors zu beachten.
+ * </p>
  *
  * @author <a href="ob@aosd.de">oliver</a>
  * @since 0.0.1
