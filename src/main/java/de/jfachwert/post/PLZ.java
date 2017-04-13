@@ -41,6 +41,39 @@ public class PLZ extends AbstractFachwert<String> {
         super(validate(plz));
     }
 
+    /**
+     * Ueber diesen Konstruktor kann die Landeskennung als extra Parameter
+     * angegeben werden.
+     *
+     * @param landeskennung z.B. "D"
+     * @param plz z.B. "70839" (fuer Gerlingen)
+     */
+    public PLZ(String landeskennung, String plz) {
+        this(landeskennung + plz);
+    }
+
+    /**
+     * Ueber diesen Konstruktor kann die Landeskennung als extra Parameter
+     * angegeben werden.
+     *
+     * @param land z.B. "de_DE"
+     * @param plz z.B. "70839" (fuer Gerlingen)
+     */
+    public PLZ(Locale land, String plz) {
+        this(toLandeskennung(land) + plz);
+    }
+
+    private static String toLandeskennung(Locale locale) {
+        String country = locale.getCountry().toUpperCase();
+        switch (country) {
+            case "AT":
+            case "DE":
+                return country.substring(0, 1);
+            default:
+                return country;
+        }
+    }
+
     private static String validate(String code) {
         String plz = normalize(code);
         if (hasLandeskennung(plz)) {

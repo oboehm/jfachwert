@@ -47,7 +47,7 @@ public class PLZTest extends AbstractFachwertTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testInvalidPLZausOesterreich() {
-        new PLZ("A-12345");
+        new PLZ(new Locale("de", "AT"), "12345");
     }
 
     /**
@@ -120,7 +120,7 @@ public class PLZTest extends AbstractFachwertTest {
      */
     @Test
     public void testGetLandCH() {
-        PLZ vaduz = new PLZ("CH-9490");
+        PLZ vaduz = new PLZ(new Locale("de", "CH"), "9490");
         assertEquals("CH", vaduz.getLand().getCountry());
     }
 
