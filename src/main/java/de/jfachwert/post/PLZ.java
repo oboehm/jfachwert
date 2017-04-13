@@ -104,7 +104,7 @@ public class PLZ extends AbstractFachwert<String> {
 
     private static void validateNumberWith(int length, String kennung, String zahl) {
         if (zahl.length() != length) {
-            throw new IllegalArgumentException(zahl + ": nur " + length + " Ziffern fuer PLZ sind erlaubt in " + kennung);
+            throw new IllegalArgumentException(zahl + ": nur " + length + " Ziffern f\u00dcr PLZ sind erlaubt in " + kennung);
         }
         Integer.valueOf(zahl);
     }
