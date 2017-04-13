@@ -46,8 +46,25 @@ public class PLZTest extends AbstractFachwertTest {
      * oesterreichische PLZ sollte nicht erstellt werden koennen.
      */
     @Test(expected = IllegalArgumentException.class)
-    public void testInvalidPLZ() {
+    public void testInvalidPLZausOesterreich() {
         new PLZ("A-12345");
+    }
+
+    /**
+     * In der DACH-Region bestehen die Postleitzahlen nur aus Ziffern.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidPostleitZahl() {
+        new PLZ("CH-0x23");
+    }
+
+    /**
+     * Weltweit sind die Postleitzahlen zwischen 3 und 10 Zeichen lang.
+     * Quelle: https://de.wikipedia.org/wiki/Postleitzahl
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidPLZ() {
+        new PLZ("12");
     }
 
     /**

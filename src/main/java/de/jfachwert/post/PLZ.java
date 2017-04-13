@@ -45,6 +45,11 @@ public class PLZ extends AbstractFachwert<String> {
         String plz = normalize(code);
         if (hasLandeskennung(plz)) {
             plz = validateNumberOf(plz);
+        } else {
+            int length = plz.length();
+            if ((length < 3) || (length > 10)) {
+                throw new IllegalArgumentException("'" + plz + "' ist nicht zwischen 3 und 10 Zeichen lang");
+            }
         }
         return plz;
     }
@@ -68,6 +73,7 @@ public class PLZ extends AbstractFachwert<String> {
         if (zahl.length() != length) {
             throw new IllegalArgumentException(zahl + ": nur " + length + " Ziffern fuer PLZ sind erlaubt in " + kennung);
         }
+        Integer.valueOf(zahl);
     }
 
     private static String normalize(String plz) {
