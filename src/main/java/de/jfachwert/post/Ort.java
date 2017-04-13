@@ -19,10 +19,16 @@ package de.jfachwert.post;
 
 import de.jfachwert.Fachwert;
 
+import java.util.Objects;
+
 /**
  * Ein Ort (oder auch Ortschaft) ist eine Stadt oder Gemeinde. Ein Ort hat
  * i.d.R. eine Postleitzahl (PLZ). Diese ist aber in dieser Klasse optional,
  * sodass man einen Ort auch ohne eine PLZ einsetzen kann.
+ * <p>
+ * Anmerkung: Die PLZ ist nicht als Optional realisert, da in Java Optionals
+ * leider nicht serialiserbar sind :-(
+ * </p>
  *
  * @author oboehm
  * @since 0.2.0 (13.04.2017)
@@ -30,6 +36,7 @@ import de.jfachwert.Fachwert;
 public class Ort implements Fachwert {
 
     private final String name;
+    private final PLZ plz;
 
     /**
      * Hierueber kann ein Ort (ohne PLZ) angelegt werden.
@@ -37,6 +44,16 @@ public class Ort implements Fachwert {
      * @param name des Ortes
      */
     public Ort(String name) {
+        this(null, name);
+    }
+
+    /**
+     * Hierueber kann ein Ort mit PLZ angelegt werden.
+     *
+     * @param name des Ortes
+     */
+    public Ort(PLZ plz, String name) {
+        this.plz = plz;
         this.name = name;
     }
 
@@ -53,7 +70,7 @@ public class Ort implements Fachwert {
             return false;
         }
         Ort other = (Ort) obj;
-        return this.name.equalsIgnoreCase(other.name);
+        return Objects.equals(this.plz, other.plz) && this.name.equalsIgnoreCase(other.name);
     }
 
     @Override
@@ -68,7 +85,11 @@ public class Ort implements Fachwert {
      */
     @Override
     public String toString() {
-        return this.name;
+        if (this.plz == null) {
+            return this.name;
+        } else {
+            return this.plz + " " + this.name;
+        }
     }
 
 }

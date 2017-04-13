@@ -19,6 +19,10 @@ package de.jfachwert.post;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Fachwert;
+import org.junit.Test;
+
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertThat;
 
 /**
  * Unit-Tests fuer die Ort-Klasse.
@@ -36,6 +40,18 @@ public class OrtTest extends AbstractFachwertTest {
     @Override
     protected Fachwert createFachwert() {
         return new Ort("Arnis");
+    }
+
+    /**
+     * Es gibt in Deutschland ueber ein Dutzende Staedten mit dem Namen
+     * "Neustadt", die sich in der PLZ unterscheiden und daher nicht gleich
+     * sind.
+     */
+    @Test
+    public void testNotEquals() {
+        Ort neustadtHarz = new Ort(new PLZ("99762"), "Neustadt");
+        Ort neustadtDonau = new Ort(new PLZ("93333"), "Neustadt");
+        assertThat(neustadtDonau, not(neustadtHarz));
     }
 
 }
