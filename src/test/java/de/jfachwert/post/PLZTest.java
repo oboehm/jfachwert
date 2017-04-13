@@ -45,7 +45,7 @@ public class PLZTest extends AbstractFachwertTest {
      * Postleitzahlen in Oesterreich sind 4-stellig. D.h. eine 5-stellige
      * oesterreichische PLZ sollte nicht erstellt werden koennen.
      */
-    @Test//(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testInvalidPLZausOesterreich() {
         new PLZ(new Locale("de", "AT"), "12345");
     }
