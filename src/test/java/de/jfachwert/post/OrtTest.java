@@ -65,4 +65,28 @@ public class OrtTest extends AbstractFachwertTest {
         assertThat(neustadtDonau, not(neustadtHarz));
     }
 
+    /**
+     * Wenn zwei Ort gleich heissen, aber nur zu einem Ort eine PLZ angegeben
+     * wurde, kann man nicht 100% sicher sein, ob das auch der gewuenschte
+     * Ort ist. Sollte fuer diesen Fall vielleicht besser eine Exception
+     * geschmissen werden?
+     */
+    @Test
+    public void testEqualsNotSatisfiable() {
+        Ort neustadtHarz = new Ort(new PLZ("99762"), "Neustadt");
+        Ort neustadt = new Ort("Neustadt");
+        assertThat(neustadt, not(neustadtHarz));
+    }
+
+    /**
+     * Wenn zwei Ort unterschiedlich sind, brauchen wir die PLZ nicht mehr, um
+     * eine Ungleichheit festzustellen.
+     */
+    @Test
+    public void testEqualsSatisfiable() {
+        Ort neustadt = new Ort(new PLZ("99762"), "Neustadt");
+        Ort altstadt = new Ort("Altstadt");
+        assertThat(neustadt, not(altstadt));
+    }
+
 }
