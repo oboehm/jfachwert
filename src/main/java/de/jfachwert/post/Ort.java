@@ -20,6 +20,7 @@ package de.jfachwert.post;
 import de.jfachwert.Fachwert;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Ein Ort (oder auch Ortschaft) ist eine Stadt oder Gemeinde. Ein Ort hat
@@ -58,6 +59,29 @@ public class Ort implements Fachwert {
     }
 
     /**
+     * Liefert den Ortsnamen zurueck.
+     *
+     * @return den Ortsnamen
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Da die Postleitzahl optional ist, wird sie auch als {@link Optional}
+     * zurueckgegeben.
+     *
+     * @return die PLZ
+     */
+    public Optional<PLZ> getPLZ() {
+        if (this.plz == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(this.plz);
+        }
+    }
+
+    /**
      * Beim Vergleich wird nicht zwischen Gross- und Kleinschreibung
      * unterschieden.
      *
@@ -86,9 +110,9 @@ public class Ort implements Fachwert {
     @Override
     public String toString() {
         if (this.plz == null) {
-            return this.name;
+            return this.getName();
         } else {
-            return this.plz + " " + this.name;
+            return this.plz + " " + this.getName();
         }
     }
 

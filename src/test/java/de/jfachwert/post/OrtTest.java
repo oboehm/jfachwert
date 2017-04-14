@@ -22,6 +22,7 @@ import de.jfachwert.Fachwert;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -40,6 +41,16 @@ public class OrtTest extends AbstractFachwertTest {
     @Override
     protected Fachwert createFachwert() {
         return new Ort("Arnis");
+    }
+
+    /**
+     * Test-Methode fuer {@link Ort#getPLZ()}.
+     */
+    @Test
+    public void testGetPLZ() {
+        PLZ plz = new PLZ("73728");
+        Ort esslingen = new Ort(plz, "Esslingen");
+        assertEquals(plz, esslingen.getPLZ().get());
     }
 
     /**
