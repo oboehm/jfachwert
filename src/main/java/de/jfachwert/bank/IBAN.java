@@ -76,8 +76,10 @@ public class IBAN extends AbstractFachwert<String> {
 
     private static String validate(String iban, PruefzifferVerfahren<String> pzVerfahren) {
         String normalized = StringUtils.remove(iban, ' ').toUpperCase();
-        if (normalized.length() != 22) {
-            throw new IllegalArgumentException("IBAN '" + iban + "' hat keine 22 Zeichen (sondern " + normalized.length() + ")");
+        if (normalized.length() < 22) {
+            throw new IllegalArgumentException(iban + ": zu kurz (" + normalized.length() + " Zeichen)");
+        } else if (normalized.length() > 34) {
+            throw new IllegalArgumentException(iban + ": zu lang (" + normalized.length() + " Zeichen)");
         }
         return pzVerfahren.validate(normalized);
     }
@@ -148,7 +150,10 @@ public class IBAN extends AbstractFachwert<String> {
     }
 
     /**
-     * Extrahiert aus der IBAN die Kontonummer.
+     * Extrahiert aus der IBAN die Kontonummer nach der Standard-IBAN-Regel.
+     * Ausnahmen, wie sie z.B. in
+     * http://www.kigst.de/media/Deutsche_Bundesbank_Uebersicht_der_IBAN_Regeln_Stand_Juni_2013.pdf
+     * beschrieben sind, werden nicht beruecksichtigt.
      *
      * @return 10-stellige Kontonummer
      * @since 0.1.0
