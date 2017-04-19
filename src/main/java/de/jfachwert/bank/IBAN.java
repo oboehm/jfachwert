@@ -58,7 +58,28 @@ public class IBAN extends AbstractFachwert<String> {
      * @param pzVerfahren das verwendete PruefzifferVerfahren
      */
     public IBAN(String iban, PruefzifferVerfahren<String> pzVerfahren) {
-        super(pzVerfahren.validate(StringUtils.remove(iban, ' ').toUpperCase()));
+        super(validate(iban, pzVerfahren));
+    }
+
+    /**
+     * Mit dieser Methode kann man eine IBAN validieren, ohne dass man erst
+     * den Konstruktor aufrufen muss. Falls die Pruefziffer nicht stimmt,
+     * wird eine {@link javax.xml.bind.ValidationException} geworfen, wenn
+     * die Laenge nicht uebereinstimmt eine {@link IllegalArgumentException}.
+     *
+     * @param iban die 22-stellige IBAN
+     * @return die IBAN in normalisierter Form (ohne Leerzeichen)
+     */
+    public static String validate(String iban) {
+        return validate(iban, MOD97);
+    }
+
+    private static String validate(String iban, PruefzifferVerfahren<String> pzVerfahren) {
+        String normalized = StringUtils.remove(iban, ' ').toUpperCase();
+        if (normalized.length() != 22) {
+            throw new IllegalArgumentException("IBAN '" + iban + "' hat keine 22 Zeichen (sondern " + normalized.length() + ")");
+        }
+        return pzVerfahren.validate(normalized);
     }
 
     /**
