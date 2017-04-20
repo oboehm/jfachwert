@@ -19,6 +19,7 @@ package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.pruefung.IllegalLengthException;
 import de.jfachwert.pruefung.Mod97Verfahren;
 import org.apache.commons.lang3.StringUtils;
 
@@ -76,10 +77,8 @@ public class IBAN extends AbstractFachwert<String> {
 
     private static String validate(String iban, PruefzifferVerfahren<String> pzVerfahren) {
         String normalized = StringUtils.remove(iban, ' ').toUpperCase();
-        if (normalized.length() < 22) {
-            throw new IllegalArgumentException(iban + ": zu kurz (" + normalized.length() + " Zeichen)");
-        } else if (normalized.length() > 34) {
-            throw new IllegalArgumentException(iban + ": zu lang (" + normalized.length() + " Zeichen)");
+        if ((normalized.length() < 22) || (normalized.length() > 34)) {
+            throw new IllegalLengthException(iban, 22, 34);
         }
         return pzVerfahren.validate(normalized);
     }

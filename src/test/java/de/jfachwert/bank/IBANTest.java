@@ -54,7 +54,7 @@ public final class IBANTest extends AbstractFachwertTest {
     /**
      * Eine leere IBAN sollte nicht moeglich sein.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = ValidationException.class)
     public void testIbanEmpty() {
         new IBAN("");
     }
