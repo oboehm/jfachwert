@@ -20,6 +20,7 @@ package de.jfachwert.bank;
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.PruefzifferVerfahren;
 import de.jfachwert.pruefung.IllegalLengthException;
+import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.Mod97Verfahren;
 import org.apache.commons.lang3.StringUtils;
 
@@ -66,7 +67,8 @@ public class IBAN extends AbstractFachwert<String> {
      * Mit dieser Methode kann man eine IBAN validieren, ohne dass man erst
      * den Konstruktor aufrufen muss. Falls die Pruefziffer nicht stimmt,
      * wird eine {@link javax.xml.bind.ValidationException} geworfen, wenn
-     * die Laenge nicht uebereinstimmt eine {@link IllegalArgumentException}.
+     * die Laenge nicht uebereinstimmt eine {@link IllegalLengthException}.
+     * Die Laenge liegt zwischen 16 (Belgien) und 34 Zeichen.
      *
      * @param iban die 22-stellige IBAN
      * @return die IBAN in normalisierter Form (ohne Leerzeichen)
@@ -77,8 +79,17 @@ public class IBAN extends AbstractFachwert<String> {
 
     private static String validate(String iban, PruefzifferVerfahren<String> pzVerfahren) {
         String normalized = StringUtils.remove(iban, ' ').toUpperCase();
-        if ((normalized.length() < 22) || (normalized.length() > 34)) {
-            throw new IllegalLengthException(iban, 22, 34);
+        LengthValidator.validate(iban, 16, 34);
+        switch (normalized.substring(0,1)) {
+            case "AT":
+                LengthValidator.validate(iban, 20);
+                break;
+            case "CH":
+                LengthValidator.validate(iban, 21);
+                break;
+            case "DE":
+                LengthValidator.validate(iban, 22);
+                break;
         }
         return pzVerfahren.validate(normalized);
     }
