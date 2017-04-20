@@ -18,6 +18,7 @@
 package de.jfachwert.pruefung;
 
 import javax.validation.ValidationException;
+import java.util.List;
 
 /**
  * Die Klasse IllegalLengthException ist fuer die Validierung der laenge
@@ -30,8 +31,9 @@ import javax.validation.ValidationException;
 public class IllegalLengthException extends ValidationException {
 
     /**
-     * Construct an ValidationException with the specified detail message.  The
-     * errorCode and linkedException will default to null.
+     * Erzeugt eine {@link ValidationException} mit der Wertebereich-Verletzung
+     * des uebergebenen Arguments. The errorCode and linkedException will
+     * default to null.
      *
      * @param argument das fehlerhafte Argument
      * @param min      erwartete Mindest-Laenge
@@ -39,6 +41,18 @@ public class IllegalLengthException extends ValidationException {
      */
     public IllegalLengthException(String argument, int min, int max) {
         super("'" + argument + "': length (" + argument.length() + ") is not between " + min + " and " + max);
+    }
+
+    /**
+     * Erzeugt eine {@link ValidationException} mit der Wertebereich-Verletzung
+     * des uebergebenen Arguments. The errorCode and linkedException will
+     * default to null.
+     *
+     * @param argument das fehlerhafte Argument
+     * @param allowedLengths erlaubten Laengen
+     */
+    public IllegalLengthException(String argument, List<Integer> allowedLengths) {
+        super("'" + argument + "': " + argument.length() + " is not in allowed lengths " + allowedLengths);
     }
 
 }
