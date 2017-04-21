@@ -37,7 +37,10 @@ public final class LengthValidator {
      * @return der gepruefte Wert (zur evtl. Weiterverarbeitung)
      */
     public static String validate(String value, int expected) {
-        return validate(value, expected, expected);
+        if (value.length() != expected) {
+            throw new IllegalLengthException(value, expected);
+        }
+        return value;
     }
 
     /**
@@ -49,6 +52,9 @@ public final class LengthValidator {
      * @return der gepruefte Wert (zur evtl. Weiterverarbeitung)
      */
     public static String validate(String value, int min, int max) {
+        if (min == max) {
+            return validate(value, min);
+        }
         if ((value.length() < min) || (value.length() > max)) {
             throw new IllegalLengthException(value, min, max);
         }

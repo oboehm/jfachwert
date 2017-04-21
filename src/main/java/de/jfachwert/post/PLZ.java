@@ -18,6 +18,7 @@
 package de.jfachwert.post;
 
 import de.jfachwert.AbstractFachwert;
+import de.jfachwert.pruefung.LengthValidator;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Locale;
@@ -74,15 +75,20 @@ public class PLZ extends AbstractFachwert<String> {
         }
     }
 
-    private static String validate(String code) {
+    /**
+     * Eine Postleitahl muss zwischen 3 und 10 Ziffern lang sein. Eventuell
+     * kann noch die Laenderkennung vorangestellt werden. Dies wird hier
+     * ueberprueft.
+     *
+     * @param code die PLZ
+     * @return die validierte PLZ (zur Weiterverarbeitung)
+     */
+    public static String validate(String code) {
         String plz = normalize(code);
         if (hasLandeskennung(plz)) {
             plz = validateNumberOf(plz);
         } else {
-            int length = plz.length();
-            if ((length < 3) || (length > 10)) {
-                throw new IllegalArgumentException("'" + plz + "' ist nicht zwischen 3 und 10 Zeichen lang");
-            }
+            plz = LengthValidator.validate(plz, 3, 10);
         }
         return plz;
     }
@@ -91,21 +97,19 @@ public class PLZ extends AbstractFachwert<String> {
         String kennung = getLandeskennung(plz);
         String zahl = getPostleitZahl(plz);
         switch (kennung) {
+            case "CH":
             case "D":
-                validateNumberWith(5, kennung, zahl);
+                validateNumberWith(plz, 6, zahl);
                 break;
             case "A":
-            case "CH":
-                validateNumberWith(4, kennung, zahl);
+                validateNumberWith(plz, 5, zahl);
                 break;
         }
         return plz;
     }
 
-    private static void validateNumberWith(int length, String kennung, String zahl) {
-        if (zahl.length() != length) {
-            throw new IllegalArgumentException(zahl + ": nur " + length + " Ziffern f\u00dcr PLZ sind erlaubt in " + kennung);
-        }
+    private static void validateNumberWith(String plz, int length, String zahl) {
+        LengthValidator.validate(plz, length);
         Integer.valueOf(zahl);
     }
 

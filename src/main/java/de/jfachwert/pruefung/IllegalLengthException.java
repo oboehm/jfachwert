@@ -44,6 +44,21 @@ public class IllegalLengthException extends ValidationException {
      * default to null.
      *
      * @param argument das fehlerhafte Argument
+     * @param expected erwartete Laenge
+     */
+    public IllegalLengthException(String argument, int expected) {
+        super("'" + argument + "': length is " + argument.length() + " instead of " + expected);
+        this.min = expected;
+        this.max = expected;
+        this.argument = argument;
+    }
+
+    /**
+     * Erzeugt eine {@link ValidationException} mit der Wertebereich-Verletzung
+     * des uebergebenen Arguments. The errorCode and linkedException will
+     * default to null.
+     *
+     * @param argument das fehlerhafte Argument
      * @param min      erwartete Mindest-Laenge
      * @param max      erwartete Maximal-Laenge
      */
@@ -80,8 +95,13 @@ public class IllegalLengthException extends ValidationException {
     public String getLocalizedMessage() {
         ResourceBundle bundle = ResourceBundle.getBundle("de.jfachwert.messages");
         if (this.allowedLengths.isEmpty()) {
-            return MessageFormat.format(bundle.getString("pruefung.illegallength.exception.message.range"),
-                    argument, argument.length(), min, max);
+            if (min == max) {
+                return MessageFormat.format(bundle.getString("pruefung.illegallength.exception.message.single"),
+                        argument, argument.length(), min);
+            } else {
+                return MessageFormat.format(bundle.getString("pruefung.illegallength.exception.message.range"),
+                        argument, argument.length(), min, max);
+            }
         } else {
             return MessageFormat.format(bundle.getString("pruefung.illegallength.exception.message.values"),
                     argument, argument.length(), allowedLengths);

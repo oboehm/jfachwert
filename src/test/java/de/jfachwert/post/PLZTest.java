@@ -20,6 +20,7 @@ import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Fachwert;
 import org.junit.Test;
 
+import javax.validation.ValidationException;
 import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
@@ -45,7 +46,7 @@ public class PLZTest extends AbstractFachwertTest {
      * Postleitzahlen in Oesterreich sind 4-stellig. D.h. eine 5-stellige
      * oesterreichische PLZ sollte nicht erstellt werden koennen.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = ValidationException.class)
     public void testInvalidPLZausOesterreich() {
         new PLZ(new Locale("de", "AT"), "12345");
     }
@@ -62,7 +63,7 @@ public class PLZTest extends AbstractFachwertTest {
      * Weltweit sind die Postleitzahlen zwischen 3 und 10 Zeichen lang.
      * Quelle: https://de.wikipedia.org/wiki/Postleitzahl
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = ValidationException.class)
     public void testInvalidPLZ() {
         new PLZ("12");
     }
