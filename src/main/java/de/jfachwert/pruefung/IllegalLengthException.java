@@ -18,7 +18,10 @@
 package de.jfachwert.pruefung;
 
 import javax.validation.ValidationException;
+import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * Die Klasse IllegalLengthException ist fuer die Validierung der laenge
@@ -29,6 +32,11 @@ import java.util.List;
  * @since 0.2 (20.04.2017)
  */
 public class IllegalLengthException extends ValidationException {
+
+    private final String argument;
+    private final int min;
+    private final int max;
+    private final List<Integer> allowedLengths = new ArrayList<>();
 
     /**
      * Erzeugt eine {@link ValidationException} mit der Wertebereich-Verletzung
@@ -41,6 +49,9 @@ public class IllegalLengthException extends ValidationException {
      */
     public IllegalLengthException(String argument, int min, int max) {
         super("'" + argument + "': length (" + argument.length() + ") is not between " + min + " and " + max);
+        this.min = min;
+        this.max = max;
+        this.argument = argument;
     }
 
     /**
@@ -53,6 +64,28 @@ public class IllegalLengthException extends ValidationException {
      */
     public IllegalLengthException(String argument, List<Integer> allowedLengths) {
         super("'" + argument + "': " + argument.length() + " is not in allowed lengths " + allowedLengths);
+        this.min = 0;
+        this.max = 0;
+        this.argument = argument;
+        this.allowedLengths.addAll(allowedLengths);
+    }
+
+    /**
+     * Im Gegensatz {@code getMessage()} wird hier die Beschreibung auf deutsch
+     * zurueckgegeben, wenn die Loacale auf Deutsch steht.
+     *
+     * @return lokalisierte Beschreibung
+     */
+    @Override
+    public String getLocalizedMessage() {
+        ResourceBundle bundle = ResourceBundle.getBundle("de.jfachwert.messages");
+        if (this.allowedLengths.isEmpty()) {
+            return MessageFormat.format(bundle.getString("pruefung.illegallength.exception.message.range"),
+                    argument, argument.length(), min, max);
+        } else {
+            return MessageFormat.format(bundle.getString("pruefung.illegallength.exception.message.values"),
+                    argument, argument.length(), allowedLengths);
+        }
     }
 
 }
