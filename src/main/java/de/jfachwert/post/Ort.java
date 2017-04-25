@@ -18,6 +18,7 @@
 package de.jfachwert.post;
 
 import de.jfachwert.Fachwert;
+import de.jfachwert.pruefung.LengthValidator;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -55,7 +56,18 @@ public class Ort implements Fachwert {
      */
     public Ort(PLZ plz, String name) {
         this.plz = plz;
-        this.name = name;
+        this.name = validate(name);
+    }
+
+    /**
+     * Ein Orstname muss mindestens aus einem Zeichen bestehen.
+     *
+     * @param ortsname der Ortsname
+     * @return der validierte Ortsname zur Weiterverabeitung
+     */
+    public static String validate(String ortsname) {
+        LengthValidator.validate(ortsname, 1, Integer.MAX_VALUE);
+        return ortsname;
     }
 
     /**
