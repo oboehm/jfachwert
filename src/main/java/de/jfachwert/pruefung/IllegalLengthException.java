@@ -20,6 +20,7 @@ package de.jfachwert.pruefung;
 import javax.validation.ValidationException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -47,10 +48,7 @@ public class IllegalLengthException extends ValidationException {
      * @param expected erwartete Laenge
      */
     public IllegalLengthException(String argument, int expected) {
-        super("'" + argument + "': length is " + argument.length() + " instead of " + expected);
-        this.min = expected;
-        this.max = expected;
-        this.argument = argument;
+        this(argument, Arrays.asList(expected));
     }
 
     /**
@@ -95,13 +93,8 @@ public class IllegalLengthException extends ValidationException {
     public String getLocalizedMessage() {
         ResourceBundle bundle = ResourceBundle.getBundle("de.jfachwert.messages");
         if (this.allowedLengths.isEmpty()) {
-            if (min == max) {
-                return MessageFormat.format(bundle.getString("pruefung.illegallength.exception.message.single"),
-                        argument, argument.length(), min);
-            } else {
-                return MessageFormat.format(bundle.getString("pruefung.illegallength.exception.message.range"),
+            return MessageFormat.format(bundle.getString("pruefung.illegallength.exception.message.range"),
                         argument, argument.length(), min, max);
-            }
         } else {
             return MessageFormat.format(bundle.getString("pruefung.illegallength.exception.message.values"),
                     argument, argument.length(), allowedLengths);
