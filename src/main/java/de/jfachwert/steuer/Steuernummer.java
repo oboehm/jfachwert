@@ -19,6 +19,7 @@ package de.jfachwert.steuer;
 
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.Mod11Verfahren;
 
 /**
@@ -63,7 +64,19 @@ public class Steuernummer extends AbstractFachwert<String> {
         super(validate(nr, pzVerfahren));
     }
 
+    /**
+     * Die Steuernummer muss zwischen 10 und 13 Stellen lang sein und die
+     * Pruefziffer muss stimmen (falls sie bekannt ist).
+     *
+     * @param nr die Steuernummer
+     * @return die validierte Steuernummer zur Weiterverarbeitung
+     */
+    public static String validate(String nr) {
+        return validate(nr, MOD11);
+    }
+
     private static String validate(String nr, PruefzifferVerfahren<String> pzVerfahren) {
+        LengthValidator.validate(nr, 10, 13);
         if (nr.length() == 11) {
             return pzVerfahren.validate(nr);
         }

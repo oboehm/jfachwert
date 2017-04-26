@@ -19,6 +19,8 @@ package de.jfachwert.steuer;
 
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.pruefung.InvalidValueException;
+import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.Mod11Verfahren;
 import de.jfachwert.pruefung.NoopVerfahren;
 import org.apache.commons.lang3.StringUtils;
@@ -45,10 +47,10 @@ public class UStIdNr extends AbstractFachwert<String> {
 
     /**
      * Erzeugt eine Umsatzsteuer-IdNr. Die uebergebene Nummer besteht aus
-     * einer 2-stelligen Laenderkennung, gefolgt von maximal alphanumerischen
-     * Zeichen.
+     * einer 2-stelligen Laenderkennung, gefolgt von maximal 12
+     * alphanumerischen Zeichen.
      *
-     * @param nr, .B. "DE999999999"
+     * @param nr, z.B. "DE999999999"
      */
     public UStIdNr(String nr) {
         this(nr, selectPruefzifferVerfahrenFor(nr));
@@ -76,8 +78,25 @@ public class UStIdNr extends AbstractFachwert<String> {
         return verfahren;
     }
 
+    /**
+     * Eine Umsatzsteuer-Id beginnt mit der Laenderkennung (2 Zeichen), gefolgt
+     * von maximal 12 alphanumerischen Zeichen. Bei dieser wird, je nach Land, die
+     * Pruefziffer validiert (falls bekannt).
+     *
+     * Die kuerzeste Umsatzsteuer kann in GB mit 5 alphanumerischen Zeichen
+     * auftreten.
+     *
+     * @param nr die Umsatzsteuer-Id, z.B. "DE136695970"
+     * @return die validierte Id zur Weiterverarbeitung
+     * @since 0.2.0
+     */
+    public static String validate(String nr) {
+        return validate(nr, selectPruefzifferVerfahrenFor(nr));
+    }
+
     private static String validate(String nr, PruefzifferVerfahren<String> verfahren) {
         String unformatted = StringUtils.remove(nr, ' ');
+        LengthValidator.validate(unformatted, 7, 14);
         verfahren.validate(unformatted.substring(2));
         return unformatted;
     }
@@ -92,7 +111,12 @@ public class UStIdNr extends AbstractFachwert<String> {
     }
 
     private static String toLaenderkuerzel(String nr) {
-        return nr.substring(0, 2).toUpperCase();
+        String kuerzel = nr.substring(0, 2).toUpperCase();
+        if (StringUtils.isAlpha(kuerzel)) {
+            return kuerzel;
+        } else {
+            throw new InvalidValueException(nr, "country");
+        }
     }
 
 }
