@@ -50,7 +50,7 @@ public final class PruefzifferExceptionTest {
         String message = exception.getLocalizedMessage();
         checkMessage(message);
         if ("de".equalsIgnoreCase(Locale.getDefault().getLanguage())) {
-            assertEquals("123456: Pr\u00FCfziffer=78 erwartet, aber '90' vorgefunden", message);
+            assertEquals("123456: Pr\u00FCfziffer=78 erwartet, aber \"90\" vorgefunden", message);
         }
     }
 
