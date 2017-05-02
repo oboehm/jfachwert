@@ -43,6 +43,26 @@
         </configuration>
       </plugin>
 
+      <!-- AspectJ Compiler -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>aspectj-maven-plugin</artifactId>
+        <version>1.10</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+          <complianceLevel>${java.version}</complianceLevel>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>       <!-- use this goal to weave all your main classes -->
+              <goal>test-compile</goal>  <!-- use this goal to weave all your test classes -->
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
       <!-- Sonar -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -195,6 +215,23 @@
       <artifactId>patterntesting-rt</artifactId>
       <version>1.7.0</version>
       <scope>test</scope>
+    </dependency>
+
+    <!-- needed for Log-Aspect -->
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.8.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>2.8</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.8</version>
     </dependency>
 
   </dependencies>
