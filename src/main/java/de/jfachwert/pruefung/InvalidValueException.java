@@ -18,6 +18,8 @@
 package de.jfachwert.pruefung;
 
 import javax.validation.ValidationException;
+import java.text.MessageFormat;
+import java.util.ResourceBundle;
 
 /**
  * Die InvalidValueException ist eine Exception fuer ungueltige Werte.
@@ -27,14 +29,32 @@ import javax.validation.ValidationException;
  */
 public class InvalidValueException extends ValidationException {
 
+    private final String value;
+    private final String context;
+
     /**
      * Erzeugt eine neue Exception
      *
      * @param value der fehlerhafte Wert
-     * @param what  was fuer ein fehlerhafter Wert
+     * @param context was fuer ein fehlerhafter Wert
      */
-    public InvalidValueException(String value, String what) {
-        super("invalid value for " + what + ": '" + value + "'");
+    public InvalidValueException(String value, String context) {
+        super("invalid value for " + context + ": '" + value + "'");
+        this.value = value;
+        this.context = context;
+    }
+
+    /**
+     * Im Gegensatz {@code getMessage()} wird hier die Beschreibung auf deutsch
+     * zurueckgegeben, wenn die Loacale auf Deutsch steht.
+     *
+     * @return lokalisierte Beschreibung
+     */
+    @Override
+    public String getLocalizedMessage() {
+        ResourceBundle bundle = ResourceBundle.getBundle("de.jfachwert.messages");
+        return MessageFormat.format(bundle.getString("pruefung.invalidvalue.exception.message"),
+                    value, bundle.getString(context));
     }
 
 }
