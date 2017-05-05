@@ -233,12 +233,25 @@
     <!--
       Deses Profile verwendet AspectJ, um zusaetzliche Log-Ausgaben per
       Aspekte zu injizieren. Die Aspekte dazu befinden sich unter src/main/aspect.
+      Das erzeugte Jar-File hat zusaetzlich ein "-debug" im Namen.
     -->
     <profile>
 
       <id>debug</id>
 
       <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-jar-plugin</artifactId>
+              <version>3.0.2</version>
+              <configuration>
+                <classifier>debug</classifier>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
         <plugins>
           <!-- AspectJ Compiler -->
           <plugin>
