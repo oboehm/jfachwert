@@ -19,7 +19,6 @@ package de.jfachwert.post;
 
 import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.InvalidValueException;
-import de.jfachwert.pruefung.MissingValueException;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -59,17 +58,17 @@ public class Adresse implements Fachwert {
      */
     public static void validate(Ort ort, String strasse, String hausnummer) {
         if (!ort.getPLZ().isPresent()) {
-            throw new MissingValueException(ort, "postal code");
+            throw new InvalidValueException(ort, "postal_code");
         }
         if (StringUtils.isBlank(strasse)) {
-            throw new MissingValueException(ort, "street");
+            throw new InvalidValueException(strasse, "street");
         }
         if (StringUtils.isBlank(hausnummer)) {
-            throw new MissingValueException(hausnummer, "house number");
+            throw new InvalidValueException(hausnummer, "house_number");
         }
         if (Character.isDigit(strasse.trim().charAt(0)) && (Character.isLetter(hausnummer.trim().charAt(0)))
                 && (strasse.length() < hausnummer.length())) {
-            throw new InvalidValueException(strasse + " " + hausnummer, "value exchanged");
+            throw new InvalidValueException(strasse + " " + hausnummer, "values_exchanged");
         }
     }
 

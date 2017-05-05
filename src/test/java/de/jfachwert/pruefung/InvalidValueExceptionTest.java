@@ -21,7 +21,9 @@ import org.junit.Test;
 
 import java.util.Locale;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Unit-Teests fuer de.jfachwert.pruefung.InvalidValueException.
@@ -38,7 +40,7 @@ public final class InvalidValueExceptionTest {
      */
     @Test
     public void testGetMessage() {
-        assertEquals("invalid value for country: 'xx'", exception.getMessage());
+        assertEquals("invalid value for country: \"xx\"", exception.getMessage());
     }
 
     /**
@@ -49,6 +51,17 @@ public final class InvalidValueExceptionTest {
         if ("de".equalsIgnoreCase(Locale.getDefault().getLanguage())) {
             assertEquals("ung\u00fcltiger Wert f\u00fcr Land: \"xx\"", exception.getLocalizedMessage());
         }
+    }
+
+    /**
+     * Hier wird die Lokalisierung von mehrfachen Woertern wie "postal code"
+     * getestet.
+     */
+    @Test
+    public void testGetdMessagePostalCode() {
+        InvalidValueException ex = new InvalidValueException("zzz", "postal_code");
+        assertEquals("invalid value for postal code: \"zzz\"", ex.getMessage());
+        assertThat(ex.getLocalizedMessage(), containsString("zzz"));
     }
 
 }

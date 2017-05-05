@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
  */
 public class InvalidValueException extends ValidationException {
 
-    private final String value;
+    private final Object value;
     private final String context;
 
     /**
@@ -38,8 +38,8 @@ public class InvalidValueException extends ValidationException {
      * @param value der fehlerhafte Wert
      * @param context was fuer ein fehlerhafter Wert
      */
-    public InvalidValueException(String value, String context) {
-        super("invalid value for " + context + ": '" + value + "'");
+    public InvalidValueException(Object value, String context) {
+        super("invalid value for " + context.replace('_', ' ') + ": \"" + value + '"');
         this.value = value;
         this.context = context;
     }
