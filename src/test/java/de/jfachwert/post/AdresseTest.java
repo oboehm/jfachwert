@@ -17,7 +17,6 @@ package de.jfachwert.post;/*
  */
 
 import de.jfachwert.AbstractFachwertTest;
-import de.jfachwert.Fachwert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -39,8 +38,8 @@ public final class AdresseTest extends AbstractFachwertTest {
      * @return Test-Objekt zum Testen
      */
     @Override
-    protected Fachwert createFachwert() {
-        return new Adresse(entenhausen,"Daisy Weg", "20");
+    protected Adresse createFachwert() {
+        return new Adresse(entenhausen,"Blumenweg", "20");
     }
 
     /**

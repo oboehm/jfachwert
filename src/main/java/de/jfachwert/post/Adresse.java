@@ -24,7 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Bei einer Adresse kann es sich um eine Wohnungsadresse oder Gebaeudeadresse
  * handeln. Sie besteht aus Ort, Strasse und Hausnummer. Sie unterscheidet sich
- * insofern von einer Anschrift, da der Name nicht Bestandteil der ADresse ist.
+ * insofern von einer Anschrift, da der Name nicht Bestandteil der Adresse ist.
  *
  * @author oboehm
  * @since 0.2 (02.05.2017)
