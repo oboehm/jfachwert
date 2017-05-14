@@ -17,6 +17,9 @@ package de.jfachwert.post;/*
  */
 
 import de.jfachwert.AbstractFachwertTest;
+import org.junit.Test;
+
+import javax.validation.ValidationException;
 
 /**
  * Unit-Teests fuer de.jfachwert.post.Anschrift.
@@ -35,6 +38,15 @@ public final class AnschriftTest extends AbstractFachwertTest {
     protected Anschrift createFachwert() {
         Adresse adresse = new AdresseTest().createFachwert();
         return new Anschrift("Daisy", adresse);
+    }
+
+    /**
+     * Eine Anschrift mit leerem Namen sollte nicht angelegt werden koennen.
+     */
+    @Test(expected = ValidationException.class)
+    public void testCreateInvalidAnschrift() {
+        Adresse entenhausen = createFachwert().getAdresse();
+        new Anschrift("", entenhausen);
     }
 
 }

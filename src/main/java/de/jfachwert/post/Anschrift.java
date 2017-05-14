@@ -18,6 +18,8 @@
 package de.jfachwert.post;
 
 import de.jfachwert.Fachwert;
+import de.jfachwert.pruefung.InvalidValueException;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Die Anschrift besteht aus Namen und Adresse. Der Name kann dabei eine
@@ -41,6 +43,23 @@ public class Anschrift implements Fachwert {
     public Anschrift(String name, Adresse adresse) {
         this.name = name;
         this.adresse = adresse;
+        validate(name, adresse);
+    }
+
+    /**
+     * Validiert den uebergebenen Namen und die Adresse. Der Name sollte dabei
+     * nicht leer sein und die Adresse nicht 'null'.
+     *
+     * @param name zu pruefender Name
+     * @param adresse eine gueltige Adresse
+     */
+    public static void validate(String name, Adresse adresse) {
+        if (StringUtils.isBlank(name)) {
+            throw new InvalidValueException(name, "name");
+        }
+        if (adresse == null) {
+            throw new InvalidValueException(adresse, "address");
+        }
     }
 
     /**
