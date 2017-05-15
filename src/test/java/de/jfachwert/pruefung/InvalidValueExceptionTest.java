@@ -58,10 +58,22 @@ public final class InvalidValueExceptionTest {
      * getestet.
      */
     @Test
-    public void testGetdMessagePostalCode() {
+    public void testGetMessagePostalCode() {
         InvalidValueException ex = new InvalidValueException("zzz", "postal_code");
         assertEquals("invalid value for postal code: \"zzz\"", ex.getMessage());
         assertThat(ex.getLocalizedMessage(), containsString("zzz"));
+    }
+
+    /**
+     * Bei Bezeichnungen, fuer die kein {@link java.util.ResourceBundle}
+     * vorhanden ist, sollte die Bezeichnung direkt in der Message erscheinen.
+     */
+    @Test
+    public void testUnbekannteBezeichnung() {
+        String context = "unbekannte Bzeichnung";
+        InvalidValueException ex = new InvalidValueException(42, context);
+        assertThat(ex.getMessage(), containsString(context));
+        assertThat(ex.getLocalizedMessage(), containsString(context));
     }
 
 }
