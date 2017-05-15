@@ -17,18 +17,13 @@
  */
 package de.jfachwert.pruefung;
 
-import javax.validation.ValidationException;
-import java.text.MessageFormat;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-
 /**
  * Die InvalidValueException ist eine Exception fuer ungueltige Werte.
  *
  * @author oboehm
  * @since 0.2.0 (26.04.2017)
  */
-public class InvalidValueException extends ValidationException {
+public class InvalidValueException extends LocalizedValidationException {
 
     private final Object value;
     private final String context;
@@ -53,17 +48,7 @@ public class InvalidValueException extends ValidationException {
      */
     @Override
     public String getLocalizedMessage() {
-        ResourceBundle bundle = ResourceBundle.getBundle("de.jfachwert.messages");
-        return MessageFormat.format(getString(bundle, "pruefung.invalidvalue.exception.message"),
-                    value, getString(bundle, context));
-    }
-
-    private static String getString(ResourceBundle bundle, String context) {
-        try {
-            return bundle.getString(context);
-        } catch (MissingResourceException ex) {
-            return context;
-        }
+        return getLocalizedMessage("pruefung.invalidvalue.exception.message", value, getLocalizedString(context));
     }
 
 }

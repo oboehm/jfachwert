@@ -18,21 +18,19 @@
 package de.jfachwert.pruefung;
 
 import javax.validation.ValidationException;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ResourceBundle;
 
 /**
- * Die Klasse IllegalLengthException ist fuer die Validierung der laenge
+ * Die Klasse IllegalLengthException ist fuer die Laengen-Validierung
  * von Argumenten vorgesehen. Sind diese zu kurz oder zu lang, sollte diese
  * Exception geworfen werden.
  *
  * @author oboehm
  * @since 0.2 (20.04.2017)
  */
-public class IllegalLengthException extends ValidationException {
+public class IllegalLengthException extends LocalizedValidationException {
 
     private final String argument;
     private final int min;
@@ -91,13 +89,12 @@ public class IllegalLengthException extends ValidationException {
      */
     @Override
     public String getLocalizedMessage() {
-        ResourceBundle bundle = ResourceBundle.getBundle("de.jfachwert.messages");
         if (this.allowedLengths.isEmpty()) {
-            return MessageFormat.format(bundle.getString("pruefung.illegallength.exception.message.range"),
+            return this.getLocalizedMessage("pruefung.illegallength.exception.message.range",
                         argument, argument.length(), min, max);
         } else {
-            return MessageFormat.format(bundle.getString("pruefung.illegallength.exception.message.values"),
-                    argument, argument.length(), allowedLengths);
+            return this.getLocalizedMessage("pruefung.illegallength.exception.message.values",
+                        argument, argument.length(), allowedLengths);
         }
     }
 
