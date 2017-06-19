@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/oboehm/jfachwert.svg?branch=master)](https://travis-ci.org/oboehm/jfachwert) [![Coverage Status](https://coveralls.io/repos/github/oboehm/jfachwert/badge.svg?branch=develop%2F0.2)](https://coveralls.io/github/oboehm/jfachwert) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+[![Build Status](https://travis-ci.org/oboehm/jfachwert.svg?branch=master)](https://travis-ci.org/oboehm/jfachwert) [![Coverage Status](https://coveralls.io/repos/github/oboehm/jfachwert/badge.svg?branch=release%2F0.2.0)](https://coveralls.io/github/oboehm/jfachwert) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 # Was ist jFachwert?
 
@@ -53,7 +53,8 @@ unter folgenden Koordinaten zu finden ist:
   <artifactId>jfachwert</artifactId>
 ```
 
-Mit 0.1.0 kamen dann weitere Bank-Klassen sowie ein Package fuer steuerliche Klassen hinzu.
+Ab 0.1.0 kamen dann weitere Bank-Klassen sowie Packages fuer steuerliche
+oder postalische Klassen hinzu.
 
 
 # Ziele
@@ -62,7 +63,7 @@ Ziel dieser Bibliothek ist es, fuer den deutschsprachigen Raum alle wichtigen Da
 sonst immer wieder selbst implementieren muesste. Mir ist klar, dass damit nicht alle Sonderfaelle abgedeckt werden
 koennen - deswegen sind die Klassen auch nicht 'final', sondern koennen erweitert werden.
 
-Maerz 2017, Oli B.
+Juni 2017, Oli B.
 
 ---
 
