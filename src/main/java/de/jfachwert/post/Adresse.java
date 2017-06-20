@@ -138,7 +138,7 @@ public class Adresse implements Fachwert {
     }
 
     /**
-     * Hierueber wird die Aresse, beginnend mit dem Ort, ausgegeben.
+     * Hierueber wird die Adresse, beginnend mit dem Ort, ausgegeben.
      *
      * @return z.B. "12345 Entenhausen, Gansstr. 23"
      */
