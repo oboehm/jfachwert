@@ -60,6 +60,47 @@ public class Postfach implements Fachwert {
     }
 
     /**
+     * Liefert die Postfach-Nummer als normale Zahl.
+     *
+     * @return z.B. 815
+     */
+    public BigInteger getNummer() {
+        return this.nummer;
+    }
+
+    /**
+     * Liefert die Postfach-Nummer als formattierte Zahl.
+     *
+     * @return z.B. "8 15"
+     */
+    public String getNummerFormatted() {
+        BigInteger hundert = BigInteger.valueOf(100);
+        StringBuilder formatted = new StringBuilder();
+        for (BigInteger i = this.getNummer(); i.compareTo(BigInteger.ONE) > 0; i = i.divide(hundert)) {
+            formatted.insert(0, " " + i.remainder(hundert));
+        }
+        return formatted.toString().trim();
+    }
+
+    /**
+     * Liefert die Postleitzahl.
+     *
+     * @return z.B. 09876
+     */
+    public PLZ getPlz() {
+        return this.plz;
+    }
+
+    /**
+     * Liefert den Ort.
+     *
+     * @return Ort
+     */
+    public Ort getOrt() {
+        return this.ort;
+    }
+
+    /**
      * Zwei Postfaecher sind gleich, wenn sie die gleiche Attribute haben.
      *
      * @param obj das andere Postfach
@@ -92,7 +133,7 @@ public class Postfach implements Fachwert {
      */
     @Override
     public String toString() {
-        return "Postfach " + nummer + ", " + plz + " " + ort;
+        return "Postfach " + this.getNummerFormatted() + ", " + this.getPlz() + " " + this.getOrt();
     }
 
 }

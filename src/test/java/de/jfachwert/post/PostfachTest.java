@@ -17,6 +17,9 @@ package de.jfachwert.post;/*
  */
 
 import de.jfachwert.*;
+import org.junit.*;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Unit-Tests fuer die {@link Postfach}-Klasse.
@@ -33,6 +36,26 @@ public final class PostfachTest extends AbstractFachwertTest {
     @Override
     protected Postfach createFachwert() {
         return new Postfach(815, new PLZ("09876"), new Ort("Nirwana"));
+    }
+
+    /**
+     * Hier ueberpruefen wir, ob die toString-Implementierung ueberschrieben
+     * ist.
+     */
+    @Override
+    @Test
+    public void testToString() {
+        Postfach postfach = createFachwert();
+        assertEquals("Postfach 8 15, 09876 Nirwana", postfach.toString());
+    }
+
+    /**
+     * Testmethode fuer {@link Postfach#getNummerFormatted()}.
+     */
+    @Test
+    public void testGetNummerFormatted() {
+        Postfach postfach = new Postfach(1234567890L, new PLZ("12345"), new Ort("Irgendwo"));
+        assertEquals("12 34 56 78 90", postfach.getNummerFormatted());
     }
 
 }
