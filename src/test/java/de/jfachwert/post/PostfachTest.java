@@ -19,7 +19,9 @@ package de.jfachwert.post;/*
 import de.jfachwert.*;
 import org.junit.*;
 
-import static org.junit.Assert.assertEquals;
+import javax.validation.*;
+
+import static org.junit.Assert.*;
 
 /**
  * Unit-Tests fuer die {@link Postfach}-Klasse.
@@ -35,7 +37,7 @@ public final class PostfachTest extends AbstractFachwertTest {
      */
     @Override
     protected Postfach createFachwert() {
-        return new Postfach(815, new PLZ("09876"), new Ort("Nirwana"));
+        return new Postfach(815, new Ort(new PLZ("09876"), "Nirwana"));
     }
 
     /**
@@ -54,8 +56,17 @@ public final class PostfachTest extends AbstractFachwertTest {
      */
     @Test
     public void testGetNummerFormatted() {
-        Postfach postfach = new Postfach(1234567890L, new PLZ("12345"), new Ort("Irgendwo"));
+        Postfach postfach = new Postfach(1234567890L, new Ort(new PLZ("12345"), "Irgendwo"));
         assertEquals("12 34 56 78 90", postfach.getNummerFormatted());
+    }
+
+    /**
+     * Postfaeche muessen immer eine positive Zahl sein. Andere Zahlen sollten
+     * abgelehnt werden.
+     */
+    @Test(expected = ValidationException.class)
+    public void testInvalidPostfach() {
+        new Postfach(-1, new Ort(new PLZ("04711"), "Dufte"));
     }
 
 }

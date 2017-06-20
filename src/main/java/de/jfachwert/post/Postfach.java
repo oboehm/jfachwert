@@ -18,6 +18,7 @@
 package de.jfachwert.post;
 
 import de.jfachwert.*;
+import de.jfachwert.pruefung.*;
 
 import java.math.*;
 
@@ -32,31 +33,43 @@ import java.math.*;
 public class Postfach implements Fachwert {
 
     private final BigInteger nummer;
-    private final PLZ plz;
     private final Ort ort;
 
     /**
      * Erzeugt ein Postfach.
      *
      * @param nummer positive Zahl ohne fuehrende Null
-     * @param plz gueltige PLZ
-     * @param ort gueltiger Ort
+     * @param ort gueltiger Ort mit PLZ
      */
-    public Postfach(long nummer, PLZ plz, Ort ort) {
-        this(BigInteger.valueOf(nummer), plz, ort);
+    public Postfach(long nummer, Ort ort) {
+        this(BigInteger.valueOf(nummer), ort);
     }
 
     /**
      * Erzeugt ein Postfach.
      *
      * @param nummer positive Zahl ohne fuehrende Null
-     * @param plz gueltige PLZ
-     * @param ort gueltiger Ort
+     * @param ort gueltiger Ort mit PLZ
      */
-    public Postfach(BigInteger nummer, PLZ plz, Ort ort) {
+    public Postfach(BigInteger nummer, Ort ort) {
         this.nummer = nummer;
-        this.plz = plz;
         this.ort = ort;
+        validate(nummer, ort);
+    }
+
+    /**
+     * Validiert das uebergebene Postfach auf moegliche Fehler.
+     *
+     * @param nummer    Postfach-Nummer (muss positiv sein)
+     * @param ort       Ort mit PLZ
+     */
+    public static void validate(BigInteger nummer, Ort ort) {
+        if (nummer.compareTo(BigInteger.ONE) < 0) {
+            throw new InvalidValueException(nummer, "number");
+        }
+        if (!ort.getPLZ().isPresent()) {
+            throw new InvalidValueException(ort, "postal_code");
+        }
     }
 
     /**
@@ -88,7 +101,7 @@ public class Postfach implements Fachwert {
      * @return z.B. 09876
      */
     public PLZ getPlz() {
-        return this.plz;
+        return this.ort.getPLZ().get();
     }
 
     /**
@@ -112,7 +125,7 @@ public class Postfach implements Fachwert {
             return false;
         }
         Postfach other = (Postfach) obj;
-        return this.nummer.equals(other.nummer) && this.plz.equals(other.plz) && this.ort.equals(other.ort);
+        return this.nummer.equals(other.nummer) && this.ort.equals(other.ort);
     }
 
     /**
@@ -123,7 +136,7 @@ public class Postfach implements Fachwert {
      */
     @Override
     public int hashCode() {
-        return plz.hashCode();
+        return this.getOrt().hashCode();
     }
 
     /**
@@ -133,7 +146,7 @@ public class Postfach implements Fachwert {
      */
     @Override
     public String toString() {
-        return "Postfach " + this.getNummerFormatted() + ", " + this.getPlz() + " " + this.getOrt();
+        return "Postfach " + this.getNummerFormatted() + ", " + this.getOrt();
     }
 
 }
