@@ -22,9 +22,9 @@ import de.jfachwert.pruefung.InvalidValueException;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Die Anschrift besteht aus Namen und Adresse. Der Name kann dabei eine
- * Person oder eine Personengruppe (zum Beispiel Unternehmen, Vereine und
- * Aehnliches) sein.
+ * Die Anschrift besteht aus Namen und Adresse oder Postfach. Der Name kann
+ * dabei eine Person oder eine Personengruppe (zum Beispiel Unternehmen,
+ * Vereine und Aehnliches) sein.
  *
  * @author oboehm
  * @since 0.2 (12.05.2017)
@@ -33,6 +33,7 @@ public class Anschrift implements Fachwert {
 
     private final String name;
     private final Adresse adresse;
+    private final Postfach postfach;
 
     /**
      * Erzeugt aus dem Namen und Adresse eine Anschrift.
@@ -43,7 +44,21 @@ public class Anschrift implements Fachwert {
     public Anschrift(String name, Adresse adresse) {
         this.name = name;
         this.adresse = adresse;
+        this.postfach = null;
         validate(name, adresse);
+    }
+
+    /**
+     * Erzeugt aus dem Namen und einem Postfach eine Anschrift.
+     *
+     * @param name     Namen einer Person oder Personengruppe
+     * @param postfach ein gueltiges Postfach
+     */
+    public Anschrift(String name, Postfach postfach) {
+        this.name = name;
+        this.postfach = postfach;
+        this.adresse = null;
+        validate(name, postfach);
     }
 
     /**
@@ -54,11 +69,29 @@ public class Anschrift implements Fachwert {
      * @param adresse eine gueltige Adresse
      */
     public static void validate(String name, Adresse adresse) {
+        validate(name);
+        if (adresse == null) {
+            throw new InvalidValueException("address");
+        }
+    }
+
+    /**
+     * Validiert den uebergebenen Namen und das Postfach. Der Name sollte dabei
+     * nicht leer sein und das Postfach nicht 'null'.
+     *
+     * @param name zu pruefender Name
+     * @param postfach ein gueltiges Postfach
+     */
+    public static void validate(String name, Postfach postfach) {
+        validate(name);
+        if (postfach == null) {
+            throw new InvalidValueException("post_office_box");
+        }
+    }
+
+    private static void validate(String name) {
         if (StringUtils.isBlank(name)) {
             throw new InvalidValueException(name, "name");
-        }
-        if (adresse == null) {
-            throw new InvalidValueException(adresse, "address");
         }
     }
 
@@ -73,12 +106,31 @@ public class Anschrift implements Fachwert {
     }
 
     /**
-     * Liefert die Anschrift der Adresse.
+     * Liefert die Adresse der Anschrift.
      *
      * @return eine gueltige Adresse
      */
     public Adresse getAdresse() {
         return adresse;
+    }
+
+    /**
+     * Liefert das Postfach der Anschrift.
+     *
+     * @return ein gueltiges Postfach
+     */
+    public Postfach getPostfach() {
+        return postfach;
+    }
+
+    /**
+     * Hierueber kann abgefragt werden, ob die Anschrift eine Adresse oder ein
+     * Postfach beinhaltet.
+     *
+     * @return true bei Postfach
+     */
+    public boolean hasPostfach() {
+        return this.postfach != null;
     }
 
     /**
@@ -117,7 +169,7 @@ public class Anschrift implements Fachwert {
      */
     @Override
     public String toString() {
-        return this.getName() + ", " + this.getAdresse();
+        return getName() + ", " + (hasPostfach() ? getPostfach() : getAdresse());
     }
 
 }

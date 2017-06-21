@@ -29,7 +29,18 @@ public class InvalidValueException extends LocalizedValidationException {
     private final String context;
 
     /**
-     * Erzeugt eine neue Exception
+     * Erzeugt eine neue Exception fuer einen fehlenden Wert.
+     *
+     * @param context was fuer ein fehlerhafter Wert
+     */
+    public InvalidValueException(String context) {
+        super("missing value for " + context.replace('_', ' '));
+        this.value = null;
+        this.context = context;
+    }
+
+    /**
+     * Erzeugt eine neue Exception fuer einen fehlerhaften Wert.
      *
      * @param value der fehlerhafte Wert
      * @param context was fuer ein fehlerhafter Wert
@@ -48,7 +59,11 @@ public class InvalidValueException extends LocalizedValidationException {
      */
     @Override
     public String getLocalizedMessage() {
-        return getLocalizedMessage("pruefung.invalidvalue.exception.message", value, getLocalizedString(context));
+        if (value == null) {
+            return getLocalizedMessage("pruefung.missingvalue.exception.message", getLocalizedString(context));
+        } else {
+            return getLocalizedMessage("pruefung.invalidvalue.exception.message", value, getLocalizedString(context));
+        }
     }
 
 }

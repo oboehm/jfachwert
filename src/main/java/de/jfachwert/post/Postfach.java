@@ -21,11 +21,15 @@ import de.jfachwert.*;
 import de.jfachwert.pruefung.*;
 
 import java.math.*;
+import java.util.*;
 
 /**
  * Ein Postfach besteht aus einer Nummer ohne fuehrende Nullen und einer
  * Postleitzahl mit Ortsangabe. Die Nummer selbst ist optional, wenn die
  * durch die Postleitzahl bereits das Postfach abgebildet wird.
+ * <p>
+ * Im Englischen wird das Postfach oft als POB (Post Office Box) bezeichnet.
+ * </p>
  *
  * @author oboehm
  * @since 0.2 (19.06.2017)
@@ -34,6 +38,18 @@ public class Postfach implements Fachwert {
 
     private final BigInteger nummer;
     private final Ort ort;
+
+    /**
+     * Erzeugt ein Postfach ohne Postfachnummer. D.h. die PLZ des Ortes
+     * adressiert bereits das Postfach.
+     *
+     * @param ort gueltiger Ort mit PLZ
+     */
+    public Postfach(Ort ort) {
+        this.ort = ort;
+        this.nummer = null;
+        validate(ort);
+    }
 
     /**
      * Erzeugt ein Postfach.
@@ -67,29 +83,48 @@ public class Postfach implements Fachwert {
         if (nummer.compareTo(BigInteger.ONE) < 0) {
             throw new InvalidValueException(nummer, "number");
         }
+        validate(ort);
+    }
+
+    /**
+     * Ueberprueft, ob der uebergebene Ort tatsaechlich ein PLZ enthaelt.
+     *
+     * @param ort Ort mit PLZ
+     */
+    public static void validate(Ort ort) {
         if (!ort.getPLZ().isPresent()) {
             throw new InvalidValueException(ort, "postal_code");
         }
     }
 
     /**
-     * Liefert die Postfach-Nummer als normale Zahl.
+     * Liefert die Postfach-Nummer als normale Zahl. Da die Nummer optional
+     * sein kann, wird sie als {@link Optional} zurueckgeliefert.
      *
      * @return z.B. 815
      */
-    public BigInteger getNummer() {
-        return this.nummer;
+    public Optional<BigInteger> getNummer() {
+        if (nummer == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(nummer);
+        }
     }
 
     /**
-     * Liefert die Postfach-Nummer als formattierte Zahl.
+     * Liefert die Postfach-Nummer als formattierte Zahl. Dies macht natuerlich
+     * nur Sinn, wenn diese Nummer gesetzt ist. Daher wird eine
+     * {@link IllegalStateException} geworfen, wenn dies nicht der Fall ist.
      *
      * @return z.B. "8 15"
      */
     public String getNummerFormatted() {
+        if (!this.getNummer().isPresent()) {
+            throw new IllegalStateException("no number present");
+        }
         BigInteger hundert = BigInteger.valueOf(100);
         StringBuilder formatted = new StringBuilder();
-        for (BigInteger i = this.getNummer(); i.compareTo(BigInteger.ONE) > 0; i = i.divide(hundert)) {
+        for (BigInteger i = this.getNummer().get(); i.compareTo(BigInteger.ONE) > 0; i = i.divide(hundert)) {
             formatted.insert(0, " " + i.remainder(hundert));
         }
         return formatted.toString().trim();
@@ -146,7 +181,11 @@ public class Postfach implements Fachwert {
      */
     @Override
     public String toString() {
-        return "Postfach " + this.getNummerFormatted() + ", " + this.getOrt();
+        if (this.getNummer().isPresent()) {
+            return "Postfach " + this.getNummerFormatted() + ", " + this.getOrt();
+        } else {
+            return this.getOrt().toString();
+        }
     }
 
 }

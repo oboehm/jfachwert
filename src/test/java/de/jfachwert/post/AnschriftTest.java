@@ -21,6 +21,9 @@ import org.junit.Test;
 
 import javax.validation.ValidationException;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.assertThat;
+
 /**
  * Unit-Teests fuer de.jfachwert.post.Anschrift.
  *
@@ -44,9 +47,19 @@ public final class AnschriftTest extends AbstractFachwertTest {
      * Eine Anschrift mit leerem Namen sollte nicht angelegt werden koennen.
      */
     @Test(expected = ValidationException.class)
-    public void testCreateInvalidAnschrift() {
+    public void testCreateAnschriftWithInvalidAdresse() {
         Adresse entenhausen = createFachwert().getAdresse();
         new Anschrift("", entenhausen);
+    }
+
+    /**
+     * Hier testen wir das Anlegen einer Anschrift mit einem Postfach.
+     */
+    @Test
+    public void testAnschriftWithPostfach() {
+        Postfach postfach = new PostfachTest().createFachwert();
+        Anschrift anschrift = new Anschrift("Mr. Postman", postfach);
+        assertThat(anschrift.toString(), containsString(postfach.toString()));
     }
 
 }

@@ -21,6 +21,8 @@ import org.junit.*;
 
 import javax.validation.*;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
 
 /**
@@ -67,6 +69,15 @@ public final class PostfachTest extends AbstractFachwertTest {
     @Test(expected = ValidationException.class)
     public void testInvalidPostfach() {
         new Postfach(-1, new Ort(new PLZ("04711"), "Dufte"));
+    }
+
+    /**
+     * Hier wird das Anlegen eines Postfachs ohne Postfachnummer getestet.
+     */
+    @Test
+    public void testPostfachOhneNummer() {
+        Postfach postfach = new Postfach(new Ort(new PLZ("66666"), "NumberOfTheBeast"));
+        assertThat(postfach.toString(), not(containsString("null")));
     }
 
 }
