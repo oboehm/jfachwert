@@ -106,20 +106,30 @@ public class Anschrift implements Fachwert {
     }
 
     /**
-     * Liefert die Adresse der Anschrift.
+     * Liefert die Adresse der Anschrift. Voraussetzung fuer den Aufruf dieser
+     * Methode ist, dass die Anschrift tatsaechlich eine Adresse enthaelt, und
+     * kein Postfach.
      *
      * @return eine gueltige Adresse
      */
     public Adresse getAdresse() {
+        if (adresse == null) {
+            throw new IllegalStateException("no address available");
+        }
         return adresse;
     }
 
     /**
-     * Liefert das Postfach der Anschrift.
+     * Liefert das Postfach der Anschrift. Voraussetzung fuer den Aufruf dieser
+     * Methode ist, dass die Anschrift tatsaechlich ein Postfach enthaelt, und
+     * keine Adresse.
      *
      * @return ein gueltiges Postfach
      */
     public Postfach getPostfach() {
+        if (postfach == null) {
+            throw new IllegalStateException("no post office box available");
+        }
         return postfach;
     }
 

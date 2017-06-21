@@ -22,6 +22,7 @@ import org.junit.Test;
 import javax.validation.ValidationException;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -59,6 +60,7 @@ public final class AnschriftTest extends AbstractFachwertTest {
     public void testAnschriftWithPostfach() {
         Postfach postfach = new PostfachTest().createFachwert();
         Anschrift anschrift = new Anschrift("Mr. Postman", postfach);
+        assertEquals(postfach, anschrift.getPostfach());
         assertThat(anschrift.toString(), containsString(postfach.toString()));
     }
 
