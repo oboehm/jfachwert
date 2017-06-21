@@ -22,6 +22,7 @@ import org.junit.Test;
 import java.util.Locale;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
@@ -74,6 +75,16 @@ public final class InvalidValueExceptionTest {
         InvalidValueException ex = new InvalidValueException(42, context);
         assertThat(ex.getMessage(), containsString(context));
         assertThat(ex.getLocalizedMessage(), containsString(context));
+    }
+
+    /**
+     * Hier testen wir, ob bei einem fehlenden Wert nicht der Wert noch mit
+     * ausgegeben wird.
+     */
+    @Test
+    public void testMissingValue() {
+        InvalidValueException ex = new InvalidValueException("name");
+        assertThat(ex.getLocalizedMessage(), not(containsString("null")));
     }
 
 }
