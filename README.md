@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/oboehm/jfachwert.svg?branch=master)](https://travis-ci.org/oboehm/jfachwert) [![Coverage Status](https://coveralls.io/repos/github/oboehm/jfachwert/badge.svg?branch=master)](https://coveralls.io/github/oboehm/jfachwert) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+[![Build Status](https://travis-ci.org/oboehm/jfachwert.svg?branch=master)](https://travis-ci.org/oboehm/jfachwert) [![Coverage Status](https://coveralls.io/repos/github/oboehm/jfachwert/badge.svg?branch=release%2F0.2.0)](https://coveralls.io/github/oboehm/jfachwert) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 # Was ist jFachwert?
 
@@ -44,14 +44,17 @@ bescheiden. Dennoch kann man sie bereits einsetzen und profitiert von sprechende
 mehr verwechselt werden koennen. Wer Ideen fuer weitere Fachwerte hat, darf gerne mitmachen - sei es durch Code,
 sei es durch Dokumentation oder einem schoenen Icon, oder sei es durch Anregungen und konstruktive Kritik.
 
-Die erste Version 0.0.2 mit einer einfache IBAN- und BIC-Klasse liegt bereits vor und ist im 
+Bereits in Version 0.0.2 gab es einer einfache IBAN- und BIC-Klasse, die im 
 [Maven-Repository](http://search.maven.org/#search%7Cga%7C1%7Cjfachwert)
-unter folgenden Koordinaten zu finden:
+unter folgenden Koordinaten zu finden ist:
 
 ```xml
   <groupId>de.jfachwert</groupId>
   <artifactId>jfachwert</artifactId>
 ```
+
+Ab 0.1.0 kamen dann weitere Bank-Klassen sowie Packages fuer steuerliche
+oder postalische Klassen hinzu.
 
 
 # Ziele
@@ -60,7 +63,7 @@ Ziel dieser Bibliothek ist es, fuer den deutschsprachigen Raum alle wichtigen Da
 sonst immer wieder selbst implementieren muesste. Mir ist klar, dass damit nicht alle Sonderfaelle abgedeckt werden
 koennen - deswegen sind die Klassen auch nicht 'final', sondern koennen erweitert werden.
 
-Maerz 2017, Oli B.
+Juni 2017, Oli B.
 
 ---
 
@@ -69,3 +72,4 @@ Maerz 2017, Oli B.
 * CI-Build: https://travis-ci.org/oboehm/jfachwert
 * Projekt-Seite: http://www.jfachwert.de/
 * OSSRH-Ticket: https://issues.sonatype.org/browse/OSSRH-28810
+* Verzeichnis: [doc](doc/README.adoc)

@@ -20,6 +20,8 @@ package de.jfachwert.bank;
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
+import javax.validation.ValidationException;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -49,7 +51,7 @@ public final class BICTest extends AbstractFachwertTest {
     /**
      * Hier testen wir den Konstruktor mit einer ungueltigen BIC.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = ValidationException.class)
     public void testBICinvalid() {
         new BIC("GENODEF1J");
     }

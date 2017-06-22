@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>de.jfachwert</groupId>
   <artifactId>jfachwert</artifactId>
-  <version>0.1.0</version>
+  <version>0.2.0</version>
   <name>jFachwert</name>
 
   <description>Implementierung einiger Fachwerte nach dem WAM-Ansatz</description>
@@ -91,6 +89,30 @@
         </configuration>
       </plugin>
 
+      <!--
+        Bitte nicht jgitflow-maven-plugin 1.0-m5.1 verwenden
+        s. https://ecosystem.atlassian.net/browse/MJF-249
+      -->
+      <plugin>
+        <groupId>external.atlassian.jgitflow</groupId>
+        <artifactId>jgitflow-maven-plugin</artifactId>
+        <version>1.0-m4.3</version>
+        <configuration>
+          <pushFeatures>true</pushFeatures>
+          <pushHotfixes>true</pushHotfixes>
+          <pushReleases>true</pushReleases>
+          <noDeploy>true</noDeploy>
+          <flowInitContext>
+            <masterBranchName>master</masterBranchName>
+            <developBranchName>develop</developBranchName>
+            <featureBranchPrefix>feature/</featureBranchPrefix>
+            <releaseBranchPrefix>release/</releaseBranchPrefix>
+            <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
+            <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
+          </flowInitContext>
+        </configuration>
+      </plugin>
+
     </plugins>
 
   </build>
@@ -162,38 +184,68 @@
   </reporting>
 
 
+  <!--
+    Hier werden nur die Versionen der verwendeten und potentiellen Bibliotheken
+    definierit (alphabetisch geordnet nach groupId).
+  -->
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.5</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.code.findbugs</groupId>
+        <artifactId>findbugs</artifactId>
+        <version>3.0.1</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.validation</groupId>
+        <artifactId>validation-api</artifactId>
+        <version>1.1.0.Final</version>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+      </dependency>
+      <dependency>
+        <groupId>org.patterntesting</groupId>
+        <artifactId>patterntesting-rt</artifactId>
+        <version>1.7.1</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+
   <dependencies>
 
     <!-- normale Libs -->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.5</version>
     </dependency>
 
     <!-- fuer Validierungen -->
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>findbugs</artifactId>
-      <version>3.0.1</version>
     </dependency>
     <dependency>
       <groupId>javax.validation</groupId>
       <artifactId>validation-api</artifactId>
-      <version>1.1.0.Final</version>
     </dependency>
 
     <!-- Test-Libs -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.12</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.patterntesting</groupId>
       <artifactId>patterntesting-rt</artifactId>
-      <version>1.7.0</version>
       <scope>test</scope>
     </dependency>
 
@@ -226,5 +278,88 @@
       </roles>
     </developer>
   </developers>
+
+
+  <profiles>
+
+    <!--
+      Deses Profile verwendet AspectJ, um zusaetzliche Log-Ausgaben per
+      Aspekte zu injizieren. Die Aspekte dazu befinden sich unter src/main/aspect.
+      Das erzeugte Jar-File hat zusaetzlich ein "-debug" im Namen.
+    -->
+    <profile>
+
+      <id>debug</id>
+
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-jar-plugin</artifactId>
+              <version>3.0.2</version>
+              <configuration>
+                <classifier>debug</classifier>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+        <plugins>
+          <!-- AspectJ Compiler -->
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>aspectj-maven-plugin</artifactId>
+            <version>1.10</version>
+            <configuration>
+              <source>${java.version}</source>
+              <target>${java.version}</target>
+              <complianceLevel>${java.version}</complianceLevel>
+              <aspectLibraries>
+                <!-- we need the AbstractTraceAspect from PatternTesting -->
+                <aspectLibrary>
+                  <groupId>org.patterntesting</groupId>
+                  <artifactId>patterntesting-rt</artifactId>
+                </aspectLibrary>
+              </aspectLibraries>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>compile</goal>       <!-- use this goal to weave all your main classes -->
+                  <goal>test-compile</goal>  <!-- use this goal to weave all your test classes -->
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+
+      <dependencies>
+        <!-- needed for Log-Aspect -->
+        <dependency>
+          <groupId>org.aspectj</groupId>
+          <artifactId>aspectjrt</artifactId>
+          <version>1.8.9</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-api</artifactId>
+          <version>2.8</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-core</artifactId>
+          <version>2.8</version>
+        </dependency>
+        <dependency>
+          <groupId>org.patterntesting</groupId>
+          <artifactId>patterntesting-rt</artifactId>
+        </dependency>
+      </dependencies>
+
+    </profile>
+
+  </profiles>
+
 
 </project>

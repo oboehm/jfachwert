@@ -51,7 +51,7 @@ public final class SteuerIdNrTest extends SteuernummerTest {
      * Alte Steuernnummern und Nummer, die zu lang sind, sollten auch nicht
      * angelegt werden koennen.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = ValidationException.class)
     public void testSteuerIdNrZuLang() {
         new SteuerIdNr("1121081508150");
     }

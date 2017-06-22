@@ -18,6 +18,7 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwert;
+import de.jfachwert.pruefung.IllegalLengthException;
 
 /**
  * Die BLZ (Bankleitzahl) ist eine eindeutige Kennziffer, die in Deutschland
@@ -43,8 +44,21 @@ public class BLZ extends AbstractFachwert<Integer> {
      *
      * @param code eine 5- oder 8-stellige Zahl
      */
-    public BLZ(Integer code) {
+    public BLZ(int code) {
         super(code);
+    }
+
+    /**
+     * Eine BLZ darf maximal 8-stellig sein.
+     *
+     * @param blz die Bankleitzahl
+     * @return die Bankleitzahl zur Weitervarabeitung
+     */
+    public static int validate(int blz) {
+        if (blz > 99_999_999) {
+            throw new IllegalLengthException(Integer.toString(blz), 5, 8);
+        }
+        return blz;
     }
 
 }

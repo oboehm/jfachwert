@@ -19,6 +19,8 @@ package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.pruefung.IllegalLengthException;
+import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.Mod97Verfahren;
 import org.apache.commons.lang3.StringUtils;
 
@@ -58,7 +60,38 @@ public class IBAN extends AbstractFachwert<String> {
      * @param pzVerfahren das verwendete PruefzifferVerfahren
      */
     public IBAN(String iban, PruefzifferVerfahren<String> pzVerfahren) {
-        super(pzVerfahren.validate(StringUtils.remove(iban, ' ').toUpperCase()));
+        super(validate(iban, pzVerfahren));
+    }
+
+    /**
+     * Mit dieser Methode kann man eine IBAN validieren, ohne dass man erst
+     * den Konstruktor aufrufen muss. Falls die Pruefziffer nicht stimmt,
+     * wird eine {@link javax.xml.bind.ValidationException} geworfen, wenn
+     * die Laenge nicht uebereinstimmt eine {@link IllegalLengthException}.
+     * Die Laenge liegt zwischen 16 (Belgien) und 34 Zeichen.
+     *
+     * @param iban die 22-stellige IBAN
+     * @return die IBAN in normalisierter Form (ohne Leerzeichen)
+     */
+    public static String validate(String iban) {
+        return validate(iban, MOD97);
+    }
+
+    private static String validate(String iban, PruefzifferVerfahren<String> pzVerfahren) {
+        String normalized = StringUtils.remove(iban, ' ').toUpperCase();
+        LengthValidator.validate(iban, 16, 34);
+        switch (normalized.substring(0,1)) {
+            case "AT":
+                LengthValidator.validate(iban, 20);
+                break;
+            case "CH":
+                LengthValidator.validate(iban, 21);
+                break;
+            case "DE":
+                LengthValidator.validate(iban, 22);
+                break;
+        }
+        return pzVerfahren.validate(normalized);
     }
 
     /**
@@ -90,12 +123,19 @@ public class IBAN extends AbstractFachwert<String> {
     /**
      * Liefert das Land, zu dem die IBAN gehoert.
      *
-     * @return z.B. "DE" (als Locale)
+     * @return z.B. "de_DE" (als Locale)
      * @since 0.1.0
      */
     public Locale getLand() {
         String country = this.getUnformatted().substring(0, 2);
-        return new Locale(country);
+        String language = country.toLowerCase();
+        switch (country) {
+            case "AT":
+            case "CH":
+                language = "de";
+                break;
+        }
+        return new Locale(language, country);
     }
 
     /**
@@ -120,7 +160,10 @@ public class IBAN extends AbstractFachwert<String> {
     }
 
     /**
-     * Extrahiert aus der IBAN die Kontonummer.
+     * Extrahiert aus der IBAN die Kontonummer nach der Standard-IBAN-Regel.
+     * Ausnahmen, wie sie z.B. in
+     * http://www.kigst.de/media/Deutsche_Bundesbank_Uebersicht_der_IBAN_Regeln_Stand_Juni_2013.pdf
+     * beschrieben sind, werden nicht beruecksichtigt.
      *
      * @return 10-stellige Kontonummer
      * @since 0.1.0

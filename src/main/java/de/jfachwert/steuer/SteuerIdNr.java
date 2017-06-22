@@ -17,7 +17,7 @@
  */
 package de.jfachwert.steuer;
 
-import org.apache.commons.lang3.StringUtils;
+import de.jfachwert.pruefung.LengthValidator;
 
 /**
  * Die steuerliche Identifikationsnummer (SteuerIdNr) ist eine
@@ -37,15 +37,18 @@ public class SteuerIdNr extends Steuernummer {
      * @param idNr 11-stellige Zahl
      */
     public SteuerIdNr(String idNr) {
-        super(check(idNr));
+        super(validate(idNr));
     }
 
-    private static String check(String nr) {
-        int length = StringUtils.length(nr);
-        if (length != 11) {
-            throw new IllegalArgumentException(nr + " has " + length + " characters and not 11");
-        }
-        return nr;
+    /**
+     * Eine SteuerId muss genau 11 Stellen besitzen.
+     *
+     * @param nr the nr
+     * @return the string
+     */
+    public static String validate(String nr) {
+        LengthValidator.validate(nr, 11);
+        return Steuernummer.validate(nr);
     }
 
 }

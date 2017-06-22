@@ -35,7 +35,7 @@ public class AbstractFachwert<T> implements Fachwert {
     }
 
     /**
-     * Liefert die interne Praesentation fuer die agbgeleiteten Klassen. Er
+     * Liefert die interne Praesentation fuer die abgeleiteten Klassen. Er
      * ist nicht fuer den direkten Aufruf vorgesehen, weswegen die Methode auch
      * 'final' ist.
      *

@@ -52,6 +52,14 @@ public final class IBANTest extends AbstractFachwertTest {
     }
 
     /**
+     * Eine leere IBAN sollte nicht moeglich sein.
+     */
+    @Test(expected = ValidationException.class)
+    public void testIbanEmpty() {
+        new IBAN("");
+    }
+
+    /**
      * Test method for {@link IBAN#getFormatted()}.
      */
     @Test
@@ -80,7 +88,7 @@ public final class IBANTest extends AbstractFachwertTest {
      */
     @Test
     public void testGetLand() {
-        assertEquals(new Locale("DE"), iban.getLand());
+        assertEquals(new Locale("de", "DE"), iban.getLand());
     }
 
     /**

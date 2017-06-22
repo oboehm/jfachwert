@@ -18,6 +18,9 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwert;
+import de.jfachwert.pruefung.IllegalLengthException;
+
+import java.util.Arrays;
 
 /**
  * BIC steht fuer Bank (oder auch Businiess) Identifier Code und kennzeichnet
@@ -55,12 +58,20 @@ public class BIC extends AbstractFachwert<String> {
      * @param code eine 11- oder 14-stellige BIC
      */
     public BIC(String code) {
-        super(check(code));
+        super(validate(code));
     }
 
-    private static String check(String bic) {
-        if ((bic.length() != 11) && (bic.length() != 14)) {
-            throw new IllegalArgumentException("'" + bic + "' has not 11 or 14 characters");
+    /**
+     * Hierueber kann man eine BIC ohne den Umweg ueber den Konstruktor
+     * validieren.
+     *
+     * @param bic die BIC (11- oder 14-stellig)
+     * @return die validierte BIC (zur Weiterverarbeitung)
+     */
+    public static String validate(String bic) {
+        Integer[] allowedLengths = {11, 14};
+        if ((bic.length() != allowedLengths[0]) && (bic.length() != allowedLengths[1])) {
+            throw new IllegalLengthException(bic, Arrays.asList(allowedLengths));
         }
         return bic;
     }
