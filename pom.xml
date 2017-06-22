@@ -91,6 +91,30 @@
         </configuration>
       </plugin>
 
+      <!--
+        Bitte nicht jgitflow-maven-plugin 1.0-m5.1 verwenden
+        s. https://ecosystem.atlassian.net/browse/MJF-249
+      -->
+      <plugin>
+        <groupId>external.atlassian.jgitflow</groupId>
+        <artifactId>jgitflow-maven-plugin</artifactId>
+        <version>1.0-m4.3</version>
+        <configuration>
+          <pushFeatures>true</pushFeatures>
+          <pushHotfixes>true</pushHotfixes>
+          <pushReleases>true</pushReleases>
+          <noDeploy>true</noDeploy>
+          <flowInitContext>
+            <masterBranchName>master</masterBranchName>
+            <developBranchName>develop</developBranchName>
+            <featureBranchPrefix>feature/</featureBranchPrefix>
+            <releaseBranchPrefix>release/</releaseBranchPrefix>
+            <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
+            <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
+          </flowInitContext>
+        </configuration>
+      </plugin>
+
     </plugins>
 
   </build>
@@ -129,30 +153,6 @@
             </reports>
           </reportSet>
         </reportSets>
-      </plugin>
-
-      <!--
-        Bitte nicht jgitflow-maven-plugin 1.0-m5.1 verwenden
-        s. https://ecosystem.atlassian.net/browse/MJF-249
-      -->
-      <plugin>
-        <groupId>external.atlassian.jgitflow</groupId>
-        <artifactId>jgitflow-maven-plugin</artifactId>
-        <version>1.0-m4.3</version>
-        <configuration>
-          <pushFeatures>true</pushFeatures>
-          <pushHotfixes>true</pushHotfixes>
-          <pushReleases>true</pushReleases>
-          <noDeploy>true</noDeploy>
-          <flowInitContext>
-            <masterBranchName>master</masterBranchName>
-            <developBranchName>develop</developBranchName>
-            <featureBranchPrefix>feature/</featureBranchPrefix>
-            <releaseBranchPrefix>release/</releaseBranchPrefix>
-            <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
-            <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
-          </flowInitContext>
-        </configuration>
       </plugin>
 
       <!--
