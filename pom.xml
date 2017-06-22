@@ -130,6 +130,7 @@
           </reportSet>
         </reportSets>
       </plugin>
+
       <!--
         Bitte nicht jgitflow-maven-plugin 1.0-m5.1 verwenden
         s. https://ecosystem.atlassian.net/browse/MJF-249

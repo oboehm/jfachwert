@@ -1,0 +1,61 @@
+= Dokumentation
+
+In diesem Verzeichnis befindet sich einige allgemeine Informationen, sofern
+sie nicht bereits im obertsten http://../README.md[README] enthalten sind.
+
+
+== GitFlow-Branching
+
+Entwickelt wird nach der GitFlow-Branching-Strategie. D.h. die eigentliche
+Entwicklung findet auf dem
+https://github.com/oboehm/jfachwert/tree/develop[develop]-Zweig
+statt.
+
+
+=== Release bauen
+
+Der Bau eines Releases ist nicht durch den CI-Build abgedeckt, sondern
+erfolgt manuell mit Hilfe des _jgitflow-maven-plugin_, das im POM entsprechend
+konfiguriert ist:
+
+|===
+|Schritt |Kommandos |Anmerkung
+
+|Release starten
+|`mvn jgitflow:release-start`
+|Hierbei wird geprüft, ob keine SNAPSHOT-Abhängkeiten mehr im Projekt
+vorhanden sind. Ist dies nicht der Fall, wird ein release-Branch
+angelegt und auf diesen Branch gewechselt.
+
+|Version in deploy.sh prüfen
+|
+|Wichtig für das Deployment nach https://oss.sonatype.org/[oss.sonatype.org] ist,
+das die Versionsnummer im Deploy-Skript file://../src/script/deploy.sh[src/script/deploy.sh]
+mit der Versionsnummer im POM übereinstimmt. Auch letzte Änderungen wie z.B.
+die Anpassung des Release-Datums in changes.xml können noch vorgenommen werden.
+
+|Release beenden
+|`mvn jgitflow:release-finish`
+|Damit wird "-SNAPSHOT" von der Versions-Nummer entfernt und das eigentliche
+Release gebaut
+
+|auf Master-Branch wechseln
+|mvn checkout master
+|Die folgenden Schritte müssen auf dem Master-Branch erfolgen, weil dort das
+letzte Release verfügbar ist.
+
+|Release deployen
+|`sh src/script/deploy.sh`
+|Damit werden die Artefakte signiert und nach  https://oss.sonatype.org/[oss.sonatype.org] hochgeladen.
+
+|Site-Generierung
+|`mvn site`
+|Damit werden die Maven-Reports gebaut, die anschliessend auf die Projektseite
+http://jfachwert.de/[jFachwert.de] hochgeladen werden sollten.
+|===
+
+
+
+== CI-Build
+
+jFachwert wird über Travis gebaut: https://travis-ci.org/oboehm/jfachwert
