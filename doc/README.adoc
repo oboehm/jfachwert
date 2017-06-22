@@ -42,9 +42,13 @@ können noch vorgenommen werden.
 Release gebaut.
 
 |auf Master-Branch wechseln
-|mvn checkout master
+|`mvn checkout master`
 |Die folgenden Schritte müssen auf dem Master-Branch erfolgen, weil dort das
 letzte Release verfügbar ist.
+
+|alle Artefakte bauen
+|mvn clean install javadoc:jar source:jar gpg:sign repository:bundle-create -Dgpg.passphrase=xx
+|Die Artefakte werden anschliessend deploy't.
 
 |Release deployen
 |`sh src/script/deploy.sh`
