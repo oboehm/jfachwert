@@ -1,7 +1,7 @@
 = Dokumentation
 
 In diesem Verzeichnis befindet sich einige allgemeine Informationen, sofern
-sie nicht bereits im obertsten http://../README.md[README] enthalten sind.
+sie nicht bereits im obersten link:../README.md[README] enthalten sind.
 
 
 == GitFlow-Branching
@@ -18,6 +18,7 @@ Der Bau eines Releases ist nicht durch den CI-Build abgedeckt, sondern
 erfolgt manuell mit Hilfe des _jgitflow-maven-plugin_, das im POM entsprechend
 konfiguriert ist:
 
+.Checkliste
 |===
 |Schritt |Kommandos |Anmerkung
 
@@ -30,14 +31,15 @@ angelegt und auf diesen Branch gewechselt.
 |Version in deploy.sh prüfen
 |
 |Wichtig für das Deployment nach https://oss.sonatype.org/[oss.sonatype.org] ist,
-das die Versionsnummer im Deploy-Skript file://../src/script/deploy.sh[src/script/deploy.sh]
+das die Versionsnummer im Deploy-Skript "src/script/deploy.sh"
 mit der Versionsnummer im POM übereinstimmt. Auch letzte Änderungen wie z.B.
-die Anpassung des Release-Datums in changes.xml können noch vorgenommen werden.
+die Anpassung des Release-Datums in link:../src/changes/changes.xml[changes.xml]
+können noch vorgenommen werden.
 
 |Release beenden
 |`mvn jgitflow:release-finish`
 |Damit wird "-SNAPSHOT" von der Versions-Nummer entfernt und das eigentliche
-Release gebaut
+Release gebaut.
 
 |auf Master-Branch wechseln
 |mvn checkout master
@@ -58,4 +60,17 @@ http://jfachwert.de/[jFachwert.de] hochgeladen werden sollten.
 
 == CI-Build
 
-jFachwert wird über Travis gebaut: https://travis-ci.org/oboehm/jfachwert
+.Build-Server
+|===
+|Server|master |develop |Konfiguration
+
+|https://travis-ci.org/oboehm/jfachwert[Travis-CI.org]
+|image:https://travis-ci.org/oboehm/jfachwert.svg?branch=master[Build Status]
+|image:https://travis-ci.org/oboehm/jfachwert.svg?branch=develop[Build Status]
+|s. link:../travis.yml[travis.yml]
+
+|https://coveralls.io/github/oboehm/jfachwert[CoverAlls.io]
+|image:https://coveralls.io/repos/github/oboehm/jfachwert/badge.svg?branch=master[Coverage Status]
+|image:https://coveralls.io/repos/github/oboehm/jfachwert/badge.svg?branch=develop[Coverage Status]
+|`coveralls:report`
+|===
