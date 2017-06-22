@@ -64,13 +64,13 @@ http://jfachwert.de/[jFachwert.de] hochgeladen werden sollten.
 |===
 |Server|master |develop |Konfiguration
 
-|https://travis-ci.org/oboehm/jfachwert[Travis-CI.org]
-|image:https://travis-ci.org/oboehm/jfachwert.svg?branch=master[Build Status]
-|image:https://travis-ci.org/oboehm/jfachwert.svg?branch=develop[Build Status]
-|s. link:../travis.yml[travis.yml]
+|https://travis-ci.org/oboehm/jfachwert/branches[Travis-CI.org]
+|https://travis-ci.org/oboehm/jfachwert/branches[image:https://travis-ci.org/oboehm/jfachwert.svg?branch=master[Build Status]]
+|https://travis-ci.org/oboehm/jfachwert/branches[image:https://travis-ci.org/oboehm/jfachwert.svg?branch=develop[Build Status]]
+|s. link:../.travis.yml[.travis.yml]
 
 |https://coveralls.io/github/oboehm/jfachwert[CoverAlls.io]
-|image:https://coveralls.io/repos/github/oboehm/jfachwert/badge.svg?branch=master[Coverage Status]
-|image:https://coveralls.io/repos/github/oboehm/jfachwert/badge.svg?branch=develop[Coverage Status]
+|https://coveralls.io/github/oboehm/jfachwert?branch=master[image:https://coveralls.io/repos/github/oboehm/jfachwert/badge.svg?branch=master[Coverage Status]]
+|https://coveralls.io/github/oboehm/jfachwert?branch=develop[image:https://coveralls.io/repos/github/oboehm/jfachwert/badge.svg?branch=develop[Coverage Status]]
 |`coveralls:report`
 |===
