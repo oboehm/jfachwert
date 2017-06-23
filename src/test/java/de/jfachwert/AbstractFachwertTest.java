@@ -17,21 +17,16 @@
  */
 package de.jfachwert;
 
-import org.junit.Before;
-import org.junit.Test;
-import patterntesting.runtime.junit.ImmutableTester;
-import patterntesting.runtime.junit.ObjectTester;
-import patterntesting.runtime.junit.SerializableTester;
+import org.junit.*;
+import patterntesting.runtime.junit.*;
 
-import java.io.NotSerializableException;
-import java.io.Serializable;
-import java.lang.reflect.Modifier;
+import java.io.*;
+import java.lang.reflect.*;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.core.IsInstanceOf.*;
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.junit.Assert.*;
 
 /**
  * In der Klasse AbstractFachwertTest sind die Tests zusammengefasst, die fuer
@@ -95,7 +90,7 @@ public abstract class AbstractFachwertTest {
     @Test
     public void testToString() {
         String s = fachwert.toString();
-        assertThat("looks like default implementation", s, not(containsString("@")));
+        assertThat("looks like default implementation", s, not(containsString(this.getClass().getSimpleName() + "@")));
     }
 
     /**
