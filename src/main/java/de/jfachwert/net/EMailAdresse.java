@@ -18,6 +18,7 @@
 package de.jfachwert.net;
 
 import de.jfachwert.*;
+import de.jfachwert.pruefung.*;
 
 /**
  * Eine E-Mail-Adresse ist die eindeutige Absender- und Empfaengeradresse im
@@ -47,7 +48,20 @@ public class EMailAdresse extends AbstractFachwert<String> {
      * @param emailAdresse eine gueltige Adresse, z.B. "max@mustermann.de"
      */
     public EMailAdresse(String emailAdresse) {
-        super(emailAdresse);
+        super(validate(emailAdresse));
+    }
+
+    /**
+     * Fuehrt ein sehr einfache Pruefung der uebegebenen E-Mail-Adresse durch.
+     *
+     * @param emailAdresse zu pruefende E-Mail-Adresse
+     * @return die validierte E-Mail-Adresse (zur Weiterverarbeitung)
+     */
+    public static String validate(String emailAdresse) {
+        if (!emailAdresse.contains("@")) {
+            throw new InvalidValueException(emailAdresse, "email_address");
+        }
+        return emailAdresse;
     }
 
 }

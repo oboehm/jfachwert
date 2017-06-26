@@ -17,6 +17,9 @@ package de.jfachwert.net;/*
  */
 
 import de.jfachwert.*;
+import org.junit.*;
+
+import javax.validation.*;
 
 /**
  * Unit-Teests fuer de.jfachwert.net.EMailAdresse.
@@ -33,6 +36,14 @@ public final class EMailAdresseTest extends AbstractFachwertTest {
     @Override
     protected Fachwert createFachwert() {
         return new EMailAdresse("test@fachwert.de");
+    }
+
+    /**
+     * Eine falsche E-Mail-Adresse sollte zurueckgewiesen werden.
+     */
+    @Test(expected = ValidationException.class)
+    public void testInvalidEmailAdresse() {
+        new EMailAdresse("gibts.net");
     }
 
 }
