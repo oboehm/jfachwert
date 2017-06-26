@@ -19,6 +19,7 @@ package de.jfachwert.net;
 
 import de.jfachwert.*;
 import de.jfachwert.pruefung.*;
+import org.apache.commons.lang3.*;
 
 /**
  * Eine E-Mail-Adresse ist die eindeutige Absender- und Empfaengeradresse im
@@ -62,6 +63,30 @@ public class EMailAdresse extends AbstractFachwert<String> {
             throw new InvalidValueException(emailAdresse, "email_address");
         }
         return emailAdresse;
+    }
+
+    /**
+     * Als Local Part wird der Teil einer E-Mail-Adresse bezeichnet, der die
+     * Adresse innerhalb der Domain des E-Mail-Providers eindeutig bezeichnet.
+     * Typischerweise entspricht der Lokalteil dem Benutzernamen (haeufig ein
+     * Pseudonym) des Besitzers des E-Mail-Kontos.
+     *
+     * @return z.B. "Max.Mustermann"
+     */
+    public String getLocalPart() {
+        return StringUtils.substringBeforeLast(this.getCode(), "@");
+    }
+
+    /**
+     * Der Domain Part, der hinter dem @-Zeichen steht und fuer den die
+     * Syntaxregeln des Domain Name Systems gelten, besteht mindestens aus drei
+     * Teilen: einem Hostnamen (z. B. ein Firmenname), einem Punkt und einer
+     * Top-Level-Domain.
+     *
+     * @return z.B. "fachwert.de"
+     */
+    public String getDomainPart() {
+        return StringUtils.substringAfterLast(this.getCode(), "@");
     }
 
 }

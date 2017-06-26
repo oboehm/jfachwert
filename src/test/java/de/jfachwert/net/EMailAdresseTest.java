@@ -21,6 +21,8 @@ import org.junit.*;
 
 import javax.validation.*;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Unit-Teests fuer de.jfachwert.net.EMailAdresse.
  *
@@ -28,14 +30,16 @@ import javax.validation.*;
  */
 public final class EMailAdresseTest extends AbstractFachwertTest {
 
+    private final EMailAdresse testAdresse = createFachwert();
+
     /**
      * Zum Testen generieren wir eine gueltige Email-Adresse.
      *
      * @return eine Test-Email-Adresse
      */
     @Override
-    protected Fachwert createFachwert() {
-        return new EMailAdresse("test@fachwert.de");
+    protected EMailAdresse createFachwert() {
+        return new EMailAdresse("test@jfachwert.de");
     }
 
     /**
@@ -44,6 +48,22 @@ public final class EMailAdresseTest extends AbstractFachwertTest {
     @Test(expected = ValidationException.class)
     public void testInvalidEmailAdresse() {
         new EMailAdresse("gibts.net");
+    }
+
+    /**
+     * Testmethode fuer {@link EMailAdresse#getLocalPart()}.
+     */
+    @Test
+    public void testGetLocalPart() {
+        assertEquals("test", testAdresse.getLocalPart());
+    }
+
+    /**
+     * Testmethode fuer {@link EMailAdresse#getDomainPart()}.
+     */
+    @Test
+    public void testGetDomainPart() {
+        assertEquals("jfachwert.de", testAdresse.getDomainPart());
     }
 
 }
