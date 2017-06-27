@@ -21,6 +21,8 @@ import de.jfachwert.*;
 import de.jfachwert.pruefung.*;
 import org.apache.commons.lang3.*;
 
+import java.util.regex.*;
+
 /**
  * Eine E-Mail-Adresse ist die eindeutige Absender- und Empfaengeradresse im
  * E-Mail-Verkehr. Sie besteht aus zwei Teilen, die durch ein @-Zeichen
@@ -43,6 +45,9 @@ import org.apache.commons.lang3.*;
  */
 public class EMailAdresse extends AbstractFachwert<String> {
 
+    private static final Pattern EMAIL_PATTERN =
+            Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+
     /**
      * Legt eine Instanz einer EMailAdresse an.
      *
@@ -53,16 +58,20 @@ public class EMailAdresse extends AbstractFachwert<String> {
     }
 
     /**
-     * Fuehrt ein sehr einfache Pruefung der uebegebenen E-Mail-Adresse durch.
+     * Fuehrt ein Pattern-basierte Pruefung der uebegebenen E-Mail-Adresse
+     * durch. Das Pattern zur Pruefung stammt von
+     * https://www.mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
+     * .
      *
      * @param emailAdresse zu pruefende E-Mail-Adresse
      * @return die validierte E-Mail-Adresse (zur Weiterverarbeitung)
      */
     public static String validate(String emailAdresse) {
-        if (!emailAdresse.contains("@")) {
-            throw new InvalidValueException(emailAdresse, "email_address");
+        Matcher matcher = EMAIL_PATTERN.matcher(emailAdresse);
+        if (matcher.matches()) {
+            return emailAdresse;
         }
-        return emailAdresse;
+        throw new InvalidValueException(emailAdresse, "email_address");
     }
 
     /**
