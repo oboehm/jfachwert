@@ -21,8 +21,6 @@ import de.jfachwert.*;
 import de.jfachwert.pruefung.*;
 import org.apache.commons.lang3.*;
 
-import java.util.regex.*;
-
 /**
  * Eine E-Mail-Adresse ist die eindeutige Absender- und Empfaengeradresse im
  * E-Mail-Verkehr. Sie besteht aus zwei Teilen, die durch ein @-Zeichen
@@ -45,8 +43,7 @@ import java.util.regex.*;
  */
 public class EMailAdresse extends AbstractFachwert<String> {
 
-    private static final Pattern EMAIL_PATTERN =
-            Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+    private static final EMailValidator DEFAULT_VALIDATOR = new EMailValidator();
 
     /**
      * Legt eine Instanz einer EMailAdresse an.
@@ -54,24 +51,20 @@ public class EMailAdresse extends AbstractFachwert<String> {
      * @param emailAdresse eine gueltige Adresse, z.B. "max@mustermann.de"
      */
     public EMailAdresse(String emailAdresse) {
-        super(validate(emailAdresse));
+        this(emailAdresse, DEFAULT_VALIDATOR);
     }
 
     /**
-     * Fuehrt ein Pattern-basierte Pruefung der uebegebenen E-Mail-Adresse
-     * durch. Das Pattern zur Pruefung stammt von
-     * https://www.mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
-     * .
+     * Legt eine Instanz einer EMailAdresse an. Dieser Konstruktor ist
+     * hauptsaechlich fuer abgeleitete Klassen gedacht, die ihre eigene
+     * Validierung mit einbringen wollen oder aus Performance-Gruenden
+     * abschalten wollen.
      *
-     * @param emailAdresse zu pruefende E-Mail-Adresse
-     * @return die validierte E-Mail-Adresse (zur Weiterverarbeitung)
+     * @param emailAdresse eine gueltige Adresse, z.B. "max@mustermann.de"
+     * @param validator    Validator zur Adressen-Validierung
      */
-    public static String validate(String emailAdresse) {
-        Matcher matcher = EMAIL_PATTERN.matcher(emailAdresse);
-        if (matcher.matches()) {
-            return emailAdresse;
-        }
-        throw new InvalidValueException(emailAdresse, "email_address");
+    public EMailAdresse(String emailAdresse, EMailValidator validator) {
+        super(validator.validateAddress(emailAdresse));
     }
 
     /**
