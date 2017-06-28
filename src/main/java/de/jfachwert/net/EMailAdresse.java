@@ -64,7 +64,7 @@ public class EMailAdresse extends AbstractFachwert<String> {
      * @param validator    Validator zur Adressen-Validierung
      */
     public EMailAdresse(String emailAdresse, EMailValidator validator) {
-        super(validator.validateAddress(emailAdresse));
+        super(validator.validateAdresse(emailAdresse));
     }
 
     /**

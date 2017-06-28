@@ -21,7 +21,6 @@ import org.junit.*;
 
 import javax.validation.*;
 
-import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.*;
 
 /**
@@ -65,46 +64,6 @@ public final class EMailAdresseTest extends AbstractFachwertTest {
     @Test
     public void testGetDomainPart() {
         assertEquals("jfachwert.de", testAdresse.getDomainPart());
-    }
-
-    /**
-     * Die List der gueltigen E-Mail-Adressen stammt aus
-     * https://www.mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
-     * .
-     */
-    // TODO: auf @RunWith(Parameterized.class) umstellen (27-Jun-2017, Oli B.)
-    @Test
-    public void testValidEmailAdresses() {
-        String[] addresses = { "mkyong@yahoo.com",
-                "mkyong-100@yahoo.com", "mkyong.100@yahoo.com",
-                "mkyong111@mkyong.com", "mkyong-100@mkyong.net",
-                "mkyong.100@mkyong.com.au", "mkyong@1.com",
-                "mkyong@gmail.com.com", "mkyong+100@gmail.com",
-                "mkyong-100@yahoo-test.com" };
-        for (String addr : addresses) {
-            new EMailAdresse(addr);
-        }
-    }
-
-    /**
-     * Die List der ungueltigen E-Mail-Adressen stammt aus
-     * https://www.mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
-     * .
-     */
-    // TODO: auf @RunWith(Parameterized.class) umstellen (27-Jun-2017, Oli B.)
-    @Test
-    public void testInvalidEmailAdresses() {
-        String[] addresses = { "mkyong", "mkyong@.com.my", "mkyong123@gmail.a", "mkyong123@.com", "mkyong123@.com.com",
-                ".mkyong@mkyong.com", "mkyong()*@gmail.com", "mkyong@%*.com", "mkyong..2002@gmail.com",
-                "mkyong.@gmail.com", "mkyong@mkyong@gmail.com", "mkyong@gmail.com.1a" };
-        for (String addr : addresses) {
-            try {
-                new EMailAdresse(addr);
-                fail("ValidationException expected for '" + addr + "'");
-            } catch (ValidationException expected) {
-                assertThat(expected.getMessage(), containsString(addr));
-            }
-        }
     }
 
 }

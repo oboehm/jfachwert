@@ -56,7 +56,7 @@ public class EMailValidator {
      * @param emailAdresse zu pruefende E-Mail-Adresse
      * @return die validierte E-Mail-Adresse (zur Weiterverarbeitung)
      */
-    public String validateAddress(String emailAdresse) {
+    public String validateAdresse(String emailAdresse) {
         Matcher matcher = addressPattern.matcher(emailAdresse);
         if (matcher.matches()) {
             return emailAdresse;
