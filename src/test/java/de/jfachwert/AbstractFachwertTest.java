@@ -90,7 +90,7 @@ public abstract class AbstractFachwertTest {
     @Test
     public void testToString() {
         String s = fachwert.toString();
-        assertThat("looks like default implementation", s, not(containsString(this.getClass().getSimpleName() + "@")));
+        assertThat("looks like default implementation", s, not(containsString(fachwert.getClass().getName() + "@")));
     }
 
     /**
