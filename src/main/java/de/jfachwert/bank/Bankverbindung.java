@@ -20,6 +20,7 @@ package de.jfachwert.bank;
 import de.jfachwert.Fachwert;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Eine Bankverbindung besteht aus dem Zahlungsempfaenger bzw. Kontoinhabers,
@@ -34,6 +35,16 @@ public class Bankverbindung implements Fachwert {
     private final String kontoinhaber;
     private final IBAN iban;
     private final BIC bic;
+
+    /**
+     * Erzeugt eine neue Bankverbindung.
+     *
+     * @param name Name des Zahlungsempfaengers
+     * @param iban die IBAN
+     */
+    public Bankverbindung(String name, IBAN iban) {
+        this(name, iban, null);
+    }
 
     /**
      * Erzeugt eine neue Bankverbindung.
@@ -56,8 +67,14 @@ public class Bankverbindung implements Fachwert {
         return iban;
     }
 
-    public BIC getBic() {
-        return bic;
+    /**
+     * Da die BIC bei Inlands-Ueberweisungen optional ist, wird sie hier als
+     * {@link Optional} zurueckgegeben.
+     *
+     * @return BIC
+     */
+    public Optional<BIC> getBic() {
+        return (bic == null) ? Optional.empty() : Optional.of(bic);
     }
 
     @Override
@@ -82,7 +99,14 @@ public class Bankverbindung implements Fachwert {
 
     @Override
     public String toString() {
-        return getKontoinhaber() + ", IBAN " + getIban() + ", BIC " + getBic();
+        StringBuilder buf = new StringBuilder(getKontoinhaber());
+        buf.append(", IBAN ");
+        buf.append(getIban());
+        if (getBic().isPresent()) {
+            buf.append(", BIC ");
+            buf.append(getBic().get());
+        }
+        return buf.toString();
     }
 
 }

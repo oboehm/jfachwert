@@ -19,6 +19,8 @@ package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Fachwert;
+import org.junit.Test;
+import patterntesting.runtime.junit.ObjectTester;
 
 /**
  * Unit-Tests fuer {@link Bankverbindung}-Klasse.
@@ -28,6 +30,16 @@ public final class BankverbindungTest extends AbstractFachwertTest {
     @Override
     protected Fachwert createFachwert() {
         return new Bankverbindung("Max Muster", new IBAN("DE41300606010006605605"), new BIC("GENODEF1JEV"));
+    }
+
+    /**
+     * Hier testen wir die equals-Methode mit einer Bankverbindung ohne BIC.
+     */
+    @Test
+    public void testEqualsOhneBic() {
+        Bankverbindung one = new Bankverbindung("Ohne Bic", new IBAN("DE41300606010006605605"));
+        Bankverbindung anotherOne = new Bankverbindung("Ohne Bic", new IBAN("DE41300606010006605605"));
+        ObjectTester.assertEquals(one, anotherOne);
     }
 
 }
