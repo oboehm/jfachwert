@@ -31,7 +31,7 @@ public class InvalidValueException extends LocalizedValidationException {
     /**
      * Erzeugt eine neue Exception fuer einen fehlenden Wert.
      *
-     * @param context was fuer ein fehlerhafter Wert
+     * @param context Resource des fehlenden Wertes (z.B. "house_number")
      */
     public InvalidValueException(String context) {
         super("missing value for " + context.replace('_', ' '));
@@ -43,7 +43,7 @@ public class InvalidValueException extends LocalizedValidationException {
      * Erzeugt eine neue Exception fuer einen fehlerhaften Wert.
      *
      * @param value der fehlerhafte Wert
-     * @param context was fuer ein fehlerhafter Wert
+     * @param context Resource des fehlerhaften Wertes (z.B. "email_address")
      */
     public InvalidValueException(Object value, String context) {
         super("invalid value for " + context.replace('_', ' ') + ": \"" + value + '"');
