@@ -13,15 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * (c)reated 23.06.2017 by oboehm (ob@oasd.de)
+ * (c)reated 09.07.2017 by oboehm (ob@oasd.de)
  */
+package de.jfachwert.rechnung;
+
+import de.jfachwert.*;
 
 /**
- * Dieses Paket ist fuer Klassen rund um die Kommunikiation im Internet wie
- * EMailAdresse oder DomainName vorgesehen, sofern sie nicht bereits durch
- * das JDK oder andere uebliche Bibliotheken abgedeckt sind.
+ * Eine Kundennummer ist meistens eine vielstellige Zahl oder Zeichenfolge,
+ * die einen Kunden eindeutig identifiziert.
  *
- * @author <a href="ob@aosd.de">oliver</a>
- * @since 0.4
+ * @author oboehm
+ * @since 0.3 (09.07.2017)
  */
-package de.jfachwert.net;
+public class Kundennummer extends AbstractFachwert<String> {
+
+    /**
+     * Erzeugt eine Kundennummer.
+     *
+     * @param kundennummer z.B. "100.059"
+     */
+    public Kundennummer(String kundennummer) {
+        super(kundennummer);
+    }
+
+}

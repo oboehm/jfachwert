@@ -17,10 +17,18 @@
 
   <body>
 
-    <release version="0.3.0" date="2017"
+    <release version="0.4.0" date="2017"
              description="Netzwerk-Klassen hinzugef&#252;gt">
       <action dev="oboehm" type="add" date="23-Jun-2017">
         net-Package mit EMailAdresse angelegt.
+      </action>
+    </release>
+
+    <release version="0.3.0" date="Jul-2017"
+             description="Rechnung-Package hinzugef&#252;gt">
+      <action dev="oboehm" type="add" date="23-Jun-2017">
+        rechnung-Package mit einigen typischen Klassen, die man so auf einer Rechnung findet,
+        hinzugef&#252;gt.
       </action>
     </release>
 

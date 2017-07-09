@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * (c)reated 23.06.2017 by oboehm (ob@oasd.de)
+ * (c)reated 09.07.2017 by oboehm (ob@oasd.de)
  */
 
 /**
- * Dieses Paket ist fuer Klassen rund um die Kommunikiation im Internet wie
- * EMailAdresse oder DomainName vorgesehen, sofern sie nicht bereits durch
- * das JDK oder andere uebliche Bibliotheken abgedeckt sind.
+ * In diesem Paket sind Klassen zu finden, die man ueblicherweise auf einer
+ * Rechnung oder Bestellung findet. Diese sind Klassen wie Kundennummer,
+ * Rechnungsnummer, Bestellnummer, Artikelnummer oder Referenznummer.
  *
  * @author <a href="ob@aosd.de">oliver</a>
- * @since 0.4
+ * @since 0.3
  */
-package de.jfachwert.net;
+package de.jfachwert.rechnung;
