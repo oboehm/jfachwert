@@ -16,6 +16,7 @@ package de.jfachwert;/*
  * (c)reated 14.03.2017 by oboehm (ob@jfachwert.de)
  */
 
+import java.io.*;
 import java.util.Objects;
 
 /**
@@ -26,7 +27,7 @@ import java.util.Objects;
  * @since 14.03.2017
  * @since 0.0.2
  */
-public class AbstractFachwert<T> implements Fachwert {
+public class AbstractFachwert<T extends Serializable> implements Fachwert {
 
     private final T code;
 
