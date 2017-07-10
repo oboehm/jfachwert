@@ -1,4 +1,8 @@
-[![Build Status](https://travis-ci.org/oboehm/jfachwert.svg?branch=master)](https://travis-ci.org/oboehm/jfachwert) [![Coverage Status](https://coveralls.io/repos/github/oboehm/jfachwert/badge.svg?branch=release%2F0.2.0)](https://coveralls.io/github/oboehm/jfachwert) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+[![Build Status](https://travis-ci.org/oboehm/jfachwert.svg?branch=master)](https://travis-ci.org/oboehm/jfachwert)
+[![Coverage Status](https://coveralls.io/repos/github/oboehm/jfachwert/badge.svg?branch=master)](https://coveralls.io/github/oboehm/jfachwert)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.jfachwert/jfachwert/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.jfachwert/jfachwert)
+[![Quality Gate](https://sonarcloud.io/api/badges/gate?key=de.jfachwert:jfachwert:master)](https://sonarcloud.io/dashboard?id=de.jfachwert%3Ajfachwert%3Amaster)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 # Was ist jFachwert?
 
