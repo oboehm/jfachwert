@@ -18,6 +18,7 @@
 package de.jfachwert.rechnung;
 
 import de.jfachwert.*;
+import de.jfachwert.pruefung.*;
 
 /**
  * Eine Kundennummer ist meistens eine vielstellige Zahl oder Zeichenfolge,
@@ -28,13 +29,29 @@ import de.jfachwert.*;
  */
 public class Kundennummer extends AbstractFachwert<String> {
 
+    private static final PruefzifferVerfahren<String> DEFAULT_PRUEFUNG = new LaengenPruefung(1);
+
     /**
      * Erzeugt eine Kundennummer.
      *
      * @param kundennummer z.B. "100.059"
      */
     public Kundennummer(String kundennummer) {
-        super(kundennummer);
+        this(kundennummer, DEFAULT_PRUEFUNG);
+    }
+
+    /**
+     * Dieser Konstruktor ist hauptsaechlich fuer abgeleitete Klassen gedacht,
+     * damit diese das {@link PruefzifferVerfahren} ueberschreiben koennen.
+     * Man kann es auch verwenden, um ein eigenes {@link PruefzifferVerfahren}
+     * einsetzen zu koennen. Standardmaessig wird hier ansonsten nur ueberprueft,
+     * ob die Kundennummer nicht leer ist.
+     *
+     * @param kundennummer die Kundennummer
+     * @param pruefung     Pruefverfahren
+     */
+    public Kundennummer(String kundennummer, PruefzifferVerfahren<String> pruefung) {
+        super(pruefung.validate(kundennummer));
     }
 
 }
