@@ -45,7 +45,7 @@ public class BLZ extends AbstractFachwert<Integer> {
      * @param code eine 5- oder 8-stellige Zahl
      */
     public BLZ(int code) {
-        super(code);
+        super(validate(code));
     }
 
     /**

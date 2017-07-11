@@ -34,7 +34,7 @@ public final class BLZTest extends AbstractFachwertTest {
      */
     @Override
     protected BLZ createFachwert() {
-        return new BLZ(64090100);
+        return new BLZ("64090100");
     }
 
 }
