@@ -19,6 +19,8 @@ package de.jfachwert.pruefung;
 
 import de.jfachwert.PruefzifferVerfahren;
 
+import java.io.*;
+
 /**
  * Die PruefzifferException gibt neben dem Wert auch die fehlerhafte
  * Pruefziffer mit aus.
@@ -28,9 +30,9 @@ import de.jfachwert.PruefzifferVerfahren;
  */
 public class PruefzifferException extends LocalizedValidationException {
 
-    private final Object wert;
-    private final Object expected;
-    private final Object pruefziffer;
+    private final Serializable wert;
+    private final Serializable expected;
+    private final Serializable pruefziffer;
 
     /**
      * Gibt neben dem Wert auch die erwartete Pruefziffer mit aus.
@@ -38,7 +40,7 @@ public class PruefzifferException extends LocalizedValidationException {
      * @param wert fehlerhafter Wert
      * @param verfahren Verfahren zur Bestimmung der Pruefziffer
      */
-    public <T> PruefzifferException(T wert, PruefzifferVerfahren<T> verfahren) {
+    public <T extends Serializable> PruefzifferException(T wert, PruefzifferVerfahren<T> verfahren) {
         this(wert, verfahren.berechnePruefziffer(wert), verfahren.getPruefziffer(wert));
     }
 
@@ -49,7 +51,7 @@ public class PruefzifferException extends LocalizedValidationException {
      * @param expected    erwartete Pruefziffer
      * @param pruefziffer tatsaechliche Pruefziffer
      */
-    public <T> PruefzifferException(T wert, T expected, T pruefziffer) {
+    public <T extends Serializable> PruefzifferException(T wert, T expected, T pruefziffer) {
         super(wert + ": Pruefziffer=" + expected + " expected but got '" + pruefziffer + "'");
         this.wert = wert;
         this.expected = expected;
