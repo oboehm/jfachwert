@@ -17,16 +17,62 @@
  */
 package de.jfachwert.pruefung;
 
+import java.io.*;
+import java.util.*;
+
 /**
- * Die Klasse LengthValidator ist eine rein statische Klassen fuer die
- * Laengenvalidierung.
+ * Bei der Laengen-Validierung wird nur die Laenge des Fachwertes geprueft, ob
+ * er zwischen der erlaubten Minimal- und Maximallaenge liegt. Ist die
+ * Minimallaenge 0, sind leere Werte erlaubt, ist die Maximallaenge unendlich
+ * (bzw. groesster Integer-Wert), gibt es keine Laengenbeschraenkung.
+ *
+ * Urspruenglich besass diese Klasse rein statisiche Methode fuer die
+ * Laengenvaliderung. Ab v0.3.1 kann sie auch anstelle eines
+ * Pruefziffernverfahrens eingesetzt werden.
  *
  * @author oboehm
  * @since 0.2 (20.04.2017)
  */
-public final class LengthValidator {
+public class LengthValidator<T extends Serializable> extends NoopVerfahren<T> {
 
-    private LengthValidator() {
+    private final int min;
+    private final int max;
+
+    public LengthValidator(int min) {
+        this(min, Integer.MAX_VALUE);
+    }
+
+    public LengthValidator(int min, int max) {
+        this.min = min;
+        this.max = max;
+    }
+
+    /**
+     * Liefert true zurueck, wenn der uebergebene Wert innerhalb der erlaubten
+     * Laenge liegt.
+     *
+     * @param wert Fachwert oder gekapselter Wert
+     * @return true oder false
+     */
+    @Override
+    public boolean isValid(T wert) {
+        int length = Objects.toString(wert, "").length();
+        return (length >= min) && (length <= max);
+    }
+
+    /**
+     * Ueberprueft, ob der uebergebenen Werte innerhalb der min/max-Werte
+     * liegt.
+     *
+     * @param wert zu ueberpruefender Wert
+     * @return den ueberprueften Wert (zur Weiterverarbeitung)
+     */
+    @Override
+    public T validate(T wert) {
+        if (!isValid(wert)) {
+            throw new IllegalLengthException(Objects.toString(wert), min, max);
+        }
+        return wert;
     }
 
     /**
