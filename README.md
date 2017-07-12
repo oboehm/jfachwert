@@ -43,7 +43,7 @@ Jetzt kann man die Argumente nicht mehr verwechseln, weil sonst der Compiler mec
 
 ## Aktueller Stand
 
-Die Arbeit hat erst gerade begonnen und die Funktionaliaeten bei den wenig vorhandenen Fachwerten ist noch aeusserst
+Die Arbeit hat erst gerade begonnen und die Funktionaliaeten bei den wenig vorhandenen Fachwerten ist noch
 bescheiden. Dennoch kann man sie bereits einsetzen und profitiert von sprechenderen Methoden-Parametern, die nicht
 mehr verwechselt werden koennen. Wer Ideen fuer weitere Fachwerte hat, darf gerne mitmachen - sei es durch Code,
 sei es durch Dokumentation oder einem schoenen Icon, oder sei es durch Anregungen und konstruktive Kritik.
@@ -58,7 +58,8 @@ unter folgenden Koordinaten zu finden ist:
 ```
 
 Ab 0.1.0 kamen dann weitere Bank-Klassen sowie Packages fuer steuerliche
-oder postalische Klassen hinzu.
+oder postalische Klassen hinzu. Die weitere Geschichte ist in den
+[Release Notes](http://jfachwert.de/changes-report.html) nachzulesen.
 
 
 # Ziele
@@ -67,7 +68,7 @@ Ziel dieser Bibliothek ist es, fuer den deutschsprachigen Raum alle wichtigen Da
 sonst immer wieder selbst implementieren muesste. Mir ist klar, dass damit nicht alle Sonderfaelle abgedeckt werden
 koennen - deswegen sind die Klassen auch nicht 'final', sondern koennen erweitert werden.
 
-Juni 2017, Oli B.
+Juli 2017, Oli B.
 
 ---
 
