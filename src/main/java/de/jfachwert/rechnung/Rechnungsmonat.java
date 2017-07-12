@@ -18,6 +18,8 @@
 package de.jfachwert.rechnung;
 
 import de.jfachwert.*;
+import de.jfachwert.pruefung.*;
+import org.apache.commons.lang3.*;
 
 /**
  * Vor allem bei Abonnements oder bei wiederkehrenden Gebuehren findet man
@@ -29,6 +31,8 @@ import de.jfachwert.*;
  */
 public class Rechnungsmonat implements Fachwert {
 
+    private static final Range<Integer> VALID_MONTH_RANGE = Range.between(1, 12);
+    private static final Range<Integer> VALID_YEAR_RANGE = Range.between(0, 9999);
     private final int monat;
     private final int jahr;
 
@@ -39,8 +43,15 @@ public class Rechnungsmonat implements Fachwert {
      * @param jahr vierstellige Zahl
      */
     public Rechnungsmonat(int monat, int jahr) {
-        this.monat = monat;
-        this.jahr = jahr;
+        this.monat = validate("month", monat, VALID_MONTH_RANGE);
+        this.jahr = validate("year", jahr, VALID_YEAR_RANGE);
+    }
+
+    private static int validate(String context, int value, Range<Integer> range) {
+        if (!range.contains(value)) {
+            throw new InvalidValueException(value, context, range);
+        }
+        return value;
     }
 
     /**

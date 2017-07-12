@@ -17,6 +17,8 @@
  */
 package de.jfachwert.pruefung;
 
+import org.apache.commons.lang3.*;
+
 /**
  * Die InvalidValueException ist eine Exception fuer ungueltige Werte.
  *
@@ -27,6 +29,7 @@ public class InvalidValueException extends LocalizedValidationException {
 
     private final Object value;
     private final String context;
+    private final Range<? extends Comparable> range;
 
     /**
      * Erzeugt eine neue Exception fuer einen fehlenden Wert.
@@ -37,6 +40,7 @@ public class InvalidValueException extends LocalizedValidationException {
         super("missing value for " + context.replace('_', ' '));
         this.value = null;
         this.context = context;
+        this.range = null;
     }
 
     /**
@@ -49,6 +53,22 @@ public class InvalidValueException extends LocalizedValidationException {
         super("invalid value for " + context.replace('_', ' ') + ": \"" + value + '"');
         this.value = value;
         this.context = context;
+        this.range = null;
+    }
+
+    /**
+     * Erzeugt eine neue Exception fuer einen fehlerhaften Wert, der nicht
+     * zwischen den angegebenen Werten liegt.
+     *
+     * @param value   der fehlerhafte Wert
+     * @param context Resource des fehlerhaften Wertes (z.B. "email_address")
+     * @param range   untere und obere Schranke
+     */
+    public InvalidValueException(Object value, String context, Range<? extends Comparable> range) {
+        super("value for " + context.replace('_', ' ') + " is not in " + range + ": \"" + value + '"');
+        this.value = value;
+        this.context = context;
+        this.range = range;
     }
 
     /**
@@ -59,11 +79,14 @@ public class InvalidValueException extends LocalizedValidationException {
      */
     @Override
     public String getLocalizedMessage() {
+        String localizedContext = getLocalizedString(context);
         if (value == null) {
-            return getLocalizedMessage("pruefung.missingvalue.exception.message", getLocalizedString(context));
-        } else {
-            return getLocalizedMessage("pruefung.invalidvalue.exception.message", value, getLocalizedString(context));
+            return getLocalizedMessage("pruefung.missingvalue.exception.message", localizedContext);
         }
+        if (range == null) {
+            return getLocalizedMessage("pruefung.invalidvalue.exception.message", value, localizedContext);
+        }
+        return getLocalizedMessage("pruefung.invalidrange.exception.message", value, localizedContext, range);
     }
 
 }

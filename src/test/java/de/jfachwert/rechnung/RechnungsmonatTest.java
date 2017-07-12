@@ -17,6 +17,9 @@ package de.jfachwert.rechnung;/*
  */
 
 import de.jfachwert.*;
+import org.junit.*;
+
+import javax.validation.*;
 
 /**
  * Unit-Tests fuer {@link Rechnungsmonat}-Klasse.
@@ -33,6 +36,15 @@ public final class RechnungsmonatTest extends AbstractFachwertTest {
     @Override
     protected Fachwert createFachwert() {
         return new Rechnungsmonat(7, 2017);
+    }
+
+    /**
+     * Sollte der Konstruktur mit fehlerhaften Werten aufgerufen werden,
+     * erwarten wir eine {@link IllegalArgumentException}.
+     */
+    @Test(expected = ValidationException.class)
+    public void testRechnungsMonatWrongMonth() {
+        new Rechnungsmonat(13, 2017);
     }
 
 }
