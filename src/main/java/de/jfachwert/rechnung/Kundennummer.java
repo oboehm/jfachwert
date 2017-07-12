@@ -29,15 +29,13 @@ import de.jfachwert.pruefung.*;
  */
 public class Kundennummer extends AbstractFachwert<String> {
 
-    private static final PruefzifferVerfahren<String> DEFAULT_PRUEFUNG = new LengthValidator<>(1);
-
     /**
      * Erzeugt eine Kundennummer.
      *
-     * @param kundennummer z.B. "100.059"
+     * @param nummer z.B. "100.059"
      */
-    public Kundennummer(String kundennummer) {
-        this(kundennummer, DEFAULT_PRUEFUNG);
+    public Kundennummer(String nummer) {
+        this(nummer, LengthValidator.NOT_EMPTY_VALIDATOR);
     }
 
     /**

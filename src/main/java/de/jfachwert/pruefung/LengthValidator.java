@@ -17,6 +17,8 @@
  */
 package de.jfachwert.pruefung;
 
+import de.jfachwert.*;
+
 import java.io.*;
 import java.util.*;
 
@@ -34,6 +36,8 @@ import java.util.*;
  * @since 0.2 (20.04.2017)
  */
 public class LengthValidator<T extends Serializable> extends NoopVerfahren<T> {
+
+    public static final PruefzifferVerfahren<String> NOT_EMPTY_VALIDATOR = new LengthValidator<>(1);
 
     private final int min;
     private final int max;

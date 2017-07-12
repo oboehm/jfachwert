@@ -17,6 +17,9 @@ package de.jfachwert.rechnung;/*
  */
 
 import de.jfachwert.*;
+import org.junit.*;
+
+import javax.validation.*;
 
 /**
  * Unit-Tests fuer {@link Bestellnummer}-Klasse.
@@ -35,4 +38,13 @@ public class BestellnummerTest extends AbstractFachwertTest {
         return new Bestellnummer("004711");
     }
 
+    /**
+     * Eine leere Bestellnummer macht keinen Sinn und sollte deswegen nicht
+     * angelegt werden koennen.
+     */
+    @Test(expected = ValidationException.class)
+    public void testNotEmpty() {
+        new Bestellnummer("");
+    }
+    
 }

@@ -18,6 +18,7 @@
 package de.jfachwert.rechnung;
 
 import de.jfachwert.*;
+import de.jfachwert.pruefung.*;
 
 /**
  * Auf vielen Rechnungen findet man eine Rechnungsnummer wie "000002835042",
@@ -34,7 +35,20 @@ public class Rechnungsnummer extends AbstractFachwert<String> {
      * @param nummer z.B. "000002835042"
      */
     public Rechnungsnummer(String nummer) {
-        super(nummer);
+        this(nummer, LengthValidator.NOT_EMPTY_VALIDATOR);
+    }
+
+    /**
+     * Dieser Konstruktor ist hauptsaechlich fuer abgeleitete Klassen gedacht,
+     * damit diese das {@link PruefzifferVerfahren} ueberschreiben koennen.
+     * Man kann es auch verwenden, um ein eigenes {@link PruefzifferVerfahren}
+     * einsetzen zu koennen.
+     *
+     * @param nummer   z.B. "000002835042"
+     * @param pruefung Pruefverfahren
+     */
+    public Rechnungsnummer(String nummer, PruefzifferVerfahren<String> pruefung) {
+        super(pruefung.validate(nummer));
     }
 
 }
