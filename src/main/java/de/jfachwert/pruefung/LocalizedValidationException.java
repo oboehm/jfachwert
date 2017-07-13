@@ -32,7 +32,7 @@ import java.util.ResourceBundle;
  */
 public abstract class LocalizedValidationException extends ValidationException {
 
-    private final ResourceBundle bundle = ResourceBundle.getBundle("de.jfachwert.messages");
+    private transient ResourceBundle bundle = ResourceBundle.getBundle("de.jfachwert.messages");
 
     /**
      * Erzeugt eine {@link LocalizedValidationException}.

@@ -19,6 +19,8 @@ package de.jfachwert.pruefung;
 
 import org.apache.commons.lang3.*;
 
+import java.io.*;
+
 /**
  * Die InvalidValueException ist eine Exception fuer ungueltige Werte.
  *
@@ -27,7 +29,7 @@ import org.apache.commons.lang3.*;
  */
 public class InvalidValueException extends LocalizedValidationException {
 
-    private final Object value;
+    private final Serializable value;
     private final String context;
     private final Range<? extends Comparable> range;
 
@@ -49,7 +51,7 @@ public class InvalidValueException extends LocalizedValidationException {
      * @param value der fehlerhafte Wert
      * @param context Resource des fehlerhaften Wertes (z.B. "email_address")
      */
-    public InvalidValueException(Object value, String context) {
+    public InvalidValueException(Serializable value, String context) {
         super("invalid value for " + context.replace('_', ' ') + ": \"" + value + '"');
         this.value = value;
         this.context = context;
@@ -64,7 +66,7 @@ public class InvalidValueException extends LocalizedValidationException {
      * @param context Resource des fehlerhaften Wertes (z.B. "email_address")
      * @param range   untere und obere Schranke
      */
-    public InvalidValueException(Object value, String context, Range<? extends Comparable> range) {
+    public InvalidValueException(Serializable value, String context, Range<? extends Comparable> range) {
         super("value for " + context.replace('_', ' ') + " is not in " + range + ": \"" + value + '"');
         this.value = value;
         this.context = context;
