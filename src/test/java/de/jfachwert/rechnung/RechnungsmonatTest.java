@@ -20,8 +20,9 @@ import de.jfachwert.*;
 import org.junit.*;
 
 import javax.validation.*;
+import java.time.*;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * Unit-Tests fuer {@link Rechnungsmonat}-Klasse.
@@ -45,7 +46,7 @@ public final class RechnungsmonatTest extends AbstractFachwertTest {
      * erwarten wir eine {@link IllegalArgumentException}.
      */
     @Test(expected = ValidationException.class)
-    public void testRechnungsMonatWrongMonth() {
+    public void testRechnungsmonatWrongMonth() {
         new Rechnungsmonat(13, 2017);
     }
 
@@ -55,6 +56,15 @@ public final class RechnungsmonatTest extends AbstractFachwertTest {
     @Test
     public void testRechnungsMonatString() {
         assertEquals(new Rechnungsmonat(8, 2017), new Rechnungsmonat("8/2017"));
+    }
+
+    /**
+     * Hier testen wir den Default-Konstruktor.
+     */
+    @Test
+    public void testRechnungsmonat() {
+        Rechnungsmonat aktuellerMonat = new Rechnungsmonat();
+        assertEquals(LocalDate.now().getYear(), aktuellerMonat.getJahr());
     }
 
     /**

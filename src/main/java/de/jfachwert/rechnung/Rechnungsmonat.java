@@ -21,6 +21,7 @@ import de.jfachwert.*;
 import de.jfachwert.pruefung.*;
 import org.apache.commons.lang3.*;
 
+import java.sql.*;
 import java.time.*;
 import java.time.format.*;
 
@@ -38,6 +39,26 @@ public class Rechnungsmonat implements Fachwert {
     private static final Range<Integer> VALID_YEAR_RANGE = Range.between(0, 9999);
     private final int monat;
     private final int jahr;
+
+    /**
+     * Der Default-Konstruktor legt einen Rechnungsmonat vom aktuellen Monat
+     * an.
+     */
+    public Rechnungsmonat() {
+        this(LocalDate.now());
+    }
+
+    /**
+     * Erzeugt einen gueltigen Rechnungsmonat anhand des uebergebenen
+     * {@link LocalDate}s. Will man ein Rechnungsmonat ueber ein
+     * {@link java.util.Date} anlegen, muss man es vorher mit
+     * {@link Date#toLocalDate()} in ein {@link LocalDate} wandeln.
+     *
+     * @param date Datum
+     */
+    public Rechnungsmonat(LocalDate date) {
+        this(date.getMonthValue(), date.getYear());
+    }
 
     /**
      * Erzeugt einen gueltigen Rechnungsmonat.
@@ -87,7 +108,9 @@ public class Rechnungsmonat implements Fachwert {
     }
 
     /**
-     * Liefert das Rechnungsatum als {@link LocalDate} zurueck.
+     * Liefert das Rechnungsatum als {@link LocalDate} zurueck. Sollte das
+     * Datum als {@link java.util.Date} benoetigt werden, kann man es mit
+     * {@link java.sql.Date#valueOf(LocalDate)} konvertieren.
      *
      * @return z.B. 1.7.2017 fuer "7/2017"
      */
@@ -98,6 +121,7 @@ public class Rechnungsmonat implements Fachwert {
     /**
      * Hiermit kann der Rechnungsmonats im gewuenschten Format ausgegeben
      * werden. Als Parameter sind die gleichen Patterns wie beim
+     * {@link DateTimeFormatter#ofPattern(String, java.util.Locale)} bzw.
      * {@link java.text.SimpleDateFormat} moeglich.
      *
      * @param pattern z.B. "MM/yyyy"
