@@ -21,6 +21,9 @@ import de.jfachwert.*;
 import de.jfachwert.pruefung.*;
 import org.apache.commons.lang3.*;
 
+import java.time.*;
+import java.time.format.*;
+
 /**
  * Vor allem bei Abonnements oder bei wiederkehrenden Gebuehren findet man
  * einen Rechnungsmonat auf der Rechnung. Hier ist nur Monat und Jahr relevant.
@@ -81,6 +84,28 @@ public class Rechnungsmonat implements Fachwert {
      */
     public int getJahr() {
         return jahr;
+    }
+
+    /**
+     * Liefert das Rechnungsatum als {@link LocalDate} zurueck.
+     *
+     * @return z.B. 1.7.2017 fuer "7/2017"
+     */
+    public LocalDate asLocalDate() {
+        return LocalDate.of(getJahr(), getMonat(), 1);
+    }
+
+    /**
+     * Hiermit kann der Rechnungsmonats im gewuenschten Format ausgegeben
+     * werden. Als Parameter sind die gleichen Patterns wie beim
+     * {@link java.text.SimpleDateFormat} moeglich.
+     *
+     * @param pattern z.B. "MM/yyyy"
+     * @return z.B. "07/2017"
+     */
+    public String format(String pattern) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return asLocalDate().format(formatter);
     }
 
     /**

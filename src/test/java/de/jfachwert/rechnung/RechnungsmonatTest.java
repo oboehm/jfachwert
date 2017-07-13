@@ -57,4 +57,12 @@ public final class RechnungsmonatTest extends AbstractFachwertTest {
         assertEquals(new Rechnungsmonat(8, 2017), new Rechnungsmonat("8/2017"));
     }
 
+    /**
+     * Test-Methode fuer {@link Rechnungsmonat#format(String)}.
+     */
+    @Test
+    public void testFormat() {
+        assertEquals("06/2017", new Rechnungsmonat(6, 2017).format("MM/yyyy"));
+    }
+
 }
