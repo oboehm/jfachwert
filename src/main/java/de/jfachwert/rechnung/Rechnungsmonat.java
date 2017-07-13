@@ -39,19 +39,30 @@ public class Rechnungsmonat implements Fachwert {
     /**
      * Erzeugt einen gueltigen Rechnungsmonat.
      *
+     * @param monat z.B. "7/2017" fuer Juli 2017
+     */
+    public Rechnungsmonat(String monat) {
+        String[] parts = monat.split("/");
+        this.monat = validate("month", parts[0], VALID_MONTH_RANGE);
+        this.jahr = validate("year", parts[1], VALID_YEAR_RANGE);
+    }
+
+    /**
+     * Erzeugt einen gueltigen Rechnungsmonat.
+     *
      * @param monat zwischen 1 und 12
      * @param jahr vierstellige Zahl
      */
     public Rechnungsmonat(int monat, int jahr) {
-        this.monat = validate("month", monat, VALID_MONTH_RANGE);
-        this.jahr = validate("year", jahr, VALID_YEAR_RANGE);
+        this(monat + "/" + jahr);
     }
 
-    private static int validate(String context, int value, Range<Integer> range) {
-        if (!range.contains(value)) {
+    private static int validate(String context, String value, Range<Integer> range) {
+        int number = Integer.parseInt(value);
+        if (!range.contains(number)) {
             throw new InvalidValueException(value, context, range);
         }
-        return value;
+        return number;
     }
 
     /**

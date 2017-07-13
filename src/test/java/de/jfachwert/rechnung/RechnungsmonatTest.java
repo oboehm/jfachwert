@@ -21,6 +21,8 @@ import org.junit.*;
 
 import javax.validation.*;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Unit-Tests fuer {@link Rechnungsmonat}-Klasse.
  *
@@ -45,6 +47,14 @@ public final class RechnungsmonatTest extends AbstractFachwertTest {
     @Test(expected = ValidationException.class)
     public void testRechnungsMonatWrongMonth() {
         new Rechnungsmonat(13, 2017);
+    }
+
+    /**
+     * Hier testen wir den Constructor mit einem String
+     */
+    @Test
+    public void testRechnungsMonatString() {
+        assertEquals(new Rechnungsmonat(8, 2017), new Rechnungsmonat("8/2017"));
     }
 
 }
