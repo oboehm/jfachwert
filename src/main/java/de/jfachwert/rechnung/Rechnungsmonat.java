@@ -21,9 +21,10 @@ import de.jfachwert.*;
 import de.jfachwert.pruefung.*;
 import org.apache.commons.lang3.*;
 
-import java.sql.*;
+import java.sql.Date;
 import java.time.*;
 import java.time.format.*;
+import java.util.*;
 
 /**
  * Vor allem bei Abonnements oder bei wiederkehrenden Gebuehren findet man
@@ -128,7 +129,21 @@ public class Rechnungsmonat implements Fachwert {
      * @return z.B. "07/2017"
      */
     public String format(String pattern) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return format(pattern, Locale.getDefault());
+    }
+
+    /**
+     * Hiermit kann der Rechnungsmonats im gewuenschten Format ausgegeben
+     * werden. Als Parameter sind die gleichen Patterns wie beim
+     * {@link DateTimeFormatter#ofPattern(String, Locale)} bzw.
+     * {@link java.text.SimpleDateFormat} moeglich.
+     *
+     * @param pattern z.B. "MM/yyyy"
+     * @param locale gewuenschte Locale
+     * @return z.B. "07/2017"
+     */
+    public String format(String pattern, Locale locale) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern, locale);
         return asLocalDate().format(formatter);
     }
 
