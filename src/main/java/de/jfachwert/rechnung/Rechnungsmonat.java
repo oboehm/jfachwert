@@ -109,6 +109,50 @@ public class Rechnungsmonat implements Fachwert {
     }
 
     /**
+     * Liefert den Vormonat.
+     *
+     * @return Vormonat
+     */
+    public Rechnungsmonat getVormonat() {
+        if (monat == 1) {
+            return new Rechnungsmonat(12, jahr - 1);
+        } else {
+            return new Rechnungsmonat(monat - 1, jahr);
+        }
+    }
+
+    /**
+     * Liefert den Folgemonat.
+     *
+     * @return Folgemonat
+     */
+    public Rechnungsmonat getFolgemonat() {
+        if (monat == 12) {
+            return new Rechnungsmonat(1, jahr + 1);
+        } else {
+            return new Rechnungsmonat(monat + 1, jahr);
+        }
+    }
+
+    /**
+     * Liefert den gleichen Monat im Vorjahr.
+     *
+     * @return Monat im Vorjahr
+     */
+    public Rechnungsmonat getVorjahr() {
+        return new Rechnungsmonat(monat, jahr - 1);
+    }
+
+    /**
+     * Liefert den gleichen Monat im Folgejahr.
+     *
+     * @return Monat im Folgejahr
+     */
+    public Rechnungsmonat getFolgejahr() {
+        return new Rechnungsmonat(monat, jahr + 1);
+    }
+
+    /**
      * Liefert das Rechnungsatum als {@link LocalDate} zurueck. Sollte das
      * Datum als {@link java.util.Date} benoetigt werden, kann man es mit
      * {@link java.sql.Date#valueOf(LocalDate)} konvertieren.

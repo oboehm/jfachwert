@@ -31,6 +31,11 @@ import static org.junit.Assert.*;
  */
 public final class RechnungsmonatTest extends AbstractFachwertTest {
 
+    private static final Rechnungsmonat JAN_2016 = new Rechnungsmonat("1/2016");
+    private static final Rechnungsmonat DEZ_2016 = new Rechnungsmonat("12/2016");
+    private static final Rechnungsmonat JAN_2017 = new Rechnungsmonat("1/2017");
+    private static final Rechnungsmonat FEB_2017 = new Rechnungsmonat("2/2017");
+
     /**
      * Zum Testen nehmen wir den Juli 2017.
      *
@@ -65,6 +70,40 @@ public final class RechnungsmonatTest extends AbstractFachwertTest {
     public void testRechnungsmonat() {
         Rechnungsmonat aktuellerMonat = new Rechnungsmonat();
         assertEquals(LocalDate.now().getYear(), aktuellerMonat.getJahr());
+    }
+
+    /**
+     * Testmethode fuer {@link Rechnungsmonat#getVormonat()}.
+     */
+    @Test
+    public void testGetVormonat() {
+        assertEquals(JAN_2017, FEB_2017.getVormonat());
+        assertEquals(DEZ_2016, JAN_2017.getVormonat());
+    }
+
+    /**
+     * Testmethode fuer {@link Rechnungsmonat#getFolgemonat()}.
+     */
+    @Test
+    public void testGetFolgemonat() {
+        assertEquals(FEB_2017, JAN_2017.getFolgemonat());
+        assertEquals(JAN_2017, DEZ_2016.getFolgemonat());
+    }
+
+    /**
+     * Testmethode fuer {@link Rechnungsmonat#getVorjahr()}.
+     */
+    @Test
+    public void testGetVorjahr() {
+        assertEquals(JAN_2016, JAN_2017.getVorjahr());
+    }
+
+    /**
+     * Testmethode fuer {@link Rechnungsmonat#getFolgejahr()}.
+     */
+    @Test
+    public void testGetFolgejahr() {
+        assertEquals(JAN_2017, JAN_2016.getFolgejahr());
     }
 
     /**
