@@ -56,20 +56,23 @@ public final class RechnungsmonatTest extends AbstractFachwertTest {
     }
 
     /**
-     * Hier testen wir den Constructor mit einem String
-     */
-    @Test
-    public void testRechnungsMonatString() {
-        assertEquals(new Rechnungsmonat(8, 2017), new Rechnungsmonat("8/2017"));
-    }
-
-    /**
      * Hier testen wir den Default-Konstruktor.
      */
     @Test
     public void testRechnungsmonat() {
         Rechnungsmonat aktuellerMonat = new Rechnungsmonat();
         assertEquals(LocalDate.now().getYear(), aktuellerMonat.getJahr());
+    }
+
+    /**
+     * Schoen waere es, wenn der String-Konstruktor nicht nur "2/2017" als
+     * Argument akzeptiert, sondern auch "Feb-2017" oder normale Datumsformate
+     * wie "2017-02-14".
+     */
+    @Test
+    public void testRechnungsmonatString() {
+        assertEquals(FEB_2017, new Rechnungsmonat("Feb-2017"));
+        assertEquals(FEB_2017, new Rechnungsmonat("2017-02-14"));
     }
 
     /**

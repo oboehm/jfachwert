@@ -44,6 +44,16 @@ public abstract class LocalizedValidationException extends ValidationException {
     }
 
     /**
+     * Erzeugt eine {@link LocalizedValidationException}.
+     *
+     * @param message Fehlermeldung
+     * @param cause   Ursache
+     */
+    public LocalizedValidationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    /**
      * Diese Methode sollte von {@link #getLocalizedMessage()} aufgerufen
      * werden, damit das {@link ResourceBundle} fuer die lokalisierte
      * Message angezogen wird.

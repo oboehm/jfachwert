@@ -59,6 +59,20 @@ public class InvalidValueException extends LocalizedValidationException {
     }
 
     /**
+     * Erzeugt eine neue Exception fuer einen fehlerhaften Wert.
+     *
+     * @param value   der fehlerhafte Wert
+     * @param context Resource des fehlerhaften Wertes (z.B. "email_address")
+     * @param cause   Ursache
+     */
+    public InvalidValueException(Serializable value, String context, Throwable cause) {
+        super("invalid value for " + context.replace('_', ' ') + ": \"" + value + '"', cause);
+        this.value = value;
+        this.context = context;
+        this.range = null;
+    }
+
+    /**
      * Erzeugt eine neue Exception fuer einen fehlerhaften Wert, der nicht
      * zwischen den angegebenen Werten liegt.
      *

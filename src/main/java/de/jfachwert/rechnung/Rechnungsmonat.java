@@ -21,7 +21,6 @@ import de.jfachwert.*;
 import de.jfachwert.pruefung.*;
 import org.apache.commons.lang3.*;
 
-import java.sql.Date;
 import java.time.*;
 import java.time.format.*;
 import java.util.*;
@@ -53,7 +52,7 @@ public class Rechnungsmonat implements Fachwert {
      * Erzeugt einen gueltigen Rechnungsmonat anhand des uebergebenen
      * {@link LocalDate}s. Will man ein Rechnungsmonat ueber ein
      * {@link java.util.Date} anlegen, muss man es vorher mit
-     * {@link Date#toLocalDate()} in ein {@link LocalDate} wandeln.
+     * {@link java.sql.Date#toLocalDate()} in ein {@link LocalDate} wandeln.
      *
      * @param date Datum
      */
@@ -62,14 +61,26 @@ public class Rechnungsmonat implements Fachwert {
     }
 
     /**
-     * Erzeugt einen gueltigen Rechnungsmonat.
+     * Erzeugt einen gueltigen Rechnungsmonat. Normalerweise sollte der
+     * Monat als "7/2017" angegeben werden, es werden aber auch andere
+     * Formate wie "Jul-2017" oder "2017-07-14" unterstuetzt.
+     *
+     * Auch wenn "Jul-2017" und andere Formate als gueltiger Rechnungsmonat
+     * erkannt werden, sollte man dies nur vorsichtig einsetzen, da hier mit
+     * Brute-Force einfach nur geraten wird, welches Format es sein koennte.
      *
      * @param monat z.B. "7/2017" fuer Juli 2017
      */
     public Rechnungsmonat(String monat) {
         String[] parts = monat.split("/");
-        this.monat = validate("month", parts[0], VALID_MONTH_RANGE);
-        this.jahr = validate("year", parts[1], VALID_YEAR_RANGE);
+        if ((parts.length == 2) && isDigit(parts[0]) && isDigit(parts[1])) {
+            this.monat = validate("month", parts[0], VALID_MONTH_RANGE);
+            this.jahr = validate("year", parts[1], VALID_YEAR_RANGE);
+        } else {
+            LocalDate date = toLocalDate(monat);
+            this.monat = date.getMonthValue();
+            this.jahr = date.getYear();
+        }
     }
 
     /**
@@ -82,12 +93,44 @@ public class Rechnungsmonat implements Fachwert {
         this(monat + "/" + jahr);
     }
 
+    private static LocalDate toLocalDate(String monat) {
+        String normalized = monat.replaceAll("[/\\.\\s]", "-");
+        String[] parts = monat.split("-");
+        if (parts.length == 2) {
+            normalized = "1-" + normalized;
+        } else if (parts.length != 3) {
+            throw new InvalidValueException(monat, "month");
+        }
+        try {
+            return LocalDate.parse(normalized);
+        } catch (DateTimeParseException ex) {
+            return guessLocalDate(normalized, ex);
+        }
+    }
+
+    private static LocalDate guessLocalDate(String monat, DateTimeParseException ex) {
+        String[] datePatterns = {"d-MMM-yyyy", "d-MM-yyyy", "yyyy-MMM-d", "yyyy-MM-d", "MMM-d-yyyy"};
+        for (String pattern : datePatterns) {
+            try {
+                return LocalDate.parse(monat, DateTimeFormatter.ofPattern(pattern));
+            } catch (DateTimeParseException ignored) {
+                ex.addSuppressed(new IllegalArgumentException(
+                        ignored.getMessage() + " / '" + monat + "' does not match '" + pattern + "'"));
+            }
+        }
+        throw new InvalidValueException(monat, "month", ex);
+    }
+
     private static int validate(String context, String value, Range<Integer> range) {
         int number = Integer.parseInt(value);
         if (!range.contains(number)) {
             throw new InvalidValueException(value, context, range);
         }
         return number;
+    }
+
+    private static boolean isDigit(String number) {
+        return StringUtils.isNumeric(number);
     }
 
     /**
