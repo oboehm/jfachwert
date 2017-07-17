@@ -19,6 +19,7 @@ package de.jfachwert.pruefung;
 
 import org.junit.*;
 import patterntesting.runtime.junit.*;
+import patterntesting.runtime.util.*;
 
 import java.io.*;
 
@@ -44,13 +45,20 @@ public final class LocalizedValidationExceptionTest {
     }
 
     /**
-     * Da Exceptions serialisierbar sind, testen wir hier das.
+     * Da Exceptions serialisierbar sind, testen wir hier das. Ein Problem
+     * tauchte dabei mit dem transienten bundle-Attribut, das nach der
+     * Deserialisierung nicht initalisiert wurde. Das ist aber inzwischen
+     * behoben.
      *
      * @throws NotSerializableException falls Exception nicht serialisierbar
+     * @throws ClassNotFoundException   sollte nicht auftreten
      */
     @Test
-    public void testSerializable() throws NotSerializableException {
+    public void testSerializable() throws NotSerializableException, ClassNotFoundException {
         SerializableTester.assertSerialization(exception);
+        LocalizedValidationException deserialized =
+                (LocalizedValidationException) Converter.deserialize(Converter.serialize(exception));
+        assertEquals(exception.getLocalizedMessage(), deserialized.getLocalizedMessage());
     }
 
 }
