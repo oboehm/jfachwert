@@ -18,13 +18,18 @@
 package de.jfachwert.net;
 
 import de.jfachwert.*;
+import org.junit.*;
+
+import static org.junit.Assert.assertEquals;
 
 /**
- * Unit-Tests fuer {@link DomainName}-Klasse.
+ * Unit-Tests fuer {@link Domainname}-Klasse.
  *
  * @author oboehm
  */
-public class DomainNameTest extends AbstractFachwertTest {
+public class DomainnameTest extends AbstractFachwertTest {
+
+    private final Domainname domainName = new Domainname("www.jfachwert.de");
 
     /**
      * Zum Testen brauchen wir ein Test-Objekt. Dies muss hierueber von den abgeleiteten Unit-Tests bereitgestellt
@@ -34,8 +39,16 @@ public class DomainNameTest extends AbstractFachwertTest {
      * @return Test-Objekt zum Testen
      */
     @Override
-    protected DomainName createFachwert() {
-        return new DomainName("jfachwert.de");
+    protected Domainname createFachwert() {
+        return new Domainname("jfachwert.de");
+    }
+
+    /**
+     * Testmethode fuer {@link Domainname#getTLD()}.
+     */
+    @Test
+    public void testGetTLD() {
+        assertEquals("de", domainName.getTLD());
     }
 
 }

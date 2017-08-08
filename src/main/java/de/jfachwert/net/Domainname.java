@@ -18,6 +18,7 @@
 package de.jfachwert.net;
 
 import de.jfachwert.*;
+import org.apache.commons.lang3.*;
 
 /**
  * Ueber den Domain-Namen wird ein Rechner im Internet adressiert. Man kann
@@ -31,15 +32,24 @@ import de.jfachwert.*;
  * @author oboehm
  * @since 0.4 (08.08.2017)
  */
-public class DomainName extends AbstractFachwert<String> {
+public class Domainname extends AbstractFachwert<String> {
 
     /**
      * Legt eine Instanz an.
      *
      * @param name gueltiger Domain-Name
      */
-    public DomainName(String name) {
+    public Domainname(String name) {
         super(name);
+    }
+
+    /**
+     * Liefert die Top-Level-Domain (TLD) zurueck.
+     *
+     * @return z.B. "de"
+     */
+    public String getTLD() {
+        return StringUtils.substringAfterLast(this.getCode(), ".");
     }
 
 }
