@@ -63,7 +63,7 @@ public final class EMailAdresseTest extends AbstractFachwertTest {
      */
     @Test
     public void testGetDomainPart() {
-        assertEquals("jfachwert.de", testAdresse.getDomainPart());
+        assertEquals(new DomainName("jfachwert.de"), testAdresse.getDomainPart());
     }
 
 }

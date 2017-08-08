@@ -87,8 +87,8 @@ public class EMailAdresse extends AbstractFachwert<String> {
      *
      * @return z.B. "fachwert.de"
      */
-    public String getDomainPart() {
-        return StringUtils.substringAfterLast(this.getCode(), "@");
+    public DomainName getDomainPart() {
+        return new DomainName(StringUtils.substringAfterLast(this.getCode(), "@"));
     }
 
 }
