@@ -48,8 +48,27 @@ public class Domainname extends AbstractFachwert<String> {
      *
      * @return z.B. "de"
      */
-    public String getTLD() {
-        return StringUtils.substringAfterLast(this.getCode(), ".");
+    public Domainname getTLD() {
+        return new Domainname(StringUtils.substringAfterLast(this.getCode(), "."));
+    }
+
+    /**
+     * Waehrend die Top-Leve-Domain die oberste Ebende wie "de" ist, ist die
+     * 2nd-Level-Domain von "www.jfachwert.de" die Domain "jfachwert.de" und
+     * die 3rd-Level-Domain ist in diesem Beispiel die komplette Domain.
+     *
+     * @param level z.B. 2 fuer 2nd-Level-Domain
+     * @return z.B. "jfachwert.de"
+     */
+    public Domainname getLevelDomain(int level) {
+        String[] parts = this.getCode().split("\\.");
+        int firstPart = parts.length - level;
+        StringBuilder name = new StringBuilder(parts[firstPart]);
+        for (int i = firstPart + 1; i < parts.length; i++) {
+            name.append('.');
+            name.append(parts[i]);
+        }
+        return new Domainname(name.toString());
     }
 
 }

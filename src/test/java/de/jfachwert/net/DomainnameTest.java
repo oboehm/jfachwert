@@ -44,14 +44,6 @@ public class DomainnameTest extends AbstractFachwertTest {
     }
 
     /**
-     * Testmethode fuer {@link Domainname#getTLD()}.
-     */
-    @Test
-    public void testGetTLD() {
-        assertEquals("de", domainName.getTLD());
-    }
-
-    /**
      * Bei Domainnamen spielt Gross-/Kleinschreibung keine Rolle. Das sollte
      * dann auch fuer die equals-Methode gelten.
      */
@@ -60,6 +52,24 @@ public class DomainnameTest extends AbstractFachwertTest {
         Domainname lowercase = new Domainname("aosd.de");
         Domainname uppercase = new Domainname("AOSD.de");
         assertEquals(lowercase, uppercase);
+    }
+
+    /**
+     * Testmethode fuer {@link Domainname#getTLD()}.
+     */
+    @Test
+    public void testGetTLD() {
+        assertEquals("de", domainName.getTLD().toString());
+    }
+
+    /**
+     * Testmethode fuer {@link Domainname#getLevelDomain(int)}.
+     */
+    @Test
+    public void testGetSecondLevelDomain() {
+        Domainname www = new Domainname("www.jfachwert.de");
+        Domainname jfachwert = new Domainname("jfachwert.de");
+        assertEquals(www.getLevelDomain(2), jfachwert);
     }
 
 }
