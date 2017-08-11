@@ -18,6 +18,7 @@
 package de.jfachwert.net;
 
 import de.jfachwert.*;
+import de.jfachwert.pruefung.InvalidValueException;
 import org.apache.commons.lang3.*;
 
 /**
@@ -53,7 +54,7 @@ public class Domainname extends AbstractFachwert<String> {
     }
 
     /**
-     * Waehrend die Top-Leve-Domain die oberste Ebende wie "de" ist, ist die
+     * Waehrend die Top-Level-Domain die oberste Ebende wie "de" ist, ist die
      * 2nd-Level-Domain von "www.jfachwert.de" die Domain "jfachwert.de" und
      * die 3rd-Level-Domain ist in diesem Beispiel die komplette Domain.
      *
@@ -63,6 +64,9 @@ public class Domainname extends AbstractFachwert<String> {
     public Domainname getLevelDomain(int level) {
         String[] parts = this.getCode().split("\\.");
         int firstPart = parts.length - level;
+        if ((firstPart < 0) || (level < 1)) {
+            throw new InvalidValueException(level, "level", Range.between(1, parts.length));
+        }
         StringBuilder name = new StringBuilder(parts[firstPart]);
         for (int i = firstPart + 1; i < parts.length; i++) {
             name.append('.');
