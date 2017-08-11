@@ -40,7 +40,7 @@ public class Domainname extends AbstractFachwert<String> {
      * @param name gueltiger Domain-Name
      */
     public Domainname(String name) {
-        super(name);
+        super(name.trim().toLowerCase());
     }
 
     /**

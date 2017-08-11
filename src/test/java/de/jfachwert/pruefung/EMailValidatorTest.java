@@ -27,7 +27,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 /**
- * Unit-Teests fuer de.jfachwert.pruefung.EMailValidator.
+ * Unit-Tests fuer de.jfachwert.pruefung.EMailValidator.
  *
  * @author oboehm
  */

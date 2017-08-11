@@ -51,4 +51,15 @@ public class DomainnameTest extends AbstractFachwertTest {
         assertEquals("de", domainName.getTLD());
     }
 
+    /**
+     * Bei Domainnamen spielt Gross-/Kleinschreibung keine Rolle. Das sollte
+     * dann auch fuer die equals-Methode gelten.
+     */
+    @Test
+    public void testEqualsUppercase() {
+        Domainname lowercase = new Domainname("aosd.de");
+        Domainname uppercase = new Domainname("AOSD.de");
+        assertEquals(lowercase, uppercase);
+    }
+
 }
