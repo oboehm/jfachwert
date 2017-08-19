@@ -1,4 +1,4 @@
-package de.jfachwert.post;/*
+/*
  * Copyright (c) 2017 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,6 +15,7 @@ package de.jfachwert.post;/*
  *
  * (c)reated 21.02.2017 by oboehm (ob@oasd.de)
  */
+package de.jfachwert.post;
 
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
