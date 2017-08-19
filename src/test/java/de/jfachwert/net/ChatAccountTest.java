@@ -17,7 +17,9 @@ package de.jfachwert.net;/*
  */
 
 import de.jfachwert.AbstractFachwertTest;
-import de.jfachwert.Fachwert;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Unit-Tests fuer {@link ChatAccount}-Klasse.
@@ -35,8 +37,35 @@ public final class ChatAccountTest extends AbstractFachwertTest {
      * @return Test-Objekt zum Testen
      */
     @Override
-    protected Fachwert createFachwert() {
+    protected ChatAccount createFachwert() {
         return new ChatAccount("Jabber", "alice@example.com");
+    }
+
+    /**
+     * Unit-Test fuer {@link ChatAccount#getChatDienst()}.
+     */
+    @Test
+    public void testGetChatDienst() {
+        ChatAccount jabberAccount = createFachwert();
+        assertEquals(ChatDienst.JABBER, jabberAccount.getChatDienst());
+    }
+
+    /**
+     * Test-Methode fuer {@link ChatAccount#toString()}.
+     */
+    @Test
+    public void testToStringJabber() {
+        ChatAccount threema = new ChatAccount(ChatDienst.JABBER, "bob@example.com");
+        assertEquals("Jabber: bob@example.com", threema.toString());
+    }
+
+    /**
+     * Test-Methode fuer {@link ChatAccount#toString()}.
+     */
+    @Test
+    public void testToStringSonstiger() {
+        ChatAccount threema = new ChatAccount(ChatDienst.SONSTIGER, "Threema", "AB3DE6GH");
+        assertEquals("Threema: AB3DE6GH", threema.toString());
     }
 
 }

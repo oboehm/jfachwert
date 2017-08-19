@@ -28,7 +28,8 @@ import de.jfachwert.Fachwert;
  */
 public class ChatAccount implements Fachwert {
 
-    private final String dienst;
+    private final ChatDienst chatDienst;
+    private final String dienstName;
     private final String account;
 
     /**
@@ -38,8 +39,39 @@ public class ChatAccount implements Fachwert {
      * @param account z.B. 211349835 fuer ICQ
      */
     public ChatAccount(String dienst, String account) {
-        this.dienst = dienst;
+        this(ChatDienst.toChatDienst(dienst), dienst, account);
+    }
+
+    /**
+     * Instanziiert eine Chat-Account.
+     *
+     * @param dienst z.B. "ICQ"
+     * @param account z.B. 211349835 fuer ICQ
+     */
+    public ChatAccount(ChatDienst dienst, String account) {
+        this(dienst, null, account);
+    }
+
+    /**
+     * Instanziiert eine Chat-Account.
+     *
+     * @param chatDienst z.B. SONSTIGER
+     * @param dienstName z.B. "WhatsApp"
+     * @param account z.B. 211349835 fuer ICQ
+     */
+    public ChatAccount(ChatDienst chatDienst, String dienstName, String account) {
+        this.chatDienst = chatDienst;
+        this.dienstName = dienstName;
         this.account = account;
+    }
+
+    /**
+     * Liefert den Dienst zum Account zurueck.
+     *
+     * @return z.B. JABBER
+     */
+    public ChatDienst getChatDienst() {
+        return chatDienst;
     }
 
     /**
@@ -47,8 +79,13 @@ public class ChatAccount implements Fachwert {
      *
      * @return z.B. "Jabber"
      */
-    public String getDienst() {
-        return dienst;
+    public String getDienstName() {
+        switch (this.chatDienst) {
+            case SONSTIGER:
+                return dienstName;
+            default:
+                return this.chatDienst.toString();
+        }
     }
 
     /**
@@ -75,7 +112,7 @@ public class ChatAccount implements Fachwert {
             return false;
         }
         ChatAccount other = (ChatAccount) obj;
-        return this.dienst.equalsIgnoreCase(other.dienst) && this.account.equalsIgnoreCase(other.account);
+        return this.dienstName.equalsIgnoreCase(other.dienstName) && this.account.equalsIgnoreCase(other.account);
     }
 
     /**
@@ -95,7 +132,7 @@ public class ChatAccount implements Fachwert {
      */
     @Override
     public String toString() {
-        return this.getDienst() + ": " + this.getAccount();
+        return this.getDienstName() + ": " + this.getAccount();
     }
 
 }
