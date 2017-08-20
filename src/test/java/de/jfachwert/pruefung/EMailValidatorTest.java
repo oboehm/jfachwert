@@ -84,7 +84,7 @@ public class EMailValidatorTest {
     }
 
     /**
-     * Hier testen wir den Validator fuer die verschiedensten E-Mail-Adressen,
+     * Hier testen wir den SimpleValidator fuer die verschiedensten E-Mail-Adressen,
      * die ueber die Parameterized-Klasse hereinkommen.
      */
     @Test

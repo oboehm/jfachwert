@@ -17,6 +17,10 @@
  */
 package de.jfachwert.net;
 
+import de.jfachwert.SimpleValidator;
+import de.jfachwert.pruefung.EMailValidator;
+import de.jfachwert.pruefung.NullValidator;
+
 /**
  * Es gibt verschiedene Chat-Dienste wie ICQ, Skype oder Jabber, die hier
  * aufgelistet sind. Allerdings sind nicht alle aufgelistet sondern nur die,
@@ -38,7 +42,7 @@ public enum ChatDienst {
     ICQ("ICQ"),
 
     /** Jabber Instant Messanger, baut auf XMPP auf. */
-    JABBER("Jabber"),
+    JABBER("Jabber", new EMailValidator()),
 
     /** Skype. */
     SKYPE("Skype"),
@@ -50,9 +54,25 @@ public enum ChatDienst {
     SONSTIGER("sonstiger");
 
     private final String name;
+    private final SimpleValidator validator;
 
     private ChatDienst(String name) {
+        this(name, new NullValidator());
+    }
+
+    private ChatDienst(String name, SimpleValidator validator) {
         this.name = name;
+        this.validator = validator;
+    }
+
+    /**
+     * Liefert den passenden Validator, mit dem der Account-Name validiert
+     * werden kann.
+     *
+     * @return passender Validator
+     */
+    public SimpleValidator getValidator() {
+        return validator;
     }
 
     /**
@@ -79,5 +99,4 @@ public enum ChatDienst {
         }
         return SONSTIGER;
     }
-
 }

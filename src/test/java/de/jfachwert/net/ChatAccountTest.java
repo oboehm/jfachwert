@@ -19,6 +19,8 @@ package de.jfachwert.net;/*
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
+import javax.validation.ValidationException;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -66,6 +68,22 @@ public final class ChatAccountTest extends AbstractFachwertTest {
     public void testToStringSonstiger() {
         ChatAccount threema = new ChatAccount(ChatDienst.SONSTIGER, "Threema", "AB3DE6GH");
         assertEquals("Threema: AB3DE6GH", threema.toString());
+    }
+
+    /**
+     * Test eines gueltigen Jabber-Accounts.
+     */
+    @Test
+    public void testChatAccountJabber() {
+        new ChatAccount(ChatDienst.JABBER, "+4917234567890@aspsms.swissjabber.ch");
+    }
+
+    /**
+     * Test eines ungueltigen Jabber-Accounts.
+     */
+    @Test(expected = ValidationException.class)
+    public void testChatAccountJabberInvalid() {
+        new ChatAccount(ChatDienst.JABBER, "a@b@c");
     }
 
 }

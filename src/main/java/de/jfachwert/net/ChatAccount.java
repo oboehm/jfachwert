@@ -62,7 +62,7 @@ public class ChatAccount implements Fachwert {
     public ChatAccount(ChatDienst chatDienst, String dienstName, String account) {
         this.chatDienst = chatDienst;
         this.dienstName = dienstName;
-        this.account = account;
+        this.account = (String) chatDienst.getValidator().validate(account);
     }
 
     /**
