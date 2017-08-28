@@ -17,8 +17,9 @@
  */
 package de.jfachwert.net;
 
-import de.jfachwert.*;
-import org.junit.*;
+import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.pruefung.InvalidValueException;
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
@@ -70,6 +71,23 @@ public class DomainnameTest extends AbstractFachwertTest {
         Domainname www = new Domainname("www.jfachwert.de");
         Domainname jfachwert = new Domainname("jfachwert.de");
         assertEquals(www.getLevelDomain(2), jfachwert);
+        assertEquals(www.getLevelDomain(3), www);
+    }
+
+    /**
+     * Weitere Testmethode fuer {@link Domainname#getLevelDomain(int)}.
+     */
+    @Test(expected =  InvalidValueException.class)
+    public void testGetFourthLevelDomain() {
+        domainName.getLevelDomain(4);
+    }
+
+    /**
+     * Ein fuehrendes Minus-Zeichen sollte abgewiesen werden.
+     */
+    @Test(expected = InvalidValueException.class)
+    public void testValidate() {
+        Domainname.validate("-a.com");
     }
 
 }

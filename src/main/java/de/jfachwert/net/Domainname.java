@@ -17,8 +17,12 @@
  */
 package de.jfachwert.net;
 
-import de.jfachwert.*;
-import org.apache.commons.lang3.*;
+import de.jfachwert.AbstractFachwert;
+import de.jfachwert.pruefung.InvalidValueException;
+import org.apache.commons.lang3.Range;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.regex.Pattern;
 
 /**
  * Ueber den Domain-Namen wird ein Rechner im Internet adressiert. Man kann
@@ -34,13 +38,30 @@ import org.apache.commons.lang3.*;
  */
 public class Domainname extends AbstractFachwert<String> {
 
+    private static final Pattern VALID_PATTERN = Pattern.compile("^(?=.{1,253}\\.?$)(?:(?!-|[^.]+_)[A-Za-z0-9-_]{1,63}(?<!-)(?:\\.|$)){1,}$");
+
     /**
      * Legt eine Instanz an.
      *
      * @param name gueltiger Domain-Name
      */
     public Domainname(String name) {
-        super(name.trim().toLowerCase());
+        super(validate(name.trim().toLowerCase()));
+    }
+
+    /**
+     * Hie valideren wir den Namen auf Richtigkeit. Das Pattern dazu stammt aus
+     * https://regex101.com/r/d5Yd6j/1/tests . Allerdings akzeptieren wir auch
+     * die TLD wie "de" als gueltigen Domainnamen.
+     *
+     * @param name
+     * @return
+     */
+    public static String validate(String name) {
+        if (VALID_PATTERN.matcher(name).matches()) {
+            return name;
+        }
+        throw new InvalidValueException(name, "name");
     }
 
     /**
@@ -53,7 +74,7 @@ public class Domainname extends AbstractFachwert<String> {
     }
 
     /**
-     * Waehrend die Top-Leve-Domain die oberste Ebende wie "de" ist, ist die
+     * Waehrend die Top-Level-Domain die oberste Ebende wie "de" ist, ist die
      * 2nd-Level-Domain von "www.jfachwert.de" die Domain "jfachwert.de" und
      * die 3rd-Level-Domain ist in diesem Beispiel die komplette Domain.
      *
@@ -63,6 +84,9 @@ public class Domainname extends AbstractFachwert<String> {
     public Domainname getLevelDomain(int level) {
         String[] parts = this.getCode().split("\\.");
         int firstPart = parts.length - level;
+        if ((firstPart < 0) || (level < 1)) {
+            throw new InvalidValueException(level, "level", Range.between(1, parts.length));
+        }
         StringBuilder name = new StringBuilder(parts[firstPart]);
         for (int i = firstPart + 1; i < parts.length; i++) {
             name.append('.');
