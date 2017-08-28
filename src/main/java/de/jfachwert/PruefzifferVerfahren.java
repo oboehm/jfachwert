@@ -36,7 +36,7 @@ import java.io.Serializable;
  * @author <a href="ob@aosd.de">oliver</a>
  * @since 0.1.0
  */
-public interface PruefzifferVerfahren<T extends Serializable> extends Serializable {
+public interface PruefzifferVerfahren<T extends Serializable> extends SimpleValidator<T> {
 
     /**
      * Meistens ist die letzte Ziffer die Pruefziffer, die hierueber abgefragt

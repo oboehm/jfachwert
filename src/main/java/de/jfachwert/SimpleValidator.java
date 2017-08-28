@@ -17,6 +17,8 @@
  */
 package de.jfachwert;
 
+import java.io.*;
+
 /**
  * Um die verschiedenen Validatoren als allgemeines Attribut verwendenen
  * zu koennen, sind die Gemeinsamkeiten in diesem Interface zusammengefasst.
@@ -26,7 +28,7 @@ package de.jfachwert;
  *
  * @since 0.4 (20.08.17)
  */
-public interface SimpleValidator {
+public interface SimpleValidator<T extends Serializable> extends Serializable {
 
     /**
      * Wenn der uebergebene Wert gueltig ist, soll er unveraendert
@@ -38,6 +40,6 @@ public interface SimpleValidator {
      * @param value Wert, der validiert werden soll
      * @return Wert selber, wenn er gueltig ist
      */
-    Object validate(Object value);
+    T validate(T value);
 
 }

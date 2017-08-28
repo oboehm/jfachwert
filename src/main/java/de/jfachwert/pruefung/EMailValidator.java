@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
  * @author oboehm
  * @since 0.3 (27.06.2017)
  */
-public class EMailValidator implements SimpleValidator {
+public class EMailValidator implements SimpleValidator<String> {
 
     private final Pattern addressPattern;
 
@@ -74,8 +74,8 @@ public class EMailValidator implements SimpleValidator {
      * @return Wert selber, wenn er gueltig ist
      */
     @Override
-    public String validate(Object account) {
-        return validateAdresse((String) account);
+    public String validate(String account) {
+        return validateAdresse(account);
     }
 
 }
