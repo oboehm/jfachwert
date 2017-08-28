@@ -186,7 +186,7 @@
 
   <!--
     Hier werden nur die Versionen der verwendeten und potentiellen Bibliotheken
-    definierit (alphabetisch geordnet nach groupId).
+    definiert (alphabetisch geordnet nach groupId).
   -->
   <dependencyManagement>
     <dependencies>
