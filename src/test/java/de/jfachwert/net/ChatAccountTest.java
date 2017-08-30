@@ -100,7 +100,16 @@ public final class ChatAccountTest extends AbstractFachwertTest {
      */
     @Test(expected = ValidationException.class)
     public void testChatAccountIcqInvalid() {
-        new ChatAccount(ChatDienst.ICQ, "1234");
+        new ChatAccount(ChatDienst.ICQ, "9999");
+    }
+
+    /**
+     * Test eines ungueltigen ICQ-Accounts (ICQ-Nummber sind mindestens
+     * 5-stelling).
+     */
+    @Test(expected = ValidationException.class)
+    public void testChatAccountNoNumber() {
+        new ChatAccount(ChatDienst.ICQ, "0x12345");
     }
 
 }

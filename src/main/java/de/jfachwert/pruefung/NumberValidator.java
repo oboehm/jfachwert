@@ -57,9 +57,13 @@ public class NumberValidator implements SimpleValidator<String> {
      */
     @Override
     public String validate(String value) {
-        BigDecimal n = new BigDecimal(value);
-        if (range.contains(n)) {
-            return value;
+        try {
+            BigDecimal n = new BigDecimal(value);
+            if (range.contains(n)) {
+                return value;
+            }
+        } catch (NumberFormatException ex) {
+            throw new InvalidValueException(value, "number", ex);
         }
         throw new InvalidValueException(value, "number", range);
     }

@@ -40,7 +40,7 @@ public enum ChatDienst {
     GOOGLE_HANGOUT("Google Hangout"),
 
     /** Einer der aeltesten Messanger Dienste (1988). */
-    ICQ("ICQ", new NumberValidator(BigDecimal.valueOf(9999), NumberValidator.INFINITE)),
+    ICQ("ICQ", new NumberValidator(BigDecimal.valueOf(10000), NumberValidator.INFINITE)),
 
     /** Jabber Instant Messanger, baut auf XMPP auf. */
     JABBER("Jabber", new EMailValidator()),
