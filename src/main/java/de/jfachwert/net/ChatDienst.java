@@ -18,8 +18,9 @@
 package de.jfachwert.net;
 
 import de.jfachwert.SimpleValidator;
-import de.jfachwert.pruefung.EMailValidator;
-import de.jfachwert.pruefung.NullValidator;
+import de.jfachwert.pruefung.*;
+
+import java.math.*;
 
 /**
  * Es gibt verschiedene Chat-Dienste wie ICQ, Skype oder Jabber, die hier
@@ -39,7 +40,7 @@ public enum ChatDienst {
     GOOGLE_HANGOUT("Google Hangout"),
 
     /** Einer der aeltesten Messanger Dienste (1988). */
-    ICQ("ICQ"),
+    ICQ("ICQ", new NumberValidator(BigDecimal.valueOf(9999), NumberValidator.INFINITE)),
 
     /** Jabber Instant Messanger, baut auf XMPP auf. */
     JABBER("Jabber", new EMailValidator()),
@@ -56,11 +57,11 @@ public enum ChatDienst {
     private final String name;
     private final SimpleValidator validator;
 
-    private ChatDienst(String name) {
+    ChatDienst(String name) {
         this(name, new NullValidator());
     }
 
-    private ChatDienst(String name, SimpleValidator validator) {
+    ChatDienst(String name, SimpleValidator validator) {
         this.name = name;
         this.validator = validator;
     }
