@@ -98,6 +98,7 @@ public class Bankverbindung implements Fachwert {
     }
 
     @Override
+    @SuppressWarnings("squid:S3655")
     public String toString() {
         StringBuilder buf = new StringBuilder(getKontoinhaber());
         buf.append(", IBAN ");

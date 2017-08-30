@@ -17,11 +17,12 @@
  */
 package de.jfachwert.post;
 
-import de.jfachwert.AbstractFachwert;
-import de.jfachwert.pruefung.LengthValidator;
-import org.apache.commons.lang3.StringUtils;
+import de.jfachwert.*;
+import de.jfachwert.pruefung.*;
+import org.apache.commons.lang3.*;
 
-import java.util.Locale;
+import java.math.*;
+import java.util.*;
 
 /**
  * Eine Postleitzahl (PLZ) kennzeichnet den Zustellort auf Briefen, Paketten
@@ -110,7 +111,7 @@ public class PLZ extends AbstractFachwert<String> {
 
     private static void validateNumberWith(String plz, int length, String zahl) {
         LengthValidator.validate(plz, length);
-        Integer.valueOf(zahl);
+        new NumberValidator(BigDecimal.ZERO, BigDecimal.TEN.pow(length)).validate(zahl);
     }
 
     private static String normalize(String plz) {
