@@ -82,11 +82,12 @@ public class Adresse implements Fachwert {
     }
 
     /**
-     * Eine PLZ muss fuer eine Adresse vorhanden sein. Diese wird hierueber
-     * zurueckgegeben.
+     * Eine PLZ <em>muss</em> fuer eine Adresse vorhanden sein, sonst laesst
+     * sich keine Aresse Anlagen. Diese wird hierueber zurueckgegeben.
      *
-     * @return the plz
+     * @return z.B. "80739" fuer Gerlingen
      */
+    @SuppressWarnings("squid:S3655")
     public PLZ getPLZ() {
         return ort.getPLZ().get();
     }
