@@ -28,7 +28,7 @@ import java.io.*;
  * @author oboehm
  * @since 0.1.0
  */
-@SuppressWarnings("squid:squid:MaximumInheritanceDepth")
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class PruefzifferException extends LocalizedValidationException {
 
     private final Serializable wert;

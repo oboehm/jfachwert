@@ -28,7 +28,7 @@ import java.util.*;
  * @author oboehm
  * @since 0.2 (20.04.2017)
  */
-@SuppressWarnings("squid:squid:MaximumInheritanceDepth")
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class IllegalLengthException extends LocalizedValidationException {
 
     private final String argument;
