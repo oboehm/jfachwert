@@ -37,6 +37,8 @@ public class Rechnungsmonat implements Fachwert {
 
     private static final Range<Integer> VALID_MONTH_RANGE = Range.between(1, 12);
     private static final Range<Integer> VALID_YEAR_RANGE = Range.between(0, 9999);
+    private static final String MONTH = "month";
+    private static final String YEAR = "year";
     private final int monat;
     private final int jahr;
 
@@ -74,8 +76,8 @@ public class Rechnungsmonat implements Fachwert {
     public Rechnungsmonat(String monat) {
         String[] parts = monat.split("/");
         if ((parts.length == 2) && isDigit(parts[0]) && isDigit(parts[1])) {
-            this.monat = validate("month", parts[0], VALID_MONTH_RANGE);
-            this.jahr = validate("year", parts[1], VALID_YEAR_RANGE);
+            this.monat = validate(MONTH, parts[0], VALID_MONTH_RANGE);
+            this.jahr = validate(YEAR, parts[1], VALID_YEAR_RANGE);
         } else {
             LocalDate date = toLocalDate(monat);
             this.monat = date.getMonthValue();
@@ -99,7 +101,7 @@ public class Rechnungsmonat implements Fachwert {
         if (parts.length == 2) {
             normalized = "1-" + normalized;
         } else if (parts.length != 3) {
-            throw new InvalidValueException(monat, "month");
+            throw new InvalidValueException(monat, MONTH);
         }
         try {
             return LocalDate.parse(normalized);
@@ -118,7 +120,7 @@ public class Rechnungsmonat implements Fachwert {
                         ignored.getMessage() + " / '" + monat + "' does not match '" + pattern + "'"));
             }
         }
-        throw new InvalidValueException(monat, "month", ex);
+        throw new InvalidValueException(monat, MONTH, ex);
     }
 
     private static int validate(String context, String value, Range<Integer> range) {

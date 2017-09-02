@@ -77,6 +77,7 @@ public class IBAN extends AbstractFachwert<String> {
         return validate(iban, MOD97);
     }
 
+    @SuppressWarnings("squid:SwitchLastCaseIsDefaultCheck")
     private static String validate(String iban, PruefzifferVerfahren<String> pzVerfahren) {
         String normalized = StringUtils.remove(iban, ' ').toUpperCase();
         LengthValidator.validate(iban, 16, 34);
@@ -126,6 +127,7 @@ public class IBAN extends AbstractFachwert<String> {
      * @return z.B. "de_DE" (als Locale)
      * @since 0.1.0
      */
+    @SuppressWarnings("squid:SwitchLastCaseIsDefaultCheck")
     public Locale getLand() {
         String country = this.getUnformatted().substring(0, 2);
         String language = country.toLowerCase();

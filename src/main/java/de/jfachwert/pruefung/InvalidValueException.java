@@ -27,6 +27,7 @@ import java.io.*;
  * @author oboehm
  * @since 0.2.0 (26.04.2017)
  */
+@SuppressWarnings("squid:squid:MaximumInheritanceDepth")
 public class InvalidValueException extends LocalizedValidationException {
 
     private final Serializable value;

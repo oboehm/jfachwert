@@ -18,9 +18,7 @@
 package de.jfachwert.pruefung;
 
 import javax.validation.ValidationException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Die Klasse IllegalLengthException ist fuer die Laengen-Validierung
@@ -30,6 +28,7 @@ import java.util.List;
  * @author oboehm
  * @since 0.2 (20.04.2017)
  */
+@SuppressWarnings("squid:squid:MaximumInheritanceDepth")
 public class IllegalLengthException extends LocalizedValidationException {
 
     private final String argument;
@@ -46,7 +45,7 @@ public class IllegalLengthException extends LocalizedValidationException {
      * @param expected erwartete Laenge
      */
     public IllegalLengthException(String argument, int expected) {
-        this(argument, Arrays.asList(expected));
+        this(argument, Collections.singletonList(expected));
     }
 
     /**

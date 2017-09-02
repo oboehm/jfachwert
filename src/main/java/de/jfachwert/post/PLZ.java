@@ -105,6 +105,9 @@ public class PLZ extends AbstractFachwert<String> {
             case "A":
                 validateNumberWith(plz, 5, zahl);
                 break;
+            default:
+                LengthValidator.validate(zahl, 3, 10);
+                break;
         }
         return plz;
     }
