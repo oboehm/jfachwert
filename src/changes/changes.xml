@@ -17,8 +17,11 @@
 
   <body>
 
-    <release version="0.4.0" date="2017"
+    <release version="0.4.0" date="02-Sep-2017"
              description="Netzwerk-Klassen hinzugef&#252;gt">
+      <action dev="oboehm" type="add" date="19-Aug-2017">
+        Chat-Klassen hinzugef&#252;gt.
+      </action>
       <action dev="oboehm" type="add" date="23-Jun-2017">
         net-Package mit EMailAdresse angelegt.
       </action>
