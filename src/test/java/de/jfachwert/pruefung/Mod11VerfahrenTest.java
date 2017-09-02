@@ -21,6 +21,8 @@ import org.junit.Test;
 
 import javax.validation.ValidationException;
 
+import java.io.Serializable;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -69,7 +71,7 @@ public final class Mod11VerfahrenTest extends AbstractPruefzifferVerfahrenTest<S
     }
 
     /**
-     * Testmethode fuer {@link Mod11Verfahren#validate(Object)}.
+     * Testmethode fuer {@link Mod11Verfahren#validate(Serializable)}.
      */
     @Test(expected = ValidationException.class)
     public void testValidateWithException() {
