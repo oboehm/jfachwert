@@ -4,7 +4,7 @@
 
   <groupId>de.jfachwert</groupId>
   <artifactId>jfachwert</artifactId>
-  <version>0.3.0</version>
+  <version>0.4.0</version>
   <name>jFachwert</name>
 
   <description>Implementierung einiger Fachwerte nach dem WAM-Ansatz</description>
@@ -176,7 +176,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
-        <version>2.19.1</version>
+        <version>2.20</version>
       </plugin>
 
     </plugins>
@@ -186,7 +186,7 @@
 
   <!--
     Hier werden nur die Versionen der verwendeten und potentiellen Bibliotheken
-    definierit (alphabetisch geordnet nach groupId).
+    definiert (alphabetisch geordnet nach groupId).
   -->
   <dependencyManagement>
     <dependencies>
@@ -213,7 +213,7 @@
       <dependency>
         <groupId>org.patterntesting</groupId>
         <artifactId>patterntesting-rt</artifactId>
-        <version>1.7.1</version>
+        <version>1.7.2</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

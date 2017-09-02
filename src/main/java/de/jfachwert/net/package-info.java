@@ -18,7 +18,7 @@
 
 /**
  * Dieses Paket ist fuer Klassen rund um die Kommunikiation im Internet wie
- * EMailAdresse oder DomainName vorgesehen, sofern sie nicht bereits durch
+ * EMailAdresse oder Domainname vorgesehen, sofern sie nicht bereits durch
  * das JDK oder andere uebliche Bibliotheken abgedeckt sind.
  *
  * @author <a href="ob@aosd.de">oliver</a>

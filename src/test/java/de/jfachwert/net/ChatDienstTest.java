@@ -13,28 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * (c)reated 16.03.2017 by oboehm (ob@jfachwert.de)
+ * (c)reated 19.08.17 by oliver (ob@oasd.de)
  */
-package de.jfachwert.bank;
+package de.jfachwert.net;
 
-import de.jfachwert.AbstractFachwertTest;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
- * Unit-Test fuer {@link BLZ}-Klasse.
- *
- * @author oboehm
+ * Unit-Tests fuer {@link ChatDienst}-Klasse.
  */
-public final class BLZTest extends AbstractFachwertTest {
+public class ChatDienstTest {
 
     /**
-     * Zum Testen verwenden wir die Volksbank Reutlingen, die auch in
-     * Wikipedia erwaehnt ist.
-     *
-     * @return BLZ von Volksbank Reutlingen
+     * Unit-Test fuer {@link ChatDienst#toChatDienst(String)}
      */
-    @Override
-    protected BLZ createFachwert() {
-        return new BLZ("64090100");
+    @Test
+    public void toChatDienst() {
+        assertEquals(ChatDienst.JABBER, ChatDienst.toChatDienst("Jabber"));
+    }
+
+    /**
+     * Unit-Test fuer {@link ChatDienst#toChatDienst(String)}
+     */
+    @Test
+    public void toChatDienstSonstiger() {
+        assertEquals(ChatDienst.SONSTIGER, ChatDienst.toChatDienst("gibts net"));
     }
 
 }

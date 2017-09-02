@@ -17,7 +17,10 @@
  */
 package de.jfachwert.pruefung;
 
-import java.util.regex.*;
+import de.jfachwert.SimpleValidator;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Die Klasse EMailValidator validiert vornehmlich E-Mail-Adressen.
@@ -25,12 +28,12 @@ import java.util.regex.*;
  * @author oboehm
  * @since 0.3 (27.06.2017)
  */
-public class EMailValidator {
+public class EMailValidator implements SimpleValidator<String> {
 
     private final Pattern addressPattern;
 
     /**
-     * Hier wird der E-Mail-Validator mit einerm Pattern von
+     * Hier wird der E-Mail-SimpleValidator mit einerm Pattern von
      * https://www.mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
      * aufgesetzt.
      */
@@ -62,6 +65,17 @@ public class EMailValidator {
             return emailAdresse;
         }
         throw new InvalidValueException(emailAdresse, "email_address");
+    }
+
+    /**
+     * Ruft zur Pruefung die {@link #validateAdresse(String)}-Methode auf.
+     *
+     * @param account zu pruefende Adresse
+     * @return Wert selber, wenn er gueltig ist
+     */
+    @Override
+    public String validate(String account) {
+        return validateAdresse(account);
     }
 
 }

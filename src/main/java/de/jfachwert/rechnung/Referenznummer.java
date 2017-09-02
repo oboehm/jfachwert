@@ -18,6 +18,7 @@
 package de.jfachwert.rechnung;
 
 import de.jfachwert.*;
+import de.jfachwert.pruefung.*;
 
 /**
  * Auf Rechnunungen (und auch im geschaeftlichen Schriftverkehr) gibt es
@@ -34,7 +35,20 @@ public class Referenznummer extends AbstractFachwert<String> {
      * @param nummer z.B. "000002835042"
      */
     public Referenznummer(String nummer) {
-        super(nummer);
+        this(nummer, LengthValidator.NOT_EMPTY_VALIDATOR);
+    }
+
+    /**
+     * Dieser Konstruktor ist hauptsaechlich fuer abgeleitete Klassen gedacht,
+     * damit diese das {@link PruefzifferVerfahren} ueberschreiben koennen.
+     * Man kann es auch verwenden, um ein eigenes {@link PruefzifferVerfahren}
+     * einsetzen zu koennen.
+     *
+     * @param nummer   z.B. "000002835042"
+     * @param pruefung Pruefverfahren
+     */
+    public Referenznummer(String nummer, PruefzifferVerfahren<String> pruefung) {
+        super(pruefung.validate(nummer));
     }
 
 }

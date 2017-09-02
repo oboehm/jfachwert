@@ -21,6 +21,8 @@ import de.jfachwert.PruefzifferVerfahren;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.*;
+
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -29,7 +31,7 @@ import static org.junit.Assert.assertTrue;
  *
  * @author oboehm
  */
-public abstract class AbstractPruefzifferVerfahrenTest<T> {
+public abstract class AbstractPruefzifferVerfahrenTest<T extends Serializable> {
 
     private PruefzifferVerfahren<T> verfahren;
     private T wert;
@@ -59,7 +61,7 @@ public abstract class AbstractPruefzifferVerfahrenTest<T> {
     }
 
     /**
-     * Testmethode fuer {@link PruefzifferVerfahren#isValid(Object)}.
+     * Testmethode fuer {@link PruefzifferVerfahren#isValid(Serializable)}.
      */
     @Test
     public void isValid() {
@@ -67,7 +69,7 @@ public abstract class AbstractPruefzifferVerfahrenTest<T> {
     }
 
     /**
-     * Testmethode fuer {@link PruefzifferVerfahren#validate(Object)}.
+     * Testmethode fuer {@link PruefzifferVerfahren#validate(Serializable)}.
      */
     @Test
     public void testValidate() {

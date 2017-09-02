@@ -17,6 +17,9 @@ package de.jfachwert.rechnung;/*
  */
 
 import de.jfachwert.*;
+import org.junit.*;
+
+import javax.validation.*;
 
 /**
  * Unit-Tests fuer {@link Referenznummer}-Klasse.
@@ -33,6 +36,15 @@ public class ReferenznummerTest extends AbstractFachwertTest {
     @Override
     protected Fachwert createFachwert() {
         return new Referenznummer("42");
+    }
+
+    /**
+     * Eine leere Referenznummer macht keinen Sinn und sollte deswegen nicht
+     * angelegt werden koennen.
+     */
+    @Test(expected = ValidationException.class)
+    public void testNotEmpty() {
+        new Referenznummer("");
     }
 
 }

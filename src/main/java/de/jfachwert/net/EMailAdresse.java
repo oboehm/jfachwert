@@ -61,7 +61,7 @@ public class EMailAdresse extends AbstractFachwert<String> {
      * abschalten wollen.
      *
      * @param emailAdresse eine gueltige Adresse, z.B. "max@mustermann.de"
-     * @param validator    Validator zur Adressen-Validierung
+     * @param validator    SimpleValidator zur Adressen-Validierung
      */
     public EMailAdresse(String emailAdresse, EMailValidator validator) {
         super(validator.validateAdresse(emailAdresse));
@@ -87,8 +87,8 @@ public class EMailAdresse extends AbstractFachwert<String> {
      *
      * @return z.B. "fachwert.de"
      */
-    public String getDomainPart() {
-        return StringUtils.substringAfterLast(this.getCode(), "@");
+    public Domainname getDomainPart() {
+        return new Domainname(StringUtils.substringAfterLast(this.getCode(), "@"));
     }
 
 }

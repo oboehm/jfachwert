@@ -17,6 +17,9 @@ package de.jfachwert.rechnung;/*
  */
 
 import de.jfachwert.*;
+import org.junit.*;
+
+import javax.validation.*;
 
 /**
  * Unit-Tests fuer {@link Artikelnummer}-Klasse.
@@ -33,6 +36,15 @@ public class ArtikelnummerTest extends AbstractFachwertTest {
     @Override
     protected Fachwert createFachwert() {
         return new Artikelnummer("123.456.789");
+    }
+
+    /**
+     * Eine leere Artikelnummer macht keinen Sinn und sollte deswegen nicht
+     * angelegt werden koennen.
+     */
+    @Test(expected = ValidationException.class)
+    public void testNotEmpty() {
+        new Artikelnummer("");
     }
 
 }

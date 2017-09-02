@@ -1,4 +1,4 @@
-/*
+package de.jfachwert.post;/*
  * Copyright (c) 2017 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -9,32 +9,31 @@
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express orimplied.
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * (c)reated 16.03.2017 by oboehm (ob@jfachwert.de)
+ * (c)reated 28.08.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.bank;
 
-import de.jfachwert.AbstractFachwertTest;
+import org.junit.*;
+
+import static org.junit.Assert.assertEquals;
 
 /**
- * Unit-Test fuer {@link BLZ}-Klasse.
+ * Unit-Tests fuer {@link Anrede}-Klasse.
  *
  * @author oboehm
+ * @since x.x (28.08.2017)
  */
-public final class BLZTest extends AbstractFachwertTest {
+public final class AnredeTest {
 
     /**
-     * Zum Testen verwenden wir die Volksbank Reutlingen, die auch in
-     * Wikipedia erwaehnt ist.
-     *
-     * @return BLZ von Volksbank Reutlingen
+     * Test-Methode fuer {@link Anrede#toString()}.
      */
-    @Override
-    protected BLZ createFachwert() {
-        return new BLZ("64090100");
+    @Test
+    public void testToString() {
+        assertEquals("Herr", Anrede.HERR.toString());
     }
 
 }

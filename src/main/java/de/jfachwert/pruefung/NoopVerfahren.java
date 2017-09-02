@@ -19,6 +19,8 @@ package de.jfachwert.pruefung;
 
 import de.jfachwert.PruefzifferVerfahren;
 
+import java.io.*;
+
 /**
  * "Noop" steht fuer "No Operation" und bedeutet, dass mit diesem Pruefziffer-
  * Verfahren keine Validierung stattfindet. Dies kann immer dann verwendet
@@ -27,7 +29,7 @@ import de.jfachwert.PruefzifferVerfahren;
  * @author oboehm
  * @since 0.1.0
  */
-public class NoopVerfahren<T> implements PruefzifferVerfahren<T> {
+public class NoopVerfahren<T extends Serializable> implements PruefzifferVerfahren<T> {
 
     /**
      * Meistens ist die letzte Ziffer die Pruefziffer, die hierueber abgefragt

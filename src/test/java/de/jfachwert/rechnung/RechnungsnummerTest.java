@@ -17,6 +17,9 @@ package de.jfachwert.rechnung;/*
  */
 
 import de.jfachwert.*;
+import org.junit.*;
+
+import javax.validation.*;
 
 /**
  * Unit-Tests fuer {@link Rechnungsnummer}-Klasse.
@@ -35,6 +38,15 @@ public class RechnungsnummerTest extends AbstractFachwertTest {
     @Override
     protected Fachwert createFachwert() {
         return new Rechnungsnummer("000002835042");
+    }
+
+    /**
+     * Eine leere Rechnungsnummer macht keinen Sinn und sollte deswegen nicht
+     * angelegt werden koennen.
+     */
+    @Test(expected = ValidationException.class)
+    public void testNotEmpty() {
+        new Rechnungsnummer("");
     }
 
 }

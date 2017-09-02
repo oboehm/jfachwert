@@ -118,6 +118,7 @@ public class Postfach implements Fachwert {
      *
      * @return z.B. "8 15"
      */
+    @SuppressWarnings("squid:S3655")
     public String getNummerFormatted() {
         if (!this.getNummer().isPresent()) {
             throw new IllegalStateException("no number present");
@@ -131,10 +132,12 @@ public class Postfach implements Fachwert {
     }
 
     /**
-     * Liefert die Postleitzahl.
+     * Liefert die Postleitzahl. Ohne gueltige Postleitzahl kann kein Postfach
+     * angelegt werden, weswegen hier immer eine PLZ zurueckgegeben wird.
      *
      * @return z.B. 09876
      */
+    @SuppressWarnings("squid:S3655")
     public PLZ getPlz() {
         return this.ort.getPLZ().get();
     }

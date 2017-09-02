@@ -17,12 +17,12 @@
  */
 package de.jfachwert;
 
-import de.jfachwert.bank.BIC;
-import de.jfachwert.steuer.Steuernummer;
-import org.junit.Test;
+import de.jfachwert.bank.*;
+import de.jfachwert.steuer.*;
+import org.junit.*;
 
-import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 /**
  * Hier sind einige Tests versammelt, um allgemeine Dinge fuer die

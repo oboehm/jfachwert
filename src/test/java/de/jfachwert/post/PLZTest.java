@@ -54,7 +54,7 @@ public class PLZTest extends AbstractFachwertTest {
     /**
      * In der DACH-Region bestehen die Postleitzahlen nur aus Ziffern.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = ValidationException.class)
     public void testInvalidPostleitZahl() {
         new PLZ("CH-0x23");
     }

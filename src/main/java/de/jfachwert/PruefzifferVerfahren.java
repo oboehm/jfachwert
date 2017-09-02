@@ -27,11 +27,16 @@ import java.io.Serializable;
  * Viele Fachwerte wie IBAN, ISBN oder Steuernummer besitzen eine Pruefziffer,
  * die sich mithilfe dieses Interfaces ueberpruefen lassen.
  *
+ * Prinzipiell kann die Pruefziffer auch ein beliebiges Zeichen sein, aber
+ * meistens ist es tatsaechlich ein oder mehrere Ziffern, weswegen dieses
+ * Interface nicht PruefzeichenVerfahren, sondern letztendlich
+ * PruefzifferVerfahren heisst.
+ *
  * @param <T> Typ, der vom Fachwert verwendet wird
  * @author <a href="ob@aosd.de">oliver</a>
  * @since 0.1.0
  */
-public interface PruefzifferVerfahren<T> extends Serializable {
+public interface PruefzifferVerfahren<T extends Serializable> extends SimpleValidator<T> {
 
     /**
      * Meistens ist die letzte Ziffer die Pruefziffer, die hierueber abgefragt
