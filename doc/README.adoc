@@ -70,7 +70,7 @@ können noch vorgenommen werden.
 Release gebaut.
 
 |auf Master-Branch wechseln
-|`mvn checkout master`
+|`git checkout master`
 |Die folgenden Schritte müssen auf dem Master-Branch erfolgen, weil dort das
 letzte Release verfügbar ist.
 
