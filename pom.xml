@@ -4,7 +4,7 @@
 
   <groupId>de.jfachwert</groupId>
   <artifactId>jfachwert</artifactId>
-  <version>0.4.0-SNAPSHOT</version>
+  <version>0.5.0-SNAPSHOT</version>
   <name>jFachwert</name>
 
   <description>Implementierung einiger Fachwerte nach dem WAM-Ansatz</description>
@@ -160,16 +160,22 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.4</version>
-        <configuration>
-          <source>${java.version}</source>
-          <show>protected</show>
-          <links>
-            <link>http://docs.oracle.com/javase/8/docs/api/</link>
-            <link>http://www.eclipse.org/aspectj/doc/released/runtime-api</link>
-            <link>http://junit.sourceforge.net/javadoc/</link>
-          </links>
-        </configuration>
+        <version>3.0.0-M1</version>
+        <reportSets>
+          <reportSet>
+            <id>html</id>
+            <configuration>
+              <source>${java.version}</source>
+              <show>protected</show>
+              <links>
+                <link>http://docs.oracle.com/javase/8/docs/api/</link>
+              </links>
+            </configuration>
+            <reports>
+              <report>javadoc</report>
+            </reports>
+          </reportSet>
+        </reportSets>
       </plugin>
 
       <!-- Unit Tests -->

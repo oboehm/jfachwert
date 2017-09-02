@@ -18,6 +18,8 @@ package de.jfachwert.pruefung;/*
 
 import org.junit.Test;
 
+import java.io.Serializable;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -41,7 +43,7 @@ public final class NoopVerfahrenTest {
 
     /**
      * Mit diesem Verfahren sollte jeder Input gueltig sein und unveraendert
-     * von der {@link NoopVerfahren#validate(Object)}-Methode ausgespuckt
+     * von der {@link NoopVerfahren#validate(Serializable)}-Methode ausgespuckt
      * werden.
      */
     @Test
