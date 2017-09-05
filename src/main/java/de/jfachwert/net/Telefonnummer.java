@@ -18,6 +18,7 @@
 package de.jfachwert.net;
 
 import de.jfachwert.*;
+import de.jfachwert.pruefung.*;
 
 /**
  * Die Klasse Telefonnummer steht fuer alle Arten von Rufnummern im
@@ -45,8 +46,29 @@ import de.jfachwert.*;
  */
 public class Telefonnummer extends AbstractFachwert<String> {
 
+    private static final TelefonnummerValidator DEFAULT_VALIDATOR = new TelefonnummerValidator();
+
+    /**
+     * Legt eine neue Instanz einer Telefonnummer an, sofern die uebergebene
+     * Nummer valide ist.
+     *
+     * @param nummer z.B. "+49 (0)30 12345-67"
+     */
     public Telefonnummer(String nummer) {
-        super(nummer);
+        this(nummer, DEFAULT_VALIDATOR);
+    }
+
+    /**
+     * Legt eine Instanz einer Telefonnummer an. Dieser Konstruktor ist
+     * hauptsaechlich fuer abgeleitete Klassen gedacht, die ihre eigene
+     * Validierung mit einbringen wollen oder aus Performance-Gruenden
+     * abschalten wollen.
+     *
+     * @param nummer    eine gueltige Telefonnummer, z.B. "+49 30 12345-67"
+     * @param validator SimpleValidator zur Adressen-Validierung
+     */
+    public Telefonnummer(String nummer, TelefonnummerValidator validator) {
+        super(validator.validate(nummer));
     }
 
 }

@@ -18,6 +18,9 @@
 package de.jfachwert.net;
 
 import de.jfachwert.*;
+import org.junit.*;
+
+import javax.validation.*;
 
 /**
  * Unit-Tests fuer {@link Telefonnummer}-Klasse.
@@ -34,6 +37,14 @@ public final class TelefonnummerTest extends AbstractFachwertTest {
     @Override
     protected Telefonnummer createFachwert() {
         return new Telefonnummer("+49 30 12345-67");
+    }
+
+    /**
+     * Eine falsche Telefonnummer sollte zurueckgewiesen werden.
+     */
+    @Test(expected = ValidationException.class)
+    public void testInvalidTelefonnummer() {
+        new Telefonnummer("12345-ABC");
     }
 
 }
