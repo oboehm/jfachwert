@@ -38,7 +38,7 @@ public class TelefonnummerValidator implements SimpleValidator<String> {
      * aufgesetzt.
      */
     public TelefonnummerValidator() {
-        this(Pattern.compile("[0-9-+/ ]+"));
+        this(Pattern.compile("[0-9-+/ ()]+"));
     }
 
     /**
