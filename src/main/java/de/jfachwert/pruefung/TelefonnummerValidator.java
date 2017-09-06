@@ -18,6 +18,7 @@
 package de.jfachwert.pruefung;
 
 import de.jfachwert.*;
+import org.apache.commons.lang3.*;
 
 import java.util.regex.*;
 
@@ -31,6 +32,7 @@ import java.util.regex.*;
 public class TelefonnummerValidator implements SimpleValidator<String> {
 
     private final Pattern pattern;
+    private final LengthValidator<String> lengthValidator = new LengthValidator<>(3, 15);
 
     /**
      * Hier wird der E-Mail-SimpleValidator mit einerm Pattern von
@@ -62,6 +64,8 @@ public class TelefonnummerValidator implements SimpleValidator<String> {
     public String validate(String nummer) {
         Matcher matcher = pattern.matcher(nummer);
         if (matcher.matches()) {
+            String normalized = StringUtils.removeAll(nummer, "[ \t+-/]|(\\(0\\))");
+            lengthValidator.validate(normalized);
             return nummer;
         }
         throw new InvalidValueException(nummer, "phone_number");
