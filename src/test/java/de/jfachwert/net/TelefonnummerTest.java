@@ -19,6 +19,7 @@ package de.jfachwert.net;
 
 import de.jfachwert.*;
 import org.junit.*;
+import patterntesting.runtime.junit.*;
 
 import javax.validation.*;
 
@@ -45,6 +46,16 @@ public final class TelefonnummerTest extends AbstractFachwertTest {
     @Test(expected = ValidationException.class)
     public void testInvalidTelefonnummer() {
         new Telefonnummer("12345-ABC");
+    }
+
+    /**
+     * Auch wenn Telefonnummern unterschiedlich formattiert sind, sollten
+     * gleiche Nummern als gleich erkannt werden.
+     */
+    public void testEquals() {
+        Telefonnummer one = new Telefonnummer("+49 (0)811 32 16 8");
+        Telefonnummer anotherOne = new Telefonnummer("+49 811/32168");
+        ObjectTester.assertEquals(one, anotherOne);
     }
 
 }

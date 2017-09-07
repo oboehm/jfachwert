@@ -19,6 +19,7 @@ package de.jfachwert.net;
 
 import de.jfachwert.*;
 import de.jfachwert.pruefung.*;
+import org.apache.commons.lang3.*;
 
 /**
  * Die Klasse Telefonnummer steht fuer alle Arten von Rufnummern im
@@ -69,6 +70,43 @@ public class Telefonnummer extends AbstractFachwert<String> {
      */
     public Telefonnummer(String nummer, TelefonnummerValidator validator) {
         super(validator.validate(nummer));
+    }
+
+    /**
+     * Wenn zwei Telefonnummern gleich sind, muessen sie auch den gleichen
+     * Hashcode liefern.
+     *
+     * @return Hashcode, der nur aus den Ziffern ermittelt wird
+     */
+    @Override
+    public int hashCode() {
+        return toShortString().hashCode();
+    }
+
+    /**
+     * Beim Vergleich zweier Telefonnummern spielen Trennzeichen keine Rolle.
+     * Hier sind nur die Nummern relevant.
+     *
+     * @param obj zu vergleichende Telefonnummer
+     * @return true bei Gleichheit
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Telefonnummer)) {
+            return false;
+        }
+        Telefonnummer other = (Telefonnummer) obj;
+        return this.toShortString().equals(other.toShortString());
+    }
+
+    /**
+     * Stellt eine Telefonnummer in verkuerzter Schreibweise ohne Leerzeichen
+     * und Trennzeichen dar.
+     *
+     * @return z.B. "+49301234567"
+     */
+    public String toShortString() {
+        return StringUtils.removeAll(getCode(), "[ \t+-/]|(\\(0\\))");
     }
 
 }
