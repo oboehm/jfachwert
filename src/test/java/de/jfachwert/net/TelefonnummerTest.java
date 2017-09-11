@@ -23,12 +23,17 @@ import patterntesting.runtime.junit.*;
 
 import javax.validation.*;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Unit-Tests fuer {@link Telefonnummer}-Klasse.
  *
  * @author oboehm
  */
 public final class TelefonnummerTest extends AbstractFachwertTest {
+
+    /** Telefonnumer aus Spider Murphy's "Skandal im Sperrbezirik". */
+    private Telefonnummer rosi = new Telefonnummer("+49 (0)811 32 16 8");
 
     /**
      * Zum Testen nehmen wir eine fiktive Telefonnummer (aus Wikipedia).
@@ -52,10 +57,18 @@ public final class TelefonnummerTest extends AbstractFachwertTest {
      * Auch wenn Telefonnummern unterschiedlich formattiert sind, sollten
      * gleiche Nummern als gleich erkannt werden.
      */
+    @Test
     public void testEquals() {
-        Telefonnummer one = new Telefonnummer("+49 (0)811 32 16 8");
-        Telefonnummer anotherOne = new Telefonnummer("+49 811/32168");
-        ObjectTester.assertEquals(one, anotherOne);
+        Telefonnummer sameRosi = new Telefonnummer("+49 811/32168");
+        ObjectTester.assertEquals(rosi, sameRosi);
+    }
+
+    /**
+     * Testmethode fuer {@link Telefonnummer#getLaenderkennzahl()}
+     */
+    @Test
+    public void testGetLandeskennzahl() {
+        assertEquals("+49", rosi.getLaenderkennzahl());
     }
 
 }

@@ -73,6 +73,18 @@ public class Telefonnummer extends AbstractFachwert<String> {
     }
 
     /**
+     * Die Laenderkennzahl (LKZ) ist die Vorwahl, die man fuer Telefonate ins
+     * Ausland waehlen muss. Fuer Deutschland ist die LKZ "+49*, d.h. wenn
+     * man von Oesterreich nach Deutschland waehlen muss, muss man "0049"
+     * vorwaehlen.
+     *
+     * @return z.B. "+49"
+     */
+    public String getLaenderkennzahl() {
+        return StringUtils.substringBefore(this.getCode(), " ");
+    }
+
+    /**
      * Wenn zwei Telefonnummern gleich sind, muessen sie auch den gleichen
      * Hashcode liefern.
      *
