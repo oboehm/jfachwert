@@ -81,7 +81,7 @@ public class Telefonnummer extends AbstractFachwert<String> {
      * @return z.B. "+49"
      */
     public String getLaenderkennzahl() {
-        return StringUtils.substringBefore(this.getCode(), " ");
+        return this.getCode().substring(0, 3);
     }
 
     /**

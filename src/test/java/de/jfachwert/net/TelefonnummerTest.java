@@ -19,21 +19,52 @@ package de.jfachwert.net;
 
 import de.jfachwert.*;
 import org.junit.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
 import patterntesting.runtime.junit.*;
 
 import javax.validation.*;
+import java.util.*;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * Unit-Tests fuer {@link Telefonnummer}-Klasse.
  *
  * @author oboehm
  */
+@RunWith(Parameterized.class)
 public final class TelefonnummerTest extends AbstractFachwertTest {
 
     /** Telefonnumer aus Spider Murphy's "Skandal im Sperrbezirik". */
     private Telefonnummer rosi = new Telefonnummer("+49 (0)811 32 16 8");
+
+    private final String nummer;
+    private Telefonnummer rosisNummer;
+
+    public TelefonnummerTest(String telefonnummer) {
+        this.nummer = telefonnummer;
+    }
+
+    /**
+     * Hier setzen wir immer die gleiche Telefonnumern (Rosis Telefonnummer
+     * aus "Skandal im Sperrbezirk" von der Spider Murphy Gang) in
+     * verschiedenen Formaten zum Testen auf.
+     *
+     * @return Iterable of Array, wie vom Parameterized-Runner vorgegeben.
+     */
+    @Parameterized.Parameters(name = "{0}")
+    public static Collection<Object[]> data() {
+        Collection<Object[]> values = new ArrayList<>();
+        values.add(new Object[] { "+49 (0)811 32 16 8" });
+        values.add(new Object[] { "+49(0)811/32168" });
+        return values;
+    }
+
+    @Before
+    public void setUpTelefonnummer() {
+        this.rosisNummer = createFachwert();
+    }
 
     /**
      * Zum Testen nehmen wir eine fiktive Telefonnummer (aus Wikipedia).
@@ -42,7 +73,7 @@ public final class TelefonnummerTest extends AbstractFachwertTest {
      */
     @Override
     protected Telefonnummer createFachwert() {
-        return new Telefonnummer("+49 30 12345-67");
+        return new Telefonnummer(this.nummer);
     }
 
     /**
@@ -50,7 +81,7 @@ public final class TelefonnummerTest extends AbstractFachwertTest {
      */
     @Test(expected = ValidationException.class)
     public void testInvalidTelefonnummer() {
-        new Telefonnummer("12345-ABC");
+        new Telefonnummer("ABC-" + this.nummer);
     }
 
     /**
@@ -59,8 +90,7 @@ public final class TelefonnummerTest extends AbstractFachwertTest {
      */
     @Test
     public void testEquals() {
-        Telefonnummer sameRosi = new Telefonnummer("+49 811/32168");
-        ObjectTester.assertEquals(rosi, sameRosi);
+        ObjectTester.assertEquals(rosi, new Telefonnummer("+49 811/32168"));
     }
 
     /**
@@ -68,7 +98,7 @@ public final class TelefonnummerTest extends AbstractFachwertTest {
      */
     @Test
     public void testGetLandeskennzahl() {
-        assertEquals("+49", rosi.getLaenderkennzahl());
+        assertEquals("+49", rosisNummer.getLaenderkennzahl());
     }
 
 }
