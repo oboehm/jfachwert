@@ -85,6 +85,16 @@ public class Telefonnummer extends AbstractFachwert<String> {
     }
 
     /**
+     * Liefert die Vorwahl oder auch Ortskennzahl (ONKz).
+     *
+     * @return z.B. "0711" fuer Stuttgart
+     */
+    public String getVorwahl() {
+        String[] parts = this.getCode().substring(3).trim().split("[ /]");
+        return StringUtils.removeAll(parts[0], "[ \t+-/(\\(\\))]");
+    }
+
+    /**
      * Wenn zwei Telefonnummern gleich sind, muessen sie auch den gleichen
      * Hashcode liefern.
      *

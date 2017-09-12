@@ -101,4 +101,12 @@ public final class TelefonnummerTest extends AbstractFachwertTest {
         assertEquals("+49", rosisNummer.getLaenderkennzahl());
     }
 
+    /**
+     * Testmethode fuer {@link Telefonnummer#getVorwahl()}.
+     */
+    @Test
+    public void testGetVorwahl() {
+        assertEquals("0811", rosisNummer.getVorwahl());
+    }
+
 }
