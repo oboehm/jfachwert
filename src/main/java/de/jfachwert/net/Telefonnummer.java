@@ -69,7 +69,7 @@ public class Telefonnummer extends AbstractFachwert<String> {
      * @param validator SimpleValidator zur Adressen-Validierung
      */
     public Telefonnummer(String nummer, TelefonnummerValidator validator) {
-        super(validator.validate(nummer));
+        super(normalize(validator.validate(nummer)));
     }
 
     /**
@@ -139,6 +139,14 @@ public class Telefonnummer extends AbstractFachwert<String> {
      */
     public String toShortString() {
         return StringUtils.removeAll(getCode(), "[ \t+-/]|(\\(0\\))");
+    }
+
+    private static String normalize(String nummer) {
+        String normalized = nummer.trim();
+        if (normalized.startsWith("(0)")) {
+            normalized = "0" + normalized.substring(3);
+        }
+        return normalized;
     }
 
 }
