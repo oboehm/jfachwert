@@ -26,6 +26,7 @@ import patterntesting.runtime.junit.*;
 import javax.validation.*;
 import java.util.*;
 
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 /**
@@ -91,6 +92,16 @@ public final class TelefonnummerTest extends AbstractFachwertTest {
     @Test
     public void testEquals() {
         ObjectTester.assertEquals(rosi, new Telefonnummer("+49 811/32168"));
+    }
+
+    /**
+     * Die Inlandsnummer sollte mit der fuehrenden 0 der Vorwahl anfangen.
+     */
+    @Test
+    public void testGetInlandsNummer() {
+        Telefonnummer inland = rosisNummer.getInlandsNummer();
+        assertEquals(new Telefonnummer("0811/32168"), inland);
+        assertThat(inland.toString(), startsWith("0811"));
     }
 
     /**

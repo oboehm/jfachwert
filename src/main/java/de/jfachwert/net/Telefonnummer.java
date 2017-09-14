@@ -73,6 +73,16 @@ public class Telefonnummer extends AbstractFachwert<String> {
     }
 
     /**
+     * Liefert die Telefonnummer ohne Laenderkennzahl, dafuer mit Vorwahl
+     * inklusive fuehrender Null.
+     *
+     * @return z.B. 0811/32168
+     */
+    public Telefonnummer getInlandsNummer() {
+        return new Telefonnummer(this.getCode().substring(3));
+    }
+
+    /**
      * Die Laenderkennzahl (LKZ) ist die Vorwahl, die man fuer Telefonate ins
      * Ausland waehlen muss. Fuer Deutschland ist die LKZ "+49*, d.h. wenn
      * man von Oesterreich nach Deutschland waehlen muss, muss man "0049"
