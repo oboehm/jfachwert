@@ -98,10 +98,18 @@ public final class TelefonnummerTest extends AbstractFachwertTest {
      * Die Inlandsnummer sollte mit der fuehrenden 0 der Vorwahl anfangen.
      */
     @Test
-    public void testGetInlandsNummer() {
-        Telefonnummer inland = rosisNummer.getInlandsNummer();
+    public void testGetInlandsnummer() {
+        Telefonnummer inland = rosisNummer.getInlandsnummer();
         assertEquals(new Telefonnummer("0811/32168"), inland);
         assertThat(inland.toString(), startsWith("0811"));
+    }
+
+    /**
+     * Testmethode fuer {@link Telefonnummer#toDinString()}.
+     */
+    @Test
+    public void testGetDinString() {
+        assertEquals("+49 811 32168", rosisNummer.toDinString());
     }
 
     /**

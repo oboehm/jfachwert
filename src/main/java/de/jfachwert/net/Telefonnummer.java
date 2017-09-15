@@ -78,7 +78,7 @@ public class Telefonnummer extends AbstractFachwert<String> {
      *
      * @return z.B. 0811/32168
      */
-    public Telefonnummer getInlandsNummer() {
+    public Telefonnummer getInlandsnummer() {
         return new Telefonnummer(this.getCode().substring(3));
     }
 
@@ -102,6 +102,16 @@ public class Telefonnummer extends AbstractFachwert<String> {
     public String getVorwahl() {
         String[] parts = this.getCode().substring(3).trim().split("[ /]");
         return StringUtils.removeAll(parts[0], "[ \t+-/(\\(\\))]");
+    }
+
+    /**
+     * Liefert die Nummer der Ortsvermittlungsstelle, d.h. die Telefonnummer
+     * ohne Vorwahl und Laenderkennzahl.
+     *
+     * @return z.B. "32168"
+     */
+    public String getRufnummer() {
+        return StringUtils.substringAfter(this.getInlandsnummer().toString(), " ").replaceAll(" ", "");
     }
 
     /**
@@ -139,6 +149,17 @@ public class Telefonnummer extends AbstractFachwert<String> {
      */
     public String toShortString() {
         return StringUtils.removeAll(getCode(), "[ \t+-/]|(\\(0\\))");
+    }
+
+    /**
+     * Gibt den String nach DIN 5008 aus. Die Nummern werden dabei
+     * funktionsbezogen durch Leerzeichen und die Durchwahl mit Bindestrich
+     * abgetrennt.
+     *
+     * @return z.B. "+49 30 12345-67" bzw. "030 12345-67"
+     */
+    public String toDinString() {
+        return getLaenderkennzahl() + " " + getVorwahl().substring(1) + " " + getRufnummer();
     }
 
     private static String normalize(String nummer) {
