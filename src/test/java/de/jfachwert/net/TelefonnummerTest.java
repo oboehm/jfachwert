@@ -57,8 +57,8 @@ public final class TelefonnummerTest extends AbstractFachwertTest {
     @Parameterized.Parameters(name = "{0}")
     public static Collection<Object[]> data() {
         Collection<Object[]> values = new ArrayList<>();
-        values.add(new Object[] { "+49 (0)811 32 16 8" });
-        values.add(new Object[] { "+49(0)811/32168" });
+        values.add(new Object[] { "+49 (0)811 32 16 - 8" });
+        values.add(new Object[] { "+49(0)811/3216-8" });
         return values;
     }
 
@@ -115,7 +115,23 @@ public final class TelefonnummerTest extends AbstractFachwertTest {
      */
     @Test
     public void testToDinString() {
-        assertEquals("+49 811 32168", rosisNummer.toDinString());
+        assertEquals("+49 811 3216-8", rosisNummer.toDinString());
+    }
+
+    /**
+     * Testmethode fuer {@link Telefonnummer#toE123String()}.
+     */
+    @Test
+    public void testToE123String() {
+        assertEquals("+49 811 3216 8", rosisNummer.toE123String());
+    }
+
+    /**
+     * Testmethode fuer {@link Telefonnummer#toURI()}.
+     */
+    @Test
+    public void testToURI() {
+        assertEquals("tel:+49-811-3216-8", rosisNummer.toURI().toString());
     }
 
     /**

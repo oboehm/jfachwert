@@ -21,6 +21,7 @@ import de.jfachwert.*;
 import de.jfachwert.pruefung.*;
 import org.apache.commons.lang3.*;
 
+import java.net.*;
 import java.util.*;
 
 /**
@@ -174,6 +175,27 @@ public class Telefonnummer extends AbstractFachwert<String> {
         Optional<String> laenderkennzahl = getLaenderkennzahl();
         String prefix = laenderkennzahl.orElse("");
         return (prefix + " " + getVorwahl().substring(1) + " " + getRufnummer()).trim();
+    }
+
+    /**
+     * Die "E.123" ist eine Empfehlung der Internationalen Fernmeldeunion.
+     * Dabei werden die einzelnen Bestandteile (Laenderkennzeichen, Vorwahl
+     * und Rufnummer) durch Leerzeichen gruppiert.
+     *
+     * @return z.B. "+49 30 12345 67" oder "(030) 12345 67" (national)
+     */
+    public String toE123String() {
+        return toDinString().replace('-', ' ');
+    }
+
+    /**
+     * Nach RFC 3966 wird die Telefonnummer wie E.123 dargestellt, jedoch mit
+     * Bindestrich statt Leerzeichen.
+     *
+     * @return z.B. "tel:+49-30-12345-67"
+     */
+    public URI toURI() {
+        return URI.create("tel:" + toDinString().replace(' ', '-'));
     }
 
     private static String normalize(String nummer) {
