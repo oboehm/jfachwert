@@ -110,9 +110,9 @@ public class Telefonnummer extends AbstractFachwert<String> {
      *
      * @return z.B. "32168"
      */
-    public String getRufnummer() {
+    public Telefonnummer getRufnummer() {
         String inlandsnummer = StringUtils.replaceAll(this.getInlandsnummer().toString(), "[ /]+", " ");
-        return StringUtils.substringAfter(inlandsnummer, " ").replaceAll(" ", "");
+        return new Telefonnummer(StringUtils.substringAfter(inlandsnummer, " ").replaceAll(" ", ""));
     }
 
     /**

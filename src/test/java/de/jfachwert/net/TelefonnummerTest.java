@@ -104,6 +104,12 @@ public final class TelefonnummerTest extends AbstractFachwertTest {
         assertThat(inland.toString(), startsWith("0811"));
     }
 
+    @Test
+    public void testGetRufnummer() {
+        Telefonnummer rufnummer = rosisNummer.getRufnummer();
+        assertEquals(new Telefonnummer("32168"), rufnummer);
+    }
+
     /**
      * Testmethode fuer {@link Telefonnummer#toDinString()}.
      */
