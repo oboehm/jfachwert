@@ -21,6 +21,8 @@ import de.jfachwert.*;
 import de.jfachwert.pruefung.*;
 import org.apache.commons.lang3.*;
 
+import java.util.*;
+
 /**
  * Die Klasse Telefonnummer steht fuer alle Arten von Rufnummern im
  * Telefon-Netz wie Fesetnetznummer, Faxnummer oder Mobilfunknummer.
@@ -87,11 +89,20 @@ public class Telefonnummer extends AbstractFachwert<String> {
      * Ausland waehlen muss. Fuer Deutschland ist die LKZ "+49*, d.h. wenn
      * man von Oesterreich nach Deutschland waehlen muss, muss man "0049"
      * vorwaehlen.
+     * <p>
+     * Da die Laenderkennzahl optional ist, wird sie als {@link Optional}
+     * zurueckgegeben.
+     * </p>
      *
      * @return z.B. "+49"
      */
-    public String getLaenderkennzahl() {
-        return this.getCode().substring(0, 3);
+    public Optional<String> getLaenderkennzahl() {
+        String laenderkennzahl = this.getCode().substring(0, 3);
+        if (laenderkennzahl.startsWith("+")) {
+            return Optional.of(laenderkennzahl);
+        } else {
+            return Optional.empty();
+        }
     }
 
     /**
@@ -160,7 +171,9 @@ public class Telefonnummer extends AbstractFachwert<String> {
      * @return z.B. "+49 30 12345-67" bzw. "030 12345-67"
      */
     public String toDinString() {
-        return getLaenderkennzahl() + " " + getVorwahl().substring(1) + " " + getRufnummer();
+        Optional<String> laenderkennzahl = getLaenderkennzahl();
+        String prefix = laenderkennzahl.orElse("");
+        return (prefix + " " + getVorwahl().substring(1) + " " + getRufnummer()).trim();
     }
 
     private static String normalize(String nummer) {

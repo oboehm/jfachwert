@@ -123,7 +123,7 @@ public final class TelefonnummerTest extends AbstractFachwertTest {
      */
     @Test
     public void testGetLandeskennzahl() {
-        assertEquals("+49", rosisNummer.getLaenderkennzahl());
+        assertEquals(Optional.of("+49"), rosisNummer.getLaenderkennzahl());
     }
 
     /**
