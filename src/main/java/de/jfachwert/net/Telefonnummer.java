@@ -111,7 +111,8 @@ public class Telefonnummer extends AbstractFachwert<String> {
      * @return z.B. "32168"
      */
     public String getRufnummer() {
-        return StringUtils.substringAfter(this.getInlandsnummer().toString(), " ").replaceAll(" ", "");
+        String inlandsnummer = StringUtils.replaceAll(this.getInlandsnummer().toString(), "[ /]+", " ");
+        return StringUtils.substringAfter(inlandsnummer, " ").replaceAll(" ", "");
     }
 
     /**

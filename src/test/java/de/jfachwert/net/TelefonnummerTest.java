@@ -108,7 +108,7 @@ public final class TelefonnummerTest extends AbstractFachwertTest {
      * Testmethode fuer {@link Telefonnummer#toDinString()}.
      */
     @Test
-    public void testGetDinString() {
+    public void testToDinString() {
         assertEquals("+49 811 32168", rosisNummer.toDinString());
     }
 
