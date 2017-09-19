@@ -87,14 +87,14 @@ public class PLZ extends AbstractFachwert<String> {
     public static String validate(String code) {
         String plz = normalize(code);
         if (hasLandeskennung(plz)) {
-            plz = validateNumberOf(plz);
+            validateNumberOf(plz);
         } else {
             plz = LengthValidator.validate(plz, 3, 10);
         }
         return plz;
     }
 
-    private static String validateNumberOf(String plz) {
+    private static void validateNumberOf(String plz) {
         String kennung = getLandeskennung(plz);
         String zahl = getPostleitZahl(plz);
         switch (kennung) {
@@ -109,7 +109,6 @@ public class PLZ extends AbstractFachwert<String> {
                 LengthValidator.validate(zahl, 3, 10);
                 break;
         }
-        return plz;
     }
 
     private static void validateNumberWith(String plz, int length, String zahl) {
