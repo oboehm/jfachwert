@@ -112,8 +112,16 @@ public class Telefonnummer extends AbstractFachwert<String> {
      * @return z.B. "0711" fuer Stuttgart
      */
     public String getVorwahl() {
-        String[] parts = this.getCode().substring(3).trim().split("[ /]");
-        return StringUtils.removeAll(parts[0], "[ \t+-/(\\(\\))]");
+        String[] parts = this.getCode().trim().split("[ /-]|(\\(0\\))");
+        String vorwahl = parts[0];
+        if (vorwahl.startsWith("+")) {
+            vorwahl = StringUtils.isBlank(parts[1]) ? parts[2] : parts[1];
+        }
+        vorwahl = StringUtils.removeAll(vorwahl, "[ \t+-/(\\(\\))]");
+        if (vorwahl.startsWith("0")) {
+            return vorwahl;
+        }
+        return "0" + vorwahl;
     }
 
     /**
@@ -173,8 +181,8 @@ public class Telefonnummer extends AbstractFachwert<String> {
      */
     public String toDinString() {
         Optional<String> laenderkennzahl = getLaenderkennzahl();
-        String prefix = laenderkennzahl.orElse("");
-        return (prefix + " " + getVorwahl().substring(1) + " " + getRufnummer()).trim();
+        return laenderkennzahl.map(s -> s + " " + getVorwahl().substring(1) + " " + getRufnummer()).orElseGet(
+                () -> getVorwahl() + " " + getRufnummer());
     }
 
     /**
@@ -185,7 +193,11 @@ public class Telefonnummer extends AbstractFachwert<String> {
      * @return z.B. "+49 30 12345 67" oder "(030) 12345 67" (national)
      */
     public String toE123String() {
-        return toDinString().replace('-', ' ');
+        if (getLaenderkennzahl().isPresent()) {
+            return toDinString().replace('-', ' ');
+        } else {
+            return "(" + getVorwahl() + ") " + getRufnummer().toString().replace('-', ' ');
+        }
     }
 
     /**

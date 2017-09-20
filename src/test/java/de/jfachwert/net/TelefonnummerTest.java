@@ -119,11 +119,27 @@ public final class TelefonnummerTest extends AbstractFachwertTest {
     }
 
     /**
+     * Testmethode fuer {@link Telefonnummer#toDinString()}.
+     */
+    @Test
+    public void testToDinStringNational() {
+        assertEquals("0811 3216-8", rosisNummer.getInlandsnummer().toDinString());
+    }
+
+    /**
      * Testmethode fuer {@link Telefonnummer#toE123String()}.
      */
     @Test
     public void testToE123String() {
         assertEquals("+49 811 3216 8", rosisNummer.toE123String());
+    }
+
+    /**
+     * Testmethode fuer {@link Telefonnummer#toE123String()}.
+     */
+    @Test
+    public void testToE123StringNational() {
+        assertEquals("(0811) 3216 8", rosisNummer.getInlandsnummer().toE123String());
     }
 
     /**
