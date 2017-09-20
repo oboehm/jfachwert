@@ -24,6 +24,7 @@ import org.junit.runners.*;
 import patterntesting.runtime.junit.*;
 
 import javax.validation.*;
+import java.net.*;
 import java.util.*;
 
 import static org.hamcrest.Matchers.*;
@@ -148,6 +149,15 @@ public final class TelefonnummerTest extends AbstractFachwertTest {
     @Test
     public void testToURI() {
         assertEquals("tel:+49-811-3216-8", rosisNummer.toURI().toString());
+    }
+
+    /**
+     * Testmethode fuer {@link Telefonnummer#Telefonnummer(URI)}.
+     */
+    @Test
+    public void testTelefonnumerURI() {
+        URI uri = rosisNummer.toURI();
+        assertEquals(rosisNummer, new Telefonnummer(uri));
     }
 
     /**

@@ -63,6 +63,16 @@ public class Telefonnummer extends AbstractFachwert<String> {
     }
 
     /**
+     * Eine Telefonnummer lasesst sich auch ueber eine URI kreieren. Der
+     * RFC 3966 schlaegt dabei "tel:" als Schema vor.
+     *
+     * @param uri z.B. "tel:+49-30-1234567"
+     */
+    public Telefonnummer(URI uri) {
+        this(uri.getSchemeSpecificPart());
+    }
+
+    /**
      * Legt eine Instanz einer Telefonnummer an. Dieser Konstruktor ist
      * hauptsaechlich fuer abgeleitete Klassen gedacht, die ihre eigene
      * Validierung mit einbringen wollen oder aus Performance-Gruenden
