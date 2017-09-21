@@ -58,6 +58,7 @@ public final class TelefonnummerTest extends AbstractFachwertTest {
     @Parameterized.Parameters(name = "{0}")
     public static Collection<Object[]> data() {
         Collection<Object[]> values = new ArrayList<>();
+        values.add(new Object[] { "+49 811 3216-8" });
         values.add(new Object[] { "+49 (0)811 32 16 - 8" });
         values.add(new Object[] { "+49(0)811/3216-8" });
         return values;

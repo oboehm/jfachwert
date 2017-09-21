@@ -92,7 +92,15 @@ public class Telefonnummer extends AbstractFachwert<String> {
      * @return z.B. 0811/32168
      */
     public Telefonnummer getInlandsnummer() {
-        return new Telefonnummer(this.getCode().substring(3));
+        if (getLaenderkennzahl().isPresent()) {
+            String nummer = this.getCode().substring(3).trim();
+            if (StringUtils.startsWithAny(nummer, "1", "2", "3", "4", "5", "6", "7", "8", "9")) {
+                nummer = "0" + nummer;
+            }
+            return new Telefonnummer(nummer);
+        } else {
+            return this;
+        }
     }
 
     /**
