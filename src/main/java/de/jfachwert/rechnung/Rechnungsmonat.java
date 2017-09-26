@@ -96,7 +96,7 @@ public class Rechnungsmonat implements Fachwert {
     }
 
     private static LocalDate toLocalDate(String monat) {
-        String normalized = monat.replaceAll("[/\\.\\s]", "-");
+        String normalized = monat.replaceAll("[/.\\s]", "-");
         String[] parts = monat.split("-");
         if (parts.length == 2) {
             normalized = "1-" + normalized;

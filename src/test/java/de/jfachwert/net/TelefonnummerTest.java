@@ -39,7 +39,7 @@ import static org.junit.Assert.*;
 public final class TelefonnummerTest extends AbstractFachwertTest {
 
     /** Telefonnumer aus Spider Murphy's "Skandal im Sperrbezirik". */
-    private Telefonnummer rosi = new Telefonnummer("+49 (0)811 32 16 8");
+    private final Telefonnummer rosi = new Telefonnummer("+49 (0)811 32 16 8");
 
     private final String nummer;
     private Telefonnummer rosisNummer;
