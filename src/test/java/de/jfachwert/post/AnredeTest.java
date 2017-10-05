@@ -16,7 +16,9 @@ package de.jfachwert.post;/*
  * (c)reated 28.08.2017 by oboehm (ob@oasd.de)
  */
 
-import org.junit.*;
+import org.junit.Test;
+
+import javax.validation.ValidationException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -42,6 +44,30 @@ public final class AnredeTest {
     @Test
     public void testToStringHerrUndFrau() {
         assertEquals("Herr und Frau", Anrede.HERR_UND_FRAU.toString());
+    }
+
+    /**
+     * Test-Methode fuer {@link Anrede#of(int)}.
+     */
+    @Test
+    public void testOf() {
+        assertEquals(Anrede.OHNE_ANREDE, Anrede.of(0));
+    }
+
+    /**
+     * Test-Methode fuer {@link Anrede#of(int)}.
+     */
+    @Test
+    public void testOfLast() {
+        assertEquals(Anrede.VEREINIGUNG, Anrede.of(6));
+    }
+
+    /**
+     * Test-Methode fuer {@link Anrede#of(int)} mit fehlerhaftem Argument.
+     */
+    @Test(expected = ValidationException.class)
+    public void testOfInvalidArgument() {
+        Anrede.of(7);
     }
 
 }
