@@ -17,22 +17,39 @@
  */
 package de.jfachwert.post;
 
-import org.apache.commons.lang3.*;
-
 /**
- * Anrede fuer "Herr/Frau". Da "Fraeulein" schon lange nicht mehr
- * zeitgemaess ist, taucht es in der Liste nicht auf.
+ * Die Liste fuer die Anrede orientiert sich am Handbuch des Gesamtverbands der
+ * Deutschen Versicherungswirtschaft (GDV). Deswegen taucht auch "Fraeulein" in
+ * der Auswahl auf, obwohl es schon lange nicht mehr zeitgemaess ist.
  */
 public enum Anrede {
 
     /** Unbekannte Anrede. */
-    UNBEKANNT,
+    OHNE_ANREDE(""),
 
     /** Maennliche Anrede. */
-    HERR,
+    HERR("Herr"),
 
     /** Weibliche Anrede. */
-    FRAU;
+    FRAU("Frau"),
+
+    /** Firma. */
+    FIRMA("Firma"),
+
+    /** Herr und Frau. */
+    HERR_UND_FRAU("Herr und Frau"),
+
+    /** Fraeulein (aus historischen Gruenden). */
+    FRAEULEIN("Fr\u00e4ulein"),
+
+    /** Vereinigung. */
+    VEREINIGUNG("Vereinigung");
+
+    private final String text;
+
+    Anrede(String text) {
+        this.text = text;
+    }
 
     /**
      * Als Ergebnis werden die einzelnen Elemente in normaler Schreibweise
@@ -42,7 +59,7 @@ public enum Anrede {
      */
     @Override
     public String toString() {
-        return StringUtils.capitalize(super.toString().toLowerCase());
+        return text;
     }
 
 }

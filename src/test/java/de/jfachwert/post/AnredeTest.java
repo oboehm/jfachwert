@@ -36,4 +36,12 @@ public final class AnredeTest {
         assertEquals("Herr", Anrede.HERR.toString());
     }
 
+    /**
+     * Test-Methode fuer {@link Anrede#toString()}.
+     */
+    @Test
+    public void testToStringHerrUndFrau() {
+        assertEquals("Herr und Frau", Anrede.HERR_UND_FRAU.toString());
+    }
+
 }
