@@ -1,4 +1,4 @@
-package de.jfachwert.post;/*
+package de.jfachwert.formular;/*
  * Copyright (c) 2017 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

@@ -15,7 +15,7 @@
  *
  * (c)reated 05.10.17 by oliver (ob@oasd.de)
  */
-package de.jfachwert.post;
+package de.jfachwert.formular;
 
 /**
  * Die Werte fuer das Geschlecht orientieren sich am Handbuch des

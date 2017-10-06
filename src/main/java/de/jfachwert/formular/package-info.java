@@ -13,25 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * (c)reated 05.10.17 by oliver (ob@oasd.de)
+ * (c)reated 06.10.17 by oliver (ob@oasd.de)
  */
-package de.jfachwert.post;
-
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 /**
- * Unit-Tests fuer {@link Geschlecht}.
+ * In diesem Package sind Klassen und Aufzaehlungstypen wie
+ * {@link de.jfachwert.formular.Anrede} oder
+ * {@link de.jfachwert.formular.Geschlecht}, die ueblicherweise in Formularen
+ * und Vertraege anzufinden sind,
+ *
+ * @author <a href="ob@aosd.de">oliver</a>
+ * @since 0.5
  */
-public class GeschlechtTest {
-
-    /**
-     * Test-Methode fuer {@link Geschlecht#toString()}.
-     */
-    @Test
-    public void testToString() {
-        assertEquals("m\u00e4nnlich", Geschlecht.MAENNLICH.toString());
-    }
-
-}
+package de.jfachwert.formular;

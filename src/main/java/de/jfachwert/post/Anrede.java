@@ -17,42 +17,26 @@
  */
 package de.jfachwert.post;
 
-import de.jfachwert.pruefung.InvalidValueException;
-import org.apache.commons.lang3.Range;
+import org.apache.commons.lang3.*;
 
 /**
- * Die Liste fuer die Anrede orientiert sich am Handbuch des Gesamtverbands der
- * Deutschen Versicherungswirtschaft (GDV). Deswegen taucht auch "Fraeulein" in
- * der Auswahl auf, obwohl es schon lange nicht mehr zeitgemaess ist.
+ * Anrede fuer "Herr/Frau". Da "Fraeulein" schon lange nicht mehr
+ * zeitgemaess ist, taucht es in der Liste nicht auf.
+ *
+ * @deprecated seit 0.5 ist dieser Enum in {@link de.jfachwert.formular.Anrede}
+ *             zu finden.
  */
+@Deprecated
 public enum Anrede {
 
     /** Unbekannte Anrede. */
-    OHNE_ANREDE(""),
+    UNBEKANNT,
 
     /** Maennliche Anrede. */
-    HERR("Herr"),
+    HERR,
 
     /** Weibliche Anrede. */
-    FRAU("Frau"),
-
-    /** Firma. */
-    FIRMA("Firma"),
-
-    /** Herr und Frau. */
-    HERR_UND_FRAU("Herr und Frau"),
-
-    /** Fraeulein (aus historischen Gruenden). */
-    FRAEULEIN("Fr\u00e4ulein"),
-
-    /** Vereinigung. */
-    VEREINIGUNG("Vereinigung");
-
-    private final String text;
-
-    Anrede(String text) {
-        this.text = text;
-    }
+    FRAU;
 
     /**
      * Als Ergebnis werden die einzelnen Elemente in normaler Schreibweise
@@ -62,22 +46,7 @@ public enum Anrede {
      */
     @Override
     public String toString() {
-        return text;
-    }
-
-    /**
-     * Liefert das n-te Element als Anrede zurueck. Die Reihenfolge entspricht
-     * dabei der Reihenfolge, wie sie im Handbuch des GDVs dokumnetiert sind.
-     *
-     * @param n von 0 bis 6
-     * @return Anrede
-     */
-    public static Anrede of(int n) {
-        int max = Anrede.values().length - 1;
-        if ((n < 0) || (n > max)) {
-            throw new InvalidValueException(n, "n", Range.between(0, max));
-        }
-        return Anrede.values()[n];
+        return StringUtils.capitalize(super.toString().toLowerCase());
     }
 
 }
