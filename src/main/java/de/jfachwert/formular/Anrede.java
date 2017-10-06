@@ -17,8 +17,7 @@
  */
 package de.jfachwert.formular;
 
-import de.jfachwert.pruefung.InvalidValueException;
-import org.apache.commons.lang3.Range;
+import de.jfachwert.pruefung.AccessValidator;
 
 /**
  * Die Liste fuer die Anrede orientiert sich am Handbuch des Gesamtverbands der
@@ -73,11 +72,7 @@ public enum Anrede {
      * @return Anrede
      */
     public static Anrede of(int n) {
-        int max = Anrede.values().length - 1;
-        if ((n < 0) || (n > max)) {
-            throw new InvalidValueException(n, "n", Range.between(0, max));
-        }
-        return Anrede.values()[n];
+        return AccessValidator.access(Anrede.values(), n);
     }
 
 }
