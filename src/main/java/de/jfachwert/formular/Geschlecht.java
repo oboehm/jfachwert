@@ -17,6 +17,8 @@
  */
 package de.jfachwert.formular;
 
+import de.jfachwert.pruefung.AccessValidator;
+
 /**
  * Die Werte fuer das Geschlecht orientieren sich am Handbuch des
  * Gesamtverbands der Deutschen Versicherungswirtschaft (GDV). Auch
@@ -54,6 +56,35 @@ public enum Geschlecht {
     @Override
     public String toString() {
         return text;
+    }
+
+    /**
+     * Liefert das n-te Element als Geschlecht zurueck. Die Reihenfolge
+     * entspricht dabei der Reihenfolge, wie sie im Handbuch des GDVs
+     * dokumentiert sind.
+     *
+     * @param n von 0 bis 4
+     * @return Geschlecht
+     */
+    public static Geschlecht of(int n) {
+        return AccessValidator.access(Geschlecht.values(), n);
+    }
+
+    /**
+     * Liefert das Geschlecht, das dem uebergebenen Buchstaben entspricht.
+     * Bei unbekanntem Buchstaben wird {@link Geschlecht#UNBEKANNT}
+     * zurueckgegeben.
+     *
+     * @param key Buchstaben wie 'w', 'm' oder 'j' (juristische Person)
+     * @return Geschlecht
+     */
+    public static Geschlecht of(char key) {
+        for (Geschlecht g : Geschlecht.values()) {
+            if (g.text.charAt(0) == Character.toLowerCase(key)) {
+                return g;
+            }
+        }
+        return UNBEKANNT;
     }
 
 }

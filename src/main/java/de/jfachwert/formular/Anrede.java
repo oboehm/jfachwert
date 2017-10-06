@@ -66,7 +66,7 @@ public enum Anrede {
 
     /**
      * Liefert das n-te Element als Anrede zurueck. Die Reihenfolge entspricht
-     * dabei der Reihenfolge, wie sie im Handbuch des GDVs dokumnetiert sind.
+     * dabei der Reihenfolge, wie sie im Handbuch des GDVs dokumentiert sind.
      *
      * @param n von 0 bis 6
      * @return Anrede

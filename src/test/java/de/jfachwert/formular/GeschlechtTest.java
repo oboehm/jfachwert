@@ -19,6 +19,8 @@ package de.jfachwert.formular;
 
 import org.junit.Test;
 
+import javax.validation.ValidationException;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -32,6 +34,38 @@ public class GeschlechtTest {
     @Test
     public void testToString() {
         assertEquals("m\u00e4nnlich", Geschlecht.MAENNLICH.toString());
+    }
+
+    /**
+     * Test-Methode fuer {@link Geschlecht#of(int)}
+     */
+    @Test
+    public void testOfInt() {
+        assertEquals(Geschlecht.JURISTISCHE_PERSON, Geschlecht.of(0));
+    }
+
+    /**
+     * Test-Methode fuer {@link Geschlecht#of(int)}
+     */
+    @Test(expected = ValidationException.class)
+    public void testOfInvalidInt() {
+        Geschlecht.of(-1);
+    }
+
+    /**
+     * Test-Methode fuer {@link Geschlecht#of(char)}
+     */
+    @Test
+    public void testOfChar() {
+        assertEquals(Geschlecht.WEIBLICH, Geschlecht.of('w'));
+    }
+
+    /**
+     * Test-Methode fuer {@link Geschlecht#of(char)}
+     */
+    @Test
+    public void testOfInvalidChar() {
+        assertEquals(Geschlecht.UNBEKANNT, Geschlecht.of('x'));
     }
 
 }
