@@ -1,6 +1,6 @@
-= Dokumentation
+= Entwickler-Dokumentation
 
-In diesem Verzeichnis befindet sich einige allgemeine Informationen, sofern
+In diesem Verzeichnis befindet sich einige Informationen für die Entwicklung, sofern
 sie nicht bereits im obersten link:../README.md[README] enthalten sind.
 
 
