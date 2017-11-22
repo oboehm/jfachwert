@@ -19,16 +19,16 @@ Ich glaube, sie stammt ursprünglich von Herwig Scheidel, mit dem ich zusammen z
 Damals hatten wir eine eigene Fachwert-Bibliothek für den Bankbereich, die Basis des jGEBOS-Frameworks war.
 Es tauchte auch die Idee auf, den Fachwert-Teil des Frameworks als OpenSource auszugliedern, was aber aufgrund diverser Fusionen wieder in Vergessenheit geriet.
 
+Ziel dieser Bibliothek ist es, fuer den deutschsprachigen Raum alle wichtigen Datentypen bereitzustellen, die man sonst immer wieder selbst implementieren muesste.
 
 
 === Aufgabenstellung
 
-Diese Bibliothek greift die Idee von damals (s.o.) wieder auf, soll aber nicht auf den Bankbereich beschränkt sein.
-Ziele der Bibliothek sind:
+Diese Bibliothek greift die Idee von damals (s.o.) wieder auf, ist aber nicht auf den Bankbereich beschränkt:
 
 * Erweiterung des Java-Typsystems um weitere Datentypen wie IBAN, BIC oder Anschrift
 * Validierung - es sollen keine ungültigen Werte erzeugt werden können
-* Erweiterbarkeit für eigene Zwecke
+* Klassen dürfen nicht final sein, sondern sollen erweitert werden können
 * einfache Handhabung
 * wenig externe Abhängigkeiten
 

@@ -76,5 +76,5 @@ Juli 2017, Oli B.
 
 * CI-Build: https://travis-ci.org/oboehm/jfachwert
 * Projekt-Seite: http://www.jfachwert.de/
-* Architektur-Dokumentation: link:src/main/asciidoc/README.adoc[src/main/asciidoc]
+* Architektur-Dokumentation: [src/main/asciidoc](src/main/asciidoc/README.adoc)
 * Entwickler-Dokumentation: [doc](doc/README.adoc)
