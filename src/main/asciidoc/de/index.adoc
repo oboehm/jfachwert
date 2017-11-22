@@ -4,7 +4,7 @@
 // ====================================
 
 // configuration
-include::config.adoc[]
+include::includes/config.adoc[]
 
 = jFachwert, Architektur
 :author: Oli B. <ob@aosd.de>
