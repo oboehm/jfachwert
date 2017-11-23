@@ -4,15 +4,15 @@
 
 
 
-[cols="1,2" options="header"]
+[cols="1,3" options="header"]
 |===
 |Begriff
 |Definition
 
-|_<Begriff-1>_
-|_<Definition-1>_
+| Fachwert
+| Fachwerte sind Erweiterungen primitiver Datentypen.
+Sie sind unveränderlich und repräsentieren einen fachlichen Wert (z.B. IBAN).
 
-
-|_<Begriff-2_
-|_<Definition-2>_
+|WAM
+|Werkzeuge, Automation, Material ist ein objektorientierter Ansatz, aus dem der Begriff 'Fachwert' stammt.
 |===
