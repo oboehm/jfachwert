@@ -3,4 +3,39 @@
 == Entwurfsentscheidungen
 
 
+=== Kein Logging
+
+Um nicht von einem bestimmten Log-Framework abhängig zu sein, wurde auf Logging verzichtet.
+Das bedeutet, dass in einem Falle eines Fehlers oder fehlerhaften Aufrufs eine hilfreiche Exception ausgelöst wird.
+Diese Exception stellt alle Informationen zur Verfügung, um die Ursache des Fehlers zu finden.
+
+
+=== Ableitung möglich
+
+Um für Fachklassen auch eigene Logik hinterlegen zu können, können die Klassen abgeleitet werden.
+Deswegen sind die Klassen `final` und besitzen keine statischen Methoden, die `public` sind.
+
+
+=== Konstruktor mit Validierung
+
+Jede Klasse besitzt einen Konstruktor, der als letztes Argument einen Validator (z.B. in Form eines Pruefzifferverfahrens) hat.
+Damit ist sichergestellt, dass
+
+* nur gültige Fachwerte erzeugt werden können,
+* der Validator von der abgeleiteten Klasse ver- oder entschärft werden kann (je nach Anforderung).
+
+Auf eine statische `of`-Methode, wie sie seit Java 8 bei vielen Klassen aus dem JDK üblich ist (Beispiel: `LocalDate.of(jahr, monat, tag)`), wurde verzichtet,
+weil statische Methoden von abgeleiteten Klassen nicht überschrieben werden können.
+
+
+=== Gleichheit
+
+Die equals- und hashCode-Methode wurden jeweils überschrieben.
+Zwei Fachwerte sind gleich, wenn sie jeweils die gleichen Werte besitzen.
+
+
+=== toString
+
+Jeder Fachwert hat eine aussagekräftige `toString`-Implementierung.
+Meist ist dies der Wert selbst.
 

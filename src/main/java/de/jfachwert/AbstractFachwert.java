@@ -1,4 +1,4 @@
-package de.jfachwert;/*
+/*
  * Copyright (c) 2017 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,8 +15,9 @@ package de.jfachwert;/*
  *
  * (c)reated 14.03.2017 by oboehm (ob@jfachwert.de)
  */
+package de.jfachwert;
 
-import java.io.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
