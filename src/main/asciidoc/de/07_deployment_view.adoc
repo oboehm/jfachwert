@@ -3,6 +3,10 @@
 
 == Verteilungssicht
 
+["plantuml", "dependencies", "svg"]
+------------------------------------------------
+include::../images/dependencies.puml[]
+------------------------------------------------
 
 
 === Infrastruktur Ebene 1
