@@ -3,11 +3,17 @@
 == Entwurfsentscheidungen
 
 
-=== Kein Logging
+=== Kein Logging / Minimale Abhängigkeiten
 
 Um nicht von einem bestimmten Log-Framework abhängig zu sein, wurde auf Logging verzichtet.
 Das bedeutet, dass in einem Falle eines Fehlers oder fehlerhaften Aufrufs eine hilfreiche Exception ausgelöst wird.
 Diese Exception stellt alle Informationen zur Verfügung, um die Ursache des Fehlers zu finden.
+
+Um sich nicht weitere unerwünschte Abhängigkeiten bei der Verwendung von jFachwert einzufangen, werden die Abhängigkeiten zu anderen Bibiotheken auf ein Minimum reduziert.
+Die einzigen Abhängigkeiten, die in Kauf genommen werden, sind:
+
+* commons-lang3: diese Bibliothek ist bereits als Abhängigkeit vieler anderer Bibliotheken vorhanden
+* validation-api: Basis-Bibliothek für Validierung
 
 
 === Ableitung möglich
