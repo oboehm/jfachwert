@@ -3,6 +3,16 @@
 == Entwurfsentscheidungen
 
 
+=== Keine `null`-Werte
+
+Mit http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html[Optional] aus Java 8 besteht keine Notwendigkeit mehr, `null` als Argument oder Rückgabewert zulassen.
+Dementsprechend wird bei Rückgabewerte, die optional sind, auch http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html[Optional] als Datentyp zurückgegeben.
+`null` als Rückgabewert wird nicht verwendet.
+
+Auch bei Parametern ist `null` kein zulässiges Argument, sondern wird als Fehler betrachtet und mit einer ValidationException bestraft.
+Optionale Parameter können beim Aufruf einfach weggelassen werden
+
+
 === Kein Logging / Minimale Abhängigkeiten
 
 Um nicht von einem bestimmten Log-Framework abhängig zu sein, wurde auf Logging verzichtet.
@@ -44,4 +54,3 @@ Zwei Fachwerte sind gleich, wenn sie jeweils die gleichen Werte besitzen.
 
 Jeder Fachwert hat eine aussagekräftige `toString`-Implementierung.
 Meist ist dies der Wert selbst.
-

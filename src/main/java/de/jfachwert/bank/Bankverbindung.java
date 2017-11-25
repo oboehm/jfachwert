@@ -23,7 +23,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * Eine Bankverbindung besteht aus dem Zahlungsempfaenger bzw. Kontoinhabers,
+ * Eine Bankverbindung besteht aus dem Zahlungsempfaenger oder Kontoinhaber,
  * einer IBAN und einer BIC. Bei Inlandsverbindungen kann die BIC entfallen,
  * weswegen sie hier auch optional ist.
  *

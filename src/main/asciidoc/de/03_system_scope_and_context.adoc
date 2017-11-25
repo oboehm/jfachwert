@@ -2,25 +2,43 @@
 
 == Kontextabgrenzung
 
-
-
+["plantuml", "packages", "svg"]
+------------------------------------------------
+include::../images/packages.puml[]
+------------------------------------------------
 
 
 === Fachlicher Kontext
 
+Fachwerte konzentrieren sich auf den deutschsprachigen Raum und es wird (bis auf wenige Ausnahmen) der in Deutschland übliche Begriff verwendet.
+So heißt es im Deutschen _Kontonummer_ und nicht [.line-through]#_AccountNumber_#.
 
+.Packages
+[cols="1,4" options="header"]
+|===
+|Package |Header 2
 
-**<Diagramm und/oder Tabelle>**
+|bank
+|alles, was mit Banken zu tun hat wie `IBAN`, `BIC` oder `Kontonummer`
 
-**<optional: Erläuterung der externen fachlichen Schnittstellen>**
+|steuer
+|das Finanzamt lässt grüßen - hier sind Fachwerte wie `Steuernummer` und `UStIdNr` defniert
+
+|post
+|hier finden sich Fachwerte wie `Anschrift`, `Adresse` oder `PLZ`
+
+|rechnung
+|Fachwerte, die man üblicherweise auf Rechnungen antrifft wie `Bestellnummer`, `Referenznummer` oder `Rechnungsmonat`
+
+|net
+|Fachwerte für das Neuland "Internet" wie `EMailAdresse` oder `Domainname`
+|===
+
+Das pruefung-Package enthält Klassen zur Validierung und zu verschiedenen Pruefzifferverfahren.
+So enthalten manche Fachwerte wie `IBAN` eine Pruefziffer, um Fehleingaben zu erkennen.
 
 
 === Technischer Kontext
 
-
-
-**<Diagramm oder Tabelle>**
-
-**<optional: Erläuterung der externen technischen Schnittstellen>**
-
-**<Mapping fachliche auf technische Schnittstellen>**
+jFachwert benötigt mindestens Java 8 und verwendet http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true[Optional] für optionale Parameter und Rückgabewerte.
+Damit sind null als Parameter nicht erlaubt und können auch nicht als Rückgabewert vorkommen.
