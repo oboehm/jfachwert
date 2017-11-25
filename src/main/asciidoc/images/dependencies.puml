@@ -1,0 +1,10 @@
+@startuml
+
+[jfachwert.jar] ..> [commons-lang3.jar]
+
+[jfachwert.jar] ..> [validation-api.jar]
+
+[commons-lang3.jar] #White
+[validation-api.jar] #White
+
+@enduml
