@@ -1,5 +1,36 @@
 [[section-solution-strategy]]
 == Lösungsstrategie
 
+["plantuml", "interface-fachwert", "svg"]
+------------------------------------------------
+include::../images/interface-fachwert.puml[]
+------------------------------------------------
+
+Fachwerte sind durch folgende Eigenschaften gekennzeichnet:
+
+* unveränderlich (immutable),
+* serialisierbar.
+
+Sie repräsentieren einen festen Weg und sind damit das genaue Gegenteil von transient (flüchtig).
+Diese Eigenschaften werden durch das Fachwert-Interface ausgedrückt, von der alle Fachwerte abgeleitet sind.
 
 
+=== Objekt-Erzeugung
+
+Da Fachwerte immutable (unveränderlich) sind, kommt der Erzeugung eine wichtige Bedeutung zu.
+Prinzipiell bieten sich dabei folgende zwei Verfahren an:
+
+* Erzeugung über Konstruktur
+* Erzeugung über Builder-Pattern
+
+Builder-Pattern bieten sich eher dann dafür an, wenn die Erzeugung eines Objekts komplexer ist.
+Da Fachwerte aber tendenziell einfach aufgebaut sind und oft nur mit einem Argument für den Konstruktor auskommen, wird nur der Konstruktor für die Erzeugung eines Objekts angeboten.
+
+
+=== Validierung
+
+Da ungültige Objekte verhindert werden sollen, muss die Validierung im Konstruktor erfolgen.
+Um den Konstruktor übersichtlich zu halten, werden die Prüfung in eigenen Validatoren ausgelagert.
+
+Auch sind Prüfziffer-Verfahren, die zur Erkennung fehlerhafter Fachwerte dienen, sind eine Art der Validierung.
+Deswegen befinden sich Validatoren und Prüfziffer-Verfahren im selben Package.

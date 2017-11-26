@@ -1,0 +1,13 @@
+@startuml
+
+package "bank" {
+
+    class Kontonummer
+    class IBAN
+    class BLZ
+    class BIC
+    class Bankverbindung
+
+}
+
+@enduml

@@ -7,40 +7,54 @@
 
 === Whitebox Gesamtsystem
 
-
-
-_**<Übersichtsdiagramm>**_
-
-Begründung::
-
-_<Erläuternder Text>_
-
+["plantuml", "packages", "svg"]
+------------------------------------------------
+include::../images/packages.puml[]
+------------------------------------------------
 
 Enthaltene Bausteine::
-_<Beschreibung der enhaltenen Bausteine (Blackboxen)>_
+
+Die einzelnen Klassen sind in fachliche Packages aufgeteilt.
+
+.Packages
+[cols="1,4" options="header"]
+|===
+|Package |Beschreibung
+
+|bank
+|alles, was mit Banken zu tun hat wie `IBAN`, `BIC` oder `Kontonummer`
+
+|steuer
+|das Finanzamt lässt grüßen - hier sind Fachwerte wie `Steuernummer` und `UStIdNr` defniert
+
+|post
+|hier finden sich Fachwerte wie `Anschrift`, `Adresse` oder `PLZ`
+
+|rechnung
+|Fachwerte, die man üblicherweise auf Rechnungen antrifft wie `Bestellnummer`, `Referenznummer` oder `Rechnungsmonat`
+
+|net
+|Fachwerte für das Neuland "Internet" wie `EMailAdresse` oder `Domainname`
+|===
+
+Das pruefung-Package enthält Klassen zur Validierung und zu verschiedenen Pruefzifferverfahren.
+So enthalten manche Fachwerte wie `IBAN` eine Pruefziffer, um Fehleingaben zu erkennen.
+
 
 Wichtige Schnittstellen::
-_<Beschreibung wichtiger Schnittstellen>_
+Jede Klasse hat einen Konstruktor, über den ein Objekt davon angelegt wird.
+Es gibt keine Setter-Methoden, da die Klasse immutable ist.
 
 
+==== bank
 
+["plantuml", "packages", "svg"]
+------------------------------------------------
+include::../images/package-bank.puml[]
+------------------------------------------------
 
-==== <Name Blackbox 1>
-
-
-
-_<Zweck/Verantwortung>_
-
-_<Schnittstelle(n)>_
-
-_<(Optional) Qualitäts-/Leistungsmerkmale>_
-
-_<(Optional) Ablageort/Datei(en)>_
-
-_<(Optional) Erfüllte Anforderungen>_
-
-_<(optional) Offene Punkte/Probleme/Risiken>_
-
+Mit dem bank-Package hat alles angefangen.
+Die Fachwerte in diesem Paket repräsentieren Konzepte, die im Bank-Umfeld typischerweise anzutreffen sind.
 
 
 
