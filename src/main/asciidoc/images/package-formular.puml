@@ -1,0 +1,32 @@
+@startuml
+
+package "formular" {
+
+    enum Anrede {
+        OHNE_ANREDE
+        HERR
+        FRAU
+        FIRMA
+        HERR_UND_FRAU
+        FRAEULEIN
+        VEREINIGUNG
+    }
+
+    enum Familienstand {
+        LEDIG
+        VERHEIRATET
+        VERWITWET
+        GESCHIEDEN
+        UNBEKANNT
+    }
+
+    enum Geschlecht {
+        JURISTISCHE_PERSON
+        MAENNLICH
+        WEIBLICH
+        UNBEKANNT
+    }
+
+}
+
+@enduml

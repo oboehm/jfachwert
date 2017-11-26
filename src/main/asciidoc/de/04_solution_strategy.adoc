@@ -34,3 +34,23 @@ Um den Konstruktor übersichtlich zu halten, werden die Prüfung in eigenen Vali
 
 Auch sind Prüfziffer-Verfahren, die zur Erkennung fehlerhafter Fachwerte dienen, sind eine Art der Validierung.
 Deswegen befinden sich Validatoren und Prüfziffer-Verfahren im selben Package.
+
+
+=== Exceptions
+
+Mit https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html#getLocalizedMessage--[Throwable.getLocalizedMessage()] gibt es seit JDK 1.1 die Möglichkeit, sprach-spezifische Fehlermeldungen zur Verfügung zu stellen.
+Dies wird auch verwendet, um für den deutschsprachigen Raum eine entsprechende Fehlermeldung für die Anzeige anzubieten.
+
+
+=== Encoding
+
+Als Encoding wird UTF-8 verwendet.
+Um Encoding-Probleme zu vermeiden, wird im Source-Code und in Resourcen keine Umlaute, sondern stets die Ersatzdarstellung (z.B. `Pr\u00fcfziffer`) verwendet.
+
+Auch in Kommentaren im Source-Code werden keine Umlaute verwendet.
+Hier werden Umlaute ausgeschrieben, z.B. `/* Pruefziffer */`).
+Dies hat Auswirkungen auf die Javadoc-Generierung.
+Dies wird aber in Kauf genommen, um Probleme mit falschen Encoding zu vermeiden.
+
+Bei der Architektur-Dokumentation werden Umlaute akzeptiert.
+Sollte es sich allerdings herausstellen, dass dies auf https://github.com/oboehm/jfachwert/tree/develop/src/main/asciidoc[GitHub] oder http://jfachwert.de/[jfachwert.de] zu Problemen führt, wird auch hier auf Umlaute verzichtet werden.

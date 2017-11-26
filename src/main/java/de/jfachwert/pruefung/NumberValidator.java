@@ -24,10 +24,11 @@ import javax.validation.*;
 import java.math.*;
 
 /**
- * Klasse NumberValidator.
+ * Der NumberValidator ueberprueft eine uebergebene {@link Number}, ob sie
+ * im erlaubten Wertebereich liegt.
  *
  * @author oboehm
- * @since x.x (30.08.2017)
+ * @since 0.4 (30.08.2017)
  */
 public class NumberValidator implements SimpleValidator<String> {
 

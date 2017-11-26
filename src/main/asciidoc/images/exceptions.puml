@@ -1,0 +1,17 @@
+@startuml
+
+package de.jfachwert.pruefung {
+
+    class LocalizedValidationException
+    class PruefzifferException
+    class IllegalLengthException
+    class InvalidValueException
+
+}
+
+LocalizedValidationException -up-|> javax.validation.ValidationException
+LocalizedValidationException <|-- PruefzifferException
+LocalizedValidationException <|-- IllegalLengthException
+LocalizedValidationException <|-- InvalidValueException
+
+@enduml

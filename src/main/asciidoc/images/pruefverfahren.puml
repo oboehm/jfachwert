@@ -1,0 +1,29 @@
+@startuml
+
+package de.jfachwert {
+
+    interface PruefzifferVerfahren {
+        T getPruefziffer(T wert)
+        T berechnePruefziffer(T wert)
+        boolean isValid(T wert)
+    }
+    interface SimpleValidator {
+        T validate(T value)
+    }
+
+}
+
+package de.jfachwert.pruefung {
+
+    class Mod11Verfahren
+    class Mod97Verfahren
+    class NoopVerfahren
+
+}
+
+PruefzifferVerfahren -up-|> SimpleValidator
+PruefzifferVerfahren <|-- Mod11Verfahren
+PruefzifferVerfahren <|-- Mod97Verfahren
+PruefzifferVerfahren <|-- NoopVerfahren
+
+@enduml

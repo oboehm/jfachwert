@@ -1,0 +1,30 @@
+@startuml
+
+package de.jfachwert {
+
+    interface SimpleValidator {
+        T validate(T value)
+    }
+
+}
+
+package de.jfachwert.pruefung {
+
+    class AccessValidator
+    class EMailValidator
+    class LengthValidator
+    class NullValidator
+    class NumberValidator
+    class TelefonnummerValidator
+
+}
+
+SimpleValidator -up-|> Serializable
+SimpleValidator <|-- AccessValidator
+SimpleValidator <|-- EMailValidator
+SimpleValidator <|-- LengthValidator
+SimpleValidator <|-- NullValidator
+SimpleValidator <|-- NumberValidator
+SimpleValidator <|-- TelefonnummerValidator
+
+@enduml
