@@ -1,18 +1,13 @@
 [[section-runtime-view]]
 == Laufzeitsicht
 
+["plantuml", "sequence-creation", "svg"]
+------------------------------------------------
+include::../images/sequence-creation.puml[]
+------------------------------------------------
 
+=== Objekt-Erzeugung
 
-
-=== _<Bezeichnung Laufzeitszenario 1>_
-
-*  <hier Laufzeitdiagramm oder Ablaufbeschreibung einfügen>
-*  <hier Besonderheiten bei dem Zusammenspiel der Bausteine in diesem Szenario erläutern>
-
-=== _<Bezeichnung Laufzeitszenario 2>_
-
-...
-
-=== _<Bezeichnung Laufzeitszenario n>_
-
-...
+Bei der Erzeugung eines Fachwerts (z.B. einer IBAN) werden ein oder mehrere Validatoren (auch Prüfziffer-Verfahren) aufgerufen, um ungültige Parameter mit einer `ValidationException` abzuweisen.
+Sind keine Prüfverfahren oder Prüfregeln bekannt, wird mindestens der [.line-through]#NullValidator# aufgerufen.
+Er sorgt dafür, dass `null` als Parameter zurückgewiesen wird.

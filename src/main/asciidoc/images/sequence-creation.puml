@@ -1,0 +1,16 @@
+@startuml
+
+actor extern
+
+create IBAN
+extern -> IBAN : new IBAN(iban)
+
+IBAN -> LengthValidator : validate(iban, 20)
+LengthValidator --> IBAN
+
+IBAN -> MOD97 : validate(iban)
+MOD97 --> IBAN
+
+IBAN --> extern
+
+@enduml
