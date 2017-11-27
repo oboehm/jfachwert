@@ -9,39 +9,16 @@ include::../images/dependencies.puml[]
 ------------------------------------------------
 
 
-=== Infrastruktur Ebene 1
+=== JAR-Datei
+
+jFachwert wird als JAR-Datei ins http://search.maven.org[zentrale Maven-Repository] hochgeladen.
+Dort kann sie über folgende Maven-Koordinaten als Abhängigkeit in ein Projekt hinzugefügt werden:
+
+  <groupId>de.jfachwert</groupId>
+  <artifactId>jfachwert</artifactId>
 
 
+=== Abhängigkeiten
 
-
-_**<Übersichtsdiagramm>**_
-
-Begründung::
-
-_<Erläuternder Text>_
-
-Qualitäts- und/oder Leistungsmerkmale::
-
-_<Erläuternder Text>_
-
-Zuordnung von Bausteinen zu Infrastruktur::
-_<Beschreibung der Zuordnung>_
-
-
-=== Infrastruktur Ebene 2
-
-
-
-==== _<Infrastrukturelement 1>_
-
-_<Diagramm + Erläuterungen>_
-
-==== _<Infrastrukturelement 2>_
-
-_<Diagramm + Erläuterungen>_
-
-...
-
-==== _<Infrastrukturelement n>_
-
-_<Diagramm + Erläuterungen>_
+Externe Abhängigkeiten zu andere Bibliotheken beschränken sich auf `commons-lang3` und `validation-api`.
+Bei Verwendung von Maven oder Gradle werde diese Abhängigkeiten automatisch hinzugefügt.
