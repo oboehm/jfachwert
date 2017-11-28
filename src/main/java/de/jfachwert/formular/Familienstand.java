@@ -60,7 +60,7 @@ public enum Familienstand {
     IN_EINGETRAGENER_LEBENSPARTNERSCHAFT("LP", "in eingetragener Lebenspartnerschaft"),
 
     /** Lebenspartnerschaft, die durch den Tod beendet wurde. */
-    DURCH_TOD_AUFGELOESTE_LEBENSPARTNERSCHAFT("LV", "durch Tod aufgelöste Lebenspartnerschaft"),
+    DURCH_TOD_AUFGELOESTE_LEBENSPARTNERSCHAFT("LV", "durch Tod aufgel\u00f6ste Lebenspartnerschaft"),
 
     /** Aufgehobene Lebenspartnerschaft. */
     AUFGEHOBENE_LEBENSPARTNERSCHAFT("LA", "aufgehobene Lebenspartnerschaft"),
@@ -97,6 +97,22 @@ public enum Familienstand {
     @Override
     public String toString() {
         return text;
+    }
+
+    /**
+     * Liefert zu einem Schluessel den entsprechende Familienstand. Falls
+     * nichts gefunden wird, wird NICHT_BEKANNT zurueckgeliefert.
+     *
+     * @param schluessel z.B. "LE"
+     * @return Familienstand, z.B. LEDIG
+     */
+    public static Familienstand of(String schluessel) {
+        for (Familienstand familienstand : Familienstand.values()) {
+            if (familienstand.getSchluessel().equalsIgnoreCase(schluessel)) {
+                return familienstand;
+            }
+        }
+        return NICHT_BEKANNT;
     }
 
 }

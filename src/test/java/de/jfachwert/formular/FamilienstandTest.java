@@ -19,7 +19,7 @@ package de.jfachwert.formular;
 
 import org.junit.*;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * Unit-Tests fuer {@link Familienstand}-Klasse.
@@ -28,9 +28,14 @@ import static org.junit.Assert.assertEquals;
  */
 public final class FamilienstandTest {
 
+    /**
+     * Testmethode fuer {@link Familienstand#toString()}.
+     */
     @Test
     public void testToString() {
         assertEquals("ledig", Familienstand.LEDIG.toString());
+        assertEquals("durch Todeserkl\u00e4rung aufgel\u00f6ste Lebenspartnerschaft",
+                Familienstand.DURCH_TODESERKLAERUNG_AUFGELOESTE_LEBENSPARTNERSCHAFT.toString());
     }
 
     /**
@@ -44,6 +49,14 @@ public final class FamilienstandTest {
             assertEquals(2, schluessel.length());
             assertEquals(schluessel.toUpperCase(), schluessel);
         }
+    }
+
+    /**
+     * Test-Methode fuer {@link Familienstand#of(String)}.
+     */
+    @Test
+    public void testOf() {
+        assertEquals(Familienstand.GESCHIEDEN, Familienstand.of("GS"));
     }
 
 }
