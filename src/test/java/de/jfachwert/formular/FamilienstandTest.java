@@ -67,6 +67,7 @@ public final class FamilienstandTest {
     @Test
     public void testOfBegriff() {
         assertEquals(Familienstand.LEDIG, Familienstand.of("ledig"));
+        assertEquals(Familienstand.VERHEIRATET, Familienstand.of("verheiratet"));
     }
 
 }

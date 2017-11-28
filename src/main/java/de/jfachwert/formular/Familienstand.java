@@ -50,6 +50,9 @@ public enum Familienstand {
     LEDIG("LD", "ledig"),
 
     /** Verheiratet. */
+    VERHEIRATET("VH", "verheiratet"),
+
+    /** Verheiratet. */
     VERWITWET("VW", "verwitwet"),
 
     /** Geschieden - der Zustand nach verheiratet. */
