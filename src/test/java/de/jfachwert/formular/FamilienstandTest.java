@@ -55,8 +55,18 @@ public final class FamilienstandTest {
      * Test-Methode fuer {@link Familienstand#of(String)}.
      */
     @Test
-    public void testOf() {
+    public void testOfSchluessel() {
         assertEquals(Familienstand.GESCHIEDEN, Familienstand.of("GS"));
+    }
+
+    /**
+     * Wenn nicht ein Kuerzel, sondern ein Begriff uebergeben wird, soll bei
+     * {@link Familienstand#of(String)} der am passenste Wert zuruecgegeben
+     * werden.
+     */
+    @Test
+    public void testOfBegriff() {
+        assertEquals(Familienstand.LEDIG, Familienstand.of("ledig"));
     }
 
 }

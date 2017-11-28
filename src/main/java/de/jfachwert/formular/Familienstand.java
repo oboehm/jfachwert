@@ -17,6 +17,8 @@
  */
 package de.jfachwert.formular;
 
+import org.apache.commons.lang3.*;
+
 /**
  * Der Familienstand gehoert in Deutschland zu den Personenstandsdaten einer
  * Person und gibt an, ob diese ledig, verheiratet, geschieden oder verwitwet
@@ -107,8 +109,26 @@ public enum Familienstand {
      * @return Familienstand, z.B. LEDIG
      */
     public static Familienstand of(String schluessel) {
+        String normalized = StringUtils.trimToEmpty(schluessel);
+        if (normalized.length() == 2) {
+            return findSchluessel(normalized);
+        } else {
+            return findText(schluessel);
+        }
+    }
+
+    private static Familienstand findSchluessel(String schluessel) {
         for (Familienstand familienstand : Familienstand.values()) {
-            if (familienstand.getSchluessel().equalsIgnoreCase(schluessel)) {
+            if (familienstand.schluessel.equalsIgnoreCase(schluessel)) {
+                return familienstand;
+            }
+        }
+        return NICHT_BEKANNT;
+    }
+
+    private static Familienstand findText(String text) {
+        for (Familienstand familienstand : Familienstand.values()) {
+            if (familienstand.text.equalsIgnoreCase(text)) {
                 return familienstand;
             }
         }
