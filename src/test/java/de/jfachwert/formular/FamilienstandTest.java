@@ -68,6 +68,12 @@ public final class FamilienstandTest {
     public void testOfBegriff() {
         assertEquals(Familienstand.LEDIG, Familienstand.of("ledig"));
         assertEquals(Familienstand.VERHEIRATET, Familienstand.of("verheiratet"));
+        assertEquals(Familienstand.GESCHIEDEN, Familienstand.of("geschieden"));
+        assertEquals(Familienstand.VERWITWET, Familienstand.of("verwitwet"));
+        assertEquals(Familienstand.AUFGEHOBENE_LEBENSPARTNERSCHAFT, Familienstand.of("getrennt lebend"));
+        assertEquals(Familienstand.EHEAEHNLICHE_GEMEINSCHAFT, Familienstand.of("ehe\u00e4hnliche Gemeinschaft"));
+        assertEquals(Familienstand.EINGETRAGENE_LEBENSPARTNERSCHAFT,
+                Familienstand.of("eingetragene Lebenspartnerschaft"));
     }
 
 }

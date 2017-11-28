@@ -31,7 +31,7 @@ import org.apache.commons.lang3.*;
  *     <li> GS (geschieden) </li>
  *     <li> EA (Ehe aufgehoben) </li>
  *     <li> LP (in eingetragener Lebenspartnerschaft) </li>
- *     <li> LV (durch Tod aufgelöste Lebenspartnerschaft) </li>
+ *     <li> LV (durch Tod aufgeloeste Lebenspartnerschaft) </li>
  *     <li> LA (aufgehobene Lebenspartnerschaft) </li>
  *     <li> LE (durch Todeserklärung aufgelöste Lebenspartnerschaft) </li>
  *     <li> NB (nicht bekannt) </li>
@@ -62,13 +62,16 @@ public enum Familienstand {
     EHE_AUFGEHOBEN("EA", "Ehe aufgehoben"),
 
     /** In eingetragener Lebenspartnerschaft. */
-    IN_EINGETRAGENER_LEBENSPARTNERSCHAFT("LP", "in eingetragener Lebenspartnerschaft"),
+    EINGETRAGENE_LEBENSPARTNERSCHAFT("LP", "eingetragene Lebenspartnerschaft"),
+
+    /** Eheaehnliche Gemeinschaft. */
+    EHEAEHNLICHE_GEMEINSCHAFT("EG", "ehe\u00e4hnliche Gemeinschaft"),
 
     /** Lebenspartnerschaft, die durch den Tod beendet wurde. */
     DURCH_TOD_AUFGELOESTE_LEBENSPARTNERSCHAFT("LV", "durch Tod aufgel\u00f6ste Lebenspartnerschaft"),
 
     /** Aufgehobene Lebenspartnerschaft. */
-    AUFGEHOBENE_LEBENSPARTNERSCHAFT("LA", "aufgehobene Lebenspartnerschaft"),
+    AUFGEHOBENE_LEBENSPARTNERSCHAFT("LA", "getrennt lebend"),
 
     /** Lebenspartnerschaft, die durch eine Todeserklaerung aufgeloest wurde. */
     DURCH_TODESERKLAERUNG_AUFGELOESTE_LEBENSPARTNERSCHAFT("LE", "durch Todeserklärung aufgelöste Lebenspartnerschaft"),
