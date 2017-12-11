@@ -61,9 +61,27 @@ public class TinyUUID extends AbstractFachwert<UUID> {
      * @return Zahl
      */
     public BigInteger toNumber() {
-        BigInteger lowerPart = BigInteger.valueOf(this.getCode().getLeastSignificantBits());
-        BigInteger upperPart = BigInteger.valueOf(this.getCode().getMostSignificantBits());
+        BigInteger lowerPart = BigInteger.valueOf(this.getLeastSignificantBits());
+        BigInteger upperPart = BigInteger.valueOf(this.getMostSignificantBits());
         return upperPart.multiply(LIMIT_LONG).add(lowerPart);
+    }
+
+    /**
+     * Liefert die unteren 64 Bits der 128-bittigen UUID.
+     *
+     * @return die ersten 64 Bits
+     */
+    public long getLeastSignificantBits() {
+        return this.getCode().getLeastSignificantBits();
+    }
+
+    /**
+     * Liefert die oberen 64 Bits der 128-bittigen UUID.
+     *
+     * @return die oberen 64 Bits
+     */
+    public long getMostSignificantBits() {
+        return this.getCode().getMostSignificantBits();
     }
 
 }
