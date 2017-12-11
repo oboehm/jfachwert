@@ -29,6 +29,12 @@ import java.util.UUID;
  * 128 Bits oder 16 Bytes. Damit laeest sich der Speicheraufwand um ueber 50%
  * reduzieren.
  *
+ * <p>
+ * Die Klasse implementiert besitzt die wichtigsten Methoden und Konstruktoren
+ * der {@link UUID}-Klasse, sodass sie als Ersatz fuer diese Klasse verwendet
+ * werden kann.
+ * </p>
+ *
  * @author oboehm
  * @since 0.6+ (11.12.2017)
  */
@@ -53,6 +59,16 @@ public class TinyUUID extends AbstractFachwert<UUID> {
      */
     public TinyUUID(BigInteger number) {
         this(new UUID(number.divide(LIMIT_LONG).longValue(), number.longValue()));
+    }
+
+    /**
+     *Instantiiert eine neue TinyUUID.
+     *
+     * @param lower die unteren 64 Bits
+     * @param upper die oberen 64 Bits
+     */
+    public TinyUUID(long lower, long upper) {
+        this(BigInteger.valueOf(upper).multiply(LIMIT_LONG).add(BigInteger.valueOf(lower)));
     }
 
     /**

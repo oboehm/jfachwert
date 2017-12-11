@@ -49,4 +49,17 @@ public final class TinyUUIDTest {
         assertEquals(big, id.toNumber());
     }
 
+    /**
+     * Test-Methode fuer {@link TinyUUID#getLeastSignificantBits()} und
+     * {@link TinyUUID#getMostSignificantBits()}
+.     */
+    @Test
+    public void testGetSignificantBits() {
+        long lower = 42;
+        long upper = 21;
+        TinyUUID id = new TinyUUID(lower, upper);
+        assertEquals(lower, id.getLeastSignificantBits());
+        assertEquals(upper, id.getMostSignificantBits());
+    }
+
 }
