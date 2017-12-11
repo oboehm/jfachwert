@@ -38,7 +38,7 @@ import java.util.UUID;
  * @author oboehm
  * @since 0.6+ (11.12.2017)
  */
-public class TinyUUID extends AbstractFachwert<UUID> {
+public class TinyUUID extends AbstractFachwert<BigInteger> {
 
     private static final BigInteger LIMIT_INT = BigInteger.valueOf(0x100000000L);
     private static final BigInteger LIMIT_LONG = LIMIT_INT.multiply(LIMIT_INT);
@@ -49,7 +49,7 @@ public class TinyUUID extends AbstractFachwert<UUID> {
      * @param uuid gueltige UUID
      */
     public TinyUUID(UUID uuid) {
-        super(uuid);
+        this(uuid.getLeastSignificantBits(), uuid.getMostSignificantBits());
     }
 
     /**
@@ -58,7 +58,7 @@ public class TinyUUID extends AbstractFachwert<UUID> {
      * @param number 128-Bit-Zahl
      */
     public TinyUUID(BigInteger number) {
-        this(new UUID(number.divide(LIMIT_LONG).longValue(), number.longValue()));
+        super(number);
     }
 
     /**
@@ -83,12 +83,24 @@ public class TinyUUID extends AbstractFachwert<UUID> {
     }
 
     /**
+     * Liefert die {@link UUID} zurueck. Darueber kann man auf die weniger
+     * wichtigen Methoden von {@link UUID} zurueckgreifen, die in dieser Klasse
+     * fehlen.
+     *
+     * @return die {@link UUID}
+     */
+    public UUID getUUID() {
+        BigInteger number = this.getCode();
+        return new UUID(number.divide(LIMIT_LONG).longValue(), number.longValue());
+    }
+
+    /**
      * Liefert die unteren 64 Bits der 128-bittigen UUID.
      *
      * @return die ersten 64 Bits
      */
     public long getLeastSignificantBits() {
-        return this.getCode().getLeastSignificantBits();
+        return this.getUUID().getLeastSignificantBits();
     }
 
     /**
@@ -97,7 +109,7 @@ public class TinyUUID extends AbstractFachwert<UUID> {
      * @return die oberen 64 Bits
      */
     public long getMostSignificantBits() {
-        return this.getCode().getMostSignificantBits();
+        return this.getUUID().getMostSignificantBits();
     }
 
 }

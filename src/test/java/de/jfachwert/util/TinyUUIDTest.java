@@ -16,6 +16,8 @@ package de.jfachwert.util;/*
  * (c)reated 11.12.2017 by oboehm (ob@oasd.de)
  */
 
+import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.Fachwert;
 import org.junit.Test;
 
 import java.math.BigInteger;
@@ -28,7 +30,17 @@ import static org.junit.Assert.*;
  *
  * @author oboehm
  */
-public final class TinyUUIDTest {
+public final class TinyUUIDTest extends AbstractFachwertTest {
+
+    /**
+     * Erzeugt eine Test-UUID zum Testen.
+     *
+     * @return
+     */
+    @Override
+    protected Fachwert createFachwert() {
+        return new TinyUUID(0x12345678, 0x9abcdef0);
+    }
 
     /**
      * Test-Methode fuer {@link TinyUUID#toNumber()}.
