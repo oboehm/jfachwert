@@ -34,8 +34,25 @@ import java.util.UUID;
  */
 public class TinyUUID extends AbstractFachwert<UUID> {
 
+    private static final BigInteger LIMIT_INT = BigInteger.valueOf(0x100000000L);
+    private static final BigInteger LIMIT_LONG = LIMIT_INT.multiply(LIMIT_INT);
+
+    /**
+     * Instantiiert eine neue TinyUUID.
+     *
+     * @param uuid gueltige UUID
+     */
     public TinyUUID(UUID uuid) {
         super(uuid);
+    }
+
+    /**
+     * Instantiiert eine neue TinyUUID.
+     *
+     * @param number 128-Bit-Zahl
+     */
+    public TinyUUID(BigInteger number) {
+        this(new UUID(number.divide(LIMIT_LONG).longValue(), number.longValue()));
     }
 
     /**
@@ -46,9 +63,7 @@ public class TinyUUID extends AbstractFachwert<UUID> {
     public BigInteger toNumber() {
         BigInteger lowerPart = BigInteger.valueOf(this.getCode().getLeastSignificantBits());
         BigInteger upperPart = BigInteger.valueOf(this.getCode().getMostSignificantBits());
-        BigInteger faktor = BigInteger.valueOf(0x100000000L);
-        faktor = faktor.multiply(faktor);
-        return upperPart.multiply(faktor).add(lowerPart);
+        return upperPart.multiply(LIMIT_LONG).add(lowerPart);
     }
 
 }

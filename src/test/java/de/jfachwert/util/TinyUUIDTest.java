@@ -34,9 +34,19 @@ public final class TinyUUIDTest {
      * Test-Methode fuer {@link TinyUUID#toNumber()}.
      */
     @Test
-    public void toNumber() {
+    public void toNumberTen() {
         TinyUUID id = new TinyUUID(new UUID(0, 10));
         assertEquals(BigInteger.TEN, id.toNumber());
+    }
+
+    /**
+     * Test-Methode fuer {@link TinyUUID#toNumber()}.
+     */
+    @Test
+    public void toNumberBig() {
+        BigInteger big = new BigInteger("98765432100000000000");
+        TinyUUID id = new TinyUUID(big);
+        assertEquals(big, id.toNumber());
     }
 
 }
