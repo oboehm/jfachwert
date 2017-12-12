@@ -49,7 +49,7 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
      * @param uuid gueltige UUID
      */
     public TinyUUID(UUID uuid) {
-        this(uuid.getLeastSignificantBits(), uuid.getMostSignificantBits());
+        this(new BigInteger(uuid.toString().replaceAll("-", ""), 16));
     }
 
     /**
@@ -77,9 +77,7 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
      * @return Zahl
      */
     public BigInteger toNumber() {
-        BigInteger lowerPart = BigInteger.valueOf(this.getLeastSignificantBits());
-        BigInteger upperPart = BigInteger.valueOf(this.getMostSignificantBits());
-        return upperPart.multiply(LIMIT_LONG).add(lowerPart);
+        return this.getCode();
     }
 
     /**
@@ -91,7 +89,14 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
      */
     public UUID getUUID() {
         BigInteger number = this.getCode();
-        return new UUID(number.divide(LIMIT_LONG).longValue(), number.longValue());
+//        byte[] bytes = number.toByteArray();
+//        String expanded = String.format("%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
+//                bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7],
+//                bytes[8], bytes[9], bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15]);
+//        String s = String.format("%032x", number);// number.toString(16);
+//        String expanded = s.substring(0, 7) + "-" + s.substring(7, 11) + "-" + s.substring(11, 15) + "-" + s.substring(15, 19) + "-" + s.substring(19);
+//        return UUID.fromString(expanded);
+        return new UUID(number.divide(LIMIT_LONG).longValue(), number.mod(LIMIT_LONG).longValue());
     }
 
     /**
@@ -110,6 +115,17 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
      */
     public long getMostSignificantBits() {
         return this.getUUID().getMostSignificantBits();
+    }
+
+    /**
+     * Da {@link TinyUUID} als Ersatz fuer die {@link UUID}-Klasse gedacht ist,
+     * liefert sie das gleiche Ergebnis wie die {@link UUID}-Klasse.
+     *
+     * @return z.B. "d9b67549-3c53-42f2-a394-33f990e697ce"
+     */
+    @Override
+    public String toString() {
+        return this.getUUID().toString();
     }
 
 }

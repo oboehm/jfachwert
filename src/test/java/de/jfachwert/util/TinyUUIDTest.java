@@ -35,7 +35,7 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
     /**
      * Erzeugt eine Test-UUID zum Testen.
      *
-     * @return
+     * @return immer die gleiche {@link TinyUUID}
      */
     @Override
     protected Fachwert createFachwert() {
@@ -56,9 +56,33 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
      */
     @Test
     public void toNumberBig() {
-        BigInteger big = new BigInteger("98765432100000000000");
+        BigInteger big = new BigInteger("ffffffffeeeeeeeeddddddddcccccccc", 16);
         TinyUUID id = new TinyUUID(big);
         assertEquals(big, id.toNumber());
+    }
+
+    /**
+     * Test-Methode fuer {@link TinyUUID#getUUID()}.
+     */
+    @Test
+    public void testGetRandomUUID() {
+        UUID uuid = UUID.randomUUID();
+        checkGetUUID(uuid);
+    }
+
+    /**
+     * Test-Methode fuer {@link TinyUUID#getUUID()}.
+     */
+    @Test
+    public void testGetUUID() {
+        UUID uuid = UUID.fromString("4e8108fa-e517-41bd-8372-a828843030ba");
+        assertEquals(uuid, UUID.fromString("4e8108fa-e517-41bd-8372-a828843030ba"));
+        checkGetUUID(uuid);
+    }
+
+    private void checkGetUUID(UUID uuid) {
+        TinyUUID tiny = new TinyUUID(uuid);
+        assertEquals(uuid, tiny.getUUID());
     }
 
     /**
@@ -72,6 +96,17 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
         TinyUUID id = new TinyUUID(lower, upper);
         assertEquals(lower, id.getLeastSignificantBits());
         assertEquals(upper, id.getMostSignificantBits());
+    }
+
+    /**
+     * Da {@link TinyUUID} als Ersatz fuer die {@link UUID}-Klasse gedacht ist,
+     * sollte sie bei der toString()-Methode das gleiche Ergebnis rauskommen.
+     */
+    @Override
+    @Test
+    public void testToString() {
+        UUID uuid = UUID.randomUUID();
+        assertEquals(uuid.toString(), new TinyUUID(uuid).toString());
     }
 
 }
