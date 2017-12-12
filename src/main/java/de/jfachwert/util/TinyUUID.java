@@ -62,7 +62,7 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
     }
 
     /**
-     *Instantiiert eine neue TinyUUID.
+     * Instantiiert eine neue TinyUUID.
      *
      * @param lower die unteren 64 Bits
      * @param upper die oberen 64 Bits
@@ -72,12 +72,33 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
     }
 
     /**
+     * Instantiiert eine neue TinyUUID.
+     *
+     * @param bytes 16 Bytes
+     */
+    public TinyUUID(byte[] bytes) {
+        this(new BigInteger(bytes));
+    }
+
+    /**
      * Liefert die UUID als 128-Bit-Zahl zurueck.
      *
      * @return Zahl
      */
     public BigInteger toNumber() {
         return this.getCode();
+    }
+
+    /**
+     * Liefert die 128-Bit-Zahl als Byte-Array zurueck.
+     *
+     * @return 16-stelliges Byte-Array
+     */
+    public byte[] toBytes() {
+        byte[] bytes = this.getCode().toByteArray();
+        byte[] bytes16 = new byte[16];
+        System.arraycopy(bytes, 0, bytes16, 16 - bytes.length, bytes.length);
+        return bytes16;
     }
 
     /**

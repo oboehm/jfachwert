@@ -62,6 +62,18 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
     }
 
     /**
+     * Test-Methode fuer {@link TinyUUID#toBytes()}.
+     */
+    @Test
+    public void testToBytes() {
+        TinyUUID ten = new TinyUUID(BigInteger.TEN);
+        byte[] bytes = ten.toBytes();
+        assertEquals(16, bytes.length);
+        assertEquals(10, bytes[15]);
+        assertEquals(ten, new TinyUUID(bytes));
+    }
+
+    /**
      * Test-Methode fuer {@link TinyUUID#getUUID()}.
      */
     @Test
