@@ -17,13 +17,14 @@ package de.jfachwert.util;/*
  */
 
 import de.jfachwert.AbstractFachwertTest;
-import de.jfachwert.Fachwert;
 import org.junit.Test;
 
 import java.math.BigInteger;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Unit-Tests fuer {@link TinyUUID}-Klasse.
@@ -32,14 +33,16 @@ import static org.junit.Assert.*;
  */
 public final class TinyUUIDTest extends AbstractFachwertTest {
 
+    private final TinyUUID tinyUUID = TinyUUID.randomUUID();
+
     /**
      * Erzeugt eine Test-UUID zum Testen.
      *
      * @return immer die gleiche {@link TinyUUID}
      */
     @Override
-    protected Fachwert createFachwert() {
-        return new TinyUUID(0x12345678, 0x9abcdef0);
+    protected TinyUUID createFachwert() {
+        return new TinyUUID("12345678-9abc-def0-0fed-cba987654321");
     }
 
     /**
@@ -143,6 +146,35 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
     public void testToString() {
         UUID uuid = UUID.randomUUID();
         assertEquals(uuid.toString(), new TinyUUID(uuid).toString());
+    }
+
+    /**
+     * Test-Methode fuer {@link TinyUUID#toShortString()}.
+     */
+    @Test
+    public void testToShortString() {
+        checkToShortString(tinyUUID);
+    }
+
+    /**
+     * Test-Methode fuer {@link TinyUUID#toShortString()}.
+     */
+    @Test
+    public void testToShortStringMin() {
+        checkToShortString(TinyUUID.MIN);
+    }
+
+    /**
+     * Test-Methode fuer {@link TinyUUID#toShortString()}.
+     */
+    @Test
+    public void testToShortStringMax() {
+        checkToShortString(TinyUUID.MAX);
+    }
+
+    private void checkToShortString(TinyUUID id) {
+        String s = id.toShortString();
+        assertThat(s, s.length(), is(22));
     }
 
 }

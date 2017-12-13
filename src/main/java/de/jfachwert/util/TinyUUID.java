@@ -21,6 +21,7 @@ import de.jfachwert.AbstractFachwert;
 
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.UUID;
 
 /**
@@ -43,6 +44,12 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
 
     private static final BigInteger LIMIT_INT = BigInteger.valueOf(0x100000000L);
     private static final BigInteger LIMIT_LONG = LIMIT_INT.multiply(LIMIT_INT);
+
+    /** Minimale UUID. */
+    public static final TinyUUID MIN = new TinyUUID("00000000-0000-0000-0000-000000000000");
+
+    /** Maximale UUID (die aber als Nummer negativ ist). */
+    public static final TinyUUID MAX = new TinyUUID("ffffffff-ffff-ffff-ffff-ffffffffffff");
 
     /**
      * Instantiiert eine neue TinyUUID.
@@ -174,6 +181,28 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
         return String.format("%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
                 bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7],
                 bytes[8], bytes[9], bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15]);
+    }
+
+    /**
+     * Liefert eine verkuerzte Darstellung einer UUID als String. Die Laenge
+     * reduziert sich dadurch auf 22 Zeichen. Diese kann z.B. dazu genutzt
+     * werden, um eine UUID platzsparend abzuspeichern, wenn man dazu nicht
+     * das Ergebnis aus {@link #toBytes()} (16 Bytes) verwenden will.
+     *
+     * @return 22 Zeichen
+     */
+    public String toShortString() {
+        return Base64.getEncoder().withoutPadding().encodeToString(toBytes());
+    }
+
+    /**
+     * Dies ist das Gegenstueck zur {@link UUID#randomUUID()}, nur dass hier
+     * bereits eine {@link TinyUUID} erzeugt wird.
+     *
+     * @return zufaellige UUID
+     */
+    public static TinyUUID randomUUID() {
+        return new TinyUUID(UUID.randomUUID());
     }
 
 }
