@@ -56,9 +56,10 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
      */
     @Test
     public void toNumberBig() {
-        BigInteger big = new BigInteger("ffffffffeeeeeeeeddddddddcccccccc", 16);
+        BigInteger big = new BigInteger("7fffffffeeeeeeeeddddddddcccccccc", 16);
         TinyUUID id = new TinyUUID(big);
         assertEquals(big, id.toNumber());
+        assertEquals(big.bitLength(), id.toNumber().bitLength());
     }
 
     /**
@@ -67,10 +68,24 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
     @Test
     public void testToBytes() {
         TinyUUID ten = new TinyUUID(BigInteger.TEN);
-        byte[] bytes = ten.toBytes();
-        assertEquals(16, bytes.length);
+        byte[] bytes = checkToBytes(ten);
         assertEquals(10, bytes[15]);
-        assertEquals(ten, new TinyUUID(bytes));
+    }
+
+    /**
+     * Test-Methode fuer {@link TinyUUID#toBytes()}.
+     */
+    @Test
+    public void testToBytesWithBigUUID() {
+        TinyUUID big = new TinyUUID(new BigInteger("294001587467270389503940796937694345183"));
+        checkToBytes(big);
+    }
+
+    private static byte[] checkToBytes(TinyUUID id) {
+        byte[] bytes = id.toBytes();
+        assertEquals(16, bytes.length);
+        assertEquals(id, new TinyUUID(bytes));
+        return bytes;
     }
 
     /**
@@ -89,6 +104,15 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
     public void testGetUUID() {
         UUID uuid = UUID.fromString("4e8108fa-e517-41bd-8372-a828843030ba");
         assertEquals(uuid, UUID.fromString("4e8108fa-e517-41bd-8372-a828843030ba"));
+        checkGetUUID(uuid);
+    }
+
+    /**
+     * Mit dieser UUID aus {@link #testGetRandomUUID()} gab es Probleme.
+     */
+    @Test
+    public void testNegativeUUID() {
+        UUID uuid = UUID.fromString("ceb95a8d-ae7a-491a-ba6f-ee6ca45b46a8");
         checkGetUUID(uuid);
     }
 

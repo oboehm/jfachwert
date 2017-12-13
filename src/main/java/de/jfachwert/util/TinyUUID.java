@@ -20,6 +20,7 @@ package de.jfachwert.util;
 import de.jfachwert.AbstractFachwert;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.UUID;
 
 /**
@@ -55,15 +56,6 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
     /**
      * Instantiiert eine neue TinyUUID.
      *
-     * @param number 128-Bit-Zahl
-     */
-    public TinyUUID(BigInteger number) {
-        super(number);
-    }
-
-    /**
-     * Instantiiert eine neue TinyUUID.
-     *
      * @param lower die unteren 64 Bits
      * @param upper die oberen 64 Bits
      */
@@ -78,6 +70,33 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
      */
     public TinyUUID(byte[] bytes) {
         this(new BigInteger(bytes));
+    }
+
+    /**
+     * Instantiiert eine neue TinyUUID. Die uebergebene Zahl wird dabei auf
+     * 128 Bit normalisiert, damit es beim Vergleich keine Ueberraschungen
+     * wegen unterschiedlichem Vorzeichen gibt.
+     *
+     * @param number 128-Bit-Zahl
+     */
+    public TinyUUID(BigInteger number) {
+        super(normalize(number));
+    }
+
+    private static BigInteger normalize(BigInteger number) {
+        byte[] bytes = to16Bytes(number);
+        return new BigInteger(bytes);
+    }
+
+    private static byte[] to16Bytes(BigInteger number) {
+        byte[] bytes = number.toByteArray();
+        if (bytes.length > 15) {
+            return Arrays.copyOfRange(bytes, bytes.length - 16, bytes.length);
+        } else {
+            byte[] bytes16 = new byte[16];
+            System.arraycopy(bytes, 0, bytes16, 16 - bytes.length, bytes.length);
+            return bytes16;
+        }
     }
 
     /**
@@ -96,9 +115,13 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
      */
     public byte[] toBytes() {
         byte[] bytes = this.getCode().toByteArray();
-        byte[] bytes16 = new byte[16];
-        System.arraycopy(bytes, 0, bytes16, 16 - bytes.length, bytes.length);
-        return bytes16;
+        if (bytes.length > 15) {
+            return Arrays.copyOfRange(bytes, bytes.length - 16, bytes.length);
+        } else {
+            byte[] bytes16 = new byte[16];
+            System.arraycopy(bytes, 0, bytes16, 16 - bytes.length, bytes.length);
+            return bytes16;
+        }
     }
 
     /**
@@ -109,15 +132,7 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
      * @return die {@link UUID}
      */
     public UUID getUUID() {
-        BigInteger number = this.getCode();
-//        byte[] bytes = number.toByteArray();
-//        String expanded = String.format("%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
-//                bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7],
-//                bytes[8], bytes[9], bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15]);
-//        String s = String.format("%032x", number);// number.toString(16);
-//        String expanded = s.substring(0, 7) + "-" + s.substring(7, 11) + "-" + s.substring(11, 15) + "-" + s.substring(15, 19) + "-" + s.substring(19);
-//        return UUID.fromString(expanded);
-        return new UUID(number.divide(LIMIT_LONG).longValue(), number.mod(LIMIT_LONG).longValue());
+        return UUID.fromString(toString());
     }
 
     /**
@@ -146,7 +161,14 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
      */
     @Override
     public String toString() {
-        return this.getUUID().toString();
+        return toString(this.getCode());
+    }
+
+    private static String toString(BigInteger number) {
+        byte[] bytes = to16Bytes(number);
+        return String.format("%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
+                bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7],
+                bytes[8], bytes[9], bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15]);
     }
 
 }
