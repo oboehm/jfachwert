@@ -50,7 +50,19 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
      * @param uuid gueltige UUID
      */
     public TinyUUID(UUID uuid) {
-        this(new BigInteger(uuid.toString().replaceAll("-", ""), 16));
+        this(uuid.toString());
+    }
+
+    /**
+     * Instantiiert eine eine neue TinyUUID anhand eines Strings. Dieser kann
+     * sowohl in Form einer UUID ("4e8108fa-e517-41bd-8372-a828843030ba") als
+     * auch in Form ohne Trennzeichen ("4e8108fae51741bd8372a828843030ba")
+     * angegeben werden.
+     *
+     * @param uuid z.B. "4e8108fa-e517-41bd-8372-a828843030ba"
+     */
+    public TinyUUID(String uuid) {
+        this(new BigInteger(uuid.replaceAll("-", ""), 16));
     }
 
     /**
@@ -64,15 +76,6 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
     }
 
     /**
-     * Instantiiert eine neue TinyUUID.
-     *
-     * @param bytes 16 Bytes
-     */
-    public TinyUUID(byte[] bytes) {
-        this(new BigInteger(bytes));
-    }
-
-    /**
      * Instantiiert eine neue TinyUUID. Die uebergebene Zahl wird dabei auf
      * 128 Bit normalisiert, damit es beim Vergleich keine Ueberraschungen
      * wegen unterschiedlichem Vorzeichen gibt.
@@ -80,16 +83,23 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
      * @param number 128-Bit-Zahl
      */
     public TinyUUID(BigInteger number) {
-        super(normalize(number));
+        this(number.toByteArray());
     }
 
-    private static BigInteger normalize(BigInteger number) {
-        byte[] bytes = to16Bytes(number);
-        return new BigInteger(bytes);
+    /**
+     * Instantiiert eine neue TinyUUID.
+     *
+     * @param bytes 16 Bytes
+     */
+    public TinyUUID(byte[] bytes) {
+        super(new BigInteger(to16Bytes(bytes)));
     }
 
     private static byte[] to16Bytes(BigInteger number) {
-        byte[] bytes = number.toByteArray();
+        return to16Bytes(number.toByteArray());
+    }
+
+    private static byte[] to16Bytes(byte[] bytes) {
         if (bytes.length > 15) {
             return Arrays.copyOfRange(bytes, bytes.length - 16, bytes.length);
         } else {
@@ -100,7 +110,8 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
     }
 
     /**
-     * Liefert die UUID als 128-Bit-Zahl zurueck.
+     * Liefert die UUID als 128-Bit-Zahl zurueck. Diese kann auch negative
+     * sein.
      *
      * @return Zahl
      */
@@ -115,13 +126,7 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
      */
     public byte[] toBytes() {
         byte[] bytes = this.getCode().toByteArray();
-        if (bytes.length > 15) {
-            return Arrays.copyOfRange(bytes, bytes.length - 16, bytes.length);
-        } else {
-            byte[] bytes16 = new byte[16];
-            System.arraycopy(bytes, 0, bytes16, 16 - bytes.length, bytes.length);
-            return bytes16;
-        }
+        return to16Bytes(bytes);
     }
 
     /**
