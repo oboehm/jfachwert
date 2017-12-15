@@ -40,7 +40,7 @@ import java.util.UUID;
  * @author oboehm
  * @since 0.6+ (11.12.2017)
  */
-public class TinyUUID extends AbstractFachwert<BigInteger> {
+public class TinyUUID extends AbstractFachwert<UUID> {
 
     private static final BigInteger LIMIT_INT = BigInteger.valueOf(0x100000000L);
     private static final BigInteger LIMIT_LONG = LIMIT_INT.multiply(LIMIT_INT);
@@ -57,7 +57,7 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
      * @param uuid gueltige UUID
      */
     public TinyUUID(UUID uuid) {
-        this(uuid.toString());
+        super(uuid);
     }
 
     /**
@@ -90,7 +90,7 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
      * @param number 128-Bit-Zahl
      */
     public TinyUUID(BigInteger number) {
-        this(number.toByteArray());
+        this(UUID.fromString(toString(number)));
     }
 
     /**
@@ -99,7 +99,7 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
      * @param bytes 16 Bytes
      */
     public TinyUUID(byte[] bytes) {
-        super(new BigInteger(to16Bytes(bytes)));
+        this(UUID.fromString(toString(bytes)));
     }
 
     private static byte[] to16Bytes(BigInteger number) {
@@ -123,7 +123,9 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
      * @return Zahl
      */
     public BigInteger toNumber() {
-        return this.getCode();
+        UUID uuid = this.getCode();
+        //return BigInteger.valueOf(uuid.getLeastSignificantBits()).multiply(LIMIT_INT).add(BigInteger.valueOf(uuid.getMostSignificantBits()));
+        return new BigInteger(uuid.toString().replaceAll("-", ""), 16);
     }
 
     /**
@@ -132,8 +134,33 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
      * @return 16-stelliges Byte-Array
      */
     public byte[] toBytes() {
-        byte[] bytes = this.getCode().toByteArray();
-        return to16Bytes(bytes);
+        byte[] lowerBytes = to8Bytes(this.getLeastSignificantBits());
+        byte[] upperBytes = to8Bytes(this.getMostSignificantBits());
+        byte[] bytes = new byte[16];
+        System.arraycopy(lowerBytes, 0, bytes, 8, 8);
+        System.arraycopy(upperBytes, 0, bytes, 0, 8);
+        return bytes;
+
+//        String id = this.getUUID().toString().replaceAll("-", "");
+//        byte[] bytes = new byte[16];
+//        for (int i = 0; i < 16; i++) {
+//            bytes[i] = Byte.parseByte(id.substring(2*i, 2*i + 1), 16);
+//        }
+//        return bytes;
+
+        //byte[] bytes = this.toNumber().toByteArray();
+        //return to16Bytes(bytes);
+    }
+
+    private static byte[] to8Bytes(long number) {
+        long n = number;
+        byte[] bytes = new byte[8];
+        long mask = 0xFF00000000000000L;
+        for (int i = 0; i < bytes.length; i++) {
+            bytes[i] = (byte) ((n & mask) >> 56);
+            n = n << 8;
+        }
+        return bytes;
     }
 
     /**
@@ -173,11 +200,15 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
      */
     @Override
     public String toString() {
-        return toString(this.getCode());
+        return this.getCode().toString();
     }
 
     private static String toString(BigInteger number) {
         byte[] bytes = to16Bytes(number);
+        return toString(bytes);
+    }
+
+    private static String toString(byte[] bytes) {
         return String.format("%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
                 bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7],
                 bytes[8], bytes[9], bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15]);
@@ -189,10 +220,30 @@ public class TinyUUID extends AbstractFachwert<BigInteger> {
      * werden, um eine UUID platzsparend abzuspeichern, wenn man dazu nicht
      * das Ergebnis aus {@link #toBytes()} (16 Bytes) verwenden will.
      *
-     * @return 22 Zeichen
+     * @return 22 Zeichen, z.B. "ix9de14vQgGKwXZUaruCzw"
      */
     public String toShortString() {
         return Base64.getEncoder().withoutPadding().encodeToString(toBytes());
+    }
+
+    /**
+     * Aehnlich wie {@link UUID#fromString(String)} wird hier eine
+     * {@link TinyUUID} anhand des uebergebenen Strings erzeugt.
+     * Der uebergebene String kann dabei das Format einer UUID
+     * besitzen, kann aber auch ein Ergebnis von {@link #toShortString()}
+     * sein.
+     *
+     * @param id z.B. "ix9de14vQgGKwXZUaruCzw"
+     * @return
+     */
+    public static TinyUUID fromString(String id) {
+        switch (id.length()) {
+            case 22:
+                byte [] bytes = Base64.getDecoder().decode(id);
+                return new TinyUUID(bytes);
+            default:
+                return new TinyUUID(UUID.fromString(id));
+        }
     }
 
     /**

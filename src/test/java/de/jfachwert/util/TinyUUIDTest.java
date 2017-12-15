@@ -175,6 +175,7 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
     private void checkToShortString(TinyUUID id) {
         String s = id.toShortString();
         assertThat(s, s.length(), is(22));
+        assertEquals(id, TinyUUID.fromString(s));
     }
 
 }
