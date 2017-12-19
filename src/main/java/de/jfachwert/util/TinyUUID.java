@@ -42,9 +42,6 @@ import java.util.UUID;
  */
 public class TinyUUID extends AbstractFachwert<UUID> {
 
-    private static final BigInteger LIMIT_INT = BigInteger.valueOf(0x100000000L);
-    private static final BigInteger LIMIT_LONG = LIMIT_INT.multiply(LIMIT_INT);
-
     /** Minimale UUID. */
     public static final TinyUUID MIN = new TinyUUID("00000000-0000-0000-0000-000000000000");
 
@@ -70,16 +67,6 @@ public class TinyUUID extends AbstractFachwert<UUID> {
      */
     public TinyUUID(String uuid) {
         this(new BigInteger(uuid.replaceAll("-", ""), 16));
-    }
-
-    /**
-     * Instantiiert eine neue TinyUUID.
-     *
-     * @param lower die unteren 64 Bits
-     * @param upper die oberen 64 Bits
-     */
-    public TinyUUID(long lower, long upper) {
-        this(BigInteger.valueOf(upper).multiply(LIMIT_LONG).add(BigInteger.valueOf(lower)));
     }
 
     /**
@@ -209,7 +196,7 @@ public class TinyUUID extends AbstractFachwert<UUID> {
      * sein.
      *
      * @param id z.B. "ix9de14vQgGKwXZUaruCzw"
-     * @return
+     * @return a TinyUUID
      */
     public static TinyUUID fromString(String id) {
         switch (id.length()) {

@@ -132,7 +132,10 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
     public void testGetSignificantBits() {
         long lower = 42;
         long upper = 21;
-        TinyUUID id = new TinyUUID(lower, upper);
+        byte[] bytes = new byte[16];
+        bytes[15] = (byte) lower;
+        bytes[7] = (byte) upper;
+        TinyUUID id = new TinyUUID(bytes);
         assertEquals(lower, id.getLeastSignificantBits());
         assertEquals(upper, id.getMostSignificantBits());
     }
