@@ -134,33 +134,8 @@ public class TinyUUID extends AbstractFachwert<UUID> {
      * @return 16-stelliges Byte-Array
      */
     public byte[] toBytes() {
-        byte[] lowerBytes = to8Bytes(this.getLeastSignificantBits());
-        byte[] upperBytes = to8Bytes(this.getMostSignificantBits());
-        byte[] bytes = new byte[16];
-        System.arraycopy(lowerBytes, 0, bytes, 8, 8);
-        System.arraycopy(upperBytes, 0, bytes, 0, 8);
-        return bytes;
-
-//        String id = this.getUUID().toString().replaceAll("-", "");
-//        byte[] bytes = new byte[16];
-//        for (int i = 0; i < 16; i++) {
-//            bytes[i] = Byte.parseByte(id.substring(2*i, 2*i + 1), 16);
-//        }
-//        return bytes;
-
-        //byte[] bytes = this.toNumber().toByteArray();
-        //return to16Bytes(bytes);
-    }
-
-    private static byte[] to8Bytes(long number) {
-        long n = number;
-        byte[] bytes = new byte[8];
-        long mask = 0xFF00000000000000L;
-        for (int i = 0; i < bytes.length; i++) {
-            bytes[i] = (byte) ((n & mask) >> 56);
-            n = n << 8;
-        }
-        return bytes;
+        byte[] bytes = this.toNumber().toByteArray();
+        return to16Bytes(bytes);
     }
 
     /**
