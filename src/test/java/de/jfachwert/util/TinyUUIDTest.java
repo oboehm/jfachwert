@@ -23,6 +23,7 @@ import java.math.BigInteger;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
@@ -142,13 +143,13 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
 
     /**
      * Da {@link TinyUUID} als Ersatz fuer die {@link UUID}-Klasse gedacht ist,
-     * sollte sie bei der toString()-Methode das gleiche Ergebnis rauskommen.
+     * sollte sie bei der toLongString()-Methode das gleiche Ergebnis rauskommen.
      */
     @Override
     @Test
     public void testToString() {
         UUID uuid = UUID.randomUUID();
-        assertEquals(uuid.toString(), new TinyUUID(uuid).toString());
+        assertEquals(uuid.toString(), new TinyUUID(uuid).toLongString());
     }
 
     /**
@@ -177,8 +178,18 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
 
     private void checkToShortString(TinyUUID id) {
         String s = id.toShortString();
+        assertThat(s.length(), is(lessThan(id.toLongString().length())));
         assertThat(s, s.length(), is(22));
         assertEquals(id, TinyUUID.fromString(s));
+    }
+
+    /**
+     * Test-Methode fuer {@link TinyUUID#fromString(String)}.
+     */
+    @Test
+    public void testFromString() {
+        UUID uuid = UUID.randomUUID();
+        assertEquals(new TinyUUID(uuid), TinyUUID.fromString(uuid.toString()));
     }
 
 }

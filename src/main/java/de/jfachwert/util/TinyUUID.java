@@ -111,7 +111,6 @@ public class TinyUUID extends AbstractFachwert<UUID> {
      */
     public BigInteger toNumber() {
         UUID uuid = this.getCode();
-        //return BigInteger.valueOf(uuid.getLeastSignificantBits()).multiply(LIMIT_INT).add(BigInteger.valueOf(uuid.getMostSignificantBits()));
         return new BigInteger(uuid.toString().replaceAll("-", ""), 16);
     }
 
@@ -133,7 +132,7 @@ public class TinyUUID extends AbstractFachwert<UUID> {
      * @return die {@link UUID}
      */
     public UUID getUUID() {
-        return UUID.fromString(toString());
+        return this.getCode();
     }
 
     /**
@@ -158,11 +157,11 @@ public class TinyUUID extends AbstractFachwert<UUID> {
      * Da {@link TinyUUID} als Ersatz fuer die {@link UUID}-Klasse gedacht ist,
      * liefert sie das gleiche Ergebnis wie die {@link UUID}-Klasse.
      *
-     * @return z.B. "d9b67549-3c53-42f2-a394-33f990e697ce"
+     * @return z.B. "ix9de14vQgGKwXZUaruCzw"
      */
     @Override
     public String toString() {
-        return this.getCode().toString();
+        return this.toShortString();
     }
 
     private static String toString(BigInteger number) {
@@ -186,6 +185,15 @@ public class TinyUUID extends AbstractFachwert<UUID> {
      */
     public String toShortString() {
         return Base64.getEncoder().withoutPadding().encodeToString(toBytes());
+    }
+
+    /**
+     * Dies ist das Gegenstueck zu {@link #toShortString()}.
+     *
+     * @return z.B. "4e8108fa-e517-41bd-8372-a828843030ba"
+     */
+    public String toLongString() {
+        return this.getUUID().toString();
     }
 
     /**
