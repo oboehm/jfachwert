@@ -19,6 +19,7 @@ package de.jfachwert.util;/*
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
+import javax.validation.ValidationException;
 import java.math.BigInteger;
 import java.util.UUID;
 
@@ -53,6 +54,16 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
     public void toNumberTen() {
         TinyUUID id = new TinyUUID(new UUID(0, 10));
         assertEquals(BigInteger.TEN, id.toNumber());
+    }
+
+    /**
+     * Test-Methode fuer {@link TinyUUID#TinyUUID(byte[])}. Wenn hier keine
+     * 16 Bytes uebergeben werden, sollte eine {@link ValidationException}
+     * kommen.
+     */
+    @Test(expected = ValidationException.class)
+    public void testTinyUUIDInvalidBytes() {
+        new TinyUUID(new byte[1]);
     }
 
     /**

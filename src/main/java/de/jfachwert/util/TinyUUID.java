@@ -18,6 +18,7 @@
 package de.jfachwert.util;
 
 import de.jfachwert.AbstractFachwert;
+import de.jfachwert.pruefung.IllegalLengthException;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -86,7 +87,14 @@ public class TinyUUID extends AbstractFachwert<UUID> {
      * @param bytes 16 Bytes
      */
     public TinyUUID(byte[] bytes) {
-        this(UUID.fromString(toString(bytes)));
+        this(UUID.fromString(toString(validate(bytes))));
+    }
+
+    private static byte[] validate(byte[] bytes) {
+        if (bytes.length != 16) {
+            throw new IllegalLengthException(bytes, 16);
+        }
+        return bytes;
     }
 
     private static byte[] to16Bytes(BigInteger number) {
