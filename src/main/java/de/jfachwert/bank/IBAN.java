@@ -66,7 +66,7 @@ public class IBAN extends AbstractFachwert<String> {
     /**
      * Mit dieser Methode kann man eine IBAN validieren, ohne dass man erst
      * den Konstruktor aufrufen muss. Falls die Pruefziffer nicht stimmt,
-     * wird eine {@link javax.xml.bind.ValidationException} geworfen, wenn
+     * wird eine {@link javax.validation.ValidationException} geworfen, wenn
      * die Laenge nicht uebereinstimmt eine {@link IllegalLengthException}.
      * Die Laenge liegt zwischen 16 (Belgien) und 34 Zeichen.
      *
