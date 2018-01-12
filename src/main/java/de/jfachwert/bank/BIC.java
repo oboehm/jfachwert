@@ -19,6 +19,7 @@ package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.pruefung.IllegalLengthException;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 
@@ -69,11 +70,12 @@ public class BIC extends AbstractFachwert<String> {
      * @return die validierte BIC (zur Weiterverarbeitung)
      */
     public static String validate(String bic) {
+        String normalized = StringUtils.trim(bic);
         Integer[] allowedLengths = {11, 14};
-        if ((bic.length() != allowedLengths[0]) && (bic.length() != allowedLengths[1])) {
+        if ((normalized.length() != allowedLengths[0]) && (normalized.length() != allowedLengths[1])) {
             throw new IllegalLengthException(bic, Arrays.asList(allowedLengths));
         }
-        return bic;
+        return normalized;
     }
 
 }
