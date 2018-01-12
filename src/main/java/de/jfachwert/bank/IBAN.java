@@ -80,7 +80,7 @@ public class IBAN extends AbstractFachwert<String> {
     @SuppressWarnings("squid:SwitchLastCaseIsDefaultCheck")
     private static String validate(String iban, PruefzifferVerfahren<String> pzVerfahren) {
         String normalized = StringUtils.remove(iban, ' ').toUpperCase();
-        LengthValidator.validate(iban, 16, 34);
+        LengthValidator.validate(normalized, 16, 34);
         switch (normalized.substring(0,1)) {
             case "AT":
                 LengthValidator.validate(iban, 20);
