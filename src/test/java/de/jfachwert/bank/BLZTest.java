@@ -18,6 +18,11 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwertTest;
+import org.junit.Test;
+
+import javax.validation.ValidationException;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Unit-Test fuer {@link BLZ}-Klasse.
@@ -35,6 +40,23 @@ public final class BLZTest extends AbstractFachwertTest {
     @Override
     protected BLZ createFachwert() {
         return new BLZ("64090100");
+    }
+
+    /**
+     * Bei Bankleitzahlen sind nur Ziffern erlaubt.
+     */
+    @Test(expected = ValidationException.class)
+    public void testInvalidBLZ() {
+        new BLZ("0x10");
+    }
+
+    /**
+     * Bankleitzahlen koennen Leerzeichen enthalten, die beim Vergleich keine
+     * Rolle spielen duerfen.
+     */
+    @Test
+    public void testEqualsFormatted() {
+        assertEquals(new BLZ("64090100"), new BLZ("640 901 00"));
     }
 
 }

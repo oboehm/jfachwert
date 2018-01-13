@@ -19,16 +19,21 @@ package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.pruefung.IllegalLengthException;
+import de.jfachwert.pruefung.LengthValidator;
+import de.jfachwert.pruefung.NumberValidator;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Die BLZ (Bankleitzahl) ist eine eindeutige Kennziffer, die in Deutschland
  * und Oesterreich eindeutig ein Kreditinstitut identifiziert. In Deutschland
- * ist die BLZ eine 8-stellige, in Oesterreich eine 5-stellige Zahl.
+ * ist die BLZ eine 8-stellige, in Oesterreich eine 5-stellige Zahl (mit
+ * Ausnahme der Oesterreichischen Nationalbank mit 3 Stellen).
+ * 
  *
  * @author oboehm
  * @since 16.03.2017
  */
-public class BLZ extends AbstractFachwert<Integer> {
+public class BLZ extends AbstractFachwert<String> {
 
     /**
      * Hierueber wird eine neue BLZ angelegt.
@@ -36,7 +41,7 @@ public class BLZ extends AbstractFachwert<Integer> {
      * @param code eine 5- oder 8-stellige Zahl
      */
     public BLZ(String code) {
-        this(Integer.valueOf(code));
+        super(validate(code));
     }
 
     /**
@@ -45,7 +50,7 @@ public class BLZ extends AbstractFachwert<Integer> {
      * @param code eine 5- oder 8-stellige Zahl
      */
     public BLZ(int code) {
-        super(validate(code));
+        this(Integer.toString(code));
     }
 
     /**
@@ -55,10 +60,19 @@ public class BLZ extends AbstractFachwert<Integer> {
      * @return die Bankleitzahl zur Weitervarabeitung
      */
     public static int validate(int blz) {
-        if (blz > 99_999_999) {
-            throw new IllegalLengthException(Integer.toString(blz), 5, 8);
-        }
+        validate(Integer.valueOf(blz));
         return blz;
+    }
+
+    /**
+     * Eine BLZ darf maximal 8-stellig sein.
+     *
+     * @param blz die Bankleitzahl
+     * @return die Bankleitzahl zur Weitervarabeitung
+     */
+    public static String validate(String blz) {
+        String normalized = StringUtils.replaceAll(blz, "\\s", "");
+        return new NumberValidator(100, 99_999_999).validate(normalized);
     }
 
 }

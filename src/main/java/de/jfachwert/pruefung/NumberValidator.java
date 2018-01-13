@@ -44,6 +44,17 @@ public class NumberValidator implements SimpleValidator<String> {
      * @param min untere Grenze
      * @param max obere Grenze
      */
+    public NumberValidator(long min, long max) {
+        this(BigDecimal.valueOf(min), BigDecimal.valueOf(max));
+    }
+
+    /**
+     * Instanziert einen Validator, der prueft, ob ein Wert zwischen den
+     * vorgegebenen Grenzen liegt.
+     *
+     * @param min untere Grenze
+     * @param max obere Grenze
+     */
     public NumberValidator(BigDecimal min, BigDecimal max) {
         this.range = Range.between(min, max);
     }
