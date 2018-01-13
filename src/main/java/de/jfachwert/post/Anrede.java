@@ -23,7 +23,7 @@ import org.apache.commons.lang3.*;
  * Anrede fuer "Herr/Frau". Da "Fraeulein" schon lange nicht mehr
  * zeitgemaess ist, taucht es in der Liste nicht auf.
  *
- * @deprecated seit 0.5 ist dieser Enum in {@link de.jfachwert.formular.Anrede}
+ * @deprecated seit 0.5 ist dieser Enum in {@link de.jfachwert.form.Anrede}
  *             zu finden.
  */
 @Deprecated

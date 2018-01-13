@@ -15,7 +15,7 @@
  *
  * (c)reated 28.08.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.formular;
+package de.jfachwert.form;
 
 import de.jfachwert.pruefung.AccessValidator;
 
