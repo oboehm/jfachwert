@@ -18,8 +18,8 @@
 
 /**
  * In diesem Package sind Klassen und Aufzaehlungstypen wie
- * {@link de.jfachwert.form.Anrede} oder
- * {@link de.jfachwert.form.Geschlecht}, die ueblicherweise in Formularen
+ * {@link de.jfachwert.formular.Anrede} oder
+ * {@link de.jfachwert.formular.Geschlecht}, die ueblicherweise in Formularen
  * und Vertraege anzufinden sind,
  *
  * @author <a href="ob@aosd.de">oliver</a>
