@@ -59,4 +59,15 @@ public final class BLZTest extends AbstractFachwertTest {
         assertEquals(new BLZ("64090100"), new BLZ("640 901 00"));
     }
 
+    /**
+     * Test-Methode fuer {@link BLZ#getUnformatted()} und
+     * {@link BLZ#getFormatted()}.
+     */
+    @Test
+    public void testGetFormatted() {
+        BLZ blz = new BLZ(64090100);
+        assertEquals("64090100", blz.getUnformatted());
+        assertEquals("640 901 00", blz.getFormatted());
+    }
+
 }

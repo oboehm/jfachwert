@@ -75,4 +75,28 @@ public class BLZ extends AbstractFachwert<String> {
         return new NumberValidator(100, 99_999_999).validate(normalized);
     }
 
+    /**
+     * Liefert die unformattierte BLZ.
+     *
+     * @return unformattierte BLZ, z.B. "64090100"
+     */
+    public String getUnformatted() {
+        return this.getCode();
+    }
+    
+    /**
+     * Liefert die BLZ in 3er-Gruppen formattiert.
+     *
+     * @return formatierte LBZ, z.B. "640 901 00"
+     */
+    public String getFormatted() {
+        String input = this.getUnformatted() + "   ";
+        StringBuilder buf = new StringBuilder();
+        for (int i = 0; i < this.getUnformatted().length(); i+= 3) {
+            buf.append(input.substring(i, i+3));
+            buf.append(' ');
+        }
+        return buf.toString().trim();
+    }
+    
 }
