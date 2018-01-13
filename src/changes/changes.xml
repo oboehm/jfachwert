@@ -69,7 +69,7 @@
     </release>
 
     <release version="0.0.1" date="12-M&#228;r-2017"
-             description="Start">
+             description="Start mit Bank-Package">
       <action dev="oboehm" type="add" date="12-M&#228;r-2017">
         Aufnahme ins Maven-Repository beantragt
         (https://issues.sonatype.org/browse/OSSRH-28810).
