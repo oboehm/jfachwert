@@ -17,6 +17,7 @@
  */
 package de.jfachwert;
 
+import de.jfachwert.bank.BIC;
 import de.jfachwert.bank.IBAN;
 import org.junit.Test;
 
@@ -30,15 +31,24 @@ import static org.junit.Assert.*;
  */
 public class FachwertFactoryTest {
     
-    private static final FachwertFactory FACTORY = new FachwertFactory();
+    private static final FachwertFactory FACTORY = FachwertFactory.getInstance();
 
     /**
      * Test-Methode fuer {@link FachwertFactory#getFachwert(Class, Object...)}.
      */
     @Test
-    public void getFachwert() {
+    public void getFachwertClass() {
         Fachwert iban = FACTORY.getFachwert(IBAN.class, "DE41300606010006605605");
         assertEquals(new IBAN("DE41300606010006605605"), iban);
+    }
+
+    /**
+     * Test-Methode fuer {@link FachwertFactory#getFachwert(String, Object...)}
+     */
+    @Test
+    public void getFachwertString() {
+        Fachwert bic = FACTORY.getFachwert("BIC", "BELADEBEXXX");
+        assertEquals(new BIC("BELADEBEXXX"), bic);
     }
 
 }

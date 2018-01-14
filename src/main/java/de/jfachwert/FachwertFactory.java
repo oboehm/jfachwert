@@ -17,8 +17,18 @@
  */
 package de.jfachwert;
 
+import de.jfachwert.bank.*;
+import de.jfachwert.net.*;
+import de.jfachwert.post.*;
+import de.jfachwert.rechnung.*;
+import de.jfachwert.steuer.SteuerIdNr;
+import de.jfachwert.steuer.Steuernummer;
+import de.jfachwert.steuer.UStIdNr;
+
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -36,9 +46,68 @@ import java.util.stream.Stream;
  * </p>
  *
  * @author oboehm
- * @since x.x (13.01.2018)
+ * @since 0.5 (13.01.2018)
  */
 public class FachwertFactory {
+    
+    private static final FachwertFactory INSTANCE = new FachwertFactory();
+    private final Map<String, Class<? extends Fachwert>> registeredClasses = new HashMap<>();
+
+    // Die Registrierung hier ist unschoen, weil dazu die FachwertFactory alle
+    // Fachwert-Klassen kennen muss. Schoener waere es, wenn sich die einzelnen
+    // Klassen selber registrieren wuerden. Das Problem dabei ist, dass sie es
+    // erst machen kann, wenn sie vom Classloader geladen wurde (Henne-Ei-
+    // Problem).
+    static {
+        INSTANCE.register(Bankverbindung.class);
+        INSTANCE.register(BIC.class);
+        INSTANCE.register(BLZ.class);
+        INSTANCE.register(IBAN.class);
+        INSTANCE.register(Kontonummer.class);
+        INSTANCE.register(ChatAccount.class);
+        INSTANCE.register(Domainname.class);
+        INSTANCE.register(EMailAdresse.class);
+        INSTANCE.register(Telefonnummer.class);
+        INSTANCE.register(Adresse.class);
+        INSTANCE.register(Anschrift.class);
+        INSTANCE.register(Ort.class);
+        INSTANCE.register(PLZ.class);
+        INSTANCE.register(Postfach.class);
+        INSTANCE.register(Artikelnummer.class);
+        INSTANCE.register(Bestellnummer.class);
+        INSTANCE.register(Kundennummer.class);
+        INSTANCE.register(Rechnungsmonat.class);
+        INSTANCE.register(Rechnungsnummer.class);
+        INSTANCE.register(Referenznummer.class);
+        INSTANCE.register(SteuerIdNr.class);
+        INSTANCE.register(Steuernummer.class);
+        INSTANCE.register(UStIdNr.class);
+    }
+
+    private FachwertFactory() {
+    }
+
+    /**
+     * Die FachwertFactory ist als Singleton angelegt, um die Implementierung
+     * durch Ableitung erweiern zu koennen. Mit dieser Methode wird die
+     * einzige Instanz dieser Klasse zurueckgegeben.
+     * 
+     * @return die einzige Instanz
+     */
+    public static FachwertFactory getInstance() {
+        return INSTANCE;
+    }
+
+    /**
+     * Hierueber sollten sich die einzelnen Fachwert-Klassen registrieren.
+     * Ansonsten werden sie bei {@link FachwertFactory#getFachwert(String, Object...)}
+     * nicht gefunden.
+     * 
+     * @param fachwertClass Fachwert-Klasse
+     */
+    synchronized public void register(Class<? extends Fachwert> fachwertClass) {
+        registeredClasses.put(fachwertClass.getSimpleName(), fachwertClass);
+    } 
 
     /**
      * Liefert einen Fachwert zum angegebenen (Klassen-)Namen. Als Name wird
@@ -46,12 +115,16 @@ public class FachwertFactory {
      * genommen, die am ehesten passt. So wird bei "IBAN1" als Name eine
      * Instanz der IBAN-Klasse zurueckgeliefert.
      *
-     * @param classname Namen der Fachwert-Klasse, z.B. "IBAN"
+     * @param name Namen der Fachwert-Klasse, z.B. "IBAN"
      * @param args Argument(e) fuer den Konstruktor der Fachwert-Klasse
-     * @return
+     * @return ein Fachwert
      */
-    public Fachwert getFachwert(String classname, Object... args) {
-        throw new UnsupportedOperationException("not yet implemented");
+    public Fachwert getFachwert(String name, Object... args) {
+        Class<? extends Fachwert> fachwertClass = registeredClasses.get(name);
+        if (fachwertClass == null) {
+            throw new IllegalArgumentException("no Fachwert class found for '" + name + "'");
+        }
+        return getFachwert(fachwertClass, args);
     }
 
     /**
@@ -59,7 +132,7 @@ public class FachwertFactory {
      *
      * @param clazz Fachwert-Klasse
      * @param args Argument(e) fuer den Konstruktor der Fachwert-Klasse
-     * @return
+     * @return ein Fachwert
      */
     public Fachwert getFachwert(Class<? extends Fachwert> clazz, Object... args) {
         Class[] argTypes = new Class[args.length];
