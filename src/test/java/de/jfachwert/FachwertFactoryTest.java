@@ -51,4 +51,14 @@ public class FachwertFactoryTest {
         assertEquals(new BIC("BELADEBEXXX"), bic);
     }
 
+    /**
+     * Hier testen wir, ob auch "aehnliche" Namen gefunden werden, falls es den
+     * angegebenen Namen nicht gibt. 
+     */
+    @Test
+    public void getSimilarFachwert() {
+        Fachwert bic = FACTORY.getFachwert("BIC1", "MARKDEFF");
+        assertEquals(new BIC("MARKDEFF"), bic);
+    }
+
 }

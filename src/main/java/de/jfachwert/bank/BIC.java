@@ -71,7 +71,7 @@ public class BIC extends AbstractFachwert<String> {
      */
     public static String validate(String bic) {
         String normalized = StringUtils.trim(bic);
-        Integer[] allowedLengths = {11, 14};
+        Integer[] allowedLengths = {8, 11, 14};
         if ((normalized.length() != allowedLengths[0]) && (normalized.length() != allowedLengths[1])) {
             throw new IllegalLengthException(bic, Arrays.asList(allowedLengths));
         }
