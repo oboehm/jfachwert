@@ -53,12 +53,22 @@ public class FachwertFactoryTest {
 
     /**
      * Hier testen wir, ob auch "aehnliche" Namen gefunden werden, falls es den
-     * angegebenen Namen nicht gibt. 
+     * angegebenen Namen nicht gibt. Die Test-BIC ist die Zentrale der
+     * Deutschen Bundesbank.
      */
     @Test
     public void getSimilarFachwert() {
         Fachwert bic = FACTORY.getFachwert("BIC1", "MARKDEFF");
         assertEquals(new BIC("MARKDEFF"), bic);
+    }
+
+    /**
+     * Test-Methode fuer {@link FachwertFactory#validate(Class, Object...)}.
+     * Die Test-BIC stammt von der Raiffeisenbank Kitzbuehel.
+     */
+    @Test
+    public void validateClass() {
+        FACTORY.validate(BIC.class, "RZTIAT22263");
     }
 
 }

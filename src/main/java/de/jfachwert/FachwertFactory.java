@@ -26,6 +26,8 @@ import de.jfachwert.steuer.Steuernummer;
 import de.jfachwert.steuer.UStIdNr;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -114,6 +116,10 @@ public class FachwertFactory {
      * der Klassennamen erwartet. Wird keine Klasse gefunden, wird die Klasse
      * genommen, die am ehesten passt. So wird bei "IBAN1" als Name eine
      * Instanz der IBAN-Klasse zurueckgeliefert.
+     * <p>
+     * Anmerkugn: Die Aehnlichkeit des uebergebenen Namens mit dem
+     * tatsaechlichen Namen wird anhand der Levenshtein-Distanz bestimmt.
+     * </p>
      *
      * @param name Namen der Fachwert-Klasse, z.B. "IBAN"
      * @param args Argument(e) fuer den Konstruktor der Fachwert-Klasse
@@ -135,16 +141,64 @@ public class FachwertFactory {
      * @return ein Fachwert
      */
     public Fachwert getFachwert(Class<? extends Fachwert> clazz, Object... args) {
-        Class[] argTypes = new Class[args.length];
-        for (int i = 0; i < args.length; i++) {
-            argTypes[i] = args[i].getClass();
-        }
+        Class[] argTypes = toTypes(args);
         try {
             Constructor<? extends Fachwert> ctor = clazz.getConstructor(argTypes);
             return ctor.newInstance(args);
         } catch (ReflectiveOperationException ex) {
             throw new IllegalArgumentException("cannot create " + clazz + " with " + args, ex);
         }
+    }
+
+    /**
+     * Validiert die uebergebenen Argumente mit Hilfe der angegebenen Klasse,
+     * die als (Klassen-)Namen angegeben wird. Viele Fachwert-Klassen haben
+     * eine (statische) validate-Methode, die dafuer verwendet wird. Fehlt
+     * diese validate-Methode, wird der Konstruktor fuer die Validierung
+     * herangezogen.
+     * <p>
+     * Wenn es den uebergebenen (Klassen-)Namen nicht gibt, wird mithilfe der
+     * Levenshtein-Distanz die aehnlichste Klasse genommen. Schlaegt die
+     * Validierung fehl, wird eine {@link javax.validation.ValidationException}
+     * geworfen.
+     * </p>
+     *
+     * @param name Namen der Fachwert-Klasse, z.B. "IBAN"
+     * @param args Argument(e), die validiert werden
+     */
+    public void validate(String name, Object... args) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    /**
+     * Validiert die uebergebenen Argumente mit Hilfe der angegebenen Klasse.
+     * Viele Fachwert-Klassen haben eine (statische) validate-Methode, die
+     * dafuer verwendet wird. Fehlt diese validate-Methode, wird der 
+     * Konstruktor fuer die Validierung
+     * <p>
+     * Schlaegt die Validierung fehl, wird eine {@link javax.validation.ValidationException}
+     * geworfen.
+     * </p>
+     *
+     * @param clazz Fachwert-Klasse
+     * @param args Argument(e), die validiert werden
+     */
+    public void validate(Class<? extends Fachwert> clazz, Object... args) {
+        Class[] argTypes = toTypes(args);
+        try {
+            Method method = clazz.getMethod("validate", argTypes);
+            method.invoke(null, args);
+        } catch (ReflectiveOperationException ex) {
+            getFachwert(clazz, argTypes);
+        }
+    }
+
+    private static Class[] toTypes(Object[] args) {
+        Class[] argTypes = new Class[args.length];
+        for (int i = 0; i < args.length; i++) {
+            argTypes[i] = args[i].getClass();
+        }
+        return argTypes;
     }
 
     private String getSimilarName(String name) {
@@ -173,8 +227,9 @@ public class FachwertFactory {
         b = b.toLowerCase();
         // i == 0
         int [] costs = new int [b.length() + 1];
-        for (int j = 0; j < costs.length; j++)
+        for (int j = 0; j < costs.length; j++) {
             costs[j] = j;
+        }
         for (int i = 1; i <= a.length(); i++) {
             // j == 0; nw = lev(i - 1, j)
             costs[0] = i;
