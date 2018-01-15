@@ -18,21 +18,23 @@
 package de.jfachwert;
 
 import de.jfachwert.bank.*;
-import de.jfachwert.net.*;
+import de.jfachwert.net.ChatAccount;
+import de.jfachwert.net.Domainname;
+import de.jfachwert.net.EMailAdresse;
+import de.jfachwert.net.Telefonnummer;
 import de.jfachwert.post.*;
 import de.jfachwert.rechnung.*;
 import de.jfachwert.steuer.SteuerIdNr;
 import de.jfachwert.steuer.Steuernummer;
 import de.jfachwert.steuer.UStIdNr;
 
+import javax.validation.ValidationException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Ueber die FachwertFactory kann ein beliebiger Fachwert generiert oder geholt
@@ -46,6 +48,11 @@ import java.util.stream.Stream;
  * aoder ustauschen zu koennen, hat diese Factory keine statischen Methoden,
  * sondern ist als normale Klasse implementiert.
  * </p>
+ * <p>
+ * Da in dieser Klasse Exceptions auftreten koennen, die nicht weitergegeben
+ * werden, wird dazu der Standard-Logger aus dem JDK verwendet. Damit kann man
+ * sich zum Debuggen diese Exceptions im Log-Level "FINE" ausgeben lassen.
+ * </p>
  *
  * @author oboehm
  * @since 0.5 (13.01.2018)
@@ -54,6 +61,7 @@ public class FachwertFactory {
     
     private static final FachwertFactory INSTANCE = new FachwertFactory();
     private final Map<String, Class<? extends Fachwert>> registeredClasses = new HashMap<>();
+    private static final Logger LOG = Logger.getLogger(Fachwert.class.getName());
 
     // Die Registrierung hier ist unschoen, weil dazu die FachwertFactory alle
     // Fachwert-Klassen kennen muss. Schoener waere es, wenn sich die einzelnen
@@ -146,7 +154,12 @@ public class FachwertFactory {
             Constructor<? extends Fachwert> ctor = clazz.getConstructor(argTypes);
             return ctor.newInstance(args);
         } catch (ReflectiveOperationException ex) {
-            throw new IllegalArgumentException("cannot create " + clazz + " with " + args, ex);
+            Throwable cause = ex.getCause();
+            if (cause instanceof ValidationException) {
+                throw (ValidationException) cause;
+            } else {
+                throw new IllegalArgumentException("cannot create " + clazz + " with " + args, ex);
+            }
         }
     }
 
@@ -179,6 +192,12 @@ public class FachwertFactory {
      * Schlaegt die Validierung fehl, wird eine {@link javax.validation.ValidationException}
      * geworfen.
      * </p>
+     * <p>
+     * Anmerkung: Dies ist einige der wenige Stellen, wo tatsaechlich eine
+     * Log-Ausgabe erscheinen kann. Hintergrund ist die Exception, die hier
+     * gefangen, aber nicht weitergegeben wird. Im Log-Level "FINE" kann man
+     * sich diese Exception zur Fehlersuche ausgeben.
+     * </p>
      *
      * @param clazz Fachwert-Klasse
      * @param args Argument(e), die validiert werden
@@ -189,7 +208,8 @@ public class FachwertFactory {
             Method method = clazz.getMethod("validate", argTypes);
             method.invoke(null, args);
         } catch (ReflectiveOperationException ex) {
-            getFachwert(clazz, argTypes);
+            LOG.log(Level.FINE, "Cannot call validate method of " + clazz, ex);
+            getFachwert(clazz, args);
         }
     }
 

@@ -18,10 +18,13 @@
 package de.jfachwert;
 
 import de.jfachwert.bank.BIC;
+import de.jfachwert.bank.Bankverbindung;
 import de.jfachwert.bank.IBAN;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import javax.validation.ValidationException;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Unit-Tests fuer {@link FachwertFactory}-Klasse.
@@ -70,5 +73,24 @@ public class FachwertFactoryTest {
     public void validateClass() {
         FACTORY.validate(BIC.class, "RZTIAT22263");
     }
+
+    /**
+     * Test-Methode fuer {@link FachwertFactory#validate(String, Object...)}.
+     */
+    @Test
+    public void validateString() {
+        FACTORY.validate(Bankverbindung.class, "Max Muster", new IBAN("DE41300606010006605605"),
+                new BIC("GENODEF1JEV"));
+    }
+    
+    /**
+     * Test-Methode fuer {@link FachwertFactory#validate(Class, Object...)}.
+     * Die Test-BIC stammt von der Raiffeisenbank Kitzbuehel.
+     */
+    @Test(expected = ValidationException.class)
+    public void validateWithFailure() {
+        FACTORY.validate(BIC.class, "AAA");
+    }
+
 
 }
