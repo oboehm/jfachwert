@@ -18,7 +18,6 @@
 package de.jfachwert;
 
 import de.jfachwert.bank.BIC;
-import de.jfachwert.bank.Bankverbindung;
 import de.jfachwert.bank.IBAN;
 import org.junit.Test;
 
@@ -79,7 +78,7 @@ public class FachwertFactoryTest {
      */
     @Test
     public void validateString() {
-        FACTORY.validate(Bankverbindung.class, "Max Muster", new IBAN("DE41300606010006605605"),
+        FACTORY.validate("Bankverbindung", "Max Muster", new IBAN("DE41300606010006605605"),
                 new BIC("GENODEF1JEV"));
     }
     

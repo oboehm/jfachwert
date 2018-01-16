@@ -134,10 +134,7 @@ public class FachwertFactory {
      * @return ein Fachwert
      */
     public Fachwert getFachwert(String name, Object... args) {
-        Class<? extends Fachwert> fachwertClass = registeredClasses.get(name);
-        if (fachwertClass == null) {
-            fachwertClass = registeredClasses.get(getSimilarName(name));
-        }
+        Class<? extends Fachwert> fachwertClass = getClassFor(name);
         return getFachwert(fachwertClass, args);
     }
 
@@ -180,7 +177,8 @@ public class FachwertFactory {
      * @param args Argument(e), die validiert werden
      */
     public void validate(String name, Object... args) {
-        throw new UnsupportedOperationException("not yet implemented");
+        Class<? extends Fachwert> fachwertClass = getClassFor(name);
+        validate(fachwertClass, args);
     }
 
     /**
@@ -213,6 +211,14 @@ public class FachwertFactory {
         }
     }
 
+    private Class<? extends Fachwert> getClassFor(String name) {
+        Class<? extends Fachwert> fachwertClass = registeredClasses.get(name);
+        if (fachwertClass == null) {
+            fachwertClass = registeredClasses.get(getSimilarName(name));
+        }
+        return fachwertClass;
+    }
+    
     private static Class[] toTypes(Object[] args) {
         Class[] argTypes = new Class[args.length];
         for (int i = 0; i < args.length; i++) {
