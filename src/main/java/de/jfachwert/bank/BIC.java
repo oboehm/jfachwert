@@ -22,6 +22,7 @@ import de.jfachwert.pruefung.IllegalLengthException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * BIC steht fuer Bank (oder auch Businiess) Identifier Code und kennzeichnet
@@ -71,9 +72,9 @@ public class BIC extends AbstractFachwert<String> {
      */
     public static String validate(String bic) {
         String normalized = StringUtils.trim(bic);
-        Integer[] allowedLengths = {8, 11, 14};
-        if ((normalized.length() != allowedLengths[0]) && (normalized.length() != allowedLengths[1])) {
-            throw new IllegalLengthException(bic, Arrays.asList(allowedLengths));
+        List<Integer> allowedLengths = Arrays.asList(8, 11, 14);
+        if (!allowedLengths.contains(normalized.length()))  {
+            throw new IllegalLengthException(normalized, allowedLengths);
         }
         return normalized;
     }
