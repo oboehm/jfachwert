@@ -91,5 +91,14 @@ public class FachwertFactoryTest {
         FACTORY.validate(BIC.class, "AAA");
     }
 
+    /**
+     * Wenn ein unbekannter Name angegeben wird, der kaum Aehnlichkeit mit
+     * vorhandenen Klasse aufweist, soll auf eine Fallback-Klasse ohne
+     * Validierung (Text) zurueckgegriffen werden.
+     */
+    @Test
+    public void validateUnknownName() {
+        FACTORY.validate("irgendwas", "42");
+    }
 
 }

@@ -69,6 +69,7 @@ public class FachwertFactory {
     // erst machen kann, wenn sie vom Classloader geladen wurde (Henne-Ei-
     // Problem).
     static {
+        INSTANCE.register(Text.class);
         INSTANCE.register(Bankverbindung.class);
         INSTANCE.register(BIC.class);
         INSTANCE.register(BLZ.class);
@@ -125,8 +126,10 @@ public class FachwertFactory {
      * genommen, die am ehesten passt. So wird bei "IBAN1" als Name eine
      * Instanz der IBAN-Klasse zurueckgeliefert.
      * <p>
-     * Anmerkugn: Die Aehnlichkeit des uebergebenen Namens mit dem
+     * Anmerkung: Die Aehnlichkeit des uebergebenen Namens mit dem
      * tatsaechlichen Namen wird anhand der Levenshtein-Distanz bestimmt.
+     * Ist die Differenz zu groß, wird als Fallback die {@link Text}-Klasse
+     * verwendet.
      * </p>
      *
      * @param name Namen der Fachwert-Klasse, z.B. "IBAN"
@@ -165,12 +168,13 @@ public class FachwertFactory {
      * die als (Klassen-)Namen angegeben wird. Viele Fachwert-Klassen haben
      * eine (statische) validate-Methode, die dafuer verwendet wird. Fehlt
      * diese validate-Methode, wird der Konstruktor fuer die Validierung
-     * herangezogen.
+     * herangezogen. Schlaegt die Validierung fehl, wird eine 
+     * Schlaegt die Validierung fehl, wird eine 
+     * {@link javax.validation.ValidationException} geworfen.
      * <p>
      * Wenn es den uebergebenen (Klassen-)Namen nicht gibt, wird mithilfe der
-     * Levenshtein-Distanz die aehnlichste Klasse genommen. Schlaegt die
-     * Validierung fehl, wird eine {@link javax.validation.ValidationException}
-     * geworfen.
+     * Levenshtein-Distanz die aehnlichste Klasse genommen. Ist die Differenz
+     * zu groß, wird als Fallback die {@link Text}-Klasse verwendet.
      * </p>
      *
      * @param name Namen der Fachwert-Klasse, z.B. "IBAN"
@@ -185,13 +189,9 @@ public class FachwertFactory {
      * Validiert die uebergebenen Argumente mit Hilfe der angegebenen Klasse.
      * Viele Fachwert-Klassen haben eine (statische) validate-Methode, die
      * dafuer verwendet wird. Fehlt diese validate-Methode, wird der 
-     * Konstruktor fuer die Validierung
+     * Konstruktor fuer die Validierung herangezogen. Schlaegt die Validierung
+     * fehl, wird eine {@link javax.validation.ValidationException} geworfen.
      * <p>
-     * Schlaegt die Validierung fehl, wird eine {@link javax.validation.ValidationException}
-     * geworfen.
-     * </p>
-     * <p>
-     * Anmerkung: Dies ist einige der wenige Stellen, wo tatsaechlich eine
      * Log-Ausgabe erscheinen kann. Hintergrund ist die Exception, die hier
      * gefangen, aber nicht weitergegeben wird. Im Log-Level "FINE" kann man
      * sich diese Exception zur Fehlersuche ausgeben.
@@ -236,6 +236,11 @@ public class FachwertFactory {
                 similarName = registeredName;
                 minDistance = dist;
             }
+        }
+        if (minDistance > 5) {
+            LOG.fine("Nearest name for '" + name + "' is '" + similarName + "' and too far away (" + minDistance
+                    + ") - will use Text class as fallback.");
+            similarName = Text.class.getSimpleName();
         }
         return similarName;
     }
