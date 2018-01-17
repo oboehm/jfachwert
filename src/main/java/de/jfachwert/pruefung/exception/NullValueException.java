@@ -31,18 +31,7 @@ public class NullValueException extends LocalizedValidationException {
      * Default Konstruktor.
      */
     public NullValueException() {
-        super("null value not allowed");
-    }
-
-    /**
-     * Im Gegensatz {@code getMessage()} wird hier die Beschreibung auf deutsch
-     * zurueckgegeben, wenn die Loacale auf Deutsch steht.
-     *
-     * @return lokalisierte Beschreibung
-     */
-    @Override
-    public String getLocalizedMessage() {
-        return super.getLocalizedMessage("null_values_not_allowed");
+        super("null values not allowed");
     }
 
 }
