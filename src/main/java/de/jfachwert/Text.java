@@ -17,6 +17,8 @@
  */
 package de.jfachwert;
 
+import de.jfachwert.pruefung.NullValidator;
+
 /**
  * Die Klasse Text ist der einfachste Fachwerte, der eigentlich nur ein
  * Wrapper um die String-Klasse ist. Allerdings mit dem Unterschied, dass
@@ -31,6 +33,8 @@ package de.jfachwert;
  * @since 0.5 (17.01.2018)
  */
 public class Text extends AbstractFachwert<String> {
+    
+    private static final SimpleValidator<String> VALIDATOR = new NullValidator();
 
     /**
      * Erzeugt einen Text.
@@ -38,7 +42,17 @@ public class Text extends AbstractFachwert<String> {
      * @param text darf nicht null sein 
      */
     public Text(String text) {
-        super(text);
+        super(validate(text));
+    }
+
+    /**
+     * Ueberprueft den uebergebenen Text.
+     * 
+     * @param text Text
+     * @return den validierten Text zur Weiterverabeitung
+     */
+    public static String validate(String text) {
+        return VALIDATOR.validate(text);
     }
 
 }
