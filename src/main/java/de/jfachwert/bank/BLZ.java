@@ -18,8 +18,6 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwert;
-import de.jfachwert.pruefung.IllegalLengthException;
-import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.NumberValidator;
 import org.apache.commons.lang3.StringUtils;
 

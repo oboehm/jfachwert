@@ -15,8 +15,9 @@
  *
  * (c)reated 21.02.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.pruefung;
+package de.jfachwert.pruefung.exception;
 
+import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.junit.Test;
 
 import java.util.Locale;
@@ -27,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 /**
- * Unit-Teests fuer de.jfachwert.pruefung.InvalidValueException.
+ * Unit-Teests fuer de.jfachwert.pruefung.exception.InvalidValueException.
  *
  * @author oboehm
  * @since 0.2.0 (26.04.2017)

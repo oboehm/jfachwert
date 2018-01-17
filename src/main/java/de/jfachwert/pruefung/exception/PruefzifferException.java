@@ -15,11 +15,11 @@
  *
  * (c)reated 22.03.2017 by oboehm (ob@jfachwert.de)
  */
-package de.jfachwert.pruefung;
+package de.jfachwert.pruefung.exception;
 
 import de.jfachwert.PruefzifferVerfahren;
 
-import java.io.*;
+import java.io.Serializable;
 
 /**
  * Die PruefzifferException gibt neben dem Wert auch die fehlerhafte

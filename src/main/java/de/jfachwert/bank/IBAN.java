@@ -19,7 +19,7 @@ package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.PruefzifferVerfahren;
-import de.jfachwert.pruefung.IllegalLengthException;
+import de.jfachwert.pruefung.exception.IllegalLengthException;
 import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.Mod97Verfahren;
 import org.apache.commons.lang3.StringUtils;

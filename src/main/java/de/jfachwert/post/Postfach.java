@@ -18,7 +18,7 @@
 package de.jfachwert.post;
 
 import de.jfachwert.*;
-import de.jfachwert.pruefung.*;
+import de.jfachwert.pruefung.exception.InvalidValueException;
 
 import java.math.*;
 import java.util.*;

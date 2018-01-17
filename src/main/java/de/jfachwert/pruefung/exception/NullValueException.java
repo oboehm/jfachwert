@@ -17,8 +17,6 @@
  */
 package de.jfachwert.pruefung.exception;
 
-import de.jfachwert.pruefung.LocalizedValidationException;
-
 /**
  * Die NullValueException kommt dann zum Einsatz, wenn ein Null-Wert uebergeben
  * wird.

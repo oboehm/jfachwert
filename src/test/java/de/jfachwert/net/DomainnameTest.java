@@ -18,7 +18,7 @@
 package de.jfachwert.net;
 
 import de.jfachwert.AbstractFachwertTest;
-import de.jfachwert.pruefung.InvalidValueException;
+import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

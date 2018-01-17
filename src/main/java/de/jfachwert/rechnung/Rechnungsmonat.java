@@ -18,7 +18,7 @@
 package de.jfachwert.rechnung;
 
 import de.jfachwert.*;
-import de.jfachwert.pruefung.*;
+import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.*;
 
 import java.time.*;

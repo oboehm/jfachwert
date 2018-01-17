@@ -18,7 +18,7 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwert;
-import de.jfachwert.pruefung.IllegalLengthException;
+import de.jfachwert.pruefung.exception.IllegalLengthException;
 
 import javax.validation.ValidationException;
 

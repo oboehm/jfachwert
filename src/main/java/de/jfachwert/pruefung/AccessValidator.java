@@ -17,6 +17,7 @@
  */
 package de.jfachwert.pruefung;
 
+import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.Range;
 
 /**
