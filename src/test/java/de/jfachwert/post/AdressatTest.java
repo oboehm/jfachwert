@@ -30,6 +30,8 @@ import static org.junit.Assert.assertEquals;
  */
 public final class AdressatTest {
 
+    private final Adressat mustermann = new Adressat("Mustermann, Max");
+
     /**
      * Null-Adressat soll nicht erzeugt werden koennen.
      */
@@ -42,9 +44,26 @@ public final class AdressatTest {
      * Test-Methode fuer {@link Adressat#getName()}.
      */
     @Test
-    public void testName() {
-        Adressat mustermann = new Adressat("Mustermann, Max");
+    public void testGetName() {
         assertEquals("Mustermann", mustermann.getName());
+    }
+
+    /**
+     * Test-Methode fuer {@link Adressat#getVorname()}.
+     */
+    @Test
+    public void testGetVorname() {
+        assertEquals("Max", mustermann.getVorname());
+    }
+
+    /**
+     * Firmen haben keinen Vornamen. Von daher sollte das mit einer Exception
+     * zurueckgewiesen werden.
+     */
+    @Test(expected = RuntimeException.class)
+    public void testGetVornameFromFirma() {
+        Adressat ichAG = new Adressat("Ich AG");
+        ichAG.getVorname();
     }
 
 }

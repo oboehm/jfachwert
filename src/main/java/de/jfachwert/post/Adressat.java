@@ -56,4 +56,28 @@ public class Adressat extends AbstractFachwert<String> {
         return StringUtils.substringBefore(this.getCode(), ",").trim();
     }
 
+    /**
+     * Bei natuerlichen Personen mit Vornamen kann hierueber der Vorname
+     * ermittelt werden.
+     * 
+     * @return z.B. "Max"
+     */
+    public String getVorname() {
+        if (hasVorname()) {
+            return StringUtils.substringAfter(this.getCode(), ",").trim();
+        } else {
+            throw new IllegalStateException("keine nat\u00fcrliche Person: " + this.getCode());
+        }
+    }
+
+    /**
+     * Bei natuerlichen Personen wird Nachname vom Vorname durch ein Komma
+     * getrennt. Dies wird hier fuer die Pruefung herangezogen.
+     * 
+     * @return true bei natuerlichen Personen mit Vornamen
+     */
+    public boolean hasVorname() {
+        return this.getCode().contains(",");
+    }
+
 }
