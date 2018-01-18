@@ -17,6 +17,8 @@
  */
 package de.jfachwert;
 
+import de.jfachwert.pruefung.NullValidator;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -33,9 +35,10 @@ public class AbstractFachwert<T extends Serializable> implements Fachwert {
     private final T code;
 
     protected AbstractFachwert(T code) {
-        this.code = code;
+        SimpleValidator<T> validator = new NullValidator();
+        this.code = validator.validate(code);
     }
-
+    
     /**
      * Liefert die interne Praesentation fuer die abgeleiteten Klassen. Er
      * ist nicht fuer den direkten Aufruf vorgesehen, weswegen die Methode auch
