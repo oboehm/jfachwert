@@ -18,6 +18,7 @@
 package de.jfachwert.post;
 
 import de.jfachwert.AbstractFachwert;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Ein Adressat (oder auch Postempfaenger) ist diejenige Person, die in der
@@ -34,11 +35,25 @@ public class Adressat extends AbstractFachwert<String> {
      * Erzeugt eine Adressat mit dem angegebenen Namen. DAbe kann es sich um
      * eine natuerliche Person (z.B. "Mustermann, Max") oder eine juristische
      * Person (z.B. "Ich AG") handeln.
+     * <p>
+     * Das Format des Adressat ist so, wie er auf dem Brief angegeben wird:
+     * "Nachname, Vorname" bei Personen bzw. Name der juristischen Person.
+     * </p>
      * 
      * @param name z.B. "Mustermann, Max"
      */
     public Adressat(String name) {
         super(name);
+    }
+
+    /**
+     * Der Name ist der Teil vor dem Komma (bei Personen). Bei Firmen ist
+     * es der komplette Name.
+     * 
+     * @return z.B. "Mustermann"
+     */
+    public String getName() {
+        return StringUtils.substringBefore(this.getCode(), ",").trim();
     }
 
 }

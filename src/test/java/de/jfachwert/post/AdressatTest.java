@@ -21,6 +21,8 @@ import org.junit.Test;
 
 import javax.validation.ValidationException;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Unit-Tests fuer {@link Adressat}-Klasse.
  *
@@ -34,6 +36,15 @@ public final class AdressatTest {
     @Test(expected = ValidationException.class)
     public void testAdressatNull() {
         new Adressat(null);
+    }
+
+    /**
+     * Test-Methode fuer {@link Adressat#getName()}.
+     */
+    @Test
+    public void testName() {
+        Adressat mustermann = new Adressat("Mustermann, Max");
+        assertEquals("Mustermann", mustermann.getName());
     }
 
 }
