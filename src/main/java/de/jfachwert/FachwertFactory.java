@@ -79,6 +79,7 @@ public class FachwertFactory {
         INSTANCE.register(Domainname.class);
         INSTANCE.register(EMailAdresse.class);
         INSTANCE.register(Telefonnummer.class);
+        INSTANCE.register(Adressat.class);
         INSTANCE.register(Adresse.class);
         INSTANCE.register(Anschrift.class);
         INSTANCE.register(Ort.class);
