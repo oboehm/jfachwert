@@ -80,11 +80,10 @@ public class ChatAccount implements Fachwert {
      * @return z.B. "Jabber"
      */
     public String getDienstName() {
-        switch (this.chatDienst) {
-            case SONSTIGER:
-                return dienstName;
-            default:
-                return this.chatDienst.toString();
+        if (this.chatDienst == ChatDienst.SONSTIGER) {
+            return dienstName;
+        } else {
+            return this.chatDienst.toString();
         }
     }
 

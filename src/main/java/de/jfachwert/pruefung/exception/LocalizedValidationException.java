@@ -34,7 +34,7 @@ import java.util.ResourceBundle;
  */
 public abstract class LocalizedValidationException extends ValidationException {
 
-    private transient ResourceBundle bundle;
+    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("de.jfachwert.messages");
     private final String key;
 
     /**
@@ -95,11 +95,8 @@ public abstract class LocalizedValidationException extends ValidationException {
      * @return lokalisierter String
      */
     protected String getLocalizedString(String key) {
-        if (bundle == null) {
-            bundle = ResourceBundle.getBundle("de.jfachwert.messages");
-        }
         try {
-            return bundle.getString(key);
+            return BUNDLE.getString(key);
         } catch (MissingResourceException ex) {
             return key;
         }

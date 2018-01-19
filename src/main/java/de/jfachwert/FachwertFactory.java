@@ -117,7 +117,7 @@ public class FachwertFactory {
      * 
      * @param fachwertClass Fachwert-Klasse
      */
-    synchronized public void register(Class<? extends Fachwert> fachwertClass) {
+    public synchronized void register(Class<? extends Fachwert> fachwertClass) {
         registeredClasses.put(fachwertClass.getSimpleName(), fachwertClass);
     }
 
@@ -248,8 +248,10 @@ public class FachwertFactory {
             }
         }
         if (minDistance > 4) {
-            LOG.fine("Nearest name for '" + name + "' is '" + similarName + "' and too far away (" + minDistance
-                    + ") - will use Text class as fallback.");
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("Nearest name for '" + name + "' is '" + similarName + "' and too far away (" + minDistance +
+                        ") - will use Text class as fallback.");
+            }
             similarName = Text.class.getSimpleName();
         }
         return similarName;

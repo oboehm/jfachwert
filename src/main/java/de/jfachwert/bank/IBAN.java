@@ -127,7 +127,7 @@ public class IBAN extends AbstractFachwert<String> {
      * @return z.B. "de_DE" (als Locale)
      * @since 0.1.0
      */
-    @SuppressWarnings("squid:SwitchLastCaseIsDefaultCheck")
+    @SuppressWarnings({"squid:SwitchLastCaseIsDefaultCheck", "squid:S1301"})
     public Locale getLand() {
         String country = this.getUnformatted().substring(0, 2);
         String language = country.toLowerCase();
