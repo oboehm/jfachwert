@@ -65,4 +65,14 @@ public final class AnschriftTest extends AbstractFachwertTest {
         assertThat(anschrift.toString(), containsString(postfach.toString()));
     }
 
+    /**
+     * Test-Methode fuer {@link Anschrift#getAdressat()}.
+     */
+    @Test
+    public void testGetAdressat() {
+        Adresse adresse = new AdresseTest().createFachwert();
+        Anschrift anschrift = new Anschrift("Dagobert, Duck", adresse);
+        assertEquals(new Adressat("Dagobert, Duck"), anschrift.getAdressat());
+    }
+
 }

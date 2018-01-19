@@ -31,7 +31,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class Anschrift implements Fachwert {
 
-    private final String name;
+    private final Adressat adressat;
     private final Adresse adresse;
     private final Postfach postfach;
 
@@ -42,10 +42,23 @@ public class Anschrift implements Fachwert {
      * @param adresse eine gueltige Adresse
      */
     public Anschrift(String name, Adresse adresse) {
-        this.name = name;
+        this(new Adressat(name), adresse);
+        validate(name, adresse);
+    }
+
+    /**
+     * Erzeugt aus dem Adressaten und Adresse eine Anschrift.
+     *
+     * @param name    Namen einer Person oder Personengruppe
+     * @param adresse eine gueltige Adresse
+     */
+    public Anschrift(Adressat name, Adresse adresse) {
+        this.adressat = name;
+        if (adresse == null) {
+            throw new InvalidValueException("address");
+        }
         this.adresse = adresse;
         this.postfach = null;
-        validate(name, adresse);
     }
 
     /**
@@ -55,10 +68,23 @@ public class Anschrift implements Fachwert {
      * @param postfach ein gueltiges Postfach
      */
     public Anschrift(String name, Postfach postfach) {
-        this.name = name;
+        this(new Adressat(name), postfach);
+        validate(name, postfach);
+    }
+
+    /**
+     * Erzeugt aus dem Adressaten und einem Postfach eine Anschrift.
+     *
+     * @param name     Namen einer Person oder Personengruppe
+     * @param postfach ein gueltiges Postfach
+     */
+    public Anschrift(Adressat name, Postfach postfach) {
+        this.adressat = name;
+        if (postfach == null) {
+            throw new InvalidValueException("post_office_box");
+        }
         this.postfach = postfach;
         this.adresse = null;
-        validate(name, postfach);
     }
 
     /**
@@ -96,13 +122,23 @@ public class Anschrift implements Fachwert {
     }
 
     /**
-     * Liefert den Namen. Ein Name kan eine Person oder eine Personengruppe
+     * Liefert den Adressaten. Ein Adressat kann eine Person oder eine 
+     * Personengruppe (zum Beispiel Unternehmen, Vereine und Aehnliches) sein.
+     *
+     * @return z.B. "Mustermann, Max" als Aderssat
+     */
+    public Adressat getAdressat() {
+        return adressat;
+    }
+
+    /**
+     * Liefert den Namen. Ein Name kann eine Person oder eine Personengruppe
      * (zum Beispiel Unternehmen, Vereine und Aehnliches) sein.
      *
-     * @return z.B. "Oli B."
+     * @return z.B. "Mustermann"
      */
     public String getName() {
-        return name;
+        return adressat.getName();
     }
 
     /**
@@ -169,7 +205,7 @@ public class Anschrift implements Fachwert {
      */
     @Override
     public int hashCode() {
-        return this.name.hashCode();
+        return this.adressat.hashCode();
     }
 
     /**
