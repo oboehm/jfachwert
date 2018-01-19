@@ -119,7 +119,16 @@ public class FachwertFactory {
      */
     synchronized public void register(Class<? extends Fachwert> fachwertClass) {
         registeredClasses.put(fachwertClass.getSimpleName(), fachwertClass);
-    } 
+    }
+
+    /**
+     * Liefert die registrierten Klassen zurueck.
+     * 
+     * @return registrierte Klassen
+     */
+    public Map<String, Class<? extends Fachwert>> getRegisteredClasses() {
+        return this.registeredClasses;
+    }
 
     /**
      * Liefert einen Fachwert zum angegebenen (Klassen-)Namen. Als Name wird

@@ -20,10 +20,15 @@ package de.jfachwert;
 import de.jfachwert.bank.BIC;
 import de.jfachwert.bank.IBAN;
 import org.junit.Test;
+import patterntesting.runtime.monitor.ClasspathMonitor;
 
 import javax.validation.ValidationException;
+import java.lang.reflect.Modifier;
+import java.util.Collection;
 
+import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Unit-Tests fuer {@link FachwertFactory}-Klasse.
@@ -99,6 +104,34 @@ public class FachwertFactoryTest {
     @Test
     public void validateUnknownName() {
         FACTORY.validate("irgendwas", "42");
+    }
+
+    /**
+     * Hiermit testen wir, ob sich jede Fachwertklasse auch in der
+     * {@link FachwertFactory} registriert ist.
+     *
+     * @throws ClassNotFoundException the class not found exception
+     */
+    @Test
+    public void testRegisteredClasses() throws ClassNotFoundException {
+        Collection<Class<? extends Fachwert>> registeredClasses = FACTORY.getRegisteredClasses().values();
+        ClasspathMonitor cpmon = ClasspathMonitor.getInstance();
+        String[] classes = cpmon.getClasspathClasses();
+        for (String classname : classes) {
+            if (classname.startsWith("de.jfachwert.")) {
+                check(Class.forName(classname));
+            }
+        }
+    }
+    
+    private static void check(Class<?> clazz) {
+        int mod = clazz.getModifiers();
+        if (Modifier.isAbstract(mod) || Modifier.isInterface(mod)) {
+            return;
+        }
+        if (Fachwert.class.isAssignableFrom(clazz)) {
+            assertThat(FACTORY.getRegisteredClasses().values(), hasItem((Class<? extends Fachwert>) clazz));
+        }
     }
 
 }

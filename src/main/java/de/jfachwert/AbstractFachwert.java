@@ -30,7 +30,7 @@ import java.util.Objects;
  * @since 14.03.2017
  * @since 0.0.2
  */
-public class AbstractFachwert<T extends Serializable> implements Fachwert {
+public abstract class AbstractFachwert<T extends Serializable> implements Fachwert {
 
     private final T code;
 
