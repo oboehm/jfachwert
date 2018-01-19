@@ -48,7 +48,8 @@ Dennoch kann man sie bereits einsetzen und profitiert von sprechenderen Methoden
 mehr verwechselt werden koennen. Wer Ideen fuer weitere Fachwerte hat, darf gerne mitmachen - sei es durch Code,
 sei es durch Dokumentation oder einem schoenen Icon, oder sei es durch Anregungen und konstruktive Kritik.
 
-Bereits in Version 0.0.2 gab es einer einfache IBAN- und BIC-Klasse, die im 
+Bereits in Version 0.0.2 gab es einer einfache [IBAN](http://jfachwert.de/apidocs/de/jfachwert/bank/IBAN.html)- und 
+[BIC](http://jfachwert.de/apidocs/de/jfachwert/bank/BIC.html)-Klasse, die im 
 [Maven-Repository](http://search.maven.org/#search%7Cga%7C1%7Cjfachwert)
 unter folgenden Koordinaten zu finden ist:
 
