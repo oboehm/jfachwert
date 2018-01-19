@@ -58,7 +58,7 @@ public class BLZ extends AbstractFachwert<String> {
      * @return die Bankleitzahl zur Weitervarabeitung
      */
     public static int validate(int blz) {
-        validate(Integer.valueOf(blz));
+        validate(Integer.toString(blz));
         return blz;
     }
 

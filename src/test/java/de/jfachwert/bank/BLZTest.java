@@ -70,4 +70,12 @@ public final class BLZTest extends AbstractFachwertTest {
         assertEquals("640 901 00", blz.getFormatted());
     }
 
+    /**
+     * Test-Methode fuer {@link BLZ#validate(int)}.
+     */
+    @Test
+    public void testValidate() {
+        BLZ.validate(64090100);
+    }
+
 }
