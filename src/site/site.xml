@@ -37,6 +37,7 @@
       <item name="Release Notes"  href="changes-report.html" />
       <item name="Infos"		  href="index.html" />
       <item name="JavaDoc API"    href="apidocs/index.html" />
+      <item name="Architektur-Doku" href="generated-docs/de/index.html" />
     </menu>
 
     <menu ref="modules" />

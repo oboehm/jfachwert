@@ -1,0 +1,14 @@
+@startuml
+
+actor extern
+
+extern -> FachwertFactory : validate("BIC", "genodef1jev")
+FachwertFactory -> BIC : validate("genodef1jev")
+
+extern -> FachwertFactory : getFachwert("Bankverbindung", "Max Muster", iban)
+create Bankverbindung
+FachwertFactory -> Bankverbindung : new Bankverbindung("Max Muster", iban)
+Bankverbindung --> FachwertFactory
+FachwertFactory --> extern : Bankverbindung
+
+@enduml

@@ -8,8 +8,8 @@ Das Konzept von https://de.wikipedia.org/wiki/Werkzeug-_und_Materialansatz#Fachw
 ____
 Fachwerte sind Erweiterungen von https://de.wikipedia.org/wiki/Datentyp#Elementare_Datentypen[primitiven Datentypen] objektorientierter Programmiersprachen.
 Sie halten Informationen und sind unveränderlich, weswegen sich Fachwerte zum Beispiel für Geldbeträge anbieten:
-Es ergibt Sinn zwei Geldbeträge miteinander zu addieren, jedoch nicht sie zu multiplizieren.
-Hier ist es also angebracht einen unveränderlichen Geldbetrag als eigenen Fachwert zu behandeln und für jede Änderung an diesem einen neuen zu erstellen.
+Es ergibt Sinn, zwei Geldbeträge miteinander zu addieren, jedoch nicht sie zu multiplizieren.
+Hier ist es also angebracht, einen unveränderlichen Geldbetrag als eigenen Fachwert zu behandeln und für jede Änderung an diesem einen neuen zu erstellen.
 Ein Fachwert kennt niemanden außer sich selbst und andere Fachwerte.
 Im DDD ist dieses Konzept als https://de.wikipedia.org/wiki/Value_Object[Value Object] bekannt.
 ____

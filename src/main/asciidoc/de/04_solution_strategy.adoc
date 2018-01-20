@@ -30,7 +30,7 @@ Da Fachwerte aber tendenziell einfach aufgebaut sind und oft nur mit einem Argum
 === Validierung
 
 Da ungültige Objekte verhindert werden sollen, muss die Validierung im Konstruktor erfolgen.
-Um den Konstruktor übersichtlich zu halten, werden die Prüfung in eigenen Validatoren ausgelagert.
+Um den Konstruktor übersichtlich zu halten, werden die Prüfung in eigene Validatoren ausgelagert.
 
 Auch sind Prüfziffer-Verfahren, die zur Erkennung fehlerhafter Fachwerte dienen, sind eine Art der Validierung.
 Deswegen befinden sich Validatoren und Prüfziffer-Verfahren im selben Package.
@@ -39,7 +39,7 @@ Deswegen befinden sich Validatoren und Prüfziffer-Verfahren im selben Package.
 === Exceptions
 
 Mit https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html#getLocalizedMessage--[Throwable.getLocalizedMessage()] gibt es seit JDK 1.1 die Möglichkeit, sprach-spezifische Fehlermeldungen zur Verfügung zu stellen.
-Dies wird auch verwendet, um für den deutschsprachigen Raum eine entsprechende Fehlermeldung für die Anzeige anzubieten.
+Dies wird verwendet, um für den deutschsprachigen Raum eine entsprechende Fehlermeldung für die Anzeige anzubieten.
 
 
 === Encoding

@@ -100,17 +100,6 @@ Das net-Package ist mit v0.4 hinzugekommen.
 Hier befinden sich Begriffe aus dem Internet (z.B. `EMailAdresse`), aber auch Klassen, die im weitesten Sinn unter Vernetzung (z.B. `Telefonnummer`) eingeordnet werden können.
 
 
-==== formular
-
-["plantuml", "package-formular", "svg"]
-------------------------------------------------
-include::../images/package-formular.puml[]
-------------------------------------------------
-
-Um Formular-Felder abdecken zu können, wurde mit v0.5 das formular-Package eingeführt.
-Da in Formularen oft Felder zum Ankreuzen sind, finden sich hier viele Enum-Klasse wie `Anrede` oder `Geschlecht`.
-
-
 
 === Prüfungen und Exceptions
 
