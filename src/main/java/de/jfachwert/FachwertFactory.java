@@ -30,7 +30,9 @@ import de.jfachwert.steuer.UStIdNr;
 
 import javax.validation.ValidationException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -168,7 +170,7 @@ public class FachwertFactory {
             if (cause instanceof ValidationException) {
                 throw (ValidationException) cause;
             } else {
-                throw new IllegalArgumentException("cannot create " + clazz + " with " + args, ex);
+                throw new IllegalArgumentException("cannot create " + clazz + " with " + Arrays.toString(args), ex);
             }
         }
     }
@@ -215,6 +217,12 @@ public class FachwertFactory {
         try {
             Method method = clazz.getMethod("validate", argTypes);
             method.invoke(null, args);
+        } catch (InvocationTargetException ex) {
+            LOG.log(Level.FINE, "Call of validate method of " + clazz + "failed:", ex);
+            if (ex.getTargetException() instanceof ValidationException) {
+                throw (ValidationException) ex.getTargetException();
+            }
+            getFachwert(clazz, args);
         } catch (ReflectiveOperationException ex) {
             LOG.log(Level.FINE, "Cannot call validate method of " + clazz, ex);
             getFachwert(clazz, args);

@@ -19,6 +19,7 @@ package de.jfachwert;
 
 import de.jfachwert.bank.BIC;
 import de.jfachwert.bank.IBAN;
+import org.junit.Ignore;
 import org.junit.Test;
 import patterntesting.runtime.monitor.ClasspathMonitor;
 
@@ -26,6 +27,7 @@ import javax.validation.ValidationException;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -44,7 +46,7 @@ public class FachwertFactoryTest {
      * Test-Methode fuer {@link FachwertFactory#getFachwert(Class, Object...)}.
      */
     @Test
-    public void getFachwertClass() {
+    public void testGetFachwertClass() {
         Fachwert iban = FACTORY.getFachwert(IBAN.class, "DE41300606010006605605");
         assertEquals(new IBAN("DE41300606010006605605"), iban);
     }
@@ -53,7 +55,7 @@ public class FachwertFactoryTest {
      * Test-Methode fuer {@link FachwertFactory#getFachwert(String, Object...)}
      */
     @Test
-    public void getFachwertString() {
+    public void testGetFachwertString() {
         Fachwert bic = FACTORY.getFachwert("BIC", "BELADEBEXXX");
         assertEquals(new BIC("BELADEBEXXX"), bic);
     }
@@ -64,7 +66,7 @@ public class FachwertFactoryTest {
      * Deutschen Bundesbank.
      */
     @Test
-    public void getSimilarFachwert() {
+    public void testGetSimilarFachwert() {
         Fachwert bic = FACTORY.getFachwert("BIC1", "MARKDEFF");
         assertEquals(new BIC("MARKDEFF"), bic);
     }
@@ -74,7 +76,7 @@ public class FachwertFactoryTest {
      * Die Test-BIC stammt von der Raiffeisenbank Kitzbuehel.
      */
     @Test
-    public void validateClass() {
+    public void testValidateClass() {
         FACTORY.validate(BIC.class, "RZTIAT22263");
     }
 
@@ -82,7 +84,7 @@ public class FachwertFactoryTest {
      * Test-Methode fuer {@link FachwertFactory#validate(String, Object...)}.
      */
     @Test
-    public void validateString() {
+    public void testValidateString() {
         FACTORY.validate("Bankverbindung", "Max Muster", new IBAN("DE41300606010006605605"),
                 new BIC("GENODEF1JEV"));
     }
@@ -92,7 +94,7 @@ public class FachwertFactoryTest {
      * Die Test-BIC stammt von der Raiffeisenbank Kitzbuehel.
      */
     @Test(expected = ValidationException.class)
-    public void validateWithFailure() {
+    public void testValidateWithFailure() {
         FACTORY.validate(BIC.class, "AAA");
     }
 
@@ -102,8 +104,25 @@ public class FachwertFactoryTest {
      * Validierung (Text) zurueckgegriffen werden.
      */
     @Test
-    public void validateUnknownName() {
+    public void testValidateUnknownName() {
         FACTORY.validate("irgendwas", "42");
+    }
+
+    /**
+     * Wenn man alle Fachwerte validiert, sollte idealerweise ausser einer
+     * {@link ValidationException} keine andere Exception auftreten koennen.
+     */
+    @Test
+    @Ignore
+    public void testValidateAll() {
+        Collection<Class<? extends Fachwert>> registeredClasses = FACTORY.getRegisteredClasses().values();
+        for (Class<? extends Fachwert> fachwertClass : registeredClasses) {
+            try {
+                FACTORY.validate(fachwertClass, "TEST");
+            } catch (ValidationException mayhappen) {
+                assertThat(mayhappen.getMessage(), containsString("TEST"));
+            }
+        }
     }
 
     /**
@@ -114,7 +133,6 @@ public class FachwertFactoryTest {
      */
     @Test
     public void testRegisteredClasses() throws ClassNotFoundException {
-        Collection<Class<? extends Fachwert>> registeredClasses = FACTORY.getRegisteredClasses().values();
         ClasspathMonitor cpmon = ClasspathMonitor.getInstance();
         String[] classes = cpmon.getClasspathClasses();
         for (String classname : classes) {

@@ -19,6 +19,7 @@ package de.jfachwert.post;
 
 import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.LengthValidator;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -46,7 +47,24 @@ public class Ort implements Fachwert {
      * @param name des Ortes
      */
     public Ort(String name) {
-        this(null, name);
+        this(extractPLZ(name), extractOrtsname(name));
+    }
+
+    private static PLZ extractPLZ(String name) {
+        String plz = validate(name);
+        if (Character.isDigit(plz.charAt(0))) {
+            return new PLZ(StringUtils.substringBefore(plz, " "));
+        } else {
+            return null;
+        }
+    }
+
+    private static String extractOrtsname(String name) {
+        if (Character.isDigit(name.charAt(0))) {
+            return StringUtils.substringAfter(name, " ").trim();
+        } else {
+            return name;
+        }
     }
 
     /**

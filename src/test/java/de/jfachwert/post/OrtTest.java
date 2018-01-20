@@ -89,4 +89,15 @@ public class OrtTest extends AbstractFachwertTest {
         assertThat(neustadt, not(altstadt));
     }
 
+    /**
+     * Wenn die PLZ zusammen mit dem Ort angegeben wird, sollte das erkannt
+     * werden.
+     */
+    @Test
+    public void testCtor() {
+        Ort entenhausen = new Ort("12345 Entenhausen");
+        assertEquals(new PLZ("12345"), entenhausen.getPLZ().get());
+        assertEquals("Entenhausen", entenhausen.getName());
+    }
+
 }

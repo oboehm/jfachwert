@@ -46,7 +46,7 @@ public final class AdresseTest extends AbstractFachwertTest {
      * Test-Methode fuer {@link Adresse#getOrt()}.
      */
     @Test
-    public void getOrt() {
+    public void testGetOrt() {
         assertEquals(entenhausen, adresse.getOrt());
     }
 
@@ -54,8 +54,16 @@ public final class AdresseTest extends AbstractFachwertTest {
      * Test-Methode fuer {@link Adresse#getPLZ()}.
      */
     @Test
-    public void getPLZ() {
+    public void testGetPLZ() {
         assertEquals(entenhausen.getPLZ().get(), adresse.getPLZ());
     }
 
+    /**
+     * Test-Methode fuer {@link Adresse#validate(String)}.
+     */
+    @Test
+    public void testValidate() {
+        Adresse.validate("12345 Entenhausen, Gansstr. 23");
+    }
+    
 }

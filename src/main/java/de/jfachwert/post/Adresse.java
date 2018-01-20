@@ -73,6 +73,19 @@ public class Adresse implements Fachwert {
     }
 
     /**
+     * Zerlegt die uebergebene Adresse in ihre Einzelteile und validiert sie.
+     * 
+     * @param adresse z.B. "12345 Entenhausen, Gansstr. 23"
+     */
+    public static void validate(String adresse) {
+        Ort ort = new Ort(StringUtils.substringBefore(adresse, ","));
+        String strasseHausnummer = StringUtils.substringAfter(adresse, ",").trim();
+        String strasse = StringUtils.substringBeforeLast(strasseHausnummer, " ");
+        String hausnummer = StringUtils.substringAfterLast(strasseHausnummer, " ");
+        validate(ort, strasse, hausnummer);
+    }
+
+    /**
      * Liefert den Ort.
      *
      * @return Ort
