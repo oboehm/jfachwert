@@ -80,4 +80,13 @@ public final class PostfachTest extends AbstractFachwertTest {
         assertThat(postfach.toString(), not(containsString("null")));
     }
 
+    /**
+     * Test-Methode fuer {@link Postfach#validate(String)}.
+     */
+    @Test
+    public void testValidate() {
+        String postfach = "Postfach 12 34 56\n12350 Musterdorf";
+        Postfach.validate(postfach);
+    }
+
 }

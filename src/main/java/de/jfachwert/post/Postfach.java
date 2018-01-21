@@ -17,11 +17,12 @@
  */
 package de.jfachwert.post;
 
-import de.jfachwert.*;
+import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.exception.InvalidValueException;
+import org.apache.commons.lang3.StringUtils;
 
-import java.math.*;
-import java.util.*;
+import java.math.BigInteger;
+import java.util.Optional;
 
 /**
  * Ein Postfach besteht aus einer Nummer ohne fuehrende Nullen und einer
@@ -71,6 +72,43 @@ public class Postfach implements Fachwert {
         this.nummer = nummer;
         this.ort = ort;
         validate(nummer, ort);
+    }
+
+    /**
+     * Zerlegt das uebergebene Postfach in seine Einzelteile und validiert sie.
+     * Folgende Heuristiken werden fuer die Zerlegung herangezogen:
+     * <ul>
+     *     <li>Format ist "Postfach, Ort" oder nur "Ort" (mit PLZ)</li>
+     *     <li>Postfach ist vom Ort durch Komma oder Zeilenvorschub getrennt</li>
+     * </ul>
+     *
+     * @param postfach z.B. "Postfach 98765, 12345 Entenhausen"
+     */
+    public static void validate(String postfach) {
+        String[] lines = split(postfach);
+        if (!lines[0].isEmpty()) {
+            toNumber(lines[0]);
+        }
+        Ort ort = new Ort(lines[1]);
+        if (!ort.getPLZ().isPresent()) {
+            throw new InvalidValueException(postfach, "postal_code");
+        }
+    }
+    
+    private static String[] split(String postfach) {
+        String[] lines = StringUtils.trimToEmpty(postfach).split("[,\\n$]");
+        String[] splitted = { "", lines[0]};
+        if (lines.length == 2) {
+            splitted = lines;
+        } else if (lines.length > 2) {
+            throw new InvalidValueException(postfach, "post_office_box");
+        }
+        return lines;
+    }
+    
+    private static BigInteger toNumber(String number) {
+        String unformatted = StringUtils.replaceAll(number, "Postfach|\\s+", "");
+        return new BigInteger(unformatted);
     }
 
     /**
