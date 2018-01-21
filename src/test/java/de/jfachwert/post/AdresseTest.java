@@ -62,8 +62,18 @@ public final class AdresseTest extends AbstractFachwertTest {
      * Test-Methode fuer {@link Adresse#validate(String)}.
      */
     @Test
-    public void testValidate() {
-        Adresse.validate("12345 Entenhausen, Gansstr. 23");
+    public void testValidateOrtStrasse() {
+        Adresse.validate("D12345 Entenhausen, Gansstr. 23");
+    }
+
+    /**
+     * Die verwendete Adresse stammt von der Uni Erfurt und ist eine gueltige
+     * Adresse.
+     */
+    @Test
+    public void testValidateStrasseOrt() {
+        String adresse = "Nordh\u00e4user Stra\u00dfe 63\n99089 Erfurt";
+        Adresse.validate(adresse);
     }
     
 }
