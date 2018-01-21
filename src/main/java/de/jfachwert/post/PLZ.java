@@ -19,6 +19,7 @@ package de.jfachwert.post;
 
 import de.jfachwert.*;
 import de.jfachwert.pruefung.*;
+import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.*;
 
 import java.math.*;
@@ -209,6 +210,9 @@ public class PLZ extends AbstractFachwert<String> {
 
     private static String toLongString(String plz) {
         int i = StringUtils.indexOfAny(plz, "0123456789");
+        if (i < 0) {
+            throw new InvalidValueException(plz, "postal_code");
+        }
         return plz.substring(0, i) + "-" + plz.substring(i);
     }
 

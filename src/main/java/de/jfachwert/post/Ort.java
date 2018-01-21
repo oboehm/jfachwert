@@ -21,8 +21,11 @@ import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.LengthValidator;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.validation.ValidationException;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Ein Ort (oder auch Ortschaft) ist eine Stadt oder Gemeinde. Ein Ort hat
@@ -38,6 +41,8 @@ import java.util.Optional;
  */
 public class Ort implements Fachwert {
 
+    private static final Logger LOG = Logger.getLogger(Ort.class.getName());
+
     private final String name;
     private final PLZ plz;
 
@@ -47,26 +52,28 @@ public class Ort implements Fachwert {
      * @param name des Ortes
      */
     public Ort(String name) {
-        this(extractPLZ(name), extractOrtsname(name));
+        this(split(name));
     }
 
-    private static PLZ extractPLZ(String name) {
-        String plz = validate(name);
-        if (Character.isDigit(plz.charAt(0))) {
-            return new PLZ(StringUtils.substringBefore(plz, " "));
-        } else {
-            return null;
+    private static String[] split(String name) {
+        String input = validate(name);
+        String[] splitted = new String[]{"", input};
+        if (input.contains(" ")) {
+            try {
+                String plz = PLZ.validate(StringUtils.substringBefore(input, " "));
+                splitted[0] = plz;
+                splitted[1] = StringUtils.substringAfter(input, " ").trim();
+            } catch (ValidationException ex) {
+                LOG.log(Level.FINE, "no PLZ inside '" + name + "' found:", ex);
+            }
         }
+        return splitted;
     }
 
-    private static String extractOrtsname(String name) {
-        if (Character.isDigit(name.charAt(0))) {
-            return StringUtils.substringAfter(name, " ").trim();
-        } else {
-            return name;
-        }
+    private Ort(String[] values) {
+        this(values[0].isEmpty() ? null : new PLZ(values[0]), values[1]);
     }
-
+    
     /**
      * Hierueber kann ein Ort mit PLZ angelegt werden.
      *
