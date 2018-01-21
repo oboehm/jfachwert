@@ -88,6 +88,33 @@ public class Anschrift implements Fachwert {
     }
 
     /**
+     * Zerlegt die uebergebene Anschrift in Adressat und Adresse oder Postfach
+     * fuer die Validierung.i Folgende Heuristiken werden fuer die Zerlegung
+     * herangezogen:
+     * <ul>
+     *     <li>Adressat steht an erster Stelle</li>
+     *     <li>Einzelteile werden durch Komma oder Zeilenvorschub getrennt</li>
+     * </ul>
+     * 
+     * @param anschrift z.B. "Donald Duck, 12345 Entenhausen, Gansstr. 23"
+     */
+    public static void validate(String anschrift) {
+        split(anschrift);
+    }
+    
+    private static Object[] split(String anschrift) {
+        String[] lines = StringUtils.trimToEmpty(anschrift).split("[,\\n$]");
+        if (lines.length != 3) {
+            throw new InvalidValueException(anschrift, "address");
+        }
+        Object[] parts = new Object[2];
+        parts[0] = new Adressat(lines[0]);
+        String adresse = lines[1] + '\n' + lines[2];
+        parts[1] = new Adresse(adresse);
+        return parts;
+    }
+
+    /**
      * Validiert den uebergebenen Namen und die Adresse. Der Name sollte dabei
      * nicht leer sein und die Adresse nicht 'null'.
      *
@@ -95,7 +122,7 @@ public class Anschrift implements Fachwert {
      * @param adresse eine gueltige Adresse
      */
     public static void validate(String name, Adresse adresse) {
-        validate(name);
+        validateName(name);
         if (adresse == null) {
             throw new InvalidValueException("address");
         }
@@ -109,13 +136,13 @@ public class Anschrift implements Fachwert {
      * @param postfach ein gueltiges Postfach
      */
     public static void validate(String name, Postfach postfach) {
-        validate(name);
+        validateName(name);
         if (postfach == null) {
             throw new InvalidValueException("post_office_box");
         }
     }
 
-    private static void validate(String name) {
+    private static void validateName(String name) {
         if (StringUtils.isBlank(name)) {
             throw new InvalidValueException(name, "name");
         }

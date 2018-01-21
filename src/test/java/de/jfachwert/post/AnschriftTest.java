@@ -75,4 +75,12 @@ public final class AnschriftTest extends AbstractFachwertTest {
         assertEquals(new Adressat("Dagobert, Duck"), anschrift.getAdressat());
     }
 
+    /**
+     * Test-Methode fuer {@link Anschrift#validate(String)}.
+     */
+    @Test
+    public void testValidate() {
+        Anschrift.validate("Donald Duck, 12345 Entenhausen, Gansstr. 23");
+    }
+
 }
