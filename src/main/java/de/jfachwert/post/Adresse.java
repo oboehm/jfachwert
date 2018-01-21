@@ -45,6 +45,26 @@ public class Adresse implements Fachwert {
     private final String hausnummer;
 
     /**
+     * Zerlegt die uebergebene Adresse in ihre Einzelteile und baut daraus die
+     * Adresse zusammen. Folgende Heuristiken werden fuer die Zerlegung 
+     * herangezogen:
+     * <ul>
+     *     <li>Reihenfolge kann Ort, Strasse oder Strasse, Ort sein</li>
+     *     <li>Ort / Strasse werden durch Komma oder Zeilenvorschub getrennt</li>
+     *     <li>vor dem Ort steht die PLZ</li>
+     * </ul>
+     * 
+     * @param adresse z.B. "12345 Entenhausen, Gansstr. 23"
+     */
+    public Adresse(String adresse) {
+        this(split(adresse));
+    }
+    
+    private Adresse(String[] adresse) {
+        this(new Ort(adresse[0]), adresse[1], adresse[2]);
+    }
+    
+    /**
      * Erzeugt eine neue Adresse.
      *
      * @param ort        the ort
@@ -128,6 +148,7 @@ public class Adresse implements Fachwert {
         String[] splitted = line.trim().split("\\s+");
         if (splitted.length != 2) {
             splitted = line.split("\\s+[0-9]", 2);
+            splitted[1] = line.substring(splitted[0].length()).trim();
         }
         if (splitted.length != 2) {
             throw new InvalidValueException(line, "street_or_house_number");

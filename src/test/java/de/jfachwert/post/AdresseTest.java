@@ -75,5 +75,17 @@ public final class AdresseTest extends AbstractFachwertTest {
         String adresse = "Nordh\u00e4user Stra\u00dfe 63\n99089 Erfurt";
         Adresse.validate(adresse);
     }
+
+    /**
+     * Hier testen wir, ob der Konstruktor die uebergebene Adresse richtig
+     * zerlegt.
+     */
+    @Test
+    public void testAdresse() {
+        String musterdorf = "Alter Weg 110 a\n12345 Musterdorf";
+        Adresse adresse = new Adresse(musterdorf);
+        assertEquals("Alter Weg", adresse.getStrasse());
+        assertEquals("110 a", adresse.getHausnummer());
+    }
     
 }
