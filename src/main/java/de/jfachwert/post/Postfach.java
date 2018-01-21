@@ -86,9 +86,7 @@ public class Postfach implements Fachwert {
      */
     public static void validate(String postfach) {
         String[] lines = split(postfach);
-        if (!lines[0].isEmpty()) {
-            toNumber(lines[0]);
-        }
+        toNumber(lines[0]);
         Ort ort = new Ort(lines[1]);
         if (!ort.getPLZ().isPresent()) {
             throw new InvalidValueException(postfach, "postal_code");
@@ -106,9 +104,16 @@ public class Postfach implements Fachwert {
         return lines;
     }
     
-    private static BigInteger toNumber(String number) {
+    private static Optional<BigInteger> toNumber(String number) {
+        if (StringUtils.isBlank(number)) {
+            return Optional.empty();
+        }
         String unformatted = StringUtils.replaceAll(number, "Postfach|\\s+", "");
-        return new BigInteger(unformatted);
+        try {
+            return Optional.of(new BigInteger(unformatted));
+        } catch (NumberFormatException nfe) {
+            throw new InvalidValueException(number, "number", nfe);
+        }
     }
 
     /**
