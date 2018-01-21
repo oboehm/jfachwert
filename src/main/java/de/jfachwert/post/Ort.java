@@ -55,21 +55,6 @@ public class Ort implements Fachwert {
         this(split(name));
     }
 
-    private static String[] split(String name) {
-        String input = validate(name);
-        String[] splitted = new String[]{"", input};
-        if (input.contains(" ")) {
-            try {
-                String plz = PLZ.validate(StringUtils.substringBefore(input, " "));
-                splitted[0] = plz;
-                splitted[1] = StringUtils.substringAfter(input, " ").trim();
-            } catch (ValidationException ex) {
-                LOG.log(Level.FINE, "no PLZ inside '" + name + "' found:", ex);
-            }
-        }
-        return splitted;
-    }
-
     private Ort(String[] values) {
         this(values[0].isEmpty() ? null : new PLZ(values[0]), values[1]);
     }
@@ -85,14 +70,33 @@ public class Ort implements Fachwert {
     }
 
     /**
-     * Ein Orstname muss mindestens aus einem Zeichen bestehen.
+     * Ein Orstname muss mindestens aus einem Zeichen bestehen. Allerdings
+     * koennte der ueberbebene Name auch die PLZ noch beinhalten. Dies wird
+     * bei der Validierung beruecksichtigt.
      *
-     * @param ortsname der Ortsname
+     * @param name der Ortsname (mit oder ohne PLZ)
      * @return der validierte Ortsname zur Weiterverabeitung
      */
-    public static String validate(String ortsname) {
+    public static String validate(String name) {
+        String[] splitted = split(name);
+        String ortsname = splitted[1];
         LengthValidator.validate(ortsname, 1, Integer.MAX_VALUE);
-        return ortsname;
+        return name;
+    }
+
+    private static String[] split(String name) {
+        String input = StringUtils.trimToEmpty(name);
+        String[] splitted = new String[]{"", input};
+        if (input.contains(" ")) {
+            try {
+                String plz = PLZ.validate(StringUtils.substringBefore(input, " "));
+                splitted[0] = plz;
+                splitted[1] = StringUtils.substringAfter(input, " ").trim();
+            } catch (ValidationException ex) {
+                LOG.log(Level.FINE, "no PLZ inside '" + name + "' found:", ex);
+            }
+        }
+        return splitted;
     }
 
     /**
