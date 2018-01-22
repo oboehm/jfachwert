@@ -41,6 +41,24 @@ public class Postfach implements Fachwert {
     private final Ort ort;
 
     /**
+     * Zerlegt den uebergebenen String in seine Einzelteile und validiert sie.
+     * Folgende Heuristiken werden fuer die Zerlegung herangezogen:
+     * <ul>
+     *     <li>Format ist "Postfach, Ort" oder nur "Ort" (mit PLZ)</li>
+     *     <li>Postfach ist vom Ort durch Komma oder Zeilenvorschub getrennt</li>
+     * </ul>
+     *
+     * @param postfach z.B. "Postfach 98765, 12345 Entenhausen"
+     */
+    public Postfach(String postfach) {
+        this(split(postfach));
+    }
+    
+    private Postfach(String[] postfach) {
+        this(postfach[0], postfach[1]);
+    }
+
+    /**
      * Erzeugt ein Postfach ohne Postfachnummer. D.h. die PLZ des Ortes
      * adressiert bereits das Postfach.
      *
@@ -50,6 +68,17 @@ public class Postfach implements Fachwert {
         this.ort = ort;
         this.nummer = null;
         validate(ort);
+    }
+
+    /**
+     * Erzeugt ein Postfach mit Postfachnummer. Wenn die uebergebene Nummer
+     * leer ist, wird ein Postfach ohne Postfachnummer erzeugt.
+     * 
+     * @param nummer z.B. "12 34 56"
+     * @param ort Ort mit Postleitzahl
+     */
+    public Postfach(String nummer, String ort) {
+        this(toNumber(nummer), new Ort(ort));
     }
 
     /**
@@ -72,6 +101,22 @@ public class Postfach implements Fachwert {
         this.nummer = nummer;
         this.ort = ort;
         validate(nummer, ort);
+    }
+
+    /**
+     * Erzeugt ein Postfach.
+     * 
+     * @param nummer positive Zahl oder leer
+     * @param ort
+     */
+    public Postfach(Optional<BigInteger> nummer, Ort ort) {
+        this.nummer = nummer.orElse(null);
+        this.ort = ort;
+        if (this.nummer == null) {
+            validate(ort);
+        } else {
+            validate(nummer.get(), ort);
+        }
     }
 
     /**
@@ -101,7 +146,7 @@ public class Postfach implements Fachwert {
         } else if (lines.length > 2) {
             throw new InvalidValueException(postfach, "post_office_box");
         }
-        return lines;
+        return splitted;
     }
     
     private static Optional<BigInteger> toNumber(String number) {
