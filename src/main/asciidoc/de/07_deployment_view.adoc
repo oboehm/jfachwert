@@ -1,0 +1,24 @@
+[[section-deployment-view]]
+
+
+== Verteilungssicht
+
+["plantuml", "dependencies", "svg"]
+------------------------------------------------
+include::../images/dependencies.puml[]
+------------------------------------------------
+
+
+=== JAR-Datei
+
+jFachwert wird als JAR-Datei ins http://search.maven.org[zentrale Maven-Repository] hochgeladen.
+Dort kann sie über folgende Maven-Koordinaten als Abhängigkeit in ein Projekt hinzugefügt werden:
+
+  <groupId>de.jfachwert</groupId>
+  <artifactId>jfachwert</artifactId>
+
+
+=== Abhängigkeiten
+
+Externe Abhängigkeiten zu andere Bibliotheken beschränken sich auf `commons-lang3` und `validation-api`.
+Bei Verwendung von Maven oder Gradle werde diese Abhängigkeiten automatisch hinzugefügt.

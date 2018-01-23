@@ -1,0 +1,14 @@
+@startuml
+
+package "rechnung" {
+
+    class Artikelnummer
+    class Bestellnummer
+    class Kundennummer
+    class Rechnungsmonat
+    class Rechnungsnummer
+    class Referenznummer
+
+}
+
+@enduml

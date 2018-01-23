@@ -3,7 +3,11 @@ language: java
 jdk:
   - oraclejdk8
 
+# Graphviz: see https://docs.travis-ci.com/user/multi-os/
 addons:
+  apt:
+    packages:
+      - graphviz
   sonarcloud:
     organization: "oboehm-github"
     token:
@@ -12,8 +16,13 @@ addons:
       - master
       - develop
 
+# this tip is from https://docs.travis-ci.com/user/multi-os/
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install graphviz; fi
+
 script:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -B
+  - mvn -Pdoc clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -B
 
 after_success:
   - mvn integration-test jacoco:report coveralls:report

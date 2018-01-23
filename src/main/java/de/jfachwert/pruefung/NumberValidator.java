@@ -18,16 +18,18 @@
 package de.jfachwert.pruefung;
 
 import de.jfachwert.*;
+import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.*;
 
 import javax.validation.*;
 import java.math.*;
 
 /**
- * Klasse NumberValidator.
+ * Der NumberValidator ueberprueft eine uebergebene {@link Number}, ob sie
+ * im erlaubten Wertebereich liegt.
  *
  * @author oboehm
- * @since x.x (30.08.2017)
+ * @since 0.4 (30.08.2017)
  */
 public class NumberValidator implements SimpleValidator<String> {
 
@@ -35,6 +37,17 @@ public class NumberValidator implements SimpleValidator<String> {
 
      /** Wenn man keine obere Grenze angeben will, nimmt man diesen Wert. */
     public static final BigDecimal INFINITE = BigDecimal.valueOf(Long.MAX_VALUE);
+
+    /**
+     * Instanziert einen Validator, der prueft, ob ein Wert zwischen den
+     * vorgegebenen Grenzen liegt.
+     *
+     * @param min untere Grenze
+     * @param max obere Grenze
+     */
+    public NumberValidator(long min, long max) {
+        this(BigDecimal.valueOf(min), BigDecimal.valueOf(max));
+    }
 
     /**
      * Instanziert einen Validator, der prueft, ob ein Wert zwischen den

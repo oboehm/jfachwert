@@ -1,0 +1,24 @@
+[[section-runtime-view]]
+== Laufzeitsicht
+
+["plantuml", "sequence-creation", "svg"]
+------------------------------------------------
+include::../images/sequence-creation.puml[]
+------------------------------------------------
+
+=== Objekt-Erzeugung
+
+Bei der Erzeugung eines Fachwerts (z.B. einer IBAN) werden ein oder mehrere Validatoren (auch Prüfziffer-Verfahren) aufgerufen, um ungültige Parameter mit einer `ValidationException` abzuweisen.
+Sind keine Prüfverfahren oder Prüfregeln bekannt, wird mindestens der NullValidator aufgerufen.
+Er sorgt dafür, dass `null` als Parameter zurückgewiesen wird.
+
+
+=== FachwertFactory
+
+Mit der `FachwertFactory`, die mit Version 0.5 eingeführt wurde, kann ein beliebiger Fachwert erzeugt werden.
+Damit kann die `FachwertFactory` auch zur Validierung von Fachwerten eingesetzt werden, ohne dass dieser explizit kreiert werden muss.
+
+["plantuml", "sequence-factory", "svg"]
+------------------------------------------------
+include::../images/sequence-factory.puml[]
+------------------------------------------------

@@ -18,7 +18,7 @@
 package de.jfachwert.net;
 
 import de.jfachwert.AbstractFachwert;
-import de.jfachwert.pruefung.InvalidValueException;
+import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.Range;
 import org.apache.commons.lang3.StringUtils;
 
@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
  */
 public class Domainname extends AbstractFachwert<String> {
 
-    private static final Pattern VALID_PATTERN = Pattern.compile("^(?=.{1,253}\\.?$)(?:(?!-|[^.]+_)[A-Za-z0-9-_]{1,63}(?<!-)(?:\\.|$)){1,}$");
+    private static final Pattern VALID_PATTERN = Pattern.compile("^(?=.{1,253}\\.?$)(?:(?!-|[^.]+_)[A-Za-z0-9-_]{1,63}(?<!-)(?:\\.|$))+$");
 
     /**
      * Legt eine Instanz an.
@@ -54,8 +54,8 @@ public class Domainname extends AbstractFachwert<String> {
      * https://regex101.com/r/d5Yd6j/1/tests . Allerdings akzeptieren wir auch
      * die TLD wie "de" als gueltigen Domainnamen.
      *
-     * @param name
-     * @return
+     * @param name Domain-Name
+     * @return validierter Domain-Name zur Weiterverarbeitung
      */
     public static String validate(String name) {
         if (VALID_PATTERN.matcher(name).matches()) {

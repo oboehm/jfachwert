@@ -1,0 +1,25 @@
+@startuml
+
+package "net" {
+
+    class ChatAccount
+    class Domainname
+    class EMailAdresse
+    class Telefonnummer
+
+    enum ChatDienst {
+        AIM
+        GOOGLE_HANGOUT
+        ICQ
+        JABBER
+        SKYPE
+        YAHOO
+        SONSTIGER
+    }
+
+    EMailAdresse ..> Domainname
+    ChatAccount --> ChatDienst
+
+}
+
+@enduml

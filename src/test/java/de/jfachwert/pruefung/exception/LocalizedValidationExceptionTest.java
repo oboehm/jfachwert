@@ -15,8 +15,10 @@
  *
  * (c)reated 13.07.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.pruefung;
+package de.jfachwert.pruefung.exception;
 
+import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.pruefung.exception.LocalizedValidationException;
 import org.junit.*;
 import patterntesting.runtime.junit.*;
 import patterntesting.runtime.util.*;

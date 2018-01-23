@@ -18,17 +18,20 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwert;
-import de.jfachwert.pruefung.IllegalLengthException;
+import de.jfachwert.pruefung.NumberValidator;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Die BLZ (Bankleitzahl) ist eine eindeutige Kennziffer, die in Deutschland
  * und Oesterreich eindeutig ein Kreditinstitut identifiziert. In Deutschland
- * ist die BLZ eine 8-stellige, in Oesterreich eine 5-stellige Zahl.
+ * ist die BLZ eine 8-stellige, in Oesterreich eine 5-stellige Zahl (mit
+ * Ausnahme der Oesterreichischen Nationalbank mit 3 Stellen).
+ * 
  *
  * @author oboehm
  * @since 16.03.2017
  */
-public class BLZ extends AbstractFachwert<Integer> {
+public class BLZ extends AbstractFachwert<String> {
 
     /**
      * Hierueber wird eine neue BLZ angelegt.
@@ -36,7 +39,7 @@ public class BLZ extends AbstractFachwert<Integer> {
      * @param code eine 5- oder 8-stellige Zahl
      */
     public BLZ(String code) {
-        this(Integer.valueOf(code));
+        super(validate(code));
     }
 
     /**
@@ -45,7 +48,7 @@ public class BLZ extends AbstractFachwert<Integer> {
      * @param code eine 5- oder 8-stellige Zahl
      */
     public BLZ(int code) {
-        super(validate(code));
+        this(Integer.toString(code));
     }
 
     /**
@@ -55,10 +58,43 @@ public class BLZ extends AbstractFachwert<Integer> {
      * @return die Bankleitzahl zur Weitervarabeitung
      */
     public static int validate(int blz) {
-        if (blz > 99_999_999) {
-            throw new IllegalLengthException(Integer.toString(blz), 5, 8);
-        }
+        validate(Integer.toString(blz));
         return blz;
     }
 
+    /**
+     * Eine BLZ darf maximal 8-stellig sein.
+     *
+     * @param blz die Bankleitzahl
+     * @return die Bankleitzahl zur Weitervarabeitung
+     */
+    public static String validate(String blz) {
+        String normalized = StringUtils.replaceAll(blz, "\\s", "");
+        return new NumberValidator(100, 99_999_999).validate(normalized);
+    }
+
+    /**
+     * Liefert die unformattierte BLZ.
+     *
+     * @return unformattierte BLZ, z.B. "64090100"
+     */
+    public String getUnformatted() {
+        return this.getCode();
+    }
+    
+    /**
+     * Liefert die BLZ in 3er-Gruppen formattiert.
+     *
+     * @return formatierte LBZ, z.B. "640 901 00"
+     */
+    public String getFormatted() {
+        String input = this.getUnformatted() + "   ";
+        StringBuilder buf = new StringBuilder();
+        for (int i = 0; i < this.getUnformatted().length(); i+= 3) {
+            buf.append(input.substring(i, i+3));
+            buf.append(' ');
+        }
+        return buf.toString().trim();
+    }
+    
 }

@@ -18,6 +18,7 @@
 package de.jfachwert.pruefung;
 
 import de.jfachwert.SimpleValidator;
+import de.jfachwert.pruefung.exception.InvalidValueException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,7 +39,7 @@ public class EMailValidator implements SimpleValidator<String> {
      * aufgesetzt.
      */
     public EMailValidator() {
-        this(Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"));
+        this(Pattern.compile("^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"));
     }
 
     /**

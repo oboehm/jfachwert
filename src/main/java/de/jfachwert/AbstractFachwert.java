@@ -1,4 +1,4 @@
-package de.jfachwert;/*
+/*
  * Copyright (c) 2017 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,8 +15,11 @@ package de.jfachwert;/*
  *
  * (c)reated 14.03.2017 by oboehm (ob@jfachwert.de)
  */
+package de.jfachwert;
 
-import java.io.*;
+import de.jfachwert.pruefung.NullValidator;
+
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -27,14 +30,15 @@ import java.util.Objects;
  * @since 14.03.2017
  * @since 0.0.2
  */
-public class AbstractFachwert<T extends Serializable> implements Fachwert {
+public abstract class AbstractFachwert<T extends Serializable> implements Fachwert {
 
     private final T code;
 
     protected AbstractFachwert(T code) {
-        this.code = code;
+        SimpleValidator<T> validator = new NullValidator();
+        this.code = validator.validate(code);
     }
-
+    
     /**
      * Liefert die interne Praesentation fuer die abgeleiteten Klassen. Er
      * ist nicht fuer den direkten Aufruf vorgesehen, weswegen die Methode auch

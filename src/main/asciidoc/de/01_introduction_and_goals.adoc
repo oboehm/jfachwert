@@ -1,0 +1,56 @@
+[[section-introduction-and-goals]]
+==	Einführung und Ziele
+
+Das Konzept von https://de.wikipedia.org/wiki/Werkzeug-_und_Materialansatz#Fachwerte[Fachwerten] stammt aus dem aus dem https://de.wikipedia.org/wiki/Werkzeug-_und_Materialansatz[Werkzeug- und Material]-Ansatzes (WAM):
+
+.Fachwert
+[quote, Wikipedia, Werkzeug- und Materialansatz]
+____
+Fachwerte sind Erweiterungen von https://de.wikipedia.org/wiki/Datentyp#Elementare_Datentypen[primitiven Datentypen] objektorientierter Programmiersprachen.
+Sie halten Informationen und sind unveränderlich, weswegen sich Fachwerte zum Beispiel für Geldbeträge anbieten:
+Es ergibt Sinn, zwei Geldbeträge miteinander zu addieren, jedoch nicht sie zu multiplizieren.
+Hier ist es also angebracht, einen unveränderlichen Geldbetrag als eigenen Fachwert zu behandeln und für jede Änderung an diesem einen neuen zu erstellen.
+Ein Fachwert kennt niemanden außer sich selbst und andere Fachwerte.
+Im DDD ist dieses Konzept als https://de.wikipedia.org/wiki/Value_Object[Value Object] bekannt.
+____
+
+Die Idee einer eigenen Fachwert-Bibliothek ist schon recht alt.
+Ich glaube, sie stammt ursprünglich von Herwig Scheidel, mit dem ich zusammen zwischen 2000 und 2005 bei der RWG und https://de.wikipedia.org/wiki/Fiducia_IT[Fiducia IT] mit der Portierung eines C++-Frameworks nach Java beschäftigt war.
+Damals hatten wir eine eigene Fachwert-Bibliothek für den Bankbereich, die Basis des jGEBOS-Frameworks war.
+Es tauchte auch die Idee auf, den Fachwert-Teil des Frameworks als OpenSource auszugliedern, was aber aufgrund diverser Fusionen wieder in Vergessenheit geriet.
+
+Ziel dieser Bibliothek ist es, fuer den deutschsprachigen Raum alle wichtigen Datentypen bereitzustellen, die man sonst immer wieder selbst implementieren muesste.
+
+
+=== Aufgabenstellung
+
+Diese Bibliothek greift die Idee von damals (s.o.) wieder auf, ist aber nicht auf den Bankbereich beschränkt:
+
+* Erweiterung des Java-Typsystems um weitere Datentypen wie IBAN, BIC oder Anschrift
+* Validierung - es sollen keine ungültigen Werte erzeugt werden können
+* Klassen dürfen nicht final sein, sondern sollen erweitert werden können
+* einfache Handhabung
+* wenig externe Abhängigkeiten
+
+Im März 2017 wurde jfachwert im Maven-Repository aufgenommen (https://issues.sonatype.org/browse/OSSRH-28810[OSSRH-29910]).
+Die Bibliothek setzt auf Java 8 auf.
+
+
+=== Qualitätsziele
+
+* Stabilität:
+** stabile Schnittstelle
+** automatische Tests (angestrebte Testabdeckung: > 70%)
+* ungültige Werte sollen zurückgewiesen werden
+* sauberes Exception-Handling
+
+
+
+=== Stakeholder
+
+[cols="1,2" options="header"]
+|===
+| Rolle | Erwartungshaltung
+| Autor | Feedback
+| Entwickler | intuitive API, Unterstützung bei Fehl-Bedienung, keine (wenig) externe Abhängigkeiten
+|===

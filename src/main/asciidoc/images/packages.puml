@@ -1,0 +1,31 @@
+@startuml
+
+package "jfachwert" {
+
+    package "net" {
+    }
+
+    package "steuer" {
+    }
+
+    package "post" {
+    }
+
+    package "rechnung" {
+    }
+
+    package "bank" {
+    }
+
+    package "pruefung" {
+    }
+
+    bank ..> pruefung
+    steuer ..> pruefung
+    post ..> pruefung
+    rechnung ..> pruefung
+    net ..> pruefung
+
+}
+
+@enduml

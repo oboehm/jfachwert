@@ -1,6 +1,6 @@
-= Dokumentation
+= Entwickler-Dokumentation
 
-In diesem Verzeichnis befindet sich einige allgemeine Informationen, sofern
+In diesem Verzeichnis befindet sich einige Informationen für die Entwicklung, sofern
 sie nicht bereits im obersten link:../README.md[README] enthalten sind.
 
 
@@ -70,7 +70,7 @@ können noch vorgenommen werden.
 Release gebaut.
 
 |auf Master-Branch wechseln
-|`mvn checkout master`
+|`git checkout master`
 |Die folgenden Schritte müssen auf dem Master-Branch erfolgen, weil dort das
 letzte Release verfügbar ist.
 
@@ -90,4 +90,12 @@ letzte Release verfügbar ist.
 |`mvn site`
 |Damit werden die Maven-Reports gebaut, die anschliessend auf die Projektseite
 http://jfachwert.de/[jFachwert.de] hochgeladen werden sollten.
+Vorher noch prüfen, ob `changes.xml` aktuell ist.
+
+|Architektur-Dokumentation
+|`mvn -Pdoc generate-resources`
+|Damit wird die Architektur-Dokumentation generiert, die in seiner Rohfassung unter
+https://github.com/oboehm/jfachwert/tree/develop/src/main/asciidoc[src/main/asciidoc] zu finden ist.
+Zur erfolgreichen Generierung muss https://www.graphviz.org/[GraphViz] auf dem Rechner installiert sein.
+Danach wird target/generated-docs auf http://jfachwert.de/generated-docs/[jFachwert.de/generated-docs] hochgeladen.
 |===

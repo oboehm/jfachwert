@@ -1,0 +1,18 @@
+[[section-glossary]]
+== Glossar
+
+
+
+
+[cols="1,4" options="header"]
+|===
+|Begriff
+|Definition
+
+| Fachwert
+| Fachwerte sind Erweiterungen primitiver Datentypen.
+Sie sind unveränderlich und repräsentieren einen fachlichen Wert (z.B. IBAN).
+
+|WAM
+|Werkzeuge, Automation, Material ist ein objektorientierter Ansatz, aus dem der Begriff 'Fachwert' stammt.
+|===

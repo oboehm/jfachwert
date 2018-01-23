@@ -19,7 +19,7 @@ package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.PruefzifferVerfahren;
-import de.jfachwert.pruefung.IllegalLengthException;
+import de.jfachwert.pruefung.exception.IllegalLengthException;
 import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.Mod97Verfahren;
 import org.apache.commons.lang3.StringUtils;
@@ -66,7 +66,7 @@ public class IBAN extends AbstractFachwert<String> {
     /**
      * Mit dieser Methode kann man eine IBAN validieren, ohne dass man erst
      * den Konstruktor aufrufen muss. Falls die Pruefziffer nicht stimmt,
-     * wird eine {@link javax.xml.bind.ValidationException} geworfen, wenn
+     * wird eine {@link javax.validation.ValidationException} geworfen, wenn
      * die Laenge nicht uebereinstimmt eine {@link IllegalLengthException}.
      * Die Laenge liegt zwischen 16 (Belgien) und 34 Zeichen.
      *
@@ -77,9 +77,10 @@ public class IBAN extends AbstractFachwert<String> {
         return validate(iban, MOD97);
     }
 
+    @SuppressWarnings("squid:SwitchLastCaseIsDefaultCheck")
     private static String validate(String iban, PruefzifferVerfahren<String> pzVerfahren) {
         String normalized = StringUtils.remove(iban, ' ').toUpperCase();
-        LengthValidator.validate(iban, 16, 34);
+        LengthValidator.validate(normalized, 16, 34);
         switch (normalized.substring(0,1)) {
             case "AT":
                 LengthValidator.validate(iban, 20);
@@ -126,6 +127,7 @@ public class IBAN extends AbstractFachwert<String> {
      * @return z.B. "de_DE" (als Locale)
      * @since 0.1.0
      */
+    @SuppressWarnings({"squid:SwitchLastCaseIsDefaultCheck", "squid:S1301"})
     public Locale getLand() {
         String country = this.getUnformatted().substring(0, 2);
         String language = country.toLowerCase();

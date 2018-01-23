@@ -1,0 +1,37 @@
+@startuml
+
+package "formular" {
+
+    enum Anrede {
+        OHNE_ANREDE
+        HERR
+        FRAU
+        FIRMA
+        HERR_UND_FRAU
+        FRAEULEIN
+        VEREINIGUNG
+    }
+
+    enum Familienstand {
+        LEDIG
+        VERHEIRATET
+        VERWITWET
+        GESCHIEDEN
+        EHE_AUFGEHOBEN
+        EINGETRAGENE_LEBENSPARTNERSCHAFT
+        DURCH_TOD_AUFGELOESTE_LEBENSPARTNERSCHAFT
+        AUFGEHOBENE_LEBENSPARTNERSCHAFT
+        DURCH_TODESERKLAERUNG_AUFGELOESTE_LEBENSPARTNERSCHAFT
+        NICHT_BEKANNT
+    }
+
+    enum Geschlecht {
+        JURISTISCHE_PERSON
+        MAENNLICH
+        WEIBLICH
+        UNBEKANNT
+    }
+
+}
+
+@enduml

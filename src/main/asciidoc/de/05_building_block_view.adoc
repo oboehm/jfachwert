@@ -1,0 +1,149 @@
+[[section-building-block-view]]
+
+
+== Bausteinsicht
+
+
+
+=== Gesamtsystem
+
+["plantuml", "packages", "svg"]
+------------------------------------------------
+include::../images/packages.puml[]
+------------------------------------------------
+
+Enthaltene Bausteine::
+
+Die einzelnen Klassen sind in fachliche Packages aufgeteilt.
+
+.Packages
+[cols="1,4" options="header"]
+|===
+|Package |Beschreibung
+
+|bank
+|alles, was mit Banken zu tun hat wie `IBAN`, `BIC` oder `Kontonummer`
+
+|steuer
+|das Finanzamt lässt grüßen - hier sind Fachwerte wie `Steuernummer` und `UStIdNr` defniert
+
+|post
+|hier finden sich Fachwerte wie `Anschrift`, `Adresse` oder `PLZ`
+
+|rechnung
+|Fachwerte, die man üblicherweise auf Rechnungen antrifft wie `Bestellnummer`, `Referenznummer` oder `Rechnungsmonat`
+
+|net
+|Fachwerte für das Neuland "Internet" wie `EMailAdresse` oder `Domainname`
+|===
+
+Das pruefung-Package enthält Klassen zur Validierung und zu verschiedenen Pruefzifferverfahren.
+So enthalten manche Fachwerte wie `IBAN` eine Pruefziffer, um Fehleingaben zu erkennen.
+
+
+Wichtige Schnittstellen::
+Jede Klasse hat einen Konstruktor, über den ein Objekt davon angelegt wird.
+Es gibt keine Setter-Methoden, da alle Klassen immutable sind.
+
+
+==== bank
+
+["plantuml", "package-bank", "svg"]
+------------------------------------------------
+include::../images/package-bank.puml[]
+------------------------------------------------
+
+Mit dem bank-Package hat alles angefangen.
+Die Fachwerte in diesem Paket repräsentieren Konzepte, die im Bank-Umfeld typischerweise anzutreffen sind.
+
+
+==== steuer
+
+["plantuml", "package-steuer", "svg"]
+------------------------------------------------
+include::../images/package-steuer.puml[]
+------------------------------------------------
+
+Bereits mit v0.0.2 gab es das steuer-Package, das einige Begriffe im steuerlichen Umfeld abdeckt.
+
+
+==== post
+
+["plantuml", "package-post", "svg"]
+------------------------------------------------
+include::../images/package-post.puml[]
+------------------------------------------------
+
+Das post-Package ist das dritte fachliche Package, das mit v0.2 hinzugekommen ist.
+Neben der `PLZ` oder `Ort` finden sich auch hier zusammengesetzte Fachwerte wie `Adresse` oder `Anschrift`.
+
+
+==== rechnung
+
+["plantuml", "package-rechnung", "svg"]
+------------------------------------------------
+include::../images/package-rechnung.puml[]
+------------------------------------------------
+
+Mit v0.3 ist das rechnung-Package hinzugekommen.
+Hier sind vor allem Klassen zu finden, die auf Rechnungen oder Bestellungen zu finden sind.
+
+
+==== net
+
+["plantuml", "package-net", "svg"]
+------------------------------------------------
+include::../images/package-net.puml[]
+------------------------------------------------
+
+Das net-Package ist mit v0.4 hinzugekommen.
+Hier befinden sich Begriffe aus dem Internet (z.B. `EMailAdresse`), aber auch Klassen, die im weitesten Sinn unter Vernetzung (z.B. `Telefonnummer`) eingeordnet werden können.
+
+
+
+=== Prüfungen und Exceptions
+
+["plantuml", "package-pruefung", "svg"]
+------------------------------------------------
+include::../images/package-pruefung.puml[]
+------------------------------------------------
+
+Alles, was mit Prüfungen und Validierung zu tun hat, ist im pruefung-Package abgelegt.
+Dazu gehoeren:
+
+* Prüf-Verfahren
+* Validatoren
+* Exceptions
+
+
+==== Validatoren
+
+["plantuml", "validatoren", "svg"]
+------------------------------------------------
+include::../images/validatoren.puml[]
+------------------------------------------------
+
+Alle Validatoren implementieren das 'SimpleValidator'-Interface.
+Im Falle, dass die validate-Methode fehlschlägt, wird eine `javax.validation.ValidationException` geworfen.
+
+
+==== Prüfverfahren
+
+["plantuml", "pruefverfahren", "svg"]
+------------------------------------------------
+include::../images/pruefverfahren.puml[]
+------------------------------------------------
+
+Alle Prüfverfahren implementieren das `PruefzifferVerfahren`-Interface.
+Das NoopVerfahren spielt dabei eine Sonderrolle - es dient zur Deaktivierung des Prüfverfahrens.
+
+
+==== Exceptions
+
+["plantuml", "exceptions", "svg"]
+------------------------------------------------
+include::../images/exceptions.puml[]
+------------------------------------------------
+
+Um eine sprachabhängige Fehlermeldung über https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html#getLocalizedMessage--[getLocalizedMessage()] bereitzustellen, sind alle Exceptions von `LocalizedValidationException` abgeleitet.
+Die Fehlermeldungen und Begriffe sind dabei als ResourceBundle in den Dateien "messages.properties" und "messages_de.properties" abgelegt.

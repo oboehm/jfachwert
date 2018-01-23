@@ -57,6 +57,14 @@ public final class BICTest extends AbstractFachwertTest {
     }
 
     /**
+     * Leerzeichen sollen bei der Validierung nicht beruecksichtigt werden.
+     */
+    @Test(expected = ValidationException.class)
+    public void testValidate() {
+        BIC.validate("GENODEF1J  ");
+    }
+
+    /**
      * Die toString-Methode sollte die BIC im Klartext ausgeben.
      */
     @Override

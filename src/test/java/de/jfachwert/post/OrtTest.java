@@ -89,4 +89,37 @@ public class OrtTest extends AbstractFachwertTest {
         assertThat(neustadt, not(altstadt));
     }
 
+    /**
+     * Wenn die PLZ zusammen mit dem Ort angegeben wird, sollte das erkannt
+     * werden.
+     */
+    @Test
+    public void testCtor() {
+        Ort entenhausen = new Ort("12345 Entenhausen");
+        assertEquals(new PLZ("12345"), entenhausen.getPLZ().get());
+        assertEquals("Entenhausen", entenhausen.getName());
+    }
+
+    /**
+     * Die Erkennung von "D-01001 Dresden" ist etwas anspruchsvoller, da die
+     * PLZ nicht mit einer Ziffer beginnt.
+     */
+    @Test
+    public void testCtorDresden() {
+        Ort dresden = new Ort("D-01001 Dresden");
+        assertEquals(new PLZ("D-01001"), dresden.getPLZ().get());
+        assertEquals("Dresden", dresden.getName());
+    }
+
+    /**
+     * Dieser Test dient zur Absicherung, ob die {@link Ort}-Klasse auch
+     * korrekt mit Leerzeichen umgeht, und sie nicht irrtuemlich den vorderen
+     * Teil als PLZ interpretiert.
+     */
+    @Test
+    public void testHamburgAltona() {
+        Ort altona = new Ort("Hamburg Altona");
+        assertEquals("Hamburg Altona", altona.getName());
+    }
+
 }

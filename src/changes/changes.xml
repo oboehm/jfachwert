@@ -17,6 +17,21 @@
 
   <body>
 
+    <release version="0.5.0" date="24-Jan-2018"
+             description="FachwertFactory">
+      <action dev="oboehm" type="add" date="18-Jan-2018">
+        Adressat-Klasse im post-Package hinzugef&#252;gt.
+      </action>
+      <action dev="oboehm" type="add" date="17-Jan-2018">
+        Eigenes exception-Package unterhalb von de.jfachwert.pruefung angelegt
+        und Exceptions dorthin verschoben.
+      </action>
+      <action dev="oboehm" type="add" date="13-Jan-2018">
+        FachwertFactory-Klassen hinzugef&#252;gt, mit der Fachwert-Klassen
+        erzeugt werden k&#246;nnen.
+      </action>
+    </release>
+
     <release version="0.4.0" date="02-Sep-2017"
              description="Netzwerk-Klassen hinzugef&#252;gt">
       <action dev="oboehm" type="add" date="19-Aug-2017">
@@ -38,7 +53,7 @@
     <release version="0.2.0" date="22-Jun-2017"
              description="postalische Klassen hinzugef&#252;gt">
       <action dev="oboehm" type="add" date="01-Mai-2017">
-        Alle Fachwerte haben jetzt eine statische validate-Methode.
+        Viele Fachwerte haben jetzt eine statische validate-Methode.
       </action>
       <action dev="oboehm" type="add" date="10-Apr-2017">
         post-Package mit PLZ-Klasse angelegt.
@@ -69,7 +84,7 @@
     </release>
 
     <release version="0.0.1" date="12-M&#228;r-2017"
-             description="Start">
+             description="Start mit Bank-Package">
       <action dev="oboehm" type="add" date="12-M&#228;r-2017">
         Aufnahme ins Maven-Repository beantragt
         (https://issues.sonatype.org/browse/OSSRH-28810).

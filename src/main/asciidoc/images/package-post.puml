@@ -1,0 +1,14 @@
+@startuml
+
+package "post" {
+
+    class Adressat
+    class Adresse
+    class Anschrift
+    class Ort
+    class PLZ
+    class Postfach
+
+}
+
+@enduml

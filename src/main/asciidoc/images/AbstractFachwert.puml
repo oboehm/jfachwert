@@ -1,0 +1,14 @@
+@startuml
+
+abstract class AbstractFachwert<T> {
+
+    T code
+
+    T getCode()
+    int hashCode()
+    boolean equals(Object other)
+    String toString()
+
+}
+
+@enduml

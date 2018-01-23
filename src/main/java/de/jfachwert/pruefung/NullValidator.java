@@ -18,9 +18,9 @@
 package de.jfachwert.pruefung;
 
 import de.jfachwert.SimpleValidator;
+import de.jfachwert.pruefung.exception.NullValueException;
 
-import javax.validation.ValidationException;
-import java.io.*;
+import java.io.Serializable;
 
 /**
  * Der NullValidator verhindert, dass 'null' als valider Wert durchgereicht
@@ -29,7 +29,7 @@ import java.io.*;
  *
  * @since 0.4
  */
-public class NullValidator implements SimpleValidator<Serializable> {
+public class NullValidator<T extends Serializable> implements SimpleValidator<T> {
 
     /**
      * Wenn der uebergebene Wert nicht null ist, wird er unveraendert
@@ -40,9 +40,9 @@ public class NullValidator implements SimpleValidator<Serializable> {
      * @return Wert selber, wenn er nicht null ist
      */
     @Override
-    public Serializable validate(Serializable value) {
+    public T validate(T value) {
         if (value == null) {
-            throw new ValidationException("null value not allowed");
+            throw new NullValueException();
         }
         return value;
     }

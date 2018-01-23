@@ -1,0 +1,29 @@
+@startuml
+
+package "pruefung" {
+
+    class AccessValidator
+    class EMailValidator
+    class LengthValidator
+    class Mod11Verfahren
+    class NoopVerfahren
+    class NullValidator
+    class NumberValidator
+    class TelefonnummerValidator
+
+    package "exception" {
+        class IllegalLengthException
+        class InvalidValueException
+        class LocalizedValueException
+        class NullValueException
+        class PruefzifferException
+    }
+
+}
+
+LocalizedValueException <|-- IllegalLengthException
+LocalizedValueException <|-- InvalidValueException
+LocalizedValueException <|-- NullValueException
+LocalizedValueException <|-- PruefzifferException
+
+@enduml

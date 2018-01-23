@@ -19,9 +19,13 @@ package de.jfachwert.post;
 
 import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.LengthValidator;
+import org.apache.commons.lang3.StringUtils;
 
+import javax.validation.ValidationException;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Ein Ort (oder auch Ortschaft) ist eine Stadt oder Gemeinde. Ein Ort hat
@@ -37,6 +41,8 @@ import java.util.Optional;
  */
 public class Ort implements Fachwert {
 
+    private static final Logger LOG = Logger.getLogger(Ort.class.getName());
+
     private final String name;
     private final PLZ plz;
 
@@ -46,9 +52,13 @@ public class Ort implements Fachwert {
      * @param name des Ortes
      */
     public Ort(String name) {
-        this(null, name);
+        this(split(name));
     }
 
+    private Ort(String[] values) {
+        this(values[0].isEmpty() ? null : new PLZ(values[0]), values[1]);
+    }
+    
     /**
      * Hierueber kann ein Ort mit PLZ angelegt werden.
      *
@@ -60,14 +70,33 @@ public class Ort implements Fachwert {
     }
 
     /**
-     * Ein Orstname muss mindestens aus einem Zeichen bestehen.
+     * Ein Orstname muss mindestens aus einem Zeichen bestehen. Allerdings
+     * koennte der ueberbebene Name auch die PLZ noch beinhalten. Dies wird
+     * bei der Validierung beruecksichtigt.
      *
-     * @param ortsname der Ortsname
+     * @param name der Ortsname (mit oder ohne PLZ)
      * @return der validierte Ortsname zur Weiterverabeitung
      */
-    public static String validate(String ortsname) {
+    public static String validate(String name) {
+        String[] splitted = split(name);
+        String ortsname = splitted[1];
         LengthValidator.validate(ortsname, 1, Integer.MAX_VALUE);
-        return ortsname;
+        return name;
+    }
+
+    private static String[] split(String name) {
+        String input = StringUtils.trimToEmpty(name);
+        String[] splitted = new String[]{"", input};
+        if (input.contains(" ")) {
+            try {
+                String plz = PLZ.validate(StringUtils.substringBefore(input, " "));
+                splitted[0] = plz;
+                splitted[1] = StringUtils.substringAfter(input, " ").trim();
+            } catch (ValidationException ex) {
+                LOG.log(Level.FINE, "no PLZ inside '" + name + "' found:", ex);
+            }
+        }
+        return splitted;
     }
 
     /**

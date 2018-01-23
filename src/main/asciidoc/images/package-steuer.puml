@@ -1,0 +1,11 @@
+@startuml
+
+package "steuer" {
+
+    class SteuerIdNr
+    class Steuernummer
+    class UStIdNr
+
+}
+
+@enduml

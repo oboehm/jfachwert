@@ -22,7 +22,10 @@ import org.apache.commons.lang3.*;
 /**
  * Anrede fuer "Herr/Frau". Da "Fraeulein" schon lange nicht mehr
  * zeitgemaess ist, taucht es in der Liste nicht auf.
+ *
+ * @deprecated wird es kuenftig unter de.fachwert.formular geben
  */
+@Deprecated
 public enum Anrede {
 
     /** Unbekannte Anrede. */

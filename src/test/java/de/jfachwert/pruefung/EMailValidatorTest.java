@@ -1,4 +1,4 @@
-package de.jfachwert.pruefung;/*
+/*
  * Copyright (c) 2017 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,6 +15,7 @@ package de.jfachwert.pruefung;/*
  *
  * (c)reated 27.06.2017 by oboehm (ob@oasd.de)
  */
+package de.jfachwert.pruefung;
 
 import org.junit.*;
 import org.junit.runner.*;
@@ -23,7 +24,7 @@ import org.junit.runners.*;
 import javax.validation.*;
 import java.util.*;
 
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 /**
@@ -46,7 +47,7 @@ public class EMailValidatorTest {
      */
     public EMailValidatorTest(String adresse, boolean valid) {
         this.emailAdresse = adresse;
-        this.valid = true;
+        this.valid = valid;
     }
 
     /**
@@ -92,8 +93,9 @@ public class EMailValidatorTest {
         try {
             String validated = validator.validateAdresse(emailAdresse);
             assertEquals(emailAdresse, validated);
+            assertThat(emailAdresse, valid, is(true));
         } catch (ValidationException expected) {
-            assertThat(expected.getMessage(), valid, is(valid));
+            assertThat(expected.getMessage(), valid, is(false));
         }
     }
 

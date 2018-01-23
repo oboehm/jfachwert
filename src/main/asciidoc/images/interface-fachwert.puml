@@ -1,0 +1,9 @@
+@startuml
+
+interface Fachwert << @Immutable >> {
+}
+interface Serializable #white
+
+Serializable <|.left. Fachwert
+
+@enduml

@@ -1,5 +1,5 @@
-package de.jfachwert.post;/*
- * Copyright (c) 2017 by Oliver Boehm
+/*
+ * Copyright (c) 2018 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,27 +13,16 @@ package de.jfachwert.post;/*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * (c)reated 28.08.2017 by oboehm (ob@oasd.de)
+ * (c)reated 17.01.2018 by oboehm (ob@oasd.de)
  */
-
-import org.junit.*;
-
-import static org.junit.Assert.assertEquals;
 
 /**
- * Unit-Tests fuer {@link Anrede}-Klasse.
+ * In diesem Package sind die Exceptions versammelt, die bei einer Pruefung
+ * oder Validierung auftreten koennen. Vor v0.5 lagen ein Grossteil der
+ * Exceptions im drueberliegenden pruefung-Package, das dadurch etwas
+ * unuebersichtlich wurde.
  *
  * @author oboehm
- * @since x.x (28.08.2017)
+ * @since 0.5
  */
-public final class AnredeTest {
-
-    /**
-     * Test-Methode fuer {@link Anrede#toString()}.
-     */
-    @Test
-    public void testToString() {
-        assertEquals("Herr", Anrede.HERR.toString());
-    }
-
-}
+package de.jfachwert.pruefung.exception;

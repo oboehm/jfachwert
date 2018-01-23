@@ -1,0 +1,56 @@
+[[section-solution-strategy]]
+== Lösungsstrategie
+
+["plantuml", "interface-fachwert", "svg"]
+------------------------------------------------
+include::../images/interface-fachwert.puml[]
+------------------------------------------------
+
+Fachwerte sind durch folgende Eigenschaften gekennzeichnet:
+
+* unveränderlich (immutable),
+* serialisierbar.
+
+Sie repräsentieren einen festen Weg und sind damit das genaue Gegenteil von transient (flüchtig).
+Diese Eigenschaften werden durch das Fachwert-Interface ausgedrückt, von der alle Fachwerte abgeleitet sind.
+
+
+=== Objekt-Erzeugung
+
+Da Fachwerte immutable (unveränderlich) sind, kommt der Erzeugung eine wichtige Bedeutung zu.
+Prinzipiell bieten sich dabei folgende zwei Verfahren an:
+
+* Erzeugung über Konstruktur
+* Erzeugung über Builder-Pattern
+
+Builder-Pattern bieten sich eher dann dafür an, wenn die Erzeugung eines Objekts komplexer ist.
+Da Fachwerte aber tendenziell einfach aufgebaut sind und oft nur mit einem Argument für den Konstruktor auskommen, wird nur der Konstruktor für die Erzeugung eines Objekts angeboten.
+
+
+=== Validierung
+
+Da ungültige Objekte verhindert werden sollen, muss die Validierung im Konstruktor erfolgen.
+Um den Konstruktor übersichtlich zu halten, werden die Prüfung in eigene Validatoren ausgelagert.
+
+Auch sind Prüfziffer-Verfahren, die zur Erkennung fehlerhafter Fachwerte dienen, sind eine Art der Validierung.
+Deswegen befinden sich Validatoren und Prüfziffer-Verfahren im selben Package.
+
+
+=== Exceptions
+
+Mit https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html#getLocalizedMessage--[Throwable.getLocalizedMessage()] gibt es seit JDK 1.1 die Möglichkeit, sprach-spezifische Fehlermeldungen zur Verfügung zu stellen.
+Dies wird verwendet, um für den deutschsprachigen Raum eine entsprechende Fehlermeldung für die Anzeige anzubieten.
+
+
+=== Encoding
+
+Als Encoding wird UTF-8 verwendet.
+Um Encoding-Probleme zu vermeiden, wird im Source-Code und in Resourcen keine Umlaute, sondern stets die Ersatzdarstellung (z.B. `Pr\u00fcfziffer`) verwendet.
+
+Auch in Kommentaren im Source-Code werden keine Umlaute verwendet.
+Hier werden Umlaute ausgeschrieben, z.B. `/* Pruefziffer */`).
+Dies hat Auswirkungen auf die Javadoc-Generierung.
+Dies wird aber in Kauf genommen, um Probleme mit falschen Encoding zu vermeiden.
+
+Bei der Architektur-Dokumentation werden Umlaute akzeptiert.
+Sollte es sich allerdings herausstellen, dass dies auf https://github.com/oboehm/jfachwert/tree/develop/src/main/asciidoc[GitHub] oder http://jfachwert.de/[jfachwert.de] zu Problemen führt, wird auch hier auf Umlaute verzichtet werden.

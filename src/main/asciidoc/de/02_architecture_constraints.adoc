@@ -1,0 +1,19 @@
+[[section-architecture-constraints]]
+== Randbedingungen
+
+
+=== Technische Randbedingungen
+
+Nachdem Java 7 bereits sein End-of-Life erreicht hat, wird jFachwert auf Java 8 aufsetzen.
+Einschränkungen für das Modul-System in Java 9 sind keine zu erwarten, da Reflection (außer in der FachwertFactory) nicht verwendet wird.
+Damit sollte jFachwert auch uneingeschränkt sowohl mit Java 8 als auch Java 9 laufen.
+
+Die Abhängigkeiten zu anderen Bibliotheken werden auf ein Minimum reduziert.
+Dies erleichtert den Einsatz von jFachwert für andere Projekte.
+
+
+=== Organisatorische Randbedinungen
+
+jFachwert wird nach dem hhttp://nvie.com/posts/a-successful-git-branching-model/[GitFlow-Modell].
+D.h. die eigentliche Entwicklung findet auf dem develop-Zweig statt.
+Releases werden mit dem jgitflow-maven-plugin gebaut, wie in der https://github.com/oboehm/jfachwert/blob/master/doc/README.adoc[Entwickler-Dokumentation] beschrieben.

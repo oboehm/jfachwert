@@ -1,0 +1,18 @@
+[[section-concepts]]
+== Querschnittliche Konzepte
+
+=== AbstractFachwert
+
+["plantuml", "AbstractFachwert", "svg"]
+------------------------------------------------
+include::../images/AbstractFachwert.puml[]
+------------------------------------------------
+
+Viele Fachwerte wie `IBAN` oder `BIC` sind nur ein dünner Wrapper um die String-Klasse.
+Für diese Fachwerte werden die Gemeinsamkeiten in AbstractFachwert zusammengefasst.
+
+
+=== Validierung
+
+Validierung von Fachwerten findet im Konstruktor statt.
+Zur Unterstützung gibt es eine Reihe von Validatoren und Prüfziffer-Verfahren, die im `pruefung`-Package zu finden sind.

@@ -1,4 +1,4 @@
-package de.jfachwert.pruefung;/*
+package de.jfachwert.pruefung.exception;/*
  * Copyright (c) 2017 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +16,7 @@ package de.jfachwert.pruefung;/*
  * (c)reated 23.03.2017 by oboehm (ob@jfachwert.de)
  */
 
+import de.jfachwert.pruefung.exception.PruefzifferException;
 import org.junit.Test;
 
 import java.util.Locale;

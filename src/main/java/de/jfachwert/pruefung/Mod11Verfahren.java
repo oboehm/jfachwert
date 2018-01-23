@@ -55,6 +55,7 @@ public class Mod11Verfahren implements PruefzifferVerfahren<String> {
      * @param wert Fachwert oder gekapselter Wert
      * @return the boolean
      */
+    @Override
     public boolean isValid(String wert) {
         int n = anzahlStellen + 1;
         if (wert.length() != n) {

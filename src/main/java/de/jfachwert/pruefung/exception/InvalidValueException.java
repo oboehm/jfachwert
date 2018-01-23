@@ -15,11 +15,11 @@
  *
  * (c)reated 21.02.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.pruefung;
+package de.jfachwert.pruefung.exception;
 
-import org.apache.commons.lang3.*;
+import org.apache.commons.lang3.Range;
 
-import java.io.*;
+import java.io.Serializable;
 
 /**
  * Die InvalidValueException ist eine Exception fuer ungueltige Werte.
@@ -27,6 +27,7 @@ import java.io.*;
  * @author oboehm
  * @since 0.2.0 (26.04.2017)
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class InvalidValueException extends LocalizedValidationException {
 
     private final Serializable value;
