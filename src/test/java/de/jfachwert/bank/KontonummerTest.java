@@ -21,6 +21,8 @@ package de.jfachwert.bank;
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
+import javax.validation.ValidationException;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -55,6 +57,14 @@ public final class KontonummerTest extends AbstractFachwertTest {
     @Test
     public void testToString() {
         assertEquals("0006605605", new Kontonummer("6605605").toString());
+    }
+
+    /**
+     * Dieser Test ueberprueft das Fehlerhandling bei fehlerhafter Erzeugung.
+     */
+    @Test(expected = ValidationException.class)
+    public void testKontonummerFailed() {
+        new Kontonummer("falsch");
     }
 
 }
