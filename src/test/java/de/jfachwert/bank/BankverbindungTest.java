@@ -22,6 +22,9 @@ import de.jfachwert.Fachwert;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 /**
  * Unit-Tests fuer {@link Bankverbindung}-Klasse.
  */
@@ -40,6 +43,20 @@ public final class BankverbindungTest extends AbstractFachwertTest {
         Bankverbindung one = new Bankverbindung("Ohne Bic", new IBAN("DE41300606010006605605"));
         Bankverbindung anotherOne = new Bankverbindung("Ohne Bic", new IBAN("DE41300606010006605605"));
         ObjectTester.assertEquals(one, anotherOne);
+    }
+
+    @Test
+    public void testBankverbindungString() {
+        Bankverbindung bankverbindung = new Bankverbindung("Max Muster, IBAN DE41300606010006605605");
+        assertEquals("Max Muster", bankverbindung.getKontoinhaber());
+        assertEquals(new IBAN("DE41300606010006605605"), bankverbindung.getIban());
+        assertFalse("no BIC expected for " + bankverbindung, bankverbindung.getBic().isPresent());
+    }
+
+    @Test
+    public void testBankverbindungStringMitBIC() {
+        Bankverbindung bankverbindung = new Bankverbindung("Max Muster, IBAN DE41300606010006605605, BIC GENODEF1JEV");
+        assertEquals(new BIC("GENODEF1JEV"), bankverbindung.getBic().get());
     }
 
 }
