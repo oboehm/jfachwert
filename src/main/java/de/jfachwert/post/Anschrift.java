@@ -36,6 +36,7 @@ import java.util.logging.Logger;
 public class Anschrift implements Fachwert {
 
     private static final Logger LOG = Logger.getLogger(Anschrift.class.getName());
+    public static final String ADDRESS = "address";
 
     private final Adressat adressat;
     private final Adresse adresse;
@@ -108,11 +109,11 @@ public class Anschrift implements Fachwert {
         this.postfach = postfach;
         if (adresse == null) {
             if (postfach == null) {
-                throw new InvalidValueException("post_office_box");
+                throw new InvalidValueException(postfach, "post_office_box");
             }
         } else {
             if (postfach != null) {
-                throw new InvalidValueException("address");
+                throw new InvalidValueException(adresse, ADDRESS);
             }
         }
     }

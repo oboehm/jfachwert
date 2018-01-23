@@ -17,7 +17,7 @@
 
   <body>
 
-    <release version="0.5.0" date="2018"
+    <release version="0.5.0" date="24-Jan-2018"
              description="FachwertFactory">
       <action dev="oboehm" type="add" date="18-Jan-2018">
         Adressat-Klasse im post-Package hinzugef&#252;gt.

@@ -90,6 +90,7 @@ letzte Release verfügbar ist.
 |`mvn site`
 |Damit werden die Maven-Reports gebaut, die anschliessend auf die Projektseite
 http://jfachwert.de/[jFachwert.de] hochgeladen werden sollten.
+Vorher noch prüfen, ob `changes.xml` aktuell ist.
 
 |Architektur-Dokumentation
 |`mvn -Pdoc generate-resources`
