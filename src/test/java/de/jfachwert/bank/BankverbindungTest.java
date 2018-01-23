@@ -22,8 +22,10 @@ import de.jfachwert.Fachwert;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import javax.validation.ValidationException;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.*;
 
 /**
  * Unit-Tests fuer {@link Bankverbindung}-Klasse.
@@ -45,6 +47,9 @@ public final class BankverbindungTest extends AbstractFachwertTest {
         ObjectTester.assertEquals(one, anotherOne);
     }
 
+    /**
+     * Test-Methode fuer {@link Bankverbindung#Bankverbindung(String)} (Gut-Fall).
+     */
     @Test
     public void testBankverbindungString() {
         Bankverbindung bankverbindung = new Bankverbindung("Max Muster, IBAN DE41300606010006605605");
@@ -53,10 +58,27 @@ public final class BankverbindungTest extends AbstractFachwertTest {
         assertFalse("no BIC expected for " + bankverbindung, bankverbindung.getBic().isPresent());
     }
 
+    /**
+     * Test-Methode fuer {@link Bankverbindung#Bankverbindung(String)} (Gut-Fall).
+     */
     @Test
     public void testBankverbindungStringMitBIC() {
         Bankverbindung bankverbindung = new Bankverbindung("Max Muster, IBAN DE41300606010006605605, BIC GENODEF1JEV");
         assertEquals(new BIC("GENODEF1JEV"), bankverbindung.getBic().get());
+    }
+
+    /**
+     * Test-Methode fuer {@link Bankverbindung#Bankverbindung(String)} (Fehler-Fall).
+     */
+    @Test
+    public void testBankverbindungFehler() {
+        try {
+            new Bankverbindung("Max Muster");
+            fail("ValidationException expected");
+        } catch (ValidationException expected) {
+            String message = expected.getLocalizedMessage();
+            assertThat(message, containsString("Max Muster"));
+        }
     }
 
 }

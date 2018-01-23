@@ -18,6 +18,7 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.Fachwert;
+import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
@@ -89,6 +90,9 @@ public class Bankverbindung implements Fachwert {
         String[] splitted = new String[3];
         splitted[0] = stripSeparator(StringUtils.substringBefore(bankverbindung, "IBAN"));
         splitted[1] = stripSeparator(StringUtils.substringAfter(bankverbindung, "IBAN"));
+        if (StringUtils.isBlank(splitted[1])) {
+            throw new InvalidValueException(bankverbindung, "bank_account");
+        }
         if (splitted[1].contains("BIC")) {
             splitted[2] = stripSeparator(StringUtils.substringAfter(splitted[1], "BIC"));
             splitted[1] = stripSeparator(StringUtils.substringBefore(splitted[1], "BIC"));
