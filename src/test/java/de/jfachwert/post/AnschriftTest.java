@@ -83,4 +83,15 @@ public final class AnschriftTest extends AbstractFachwertTest {
         Anschrift.validate("Donald Duck, 12345 Entenhausen, Gansstr. 23");
     }
 
+    /**
+     * Hier testen wir, ob bei der Zerlegung des Eingabe-Strings das Postfach
+     * richtig erkannt wird.
+     */
+    @Test
+    public void testAnschriftWithPostfachNummer() {
+        String anschrift = "Musterfirma GmbH\nPostfach 12 34 56\n12350 Musterdorf";
+        Anschrift musterfirma = new Anschrift(anschrift);
+        assertEquals(new Postfach("Postfach 12 34 56\n12350 Musterdorf"), musterfirma.getPostfach());
+    }
+
 }

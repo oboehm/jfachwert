@@ -21,6 +21,10 @@ import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.validation.ValidationException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Die Anschrift besteht aus Namen und Adresse oder Postfach. Der Name kann
  * dabei eine Person oder eine Personengruppe (zum Beispiel Unternehmen,
@@ -31,9 +35,30 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class Anschrift implements Fachwert {
 
+    private static final Logger LOG = Logger.getLogger(Anschrift.class.getName());
+
     private final Adressat adressat;
     private final Adresse adresse;
     private final Postfach postfach;
+
+    /**
+     * Zerlegt die uebergebene Anschrift in Adressat und Adresse oder Postfach,
+     * um daraus eine Anschrift zu erzeugen. Folgende Heuristiken werden fuer 
+     * die Zerlegung herangezogen:
+     * <ul>
+     *     <li>Adressat steht an erster Stelle</li>
+     *     <li>Einzelteile werden durch Komma oder Zeilenvorschub getrennt</li>
+     * </ul>
+     *
+     * @param anschrift z.B. "Donald Duck, 12345 Entenhausen, Gansstr. 23"
+     */
+    public Anschrift(String anschrift) {
+        this(split(anschrift));
+    }
+    
+    private Anschrift(Object[] anschrift) {
+        this(new Adressat(anschrift[0].toString()), (Adresse) anschrift[1], (Postfach) anschrift[2]);
+    }
 
     /**
      * Erzeugt aus dem Namen und Adresse eine Anschrift.
@@ -53,12 +78,7 @@ public class Anschrift implements Fachwert {
      * @param adresse eine gueltige Adresse
      */
     public Anschrift(Adressat name, Adresse adresse) {
-        this.adressat = name;
-        if (adresse == null) {
-            throw new InvalidValueException("address");
-        }
-        this.adresse = adresse;
-        this.postfach = null;
+        this(name, adresse, null);
     }
 
     /**
@@ -79,12 +99,22 @@ public class Anschrift implements Fachwert {
      * @param postfach ein gueltiges Postfach
      */
     public Anschrift(Adressat name, Postfach postfach) {
+        this(name, null, postfach);
+    }
+    
+    private Anschrift(Adressat name, Adresse adresse, Postfach postfach) {
         this.adressat = name;
-        if (postfach == null) {
-            throw new InvalidValueException("post_office_box");
-        }
+        this.adresse = adresse;
         this.postfach = postfach;
-        this.adresse = null;
+        if (adresse == null) {
+            if (postfach == null) {
+                throw new InvalidValueException("post_office_box");
+            }
+        } else {
+            if (postfach != null) {
+                throw new InvalidValueException("address");
+            }
+        }
     }
 
     /**
@@ -104,13 +134,20 @@ public class Anschrift implements Fachwert {
     
     private static Object[] split(String anschrift) {
         String[] lines = StringUtils.trimToEmpty(anschrift).split("[,\\n$]");
-        if (lines.length != 3) {
+        if (lines.length < 2) {
             throw new InvalidValueException(anschrift, "address");
         }
-        Object[] parts = new Object[2];
+        Object[] parts = new Object[3];
         parts[0] = new Adressat(lines[0]);
-        String adresse = lines[1] + '\n' + lines[2];
-        parts[1] = new Adresse(adresse);
+        String adresseOrPostfach = anschrift.substring(lines[0].length()+1).trim();
+        try {
+            parts[1] = null;
+            parts[2] = new Postfach(adresseOrPostfach);
+        } catch (ValidationException ex) {
+            LOG.log(Level.FINE, "'" + adresseOrPostfach + "' is not a post office box:", ex);
+            parts[1] = new Adresse(adresseOrPostfach);
+            parts[2] = null;
+        }
         return parts;
     }
 
