@@ -19,7 +19,6 @@ package de.jfachwert;
 
 import de.jfachwert.bank.BIC;
 import de.jfachwert.bank.IBAN;
-import org.junit.Ignore;
 import org.junit.Test;
 import patterntesting.runtime.monitor.ClasspathMonitor;
 
@@ -113,7 +112,7 @@ public class FachwertFactoryTest {
      * {@link ValidationException} keine andere Exception auftreten koennen.
      */
     @Test
-    @Ignore
+    //@Ignore
     public void testValidateAll() {
         Collection<Class<? extends Fachwert>> registeredClasses = FACTORY.getRegisteredClasses().values();
         for (Class<? extends Fachwert> fachwertClass : registeredClasses) {
