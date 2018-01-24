@@ -255,7 +255,7 @@ public class FachwertFactory {
                 minDistance = dist;
             }
         }
-        if (minDistance > 4) {
+        if (minDistance > 2) {
             if (LOG.isLoggable(Level.FINE)) {
                 LOG.fine("Nearest name for '" + name + "' is '" + similarName + "' and too far away (" + minDistance +
                         ") - will use Text class as fallback.");
