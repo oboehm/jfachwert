@@ -18,6 +18,7 @@
 package de.jfachwert;
 
 import de.jfachwert.bank.*;
+import de.jfachwert.math.Nummer;
 import de.jfachwert.net.ChatAccount;
 import de.jfachwert.net.Domainname;
 import de.jfachwert.net.EMailAdresse;

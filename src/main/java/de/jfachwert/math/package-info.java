@@ -15,31 +15,11 @@
  *
  * (c)reated 26.01.2018 by oboehm (ob@oasd.de)
  */
-package de.jfachwert;
-
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 /**
- * Unit-Tests fuer {@link Nummer}-Klasse.
+ * Was wie Mathe aussieht, findet man eher hier.
  *
- * @author oboehm
+ * @author <a href="ob@aosd.de">oliver</a>
+ * @since 0.6
  */
-public final class NummerTest extends AbstractFachwertTest {
-
-    @Override
-    protected Nummer createFachwert() {
-        return new Nummer(42);
-    }
-
-    /**
-     * Test-Methode fuer {@link Nummer#intValue()}.
-     */
-    @Test
-    public void testGet() {
-        Nummer nummer = new Nummer("4711");
-        assertEquals(4711, nummer.intValue());
-    }
-
-}
+package de.jfachwert.math;

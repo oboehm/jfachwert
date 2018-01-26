@@ -15,28 +15,34 @@
  *
  * (c)reated 24.01.2018 by oboehm (ob@oasd.de)
  */
-package de.jfachwert;
+package de.jfachwert.math;
 
+import de.jfachwert.AbstractFachwert;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
- * Die Klasse Nummer dient zum Abspeichern einer beliebigen Nummer. Sie ist
- * die Ergaenzung zur {@link Text}-Klasse.
+ * Die Klasse Nummer dient zum Abspeichern einer beliebigen Nummer. Eine Nummer
+ * ist eine positive Ganzzahl und beginnt ueblicherweise mit 1. Dabei kann es
+ * sich um eine laufende Nummer, Start-Nummer, Trikot-Nummer, ... handeln.
+ * <p>
+ * Urspruenglich war diese Klasse als Ergaenzung zur {@link de.jfachwert.Text}-
+ * Klasse gedacht.
+ * </p>
  *
  * @author oboehm
- * @since x.6 (24.01.2018)
+ * @since 0.6 (24.01.2018)
  */
-public class Nummer extends AbstractFachwert<BigDecimal> {
+public class Nummer extends AbstractFachwert<BigInteger> {
 
     /**
-     * Erzeugt eine Nummer als positive oder negative Ganzzahl.
+     * Erzeugt eine Nummer als positive Ganzzahl.
      * 
      * @param code eine Zahl, z.B. 42
      */
-    public Nummer(int code) {
-        this(BigDecimal.valueOf(code));
+    public Nummer(long code) {
+        this(BigInteger.valueOf(code));
     }
 
     /**
@@ -45,7 +51,7 @@ public class Nummer extends AbstractFachwert<BigDecimal> {
      * @param code z.B. "42"
      */
     public Nummer(String code) {
-        this(new BigDecimal(validate(code)));
+        this(new BigInteger(validate(code)));
     }
 
     /**
@@ -53,7 +59,7 @@ public class Nummer extends AbstractFachwert<BigDecimal> {
      * 
      * @param code eine beliebige Zahl
      */
-    public Nummer(BigDecimal code) {
+    public Nummer(BigInteger code) {
         super(code);
     }
 
@@ -65,7 +71,7 @@ public class Nummer extends AbstractFachwert<BigDecimal> {
      */
     public static String validate(String nummer) {
         try {
-            return new BigDecimal(nummer).toString();
+            return new BigInteger(nummer).toString();
         } catch (NumberFormatException nfe) {
             throw new InvalidValueException(nummer, "number");
         }
