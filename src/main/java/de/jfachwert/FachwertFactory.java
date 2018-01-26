@@ -72,6 +72,7 @@ public class FachwertFactory {
     // Problem).
     static {
         INSTANCE.register(Text.class);
+        INSTANCE.register(Nummer.class);
         INSTANCE.register(Bankverbindung.class);
         INSTANCE.register(BIC.class);
         INSTANCE.register(BLZ.class);
