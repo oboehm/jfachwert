@@ -20,6 +20,7 @@ package de.jfachwert.bank;
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.pruefung.exception.IllegalLengthException;
 import de.jfachwert.pruefung.exception.InvalidValueException;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Eigentlich ist die Kontonummer Bestandteil der IBAN. Trotzdem wird sie
@@ -56,12 +57,13 @@ public class Kontonummer extends AbstractFachwert<Long> {
      * @return die validierte Kontonummer zur Weiterverabeitung
      */
     public static String validate(String kontonr) {
+        String normalized = StringUtils.trimToEmpty(kontonr);
         try {
-            validate(Long.valueOf(kontonr));
+            validate(Long.valueOf(normalized));
         } catch (NumberFormatException nfe) {
             throw new InvalidValueException(kontonr, "account_number", nfe);
         }
-        return kontonr;
+        return normalized;
     }
 
     /**

@@ -87,6 +87,15 @@ public class FachwertFactoryTest {
         FACTORY.validate("Bankverbindung", "Max Muster", new IBAN("DE41300606010006605605"),
                 new BIC("GENODEF1JEV"));
     }
+
+    /**
+     * Bei den meisten Fachwerten spielen Blanks am Ende keine Rolle und sollte
+     * bei der Validierung ignoriert werden.
+     */
+    @Test
+    public void testValiateWithTrailingBlank() {
+        FACTORY.validate("Kontonummer", "1111111111  ");
+    }
     
     /**
      * Test-Methode fuer {@link FachwertFactory#validate(Class, Object...)}.
