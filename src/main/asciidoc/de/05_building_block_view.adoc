@@ -40,10 +40,12 @@ Die einzelnen Klassen sind in fachliche Packages aufgeteilt.
 Das pruefung-Package enthält Klassen zur Validierung und zu verschiedenen Pruefzifferverfahren.
 So enthalten manche Fachwerte wie `IBAN` eine Pruefziffer, um Fehleingaben zu erkennen.
 
-
+[IMPORTANT]
+--
 Wichtige Schnittstellen::
 Jede Klasse hat einen Konstruktor, über den ein Objekt davon angelegt wird.
 Es gibt keine Setter-Methoden, da alle Klassen immutable sind.
+--
 
 
 ==== bank
