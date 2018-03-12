@@ -198,6 +198,26 @@ public class Rechnungsmonat implements Fachwert {
     }
 
     /**
+     * Liefert den ersten Tag eines Rechnungsmonats.
+     * 
+     * @return z.B. 1.3.2018
+     * @since 0.6
+     */
+    public LocalDate ersterTag() {
+        return LocalDate.of(getJahr(), getMonat(), 1);
+    }
+
+    /**
+     * Liefert den letzten Tag eines Rechnungsmonats.
+     *
+     * @return z.B. 31.3.2018
+     * @since 0.6
+     */
+    public LocalDate letzterTag() {
+        return getFolgemonat().ersterTag().minusDays(1);
+    }
+    
+    /**
      * Liefert das Rechnungsatum als {@link LocalDate} zurueck. Sollte das
      * Datum als {@link java.util.Date} benoetigt werden, kann man es mit
      * {@link java.sql.Date#valueOf(LocalDate)} konvertieren.
@@ -205,7 +225,7 @@ public class Rechnungsmonat implements Fachwert {
      * @return z.B. 1.7.2017 fuer "7/2017"
      */
     public LocalDate asLocalDate() {
-        return LocalDate.of(getJahr(), getMonat(), 1);
+        return ersterTag();
     }
 
     /**

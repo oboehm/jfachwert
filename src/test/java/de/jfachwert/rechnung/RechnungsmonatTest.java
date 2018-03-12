@@ -117,4 +117,20 @@ public final class RechnungsmonatTest extends AbstractFachwertTest {
         assertEquals("06/2017", new Rechnungsmonat(6, 2017).format("MM/yyyy"));
     }
 
+    /**
+     * Test-Methode fuer {@link Rechnungsmonat#ersterTag()}.
+     */
+    @Test
+    public void testErterTag() {
+        assertEquals(LocalDate.of(2017, 2, 1), FEB_2017.ersterTag());
+    }
+
+    /**
+     * Test-Methode fuer {@link Rechnungsmonat#letzterTag()}.
+     */
+    @Test
+    public void testLetzerTag() {
+        assertEquals(LocalDate.of(2017, 2, 28), FEB_2017.letzterTag());
+    }
+
 }
