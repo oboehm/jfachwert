@@ -208,6 +208,23 @@ public class Rechnungsmonat implements Fachwert {
     }
 
     /**
+     * Diese Methode kann verwendet werden, um den ersten Arbeitstag im Monat
+     * zu bestimmen. Dazu ruft man diese Methode einfach mit
+     * {@link DayOfWeek#MONDAY} als Parameter auf.
+     * 
+     * @param wochentag z.B. {@link DayOfWeek#MONDAY}
+     * @return z.B. erster Arbeitstag
+     * @since 0.6
+     */
+    public LocalDate ersterTag(DayOfWeek wochentag) {
+        LocalDate tag = ersterTag();
+        while (tag.getDayOfWeek() != wochentag) {
+            tag = tag.plusDays(1);
+        }
+        return tag;
+    }
+
+    /**
      * Liefert den letzten Tag eines Rechnungsmonats.
      *
      * @return z.B. 31.3.2018
