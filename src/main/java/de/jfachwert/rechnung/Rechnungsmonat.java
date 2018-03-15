@@ -208,7 +208,7 @@ public class Rechnungsmonat implements Fachwert {
     }
 
     /**
-     * Diese Methode kann verwendet werden, um den ersten Arbeitstag im Monat
+     * Diese Methode kann verwendet werden, um den ersten Montag im Monat
      * zu bestimmen. Dazu ruft man diese Methode einfach mit
      * {@link DayOfWeek#MONDAY} als Parameter auf.
      * 
@@ -233,7 +233,24 @@ public class Rechnungsmonat implements Fachwert {
     public LocalDate letzterTag() {
         return getFolgemonat().ersterTag().minusDays(1);
     }
-    
+
+    /**
+     * Diese Methode kann verwendet werden, um den letzten Freitag im Monat
+     * zu bestimmen. Dazu ruft man diese Methode einfach mit
+     * {@link DayOfWeek#FRIDAY} als Parameter auf.
+     *
+     * @param wochentag z.B. {@link DayOfWeek#FRIDAY}
+     * @return z.B. letzter Arbeitstag
+     * @since 0.6
+     */
+    public LocalDate letzterTag(DayOfWeek wochentag) {
+        LocalDate tag = ersterTag();
+        while (tag.getDayOfWeek() != wochentag) {
+            tag = tag.minusDays(1);
+        }
+        return tag;
+    }
+
     /**
      * Liefert das Rechnungsatum als {@link LocalDate} zurueck. Sollte das
      * Datum als {@link java.util.Date} benoetigt werden, kann man es mit

@@ -129,7 +129,7 @@ public final class RechnungsmonatTest extends AbstractFachwertTest {
      * Test-Methode fuer {@link Rechnungsmonat#ersterTag(DayOfWeek)}.
      */
     @Test
-    public void testErsterArbeitstag() {
+    public void testErsterMontag() {
         LocalDate ersterArbeitstag = FEB_2017.ersterTag(DayOfWeek.MONDAY);
         assertEquals(DayOfWeek.MONDAY, ersterArbeitstag.getDayOfWeek());
     }
@@ -140,6 +140,15 @@ public final class RechnungsmonatTest extends AbstractFachwertTest {
     @Test
     public void testLetzerTag() {
         assertEquals(LocalDate.of(2017, 2, 28), FEB_2017.letzterTag());
+    }
+
+    /**
+     * Test-Methode fuer {@link Rechnungsmonat#letzterTag(DayOfWeek)}.
+     */
+    @Test
+    public void testLetzterFreitag() {
+        LocalDate ersterArbeitstag = FEB_2017.letzterTag(DayOfWeek.FRIDAY);
+        assertEquals(DayOfWeek.FRIDAY, ersterArbeitstag.getDayOfWeek());
     }
 
 }
