@@ -95,6 +95,16 @@ public class Rechnungsmonat implements Fachwert {
         this(monat + "/" + jahr);
     }
 
+    /**
+     * Erzeugt einen gueltigen Rechnungsmonat.
+     *
+     * @param monat MOnat
+     * @param jahr vierstellige Zahl
+     */
+    public Rechnungsmonat(Month monat, int jahr) {
+        this(monat.getValue(), jahr);
+    }
+
     private static LocalDate toLocalDate(String monat) {
         String normalized = monat.replaceAll("[/.\\s]", "-");
         String[] parts = monat.split("-");

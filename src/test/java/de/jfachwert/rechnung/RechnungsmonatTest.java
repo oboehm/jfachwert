@@ -77,6 +77,14 @@ public final class RechnungsmonatTest extends AbstractFachwertTest {
     }
 
     /**
+     * Hier testen wir den Konstruktur mit Month und Jahr.
+     */
+    @Test
+    public void testRechnungsmonatMonth() {
+        assertEquals(FEB_2017, new Rechnungsmonat(Month.FEBRUARY, 2017));
+    }
+
+    /**
      * Testmethode fuer {@link Rechnungsmonat#getVormonat()}.
      */
     @Test
