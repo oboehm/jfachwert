@@ -230,6 +230,7 @@ public class Rechnungsmonat implements Fachwert {
      * die auf einen ersten des Monats fallen, werden berucksichtigt.
      * 
      * @return erster Arbeitstag
+     * @since 0.6
      */
     public LocalDate ersterArbeitstag() {
         LocalDate tag = ersterTag();
@@ -268,6 +269,26 @@ public class Rechnungsmonat implements Fachwert {
             tag = tag.minusDays(1);
         }
         return tag;
+    }
+
+    /**
+     * Diese Methode liefert den letzten Arbeitstag eines Monats. Allerdings
+     * werden dabei keine Feiertag beruecksichtigt, sondern nur die Wochenende,
+     * die auf einen letzten des Monats fallen, werden berucksichtigt.
+     *
+     * @return letzter Arbeitstag
+     * @since 0.6
+     */
+    public LocalDate letzterArbeitstag() {
+        LocalDate tag = letzterTag();
+        switch (tag.getDayOfWeek()) {
+            case SATURDAY:
+                return tag.minusDays(1);
+            case SUNDAY:
+                return tag.minusDays(2);
+            default:
+                return tag;
+        }
     }
 
     /**
