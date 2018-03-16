@@ -22,6 +22,7 @@ import org.junit.*;
 import javax.validation.*;
 import java.time.*;
 
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
 
 /**
@@ -132,6 +133,24 @@ public final class RechnungsmonatTest extends AbstractFachwertTest {
     public void testErsterMontag() {
         LocalDate ersterArbeitstag = FEB_2017.ersterTag(DayOfWeek.MONDAY);
         assertEquals(DayOfWeek.MONDAY, ersterArbeitstag.getDayOfWeek());
+    }
+
+    /**
+     * Test-Methode fuer {@link Rechnungsmonat#ersterArbeitstag()}.
+     */
+    @Test
+    public void testErsterArbeitstag() {
+        for (int monat = 1; monat <= 12; monat++) {
+            Rechnungsmonat rechnungsmonat = new Rechnungsmonat(monat, 2018);
+            LocalDate localDate = rechnungsmonat.ersterArbeitstag();
+            assertNotWeekend(localDate);
+            assertEquals(monat, localDate.getMonthValue());
+        }
+    }
+
+    private static void assertNotWeekend(LocalDate localDate) {
+        assertThat(localDate.getDayOfWeek(), not(DayOfWeek.SATURDAY));
+        assertThat(localDate.getDayOfWeek(), not(DayOfWeek.SUNDAY));
     }
 
     /**
