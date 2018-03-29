@@ -1,0 +1,52 @@
+/*
+ * Copyright (c) 2018 by Oliver Boehm
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * (c)reated 29.03.2018 by oboehm (ob@oasd.de)
+ */
+package de.jfachwert.math;
+
+import de.jfachwert.AbstractFachwertTest;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
+/**
+ * Unit-Tests fuer {@link PackedDecimal}-Klasse.
+ *
+ * @author oboehm
+ */
+public final class PackedDecimalTest extends AbstractFachwertTest {
+
+    /**
+     * Zum Testen nehmen wir eine Zahl mit fuehrender Null.
+     *
+     * @return Test-Objekt zum Testen
+     */
+    @Override
+    protected PackedDecimal createFachwert() {
+        return new PackedDecimal("0123456789");
+    }
+
+    /**
+     * Bei der toString-Methode sollte das gleiche wieder rauskommen, was man
+     * reingesteckt hat.
+     */
+    @Test
+    public void testToString() {
+        PackedDecimal agent = new PackedDecimal("007");
+        assertEquals("007", agent.toString());
+    }
+
+}
