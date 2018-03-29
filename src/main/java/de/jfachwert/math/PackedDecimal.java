@@ -24,9 +24,13 @@ import de.jfachwert.pruefung.NullValidator;
 /**
  * Die Klasse PackedDecimal dienst zum speicherschonende Speichern von Zahlen.
  * Sie greift die Idee von COBOL auf, wo es den numerischen Datentyp
- * "COMPUTATIONAL-3 PACKED"  gibt, wo die Zahlen in Half-Bytes (Nibbles)
+ * "COMPUTATIONAL-3 PACKED" gibt, wo die Zahlen in Half-Bytes (Nibbles)
  * abgespeichert wird. D.h. In einem Byte lassen sich damit 2 Zahlen
- * abspeichern. Dieser Datentyp eignet sich damit fuer:
+ * abspeichern. Diese Praesentation ist auch als BCD (Binary Coded Decimal)
+ * bekannt (s. <a href="https://de.wikipedia.org/wiki/BCD-Code">BCD-Code</a>
+ * in Wikipedia).
+ * <p>
+ * Dieser Datentyp eignet sich damit fuer:
  * <ul>
  *     <li>Abspeichern grosser Menge von Zahlen, wenn dabei die interne
  *     Speichergroesse relevant ist,</li>
@@ -34,7 +38,14 @@ import de.jfachwert.pruefung.NullValidator;
  *     (Ersatz fuer {@link java.math.BigDecimal},</li>
  *     <li>Abspeichern von Zahlen mit fuehrender Null (z.B. Vorwahl).</li>
  * </ul>
- * 
+ * </p>
+ * <p>
+ * Eine noch kompaktere Darstellung (ca. 20%) laesst sich mit der Chen-Ho- oder
+ * Densely-Packed-Decimal-Kodierung (s.
+ * <a href="http://speleotrove.com/decimal/DPDecimal.html">A Summary of Densely Packed Decimal encoding</a>).
+ * Diese kommt hier aber nicht zum Einsatz. Stattdessen der BCD-Algorithmus
+ * zum Einsatz.
+ * </p>
  * <p>
  * Da diese Klasse eher eine technische als eine fachliche Klasse ist, wurde
  * die englische Bezeichnung aus COBOL uebernommen. Sie wird von einigen
