@@ -121,7 +121,6 @@ public class FachwertFactoryTest {
      * {@link ValidationException} keine andere Exception auftreten koennen.
      */
     @Test
-    //@Ignore
     public void testValidateAll() {
         Collection<Class<? extends Fachwert>> registeredClasses = FACTORY.getRegisteredClasses().values();
         for (Class<? extends Fachwert> fachwertClass : registeredClasses) {

@@ -19,6 +19,7 @@ package de.jfachwert;
 
 import de.jfachwert.bank.*;
 import de.jfachwert.math.Nummer;
+import de.jfachwert.math.PackedDecimal;
 import de.jfachwert.net.ChatAccount;
 import de.jfachwert.net.Domainname;
 import de.jfachwert.net.EMailAdresse;
@@ -98,6 +99,7 @@ public class FachwertFactory {
         INSTANCE.register(SteuerIdNr.class);
         INSTANCE.register(Steuernummer.class);
         INSTANCE.register(UStIdNr.class);
+        INSTANCE.register(PackedDecimal.class);
     }
 
     private FachwertFactory() {
