@@ -95,6 +95,16 @@ public class Rechnungsmonat implements Fachwert {
         this(monat + "/" + jahr);
     }
 
+    /**
+     * Erzeugt einen gueltigen Rechnungsmonat.
+     *
+     * @param monat MOnat
+     * @param jahr vierstellige Zahl
+     */
+    public Rechnungsmonat(Month monat, int jahr) {
+        this(monat.getValue(), jahr);
+    }
+
     private static LocalDate toLocalDate(String monat) {
         String normalized = monat.replaceAll("[/.\\s]", "-");
         String[] parts = monat.split("-");
@@ -198,6 +208,100 @@ public class Rechnungsmonat implements Fachwert {
     }
 
     /**
+     * Liefert den ersten Tag eines Rechnungsmonats.
+     * 
+     * @return z.B. 1.3.2018
+     * @since 0.6
+     */
+    public LocalDate ersterTag() {
+        return LocalDate.of(getJahr(), getMonat(), 1);
+    }
+
+    /**
+     * Diese Methode kann verwendet werden, um den ersten Montag im Monat
+     * zu bestimmen. Dazu ruft man diese Methode einfach mit
+     * {@link DayOfWeek#MONDAY} als Parameter auf.
+     * 
+     * @param wochentag z.B. {@link DayOfWeek#MONDAY}
+     * @return z.B. erster Arbeitstag
+     * @since 0.6
+     */
+    public LocalDate ersterTag(DayOfWeek wochentag) {
+        LocalDate tag = ersterTag();
+        while (tag.getDayOfWeek() != wochentag) {
+            tag = tag.plusDays(1);
+        }
+        return tag;
+    }
+
+    /**
+     * Diese Methode liefert den ersten Arbeitstag eines Monats. Allerdings
+     * werden dabei keine Feiertag beruecksichtigt, sondern nur die Wochenende,
+     * die auf einen ersten des Monats fallen, werden berucksichtigt.
+     * 
+     * @return erster Arbeitstag
+     * @since 0.6
+     */
+    public LocalDate ersterArbeitstag() {
+        LocalDate tag = ersterTag();
+        switch (tag.getDayOfWeek()) {
+            case SATURDAY:
+                return tag.plusDays(2);
+            case SUNDAY:
+                return tag.plusDays(1);
+            default:
+                return tag;
+        }
+    }
+
+    /**
+     * Liefert den letzten Tag eines Rechnungsmonats.
+     *
+     * @return z.B. 31.3.2018
+     * @since 0.6
+     */
+    public LocalDate letzterTag() {
+        return getFolgemonat().ersterTag().minusDays(1);
+    }
+
+    /**
+     * Diese Methode kann verwendet werden, um den letzten Freitag im Monat
+     * zu bestimmen. Dazu ruft man diese Methode einfach mit
+     * {@link DayOfWeek#FRIDAY} als Parameter auf.
+     *
+     * @param wochentag z.B. {@link DayOfWeek#FRIDAY}
+     * @return z.B. letzter Arbeitstag
+     * @since 0.6
+     */
+    public LocalDate letzterTag(DayOfWeek wochentag) {
+        LocalDate tag = ersterTag();
+        while (tag.getDayOfWeek() != wochentag) {
+            tag = tag.minusDays(1);
+        }
+        return tag;
+    }
+
+    /**
+     * Diese Methode liefert den letzten Arbeitstag eines Monats. Allerdings
+     * werden dabei keine Feiertag beruecksichtigt, sondern nur die Wochenende,
+     * die auf einen letzten des Monats fallen, werden berucksichtigt.
+     *
+     * @return letzter Arbeitstag
+     * @since 0.6
+     */
+    public LocalDate letzterArbeitstag() {
+        LocalDate tag = letzterTag();
+        switch (tag.getDayOfWeek()) {
+            case SATURDAY:
+                return tag.minusDays(1);
+            case SUNDAY:
+                return tag.minusDays(2);
+            default:
+                return tag;
+        }
+    }
+
+    /**
      * Liefert das Rechnungsatum als {@link LocalDate} zurueck. Sollte das
      * Datum als {@link java.util.Date} benoetigt werden, kann man es mit
      * {@link java.sql.Date#valueOf(LocalDate)} konvertieren.
@@ -205,7 +309,7 @@ public class Rechnungsmonat implements Fachwert {
      * @return z.B. 1.7.2017 fuer "7/2017"
      */
     public LocalDate asLocalDate() {
-        return LocalDate.of(getJahr(), getMonat(), 1);
+        return ersterTag();
     }
 
     /**

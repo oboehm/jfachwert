@@ -22,6 +22,7 @@ import org.junit.*;
 import javax.validation.*;
 import java.time.*;
 
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
 
 /**
@@ -76,6 +77,14 @@ public final class RechnungsmonatTest extends AbstractFachwertTest {
     }
 
     /**
+     * Hier testen wir den Konstruktur mit Month und Jahr.
+     */
+    @Test
+    public void testRechnungsmonatMonth() {
+        assertEquals(FEB_2017, new Rechnungsmonat(Month.FEBRUARY, 2017));
+    }
+
+    /**
      * Testmethode fuer {@link Rechnungsmonat#getVormonat()}.
      */
     @Test
@@ -115,6 +124,71 @@ public final class RechnungsmonatTest extends AbstractFachwertTest {
     @Test
     public void testFormat() {
         assertEquals("06/2017", new Rechnungsmonat(6, 2017).format("MM/yyyy"));
+    }
+
+    /**
+     * Test-Methode fuer {@link Rechnungsmonat#ersterTag()}.
+     */
+    @Test
+    public void testErsterTag() {
+        assertEquals(LocalDate.of(2017, 2, 1), FEB_2017.ersterTag());
+    }
+
+    /**
+     * Test-Methode fuer {@link Rechnungsmonat#ersterTag(DayOfWeek)}.
+     */
+    @Test
+    public void testErsterMontag() {
+        LocalDate ersterArbeitstag = FEB_2017.ersterTag(DayOfWeek.MONDAY);
+        assertEquals(DayOfWeek.MONDAY, ersterArbeitstag.getDayOfWeek());
+    }
+
+    /**
+     * Test-Methode fuer {@link Rechnungsmonat#ersterArbeitstag()}.
+     */
+    @Test
+    public void testErsterArbeitstag() {
+        for (int monat = 1; monat <= 12; monat++) {
+            Rechnungsmonat rechnungsmonat = new Rechnungsmonat(monat, 2018);
+            LocalDate localDate = rechnungsmonat.ersterArbeitstag();
+            assertNotWeekend(localDate);
+            assertEquals(monat, localDate.getMonthValue());
+        }
+    }
+
+    /**
+     * Test-Methode fuer {@link Rechnungsmonat#letzterTag()}.
+     */
+    @Test
+    public void testLetzerTag() {
+        assertEquals(LocalDate.of(2017, 2, 28), FEB_2017.letzterTag());
+    }
+
+    /**
+     * Test-Methode fuer {@link Rechnungsmonat#letzterTag(DayOfWeek)}.
+     */
+    @Test
+    public void testLetzterFreitag() {
+        LocalDate ersterArbeitstag = FEB_2017.letzterTag(DayOfWeek.FRIDAY);
+        assertEquals(DayOfWeek.FRIDAY, ersterArbeitstag.getDayOfWeek());
+    }
+
+    /**
+     * Test-Methode fuer {@link Rechnungsmonat#letzterArbeitstag()}.
+     */
+    @Test
+    public void testLetzterArbeitstag() {
+        for (int monat = 1; monat <= 12; monat++) {
+            Rechnungsmonat rechnungsmonat = new Rechnungsmonat(monat, 2018);
+            LocalDate localDate = rechnungsmonat.letzterArbeitstag();
+            assertNotWeekend(localDate);
+            assertEquals(monat, localDate.getMonthValue());
+        }
+    }
+
+    private static void assertNotWeekend(LocalDate localDate) {
+        assertThat(localDate.getDayOfWeek(), not(DayOfWeek.SATURDAY));
+        assertThat(localDate.getDayOfWeek(), not(DayOfWeek.SUNDAY));
     }
 
 }
