@@ -17,7 +17,7 @@
  */
 package de.jfachwert.math;
 
-import de.jfachwert.AbstractFachwert;
+import de.jfachwert.Fachwert;
 import de.jfachwert.SimpleValidator;
 import de.jfachwert.pruefung.NullValidator;
 
@@ -45,9 +45,10 @@ import de.jfachwert.pruefung.NullValidator;
  * @author oboehm
  * @since 0.6 (29.03.2018)
  */
-public class PackedDecimal extends AbstractFachwert<byte[]> {
+public class PackedDecimal implements Fachwert {
 
     private static final SimpleValidator<String> VALIDATOR = new NullValidator();
+    private final byte[] code;
 
     /**
      * Instanziiert ein PackedDecimal.
@@ -66,7 +67,7 @@ public class PackedDecimal extends AbstractFachwert<byte[]> {
      * @param validator Validator, der die Zahl prueft
      */
     public PackedDecimal(String zahl, SimpleValidator<String> validator) {
-        super(asNibbles(validator.validate(zahl)));
+        this.code = asNibbles(validator.validate(zahl));
     }
 
     private static byte[] asNibbles(String zahl) {
@@ -83,7 +84,7 @@ public class PackedDecimal extends AbstractFachwert<byte[]> {
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
-        for (byte b : this.getCode()) {
+        for (byte b : this.code) {
             if ((b & 0x0F) == 0xF) {
                 buf.append((b & 0xF0) / 16);
             } else {

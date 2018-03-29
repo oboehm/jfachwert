@@ -49,4 +49,13 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
         assertEquals("007", agent.toString());
     }
 
+    /**
+     * Zahlen mit null Inhalt sollen erlaubt sein.
+     */
+    @Test
+    public void testEmptyCtor() {
+        PackedDecimal nix = new PackedDecimal("");
+        assertEquals("", nix.toString());
+    }
+
 }
