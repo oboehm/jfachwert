@@ -19,8 +19,14 @@ package de.jfachwert.math;
 
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
+import patterntesting.runtime.util.Converter;
 
+import java.io.NotSerializableException;
+
+import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Unit-Tests fuer {@link Nummer}-Klasse.
@@ -41,6 +47,23 @@ public final class NummerTest extends AbstractFachwertTest {
     public void testGet() {
         Nummer nummer = new Nummer("4711");
         assertEquals(4711, nummer.intValue());
+    }
+
+    /**
+     * Hier wird die Groesse des Objekts getestet. Als String abgespeichert
+     * verbraucht eine vierstellig Zahl ca. 80 Bytes. Die gilt es zu
+     * unterbieten.
+     * 
+     * @throws NotSerializableException sollte nicht passieren
+     */
+    @Test
+    public void testObjectSize() throws NotSerializableException {
+        Nummer einstellig = new Nummer("1");
+        Nummer fuenfstellig = new Nummer("70839");
+        long n = Converter.serialize(fuenfstellig).length;
+        long diff = n - Converter.serialize(einstellig).length;
+        assertThat(n, lessThan(100L));
+        assertThat(diff, lessThanOrEqualTo(4L));
     }
 
 }

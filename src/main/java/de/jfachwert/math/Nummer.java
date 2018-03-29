@@ -17,15 +17,21 @@
  */
 package de.jfachwert.math;
 
-import de.jfachwert.AbstractFachwert;
+import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 
 import java.math.BigInteger;
+import java.util.Objects;
 
 /**
  * Die Klasse Nummer dient zum Abspeichern einer beliebigen Nummer. Eine Nummer
  * ist eine positive Ganzzahl und beginnt ueblicherweise mit 1. Dabei kann es
  * sich um eine laufende Nummer, Start-Nummer, Trikot-Nummer, ... handeln.
+ * <p>
+ * Die Klasse ist Speicher-optimiert, um auch eine große Zahl von Nummern im
+ * Speicher halten zu koennen. Und man kann damit auch Zahlen mit fuehrenden
+ * Nullen (wie z.B. PLZ) damit abbilden.
+ * </p>
  * <p>
  * Urspruenglich war diese Klasse als Ergaenzung zur {@link de.jfachwert.Text}-
  * Klasse gedacht.
@@ -34,7 +40,9 @@ import java.math.BigInteger;
  * @author oboehm
  * @since 0.6 (24.01.2018)
  */
-public class Nummer extends AbstractFachwert<BigInteger> {
+public class Nummer implements Fachwert {
+    
+    private final String code;
 
     /**
      * Erzeugt eine Nummer als positive Ganzzahl.
@@ -51,7 +59,7 @@ public class Nummer extends AbstractFachwert<BigInteger> {
      * @param code z.B. "42"
      */
     public Nummer(String code) {
-        this(new BigInteger(validate(code)));
+        this.code = code;
     }
 
     /**
@@ -60,7 +68,7 @@ public class Nummer extends AbstractFachwert<BigInteger> {
      * @param code eine beliebige Zahl
      */
     public Nummer(BigInteger code) {
-        super(code);
+        this(code.toString());
     }
 
     /**
@@ -83,7 +91,42 @@ public class Nummer extends AbstractFachwert<BigInteger> {
      * @return z.B. 42
      */
     public int intValue() {
-        return this.getCode().intValue();
+        return Integer.parseInt(code);
     }
-    
+
+    /**
+     * Zwei Nummer sind dann gleich, wenn sie exact gleich geschrieben werden.
+     * D.h. fuehrende Nullen werden beim Vergleich nicht ignoriert.
+     * 
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Nummer)) {
+            return false;
+        }
+        Nummer other = (Nummer) obj;
+        return this.toString().equals(other.toString());
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(code);
+    }
+
+    /**
+     * Hier wird die Nummer inklusive fuehrende Null (falls vorhanden)
+     * ausgegeben.
+     * 
+     * @return z.B. "0711"
+     */
+    @Override
+    public String toString() {
+        return this.code.toString();
+    }
+
 }
