@@ -20,11 +20,12 @@ package de.jfachwert.math;
 import de.jfachwert.Fachwert;
 import de.jfachwert.SimpleValidator;
 import de.jfachwert.pruefung.NullValidator;
+import de.jfachwert.pruefung.exception.InvalidValueException;
 
 /**
  * Die Klasse PackedDecimal dienst zum speicherschonende Speichern von Zahlen.
  * Sie greift die Idee von COBOL auf, wo es den numerischen Datentyp
- * "COMPUTATIONAL-3 PACKED" gibt, wo die Zahlen in Half-Bytes (Nibbles)
+ * "COMPUTATIONAL-3 PACKED" gibt, wo die Zahlen in Halb-Bytes (Nibbles)
  * abgespeichert wird. D.h. In einem Byte lassen sich damit 2 Zahlen
  * abspeichern. Diese Praesentation ist auch als BCD (Binary Coded Decimal)
  * bekannt (s. <a href="https://de.wikipedia.org/wiki/BCD-Code">BCD-Code</a>
@@ -44,7 +45,40 @@ import de.jfachwert.pruefung.NullValidator;
  * Densely-Packed-Decimal-Kodierung (s.
  * <a href="http://speleotrove.com/decimal/DPDecimal.html">A Summary of Densely Packed Decimal encoding</a>).
  * Diese kommt hier aber nicht zum Einsatz. Stattdessen der BCD-Algorithmus
- * zum Einsatz.
+ * zum Einsatz. Dadurch koennen auch weitere Trenn- und Fuell-Zeichen aufgenommen
+ * werden:
+ * </p>
+ * <ul>
+ *     <li>Vorzeichen (+, -)</li>
+ *     <li>Formattierung ('.', ',')</li>
+ *     <li>Leerzeichen</li>
+ *     <li>Trennzeichen (z.B. fuer Telefonnummern)</li>
+ * </ul>
+ * <p>
+ * Die einzelnen Werte, die ein Halb-Byte (Nibble) aufnimmt, sind (angelehnt an
+ * <a href="http://acc-gmbh.com/dochtml/Datentypen4.html">COMPUTATIONAL-3 PACKED</a>
+ * in COBOL):
+ * </p>
+ * <pre>
+ * +-----+---+--------------------------------------------------+
+ * | 0x0 | 0 | Ziffer 0                                         |
+ * | 0x1 | 1 | Ziffer 1                                         |
+ * | ... |   |                                                  |
+ * | 0x9 | 9 | Ziffer 9                                         |
+ * | 0xA | / | Trennzeichen fuer Brueche                        |
+ * | 0xB |   | Leerzeichen (Blank)                              |
+ * | 0xC | + | positives Vorzeichen                             |
+ * | 0xD | - | Leerzeichen (Blank)                              |
+ * | 0xE | . | Formatzeichen Tausenderstelle (im Deutschen)     |
+ * | 0xF | , | Trennung Vorkomma/Nachkommastelle (im Deutschen) |
+ * +-----+---+--------------------------------------------------+
+ * </pre>
+ * <p>
+ * Damit koennen auch Zeichenketten nachgebildet werden, die strenggenommen
+ * keine Dezimalzahl darstellen, z.B. "+49/811 32 16-8". Dies ist zwar
+ * zulaessig, jedoch duerfen damit keine mathematische Operation angewendet
+ * werden. Ansonsten kann die Klasse ueberall dort eingesetzt werden, wo
+ * auch eine {@link java.math.BigDecimal} verwendet wird.s
  * </p>
  * <p>
  * Da diese Klasse eher eine technische als eine fachliche Klasse ist, wurde
@@ -82,12 +116,12 @@ public class PackedDecimal implements Fachwert {
     }
 
     private static byte[] asNibbles(String zahl) {
-        char[] chars = (zahl + "F").toCharArray();
+        char[] chars = (zahl + " ").toCharArray();
         byte[] bytes = new byte[(chars.length) / 2];
         for (int i = 0; i < bytes.length; i++) {
-            int x1 = Character.digit(chars[i * 2], 16);
-            int x2 = Character.digit(chars[i * 2 + 1], 16);
-            bytes[i] = (byte) (x1 * 16 + x2);
+            int upper = decode(chars[i * 2]);
+            int lower = decode(chars[i * 2 + 1]);
+            bytes[i] = (byte) ((upper << 4) | lower);
         }
         return bytes;
     }
@@ -96,14 +130,56 @@ public class PackedDecimal implements Fachwert {
     public String toString() {
         StringBuilder buf = new StringBuilder();
         for (byte b : this.code) {
-            if ((b & 0x0F) == 0xF) {
-                buf.append((b & 0xF0) / 16);
-            } else {
-                String unpacked = String.format("%02x", b);
-                buf.append(unpacked);
-            }
+            buf.append(encode(b >> 4));
+            buf.append(encode(b & 0x0F));
         }
-        return buf.toString();
+        return buf.toString().trim();
+    }
+
+    private static int decode(char x) {
+        switch (x) {
+            case '0':   return 0x0;
+            case '1':   return 0x1;
+            case '2':   return 0x2;
+            case '3':   return 0x3;
+            case '4':   return 0x4;
+            case '5':   return 0x5;
+            case '6':   return 0x6;
+            case '7':   return 0x7;
+            case '8':   return 0x8;
+            case '9':   return 0x9;
+            case '/':   return 0xA;
+            case '\t':
+            case ' ':   return 0xB;
+            case '+':   return 0xC;
+            case '-':   return 0xD;
+            case '.':   return 0xE;
+            case ',':   return 0xF;
+            default:    throw new InvalidValueException(x, "number");
+        }
+    }
+
+    private static char encode(int nibble) {
+        switch (0x0F & nibble) {
+            case 0x0:   return '0';
+            case 0x1:   return '1';
+            case 0x2:   return '2';
+            case 0x3:   return '3';
+            case 0x4:   return '4';
+            case 0x5:   return '5';
+            case 0x6:   return '6';
+            case 0x7:   return '7';
+            case 0x8:   return '8';
+            case 0x9:   return '9';
+            case 0xA:   return '/';
+            case 0xB:   return ' ';
+            case 0xC:   return '+';
+            case 0xD:   return '-';
+            case 0xE:   return '.';
+            case 0xF:   return ',';
+            default:    throw new IllegalStateException("internal error");
+        }
+
     }
 
     /* (non-Javadoc)
