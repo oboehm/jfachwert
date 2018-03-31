@@ -109,4 +109,15 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
         assertEquals(BigDecimal.TEN, ten.toBigDecimal());
     }
 
+    /**
+     * Testmethode fuer {@link PackedDecimal#add(PackedDecimal)}.
+     */
+    @Test
+    public void testAdd() {
+        PackedDecimal pi = PackedDecimal.valueOf("3.14");
+        PackedDecimal negativeZahl = PackedDecimal.valueOf("-0.14");
+        PackedDecimal drei = pi.add(negativeZahl);
+        assertEquals(PackedDecimal.valueOf("3.00"), drei);
+    }
+
 }
