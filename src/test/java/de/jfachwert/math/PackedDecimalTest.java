@@ -20,6 +20,7 @@ package de.jfachwert.math;
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
+import javax.validation.ValidationException;
 import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
@@ -59,6 +60,14 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
     public void testEmptyCtor() {
         PackedDecimal nix = PackedDecimal.EMPTY;
         assertEquals("", nix.toString());
+    }
+
+    /**
+     * Ungueltige Werte sollten nicht akzeptiert werden.
+     */
+    @Test(expected = ValidationException.class)
+    public void testCtorWithInvalidString() {
+        new PackedDecimal("hello world");
     }
 
     /**
