@@ -21,6 +21,7 @@ import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit-Tests fuer {@link PackedDecimal}-Klasse.
@@ -54,8 +55,20 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
      */
     @Test
     public void testEmptyCtor() {
-        PackedDecimal nix = new PackedDecimal("");
+        PackedDecimal nix = PackedDecimal.EMPTY;
         assertEquals("", nix.toString());
+    }
+
+    /**
+     * Da die Zahl "0" relativ haeufig vorkommt, sollte nicht jedesmal eine
+     * neue "0" produziert werden, sondern jedesmal die gleiche "0"
+     * zurueckgegeben werden.
+     */
+    @Test
+    public void testValueOf() {
+        PackedDecimal zero = PackedDecimal.valueOf("0");
+        assertEquals(new PackedDecimal("0"), zero);
+        assertTrue(zero == PackedDecimal.valueOf("0"));
     }
 
 }

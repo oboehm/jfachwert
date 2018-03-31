@@ -21,6 +21,7 @@ import de.jfachwert.Fachwert;
 import de.jfachwert.SimpleValidator;
 import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.exception.InvalidValueException;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Die Klasse PackedDecimal dienst zum speicherschonende Speichern von Zahlen.
@@ -93,7 +94,35 @@ import de.jfachwert.pruefung.exception.InvalidValueException;
 public class PackedDecimal implements Fachwert {
 
     private static final SimpleValidator<String> VALIDATOR = new NullValidator();
+    private static final PackedDecimal[] cache = new PackedDecimal[11];
     private final byte[] code;
+
+    static {
+        for (int i = 0; i < cache.length; i++) {
+            cache[i] = new PackedDecimal(i);
+        }
+    }
+
+    /** Leere PackedDecimal. */
+    public static final PackedDecimal EMPTY = new PackedDecimal("");
+
+    /** Die Zahl 0. */
+    public static final PackedDecimal ZERO = cache[0];
+
+    /** Die Zahl 1. */
+    public static final PackedDecimal ONE = cache[1];
+
+    /** Die Zahl 10. */
+    public static final PackedDecimal TEN = cache[10];
+
+    /**
+     * Instanziiert ein PackedDecimal.
+     *
+     * @param zahl Zahl
+     */
+    public PackedDecimal(long zahl) {
+        this(Long.toString(zahl));
+    }
 
     /**
      * Instanziiert ein PackedDecimal.
@@ -113,6 +142,26 @@ public class PackedDecimal implements Fachwert {
      */
     public PackedDecimal(String zahl, SimpleValidator<String> validator) {
         this.code = asNibbles(validator.validate(zahl));
+    }
+
+    /**
+     * Liefert den uebergebenen String als {@link PackedDecimal} zurueck.
+     * Diese Methode ist dem Konstruktor vorzuziehen, da fuer gaengige Zahlen
+     * wie "0" oder "1" immer das gleiche Objekt zurueckgegeben wird.
+     *
+     * @param zahl String aus Zahlen
+     * @return Zahl als {@link PackedDecimal}
+     */
+    public static PackedDecimal valueOf(String zahl) {
+        String trimmed = StringUtils.trimToEmpty(zahl);
+        if (StringUtils.isEmpty(trimmed)) {
+            return EMPTY;
+        }
+        if ((trimmed.length() == 1 && Character.isDigit(trimmed.charAt(0)))) {
+            return cache[Character.getNumericValue(trimmed.charAt(0))];
+        } else {
+            return new PackedDecimal(zahl);
+        }
     }
 
     private static byte[] asNibbles(String zahl) {
