@@ -95,7 +95,7 @@ import java.math.BigDecimal;
  */
 public class PackedDecimal implements Fachwert {
 
-    private static final SimpleValidator<String> VALIDATOR = new NullValidator();
+    private static final NullValidator VALIDATOR = new NullValidator();
     private static final PackedDecimal[] cache = new PackedDecimal[11];
     private final byte[] code;
 
@@ -205,6 +205,15 @@ public class PackedDecimal implements Fachwert {
         }
     }
 
+    /**
+     * Liefert die gepackte Dezimalzahl wieder als {@link BigDecimal} zurueck.
+     *
+     * @return gepackte Dezimalzahl als {@link BigDecimal}
+     */
+    public BigDecimal toBigDecimal() {
+        return new BigDecimal(toString());
+    }
+
     private static byte[] asNibbles(String zahl) {
         char[] chars = (zahl + " ").toCharArray();
         byte[] bytes = new byte[(chars.length) / 2];
@@ -269,7 +278,6 @@ public class PackedDecimal implements Fachwert {
             case 0xF:   return ',';
             default:    throw new IllegalStateException("internal error");
         }
-
     }
 
     /* (non-Javadoc)

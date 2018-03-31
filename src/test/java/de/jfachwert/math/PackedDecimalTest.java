@@ -82,4 +82,13 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
         assertSame(PackedDecimal.ZERO, PackedDecimal.valueOf(BigDecimal.ZERO));
     }
 
+    /**
+     * Testmethode fuer {@link PackedDecimal#toBigDecimal()}.
+     */
+    @Test
+    public void testToBigDecimal() {
+        PackedDecimal ten = PackedDecimal.valueOf(BigDecimal.TEN);
+        assertEquals(BigDecimal.TEN, ten.toBigDecimal());
+    }
+
 }
