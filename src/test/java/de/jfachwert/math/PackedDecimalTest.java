@@ -71,6 +71,15 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
     }
 
     /**
+     * Testmethode fuer {@link PackedDecimal#valueOf(BigDecimal)}.
+     */
+    @Test
+    public void testValueOfDouble() {
+        PackedDecimal number = PackedDecimal.valueOf(3.14);
+        assertEquals(new PackedDecimal(3.14), number);
+    }
+
+    /**
      * Da die Zahl "0" relativ haeufig vorkommt, sollte nicht jedesmal eine
      * neue "0" produziert werden, sondern jedesmal die gleiche "0"
      * zurueckgegeben werden.

@@ -127,6 +127,15 @@ public class PackedDecimal implements Fachwert {
     }
 
     /**
+     * Instanziiert ein PackedDecimal.
+     *
+     * @param zahl Zahl
+     */
+    public PackedDecimal(double zahl) {
+        this(Double.toString(zahl));
+    }
+
+    /**
      * Falls man eine {@link BigDecimal} in eine {@link PackedDecimal} wandeln
      * will, kann man diesen Konstruktor hier verwenden. Besser ist es
      * allerdings, wenn man dazu {@link #valueOf(BigDecimal)} verwendet.
@@ -167,6 +176,16 @@ public class PackedDecimal implements Fachwert {
      */
     public static PackedDecimal valueOf(long zahl) {
         return valueOf(Long.toString(zahl));
+    }
+
+    /**
+     * Liefert den uebergebenen String als {@link PackedDecimal} zurueck.
+     *
+     * @param zahl beliebige long-Zahl
+     * @return Zahl als {@link PackedDecimal}
+     */
+    public static PackedDecimal valueOf(double zahl) {
+        return valueOf(Double.toString(zahl));
     }
 
     /**
