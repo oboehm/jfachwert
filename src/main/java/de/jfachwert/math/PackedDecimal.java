@@ -23,6 +23,8 @@ import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.StringUtils;
 
+import java.math.BigDecimal;
+
 /**
  * Die Klasse PackedDecimal dienst zum speicherschonende Speichern von Zahlen.
  * Sie greift die Idee von COBOL auf, wo es den numerischen Datentyp
@@ -125,6 +127,17 @@ public class PackedDecimal implements Fachwert {
     }
 
     /**
+     * Falls man eine {@link BigDecimal} in eine {@link PackedDecimal} wandeln
+     * will, kann man diesen Konstruktor hier verwenden. Besser ist es
+     * allerdings, wenn man dazu {@link #valueOf(BigDecimal)} verwendet.
+     *
+     * @param zahl eine Dezimalzahl
+     */
+    public PackedDecimal(BigDecimal zahl) {
+        this(zahl.toString());
+    }
+
+    /**
      * Instanziiert ein PackedDecimal.
      *
      * @param zahl String aus Zahlen
@@ -148,6 +161,34 @@ public class PackedDecimal implements Fachwert {
      * Liefert den uebergebenen String als {@link PackedDecimal} zurueck.
      * Diese Methode ist dem Konstruktor vorzuziehen, da fuer gaengige Zahlen
      * wie "0" oder "1" immer das gleiche Objekt zurueckgegeben wird.
+     *
+     * @param zahl beliebige long-Zahl
+     * @return Zahl als {@link PackedDecimal}
+     */
+    public static PackedDecimal valueOf(long zahl) {
+        return valueOf(Long.toString(zahl));
+    }
+
+    /**
+     * Liefert den uebergebenen String als {@link PackedDecimal} zurueck.
+     * Diese Methode ist dem Konstruktor vorzuziehen, da fuer gaengige Zahlen
+     * wie "0" oder "1" immer das gleiche Objekt zurueckgegeben wird.
+     *
+     * @param zahl beliebige long-Zahl
+     * @return Zahl als {@link PackedDecimal}
+     */
+    public static PackedDecimal valueOf(BigDecimal zahl) {
+        return valueOf(zahl.toString());
+    }
+
+    /**
+     * Liefert den uebergebenen String als {@link PackedDecimal} zurueck.
+     * Diese Methode ist dem Konstruktor vorzuziehen, da fuer gaengige Zahlen
+     * wie "0" oder "1" immer das gleiche Objekt zurueckgegeben wird.
+     * <p>
+     * Im Gegensatz zum String-Konstruktor darf man hier auch 'null' als Wert
+     * uebergeben. In diesem Fall wird dies in {@link #EMPTY} uebersetzt.
+     * </p>
      *
      * @param zahl String aus Zahlen
      * @return Zahl als {@link PackedDecimal}

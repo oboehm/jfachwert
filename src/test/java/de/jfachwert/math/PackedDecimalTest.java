@@ -20,8 +20,10 @@ package de.jfachwert.math;
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertSame;
 
 /**
  * Unit-Tests fuer {@link PackedDecimal}-Klasse.
@@ -60,15 +62,24 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
     }
 
     /**
+     * Testmethode fuer {@link PackedDecimal#valueOf(BigDecimal)}.
+     */
+    @Test
+    public void testValueOf() {
+        PackedDecimal number = PackedDecimal.valueOf(42);
+        assertEquals(new PackedDecimal(42), number);
+    }
+
+    /**
      * Da die Zahl "0" relativ haeufig vorkommt, sollte nicht jedesmal eine
      * neue "0" produziert werden, sondern jedesmal die gleiche "0"
      * zurueckgegeben werden.
      */
     @Test
-    public void testValueOf() {
-        PackedDecimal zero = PackedDecimal.valueOf("0");
-        assertEquals(new PackedDecimal("0"), zero);
-        assertTrue(zero == PackedDecimal.valueOf("0"));
+    public void testValueOfZero() {
+        assertSame(PackedDecimal.ZERO, PackedDecimal.valueOf("0"));
+        assertSame(PackedDecimal.ZERO, PackedDecimal.valueOf(0));
+        assertSame(PackedDecimal.ZERO, PackedDecimal.valueOf(BigDecimal.ZERO));
     }
 
 }
