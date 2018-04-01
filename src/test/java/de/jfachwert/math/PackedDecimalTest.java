@@ -160,4 +160,20 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
         assertEquals(PackedDecimal.valueOf(5), PackedDecimal.TEN.divide(PackedDecimal.valueOf(2)));
     }
 
+    /**
+     * Testmethode fuer {@link PackedDecimal#movePointLeft(int)}.
+     */
+    @Test
+    public void testMovePointLeft() {
+        assertEquals(PackedDecimal.valueOf("1.0"), PackedDecimal.TEN.movePointLeft(1));
+    }
+
+    /**
+     * Testmethode fuer {@link PackedDecimal#movePointRight(int)}.
+     */
+    @Test
+    public void testMovePointRight() {
+        assertEquals(PackedDecimal.TEN, PackedDecimal.ONE.movePointRight(1));
+    }
+
 }
