@@ -127,4 +127,12 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
         assertEquals(PackedDecimal.valueOf("3.00"), drei);
     }
 
+    /**
+     * Testmethode fuer {@link PackedDecimal#subtract(PackedDecimal)}.
+     */
+    @Test
+    public void testSubtract() {
+        assertEquals(PackedDecimal.valueOf(-9), PackedDecimal.ONE.subtract(PackedDecimal.TEN));
+    }
+
 }

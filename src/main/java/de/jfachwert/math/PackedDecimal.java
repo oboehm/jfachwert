@@ -82,7 +82,11 @@ import java.math.BigDecimal;
  * keine Dezimalzahl darstellen, z.B. "+49/811 32 16-8". Dies ist zwar
  * zulaessig, jedoch duerfen damit keine mathematische Operation angewendet
  * werden. Ansonsten kann die Klasse ueberall dort eingesetzt werden, wo
- * auch eine {@link java.math.BigDecimal} verwendet wird.s
+ * auch eine {@link java.math.BigDecimal} verwendet wird.
+ * </p>
+ * <p>
+ * Die API orientiert sich an die API von {@link BigDecimal}. Allerdings werden
+ * noch nicht alle Methoden unterstuetzt.
  * </p>
  * <p>
  * Da diese Klasse eher eine technische als eine fachliche Klasse ist, wurde
@@ -249,11 +253,34 @@ public class PackedDecimal implements Fachwert {
      * Summiert den uebergebenen Summanden und liefert als Ergebnis eine neue
      * {@link PackedDecimal} zurueck
      *
-     * @param summand Summand
-     * @return Summe
+     * @param summand Operand
+     * @return Differenz
      */
     public PackedDecimal add(BigDecimal summand) {
         BigDecimal summe = toBigDecimal().add(summand);
+        return PackedDecimal.valueOf(summe);
+    }
+
+    /**
+     * Subtrahiert den uebergebenen Operanden und liefert als Ergebnis eine neue
+     * {@link PackedDecimal} zurueck
+     *
+     * @param operand Summand
+     * @return Summe
+     */
+    public PackedDecimal subtract(PackedDecimal operand) {
+        return subtract(operand.toBigDecimal());
+    }
+
+    /**
+     * Subtrahiert den uebergebenen Operanden und liefert als Ergebnis eine neue
+     * {@link PackedDecimal} zurueck
+     *
+     * @param operand Operand
+     * @return Differenz
+     */
+    public PackedDecimal subtract(BigDecimal operand) {
+        BigDecimal summe = toBigDecimal().subtract(operand);
         return PackedDecimal.valueOf(summe);
     }
 
