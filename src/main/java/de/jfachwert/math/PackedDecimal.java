@@ -307,6 +307,29 @@ public class PackedDecimal implements Fachwert {
         return PackedDecimal.valueOf(produkt);
     }
 
+    /**
+     * Dividiert den uebergebenen Operanden und liefert als Ergebnis eine neue
+     * {@link PackedDecimal} zurueck
+     *
+     * @param operand Operand
+     * @return Ergebnis der Division
+     */
+    public PackedDecimal divide(PackedDecimal operand) {
+        return divide(operand.toBigDecimal());
+    }
+
+    /**
+     * Dividiert den uebergebenen Operanden und liefert als Ergebnis eine neue
+     * {@link PackedDecimal} zurueck
+     *
+     * @param operand Operand
+     * @return Ergebnis der Division
+     */
+    public PackedDecimal divide(BigDecimal operand) {
+        BigDecimal result = toBigDecimal().divide(operand);
+        return PackedDecimal.valueOf(result);
+    }
+
     private static byte[] asNibbles(String zahl) {
         char[] chars = (zahl + " ").toCharArray();
         byte[] bytes = new byte[(chars.length) / 2];

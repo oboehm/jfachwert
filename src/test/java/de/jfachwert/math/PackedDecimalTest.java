@@ -152,4 +152,12 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
         assertEquals(PackedDecimal.valueOf("1.0"), PackedDecimal.TEN.multiply(PackedDecimal.valueOf("0.1")));
     }
 
+    /**
+     * Testmethode fuer {@link PackedDecimal#divide(BigDecimal)}.
+     */
+    @Test
+    public void testDivide() {
+        assertEquals(PackedDecimal.valueOf(5), PackedDecimal.TEN.divide(PackedDecimal.valueOf(2)));
+    }
+
 }
