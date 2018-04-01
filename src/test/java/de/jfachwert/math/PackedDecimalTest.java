@@ -128,6 +128,15 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
     }
 
     /**
+     * Ganze Zahlen sollten sich mit Zahlen mit Nachkommastellen addieren
+     * lassen.
+     */
+    @Test
+    public void testAddEinstellig() {
+        assertEquals(PackedDecimal.valueOf("1.2"), PackedDecimal.ONE.add(PackedDecimal.valueOf("0.2")));
+    }
+
+    /**
      * Testmethode fuer {@link PackedDecimal#subtract(PackedDecimal)}.
      */
     @Test
