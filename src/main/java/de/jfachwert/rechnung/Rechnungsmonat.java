@@ -39,8 +39,8 @@ public class Rechnungsmonat implements Fachwert {
     private static final Range<Integer> VALID_YEAR_RANGE = Range.between(0, 9999);
     private static final String MONTH = "month";
     private static final String YEAR = "year";
-    private final int monat;
-    private final int jahr;
+    private final byte monat;
+    private final short jahr;
 
     /**
      * Der Default-Konstruktor legt einen Rechnungsmonat vom aktuellen Monat
@@ -76,12 +76,12 @@ public class Rechnungsmonat implements Fachwert {
     public Rechnungsmonat(String monat) {
         String[] parts = monat.split("/");
         if ((parts.length == 2) && isDigit(parts[0]) && isDigit(parts[1])) {
-            this.monat = validate(MONTH, parts[0], VALID_MONTH_RANGE);
-            this.jahr = validate(YEAR, parts[1], VALID_YEAR_RANGE);
+            this.monat = (byte) validate(MONTH, parts[0], VALID_MONTH_RANGE);
+            this.jahr = (short) validate(YEAR, parts[1], VALID_YEAR_RANGE);
         } else {
             LocalDate date = toLocalDate(monat);
-            this.monat = date.getMonthValue();
-            this.jahr = date.getYear();
+            this.monat = (byte) date.getMonthValue();
+            this.jahr = (short) date.getYear();
         }
     }
 

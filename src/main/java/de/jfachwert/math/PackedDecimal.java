@@ -234,6 +234,29 @@ public class PackedDecimal implements Fachwert {
         return new BigDecimal(toString());
     }
 
+    /**
+     * Summiert den uebergebenen Summanden und liefert als Ergebnis eine neue
+     * {@link PackedDecimal} zurueck
+     *
+     * @param summand Summand
+     * @return Summe
+     */
+    public PackedDecimal add(PackedDecimal summand) {
+        return add(summand.toBigDecimal());
+    }
+
+    /**
+     * Summiert den uebergebenen Summanden und liefert als Ergebnis eine neue
+     * {@link PackedDecimal} zurueck
+     *
+     * @param summand Summand
+     * @return Summe
+     */
+    public PackedDecimal add(BigDecimal summand) {
+        BigDecimal summe = toBigDecimal().add(summand);
+        return PackedDecimal.valueOf(summe);
+    }
+
     private static byte[] asNibbles(String zahl) {
         char[] chars = (zahl + " ").toCharArray();
         byte[] bytes = new byte[(chars.length) / 2];
@@ -323,10 +346,7 @@ public class PackedDecimal implements Fachwert {
      */
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof PackedDecimal)) {
-            return false;
-        }
-        return this.toString().equals(obj.toString());
+        return obj instanceof PackedDecimal && this.toString().equals(obj.toString());
     }
 
 }
