@@ -144,4 +144,12 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
         assertEquals(PackedDecimal.valueOf(-9), PackedDecimal.ONE.subtract(PackedDecimal.TEN));
     }
 
+    /**
+     * Testmethode fuer {@link PackedDecimal#multiply(BigDecimal)}.
+     */
+    @Test
+    public void testMultiply() {
+        assertEquals(PackedDecimal.valueOf("1.0"), PackedDecimal.TEN.multiply(PackedDecimal.valueOf("0.1")));
+    }
+
 }

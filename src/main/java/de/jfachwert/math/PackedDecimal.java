@@ -280,8 +280,31 @@ public class PackedDecimal implements Fachwert {
      * @return Differenz
      */
     public PackedDecimal subtract(BigDecimal operand) {
-        BigDecimal summe = toBigDecimal().subtract(operand);
-        return PackedDecimal.valueOf(summe);
+        BigDecimal result = toBigDecimal().subtract(operand);
+        return PackedDecimal.valueOf(result);
+    }
+
+    /**
+     * Mulitpliziert den uebergebenen Operanden und liefert als Ergebnis eine neue
+     * {@link PackedDecimal} zurueck
+     *
+     * @param operand Summand
+     * @return Produkt
+     */
+    public PackedDecimal multiply(PackedDecimal operand) {
+        return multiply(operand.toBigDecimal());
+    }
+
+    /**
+     * Multipliziert den uebergebenen Operanden und liefert als Ergebnis eine neue
+     * {@link PackedDecimal} zurueck
+     *
+     * @param operand Operand
+     * @return Produkt
+     */
+    public PackedDecimal multiply(BigDecimal operand) {
+        BigDecimal produkt = toBigDecimal().multiply(operand);
+        return PackedDecimal.valueOf(produkt);
     }
 
     private static byte[] asNibbles(String zahl) {
