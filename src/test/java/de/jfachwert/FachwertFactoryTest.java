@@ -127,7 +127,8 @@ public class FachwertFactoryTest {
             try {
                 FACTORY.validate(fachwertClass, "TEST");
             } catch (ValidationException mayhappen) {
-                assertThat(mayhappen.getMessage(), containsString("TEST"));
+                assertThat(fachwertClass + " throws inusfficient exeption", mayhappen.getMessage(),
+                        containsString("TEST"));
             }
         }
     }

@@ -65,9 +65,16 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
     /**
      * Ungueltige Werte sollten nicht akzeptiert werden.
      */
-    @Test(expected = ValidationException.class)
+    @Test
     public void testCtorWithInvalidString() {
-        new PackedDecimal("hello world");
+        try {
+            new PackedDecimal("hello world");
+        } catch (ValidationException expected) {
+            String msg = expected.getMessage();
+            if (!msg.contains("hello world")) {
+                throw new IllegalStateException(msg + " does not contain 'hello world'", expected);
+            }
+        }
     }
 
     /**

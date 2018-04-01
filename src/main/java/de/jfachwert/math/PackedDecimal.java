@@ -23,6 +23,7 @@ import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.validation.ValidationException;
 import java.math.BigDecimal;
 
 /**
@@ -236,10 +237,14 @@ public class PackedDecimal implements Fachwert {
     private static byte[] asNibbles(String zahl) {
         char[] chars = (zahl + " ").toCharArray();
         byte[] bytes = new byte[(chars.length) / 2];
-        for (int i = 0; i < bytes.length; i++) {
-            int upper = decode(chars[i * 2]);
-            int lower = decode(chars[i * 2 + 1]);
-            bytes[i] = (byte) ((upper << 4) | lower);
+        try {
+            for (int i = 0; i < bytes.length; i++) {
+                int upper = decode(chars[i * 2]);
+                int lower = decode(chars[i * 2 + 1]);
+                bytes[i] = (byte) ((upper << 4) | lower);
+            }
+        } catch (ValidationException ex) {
+            throw new InvalidValueException(zahl, "number");
         }
         return bytes;
     }
