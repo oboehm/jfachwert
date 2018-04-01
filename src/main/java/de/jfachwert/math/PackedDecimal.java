@@ -330,6 +330,28 @@ public class PackedDecimal implements Fachwert {
         return PackedDecimal.valueOf(result);
     }
 
+    /**
+     * Verschiebt den Dezimalpunkt um n Stellen nach links.
+     *
+     * @param n Anzahl Stellen
+     * @return eine neue {@link PackedDecimal}
+     */
+    public PackedDecimal movePointLeft(int n) {
+        BigDecimal result = toBigDecimal().movePointLeft(n);
+        return PackedDecimal.valueOf(result);
+    }
+
+    /**
+     * Verschiebt den Dezimalpunkt um n Stellen nach rechts.
+     *
+     * @param n Anzahl Stellen
+     * @return eine neue {@link PackedDecimal}
+     */
+    public PackedDecimal movePointRight(int n) {
+        BigDecimal result = toBigDecimal().movePointRight(n);
+        return PackedDecimal.valueOf(result);
+    }
+
     private static byte[] asNibbles(String zahl) {
         char[] chars = (zahl + " ").toCharArray();
         byte[] bytes = new byte[(chars.length) / 2];
