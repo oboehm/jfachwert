@@ -22,6 +22,7 @@ import org.junit.Test;
 
 import javax.validation.ValidationException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -169,11 +170,11 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
     }
 
     /**
-     * Testmethode fuer {@link PackedDecimal#movePointRight(int)}.
+     * Testmethode fuer {@link PackedDecimal#setScale(int, RoundingMode)}.
      */
     @Test
-    public void testMovePointRight() {
-        assertEquals(PackedDecimal.TEN, PackedDecimal.ONE.movePointRight(1));
+    public void testSetScaleRoundningMode() {
+        assertEquals(PackedDecimal.TEN, PackedDecimal.valueOf("10.49").setScale(0, RoundingMode.HALF_UP));
     }
 
 }
