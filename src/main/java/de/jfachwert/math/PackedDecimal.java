@@ -240,6 +240,15 @@ public class PackedDecimal implements Fachwert {
     }
 
     /**
+     * Liefert die Zahl als Bruch zurueck.
+     *
+     * @return Bruch als Zahl
+     */
+    public Bruch toBruch() {
+        return Bruch.of(toString());
+    }
+
+    /**
      * Liefert die gepackte Dezimalzahl wieder als {@link BigDecimal} zurueck.
      *
      * @return gepackte Dezimalzahl als {@link BigDecimal}

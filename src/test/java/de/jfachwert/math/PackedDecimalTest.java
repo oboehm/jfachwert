@@ -118,6 +118,14 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
     }
 
     /**
+     * Testmethode fuer {@link PackedDecimal#toBruch()}.
+     */
+    @Test
+    public void testToBruch() {
+        assertEquals(Bruch.of("1/2"), PackedDecimal.valueOf("1/2").toBruch());
+    }
+
+    /**
      * Testmethode fuer {@link PackedDecimal#toBigDecimal()}.
      */
     @Test
