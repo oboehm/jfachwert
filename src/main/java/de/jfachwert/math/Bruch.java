@@ -149,14 +149,36 @@ public class Bruch implements Fachwert {
     }
 
     /**
+     * Liefert den (ungekuerzten) Kehrwert des Bruches.
+     *
+     * @return Kehrwert
+     */
+    public Bruch kehrwert() {
+        return Bruch.of(getNenner(), getZaehler());
+    }
+
+    /**
      * Multiplikation zweier Brueche.
      *
-     * @param operand der zweite Bruch
+     * @param operand der zweite Bruch, mit dem multipliziert wird.
+     * @return mulitiplizierter Bruch, evtl. gekuerzt
      */
     public Bruch multiply(Bruch operand) {
         BigInteger z = getZaehler().multiply(operand.getZaehler());
         BigInteger n = getNenner().multiply(operand.getNenner());
         return Bruch.of(z, n).kuerzen();
+    }
+
+    /**
+     * Die Division zweier Brueche laesst sich bekanntlich auf die
+     * Multiplikation des Bruches mit dem Kehrwert zurueckfuehren.
+     * Dies wird hier fuer die Division ausgenutzt.
+     *
+     * @param operand der zweite Bruch, durch den geteilt wird
+     * @return dividierter Bruch, evtl. gekuerzt
+     */
+    public Bruch divide(Bruch operand) {
+        return multiply(operand.kehrwert());
     }
 
     @Override

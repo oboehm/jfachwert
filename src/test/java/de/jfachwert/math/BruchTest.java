@@ -71,4 +71,12 @@ public final class BruchTest extends AbstractFachwertTest {
         assertEquals(Bruch.of("2/5"), Bruch.of("3/4").multiply(Bruch.of("8/15")));
     }
 
+    /**
+     * Testmethode fuer {@link Bruch#divide(Bruch)}.
+     */
+    @Test
+    public void testDivide() {
+        assertEquals(Bruch.of("5/2"), Bruch.of("3/4").divide(Bruch.of("8/15")));
+    }
+
 }
