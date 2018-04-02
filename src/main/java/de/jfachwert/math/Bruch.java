@@ -20,7 +20,6 @@ package de.jfachwert.math;
 import de.jfachwert.Fachwert;
 
 import java.math.BigInteger;
-import java.util.Objects;
 
 /**
  * Die Bruch-Klasse repraesentiert eine mathematischen Bruch mit Zaehler und
@@ -118,19 +117,31 @@ public class Bruch implements Fachwert {
         return getZaehler() + "/" + getNenner();
     }
 
+    /**
+     * Fuer die equals-Implementierung gilt, dass der Wert verglichen wird.
+     * D.h. bei "1/2" und "2/4" handelt es sich um die gleichen Brueche.
+     *
+     * @param obj der andere Bruch
+     * @return true oder false
+     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Bruch)) {
             return false;
         }
-        Bruch other = (Bruch) obj;
-        return Objects.equals(zaehler, other.zaehler) &&
-                Objects.equals(nenner, other.nenner);
+        Bruch other = ((Bruch) obj).kuerzen();
+        Bruch gekuerzt = this.kuerzen();
+        return gekuerzt.getZaehler().equals(other.getZaehler()) && gekuerzt.getNenner().equals(other.getNenner());
     }
 
+    /**
+     * Eine einfache Hashcode-Implementierung, die sich auf toString() abstuetzt.
+     *
+     * @return hashcode
+     */
     @Override
     public int hashCode() {
-        return Objects.hash(zaehler, nenner);
+        return this.kuerzen().toString().hashCode();
     }
 
 }

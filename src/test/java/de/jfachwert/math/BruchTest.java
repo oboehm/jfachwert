@@ -20,6 +20,7 @@ package de.jfachwert.math;
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Fachwert;
 import org.junit.Test;
+import patterntesting.runtime.junit.ObjectTester;
 
 import java.math.BigInteger;
 
@@ -47,10 +48,19 @@ public final class BruchTest extends AbstractFachwertTest {
      */
     @Test
     public void testKuerzen() {
-        Bruch gekuerzt = Bruch.of(2, 4).kuerzen();
+        Bruch gekuerzt = Bruch.of(6, 12).kuerzen();
         assertEquals(Bruch.of(1, 2), gekuerzt);
         assertEquals(BigInteger.ONE, gekuerzt.getZaehler());
         assertEquals(BigInteger.valueOf(2), gekuerzt.getNenner());
+    }
+
+    /**
+     * Fuer equals soll gelten, dass der Wert verglichen wird. D.h. bei "2/3"
+     * und "6/9" handelt es sich jeweils um die gleichen Brueche.
+     */
+    @Test
+    public void testEqualsUnkgekuerzt() {
+        ObjectTester.assertEquals(Bruch.of(2, 3), Bruch.of(6, 9));
     }
 
 }
