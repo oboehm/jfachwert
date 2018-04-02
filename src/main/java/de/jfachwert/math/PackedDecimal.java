@@ -25,6 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ValidationException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * Die Klasse PackedDecimal dienst zum speicherschonende Speichern von Zahlen.
@@ -326,7 +327,7 @@ public class PackedDecimal implements Fachwert {
      * @return Ergebnis der Division
      */
     public PackedDecimal divide(BigDecimal operand) {
-        BigDecimal result = toBigDecimal().divide(operand);
+        BigDecimal result = toBigDecimal().divide(operand, RoundingMode.HALF_UP);
         return PackedDecimal.valueOf(result);
     }
 
@@ -349,6 +350,18 @@ public class PackedDecimal implements Fachwert {
      */
     public PackedDecimal movePointRight(int n) {
         BigDecimal result = toBigDecimal().movePointRight(n);
+        return PackedDecimal.valueOf(result);
+    }
+
+    /**
+     * Setzt die Anzahl der Nachkommastellen.
+     *
+     * @param n z.B. 0, falls keine Nachkommastelle gesetzt sein soll
+     * @param mode Rundungs-Mode
+     * @return eine neue {@link PackedDecimal}
+     */
+    public PackedDecimal setScale(int n, RoundingMode mode) {
+        BigDecimal result = toBigDecimal().setScale(n, mode);
         return PackedDecimal.valueOf(result);
     }
 
