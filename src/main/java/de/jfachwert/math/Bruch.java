@@ -42,7 +42,7 @@ public class Bruch implements Fachwert {
      * @param zaehler Zaehler
      * @param nenner Nenner
      */
-    public Bruch(long zaehler, int nenner) {
+    public Bruch(long zaehler, long nenner) {
         this(BigInteger.valueOf(zaehler), BigInteger.valueOf(nenner));
     }
 
@@ -55,6 +55,26 @@ public class Bruch implements Fachwert {
     public Bruch(BigInteger zaehler, BigInteger nenner) {
         this.zaehler = zaehler;
         this.nenner = nenner;
+    }
+
+    /**
+     * Liefert einen Bruch mit dem angegeben Zaehler und Nenner an.
+     *
+     * @param zaehler Zaehler
+     * @param nenner Nenner
+     */
+    public static Bruch of(long zaehler, long nenner) {
+        return new Bruch(zaehler, nenner);
+    }
+
+    /**
+     * Liefert einen Bruch mit dem angegeben Zaehler und Nenner an.
+     *
+     * @param zaehler Zaehler
+     * @param nenner Nenner
+     */
+    public static Bruch of(BigInteger zaehler, BigInteger nenner) {
+        return new Bruch(zaehler, nenner);
     }
 
     /**
@@ -73,6 +93,24 @@ public class Bruch implements Fachwert {
      */
     public BigInteger getNenner() {
         return nenner;
+    }
+
+    /**
+     * Liefert einen gekuerzten Bruch zurueck. So wird z.B. der Bruch "2/4" als
+     * "1/2" zurueckgegeben.
+     *
+     * @return gekuerzter Bruch
+     */
+    public Bruch kuerzen() {
+        BigInteger z = getZaehler();
+        BigInteger n = getNenner();
+        for (BigInteger teiler = BigInteger.valueOf(2); teiler.compareTo(n) < 0; teiler = teiler.add(BigInteger.ONE)) {
+            while (z.mod(teiler).equals(BigInteger.ZERO) && (n.mod(teiler).equals(BigInteger.ZERO))) {
+                z = z.divide(teiler);
+                n = n.divide(teiler);
+            }
+        }
+        return Bruch.of(z, n);
     }
 
     @Override

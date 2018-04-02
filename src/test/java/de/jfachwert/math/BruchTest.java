@@ -19,6 +19,11 @@ package de.jfachwert.math;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Fachwert;
+import org.junit.Test;
+
+import java.math.BigInteger;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Unit-Tests fuer {@link Bruch}-Klasse.
@@ -35,6 +40,17 @@ public final class BruchTest extends AbstractFachwertTest {
     @Override
     protected Fachwert createFachwert() {
         return new Bruch(1, 2);
+    }
+
+    /**
+     * Test-Methode fuer {@link Bruch#kuerzen()}.
+     */
+    @Test
+    public void testKuerzen() {
+        Bruch gekuerzt = Bruch.of(2, 4).kuerzen();
+        assertEquals(Bruch.of(1, 2), gekuerzt);
+        assertEquals(BigInteger.ONE, gekuerzt.getZaehler());
+        assertEquals(BigInteger.valueOf(2), gekuerzt.getNenner());
     }
 
 }
