@@ -18,6 +18,8 @@
 package de.jfachwert.math;
 
 import de.jfachwert.Fachwert;
+import de.jfachwert.pruefung.exception.InvalidValueException;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigInteger;
 
@@ -34,6 +36,31 @@ public class Bruch implements Fachwert {
 
     private final BigInteger zaehler;
     private final BigInteger nenner;
+
+
+    /**
+     * Legt einen Bruch mit dem angegeben Zaehler und Nenner an.
+     *
+     * @param bruch Zeichenkette, z.B. "1/2"
+     */
+    public Bruch(String bruch) {
+        this(toNumbers(bruch));
+    }
+
+    private static BigInteger[] toNumbers(String bruch) {
+        String[] parts = StringUtils.split(bruch, "/");
+        if (parts.length != 2) {
+            throw new InvalidValueException(bruch, "fraction");
+        }
+        BigInteger[] numbers = new BigInteger[2];
+        numbers[0] = new BigInteger(parts[0]);
+        numbers[1] = new BigInteger(parts[1]);
+        return numbers;
+    }
+
+    private Bruch(BigInteger[] number) {
+        this(number[0], number[1]);
+    }
 
     /**
      * Legt einen Bruch mit dem angegeben Zaehler und Nenner an.

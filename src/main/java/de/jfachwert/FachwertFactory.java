@@ -18,6 +18,7 @@
 package de.jfachwert;
 
 import de.jfachwert.bank.*;
+import de.jfachwert.math.Bruch;
 import de.jfachwert.math.Nummer;
 import de.jfachwert.math.PackedDecimal;
 import de.jfachwert.net.ChatAccount;
@@ -100,6 +101,7 @@ public class FachwertFactory {
         INSTANCE.register(Steuernummer.class);
         INSTANCE.register(UStIdNr.class);
         INSTANCE.register(PackedDecimal.class);
+        INSTANCE.register(Bruch.class);
     }
 
     private FachwertFactory() {
