@@ -17,6 +17,13 @@
 
   <body>
 
+    <release version="0.6.0" date="2-Apr-2018"
+             description="FachwertFactory">
+      <action dev="oboehm" type="add" date="M&#228;r-2018">
+        math-Package mit Nummer-, Bruch- und PackedDecimal-Klasse hinzugef&#252;gt
+      </action>
+    </release>
+
     <release version="0.5.0" date="24-Jan-2018"
              description="FachwertFactory">
       <action dev="oboehm" type="add" date="18-Jan-2018">
