@@ -59,8 +59,16 @@ public final class BruchTest extends AbstractFachwertTest {
      * und "6/9" handelt es sich jeweils um die gleichen Brueche.
      */
     @Test
-    public void testEqualsUnkgekuerzt() {
+    public void testEqualsUngekuerzt() {
         ObjectTester.assertEquals(Bruch.of(2, 3), Bruch.of(6, 9));
+    }
+
+    /**
+     * Testmethode fuer {@link Bruch#multiply(Bruch)}.
+     */
+    @Test
+    public void testMultiply() {
+        assertEquals(Bruch.of("2/5"), Bruch.of("3/4").multiply(Bruch.of("8/15")));
     }
 
 }

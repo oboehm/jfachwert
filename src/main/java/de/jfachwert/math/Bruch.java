@@ -86,6 +86,15 @@ public class Bruch implements Fachwert {
     /**
      * Liefert einen Bruch mit dem angegeben Zaehler und Nenner an.
      *
+     * @param bruch Zeichenkette, z.B. "1/2"
+     */
+    public static Bruch of(String bruch) {
+        return new Bruch(bruch);
+    }
+
+    /**
+     * Liefert einen Bruch mit dem angegeben Zaehler und Nenner an.
+     *
      * @param zaehler Zaehler
      * @param nenner Nenner
      */
@@ -137,6 +146,17 @@ public class Bruch implements Fachwert {
             }
         }
         return Bruch.of(z, n);
+    }
+
+    /**
+     * Multiplikation zweier Brueche.
+     *
+     * @param operand der zweite Bruch
+     */
+    public Bruch multiply(Bruch operand) {
+        BigInteger z = getZaehler().multiply(operand.getZaehler());
+        BigInteger n = getNenner().multiply(operand.getNenner());
+        return Bruch.of(z, n).kuerzen();
     }
 
     @Override
