@@ -26,6 +26,7 @@ import java.math.RoundingMode;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit-Tests fuer {@link PackedDecimal}-Klasse.
@@ -106,6 +107,14 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
         assertSame(PackedDecimal.ZERO, PackedDecimal.valueOf("0"));
         assertSame(PackedDecimal.ZERO, PackedDecimal.valueOf(0));
         assertSame(PackedDecimal.ZERO, PackedDecimal.valueOf(BigDecimal.ZERO));
+    }
+
+    /**
+     * Testmethode fuer {@link PackedDecimal#isBruch()}.
+     */
+    @Test
+    public void testIsBruch() {
+        assertTrue(PackedDecimal.valueOf("1/2").isBruch());
     }
 
     /**

@@ -231,6 +231,15 @@ public class PackedDecimal implements Fachwert {
     }
 
     /**
+     * Liefert true zurueck, wenn die Zahl als Bruch angegeben ist.
+     *
+     * @return true oder false
+     */
+    public boolean isBruch() {
+        return toString().contains("/");
+    }
+
+    /**
      * Liefert die gepackte Dezimalzahl wieder als {@link BigDecimal} zurueck.
      *
      * @return gepackte Dezimalzahl als {@link BigDecimal}
