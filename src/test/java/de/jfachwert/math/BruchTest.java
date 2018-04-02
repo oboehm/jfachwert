@@ -87,4 +87,12 @@ public final class BruchTest extends AbstractFachwertTest {
         assertEquals(Bruch.of("4/3"), Bruch.of("1/2").add(Bruch.of("5/6")));
     }
 
+    /**
+     * Testmethode fuer {@link Bruch#subtract(Bruch)}.
+     */
+    @Test
+    public void testSubtract() {
+        assertEquals(Bruch.of("-1/3"), Bruch.of("1/2").subtract(Bruch.of("5/6")));
+    }
+
 }

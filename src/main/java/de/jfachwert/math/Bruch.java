@@ -28,6 +28,11 @@ import java.math.BigInteger;
  * Nenner. Als Zaehler und Nenner werden dabei nur ganzzahlige Werte
  * akzeptiert, da sich Gleitkommazahlen auch immer als Brueche darstellen
  * lassen.
+ * <p>
+ * Die Namen der Methoden orientieren sich teilweise an den Methodennamen von
+ * BigInteger und BigDecimal und sind daher auf englisch. Andere Namen wie
+ * {@link #kuerzen()} sind dagegen auf deutsch.
+ * </p>
  *
  * @author <a href="ob@aosd.de">oliver</a>
  * @since 0.6
@@ -158,6 +163,15 @@ public class Bruch implements Fachwert {
     }
 
     /**
+     * Liefert einen (ungekuerzten) negierten Kehrwert zurueck.
+     *
+     * @return negierter Bruch
+     */
+    public Bruch negate() {
+        return Bruch.of(getZaehler().negate(), getNenner());
+    }
+
+    /**
      * Multiplikation zweier Brueche.
      *
      * @param operand der zweite Bruch, mit dem multipliziert wird.
@@ -192,6 +206,16 @@ public class Bruch implements Fachwert {
         BigInteger z1 = getZaehler().multiply(operand.getNenner());
         BigInteger z2 = operand.getZaehler().multiply(getNenner());
         return Bruch.of(z1.add(z2), n).kuerzen();
+    }
+
+    /**
+     * Subtraktion zweier Brueche.
+     *
+     * @param operand der zweite Bruch, der subtrahiert wird.
+     * @return subtrahierter Bruch, evtl. gekuerzt
+     */
+    public Bruch subtract(Bruch operand) {
+        return add(operand.negate());
     }
 
     @Override
