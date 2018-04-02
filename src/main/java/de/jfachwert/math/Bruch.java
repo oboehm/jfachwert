@@ -181,6 +181,19 @@ public class Bruch implements Fachwert {
         return multiply(operand.kehrwert());
     }
 
+    /**
+     * Addition zweier Brueche.
+     *
+     * @param operand der zweite Bruch, der addiert wird.
+     * @return addierter Bruch, evtl. gekuerzt
+     */
+    public Bruch add(Bruch operand) {
+        BigInteger n = getNenner().multiply(operand.getNenner());
+        BigInteger z1 = getZaehler().multiply(operand.getNenner());
+        BigInteger z2 = operand.getZaehler().multiply(getNenner());
+        return Bruch.of(z1.add(z2), n).kuerzen();
+    }
+
     @Override
     public String toString() {
         return getZaehler() + "/" + getNenner();
