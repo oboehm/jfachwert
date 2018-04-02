@@ -38,9 +38,10 @@ public class AccessValidator {
      * Liefert das n-te Element des uebergebenen Arrays zurueck, falls ein
      * korrekter Index uebergaben wird
      *
+     * @param <T>   Typ-Parameter
      * @param array Array, auf das zugegriffen wird
-     * @param n Array-Index, beginnend bei 0
-     * @return n-te Element des Arrays
+     * @param n     Array-Index, beginnend bei 0
+     * @return n -te Element des Arrays
      */
     public static <T> T access(T[] array, int n) {
         int max = array.length - 1;

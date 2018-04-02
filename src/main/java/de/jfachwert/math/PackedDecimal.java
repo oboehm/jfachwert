@@ -44,7 +44,6 @@ import java.math.RoundingMode;
  *     (Ersatz fuer {@link java.math.BigDecimal},</li>
  *     <li>Abspeichern von Zahlen mit fuehrender Null (z.B. Vorwahl).</li>
  * </ul>
- * </p>
  * <p>
  * Eine noch kompaktere Darstellung (ca. 20%) laesst sich mit der Chen-Ho- oder
  * Densely-Packed-Decimal-Kodierung (s.

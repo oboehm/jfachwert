@@ -107,7 +107,7 @@ public class Postfach implements Fachwert {
      * Erzeugt ein Postfach.
      * 
      * @param nummer positive Zahl oder leer
-     * @param ort
+     * @param ort Ort
      */
     public Postfach(Optional<BigInteger> nummer, Ort ort) {
         this.nummer = nummer.orElse(null);

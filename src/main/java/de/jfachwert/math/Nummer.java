@@ -98,8 +98,8 @@ public class Nummer implements Fachwert {
      * Zwei Nummer sind dann gleich, wenn sie exact gleich geschrieben werden.
      * D.h. fuehrende Nullen werden beim Vergleich nicht ignoriert.
      * 
-     * @param obj
-     * @return
+     * @param obj Vergleichsobjekt
+     * @return true oder false
      */
     @Override
     public boolean equals(Object obj) {

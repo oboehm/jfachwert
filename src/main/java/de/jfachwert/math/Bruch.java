@@ -92,6 +92,7 @@ public class Bruch implements Fachwert {
      * Liefert einen Bruch mit dem angegeben Zaehler und Nenner an.
      *
      * @param bruch Zeichenkette, z.B. "1/2"
+     * @return Bruch
      */
     public static Bruch of(String bruch) {
         return new Bruch(bruch);
@@ -102,6 +103,7 @@ public class Bruch implements Fachwert {
      *
      * @param zaehler Zaehler
      * @param nenner Nenner
+     * @return Bruch
      */
     public static Bruch of(long zaehler, long nenner) {
         return new Bruch(zaehler, nenner);
@@ -112,6 +114,7 @@ public class Bruch implements Fachwert {
      *
      * @param zaehler Zaehler
      * @param nenner Nenner
+     * @return Bruch
      */
     public static Bruch of(BigInteger zaehler, BigInteger nenner) {
         return new Bruch(zaehler, nenner);

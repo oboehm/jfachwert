@@ -38,7 +38,8 @@ public class PruefzifferException extends LocalizedValidationException {
     /**
      * Gibt neben dem Wert auch die erwartete Pruefziffer mit aus.
      *
-     * @param wert fehlerhafter Wert
+     * @param <T>       Typ-Parameter
+     * @param wert      fehlerhafter Wert
      * @param verfahren Verfahren zur Bestimmung der Pruefziffer
      */
     public <T extends Serializable> PruefzifferException(T wert, PruefzifferVerfahren<T> verfahren) {
@@ -48,6 +49,7 @@ public class PruefzifferException extends LocalizedValidationException {
     /**
      * Gibt neben dem Wert auch die erwartete Pruefziffer mit aus.
      *
+     * @param <T>         Typ-Parameter
      * @param wert        Wert
      * @param expected    erwartete Pruefziffer
      * @param pruefziffer tatsaechliche Pruefziffer

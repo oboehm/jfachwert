@@ -62,7 +62,8 @@ public class Ort implements Fachwert {
     /**
      * Hierueber kann ein Ort mit PLZ angelegt werden.
      *
-     * @param name des Ortes
+     * @param plz Postleitzahl des Ortes
+     * @param name Name des Ortes
      */
     public Ort(PLZ plz, String name) {
         this.plz = plz;
