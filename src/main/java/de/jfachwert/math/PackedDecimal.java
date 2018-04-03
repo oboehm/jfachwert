@@ -313,7 +313,11 @@ public class PackedDecimal implements Fachwert {
      * @return Summe
      */
     public PackedDecimal subtract(PackedDecimal operand) {
-        return subtract(operand.toBigDecimal());
+        if (operand.isBruch()) {
+            return subtract(operand.toBruch());
+        } else {
+            return subtract(operand.toBigDecimal());
+        }
     }
 
     /**
@@ -325,6 +329,18 @@ public class PackedDecimal implements Fachwert {
      */
     public PackedDecimal subtract(BigDecimal operand) {
         BigDecimal result = toBigDecimal().subtract(operand);
+        return PackedDecimal.valueOf(result);
+    }
+
+    /**
+     * Subtrahiert den uebergebenen Operanden und liefert als Ergebnis eine neue
+     * {@link PackedDecimal} zurueck
+     *
+     * @param operand Operand
+     * @return Differenz
+     */
+    public PackedDecimal subtract(Bruch operand) {
+        Bruch result = toBruch().subtract(operand);
         return PackedDecimal.valueOf(result);
     }
 

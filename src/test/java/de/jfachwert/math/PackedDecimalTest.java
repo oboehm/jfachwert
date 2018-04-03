@@ -167,6 +167,14 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
      */
     @Test
     public void testSubtract() {
+        assertEquals(PackedDecimal.valueOf("-1/4"), PackedDecimal.valueOf("1/2").subtract(PackedDecimal.valueOf("3/4")));
+    }
+
+    /**
+     * Testmethode fuer {@link PackedDecimal#subtract(PackedDecimal)}.
+     */
+    @Test
+    public void testSubtractBruch() {
         assertEquals(PackedDecimal.valueOf(-9), PackedDecimal.ONE.subtract(PackedDecimal.TEN));
     }
 
