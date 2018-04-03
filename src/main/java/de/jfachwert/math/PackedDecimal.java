@@ -207,6 +207,16 @@ public class PackedDecimal implements Fachwert {
 
     /**
      * Liefert den uebergebenen String als {@link PackedDecimal} zurueck.
+     *
+     * @param bruch beliebiger Bruch
+     * @return Bruch als {@link PackedDecimal}
+     */
+    public static PackedDecimal valueOf(Bruch bruch) {
+        return valueOf(bruch.toString());
+    }
+
+    /**
+     * Liefert den uebergebenen String als {@link PackedDecimal} zurueck.
      * Diese Methode ist dem Konstruktor vorzuziehen, da fuer gaengige Zahlen
      * wie "0" oder "1" immer das gleiche Objekt zurueckgegeben wird.
      * <p>
@@ -264,7 +274,11 @@ public class PackedDecimal implements Fachwert {
      * @return Summe
      */
     public PackedDecimal add(PackedDecimal summand) {
-        return add(summand.toBigDecimal());
+        if (summand.isBruch()) {
+            return add(summand.toBruch());
+        } else {
+            return add(summand.toBigDecimal());
+        }
     }
 
     /**
@@ -276,6 +290,18 @@ public class PackedDecimal implements Fachwert {
      */
     public PackedDecimal add(BigDecimal summand) {
         BigDecimal summe = toBigDecimal().add(summand);
+        return PackedDecimal.valueOf(summe);
+    }
+
+    /**
+     * Summiert den uebergebenen Summanden und liefert als Ergebnis eine neue
+     * {@link PackedDecimal} zurueck
+     *
+     * @param summand Operand
+     * @return Differenz
+     */
+    public PackedDecimal add(Bruch summand) {
+        Bruch summe = toBruch().add(summand);
         return PackedDecimal.valueOf(summe);
     }
 

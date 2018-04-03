@@ -146,6 +146,14 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
     }
 
     /**
+     * Testmethode fuer {@link PackedDecimal#add(PackedDecimal)}.
+     */
+    @Test
+    public void testAddBruch() {
+        assertEquals(PackedDecimal.valueOf("5/4"), PackedDecimal.valueOf("1/2").add(PackedDecimal.valueOf("3/4")));
+    }
+
+    /**
      * Ganze Zahlen sollten sich mit Zahlen mit Nachkommastellen addieren
      * lassen.
      */
