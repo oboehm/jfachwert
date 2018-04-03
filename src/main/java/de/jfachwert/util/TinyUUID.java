@@ -21,6 +21,7 @@ import de.jfachwert.AbstractFachwert;
 import de.jfachwert.pruefung.exception.IllegalLengthException;
 
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.UUID;
@@ -223,7 +224,7 @@ public class TinyUUID extends AbstractFachwert<UUID> {
         switch (id.length()) {
             case 22:
                 String base64 = id.replace('+', '-').replace('_', '/');
-                byte [] bytes = Base64.getDecoder().decode(base64);
+                byte [] bytes = Base64.getDecoder().decode(base64.getBytes(StandardCharsets.UTF_8));
                 return new TinyUUID(bytes);
             default:
                 return new TinyUUID(UUID.fromString(id));
