@@ -18,7 +18,7 @@
 package de.jfachwert.util;
 
 import de.jfachwert.AbstractFachwert;
-import de.jfachwert.pruefung.IllegalLengthException;
+import de.jfachwert.pruefung.exception.IllegalLengthException;
 
 import java.math.BigInteger;
 import java.util.Arrays;
