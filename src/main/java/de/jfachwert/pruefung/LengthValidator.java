@@ -18,6 +18,7 @@
 package de.jfachwert.pruefung;
 
 import de.jfachwert.*;
+import de.jfachwert.pruefung.exception.IllegalLengthException;
 
 import java.io.*;
 import java.util.*;

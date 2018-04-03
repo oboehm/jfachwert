@@ -65,4 +65,33 @@ public final class AnschriftTest extends AbstractFachwertTest {
         assertThat(anschrift.toString(), containsString(postfach.toString()));
     }
 
+    /**
+     * Test-Methode fuer {@link Anschrift#getAdressat()}.
+     */
+    @Test
+    public void testGetAdressat() {
+        Adresse adresse = new AdresseTest().createFachwert();
+        Anschrift anschrift = new Anschrift("Dagobert, Duck", adresse);
+        assertEquals(new Adressat("Dagobert, Duck"), anschrift.getAdressat());
+    }
+
+    /**
+     * Test-Methode fuer {@link Anschrift#validate(String)}.
+     */
+    @Test
+    public void testValidate() {
+        Anschrift.validate("Donald Duck, 12345 Entenhausen, Gansstr. 23");
+    }
+
+    /**
+     * Hier testen wir, ob bei der Zerlegung des Eingabe-Strings das Postfach
+     * richtig erkannt wird.
+     */
+    @Test
+    public void testAnschriftWithPostfachNummer() {
+        String anschrift = "Musterfirma GmbH\nPostfach 12 34 56\n12350 Musterdorf";
+        Anschrift musterfirma = new Anschrift(anschrift);
+        assertEquals(new Postfach("Postfach 12 34 56\n12350 Musterdorf"), musterfirma.getPostfach());
+    }
+
 }

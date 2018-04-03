@@ -19,7 +19,7 @@
  */
 package de.jfachwert;
 
-import de.jfachwert.pruefung.PruefzifferException;
+import de.jfachwert.pruefung.exception.PruefzifferException;
 
 import java.io.Serializable;
 

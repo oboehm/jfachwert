@@ -18,6 +18,8 @@
 package de.jfachwert.net;
 
 import de.jfachwert.Fachwert;
+import de.jfachwert.pruefung.exception.InvalidValueException;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Die Klasse ChatAccount steht fuer einen Account bei einem der uebleichen
@@ -33,7 +35,26 @@ public class ChatAccount implements Fachwert {
     private final String account;
 
     /**
-     * Instanziiert eine Chat-Account.
+     * Zerlegt den uebergebenen String in seine Einzelteile, um damit den
+     * ChatAccount zu instanziieren. Bei der Zerlegung wird folgeden Heuristik
+     * angwendet:
+     * <ul>
+     *     <li>zuserst kommt der Dienst, gefolgt von einem Doppelpunkt,</li>
+     *     <li>danach kommt der Name bzw. Account.</li>
+     * </ul>
+     * 
+     * @param chatAccount z.B. "Twitter: oboehm"
+     */
+    public ChatAccount(String chatAccount) {
+        this(split(chatAccount));
+    }
+    
+    private ChatAccount(String[] values) {
+        this(ChatDienst.toChatDienst(values[0]), values[0], values[1]);
+    }
+
+    /**
+     * Instanziiert einen Chat-Account.
      *
      * @param dienst z.B. "ICQ"
      * @param account z.B. 211349835 fuer ICQ
@@ -64,6 +85,14 @@ public class ChatAccount implements Fachwert {
         this.dienstName = dienstName;
         this.account = (String) chatDienst.getValidator().validate(account);
     }
+    
+    private static String[] split(String value) {
+        String[] splitted = StringUtils.trimToEmpty(value).split(":\\s+");
+        if (splitted.length != 2) {
+            throw new InvalidValueException(value, "chat_service");
+        }
+        return splitted;
+    }
 
     /**
      * Liefert den Dienst zum Account zurueck.
@@ -80,11 +109,10 @@ public class ChatAccount implements Fachwert {
      * @return z.B. "Jabber"
      */
     public String getDienstName() {
-        switch (this.chatDienst) {
-            case SONSTIGER:
-                return dienstName;
-            default:
-                return this.chatDienst.toString();
+        if (this.chatDienst == ChatDienst.SONSTIGER) {
+            return dienstName;
+        } else {
+            return this.chatDienst.toString();
         }
     }
 

@@ -17,18 +17,28 @@
  */
 package de.jfachwert.rechnung;
 
-import de.jfachwert.*;
-import de.jfachwert.pruefung.*;
-import org.apache.commons.lang3.*;
+import de.jfachwert.Fachwert;
+import de.jfachwert.pruefung.exception.InvalidValueException;
+import org.apache.commons.lang3.Range;
+import org.apache.commons.lang3.StringUtils;
 
-import java.time.*;
-import java.time.format.*;
-import java.util.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Locale;
 
 /**
  * Vor allem bei Abonnements oder bei wiederkehrenden Gebuehren findet man
  * einen Rechnungsmonat auf der Rechnung. Hier ist nur Monat und Jahr relevant.
  * Entsprechend gibt es auch nur diese Attribute in dieser Klasse.
+ * <p>
+ * Der Gueltigkeitsbereich des Rechnungsjahres liegt ca. zwischen 2700 v. Chr.
+ * (-2700) bis 2700 n. Chr. (+2700), da intern der Monat und das Jahr
+ * speicheroptimiert in 2 Bytes abgelegt wird. Diese duerfte aber fuer die
+ * meisten Faelle ausreichend sein.
+ * </p>
  *
  * @author oboehm
  * @since 0.3.1 (12.07.2017)
@@ -39,8 +49,7 @@ public class Rechnungsmonat implements Fachwert {
     private static final Range<Integer> VALID_YEAR_RANGE = Range.between(0, 9999);
     private static final String MONTH = "month";
     private static final String YEAR = "year";
-    private final int monat;
-    private final int jahr;
+    private final short monate;
 
     /**
      * Der Default-Konstruktor legt einen Rechnungsmonat vom aktuellen Monat
@@ -66,33 +75,51 @@ public class Rechnungsmonat implements Fachwert {
      * Erzeugt einen gueltigen Rechnungsmonat. Normalerweise sollte der
      * Monat als "7/2017" angegeben werden, es werden aber auch andere
      * Formate wie "Jul-2017" oder "2017-07-14" unterstuetzt.
-     *
+     * <p>
      * Auch wenn "Jul-2017" und andere Formate als gueltiger Rechnungsmonat
      * erkannt werden, sollte man dies nur vorsichtig einsetzen, da hier mit
      * Brute-Force einfach nur geraten wird, welches Format es sein koennte.
-     *
+     * </p>
+     * 
      * @param monat z.B. "7/2017" fuer Juli 2017
      */
     public Rechnungsmonat(String monat) {
         String[] parts = monat.split("/");
         if ((parts.length == 2) && isDigit(parts[0]) && isDigit(parts[1])) {
-            this.monat = validate(MONTH, parts[0], VALID_MONTH_RANGE);
-            this.jahr = validate(YEAR, parts[1], VALID_YEAR_RANGE);
+            this.monate =
+                    asMonate(validate(MONTH, parts[0], VALID_MONTH_RANGE), validate(YEAR, parts[1], VALID_YEAR_RANGE));
         } else {
             LocalDate date = toLocalDate(monat);
-            this.monat = date.getMonthValue();
-            this.jahr = date.getYear();
+            this.monate = asMonate(date.getMonthValue(), date.getYear());
         }
+    }
+    
+    private static short asMonate(int monat, int jahr) {
+        return (short) (jahr * 12 + monat - 1);
+    }
+    
+    private Rechnungsmonat(int monate) {
+        this.monate = (short) monate;
     }
 
     /**
      * Erzeugt einen gueltigen Rechnungsmonat.
      *
      * @param monat zwischen 1 und 12
-     * @param jahr vierstellige Zahl
+     * @param jahr vierstellige Zahl zwischen -2730 und +2730
      */
     public Rechnungsmonat(int monat, int jahr) {
         this(monat + "/" + jahr);
+    }
+
+    /**
+     * Erzeugt einen gueltigen Rechnungsmonat.
+     *
+     * @param monat MOnat
+     * @param jahr vierstellige Zahl
+     */
+    public Rechnungsmonat(Month monat, int jahr) {
+        this(monat.getValue(), jahr);
     }
 
     private static LocalDate toLocalDate(String monat) {
@@ -141,7 +168,7 @@ public class Rechnungsmonat implements Fachwert {
      * @return Zahl zwischen 1 und 12
      */
     public int getMonat() {
-        return monat;
+        return (monate % 12) + 1;
     }
 
     /**
@@ -150,7 +177,7 @@ public class Rechnungsmonat implements Fachwert {
      * @return vierstellige Zahl
      */
     public int getJahr() {
-        return jahr;
+        return monate / 12;
     }
 
     /**
@@ -159,11 +186,7 @@ public class Rechnungsmonat implements Fachwert {
      * @return Vormonat
      */
     public Rechnungsmonat getVormonat() {
-        if (monat == 1) {
-            return new Rechnungsmonat(12, jahr - 1);
-        } else {
-            return new Rechnungsmonat(monat - 1, jahr);
-        }
+        return new Rechnungsmonat(monate - 1);
     }
 
     /**
@@ -172,11 +195,7 @@ public class Rechnungsmonat implements Fachwert {
      * @return Folgemonat
      */
     public Rechnungsmonat getFolgemonat() {
-        if (monat == 12) {
-            return new Rechnungsmonat(1, jahr + 1);
-        } else {
-            return new Rechnungsmonat(monat + 1, jahr);
-        }
+        return new Rechnungsmonat(monate + 1);
     }
 
     /**
@@ -185,7 +204,7 @@ public class Rechnungsmonat implements Fachwert {
      * @return Monat im Vorjahr
      */
     public Rechnungsmonat getVorjahr() {
-        return new Rechnungsmonat(monat, jahr - 1);
+        return new Rechnungsmonat(monate - 12);
     }
 
     /**
@@ -194,7 +213,101 @@ public class Rechnungsmonat implements Fachwert {
      * @return Monat im Folgejahr
      */
     public Rechnungsmonat getFolgejahr() {
-        return new Rechnungsmonat(monat, jahr + 1);
+        return new Rechnungsmonat(monate + 12);
+    }
+
+    /**
+     * Liefert den ersten Tag eines Rechnungsmonats.
+     * 
+     * @return z.B. 1.3.2018
+     * @since 0.6
+     */
+    public LocalDate ersterTag() {
+        return LocalDate.of(getJahr(), getMonat(), 1);
+    }
+
+    /**
+     * Diese Methode kann verwendet werden, um den ersten Montag im Monat
+     * zu bestimmen. Dazu ruft man diese Methode einfach mit
+     * {@link DayOfWeek#MONDAY} als Parameter auf.
+     * 
+     * @param wochentag z.B. {@link DayOfWeek#MONDAY}
+     * @return z.B. erster Arbeitstag
+     * @since 0.6
+     */
+    public LocalDate ersterTag(DayOfWeek wochentag) {
+        LocalDate tag = ersterTag();
+        while (tag.getDayOfWeek() != wochentag) {
+            tag = tag.plusDays(1);
+        }
+        return tag;
+    }
+
+    /**
+     * Diese Methode liefert den ersten Arbeitstag eines Monats. Allerdings
+     * werden dabei keine Feiertag beruecksichtigt, sondern nur die Wochenende,
+     * die auf einen ersten des Monats fallen, werden berucksichtigt.
+     * 
+     * @return erster Arbeitstag
+     * @since 0.6
+     */
+    public LocalDate ersterArbeitstag() {
+        LocalDate tag = ersterTag();
+        switch (tag.getDayOfWeek()) {
+            case SATURDAY:
+                return tag.plusDays(2);
+            case SUNDAY:
+                return tag.plusDays(1);
+            default:
+                return tag;
+        }
+    }
+
+    /**
+     * Liefert den letzten Tag eines Rechnungsmonats.
+     *
+     * @return z.B. 31.3.2018
+     * @since 0.6
+     */
+    public LocalDate letzterTag() {
+        return getFolgemonat().ersterTag().minusDays(1);
+    }
+
+    /**
+     * Diese Methode kann verwendet werden, um den letzten Freitag im Monat
+     * zu bestimmen. Dazu ruft man diese Methode einfach mit
+     * {@link DayOfWeek#FRIDAY} als Parameter auf.
+     *
+     * @param wochentag z.B. {@link DayOfWeek#FRIDAY}
+     * @return z.B. letzter Arbeitstag
+     * @since 0.6
+     */
+    public LocalDate letzterTag(DayOfWeek wochentag) {
+        LocalDate tag = ersterTag();
+        while (tag.getDayOfWeek() != wochentag) {
+            tag = tag.minusDays(1);
+        }
+        return tag;
+    }
+
+    /**
+     * Diese Methode liefert den letzten Arbeitstag eines Monats. Allerdings
+     * werden dabei keine Feiertag beruecksichtigt, sondern nur die Wochenende,
+     * die auf einen letzten des Monats fallen, werden berucksichtigt.
+     *
+     * @return letzter Arbeitstag
+     * @since 0.6
+     */
+    public LocalDate letzterArbeitstag() {
+        LocalDate tag = letzterTag();
+        switch (tag.getDayOfWeek()) {
+            case SATURDAY:
+                return tag.minusDays(1);
+            case SUNDAY:
+                return tag.minusDays(2);
+            default:
+                return tag;
+        }
     }
 
     /**
@@ -205,7 +318,7 @@ public class Rechnungsmonat implements Fachwert {
      * @return z.B. 1.7.2017 fuer "7/2017"
      */
     public LocalDate asLocalDate() {
-        return LocalDate.of(getJahr(), getMonat(), 1);
+        return ersterTag();
     }
 
     /**
@@ -244,7 +357,7 @@ public class Rechnungsmonat implements Fachwert {
      */
     @Override
     public int hashCode() {
-        return this.jahr * 12 + this.monat;
+        return this.monate;
     }
 
     /**
@@ -259,7 +372,7 @@ public class Rechnungsmonat implements Fachwert {
             return false;
         }
         Rechnungsmonat other = (Rechnungsmonat) obj;
-        return this.monat == other.monat && this.jahr == other.jahr;
+        return this.monate == other.monate;
     }
 
     /**

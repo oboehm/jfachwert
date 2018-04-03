@@ -15,7 +15,9 @@
  *
  * (c)reated 21.02.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.pruefung;
+package de.jfachwert.pruefung.exception;
+
+import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ValidationException;
 import java.text.MessageFormat;
@@ -32,7 +34,8 @@ import java.util.ResourceBundle;
  */
 public abstract class LocalizedValidationException extends ValidationException {
 
-    private transient ResourceBundle bundle;
+    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("de.jfachwert.messages");
+    private final String key;
 
     /**
      * Erzeugt eine {@link LocalizedValidationException}.
@@ -41,6 +44,7 @@ public abstract class LocalizedValidationException extends ValidationException {
      */
     public LocalizedValidationException(String message) {
         super(message);
+        this.key = asKey(message);
     }
 
     /**
@@ -51,8 +55,24 @@ public abstract class LocalizedValidationException extends ValidationException {
      */
     public LocalizedValidationException(String message, Throwable cause) {
         super(message, cause);
+        this.key = asKey(message);
     }
 
+    private static String asKey(String message) {
+        return StringUtils.replaceAll(message, " ", "_");
+    }
+
+    /**
+     * Im Gegensatz {@code getMessage()} wird hier die Beschreibung auf deutsch
+     * zurueckgegeben, wenn die Loacale auf Deutsch steht.
+     *
+     * @return lokalisierte Beschreibung
+     */
+    @Override
+    public String getLocalizedMessage() {
+        return getLocalizedMessage(key);
+    }
+    
     /**
      * Diese Methode sollte von {@link #getLocalizedMessage()} aufgerufen
      * werden, damit das {@link ResourceBundle} fuer die lokalisierte
@@ -75,11 +95,8 @@ public abstract class LocalizedValidationException extends ValidationException {
      * @return lokalisierter String
      */
     protected String getLocalizedString(String key) {
-        if (bundle == null) {
-            bundle = ResourceBundle.getBundle("de.jfachwert.messages");
-        }
         try {
-            return bundle.getString(key);
+            return BUNDLE.getString(key);
         } catch (MissingResourceException ex) {
             return key;
         }

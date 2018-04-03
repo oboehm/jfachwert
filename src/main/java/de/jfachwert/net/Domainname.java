@@ -18,7 +18,7 @@
 package de.jfachwert.net;
 
 import de.jfachwert.AbstractFachwert;
-import de.jfachwert.pruefung.InvalidValueException;
+import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.Range;
 import org.apache.commons.lang3.StringUtils;
 

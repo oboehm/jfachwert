@@ -52,6 +52,14 @@ public final class IBANTest extends AbstractFachwertTest {
     }
 
     /**
+     * Leere IBANs sind ebenfalls ungueltige IBANs.
+     */
+    @Test(expected = ValidationException.class)
+    public void testValidate() {
+        IBAN.validate("                                  ");
+    }
+
+    /**
      * Eine leere IBAN sollte nicht moeglich sein.
      */
     @Test(expected = ValidationException.class)

@@ -1,4 +1,4 @@
-package de.jfachwert.pruefung;/*
+package de.jfachwert.pruefung.exception;/*
  * Copyright (c) 2017 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +16,7 @@ package de.jfachwert.pruefung;/*
  * (c)reated 21.02.2017 by oboehm (ob@oasd.de)
  */
 
+import de.jfachwert.pruefung.exception.IllegalLengthException;
 import org.junit.Test;
 
 import java.util.Locale;
@@ -24,7 +25,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
 
 /**
- * Unit-Teests fuer de.jfachwert.pruefung.IllegalLengthException.
+ * Unit-Teests fuer de.jfachwert.pruefung.exception.IllegalLengthException.
  *
  * @author oboehm
  * @since 0.2 (21.04.2017)

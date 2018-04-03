@@ -18,8 +18,15 @@
 package de.jfachwert.post;
 
 import de.jfachwert.Fachwert;
-import de.jfachwert.pruefung.InvalidValueException;
+import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.StringUtils;
+
+import javax.validation.ValidationException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Bei einer Adresse kann es sich um eine Wohnungsadresse oder Gebaeudeadresse
@@ -31,10 +38,32 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class Adresse implements Fachwert {
 
+    private static final Logger LOG = Logger.getLogger(Adresse.class.getName());
+
     private final Ort ort;
     private final String strasse;
     private final String hausnummer;
 
+    /**
+     * Zerlegt die uebergebene Adresse in ihre Einzelteile und baut daraus die
+     * Adresse zusammen. Folgende Heuristiken werden fuer die Zerlegung 
+     * herangezogen:
+     * <ul>
+     *     <li>Reihenfolge kann Ort, Strasse oder Strasse, Ort sein</li>
+     *     <li>Ort / Strasse werden durch Komma oder Zeilenvorschub getrennt</li>
+     *     <li>vor dem Ort steht die PLZ</li>
+     * </ul>
+     * 
+     * @param adresse z.B. "12345 Entenhausen, Gansstr. 23"
+     */
+    public Adresse(String adresse) {
+        this(split(adresse));
+    }
+    
+    private Adresse(String[] adresse) {
+        this(new Ort(adresse[0]), adresse[1], adresse[2]);
+    }
+    
     /**
      * Erzeugt eine neue Adresse.
      *
@@ -70,6 +99,61 @@ public class Adresse implements Fachwert {
                 && (strasse.length() < hausnummer.length())) {
             throw new InvalidValueException(strasse + " " + hausnummer, "values_exchanged");
         }
+    }
+
+    /**
+     * Zerlegt die uebergebene Adresse in ihre Einzelteile und validiert sie.
+     * Folgende Heuristiken werden fuer die Zerlegung herangezogen:
+     * <ul>
+     *     <li>Reihenfolge kann Ort, Strasse oder Strasse, Ort sein</li>
+     *     <li>Ort / Strasse werden durch Komma oder Zeilenvorschub getrennt</li>
+     *     <li>vor dem Ort steht die PLZ</li>
+     * </ul>
+     * 
+     * @param adresse z.B. "12345 Entenhausen, Gansstr. 23"
+     */
+    public static void validate(String adresse) {
+        String[] splitted = split(adresse);
+        Ort ort = new Ort(splitted[0]);
+        validate(ort, splitted[1], splitted[2]);
+    }
+    
+    private static String[] split(String adresse) {
+        String[] lines = StringUtils.trimToEmpty(adresse).split("[,\\n$]");
+        if (lines.length != 2) {
+            throw new InvalidValueException(adresse, "address");
+        }
+        List<String> splitted = new ArrayList<>();
+        if (hasPLZ(lines[0])) {
+            splitted.add(lines[0].trim());
+            splitted.addAll(toStrasseHausnummer(lines[1]));
+        } else {
+            splitted.add(lines[1].trim());
+            splitted.addAll(toStrasseHausnummer(lines[0]));
+        }
+        return splitted.toArray(new String[3]);
+    }
+
+    private static boolean hasPLZ(String line) {
+        try {
+            Ort ort = new Ort(line);
+            return ort.getPLZ().isPresent();
+        } catch (ValidationException ex) {
+            LOG.log(Level.FINE, "no PLZ inside '" + line + "' found:", ex);
+            return false;
+        }
+    }
+
+    private static List<String> toStrasseHausnummer(String line) {
+        String[] splitted = line.trim().split("\\s+");
+        if (splitted.length != 2) {
+            splitted = line.split("\\s+[0-9]", 2);
+            splitted[1] = line.substring(splitted[0].length()).trim();
+        }
+        if (splitted.length != 2) {
+            throw new InvalidValueException(line, "street_or_house_number");
+        }
+        return Arrays.asList(splitted);
     }
 
     /**

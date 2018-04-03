@@ -43,12 +43,13 @@ Jetzt kann man die Argumente nicht mehr verwechseln, weil sonst der Compiler mec
 
 ## Aktueller Stand
 
-Die Arbeit hat erst gerade begonnen und die Funktionaliaeten bei den wenig vorhandenen Fachwerten ist noch
-bescheiden. Dennoch kann man sie bereits einsetzen und profitiert von sprechenderen Methoden-Parametern, die nicht
+Die Arbeit hat begonnen und die Funktionaliaeten bei den wenig vorhandenen Fachwerten ist ueberschaubar.
+Dennoch kann man sie bereits einsetzen und profitiert von sprechenderen Methoden-Parametern, die nicht
 mehr verwechselt werden koennen. Wer Ideen fuer weitere Fachwerte hat, darf gerne mitmachen - sei es durch Code,
 sei es durch Dokumentation oder einem schoenen Icon, oder sei es durch Anregungen und konstruktive Kritik.
 
-Bereits in Version 0.0.2 gab es einer einfache IBAN- und BIC-Klasse, die im 
+Bereits in Version 0.0.2 gab es einer einfache [IBAN](http://jfachwert.de/apidocs/de/jfachwert/bank/IBAN.html)- und 
+[BIC](http://jfachwert.de/apidocs/de/jfachwert/bank/BIC.html)-Klasse, die im 
 [Maven-Repository](http://search.maven.org/#search%7Cga%7C1%7Cjfachwert)
 unter folgenden Koordinaten zu finden ist:
 
@@ -57,9 +58,12 @@ unter folgenden Koordinaten zu finden ist:
   <artifactId>jfachwert</artifactId>
 ```
 
-Ab 0.1.0 kamen dann weitere Bank-Klassen sowie Packages fuer steuerliche
-oder postalische Klassen hinzu. Die weitere Geschichte ist in den
-[Release Notes](http://jfachwert.de/changes-report.html) nachzulesen.
+Ab 0.1 kamen dann weitere [Bank-Klassen](http://jfachwert.de/apidocs/de/jfachwert/bank/package-summary.html)
+sowie Packages fuer steuerliche oder postalische Klassen hinzu.
+Mit 0.5 kam die FachwertFactory hinzu, mit der nicht nur beiliebige Fachwert-Klassen erzeugt werden koennen,
+sondern die auch zur Validierung eingesetzt werden kann.
+Und auch die Architektur wurde nach [arc42](src/main/asciidoc/README.adoc) dokumentiert.
+Die weitere Geschichte ist in den [Release Notes](http://jfachwert.de/changes-report.html) nachzulesen.
 
 
 # Ziele

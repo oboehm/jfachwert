@@ -2,6 +2,7 @@
 
 package "pruefung" {
 
+    class AccessValidator
     class EMailValidator
     class LengthValidator
     class Mod11Verfahren
@@ -10,11 +11,19 @@ package "pruefung" {
     class NumberValidator
     class TelefonnummerValidator
 
-    class IllegalLengthException
-    class InvalidValueException
-    class LocalizedValueException
-    class PruefzifferException
+    package "exception" {
+        class IllegalLengthException
+        class InvalidValueException
+        class LocalizedValueException
+        class NullValueException
+        class PruefzifferException
+    }
 
 }
+
+LocalizedValueException <|-- IllegalLengthException
+LocalizedValueException <|-- InvalidValueException
+LocalizedValueException <|-- NullValueException
+LocalizedValueException <|-- PruefzifferException
 
 @enduml

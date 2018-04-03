@@ -112,4 +112,15 @@ public final class ChatAccountTest extends AbstractFachwertTest {
         new ChatAccount(ChatDienst.ICQ, "0x12345");
     }
 
+    /**
+     * Hier wird der String-Ctor geprueft, ob der Input-String auch richtig
+     * interpretiert wird.
+     */
+    @Test
+    public void testChatAccountString() {
+        ChatAccount account = new ChatAccount("Jabber: duke@sun.com");
+        assertEquals(ChatDienst.JABBER, account.getChatDienst());
+        assertEquals("duke@sun.com", account.getAccount());
+    }
+
 }

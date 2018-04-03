@@ -18,8 +18,12 @@
 package de.jfachwert.post;
 
 import de.jfachwert.Fachwert;
-import de.jfachwert.pruefung.InvalidValueException;
+import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.StringUtils;
+
+import javax.validation.ValidationException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Die Anschrift besteht aus Namen und Adresse oder Postfach. Der Name kann
@@ -31,9 +35,31 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class Anschrift implements Fachwert {
 
-    private final String name;
+    private static final Logger LOG = Logger.getLogger(Anschrift.class.getName());
+    public static final String ADDRESS = "address";
+
+    private final Adressat adressat;
     private final Adresse adresse;
     private final Postfach postfach;
+
+    /**
+     * Zerlegt die uebergebene Anschrift in Adressat und Adresse oder Postfach,
+     * um daraus eine Anschrift zu erzeugen. Folgende Heuristiken werden fuer 
+     * die Zerlegung herangezogen:
+     * <ul>
+     *     <li>Adressat steht an erster Stelle</li>
+     *     <li>Einzelteile werden durch Komma oder Zeilenvorschub getrennt</li>
+     * </ul>
+     *
+     * @param anschrift z.B. "Donald Duck, 12345 Entenhausen, Gansstr. 23"
+     */
+    public Anschrift(String anschrift) {
+        this(split(anschrift));
+    }
+    
+    private Anschrift(Object[] anschrift) {
+        this(new Adressat(anschrift[0].toString()), (Adresse) anschrift[1], (Postfach) anschrift[2]);
+    }
 
     /**
      * Erzeugt aus dem Namen und Adresse eine Anschrift.
@@ -42,10 +68,18 @@ public class Anschrift implements Fachwert {
      * @param adresse eine gueltige Adresse
      */
     public Anschrift(String name, Adresse adresse) {
-        this.name = name;
-        this.adresse = adresse;
-        this.postfach = null;
+        this(new Adressat(name), adresse);
         validate(name, adresse);
+    }
+
+    /**
+     * Erzeugt aus dem Adressaten und Adresse eine Anschrift.
+     *
+     * @param name    Namen einer Person oder Personengruppe
+     * @param adresse eine gueltige Adresse
+     */
+    public Anschrift(Adressat name, Adresse adresse) {
+        this(name, adresse, null);
     }
 
     /**
@@ -55,10 +89,67 @@ public class Anschrift implements Fachwert {
      * @param postfach ein gueltiges Postfach
      */
     public Anschrift(String name, Postfach postfach) {
-        this.name = name;
-        this.postfach = postfach;
-        this.adresse = null;
+        this(new Adressat(name), postfach);
         validate(name, postfach);
+    }
+
+    /**
+     * Erzeugt aus dem Adressaten und einem Postfach eine Anschrift.
+     *
+     * @param name     Namen einer Person oder Personengruppe
+     * @param postfach ein gueltiges Postfach
+     */
+    public Anschrift(Adressat name, Postfach postfach) {
+        this(name, null, postfach);
+    }
+    
+    private Anschrift(Adressat name, Adresse adresse, Postfach postfach) {
+        this.adressat = name;
+        this.adresse = adresse;
+        this.postfach = postfach;
+        if (adresse == null) {
+            if (postfach == null) {
+                throw new InvalidValueException(postfach, "post_office_box");
+            }
+        } else {
+            if (postfach != null) {
+                throw new InvalidValueException(adresse, ADDRESS);
+            }
+        }
+    }
+
+    /**
+     * Zerlegt die uebergebene Anschrift in Adressat und Adresse oder Postfach
+     * fuer die Validierung.i Folgende Heuristiken werden fuer die Zerlegung
+     * herangezogen:
+     * <ul>
+     *     <li>Adressat steht an erster Stelle</li>
+     *     <li>Einzelteile werden durch Komma oder Zeilenvorschub getrennt</li>
+     * </ul>
+     * 
+     * @param anschrift z.B. "Donald Duck, 12345 Entenhausen, Gansstr. 23"
+     */
+    public static void validate(String anschrift) {
+        split(anschrift);
+    }
+    
+    private static Object[] split(String anschrift) {
+        String[] lines = StringUtils.trimToEmpty(anschrift).split("[,\\n$]");
+        if (lines.length < 2) {
+            throw new InvalidValueException(anschrift, "address");
+        }
+        Object[] parts = new Object[3];
+        parts[0] = new Adressat(lines[0]);
+        String adresseOrPostfach = anschrift.substring(lines[0].length()+1).trim();
+        try {
+            parts[1] = null;
+            parts[2] = new Postfach(adresseOrPostfach);
+        } catch (ValidationException ex) {
+            LOG.log(Level.FINE, "'" + adresseOrPostfach + "' is not a post office box:", ex);
+            parts[1] = new Adresse(adresseOrPostfach);
+            parts[2] = null;
+        }
+        return parts;
     }
 
     /**
@@ -69,7 +160,7 @@ public class Anschrift implements Fachwert {
      * @param adresse eine gueltige Adresse
      */
     public static void validate(String name, Adresse adresse) {
-        validate(name);
+        validateName(name);
         if (adresse == null) {
             throw new InvalidValueException("address");
         }
@@ -83,26 +174,36 @@ public class Anschrift implements Fachwert {
      * @param postfach ein gueltiges Postfach
      */
     public static void validate(String name, Postfach postfach) {
-        validate(name);
+        validateName(name);
         if (postfach == null) {
             throw new InvalidValueException("post_office_box");
         }
     }
 
-    private static void validate(String name) {
+    private static void validateName(String name) {
         if (StringUtils.isBlank(name)) {
             throw new InvalidValueException(name, "name");
         }
     }
 
     /**
-     * Liefert den Namen. Ein Name kan eine Person oder eine Personengruppe
+     * Liefert den Adressaten. Ein Adressat kann eine Person oder eine 
+     * Personengruppe (zum Beispiel Unternehmen, Vereine und Aehnliches) sein.
+     *
+     * @return z.B. "Mustermann, Max" als Aderssat
+     */
+    public Adressat getAdressat() {
+        return adressat;
+    }
+
+    /**
+     * Liefert den Namen. Ein Name kann eine Person oder eine Personengruppe
      * (zum Beispiel Unternehmen, Vereine und Aehnliches) sein.
      *
-     * @return z.B. "Oli B."
+     * @return z.B. "Mustermann"
      */
     public String getName() {
-        return name;
+        return adressat.getName();
     }
 
     /**
@@ -169,7 +270,7 @@ public class Anschrift implements Fachwert {
      */
     @Override
     public int hashCode() {
-        return this.name.hashCode();
+        return this.adressat.hashCode();
     }
 
     /**

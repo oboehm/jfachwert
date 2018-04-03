@@ -18,6 +18,8 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.Fachwert;
+import de.jfachwert.pruefung.exception.InvalidValueException;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -35,6 +37,31 @@ public class Bankverbindung implements Fachwert {
     private final String kontoinhaber;
     private final IBAN iban;
     private final BIC bic;
+
+    /**
+     * Zerlegt den uebergebenen String in Name, IBAN und (optional) BIC.
+     * Folgende Heuristiken werden fuer die Zerlegung angewendet:
+     * <ul>
+     *     <li>
+     *         Reihenfolge ist Name, IBAN und BIC, evtl. durch Kommata 
+     *         getrennt
+     *     </li>
+     *     <li>IBAN wird durch "IBAN" (grossgeschrieben) eingeleitet</li>
+     *     <li>
+     *         BIC wird durch "BIC" (grossgeschrieben) eingeleitet,
+     *         ist aber optional.
+     *     </li>
+     * </ul>
+     * 
+     * @param bankverbindung z.B. "Max Muster, IBAN DE41300606010006605605"
+     */
+    public Bankverbindung(String bankverbindung) {
+        this(split(bankverbindung));
+    }
+    
+    private Bankverbindung(Object[] bankverbindung) {
+        this(bankverbindung[0].toString(), (IBAN) bankverbindung[1], (BIC) bankverbindung[2]);
+    }
 
     /**
      * Erzeugt eine neue Bankverbindung.
@@ -57,6 +84,34 @@ public class Bankverbindung implements Fachwert {
         this.kontoinhaber = name;
         this.iban = iban;
         this.bic = bic;
+    }
+    
+    private static Object[] split(String bankverbindung) {
+        String[] splitted = new String[3];
+        splitted[0] = stripSeparator(StringUtils.substringBefore(bankverbindung, "IBAN"));
+        splitted[1] = stripSeparator(StringUtils.substringAfter(bankverbindung, "IBAN"));
+        if (StringUtils.isBlank(splitted[1])) {
+            throw new InvalidValueException(bankverbindung, "bank_account");
+        }
+        if (splitted[1].contains("BIC")) {
+            splitted[2] = stripSeparator(StringUtils.substringAfter(splitted[1], "BIC"));
+            splitted[1] = stripSeparator(StringUtils.substringBefore(splitted[1], "BIC"));
+        } else {
+            splitted[2] = "";
+        }
+        Object[] values = new Object[3];
+        values[0] = splitted[0];
+        values[1] = new IBAN(splitted[1]);
+        values[2] = splitted[2].isEmpty() ? null : new BIC(splitted[2]);
+        return values;
+    }
+    
+    private static String stripSeparator(String raw) {
+        String value = raw.trim();
+        if (value.endsWith(",")) {
+            value = value.substring(0, value.length()-1);
+        }
+        return value;
     }
 
     public String getKontoinhaber() {

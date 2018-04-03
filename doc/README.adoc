@@ -90,4 +90,12 @@ letzte Release verfügbar ist.
 |`mvn site`
 |Damit werden die Maven-Reports gebaut, die anschliessend auf die Projektseite
 http://jfachwert.de/[jFachwert.de] hochgeladen werden sollten.
+Vorher noch prüfen, ob `changes.xml` aktuell ist.
+
+|Architektur-Dokumentation
+|`mvn -Pdoc generate-resources`
+|Damit wird die Architektur-Dokumentation generiert, die in seiner Rohfassung unter
+https://github.com/oboehm/jfachwert/tree/develop/src/main/asciidoc[src/main/asciidoc] zu finden ist.
+Zur erfolgreichen Generierung muss https://www.graphviz.org/[GraphViz] auf dem Rechner installiert sein.
+Danach wird target/generated-docs auf http://jfachwert.de/generated-docs/[jFachwert.de/generated-docs] hochgeladen.
 |===

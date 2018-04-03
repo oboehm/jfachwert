@@ -18,6 +18,7 @@
 package de.jfachwert.pruefung;
 
 import de.jfachwert.SimpleValidator;
+import de.jfachwert.pruefung.exception.InvalidValueException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

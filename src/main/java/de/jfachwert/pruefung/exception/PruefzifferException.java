@@ -15,11 +15,11 @@
  *
  * (c)reated 22.03.2017 by oboehm (ob@jfachwert.de)
  */
-package de.jfachwert.pruefung;
+package de.jfachwert.pruefung.exception;
 
 import de.jfachwert.PruefzifferVerfahren;
 
-import java.io.*;
+import java.io.Serializable;
 
 /**
  * Die PruefzifferException gibt neben dem Wert auch die fehlerhafte
@@ -38,7 +38,8 @@ public class PruefzifferException extends LocalizedValidationException {
     /**
      * Gibt neben dem Wert auch die erwartete Pruefziffer mit aus.
      *
-     * @param wert fehlerhafter Wert
+     * @param <T>       Typ-Parameter
+     * @param wert      fehlerhafter Wert
      * @param verfahren Verfahren zur Bestimmung der Pruefziffer
      */
     public <T extends Serializable> PruefzifferException(T wert, PruefzifferVerfahren<T> verfahren) {
@@ -48,6 +49,7 @@ public class PruefzifferException extends LocalizedValidationException {
     /**
      * Gibt neben dem Wert auch die erwartete Pruefziffer mit aus.
      *
+     * @param <T>         Typ-Parameter
      * @param wert        Wert
      * @param expected    erwartete Pruefziffer
      * @param pruefziffer tatsaechliche Pruefziffer

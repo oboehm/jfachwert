@@ -8,8 +8,8 @@ Das Konzept von https://de.wikipedia.org/wiki/Werkzeug-_und_Materialansatz#Fachw
 ____
 Fachwerte sind Erweiterungen von https://de.wikipedia.org/wiki/Datentyp#Elementare_Datentypen[primitiven Datentypen] objektorientierter Programmiersprachen.
 Sie halten Informationen und sind unveränderlich, weswegen sich Fachwerte zum Beispiel für Geldbeträge anbieten:
-Es ergibt Sinn zwei Geldbeträge miteinander zu addieren, jedoch nicht sie zu multiplizieren.
-Hier ist es also angebracht einen unveränderlichen Geldbetrag als eigenen Fachwert zu behandeln und für jede Änderung an diesem einen neuen zu erstellen.
+Es ergibt Sinn, zwei Geldbeträge miteinander zu addieren, jedoch nicht sie zu multiplizieren.
+Hier ist es also angebracht, einen unveränderlichen Geldbetrag als eigenen Fachwert zu behandeln und für jede Änderung an diesem einen neuen zu erstellen.
 Ein Fachwert kennt niemanden außer sich selbst und andere Fachwerte.
 Im DDD ist dieses Konzept als https://de.wikipedia.org/wiki/Value_Object[Value Object] bekannt.
 ____
@@ -19,7 +19,7 @@ Ich glaube, sie stammt ursprünglich von Herwig Scheidel, mit dem ich zusammen z
 Damals hatten wir eine eigene Fachwert-Bibliothek für den Bankbereich, die Basis des jGEBOS-Frameworks war.
 Es tauchte auch die Idee auf, den Fachwert-Teil des Frameworks als OpenSource auszugliedern, was aber aufgrund diverser Fusionen wieder in Vergessenheit geriet.
 
-Ziel dieser Bibliothek ist es, fuer den deutschsprachigen Raum alle wichtigen Datentypen bereitzustellen, die man sonst immer wieder selbst implementieren muesste.
+NOTE: Ziel dieser Bibliothek ist es, für den deutschsprachigen Raum alle wichtigen Datentypen bereitzustellen, die man sonst immer wieder selbst implementieren muesste.
 
 
 === Aufgabenstellung

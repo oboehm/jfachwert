@@ -46,7 +46,7 @@ public final class AdresseTest extends AbstractFachwertTest {
      * Test-Methode fuer {@link Adresse#getOrt()}.
      */
     @Test
-    public void getOrt() {
+    public void testGetOrt() {
         assertEquals(entenhausen, adresse.getOrt());
     }
 
@@ -54,8 +54,38 @@ public final class AdresseTest extends AbstractFachwertTest {
      * Test-Methode fuer {@link Adresse#getPLZ()}.
      */
     @Test
-    public void getPLZ() {
+    public void testGetPLZ() {
         assertEquals(entenhausen.getPLZ().get(), adresse.getPLZ());
     }
 
+    /**
+     * Test-Methode fuer {@link Adresse#validate(String)}.
+     */
+    @Test
+    public void testValidateOrtStrasse() {
+        Adresse.validate("D12345 Entenhausen, Gansstr. 23");
+    }
+
+    /**
+     * Die verwendete Adresse stammt von der Uni Erfurt und ist eine gueltige
+     * Adresse.
+     */
+    @Test
+    public void testValidateStrasseOrt() {
+        String adresse = "Nordh\u00e4user Stra\u00dfe 63\n99089 Erfurt";
+        Adresse.validate(adresse);
+    }
+
+    /**
+     * Hier testen wir, ob der Konstruktor die uebergebene Adresse richtig
+     * zerlegt.
+     */
+    @Test
+    public void testAdresse() {
+        String musterdorf = "Alter Weg 110 a\n12345 Musterdorf";
+        Adresse adresse = new Adresse(musterdorf);
+        assertEquals("Alter Weg", adresse.getStrasse());
+        assertEquals("110 a", adresse.getHausnummer());
+    }
+    
 }
