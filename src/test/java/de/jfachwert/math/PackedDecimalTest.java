@@ -187,11 +187,27 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
     }
 
     /**
+     * Testmethode fuer {@link PackedDecimal#multiply(BigDecimal)}.
+     */
+    @Test
+    public void testMultiplyBruch() {
+        assertEquals(PackedDecimal.valueOf("1/3"), PackedDecimal.valueOf("1/2").multiply(PackedDecimal.valueOf("2/3")));
+    }
+
+    /**
      * Testmethode fuer {@link PackedDecimal#divide(BigDecimal)}.
      */
     @Test
     public void testDivide() {
         assertEquals(PackedDecimal.valueOf(5), PackedDecimal.TEN.divide(PackedDecimal.valueOf(2)));
+    }
+
+    /**
+     * Testmethode fuer {@link PackedDecimal#divide(BigDecimal)}.
+     */
+    @Test
+    public void testDivideBruch() {
+        assertEquals(PackedDecimal.valueOf("1/3"), PackedDecimal.valueOf("1/2").divide(PackedDecimal.valueOf("3/2")));
     }
 
     /**

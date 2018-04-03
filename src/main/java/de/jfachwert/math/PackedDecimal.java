@@ -352,7 +352,11 @@ public class PackedDecimal implements Fachwert {
      * @return Produkt
      */
     public PackedDecimal multiply(PackedDecimal operand) {
-        return multiply(operand.toBigDecimal());
+        if (operand.isBruch()) {
+            return multiply(operand.toBruch());
+        } else {
+            return multiply(operand.toBigDecimal());
+        }
     }
 
     /**
@@ -368,6 +372,18 @@ public class PackedDecimal implements Fachwert {
     }
 
     /**
+     * Multipliziert den uebergebenen Operanden und liefert als Ergebnis eine neue
+     * {@link PackedDecimal} zurueck
+     *
+     * @param operand Operand
+     * @return Produkt
+     */
+    public PackedDecimal multiply(Bruch operand) {
+        Bruch produkt = toBruch().multiply(operand);
+        return PackedDecimal.valueOf(produkt);
+    }
+
+    /**
      * Dividiert den uebergebenen Operanden und liefert als Ergebnis eine neue
      * {@link PackedDecimal} zurueck
      *
@@ -375,7 +391,22 @@ public class PackedDecimal implements Fachwert {
      * @return Ergebnis der Division
      */
     public PackedDecimal divide(PackedDecimal operand) {
-        return divide(operand.toBigDecimal());
+        if (operand.isBruch()) {
+            return divide(operand.toBruch());
+        } else {
+            return divide(operand.toBigDecimal());
+        }
+    }
+
+    /**
+     * Dividiert den uebergebenen Operanden und liefert als Ergebnis eine neue
+     * {@link PackedDecimal} zurueck
+     *
+     * @param operand Operand
+     * @return Ergebnis der Division
+     */
+    public PackedDecimal divide(Bruch operand) {
+        return multiply(operand.kehrwert());
     }
 
     /**
