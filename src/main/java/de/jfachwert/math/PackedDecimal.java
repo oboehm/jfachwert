@@ -274,7 +274,7 @@ public class PackedDecimal implements Fachwert {
      * @return Summe
      */
     public PackedDecimal add(PackedDecimal summand) {
-        if (summand.isBruch()) {
+        if (this.isBruch() || summand.isBruch()) {
             return add(summand.toBruch());
         } else {
             return add(summand.toBigDecimal());
@@ -313,7 +313,7 @@ public class PackedDecimal implements Fachwert {
      * @return Summe
      */
     public PackedDecimal subtract(PackedDecimal operand) {
-        if (operand.isBruch()) {
+        if (this.isBruch() || operand.isBruch()) {
             return subtract(operand.toBruch());
         } else {
             return subtract(operand.toBigDecimal());
@@ -352,7 +352,7 @@ public class PackedDecimal implements Fachwert {
      * @return Produkt
      */
     public PackedDecimal multiply(PackedDecimal operand) {
-        if (operand.isBruch()) {
+        if (this.isBruch() || operand.isBruch()) {
             return multiply(operand.toBruch());
         } else {
             return multiply(operand.toBigDecimal());
@@ -391,7 +391,7 @@ public class PackedDecimal implements Fachwert {
      * @return Ergebnis der Division
      */
     public PackedDecimal divide(PackedDecimal operand) {
-        if (operand.isBruch()) {
+        if (this.isBruch() || operand.isBruch()) {
             return divide(operand.toBruch());
         } else {
             return divide(operand.toBigDecimal());

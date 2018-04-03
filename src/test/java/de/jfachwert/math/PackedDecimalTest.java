@@ -150,7 +150,23 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
      */
     @Test
     public void testAddBruch() {
+        assertEquals(PackedDecimal.valueOf("7/4"), PackedDecimal.valueOf("1").add(PackedDecimal.valueOf("3/4")));
+    }
+
+    /**
+     * Testmethode fuer {@link PackedDecimal#add(PackedDecimal)}.
+     */
+    @Test
+    public void testAddBruchBruch() {
         assertEquals(PackedDecimal.valueOf("5/4"), PackedDecimal.valueOf("1/2").add(PackedDecimal.valueOf("3/4")));
+    }
+
+    /**
+     * Testmethode fuer {@link PackedDecimal#add(PackedDecimal)}.
+     */
+    @Test
+    public void testAddZahlBruch() {
+        assertEquals(PackedDecimal.valueOf("3/2"), PackedDecimal.valueOf("1/2").add(PackedDecimal.valueOf("1")));
     }
 
     /**
