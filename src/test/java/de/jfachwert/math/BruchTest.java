@@ -22,6 +22,7 @@ import de.jfachwert.Fachwert;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import static org.junit.Assert.assertEquals;
@@ -93,6 +94,23 @@ public final class BruchTest extends AbstractFachwertTest {
     @Test
     public void testSubtract() {
         assertEquals(Bruch.of("-1/3"), Bruch.of("1/2").subtract(Bruch.of("5/6")));
+    }
+
+    /**
+     * Dezimalzahlen lassen sich auch in Brueche wandeln. Dies wird hier
+     * getestet.
+     */
+    @Test
+    public void testOfBigDecimal() {
+        assertEquals(Bruch.of("5/4"), Bruch.of("1.25"));
+    }
+
+    /**
+     * Testfall fuer {@link Bruch#Bruch(BigDecimal)}.
+     */
+    @Test
+    public void testBruchBigDecimal() {
+        assertEquals(Bruch.of("1/2"), new Bruch(new BigDecimal("0.5")));
     }
 
 }

@@ -21,6 +21,7 @@ import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.StringUtils;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
@@ -44,23 +45,57 @@ public class Bruch implements Fachwert {
 
 
     /**
-     * Legt einen Bruch mit dem angegeben Zaehler und Nenner an.
+     * Legt einen Bruch mit dem angegeben Zaehler und Nenner an. Brueche
+     * koennen dabei mit Bruchstrich ("1/2") oder als Dezimalzahl ("0.5")
+     * angegeben werden.
      *
-     * @param bruch Zeichenkette, z.B. "1/2"
+     * @param bruch Zeichenkette, z.B. "1/2" ocer "0.5"
      */
     public Bruch(String bruch) {
         this(toNumbers(bruch));
     }
 
     private static BigInteger[] toNumbers(String bruch) {
-        String[] parts = StringUtils.split(bruch, "/");
-        if (parts.length != 2) {
-            throw new InvalidValueException(bruch, "fraction");
-        }
         BigInteger[] numbers = new BigInteger[2];
-        numbers[0] = new BigInteger(parts[0]);
-        numbers[1] = new BigInteger(parts[1]);
+        String[] parts = StringUtils.split(bruch, "/");
+        switch (parts.length) {
+            case 1:
+                Bruch dezimalBruch = toBruch(new BigDecimal(parts[0]));
+                numbers[0] = dezimalBruch.getZaehler();
+                numbers[1] = dezimalBruch.getNenner();
+                break;
+            case 2:
+                numbers[0] = new BigInteger(parts[0]);
+                numbers[1] = new BigInteger(parts[1]);
+                break;
+            default:
+                throw new InvalidValueException(bruch, "fraction");
+        }
         return numbers;
+    }
+
+    /**
+     * Legt die uebergebene Dezimalzahl als Bruch an.
+     *
+     * @param decimal Dezimalzahl, z.B. "0.5"
+     */
+    public Bruch(BigDecimal decimal) {
+        this(toNumbers(decimal));
+    }
+
+    private static BigInteger[] toNumbers(BigDecimal decimal) {
+        BigInteger[] numbers = new BigInteger[2];
+        Bruch dezimalBruch = toBruch(decimal);
+        numbers[0] = dezimalBruch.getZaehler();
+        numbers[1] = dezimalBruch.getNenner();
+        return numbers;
+    }
+
+    private static Bruch toBruch(BigDecimal decimal) {
+        int scale = decimal.scale();
+        BigInteger z = decimal.movePointRight(scale).toBigInteger();
+        BigInteger n = BigDecimal.ONE.movePointRight(scale).toBigInteger();
+        return Bruch.of(z, n).kuerzen();
     }
 
     private Bruch(BigInteger[] number) {
