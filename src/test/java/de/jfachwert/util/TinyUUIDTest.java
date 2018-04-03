@@ -23,8 +23,7 @@ import javax.validation.ValidationException;
 import java.math.BigInteger;
 import java.util.UUID;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
@@ -164,7 +163,9 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
     }
 
     /**
-     * Test-Methode fuer {@link TinyUUID#toShortString()}.
+     * Test-Methode fuer {@link TinyUUID#toShortString()}. Der resultierende
+     * String sollte auch kein "/" und "+" enthalten um URL-safe zu sein
+     * (s. http://toddfredrich.com/ids-in-rest-api.html).
      */
     @Test
     public void testToShortString() {
@@ -191,6 +192,8 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
         String s = id.toShortString();
         assertThat(s.length(), is(lessThan(id.toLongString().length())));
         assertThat(s, s.length(), is(22));
+        assertThat(s, not(containsString("/")));
+        assertThat(s, not(containsString("+")));
         assertEquals(id, TinyUUID.fromString(s));
     }
 

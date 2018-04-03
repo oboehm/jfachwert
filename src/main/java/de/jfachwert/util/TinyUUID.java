@@ -188,11 +188,16 @@ public class TinyUUID extends AbstractFachwert<UUID> {
      * reduziert sich dadurch auf 22 Zeichen. Diese kann z.B. dazu genutzt
      * werden, um eine UUID platzsparend abzuspeichern, wenn man dazu nicht
      * das Ergebnis aus {@link #toBytes()} (16 Bytes) verwenden will.
+     * <p>
+     * Damit der resultierende String auch URL-safe ist, werden die Zeichen
+     * '/' und '+' durch '_' und '-' ersetzt.
+     * </p>
      *
      * @return 22 Zeichen, z.B. "ix9de14vQgGKwXZUaruCzw"
      */
     public String toShortString() {
-        return Base64.getEncoder().withoutPadding().encodeToString(toBytes());
+        String s = Base64.getEncoder().withoutPadding().encodeToString(toBytes());
+        return s.replace('/', '_').replace('+', '-');
     }
 
     /**
@@ -217,7 +222,8 @@ public class TinyUUID extends AbstractFachwert<UUID> {
     public static TinyUUID fromString(String id) {
         switch (id.length()) {
             case 22:
-                byte [] bytes = Base64.getDecoder().decode(id);
+                String base64 = id.replace('+', '-').replace('_', '/');
+                byte [] bytes = Base64.getDecoder().decode(base64);
                 return new TinyUUID(bytes);
             default:
                 return new TinyUUID(UUID.fromString(id));
