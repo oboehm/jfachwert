@@ -19,6 +19,7 @@ package de.jfachwert.util;
 
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.pruefung.exception.IllegalLengthException;
+import de.jfachwert.pruefung.exception.InvalidValueException;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -68,7 +69,7 @@ public class TinyUUID extends AbstractFachwert<UUID> {
      * @param uuid z.B. "4e8108fa-e517-41bd-8372-a828843030ba"
      */
     public TinyUUID(String uuid) {
-        this(new BigInteger(uuid.replaceAll("-", ""), 16));
+        this(toBigInteger(uuid));
     }
 
     /**
@@ -113,14 +114,22 @@ public class TinyUUID extends AbstractFachwert<UUID> {
     }
 
     /**
-     * Liefert die UUID als 128-Bit-Zahl zurueck. Diese kann auch negative
+     * Liefert die UUID als 128-Bit-Zahl zurueck. Diese kann auch negativ
      * sein.
      *
      * @return Zahl
      */
     public BigInteger toNumber() {
         UUID uuid = this.getCode();
-        return new BigInteger(uuid.toString().replaceAll("-", ""), 16);
+        return toBigInteger(uuid.toString());
+    }
+
+    private static BigInteger toBigInteger(String uuid) {
+        try {
+            return new BigInteger(uuid.replaceAll("-", ""), 16);
+        } catch (NumberFormatException nfe) {
+            throw new InvalidValueException(uuid, "UUID");
+        }
     }
 
     /**
