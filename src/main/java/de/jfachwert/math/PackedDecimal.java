@@ -98,7 +98,7 @@ import java.math.RoundingMode;
  * @author oboehm
  * @since 0.6 (29.03.2018)
  */
-public class PackedDecimal implements Fachwert {
+public class PackedDecimal implements Fachwert, Comparable<PackedDecimal> {
 
     private static final NullValidator VALIDATOR = new NullValidator();
     private static final PackedDecimal[] cache = new PackedDecimal[11];
@@ -545,6 +545,18 @@ public class PackedDecimal implements Fachwert {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof PackedDecimal && this.toString().equals(obj.toString());
+    }
+
+    /**
+     * Vergleicht die andere Zahl mit der aktuellen Zahl.
+     *
+     * @param other die andere {@link PackedDecimal}, die verglichen wird.
+     * @return negtive Zahl, falls this < other, 0 bei Gleichheit, ansonsten
+     * positive Zahl.
+     */
+    @Override
+    public int compareTo(PackedDecimal other) {
+        return this.toBruch().compareTo(other.toBruch());
     }
 
 }

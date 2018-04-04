@@ -24,9 +24,9 @@ import javax.validation.ValidationException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.lessThan;
+import static org.junit.Assert.*;
 
 /**
  * Unit-Tests fuer {@link PackedDecimal}-Klasse.
@@ -240,6 +240,23 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
     @Test
     public void testSetScaleRoundningMode() {
         assertEquals(PackedDecimal.TEN, PackedDecimal.valueOf("10.49").setScale(0, RoundingMode.HALF_UP));
+    }
+
+    /**
+     * Testmethode fuer {@link PackedDecimal#compareTo(PackedDecimal)}.
+     */
+    @Test
+    public void testCompareTo() {
+        assertThat(PackedDecimal.ONE.compareTo(PackedDecimal.TEN), lessThan(0));
+        assertThat(PackedDecimal.TEN.compareTo(PackedDecimal.ONE), greaterThan(0));
+    }
+
+    /**
+     * Testmethode fuer {@link PackedDecimal#compareTo(PackedDecimal)}.
+     */
+    @Test
+    public void testCompareToEquals() {
+        assertEquals(0, PackedDecimal.ONE.compareTo(PackedDecimal.valueOf("2/2")));
     }
 
 }

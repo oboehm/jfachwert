@@ -38,7 +38,7 @@ import java.math.BigInteger;
  * @author <a href="ob@aosd.de">oliver</a>
  * @since 0.6
  */
-public class Bruch implements Fachwert {
+public class Bruch implements Fachwert, Comparable<Bruch> {
 
     private final BigInteger zaehler;
     private final BigInteger nenner;
@@ -290,6 +290,20 @@ public class Bruch implements Fachwert {
     @Override
     public int hashCode() {
         return this.kuerzen().toString().hashCode();
+    }
+
+    /**
+     * Vergleicht den anderen Bruch mit dem aktuellen Bruch.
+     *
+     * @param other der andere Bruch, der verglichen wird.
+     * @return negtive Zahl, falls this < other, 0 bei Gleichheit, ansonsten
+     * positive Zahl.
+     */
+    @Override
+    public int compareTo(Bruch other) {
+        BigInteger thisZaehlerErweitert = this.zaehler.multiply(other.nenner);
+        BigInteger otherZaehlerErweitert = other.zaehler.multiply(this.nenner);
+        return thisZaehlerErweitert.compareTo(otherZaehlerErweitert);
     }
 
 }
