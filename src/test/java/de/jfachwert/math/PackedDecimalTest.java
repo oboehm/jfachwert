@@ -259,4 +259,20 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
         assertEquals(0, PackedDecimal.ONE.compareTo(PackedDecimal.valueOf("2/2")));
     }
 
+    /**
+     * Testmethode fuer {@link PackedDecimal#isNumber()}.
+     */
+    @Test
+    public void testIsNumberTrue() {
+        assertTrue(PackedDecimal.valueOf("1 000 000").isNumber());
+    }
+
+    /**
+     * Testmethode fuer {@link PackedDecimal#isNumber()}.
+     */
+    @Test
+    public void testIsNumberFalse() {
+        assertFalse(PackedDecimal.valueOf("+49/811-32168").isNumber());
+    }
+
 }

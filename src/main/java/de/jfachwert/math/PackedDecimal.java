@@ -26,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import javax.validation.ValidationException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.logging.Logger;
 
 /**
  * Die Klasse PackedDecimal dienst zum speicherschonende Speichern von Zahlen.
@@ -100,6 +101,7 @@ import java.math.RoundingMode;
  */
 public class PackedDecimal implements Fachwert, Comparable<PackedDecimal> {
 
+    private static final Logger LOG = Logger.getLogger(PackedDecimal.class.getName());
     private static final NullValidator VALIDATOR = new NullValidator();
     private static final PackedDecimal[] cache = new PackedDecimal[11];
     private final byte[] code;
@@ -245,7 +247,37 @@ public class PackedDecimal implements Fachwert, Comparable<PackedDecimal> {
      * @return true oder false
      */
     public boolean isBruch() {
-        return toString().contains("/");
+        String s = toString();
+        if (s.contains("/")) {
+            try {
+                Bruch.of(s);
+                return true;
+            } catch (ValidationException ex) {
+                LOG.fine(s + " is not a fraction: " + ex);
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * Da sich mit {@link PackedDecimal} auch Telefonnummer und andere
+     * Zahlenkombinationen abspeichern lassen, die im eigentlichen Sinn
+     * keine Zahl darstellen, kann man ueber diese Methode abfragen, ob
+     * eine Zahl abespeichdert wurde oder nicht.
+     * 
+     * @return true, falls es sich um eine Zahl handelt.
+     */
+    public boolean isNumber() {
+        String packed = toString().replaceAll(" ", "");
+        try {
+            new BigDecimal(packed);
+            return true;
+        } catch (NumberFormatException nfe) {
+            LOG.fine(packed + " is not a number: " + nfe);
+            return isBruch();
+        }
     }
 
     /**
