@@ -297,7 +297,7 @@ public class Bruch implements Fachwert, Comparable<Bruch> {
      * Vergleicht den anderen Bruch mit dem aktuellen Bruch.
      *
      * @param other der andere Bruch, der verglichen wird.
-     * @return negtive Zahl, falls this < other, 0 bei Gleichheit, ansonsten
+     * @return negtive Zahl, falls this &lt; other, 0 bei Gleichheit, ansonsten
      * positive Zahl.
      */
     @Override

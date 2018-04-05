@@ -583,7 +583,7 @@ public class PackedDecimal implements Fachwert, Comparable<PackedDecimal> {
      * Vergleicht die andere Zahl mit der aktuellen Zahl.
      *
      * @param other die andere {@link PackedDecimal}, die verglichen wird.
-     * @return negtive Zahl, falls this < other, 0 bei Gleichheit, ansonsten
+     * @return negtive Zahl, falls this &lt; other, 0 bei Gleichheit, ansonsten
      * positive Zahl.
      */
     @Override

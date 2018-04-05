@@ -32,12 +32,12 @@ import org.apache.commons.lang3.StringUtils;
 public class Adressat extends AbstractFachwert<String> {
 
     /**
-     * Erzeugt eine Adressat mit dem angegebenen Namen. DAbe kann es sich um
+     * Erzeugt eine Adressat mit dem angegebenen Namen. Dabei kann es sich um
      * eine natuerliche Person (z.B. "Mustermann, Max") oder eine juristische
      * Person (z.B. "Ich AG") handeln.
      * <p>
      * Das Format des Adressat ist so, wie er auf dem Brief angegeben wird:
-     * "Nachname, Vorname" bei Personen bzw. Name der juristischen Person.
+     * "Nachname, Vorname" bei Personen bzw. Name bei juristischen Personen.
      * </p>
      * 
      * @param name z.B. "Mustermann, Max"

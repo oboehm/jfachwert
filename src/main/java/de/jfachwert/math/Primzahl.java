@@ -30,8 +30,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * <p>
  * Intern wird 'int' zur Speicherung der Primzahl verwendet, da dies fuer den
  * Standard-Fall ausreichend ist. So benoetigt bereits die Ermittlung einer
- * 8-stelligen Primzahl (> 10 Mio.) ca. 3 Minuten. Die Emittlung einer
- * 10-stelligen Primzahl (< 2 Mrd.) dürfte damit im Stunden, wenn nicht gar
+ * 8-stelligen Primzahl (&gt; 10 Mio.) ca. 3 Minuten. Die Emittlung einer
+ * 10-stelligen Primzahl (&lt; 2 Mrd.) dürfte damit im Stunden, wenn nicht gar
  * Tage-Bereich liegen.
  * </p>
  * <p>
@@ -116,7 +116,7 @@ public class Primzahl implements Fachwert {
      * Liefert die naechste Primzahl nach der angegebenen Zahl.
      *
      * @param zahl Zahl
-     * @return naechste Primzahl > zahl
+     * @return naechste Primzahl &gt; zahl
      */
     public static Primzahl after(int zahl) {
         List<Primzahl> primzahlen = getPrimzahlen();
