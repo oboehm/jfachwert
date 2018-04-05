@@ -20,6 +20,7 @@ package de.jfachwert.math;
 import de.jfachwert.Fachwert;
 
 import java.lang.ref.SoftReference;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -45,7 +46,7 @@ public class Primzahl implements Fachwert {
     public static final Primzahl DREI = new Primzahl(3);
 
     private static SoftReference<List<Primzahl>> refPrimzahlen = new SoftReference<>(initPrimzahlen());
-    private final long wert;
+    private final long value;
 
     private static List<Primzahl> initPrimzahlen() {
         List<Primzahl> primzahlen = new CopyOnWriteArrayList<>();
@@ -54,7 +55,7 @@ public class Primzahl implements Fachwert {
     }
 
     private Primzahl(long n) {
-        this.wert = n;
+        this.value = n;
     }
 
     /**
@@ -67,12 +68,24 @@ public class Primzahl implements Fachwert {
     }
 
     /**
-     * Liefert den numerischen Wert der Primzahl.
+     * Liefert den numerischen Wert der Primzahl. Der Name der Methode
+     * orientiert sich dabei an die Number-Klasse aus Java.
      * 
      * @return numrischer Wert
      */
-    public long getWert() {
-        return wert;
+    public long longValue() {
+        return value;
+    }
+
+    /**
+     * Liefert den numerischen Wert der Primzahl als {@link BigInteger}. Der 
+     * Name der Methode orientiert sich dabei an die BigDecimal-Klasse aus
+     * Java.
+     *
+     * @return numrischer Wert
+     */
+    public BigInteger toBigInteger() {
+        return BigInteger.valueOf(longValue());
     }
 
     /**
@@ -81,7 +94,7 @@ public class Primzahl implements Fachwert {
      * @return naechste Primzahl
      */
     public Primzahl next() {
-        return after(getWert());
+        return after(longValue());
     }
 
     /**
@@ -97,16 +110,16 @@ public class Primzahl implements Fachwert {
             refPrimzahlen = new SoftReference<>(primzahlen);
         }
         for (Primzahl p : primzahlen) {
-            if (zahl < p.getWert()) {
+            if (zahl < p.longValue()) {
                 return p;
             }
         }
-        for (long n = primzahlen.get(primzahlen.size() - 1).getWert() + 2; n <= zahl; n += 2) {
+        for (long n = primzahlen.get(primzahlen.size() - 1).longValue() + 2; n <= zahl; n += 2) {
             if (!hasTeiler(n)) {
                 primzahlen.add(new Primzahl(n));
             }
         }
-        long n = primzahlen.get(primzahlen.size() - 1).getWert() + 2;
+        long n = primzahlen.get(primzahlen.size() - 1).longValue() + 2;
         while (hasTeiler(n)) {
             n += 2;
         }
@@ -117,7 +130,7 @@ public class Primzahl implements Fachwert {
 
     private static boolean hasTeiler(long n) {
         for (Primzahl p : refPrimzahlen.get()) {
-            long teiler = p.getWert();
+            long teiler = p.longValue();
             if (n % teiler == 0) {
                 return true;
             }
@@ -135,7 +148,7 @@ public class Primzahl implements Fachwert {
      */
     @Override
     public String toString() {
-        return Long.toString(getWert());
+        return Long.toString(longValue());
     }
 
 }

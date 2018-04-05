@@ -186,7 +186,8 @@ public class Bruch implements Fachwert, Comparable<Bruch> {
     public Bruch kuerzen() {
         BigInteger z = getZaehler();
         BigInteger n = getNenner();
-        for (BigInteger teiler = BigInteger.valueOf(2); teiler.compareTo(n) < 0; teiler = teiler.add(BigInteger.ONE)) {
+        for (Primzahl p = Primzahl.first(); p.toBigInteger().compareTo(n) < 0; p = p.next()) {
+            BigInteger teiler = p.toBigInteger();
             while (z.mod(teiler).equals(BigInteger.ZERO) && (n.mod(teiler).equals(BigInteger.ZERO))) {
                 z = z.divide(teiler);
                 n = n.divide(teiler);

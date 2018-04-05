@@ -45,7 +45,7 @@ public final class PrimzahlTest extends AbstractFachwertTest {
      */
     @Test
     public void testAfter() {
-        assertEquals(11, Primzahl.after(7).getWert());
+        assertEquals(11, Primzahl.after(7).longValue());
     }
 
     /**
@@ -54,7 +54,7 @@ public final class PrimzahlTest extends AbstractFachwertTest {
     @Test
     public void testNext() {
         Primzahl dreizehn = Primzahl.after(12);
-        assertEquals(17, dreizehn.next().getWert());
+        assertEquals(17, dreizehn.next().longValue());
     }
 
 }
