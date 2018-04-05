@@ -76,6 +76,15 @@ public class Primzahl implements Fachwert {
     }
 
     /**
+     * Liefert die naechste Primzahl.
+     * 
+     * @return naechste Primzahl
+     */
+    public Primzahl next() {
+        return after(getWert());
+    }
+
+    /**
      * Liefert die naechste Primzahl nach der angegebenen Zahl.
      *
      * @param zahl Zahl
