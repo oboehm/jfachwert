@@ -19,6 +19,7 @@ package de.jfachwert;
 
 import de.jfachwert.bank.BIC;
 import de.jfachwert.bank.IBAN;
+import de.jfachwert.math.Primzahl;
 import org.junit.Test;
 import patterntesting.runtime.monitor.ClasspathMonitor;
 
@@ -152,7 +153,7 @@ public class FachwertFactoryTest {
     
     private static void check(Class<?> clazz) {
         int mod = clazz.getModifiers();
-        if (Modifier.isAbstract(mod) || Modifier.isInterface(mod)) {
+        if (Modifier.isAbstract(mod) || Modifier.isInterface(mod) || clazz.equals(Primzahl.class)) {
             return;
         }
         if (Fachwert.class.isAssignableFrom(clazz)) {
