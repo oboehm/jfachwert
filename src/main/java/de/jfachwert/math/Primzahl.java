@@ -76,7 +76,7 @@ public class Primzahl implements Fachwert {
      * Liefert den numerischen Wert der Primzahl. Der Name der Methode
      * orientiert sich dabei an die Number-Klasse aus Java.
      *
-     * @return numrischer Wert
+     * @return numerischer Wert
      */
     public long longValue() {
         return value;
@@ -86,7 +86,7 @@ public class Primzahl implements Fachwert {
      * Liefert den numerischen Wert der Primzahl. Der Name der Methode
      * orientiert sich dabei an die Number-Klasse aus Java.
      *
-     * @return numrischer Wert
+     * @return numerischer Wert
      */
     public int intValue() {
         return value;
@@ -119,13 +119,9 @@ public class Primzahl implements Fachwert {
      * @return naechste Primzahl > zahl
      */
     public static Primzahl after(int zahl) {
-        List<Primzahl> primzahlen = refPrimzahlen.get();
-        if (primzahlen == null) {
-            primzahlen = initPrimzahlen();
-            refPrimzahlen = new SoftReference<>(primzahlen);
-        }
+        List<Primzahl> primzahlen = getPrimzahlen();
         for (Primzahl p : primzahlen) {
-            if (zahl < p.longValue()) {
+            if (zahl < p.intValue()) {
                 return p;
             }
         }
@@ -153,9 +149,9 @@ public class Primzahl implements Fachwert {
      * @param n Zahl, die nach einem Teiler unterscuht wird
      * @return true, falls Zahl einen Teiler hat (d.h. keine Primzahl ist)
      */
-    private static boolean hasTeiler(long n) {
-        for (Primzahl p : refPrimzahlen.get()) {
-            long teiler = p.longValue();
+    private static boolean hasTeiler(int n) {
+        for (Primzahl p : getPrimzahlen()) {
+            int teiler = p.intValue();
             if (n % teiler == 0) {
                 return true;
             }
@@ -166,6 +162,28 @@ public class Primzahl implements Fachwert {
         return false;
     }
 
+    private static List<Primzahl> getPrimzahlen() {
+        List<Primzahl> primzahlen = refPrimzahlen.get();
+        if (primzahlen == null) {
+            primzahlen = initPrimzahlen();
+            refPrimzahlen = new SoftReference<>(primzahlen);
+        }
+        return primzahlen;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Primzahl primzahl = (Primzahl) o;
+        return value == primzahl.value;
+    }
+
+    @Override
+    public int hashCode() {
+        return value;
+    }
+
     /**
      * Als Ausgabe nehmen wir die Zahl selbst.
      * 
@@ -173,7 +191,7 @@ public class Primzahl implements Fachwert {
      */
     @Override
     public String toString() {
-        return Long.toString(longValue());
+        return Integer.toString(value);
     }
 
 }
