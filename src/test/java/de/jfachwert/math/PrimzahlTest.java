@@ -57,4 +57,16 @@ public final class PrimzahlTest extends AbstractFachwertTest {
         assertEquals(17, dreizehn.next().longValue());
     }
 
+    /**
+     * Dieser Test dient nur dazu, um den Rechner zu beschaeftigen.
+     * Der Test dauert auf einem Fujitsu-Notebook mit i7 und 2.5 GHz 
+     * ca. 3 Sekunden. Mit 10_000_000 sind es bereits 3 Minuten und
+     * mit 20_000_000 12 Minuten.
+     */
+    //@Test
+    public void testBigPrimzahl() {
+        Primzahl big = Primzahl.after(1_000_000);
+        assertEquals(1000003, big.longValue());
+    }
+
 }

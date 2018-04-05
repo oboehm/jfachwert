@@ -17,8 +17,18 @@
 
   <body>
 
+    <release version="0.6.1" date="06-Apr-2018"
+             description="Primzahl">
+      <action dev="oboehm" type="add" date="04-Apr-2018">
+        Primzahl-Klasse hinzugef&#252;gt
+      </action>
+      <action dev="oboehm" type="update" date="03-Apr-2017">
+        Speicherverbrauch von Rechnungsmonat nochmals reduziert.
+      </action>
+    </release>
+
     <release version="0.6.0" date="02-Apr-2018"
-             description="FachwertFactory">
+             description="math-Package">
       <action dev="oboehm" type="add" date="M&#228;r-2018">
         math-Package mit Nummer-, Bruch- und PackedDecimal-Klasse hinzugef&#252;gt
       </action>

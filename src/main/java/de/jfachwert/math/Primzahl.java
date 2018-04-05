@@ -28,10 +28,15 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Eine Primzahl ist eine natuerliche Zahl, die nur durch 1 und durch sich
  * selbst teilbar ist. Die kleinste Primzahl ist 2.
  * <p>
- * Die groesste Primzahl, die mit dieser Klasse dargestellt werden kann, ist
- * 9223372036854775783, da intern long verwendet wird. Ein BigInteger macht
- * aktuell keinen Sinn, da die Ermittlung einer beliebig grossen Zahl recht
- * lange dauert.
+ * Intern wird 'int' zur Speicherung der Primzahl verwendet, da dies fuer den
+ * Standard-Fall ausreichend ist. So benoetigt bereits die Ermittlung einer
+ * 8-stelligen Primzahl (> 10 Mio.) ca. 3 Minuten. Die Emittlung einer
+ * 10-stelligen Primzahl (< 2 Mrd.) dürfte damit im Stunden, wenn nicht gar
+ * Tage-Bereich liegen.
+ * </p>
+ * <p>
+ * Die groesste Primzahl, die mit einem long dargestellt werden kann, ist
+ * 9223372036854775783.
  * </p>
  *
  * @author oboehm
@@ -46,7 +51,7 @@ public class Primzahl implements Fachwert {
     public static final Primzahl DREI = new Primzahl(3);
 
     private static SoftReference<List<Primzahl>> refPrimzahlen = new SoftReference<>(initPrimzahlen());
-    private final long value;
+    private final int value;
 
     private static List<Primzahl> initPrimzahlen() {
         List<Primzahl> primzahlen = new CopyOnWriteArrayList<>();
@@ -54,7 +59,7 @@ public class Primzahl implements Fachwert {
         return primzahlen;
     }
 
-    private Primzahl(long n) {
+    private Primzahl(int n) {
         this.value = n;
     }
 
@@ -70,10 +75,20 @@ public class Primzahl implements Fachwert {
     /**
      * Liefert den numerischen Wert der Primzahl. Der Name der Methode
      * orientiert sich dabei an die Number-Klasse aus Java.
-     * 
+     *
      * @return numrischer Wert
      */
     public long longValue() {
+        return value;
+    }
+
+    /**
+     * Liefert den numerischen Wert der Primzahl. Der Name der Methode
+     * orientiert sich dabei an die Number-Klasse aus Java.
+     *
+     * @return numrischer Wert
+     */
+    public int intValue() {
         return value;
     }
 
@@ -82,7 +97,7 @@ public class Primzahl implements Fachwert {
      * Name der Methode orientiert sich dabei an die BigDecimal-Klasse aus
      * Java.
      *
-     * @return numrischer Wert
+     * @return numerischer Wert
      */
     public BigInteger toBigInteger() {
         return BigInteger.valueOf(longValue());
@@ -94,7 +109,7 @@ public class Primzahl implements Fachwert {
      * @return naechste Primzahl
      */
     public Primzahl next() {
-        return after(longValue());
+        return after(intValue());
     }
 
     /**
@@ -103,7 +118,7 @@ public class Primzahl implements Fachwert {
      * @param zahl Zahl
      * @return naechste Primzahl > zahl
      */
-    public static Primzahl after(long zahl) {
+    public static Primzahl after(int zahl) {
         List<Primzahl> primzahlen = refPrimzahlen.get();
         if (primzahlen == null) {
             primzahlen = initPrimzahlen();
@@ -114,12 +129,12 @@ public class Primzahl implements Fachwert {
                 return p;
             }
         }
-        for (long n = primzahlen.get(primzahlen.size() - 1).longValue() + 2; n <= zahl; n += 2) {
+        for (int n = primzahlen.get(primzahlen.size() - 1).intValue() + 2; n <= zahl; n += 2) {
             if (!hasTeiler(n)) {
                 primzahlen.add(new Primzahl(n));
             }
         }
-        long n = primzahlen.get(primzahlen.size() - 1).longValue() + 2;
+        int n = primzahlen.get(primzahlen.size() - 1).intValue() + 2;
         while (hasTeiler(n)) {
             n += 2;
         }
@@ -128,6 +143,16 @@ public class Primzahl implements Fachwert {
         return nextPrimzahl;
     }
 
+    /**
+     * Ermittelt, ob die uebergebene Zahl einen Teiler hat.
+     * Alternative Implementierung mit Streams zeigten ein deutlich
+     * schlechteres Zeitverhalten (ca. Faktor 10 langsamer). Eine weitere
+     * Implementierung mit ParallelStreams war noch langsamer - vermutlich
+     * ist der Overhaed einfach zu gross.
+     * 
+     * @param n Zahl, die nach einem Teiler unterscuht wird
+     * @return true, falls Zahl einen Teiler hat (d.h. keine Primzahl ist)
+     */
     private static boolean hasTeiler(long n) {
         for (Primzahl p : refPrimzahlen.get()) {
             long teiler = p.longValue();
