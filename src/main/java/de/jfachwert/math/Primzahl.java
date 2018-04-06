@@ -42,7 +42,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author oboehm
  * @since 0.6.1 (04.04.2018)
  */
-public class Primzahl implements Fachwert {
+public class Primzahl extends Number implements Fachwert {
 
     /** Zwei ist die kleinste Primzahl. */
     public static final Primzahl ZWEI = new Primzahl(2);
@@ -92,6 +92,28 @@ public class Primzahl implements Fachwert {
         return value;
     }
 
+    /**
+     * Liefert die Zahl als ein {@code float} zurueck.
+     *
+     * @return den numerischen Wert als {@code float}
+     * @since 0.6.2
+     */
+    @Override
+    public float floatValue() {
+        return toBigInteger().floatValue();
+    }
+
+    /**
+     * Liefert die Zahl als ein {@code double} zurueck.
+     *
+     * @return den numerischen Wert als {@code double}
+     * @since 0.6.2
+     */
+    @Override
+    public double doubleValue() {
+        return toBigInteger().doubleValue();
+    }
+    
     /**
      * Liefert den numerischen Wert der Primzahl als {@link BigInteger}. Der 
      * Name der Methode orientiert sich dabei an die BigDecimal-Klasse aus

@@ -69,4 +69,15 @@ public final class PrimzahlTest extends AbstractFachwertTest {
         assertEquals(1000003, big.intValue());
     }
 
+    /**
+     * Testmethoden fuer abstrakte Methoden aus der {@link Number}-Klasse.
+     */
+    @Test
+    public void testNumberMethods() {
+        assertEquals(2, Primzahl.ZWEI.intValue());
+        assertEquals(2L, Primzahl.ZWEI.longValue());
+        assertEquals(2.0F, Primzahl.ZWEI.floatValue(), 0.001);
+        assertEquals(2.0, Primzahl.ZWEI.doubleValue(), 0.001);
+    }
+
 }
