@@ -38,7 +38,7 @@ import java.math.BigInteger;
  * @author <a href="ob@aosd.de">oliver</a>
  * @since 0.6
  */
-public class Bruch implements Fachwert, Comparable<Bruch> {
+public class Bruch extends Number implements Fachwert, Comparable<Bruch> {
 
     private final BigInteger zaehler;
     private final BigInteger nenner;
@@ -305,6 +305,60 @@ public class Bruch implements Fachwert, Comparable<Bruch> {
         BigInteger thisZaehlerErweitert = this.zaehler.multiply(other.nenner);
         BigInteger otherZaehlerErweitert = other.zaehler.multiply(this.nenner);
         return thisZaehlerErweitert.compareTo(otherZaehlerErweitert);
+    }
+
+    /**
+     * Liefert die gepackte Dezimalzahl wieder als {@link BigDecimal} zurueck.
+     *
+     * @return gepackte Dezimalzahl als {@link BigDecimal}
+     * @since 0.6.2
+     */
+    public BigDecimal toBigDecimal() {
+        return new BigDecimal(this.zaehler).divide(new BigDecimal(this.nenner));
+    }
+
+    /**
+     * Liefert die Zahl als ein {@code int} (gerundet) zurueck.
+     *
+     * @return den numerischen Wert als {@code int}
+     * @since 0.6.2
+     */
+    @Override
+    public int intValue() {
+        return toBigDecimal().intValue();
+    }
+
+    /**
+     * Liefert die Zahl als ein {@code long} (gerundet) zurueck.
+     *
+     * @return den numerischen Wert als {@code long}
+     * @since 0.6.2
+     */
+    @Override
+    public long longValue() {
+        return toBigDecimal().longValue();
+    }
+
+    /**
+     * Liefert die Zahl als ein {@code float} zurueck.
+     *
+     * @return den numerischen Wert als {@code float}
+     * @since 0.6.2
+     */
+    @Override
+    public float floatValue() {
+        return toBigDecimal().floatValue();
+    }
+
+    /**
+     * Liefert die Zahl als ein {@code double} zurueck.
+     *
+     * @return den numerischen Wert als {@code double}
+     * @since 0.6.2
+     */
+    @Override
+    public double doubleValue() {
+        return toBigDecimal().doubleValue();
     }
 
 }

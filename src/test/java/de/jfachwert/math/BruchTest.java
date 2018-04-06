@@ -137,4 +137,26 @@ public final class BruchTest extends AbstractFachwertTest {
         assertEquals(0, halb.compareTo(zweiViertel));
     }
 
+    /**
+     * Testmethode fuer {@link Bruch#toBigDecimal()}.
+     */
+    @Test
+    public void testToBigDecimal() {
+        Bruch dreiviertel = Bruch.of("3/4");
+        assertEquals(new BigDecimal("0.75"), dreiviertel.toBigDecimal());
+    }
+
+    /**
+     * Testmethoden fuer abstrakte Methoden aus der {@link Number}-Klasse.
+     */
+    @Test
+    public void testNumberMethods() {
+        Bruch half = Bruch.of("1/2");
+        BigDecimal expected = new BigDecimal("0.5");
+        assertEquals(expected.intValue(), half.intValue());
+        assertEquals(expected.longValue(), half.longValue());
+        assertEquals(expected.floatValue(), half.floatValue(), 0.001);
+        assertEquals(expected.doubleValue(), half.doubleValue(), 0.001);
+    }
+
 }
