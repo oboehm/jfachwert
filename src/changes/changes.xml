@@ -20,6 +20,9 @@
     <release version="0.6.2" date="2018"
              description="Speicheroptimierung">
       <action dev="oboehm" type="update" date="07-Apr-2017">
+        PackedDecimal ist jetzt von java.lang.Number abgeleitet.
+      </action>
+      <action dev="oboehm" type="update" date="07-Apr-2017">
         Interne Verwendung von PackedDecimal zur Reduzierung des
         Memory-Footprints.
       </action>

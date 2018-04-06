@@ -275,4 +275,17 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
         assertFalse(PackedDecimal.valueOf("+49/811-32168").isNumber());
     }
 
+    /**
+     * Testmethoden fuer abstrakte Methoden aus der {@link Number}-Klasse.
+     */
+    @Test
+    public void testNumberMethods() {
+        PackedDecimal half = PackedDecimal.valueOf("0.5");
+        BigDecimal expected = new BigDecimal("0.5");
+        assertEquals(expected.intValue(), half.intValue());
+        assertEquals(expected.longValue(), half.longValue());
+        assertEquals(expected.floatValue(), half.floatValue(), 0.001);
+        assertEquals(expected.doubleValue(), half.doubleValue(), 0.001);
+    }
+
 }

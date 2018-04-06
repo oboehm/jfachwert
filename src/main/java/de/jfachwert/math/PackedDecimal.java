@@ -86,8 +86,10 @@ import java.util.logging.Logger;
  * auch eine {@link java.math.BigDecimal} verwendet wird.
  * </p>
  * <p>
- * Die API orientiert sich an die API von {@link BigDecimal}. Allerdings werden
- * noch nicht alle Methoden unterstuetzt.
+ * Die API orientiert sich an die API von {@link BigDecimal} und ist auch von
+ * der {@link Number}-Klasse abgeleitet. Allerdings werden noch nicht alle
+ * Methoden von {@link BigDecimal unterstuetzt}. In diesem Fall kann man auf
+ * die Methode {@link #toBigDecimal()} ausweichen.
  * </p>
  * <p>
  * Da diese Klasse eher eine technische als eine fachliche Klasse ist, wurde
@@ -99,7 +101,7 @@ import java.util.logging.Logger;
  * @author oboehm
  * @since 0.6 (29.03.2018)
  */
-public class PackedDecimal implements Fachwert, Comparable<PackedDecimal> {
+public class PackedDecimal extends Number implements Fachwert, Comparable<PackedDecimal> {
 
     private static final Logger LOG = Logger.getLogger(PackedDecimal.class.getName());
     private static final NullValidator VALIDATOR = new NullValidator();
@@ -296,6 +298,50 @@ public class PackedDecimal implements Fachwert, Comparable<PackedDecimal> {
      */
     public BigDecimal toBigDecimal() {
         return new BigDecimal(toString());
+    }
+
+    /**
+     * Liefert die Zahl als ein {@code int} (gerundet) zurueck.
+     *
+     * @return den numerischen Wert als {@code int}
+     * @since 0.6.2
+     */
+    @Override
+    public int intValue() {
+        return toBigDecimal().intValue();
+    }
+
+    /**
+     * Liefert die Zahl als ein {@code long} (gerundet) zurueck.
+     *
+     * @return den numerischen Wert als {@code long}
+     * @since 0.6.2
+     */
+    @Override
+    public long longValue() {
+        return toBigDecimal().longValue();
+    }
+
+    /**
+     * Liefert die Zahl als ein {@code float} zurueck.
+     *
+     * @return den numerischen Wert als {@code float}
+     * @since 0.6.2
+     */
+    @Override
+    public float floatValue() {
+        return toBigDecimal().floatValue();
+    }
+
+    /**
+     * Liefert die Zahl als ein {@code double} zurueck.
+     *
+     * @return den numerischen Wert als {@code double}
+     * @since 0.6.2
+     */
+    @Override
+    public double doubleValue() {
+        return toBigDecimal().doubleValue();
     }
 
     /**
