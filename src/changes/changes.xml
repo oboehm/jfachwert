@@ -17,8 +17,16 @@
 
   <body>
 
+    <release version="0.6.2" date="2018"
+             description="Speicheroptimierung">
+      <action dev="oboehm" type="update" date="07-Apr-2017">
+        Interne Verwendung von PackedDecimal zur Reduzierung des
+        Memory-Footprints.
+      </action>
+    </release>
+
     <release version="0.6.1" date="06-Apr-2018"
-             description="Primzahl">
+             description="Optimierung Bruchzahl-Rechnung">
       <action dev="oboehm" type="add" date="04-Apr-2018">
         Primzahl-Klasse hinzugef&#252;gt
       </action>
@@ -28,7 +36,7 @@
     </release>
 
     <release version="0.6.0" date="02-Apr-2018"
-             description="math-Package">
+             description="math-Package hinzugef&#252;gt">
       <action dev="oboehm" type="add" date="M&#228;r-2018">
         math-Package mit Nummer-, Bruch- und PackedDecimal-Klasse hinzugef&#252;gt
       </action>
