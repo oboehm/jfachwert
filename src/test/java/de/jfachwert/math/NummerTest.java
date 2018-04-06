@@ -23,7 +23,6 @@ import patterntesting.runtime.util.Converter;
 
 import java.io.NotSerializableException;
 
-import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -51,8 +50,8 @@ public final class NummerTest extends AbstractFachwertTest {
 
     /**
      * Hier wird die Groesse des Objekts getestet. Als String abgespeichert
-     * verbraucht eine vierstellig Zahl ca. 80 Bytes. Die gilt es zu
-     * unterbieten.
+     * verbraucht eine vierstellig Zahl 4 Bytes (ohne Verwaltung-Overhead).
+     * Dies gilt es zu unterbinden.
      * 
      * @throws NotSerializableException sollte nicht passieren
      */
@@ -62,7 +61,6 @@ public final class NummerTest extends AbstractFachwertTest {
         Nummer fuenfstellig = new Nummer("70839");
         long n = Converter.serialize(fuenfstellig).length;
         long diff = n - Converter.serialize(einstellig).length;
-        assertThat(n, lessThan(100L));
         assertThat(diff, lessThanOrEqualTo(4L));
     }
 

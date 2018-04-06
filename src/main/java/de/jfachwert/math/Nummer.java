@@ -30,7 +30,7 @@ import java.util.Objects;
  * <p>
  * Die Klasse ist Speicher-optimiert, um auch eine große Zahl von Nummern im
  * Speicher halten zu koennen. Und man kann damit auch Zahlen mit fuehrenden
- * Nullen (wie z.B. PLZ) damit abbilden.
+ * Nullen (wie z.B. PLZ) abbilden.
  * </p>
  * <p>
  * Urspruenglich war diese Klasse als Ergaenzung zur {@link de.jfachwert.Text}-
@@ -42,7 +42,7 @@ import java.util.Objects;
  */
 public class Nummer implements Fachwert {
     
-    private final String code;
+    private final PackedDecimal code;
 
     /**
      * Erzeugt eine Nummer als positive Ganzzahl.
@@ -59,7 +59,7 @@ public class Nummer implements Fachwert {
      * @param code z.B. "42"
      */
     public Nummer(String code) {
-        this.code = code;
+        this.code = PackedDecimal.valueOf(code);
     }
 
     /**
@@ -91,7 +91,7 @@ public class Nummer implements Fachwert {
      * @return z.B. 42
      */
     public int intValue() {
-        return Integer.parseInt(code);
+        return code.intValue();
     }
 
     /**
