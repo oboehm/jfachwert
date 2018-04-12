@@ -17,12 +17,15 @@
 
   <body>
 
-    <release version="0.6.2" date="2018"
-             description="Speicheroptimierung">
-      <action dev="oboehm" type="update" date="07-Apr-2017">
+    <release version="0.7.0" date="2018"
+             description="Speicheroptimierung + util-Package">
+      <action dev="oboehm" type="add" date="12-Apr-2018">
+        util-Package mit TinyUUID hinzugef&#252;gt
+      </action>
+      <action dev="oboehm" type="update" date="07-Apr-2018">
         Alle wichtige Klassen im math-Package sind jetzt von java.lang.Number abgeleitet.
       </action>
-      <action dev="oboehm" type="update" date="07-Apr-2017">
+      <action dev="oboehm" type="update" date="07-Apr-2018">
         Interne Verwendung von PackedDecimal zur Reduzierung des
         Memory-Footprints.
       </action>
@@ -33,7 +36,7 @@
       <action dev="oboehm" type="add" date="04-Apr-2018">
         Primzahl-Klasse hinzugef&#252;gt
       </action>
-      <action dev="oboehm" type="update" date="03-Apr-2017">
+      <action dev="oboehm" type="update" date="03-Apr-2018">
         Speicherverbrauch von Rechnungsmonat nochmals reduziert.
       </action>
     </release>
