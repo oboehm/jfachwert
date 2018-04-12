@@ -23,7 +23,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.RoundingMode;
 
 /**
  * Die Bruch-Klasse repraesentiert eine mathematischen Bruch mit Zaehler und
@@ -314,7 +313,7 @@ public class Bruch extends AbstractNumber implements Fachwert, Comparable<Bruch>
      * @since 0.7
      */
     public BigDecimal toBigDecimal() {
-        return new BigDecimal(this.zaehler).divide(new BigDecimal(this.nenner), RoundingMode.HALF_UP);
+        return new BigDecimal(this.zaehler).divide(new BigDecimal(this.nenner));
     }
 
 }
