@@ -26,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import javax.validation.ValidationException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.logging.Logger;
 
 /**
  * Die Klasse PackedDecimal dienst zum speicherschonende Speichern von Zahlen.
@@ -85,8 +86,10 @@ import java.math.RoundingMode;
  * auch eine {@link java.math.BigDecimal} verwendet wird.
  * </p>
  * <p>
- * Die API orientiert sich an die API von {@link BigDecimal}. Allerdings werden
- * noch nicht alle Methoden unterstuetzt.
+ * Die API orientiert sich an die API von {@link BigDecimal} und ist auch von
+ * der {@link Number}-Klasse abgeleitet. Allerdings werden noch nicht alle
+ * Methoden von {@link BigDecimal unterstuetzt}. In diesem Fall kann man auf
+ * die Methode {@link #toBigDecimal()} ausweichen.
  * </p>
  * <p>
  * Da diese Klasse eher eine technische als eine fachliche Klasse ist, wurde
@@ -98,8 +101,9 @@ import java.math.RoundingMode;
  * @author oboehm
  * @since 0.6 (29.03.2018)
  */
-public class PackedDecimal implements Fachwert {
+public class PackedDecimal extends Number implements Fachwert, Comparable<PackedDecimal> {
 
+    private static final Logger LOG = Logger.getLogger(PackedDecimal.class.getName());
     private static final NullValidator VALIDATOR = new NullValidator();
     private static final PackedDecimal[] cache = new PackedDecimal[11];
     private final byte[] code;
@@ -207,6 +211,16 @@ public class PackedDecimal implements Fachwert {
 
     /**
      * Liefert den uebergebenen String als {@link PackedDecimal} zurueck.
+     *
+     * @param bruch beliebiger Bruch
+     * @return Bruch als {@link PackedDecimal}
+     */
+    public static PackedDecimal valueOf(Bruch bruch) {
+        return valueOf(bruch.toString());
+    }
+
+    /**
+     * Liefert den uebergebenen String als {@link PackedDecimal} zurueck.
      * Diese Methode ist dem Konstruktor vorzuziehen, da fuer gaengige Zahlen
      * wie "0" oder "1" immer das gleiche Objekt zurueckgegeben wird.
      * <p>
@@ -235,7 +249,37 @@ public class PackedDecimal implements Fachwert {
      * @return true oder false
      */
     public boolean isBruch() {
-        return toString().contains("/");
+        String s = toString();
+        if (s.contains("/")) {
+            try {
+                Bruch.of(s);
+                return true;
+            } catch (ValidationException ex) {
+                LOG.fine(s + " is not a fraction: " + ex);
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * Da sich mit {@link PackedDecimal} auch Telefonnummer und andere
+     * Zahlenkombinationen abspeichern lassen, die im eigentlichen Sinn
+     * keine Zahl darstellen, kann man ueber diese Methode abfragen, ob
+     * eine Zahl abespeichdert wurde oder nicht.
+     * 
+     * @return true, falls es sich um eine Zahl handelt.
+     */
+    public boolean isNumber() {
+        String packed = toString().replaceAll(" ", "");
+        try {
+            new BigDecimal(packed);
+            return true;
+        } catch (NumberFormatException nfe) {
+            LOG.fine(packed + " is not a number: " + nfe);
+            return isBruch();
+        }
     }
 
     /**
@@ -257,6 +301,50 @@ public class PackedDecimal implements Fachwert {
     }
 
     /**
+     * Liefert die Zahl als ein {@code int} (gerundet) zurueck.
+     *
+     * @return den numerischen Wert als {@code int}
+     * @since 0.6.2
+     */
+    @Override
+    public int intValue() {
+        return toBigDecimal().intValue();
+    }
+
+    /**
+     * Liefert die Zahl als ein {@code long} (gerundet) zurueck.
+     *
+     * @return den numerischen Wert als {@code long}
+     * @since 0.6.2
+     */
+    @Override
+    public long longValue() {
+        return toBigDecimal().longValue();
+    }
+
+    /**
+     * Liefert die Zahl als ein {@code float} zurueck.
+     *
+     * @return den numerischen Wert als {@code float}
+     * @since 0.6.2
+     */
+    @Override
+    public float floatValue() {
+        return toBigDecimal().floatValue();
+    }
+
+    /**
+     * Liefert die Zahl als ein {@code double} zurueck.
+     *
+     * @return den numerischen Wert als {@code double}
+     * @since 0.6.2
+     */
+    @Override
+    public double doubleValue() {
+        return toBigDecimal().doubleValue();
+    }
+
+    /**
      * Summiert den uebergebenen Summanden und liefert als Ergebnis eine neue
      * {@link PackedDecimal} zurueck
      *
@@ -264,7 +352,11 @@ public class PackedDecimal implements Fachwert {
      * @return Summe
      */
     public PackedDecimal add(PackedDecimal summand) {
-        return add(summand.toBigDecimal());
+        if (this.isBruch() || summand.isBruch()) {
+            return add(summand.toBruch());
+        } else {
+            return add(summand.toBigDecimal());
+        }
     }
 
     /**
@@ -280,6 +372,18 @@ public class PackedDecimal implements Fachwert {
     }
 
     /**
+     * Summiert den uebergebenen Summanden und liefert als Ergebnis eine neue
+     * {@link PackedDecimal} zurueck
+     *
+     * @param summand Operand
+     * @return Differenz
+     */
+    public PackedDecimal add(Bruch summand) {
+        Bruch summe = toBruch().add(summand);
+        return PackedDecimal.valueOf(summe);
+    }
+
+    /**
      * Subtrahiert den uebergebenen Operanden und liefert als Ergebnis eine neue
      * {@link PackedDecimal} zurueck
      *
@@ -287,7 +391,11 @@ public class PackedDecimal implements Fachwert {
      * @return Summe
      */
     public PackedDecimal subtract(PackedDecimal operand) {
-        return subtract(operand.toBigDecimal());
+        if (this.isBruch() || operand.isBruch()) {
+            return subtract(operand.toBruch());
+        } else {
+            return subtract(operand.toBigDecimal());
+        }
     }
 
     /**
@@ -303,6 +411,18 @@ public class PackedDecimal implements Fachwert {
     }
 
     /**
+     * Subtrahiert den uebergebenen Operanden und liefert als Ergebnis eine neue
+     * {@link PackedDecimal} zurueck
+     *
+     * @param operand Operand
+     * @return Differenz
+     */
+    public PackedDecimal subtract(Bruch operand) {
+        Bruch result = toBruch().subtract(operand);
+        return PackedDecimal.valueOf(result);
+    }
+
+    /**
      * Mulitpliziert den uebergebenen Operanden und liefert als Ergebnis eine neue
      * {@link PackedDecimal} zurueck
      *
@@ -310,7 +430,11 @@ public class PackedDecimal implements Fachwert {
      * @return Produkt
      */
     public PackedDecimal multiply(PackedDecimal operand) {
-        return multiply(operand.toBigDecimal());
+        if (this.isBruch() || operand.isBruch()) {
+            return multiply(operand.toBruch());
+        } else {
+            return multiply(operand.toBigDecimal());
+        }
     }
 
     /**
@@ -326,6 +450,18 @@ public class PackedDecimal implements Fachwert {
     }
 
     /**
+     * Multipliziert den uebergebenen Operanden und liefert als Ergebnis eine neue
+     * {@link PackedDecimal} zurueck
+     *
+     * @param operand Operand
+     * @return Produkt
+     */
+    public PackedDecimal multiply(Bruch operand) {
+        Bruch produkt = toBruch().multiply(operand);
+        return PackedDecimal.valueOf(produkt);
+    }
+
+    /**
      * Dividiert den uebergebenen Operanden und liefert als Ergebnis eine neue
      * {@link PackedDecimal} zurueck
      *
@@ -333,7 +469,22 @@ public class PackedDecimal implements Fachwert {
      * @return Ergebnis der Division
      */
     public PackedDecimal divide(PackedDecimal operand) {
-        return divide(operand.toBigDecimal());
+        if (this.isBruch() || operand.isBruch()) {
+            return divide(operand.toBruch());
+        } else {
+            return divide(operand.toBigDecimal());
+        }
+    }
+
+    /**
+     * Dividiert den uebergebenen Operanden und liefert als Ergebnis eine neue
+     * {@link PackedDecimal} zurueck
+     *
+     * @param operand Operand
+     * @return Ergebnis der Division
+     */
+    public PackedDecimal divide(Bruch operand) {
+        return multiply(operand.kehrwert());
     }
 
     /**
@@ -472,6 +623,18 @@ public class PackedDecimal implements Fachwert {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof PackedDecimal && this.toString().equals(obj.toString());
+    }
+
+    /**
+     * Vergleicht die andere Zahl mit der aktuellen Zahl.
+     *
+     * @param other die andere {@link PackedDecimal}, die verglichen wird.
+     * @return negtive Zahl, falls this &lt; other, 0 bei Gleichheit, ansonsten
+     * positive Zahl.
+     */
+    @Override
+    public int compareTo(PackedDecimal other) {
+        return this.toBruch().compareTo(other.toBruch());
     }
 
 }

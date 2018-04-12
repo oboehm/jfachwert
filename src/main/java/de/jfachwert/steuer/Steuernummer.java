@@ -19,6 +19,7 @@ package de.jfachwert.steuer;
 
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.math.PackedDecimal;
 import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.Mod11Verfahren;
 
@@ -34,11 +35,15 @@ import de.jfachwert.pruefung.Mod11Verfahren;
  * Seit 2008 ist die Steuernummer durch die Steuer-Identifikationsnummer
  * abgeloest, die aus 10 Ziffer + Pruefziffer besteht. Diese Unterscheidung
  * wird in dieser Klasse aber (noch) nicht vorgenommen.
+ * <p>
+ * Zur Reduzierung des internen Speicherverbrauchs wird die BLZ als
+ * {@link PackedDecimal} abgelegt.
+ * </p>
  *
  * @author oboehm
  * @since 0.0.2
  */
-public class Steuernummer extends AbstractFachwert<String> {
+public class Steuernummer extends AbstractFachwert<PackedDecimal> {
 
     private static final PruefzifferVerfahren<String> MOD11 = new Mod11Verfahren(10);
 
@@ -61,7 +66,7 @@ public class Steuernummer extends AbstractFachwert<String> {
      * @param pzVerfahren das verwendete PruefzifferVerfahren
      */
     public Steuernummer(String nr, PruefzifferVerfahren<String> pzVerfahren) {
-        super(validate(nr, pzVerfahren));
+        super(PackedDecimal.valueOf(validate(nr, pzVerfahren)));
     }
 
     /**
@@ -90,7 +95,7 @@ public class Steuernummer extends AbstractFachwert<String> {
      * @return Wert zwischen 0 und 9
      */
     public int getPruefziffer() {
-        return Integer.valueOf(MOD11.getPruefziffer(this.getCode()));
+        return Integer.valueOf(MOD11.getPruefziffer(this.getCode().toString()));
     }
 
 }

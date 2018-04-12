@@ -18,6 +18,7 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwert;
+import de.jfachwert.math.PackedDecimal;
 import de.jfachwert.pruefung.NumberValidator;
 import org.apache.commons.lang3.StringUtils;
 
@@ -26,12 +27,15 @@ import org.apache.commons.lang3.StringUtils;
  * und Oesterreich eindeutig ein Kreditinstitut identifiziert. In Deutschland
  * ist die BLZ eine 8-stellige, in Oesterreich eine 5-stellige Zahl (mit
  * Ausnahme der Oesterreichischen Nationalbank mit 3 Stellen).
- * 
+ * <p>
+ * Zur Reduzierung des internen Speicherverbrauchs wird die BLZ als
+ * {@link PackedDecimal} abgelegt.
+ * </p>
  *
  * @author oboehm
  * @since 16.03.2017
  */
-public class BLZ extends AbstractFachwert<String> {
+public class BLZ extends AbstractFachwert<PackedDecimal> {
 
     /**
      * Hierueber wird eine neue BLZ angelegt.
@@ -39,7 +43,7 @@ public class BLZ extends AbstractFachwert<String> {
      * @param code eine 5- oder 8-stellige Zahl
      */
     public BLZ(String code) {
-        super(validate(code));
+        super(PackedDecimal.valueOf(validate(code)));
     }
 
     /**
@@ -79,7 +83,7 @@ public class BLZ extends AbstractFachwert<String> {
      * @return unformattierte BLZ, z.B. "64090100"
      */
     public String getUnformatted() {
-        return this.getCode();
+        return this.getCode().toString();
     }
     
     /**

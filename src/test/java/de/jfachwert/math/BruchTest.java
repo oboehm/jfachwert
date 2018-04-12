@@ -25,7 +25,10 @@ import patterntesting.runtime.junit.ObjectTester;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Unit-Tests fuer {@link Bruch}-Klasse.
@@ -111,6 +114,49 @@ public final class BruchTest extends AbstractFachwertTest {
     @Test
     public void testBruchBigDecimal() {
         assertEquals(Bruch.of("1/2"), new Bruch(new BigDecimal("0.5")));
+    }
+
+    /**
+     * Testfall fuer {@link Bruch#compareTo(Bruch)}.
+     */
+    @Test
+    public void testComparable() {
+        Bruch kleinererBruch = Bruch.of("1/3");
+        Bruch groessererBruch = Bruch.of("1/2");
+        assertThat(kleinererBruch.compareTo(groessererBruch), lessThan(0));
+        assertThat(groessererBruch.compareTo(kleinererBruch), greaterThan(0));
+    }
+
+    /**
+     * Testfall fuer {@link Bruch#compareTo(Bruch)}.
+     */
+    @Test
+    public void testComparableEquals() {
+        Bruch halb = Bruch.of("1/2");
+        Bruch zweiViertel = Bruch.of("2/4");
+        assertEquals(0, halb.compareTo(zweiViertel));
+    }
+
+    /**
+     * Testmethode fuer {@link Bruch#toBigDecimal()}.
+     */
+    @Test
+    public void testToBigDecimal() {
+        Bruch dreiviertel = Bruch.of("3/4");
+        assertEquals(new BigDecimal("0.75"), dreiviertel.toBigDecimal());
+    }
+
+    /**
+     * Testmethoden fuer abstrakte Methoden aus der {@link Number}-Klasse.
+     */
+    @Test
+    public void testNumberMethods() {
+        Bruch half = Bruch.of("1/2");
+        BigDecimal expected = new BigDecimal("0.5");
+        assertEquals(expected.intValue(), half.intValue());
+        assertEquals(expected.longValue(), half.longValue());
+        assertEquals(expected.floatValue(), half.floatValue(), 0.001);
+        assertEquals(expected.doubleValue(), half.doubleValue(), 0.001);
     }
 
 }

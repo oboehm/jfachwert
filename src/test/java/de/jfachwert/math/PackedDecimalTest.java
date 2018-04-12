@@ -24,9 +24,9 @@ import javax.validation.ValidationException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.lessThan;
+import static org.junit.Assert.*;
 
 /**
  * Unit-Tests fuer {@link PackedDecimal}-Klasse.
@@ -146,6 +146,30 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
     }
 
     /**
+     * Testmethode fuer {@link PackedDecimal#add(PackedDecimal)}.
+     */
+    @Test
+    public void testAddBruch() {
+        assertEquals(PackedDecimal.valueOf("7/4"), PackedDecimal.valueOf("1").add(PackedDecimal.valueOf("3/4")));
+    }
+
+    /**
+     * Testmethode fuer {@link PackedDecimal#add(PackedDecimal)}.
+     */
+    @Test
+    public void testAddBruchBruch() {
+        assertEquals(PackedDecimal.valueOf("5/4"), PackedDecimal.valueOf("1/2").add(PackedDecimal.valueOf("3/4")));
+    }
+
+    /**
+     * Testmethode fuer {@link PackedDecimal#add(PackedDecimal)}.
+     */
+    @Test
+    public void testAddZahlBruch() {
+        assertEquals(PackedDecimal.valueOf("3/2"), PackedDecimal.valueOf("1/2").add(PackedDecimal.valueOf("1")));
+    }
+
+    /**
      * Ganze Zahlen sollten sich mit Zahlen mit Nachkommastellen addieren
      * lassen.
      */
@@ -159,6 +183,14 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
      */
     @Test
     public void testSubtract() {
+        assertEquals(PackedDecimal.valueOf("-1/4"), PackedDecimal.valueOf("1/2").subtract(PackedDecimal.valueOf("3/4")));
+    }
+
+    /**
+     * Testmethode fuer {@link PackedDecimal#subtract(PackedDecimal)}.
+     */
+    @Test
+    public void testSubtractBruch() {
         assertEquals(PackedDecimal.valueOf(-9), PackedDecimal.ONE.subtract(PackedDecimal.TEN));
     }
 
@@ -171,11 +203,27 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
     }
 
     /**
+     * Testmethode fuer {@link PackedDecimal#multiply(BigDecimal)}.
+     */
+    @Test
+    public void testMultiplyBruch() {
+        assertEquals(PackedDecimal.valueOf("1/3"), PackedDecimal.valueOf("1/2").multiply(PackedDecimal.valueOf("2/3")));
+    }
+
+    /**
      * Testmethode fuer {@link PackedDecimal#divide(BigDecimal)}.
      */
     @Test
     public void testDivide() {
         assertEquals(PackedDecimal.valueOf(5), PackedDecimal.TEN.divide(PackedDecimal.valueOf(2)));
+    }
+
+    /**
+     * Testmethode fuer {@link PackedDecimal#divide(BigDecimal)}.
+     */
+    @Test
+    public void testDivideBruch() {
+        assertEquals(PackedDecimal.valueOf("1/3"), PackedDecimal.valueOf("1/2").divide(PackedDecimal.valueOf("3/2")));
     }
 
     /**
@@ -192,6 +240,52 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
     @Test
     public void testSetScaleRoundningMode() {
         assertEquals(PackedDecimal.TEN, PackedDecimal.valueOf("10.49").setScale(0, RoundingMode.HALF_UP));
+    }
+
+    /**
+     * Testmethode fuer {@link PackedDecimal#compareTo(PackedDecimal)}.
+     */
+    @Test
+    public void testCompareTo() {
+        assertThat(PackedDecimal.ONE.compareTo(PackedDecimal.TEN), lessThan(0));
+        assertThat(PackedDecimal.TEN.compareTo(PackedDecimal.ONE), greaterThan(0));
+    }
+
+    /**
+     * Testmethode fuer {@link PackedDecimal#compareTo(PackedDecimal)}.
+     */
+    @Test
+    public void testCompareToEquals() {
+        assertEquals(0, PackedDecimal.ONE.compareTo(PackedDecimal.valueOf("2/2")));
+    }
+
+    /**
+     * Testmethode fuer {@link PackedDecimal#isNumber()}.
+     */
+    @Test
+    public void testIsNumberTrue() {
+        assertTrue(PackedDecimal.valueOf("1 000 000").isNumber());
+    }
+
+    /**
+     * Testmethode fuer {@link PackedDecimal#isNumber()}.
+     */
+    @Test
+    public void testIsNumberFalse() {
+        assertFalse(PackedDecimal.valueOf("+49/811-32168").isNumber());
+    }
+
+    /**
+     * Testmethoden fuer abstrakte Methoden aus der {@link Number}-Klasse.
+     */
+    @Test
+    public void testNumberMethods() {
+        PackedDecimal half = PackedDecimal.valueOf("0.5");
+        BigDecimal expected = new BigDecimal("0.5");
+        assertEquals(expected.intValue(), half.intValue());
+        assertEquals(expected.longValue(), half.longValue());
+        assertEquals(expected.floatValue(), half.floatValue(), 0.001);
+        assertEquals(expected.doubleValue(), half.doubleValue(), 0.001);
     }
 
 }

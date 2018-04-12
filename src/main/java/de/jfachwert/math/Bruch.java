@@ -38,7 +38,7 @@ import java.math.BigInteger;
  * @author <a href="ob@aosd.de">oliver</a>
  * @since 0.6
  */
-public class Bruch implements Fachwert {
+public class Bruch extends Number implements Fachwert, Comparable<Bruch> {
 
     private final BigInteger zaehler;
     private final BigInteger nenner;
@@ -186,7 +186,8 @@ public class Bruch implements Fachwert {
     public Bruch kuerzen() {
         BigInteger z = getZaehler();
         BigInteger n = getNenner();
-        for (BigInteger teiler = BigInteger.valueOf(2); teiler.compareTo(n) < 0; teiler = teiler.add(BigInteger.ONE)) {
+        for (Primzahl p = Primzahl.first(); p.toBigInteger().compareTo(n) < 0; p = p.next()) {
+            BigInteger teiler = p.toBigInteger();
             while (z.mod(teiler).equals(BigInteger.ZERO) && (n.mod(teiler).equals(BigInteger.ZERO))) {
                 z = z.divide(teiler);
                 n = n.divide(teiler);
@@ -290,6 +291,74 @@ public class Bruch implements Fachwert {
     @Override
     public int hashCode() {
         return this.kuerzen().toString().hashCode();
+    }
+
+    /**
+     * Vergleicht den anderen Bruch mit dem aktuellen Bruch.
+     *
+     * @param other der andere Bruch, der verglichen wird.
+     * @return negtive Zahl, falls this &lt; other, 0 bei Gleichheit, ansonsten
+     * positive Zahl.
+     */
+    @Override
+    public int compareTo(Bruch other) {
+        BigInteger thisZaehlerErweitert = this.zaehler.multiply(other.nenner);
+        BigInteger otherZaehlerErweitert = other.zaehler.multiply(this.nenner);
+        return thisZaehlerErweitert.compareTo(otherZaehlerErweitert);
+    }
+
+    /**
+     * Liefert die gepackte Dezimalzahl wieder als {@link BigDecimal} zurueck.
+     *
+     * @return gepackte Dezimalzahl als {@link BigDecimal}
+     * @since 0.6.2
+     */
+    public BigDecimal toBigDecimal() {
+        return new BigDecimal(this.zaehler).divide(new BigDecimal(this.nenner));
+    }
+
+    /**
+     * Liefert die Zahl als ein {@code int} (gerundet) zurueck.
+     *
+     * @return den numerischen Wert als {@code int}
+     * @since 0.6.2
+     */
+    @Override
+    public int intValue() {
+        return toBigDecimal().intValue();
+    }
+
+    /**
+     * Liefert die Zahl als ein {@code long} (gerundet) zurueck.
+     *
+     * @return den numerischen Wert als {@code long}
+     * @since 0.6.2
+     */
+    @Override
+    public long longValue() {
+        return toBigDecimal().longValue();
+    }
+
+    /**
+     * Liefert die Zahl als ein {@code float} zurueck.
+     *
+     * @return den numerischen Wert als {@code float}
+     * @since 0.6.2
+     */
+    @Override
+    public float floatValue() {
+        return toBigDecimal().floatValue();
+    }
+
+    /**
+     * Liefert die Zahl als ein {@code double} zurueck.
+     *
+     * @return den numerischen Wert als {@code double}
+     * @since 0.6.2
+     */
+    @Override
+    public double doubleValue() {
+        return toBigDecimal().doubleValue();
     }
 
 }
