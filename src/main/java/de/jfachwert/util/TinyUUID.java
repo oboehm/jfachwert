@@ -172,8 +172,9 @@ public class TinyUUID extends AbstractFachwert<UUID> {
     }
 
     /**
-     * Da {@link TinyUUID} als Ersatz fuer die {@link UUID}-Klasse gedacht ist,
-     * liefert sie das gleiche Ergebnis wie die {@link UUID}-Klasse.
+     * {@link TinyUUID} ist zwar als Ersatz fuer die {@link UUID}-Klasse gedacht,
+     * liefert aber immer die Kurzform ueber die toString()-Methode zurueck.
+     * D.h. das Ergebis entspricht der Ausgabe von {@link #toShortString()}.
      *
      * @return z.B. "ix9de14vQgGKwXZUaruCzw"
      */
