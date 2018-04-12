@@ -17,6 +17,9 @@
  */
 
 /**
- * Hier sind einige Utities zusammengefasst.
+ * Hier sind einige Utilities zusammengefasst.
+ *
+ * @author <a href="ob@aosd.de">oliver</a>
+ * @since 0.7
  */
 package de.jfachwert.util;

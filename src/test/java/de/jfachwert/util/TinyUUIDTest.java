@@ -155,9 +155,8 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
      * Da {@link TinyUUID} als Ersatz fuer die {@link UUID}-Klasse gedacht ist,
      * sollte sie bei der toLongString()-Methode das gleiche Ergebnis rauskommen.
      */
-    @Override
     @Test
-    public void testToString() {
+    public void testToLongString() {
         UUID uuid = UUID.randomUUID();
         assertEquals(uuid.toString(), new TinyUUID(uuid).toLongString());
     }
