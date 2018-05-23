@@ -31,7 +31,7 @@ Die einzigen Abhängigkeiten, die in Kauf genommen werden, sind:
 === Ableitung möglich
 
 Um für Fachklassen auch eigene Logik hinterlegen zu können, können die Klassen abgeleitet werden.
-Deswegen sind die Klassen `final` und besitzen keine statischen Methoden, die `public` sind.
+Deswegen sind die Klassen nicht `final` und besitzen keine statischen Methoden, die `public` sind.
 
 
 === Konstruktor mit Validierung
@@ -42,8 +42,12 @@ Damit ist sichergestellt, dass
 * nur gültige Fachwerte erzeugt werden können,
 * der Validator von der abgeleiteten Klasse ver- oder entschärft werden kann (je nach Anforderung).
 
-Auf eine statische `of`-Methode, wie sie seit Java 8 bei vielen Klassen aus dem JDK üblich ist (Beispiel: `LocalDate.of(jahr, monat, tag)`), wurde verzichtet,
+Auf eine statische `of`-Methode, wie sie seit Java 8 bei vielen Klassen aus dem JDK üblich ist (Beispiel: `LocalDate.of(jahr, monat, tag)`), wurde bis v0.6 verzichtet,
 weil statische Methoden von abgeleiteten Klassen nicht überschrieben werden können.
+Mit der Einführung des math-Package in v0.6 wurde of bei einigen Klassen eine statische `of`-Methode aus folgenden Gründen eingeführt:
+
+* Die Anzahl (und Speicherverbrauch) lässt sich reduzieren, indem oft gebrauchte Werte "vorgehalten" werden.
+* erhöhte Lesbarkeit
 
 
 === Gleichheit
