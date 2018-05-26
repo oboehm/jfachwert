@@ -17,7 +17,7 @@
 
   <body>
 
-    <release version="0.7.0" date="2018"
+    <release version="0.7.0" date="12-Apr-2018"
              description="Speicheroptimierung + util-Package">
       <action dev="oboehm" type="add" date="12-Apr-2018">
         util-Package mit TinyUUID hinzugef&#252;gt

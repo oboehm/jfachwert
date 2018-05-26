@@ -30,6 +30,7 @@
   
     <links>
       <item name="Home"   href="index.html"/>
+      <item name="Impressum" href="http://www.aosd.de/impressum.html"/>
       <item name="GitHub" href="https://github.com/oboehm/jfachwert"/>
     </links>
     
