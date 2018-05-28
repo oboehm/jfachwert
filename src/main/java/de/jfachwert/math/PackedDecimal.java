@@ -101,7 +101,7 @@ import java.util.logging.Logger;
  * @author oboehm
  * @since 0.6 (29.03.2018)
  */
-public class PackedDecimal extends Number implements Fachwert, Comparable<PackedDecimal> {
+public class PackedDecimal extends AbstractNumber implements Fachwert, Comparable<PackedDecimal> {
 
     private static final Logger LOG = Logger.getLogger(PackedDecimal.class.getName());
     private static final NullValidator VALIDATOR = new NullValidator();
@@ -215,7 +215,7 @@ public class PackedDecimal extends Number implements Fachwert, Comparable<Packed
      * @param bruch beliebiger Bruch
      * @return Bruch als {@link PackedDecimal}
      */
-    public static PackedDecimal valueOf(Bruch bruch) {
+    public static PackedDecimal valueOf(AbstractNumber bruch) {
         return valueOf(bruch.toString());
     }
 
@@ -301,50 +301,6 @@ public class PackedDecimal extends Number implements Fachwert, Comparable<Packed
     }
 
     /**
-     * Liefert die Zahl als ein {@code int} (gerundet) zurueck.
-     *
-     * @return den numerischen Wert als {@code int}
-     * @since 0.6.2
-     */
-    @Override
-    public int intValue() {
-        return toBigDecimal().intValue();
-    }
-
-    /**
-     * Liefert die Zahl als ein {@code long} (gerundet) zurueck.
-     *
-     * @return den numerischen Wert als {@code long}
-     * @since 0.6.2
-     */
-    @Override
-    public long longValue() {
-        return toBigDecimal().longValue();
-    }
-
-    /**
-     * Liefert die Zahl als ein {@code float} zurueck.
-     *
-     * @return den numerischen Wert als {@code float}
-     * @since 0.6.2
-     */
-    @Override
-    public float floatValue() {
-        return toBigDecimal().floatValue();
-    }
-
-    /**
-     * Liefert die Zahl als ein {@code double} zurueck.
-     *
-     * @return den numerischen Wert als {@code double}
-     * @since 0.6.2
-     */
-    @Override
-    public double doubleValue() {
-        return toBigDecimal().doubleValue();
-    }
-
-    /**
      * Summiert den uebergebenen Summanden und liefert als Ergebnis eine neue
      * {@link PackedDecimal} zurueck
      *
@@ -379,7 +335,7 @@ public class PackedDecimal extends Number implements Fachwert, Comparable<Packed
      * @return Differenz
      */
     public PackedDecimal add(Bruch summand) {
-        Bruch summe = toBruch().add(summand);
+        AbstractNumber summe = toBruch().add(summand);
         return PackedDecimal.valueOf(summe);
     }
 
@@ -418,7 +374,7 @@ public class PackedDecimal extends Number implements Fachwert, Comparable<Packed
      * @return Differenz
      */
     public PackedDecimal subtract(Bruch operand) {
-        Bruch result = toBruch().subtract(operand);
+        AbstractNumber result = toBruch().subtract(operand);
         return PackedDecimal.valueOf(result);
     }
 
@@ -457,7 +413,7 @@ public class PackedDecimal extends Number implements Fachwert, Comparable<Packed
      * @return Produkt
      */
     public PackedDecimal multiply(Bruch operand) {
-        Bruch produkt = toBruch().multiply(operand);
+        AbstractNumber produkt = toBruch().multiply(operand);
         return PackedDecimal.valueOf(produkt);
     }
 

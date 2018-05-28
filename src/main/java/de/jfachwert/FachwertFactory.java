@@ -30,6 +30,7 @@ import de.jfachwert.rechnung.*;
 import de.jfachwert.steuer.SteuerIdNr;
 import de.jfachwert.steuer.Steuernummer;
 import de.jfachwert.steuer.UStIdNr;
+import de.jfachwert.util.TinyUUID;
 
 import javax.validation.ValidationException;
 import java.lang.reflect.Constructor;
@@ -102,6 +103,7 @@ public class FachwertFactory {
         INSTANCE.register(UStIdNr.class);
         INSTANCE.register(PackedDecimal.class);
         INSTANCE.register(Bruch.class);
+        INSTANCE.register(TinyUUID.class);
     }
 
     private FachwertFactory() {

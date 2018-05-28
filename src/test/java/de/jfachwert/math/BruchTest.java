@@ -151,7 +151,7 @@ public final class BruchTest extends AbstractFachwertTest {
      */
     @Test
     public void testNumberMethods() {
-        Bruch half = Bruch.of("1/2");
+        AbstractNumber half = Bruch.of("1/2");
         BigDecimal expected = new BigDecimal("0.5");
         assertEquals(expected.intValue(), half.intValue());
         assertEquals(expected.longValue(), half.longValue());

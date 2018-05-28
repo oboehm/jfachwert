@@ -19,6 +19,7 @@ package de.jfachwert.pruefung.exception;
 
 import javax.validation.ValidationException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,7 +34,7 @@ import java.util.List;
 @SuppressWarnings("squid:MaximumInheritanceDepth")
 public class IllegalLengthException extends LocalizedValidationException {
 
-    private final String argument;
+    private final Object[] arguments;
     private final int min;
     private final int max;
     private final List<Integer> allowedLengths = new ArrayList<>();
@@ -51,6 +52,23 @@ public class IllegalLengthException extends LocalizedValidationException {
     }
 
     /**
+     * Dieser Constructor kann bei Arrays mit falscher Groesse eingesetzt
+     * werden.
+     *
+     * @param array fehlerhaftes Array
+     * @param expected erwartete Array-Groesse
+     */
+    public IllegalLengthException(byte[] array, int expected) {
+        super("array=" + Arrays.toString(array) + " has not length " + expected + " (but " + array.length + ")");
+        this.min = expected;
+        this.max = expected;
+        this.arguments = new Object[array.length];
+        for (int i = 0; i < array.length; i++) {
+            this.arguments[i] = array[i];
+        }
+    }
+
+    /**
      * Erzeugt eine {@link ValidationException} mit der Wertebereich-Verletzung
      * des uebergebenen Arguments. The errorCode and linkedException will
      * default to null.
@@ -63,7 +81,7 @@ public class IllegalLengthException extends LocalizedValidationException {
         super("'" + argument + "': length (" + argument.length() + ") is not between " + min + " and " + max);
         this.min = min;
         this.max = max;
-        this.argument = argument;
+        this.arguments = asArray(argument);
     }
 
     /**
@@ -78,8 +96,14 @@ public class IllegalLengthException extends LocalizedValidationException {
         super("'" + argument + "': " + argument.length() + " is not in allowed lengths " + allowedLengths);
         this.min = 0;
         this.max = 0;
-        this.argument = argument;
+        this.arguments = asArray(argument);
         this.allowedLengths.addAll(allowedLengths);
+    }
+
+    private static Object[] asArray(String s) {
+        Object[] a = new Object[1];
+        a[0] = s;
+        return a;
     }
 
     /**
@@ -90,12 +114,18 @@ public class IllegalLengthException extends LocalizedValidationException {
      */
     @Override
     public String getLocalizedMessage() {
+        String arg = arguments[0].toString();
         if (this.allowedLengths.isEmpty()) {
-            return this.getLocalizedMessage("pruefung.illegallength.exception.message.range",
-                        argument, argument.length(), min, max);
+            if (min < max) {
+                return this.getLocalizedMessage("pruefung.illegallength.exception.message.range", arg, arg
+                        .length(), min, max);
+            } else {
+                return this.getLocalizedMessage("pruefung.illegallength.exception.message.array",
+                        Arrays.toString(arguments), arguments.length, min);
+            }
         } else {
             return this.getLocalizedMessage("pruefung.illegallength.exception.message.values",
-                        argument, argument.length(), allowedLengths);
+                        arg, arg.length(), allowedLengths);
         }
     }
 

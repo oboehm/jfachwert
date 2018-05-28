@@ -38,11 +38,10 @@ import java.math.BigInteger;
  * @author <a href="ob@aosd.de">oliver</a>
  * @since 0.6
  */
-public class Bruch extends Number implements Fachwert, Comparable<Bruch> {
+public class Bruch extends AbstractNumber implements Fachwert, Comparable<Bruch> {
 
     private final BigInteger zaehler;
     private final BigInteger nenner;
-
 
     /**
      * Legt einen Bruch mit dem angegeben Zaehler und Nenner an. Brueche
@@ -220,7 +219,7 @@ public class Bruch extends Number implements Fachwert, Comparable<Bruch> {
      * @param operand der zweite Bruch, mit dem multipliziert wird.
      * @return mulitiplizierter Bruch, evtl. gekuerzt
      */
-    public Bruch multiply(Bruch operand) {
+    public AbstractNumber multiply(Bruch operand) {
         BigInteger z = getZaehler().multiply(operand.getZaehler());
         BigInteger n = getNenner().multiply(operand.getNenner());
         return Bruch.of(z, n).kuerzen();
@@ -234,7 +233,7 @@ public class Bruch extends Number implements Fachwert, Comparable<Bruch> {
      * @param operand der zweite Bruch, durch den geteilt wird
      * @return dividierter Bruch, evtl. gekuerzt
      */
-    public Bruch divide(Bruch operand) {
+    public AbstractNumber divide(Bruch operand) {
         return multiply(operand.kehrwert());
     }
 
@@ -244,7 +243,7 @@ public class Bruch extends Number implements Fachwert, Comparable<Bruch> {
      * @param operand der zweite Bruch, der addiert wird.
      * @return addierter Bruch, evtl. gekuerzt
      */
-    public Bruch add(Bruch operand) {
+    public AbstractNumber add(Bruch operand) {
         BigInteger n = getNenner().multiply(operand.getNenner());
         BigInteger z1 = getZaehler().multiply(operand.getNenner());
         BigInteger z2 = operand.getZaehler().multiply(getNenner());
@@ -257,7 +256,7 @@ public class Bruch extends Number implements Fachwert, Comparable<Bruch> {
      * @param operand der zweite Bruch, der subtrahiert wird.
      * @return subtrahierter Bruch, evtl. gekuerzt
      */
-    public Bruch subtract(Bruch operand) {
+    public AbstractNumber subtract(Bruch operand) {
         return add(operand.negate());
     }
 
@@ -311,54 +310,10 @@ public class Bruch extends Number implements Fachwert, Comparable<Bruch> {
      * Liefert die gepackte Dezimalzahl wieder als {@link BigDecimal} zurueck.
      *
      * @return gepackte Dezimalzahl als {@link BigDecimal}
-     * @since 0.6.2
+     * @since 0.7
      */
     public BigDecimal toBigDecimal() {
         return new BigDecimal(this.zaehler).divide(new BigDecimal(this.nenner));
-    }
-
-    /**
-     * Liefert die Zahl als ein {@code int} (gerundet) zurueck.
-     *
-     * @return den numerischen Wert als {@code int}
-     * @since 0.6.2
-     */
-    @Override
-    public int intValue() {
-        return toBigDecimal().intValue();
-    }
-
-    /**
-     * Liefert die Zahl als ein {@code long} (gerundet) zurueck.
-     *
-     * @return den numerischen Wert als {@code long}
-     * @since 0.6.2
-     */
-    @Override
-    public long longValue() {
-        return toBigDecimal().longValue();
-    }
-
-    /**
-     * Liefert die Zahl als ein {@code float} zurueck.
-     *
-     * @return den numerischen Wert als {@code float}
-     * @since 0.6.2
-     */
-    @Override
-    public float floatValue() {
-        return toBigDecimal().floatValue();
-    }
-
-    /**
-     * Liefert die Zahl als ein {@code double} zurueck.
-     *
-     * @return den numerischen Wert als {@code double}
-     * @since 0.6.2
-     */
-    @Override
-    public double doubleValue() {
-        return toBigDecimal().doubleValue();
     }
 
 }
