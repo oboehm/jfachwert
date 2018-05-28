@@ -233,7 +233,7 @@ public class TinyUUID extends AbstractFachwert<UUID> {
     public static TinyUUID fromString(String id) {
         switch (id.length()) {
             case 22:
-                String base64 = id.replace('+', '-').replace('_', '/');
+                String base64 = id.replace('-', '+').replace('_', '/');
                 byte [] bytes = Base64.getDecoder().decode(base64.getBytes(StandardCharsets.UTF_8));
                 return new TinyUUID(bytes);
             default:

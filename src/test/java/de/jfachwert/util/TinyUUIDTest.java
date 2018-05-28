@@ -205,4 +205,14 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
         assertEquals(new TinyUUID(uuid), TinyUUID.fromString(uuid.toString()));
     }
 
+    /**
+     * Another test-Methode fuer {@link TinyUUID#fromString(String)}.
+     */
+    @Test
+    public void testFromStringEncoded() {
+        String s = "01234_6789-abcd-fghi_w";
+        TinyUUID tinyUUID = TinyUUID.fromString(s);
+        assertEquals(s, tinyUUID.toShortString());
+    }
+
 }
