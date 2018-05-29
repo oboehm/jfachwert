@@ -206,13 +206,61 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
     }
 
     /**
-     * Another test-Methode fuer {@link TinyUUID#fromString(String)}.
+     * Weitere test-Methode fuer {@link TinyUUID#fromString(String)}.
      */
     @Test
     public void testFromStringEncoded() {
         String s = "01234_6789-abcd-fghi_w";
         TinyUUID tinyUUID = TinyUUID.fromString(s);
         assertEquals(s, tinyUUID.toShortString());
+    }
+
+    /**
+     * Weitere test-Methode fuer {@link TinyUUID#fromString(String)} zum
+     * Abklopfen der unteren Grenze.
+     */
+    @Test
+    public void testFromStringMin() {
+        checkFromString(TinyUUID.MIN);
+    }
+
+    /**
+     * Weitere test-Methode fuer {@link TinyUUID#fromString(String)} zum
+     * Abklopfen der oberen Grenze.
+     */
+    @Test
+    public void testFromStringMax() {
+        checkFromString(TinyUUID.MAX);
+    }
+
+    /**
+     * Weitere test-Methode fuer {@link TinyUUID#fromString(String)}, in der
+     * wir eine Reihe von Werten zur Ueberpruefung generieren.
+     */
+    @Test
+    public void testFromStringFromMin() {
+        checkLastByte("00000000-0000-0000-0000-0000000000");
+    }
+
+    /**
+     * Weitere test-Methode fuer {@link TinyUUID#fromString(String)}, in der
+     * wir eine Reihe von Werten zur Ueberpruefung generieren.
+     */
+    @Test
+    public void testFromStringFromMax() {
+        checkLastByte("ffffffff-ffff-ffff-ffff-ffffffffff");
+    }
+
+    private static void checkLastByte(String prefix) {
+        for (int i = 1; i < 256; i++) {
+            String s = String.format("%s%02x", prefix, i);
+            checkFromString(TinyUUID.fromString(prefix));
+        }
+    }
+
+    private static void checkFromString(TinyUUID tinyUUID) {
+        assertEquals(tinyUUID, TinyUUID.fromString(tinyUUID.toLongString()));
+        assertEquals(tinyUUID, TinyUUID.fromString(tinyUUID.toShortString()));
     }
 
 }

@@ -17,6 +17,13 @@
 
   <body>
 
+    <release version="0.7.1-SNAPSHOT" date="Juni-2018"
+             description="Bugfix">
+      <action dev="oboehm" type="fix" issue="issues/5" date="29-Mai-2018">
+        Fehler mit "Illegal base64 character 2d" in TinyUUID.fromString(..) behoben.
+      </action>
+    </release>
+
     <release version="0.7.0" date="12-Apr-2018"
              description="Speicheroptimierung + util-Package">
       <action dev="oboehm" type="add" date="12-Apr-2018">
