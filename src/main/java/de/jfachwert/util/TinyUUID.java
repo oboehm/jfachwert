@@ -35,7 +35,7 @@ import java.util.UUID;
  * reduzieren.
  *
  * <p>
- * Die Klasse implementiert besitzt die wichtigsten Methoden und Konstruktoren
+ * Die Klasse implementiert die wichtigsten Methoden und Konstruktoren
  * der {@link UUID}-Klasse, sodass sie als Ersatz fuer diese Klasse verwendet
  * werden kann.
  * </p>

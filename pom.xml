@@ -130,13 +130,6 @@
         <version>2.9</version>
       </plugin>
 
-      <!-- Java Cross Reference Listing -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jxr-plugin</artifactId>
-        <version>2.5</version>
-      </plugin>
-
       <!--
           Changes
           see http://maven.apache.org/plugins/maven-changes-plugin/usage.html
@@ -177,13 +170,6 @@
             </reports>
           </reportSet>
         </reportSets>
-      </plugin>
-
-      <!-- Unit Tests -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-report-plugin</artifactId>
-        <version>2.20</version>
       </plugin>
 
     </plugins>

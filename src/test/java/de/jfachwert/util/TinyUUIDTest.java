@@ -263,4 +263,16 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
         assertEquals(tinyUUID, TinyUUID.fromString(tinyUUID.toShortString()));
     }
 
+    /**
+     * Dieser Test stellt sicher, dass die Rueckwaerts-Kombatibilitaet zu
+     * frueheren Versionen gewahrt bleibt und noch der gleiche Wert rauskommt
+     * wie anfangs.
+     */
+    @Test
+    public void testBackwardCompatibility() {
+        TinyUUID expected = TinyUUID.fromString("00108310-0042-0fff-b3cb-1c3ff7cefafb");
+        TinyUUID tinyUUID = TinyUUID.fromString("ABCDEABCD_-zyxw_9876-w");
+        assertEquals(expected, tinyUUID);
+    }
+
 }
