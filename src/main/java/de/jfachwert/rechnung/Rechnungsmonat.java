@@ -332,10 +332,10 @@ public class Rechnungsmonat implements Fachwert {
      * fuer {@link LocalDate} verwenden zu koennen. Deswegen ist der
      * Methodennamen auf Englisch.
      *
-     * @param yearsToAdd Anzahl Monate, die aufaddiert werden
+     * @param yearsToAdd Anzahl Jahre, die aufaddiert werden
      * @return neuen Rechnungsmonat
      * @since 0.8
-     * @see LocalDate#plusMonths(long)
+     * @see LocalDate#plusYears(long)
      */
     public Rechnungsmonat plusYears(int yearsToAdd) {
         return plusMonths(yearsToAdd * 12);
@@ -358,6 +358,36 @@ public class Rechnungsmonat implements Fachwert {
         } else {
             return new Rechnungsmonat(monate + monthsToAdd);
         }
+    }
+
+    /**
+     * Diese Methode liefert den Rechnungsmonat, der um 'yeara' zurueck
+     * liegt. Sie dient dazu, um den Rechnungsmonat auch als Ersatz
+     * fuer {@link LocalDate} verwenden zu koennen. Deswegen ist der
+     * Methodennamen auf Englisch.
+     *
+     * @param years Anzahl Jahre, die subtrahiert werden
+     * @return neuen Rechnungsmonat
+     * @since 0.8
+     * @see LocalDate#minusYears(long)
+     */
+    public Rechnungsmonat minusYears(int years) {
+        return plusYears(-years);
+    }
+
+    /**
+     * Diese Methode liefert den Monat, der um 'months' zurueck
+     * liegt. Sie dient dazu, um den Rechnungsmonat auch als Ersatz fuer
+     * {@link LocalDate} verwenden zu koennen. Deswegen ist der
+     * Methodennamen auf Englisch.
+     *
+     * @param months Anzahl Monate, die subtrahiert werden
+     * @return neuen Rechnungsmonat
+     * @since 0.8
+     * @see LocalDate#minusMonths(long)
+     */
+    public Rechnungsmonat minusMonths(int months) {
+        return plusMonths(-months);
     }
 
     /**
