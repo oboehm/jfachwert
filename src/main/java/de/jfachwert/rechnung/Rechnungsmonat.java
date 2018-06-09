@@ -327,6 +327,21 @@ public class Rechnungsmonat implements Fachwert {
     }
 
     /**
+     * Diese Methode liefert den Rechnungsmonat, der um 'yearsToAdd' in der
+     * Zukunft liegt. Sie dient dazu, um den Rechnungsmonat auch als Ersatz
+     * fuer {@link LocalDate} verwenden zu koennen. Deswegen ist der
+     * Methodennamen auf Englisch.
+     *
+     * @param yearsToAdd Anzahl Monate, die aufaddiert werden
+     * @return neuen Rechnungsmonat
+     * @since 0.8
+     * @see LocalDate#plusMonths(long)
+     */
+    public Rechnungsmonat plusYears(int yearsToAdd) {
+        return plusMonths(yearsToAdd * 12);
+    }
+
+    /**
      * Diese Methode liefert den Monat, der um 'monthsToAdd' in der Zukunft
      * liegt. Sie dient dazu, um den Rechnungsmonat auch als Ersatz fuer
      * {@link LocalDate} verwenden zu koennen. Deswegen ist der

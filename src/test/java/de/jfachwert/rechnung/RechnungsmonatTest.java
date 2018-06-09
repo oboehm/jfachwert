@@ -120,11 +120,12 @@ public final class RechnungsmonatTest extends AbstractFachwertTest {
     }
 
     /**
-     * Testmethode fuer {@link Rechnungsmonat#plusMonths(int)}.
+     * Testmethode fuer {@link Rechnungsmonat#plusYears(int)} und damit
+     * indirekt auf fuer {@link Rechnungsmonat#plusYears(int)}.
      */
     @Test
-    public void testPlusMonths() {
-        assertEquals(JAN_2017, JAN_2016.plusMonths(12));
+    public void testPlusYears() {
+        assertEquals(JAN_2017, JAN_2016.plusYears(1));
     }
 
     /**
