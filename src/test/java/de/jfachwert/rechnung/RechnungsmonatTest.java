@@ -1,4 +1,4 @@
-package de.jfachwert.rechnung;/*
+/*
  * Copyright (c) 2017 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,6 +15,7 @@ package de.jfachwert.rechnung;/*
  *
  * (c)reated 12.07.2017 by oboehm (ob@oasd.de)
  */
+package de.jfachwert.rechnung;
 
 import de.jfachwert.*;
 import org.junit.*;
@@ -116,6 +117,14 @@ public final class RechnungsmonatTest extends AbstractFachwertTest {
     @Test
     public void testGetFolgejahr() {
         assertEquals(JAN_2017, JAN_2016.getFolgejahr());
+    }
+
+    /**
+     * Testmethode fuer {@link Rechnungsmonat#plusMonths(int)}.
+     */
+    @Test
+    public void testPlusMonths() {
+        assertEquals(JAN_2017, JAN_2016.plusMonths(12));
     }
 
     /**

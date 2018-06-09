@@ -39,6 +39,11 @@ import java.util.Locale;
  * speicheroptimiert in 2 Bytes abgelegt wird. Diese duerfte aber fuer die
  * meisten Faelle ausreichend sein.
  * </p>
+ * <p>
+ * Mit 0.8 implementiert diese Klasse auch die wichtigsten Methoden von
+ * {@link LocalDate}. Sie kann damit anstatt der {@link LocalDate}-Klasse
+ * eingesetzt werden, wenn Monats-Genauigkeit ausreicht.
+ * </p>
  *
  * @author oboehm
  * @since 0.3.1 (12.07.2017)
@@ -319,6 +324,25 @@ public class Rechnungsmonat implements Fachwert {
      */
     public LocalDate asLocalDate() {
         return ersterTag();
+    }
+
+    /**
+     * Diese Methode liefert den Monat, der um 'monthsToAdd' in der Zukunft
+     * liegt. Sie dient dazu, um den Rechnungsmonat auch als Ersatz fuer
+     * {@link LocalDate} verwenden zu koennen. Deswegen ist der
+     * Methodennamen auf Englisch.
+     *
+     * @param monthsToAdd Anzahl Monate, die aufaddiert werden
+     * @return neuen Rechnungsmonat
+     * @since 0.8
+     * @see LocalDate#plusMonths(long)
+     */
+    public Rechnungsmonat plusMonths(int monthsToAdd) {
+        if (monthsToAdd == 0) {
+            return this;
+        } else {
+            return new Rechnungsmonat(monate + monthsToAdd);
+        }
     }
 
     /**
