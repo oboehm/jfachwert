@@ -211,4 +211,15 @@ public final class RechnungsmonatTest extends AbstractFachwertTest {
         assertThat(localDate.getDayOfWeek(), not(DayOfWeek.SUNDAY));
     }
 
+    /**
+     * Testmethode fuer {@link Rechnungsmonat#of(int, int)}.
+     */
+    @Test
+    public void testOf() {
+        Rechnungsmonat m1 = Rechnungsmonat.of(6, 2018);
+        Rechnungsmonat m2 = Rechnungsmonat.of(LocalDate.of(2018, 6, 15));
+        assertEquals(m1, m2);
+        assertSame(m1, m2);
+    }
+
 }

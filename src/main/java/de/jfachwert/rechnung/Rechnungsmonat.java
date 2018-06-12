@@ -28,6 +28,8 @@ import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * Vor allem bei Abonnements oder bei wiederkehrenden Gebuehren findet man
@@ -50,6 +52,7 @@ import java.util.Locale;
  */
 public class Rechnungsmonat implements Fachwert {
 
+    private static final Map<Short, Rechnungsmonat> CACHE = new WeakHashMap<>();
     private static final Range<Integer> VALID_MONTH_RANGE = Range.between(1, 12);
     private static final Range<Integer> VALID_YEAR_RANGE = Range.between(0, 9999);
     private static final String MONTH = "month";
@@ -125,6 +128,60 @@ public class Rechnungsmonat implements Fachwert {
      */
     public Rechnungsmonat(Month monat, int jahr) {
         this(monat.getValue(), jahr);
+    }
+
+    /**
+     * Die of-Methode liefert fuer denselben Rechnungsmonata auch dasselbe
+     * Objekt zurueck. D.h. zwei gleiche Rechnungsmonate werden nur einmal
+     * angelegt, wenn sie ueber diese Methode angelegt werden. Das lohnt sich
+     * vor allem dann, wenn man viele gleiche Rechnungsmonate hat und sich den
+     * Overhead eines Objekts sparen will.
+     *
+     * @param date Datum
+     * @return einen Rechnungsmonat
+     */
+    public static Rechnungsmonat of(LocalDate date) {
+        return of(new Rechnungsmonat(date));
+    }
+
+    /**
+     * Die of-Methode liefert fuer denselben Rechnungsmonata auch dasselbe
+     * Objekt zurueck. D.h. zwei gleiche Rechnungsmonate werden nur einmal
+     * angelegt, wenn sie ueber diese Methode angelegt werden. Das lohnt sich
+     * vor allem dann, wenn man viele gleiche Rechnungsmonate hat und sich den
+     * Overhead eines Objekts sparen will.
+     *
+     * @param monat zwischen 1 und 12
+     * @param jahr vierstellige Zahl zwischen -2730 und +2730
+     * @return einen Rechnungsmonat
+     */
+    public static Rechnungsmonat of(int monat, int jahr) {
+        return of(new Rechnungsmonat(monat, jahr));
+    }
+
+    /**
+     * Die of-Methode liefert fuer denselben Rechnungsmonata auch dasselbe
+     * Objekt zurueck. D.h. zwei gleiche Rechnungsmonate werden nur einmal
+     * angelegt, wenn sie ueber diese Methode angelegt werden. Das lohnt sich
+     * vor allem dann, wenn man viele gleiche Rechnungsmonate hat und sich den
+     * Overhead eines Objekts sparen will.
+     * <p>
+     * Diese Methode dient dazu, um ein "ueberfluessige" Rechnungsmonate, die
+     * durch Aufruf anderer Methoden entstanden sind, dem Garbage Collector
+     * zum Aufraeumen zur Verfuegung zu stellen.
+     * </p>
+     *
+     * @param other anderer Rechnungsmonat
+     * @return einen (bereits instanziierten) Rechnungsmonat
+     */
+    public static Rechnungsmonat of(Rechnungsmonat other) {
+        Short key = other.monate;
+        Rechnungsmonat alreadyCreated = CACHE.get(key);
+        if (alreadyCreated == null) {
+            alreadyCreated = other;
+            CACHE.put(key, other);
+        }
+        return alreadyCreated;
     }
 
     private static LocalDate toLocalDate(String monat) {
