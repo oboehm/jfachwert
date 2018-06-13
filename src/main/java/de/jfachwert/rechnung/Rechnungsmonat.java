@@ -151,11 +151,40 @@ public class Rechnungsmonat implements Fachwert {
      * vor allem dann, wenn man viele gleiche Rechnungsmonate hat und sich den
      * Overhead eines Objekts sparen will.
      *
+     * @param datum Datum
+     * @return einen Rechnungsmonat
+     */
+    public static Rechnungsmonat of(String datum) {
+        return of(new Rechnungsmonat(datum));
+    }
+
+    /**
+     * Die of-Methode liefert fuer denselben Rechnungsmonata auch dasselbe
+     * Objekt zurueck. D.h. zwei gleiche Rechnungsmonate werden nur einmal
+     * angelegt, wenn sie ueber diese Methode angelegt werden. Das lohnt sich
+     * vor allem dann, wenn man viele gleiche Rechnungsmonate hat und sich den
+     * Overhead eines Objekts sparen will.
+     *
      * @param monat zwischen 1 und 12
      * @param jahr vierstellige Zahl zwischen -2730 und +2730
      * @return einen Rechnungsmonat
      */
     public static Rechnungsmonat of(int monat, int jahr) {
+        return of(new Rechnungsmonat(monat, jahr));
+    }
+
+    /**
+     * Die of-Methode liefert fuer denselben Rechnungsmonata auch dasselbe
+     * Objekt zurueck. D.h. zwei gleiche Rechnungsmonate werden nur einmal
+     * angelegt, wenn sie ueber diese Methode angelegt werden. Das lohnt sich
+     * vor allem dann, wenn man viele gleiche Rechnungsmonate hat und sich den
+     * Overhead eines Objekts sparen will.
+     *
+     * @param monat Monat
+     * @param jahr vierstellige Zahl zwischen -2730 und +2730
+     * @return einen Rechnungsmonat
+     */
+    public static Rechnungsmonat of(Month monat, int jahr) {
         return of(new Rechnungsmonat(monat, jahr));
     }
 

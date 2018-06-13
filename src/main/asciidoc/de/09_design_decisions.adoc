@@ -42,12 +42,22 @@ Damit ist sichergestellt, dass
 * nur gültige Fachwerte erzeugt werden können,
 * der Validator von der abgeleiteten Klasse ver- oder entschärft werden kann (je nach Anforderung).
 
-Auf eine statische `of`-Methode, wie sie seit Java 8 bei vielen Klassen aus dem JDK üblich ist (Beispiel: `LocalDate.of(jahr, monat, tag)`), wurde bis v0.6 verzichtet,
+
+
+=== of-Methode
+
+Ursprünglich wurde auf eine statische `of`-Methode, wie sie seit Java 8 bei vielen Klassen aus dem JDK üblich ist (Beispiel: `LocalDate.of(jahr, monat, tag)`), bis v0.6 verzichtet,
 weil statische Methoden von abgeleiteten Klassen nicht überschrieben werden können.
 Mit der Einführung des math-Package in v0.6 wurde of bei einigen Klassen eine statische `of`-Methode aus folgenden Gründen eingeführt:
-
+                   
 * Die Anzahl (und Speicherverbrauch) lässt sich reduzieren, indem oft gebrauchte Werte "vorgehalten" werden.
 * erhöhte Lesbarkeit
+
+Dies lohnt sich vor allem für Objekte, die immer den gleichen Werte oder nur einige Werte haben (z.B. Rechnungsmonat).
+Dies kann bei sehr vielen Objekten einen spürbaren Rückgang des Speicherverbraucs bedeuten.
+Bei vielen unterschiedlichen Objekten (z.B. IBAN) sollte man dagegen eher auf den Konstruktor verwenden, weil intern ein Cache für die die Ablage bereits erzeugter Objekte verwendet wird.
+Der interne Verwaltungs-Overhead ist umso größer, je mehr unterschiedliche Objekte erzeugt werden.
+
 
 
 === Gleichheit

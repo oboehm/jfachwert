@@ -218,8 +218,11 @@ public final class RechnungsmonatTest extends AbstractFachwertTest {
     public void testOf() {
         Rechnungsmonat m1 = Rechnungsmonat.of(6, 2018);
         Rechnungsmonat m2 = Rechnungsmonat.of(LocalDate.of(2018, 6, 15));
-        assertEquals(m1, m2);
+        Rechnungsmonat m3 = Rechnungsmonat.of("6/2018");
+        Rechnungsmonat m4 = Rechnungsmonat.of(Month.JUNE, 2018);
         assertSame(m1, m2);
+        assertSame(m2, m3);
+        assertSame(m3, m4);
     }
 
 }
