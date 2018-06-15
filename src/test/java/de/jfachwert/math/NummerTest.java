@@ -22,9 +22,11 @@ import org.junit.Test;
 import patterntesting.runtime.util.Converter;
 
 import java.io.NotSerializableException;
+import java.math.BigInteger;
 
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -62,6 +64,19 @@ public final class NummerTest extends AbstractFachwertTest {
         long n = Converter.serialize(fuenfstellig).length;
         long diff = n - Converter.serialize(einstellig).length;
         assertThat(diff, lessThanOrEqualTo(4L));
+    }
+
+    /**
+     * Hier testen wir, ob die of-Method tatsaechlich immer dieselbe Zahl
+     * zurueckliefert.
+     */
+    @Test
+    public void testOf() {
+        Nummer n1 = Nummer.of(1);
+        Nummer n2 = Nummer.of("1");
+        Nummer n3 = Nummer.of(BigInteger.ONE);
+        assertSame(n1, n2);
+        assertSame(n2, n3);
     }
 
 }

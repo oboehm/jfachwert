@@ -41,8 +41,15 @@ import java.util.Objects;
  * @since 0.6 (24.01.2018)
  */
 public class Nummer implements Fachwert {
-    
+
+    private static final Nummer[] CACHE = new Nummer[11];
     private final PackedDecimal code;
+
+    static {
+        for (int i = 0; i < CACHE.length; i++) {
+            CACHE[i] = new Nummer(i);
+        }
+    }
 
     /**
      * Erzeugt eine Nummer als positive Ganzzahl.
@@ -72,6 +79,63 @@ public class Nummer implements Fachwert {
     }
 
     /**
+     * Die of-Methode liefert fuer kleine Nummer immer dasselbe Objekt zurueck.
+     * Vor allem wenn man nur kleinere Nummern hat, lohnt sich der Aufruf
+     * dieser Methode.
+     *
+     * @param code Nummer
+     * @return eine (evtl. bereits instanziierte) Nummer
+     */
+    public static Nummer of(long code) {
+        if ((code >= 0) && (code < CACHE.length)) {
+            return CACHE[(int) code];
+        } else {
+            return new Nummer(code);
+        }
+    }
+
+    /**
+     * Die of-Methode liefert fuer kleine Nummer immer dasselbe Objekt zurueck.
+     * Vor allem wenn man nur kleinere Nummern hat, lohnt sich der Aufruf
+     * dieser Methode.
+     *
+     * @param code Nummer
+     * @return eine (evtl. bereits instanziierte) Nummer
+     */
+    public static Nummer of(String code) {
+        return of(new Nummer(code));
+    }
+
+    /**
+     * Die of-Methode liefert fuer kleine Nummer immer dasselbe Objekt zurueck.
+     * Vor allem wenn man nur kleinere Nummern hat, lohnt sich der Aufruf
+     * dieser Methode.
+     *
+     * @param code Nummer
+     * @return eine (evtl. bereits instanziierte) Nummer
+     */
+    public static Nummer of(BigInteger code) {
+        return of(code.longValue());
+    }
+
+    /**
+     * Die of-Methode liefert fuer kleine Nummer immer dasselbe Objekt zurueck.
+     * Vor allem wenn man nur kleinere Nummern hat, lohnt sich der Aufruf
+     * dieser Methode.
+     * <p>
+     * Diese Methode dient dazu, um ein "ueberfluessige" Nummern, die
+     * durch Aufruf anderer Methoden entstanden sind, dem Garbage Collector
+     * zum Aufraeumen zur Verfuegung zu stellen.
+     * </p>
+     *
+     * @param other andere Nummer
+     * @return eine (evtl. bereits instanziierte) Nummer
+     */
+    public static Nummer of(Nummer other) {
+        return of(other.longValue());
+    }
+
+    /**
      * Ueberprueft, ob der uebergebene String auch tatsaechlich eine Zahl ist.
      * 
      * @param nummer z.B. "4711"
@@ -87,11 +151,20 @@ public class Nummer implements Fachwert {
 
     /**
      * Liefert die Zahl als Integer zurueck.
-     * 
+     *
      * @return z.B. 42
      */
     public int intValue() {
         return code.intValue();
+    }
+
+    /**
+     * Liefert die Zahl als 'long' zurueck.
+     *
+     * @return z.B. 42L
+     */
+    public long longValue() {
+        return code.longValue();
     }
 
     /**
