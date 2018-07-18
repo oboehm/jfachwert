@@ -26,6 +26,7 @@ Die einzigen Abhängigkeiten, die in Kauf genommen werden, sind:
 
 * commons-lang3: diese Bibliothek ist bereits als Abhängigkeit vieler anderer Bibliotheken vorhanden
 * validation-api: Basis-Bibliothek für Validierung
+* JavaMoney.org: diese Bibliothek kam mit 0.8 für die Unterstützung des Geldbetrags herein, da sonst `Monetary.getCurrency("EUR")` nicht funktioniert.
 
 
 === Ableitung möglich
