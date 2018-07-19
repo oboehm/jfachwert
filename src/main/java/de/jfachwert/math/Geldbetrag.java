@@ -168,7 +168,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public boolean isGreaterThan(MonetaryAmount amount) {
-        return false;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -181,7 +181,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public boolean isGreaterThanOrEqualTo(MonetaryAmount amount) {
-        return false;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -194,7 +194,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public boolean isLessThan(MonetaryAmount amount) {
-        return false;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -207,7 +207,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public boolean isLessThanOrEqualTo(MonetaryAmount amt) {
-        return false;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -220,7 +220,11 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public boolean isEqualTo(MonetaryAmount other) {
-        return this.getCurrency().equals(other.getCurrency()) && isNumberEqualTo(other.getNumber());
+        if (this.getCurrency().equals(other.getCurrency())) {
+            return isNumberEqualTo(other.getNumber());
+        } else {
+            throw new MonetaryException("different currencies: cannot compare " + this + " with " + other);
+        }
     }
 
     private boolean isNumberEqualTo(NumberValue value) {
@@ -710,6 +714,9 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
             return false;
         }
         Geldbetrag other = (Geldbetrag) obj;
+        if (!this.getCurrency().equals(other.getCurrency())) {
+            return false;
+        }
         return this.isEqualTo(other);
     }
 

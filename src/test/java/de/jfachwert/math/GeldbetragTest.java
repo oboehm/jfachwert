@@ -21,6 +21,8 @@ import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
+import javax.money.MonetaryAmount;
+import javax.money.MonetaryException;
 import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
@@ -79,6 +81,18 @@ public final class GeldbetragTest extends AbstractFachwertTest {
         Geldbetrag oneDM = new Geldbetrag(1.0).withWaehrung("DEM");
         ObjectTester.assertEquals(one, anotherOne);
         assertFalse(one + " != " + oneDM, one.equals(oneDM));
+    }
+
+    /**
+     * Betraege mit unterschiedlichen Waehrungen sollten bei
+     * {@link javax.money.MonetaryAmount#isEqualTo(MonetaryAmount)} zu einer
+     * {@link MonetaryException} fuehren.
+     */
+    @Test(expected = MonetaryException.class)
+    public void testIsEqualsTo() {
+        Geldbetrag oneEuro = new Geldbetrag(1.0);
+        Geldbetrag oneDM = new Geldbetrag(1.0).withWaehrung("DEM");
+        oneEuro.isEqualTo(oneDM);
     }
 
 }
