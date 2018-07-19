@@ -50,9 +50,36 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     /**
      * Erzeugt eine Geldbetrag in der aktuellen Landeswaehrung.
      *
+     * @param betrag Geldbetrag, z.B. 1
+     */
+    public Geldbetrag(long betrag) {
+        this(BigDecimal.valueOf(betrag));
+    }
+
+    /**
+     * Erzeugt eine Geldbetrag in der aktuellen Landeswaehrung.
+     *
      * @param betrag Geldbetrag, z.B. 1.00
      */
-    public Geldbetrag(BigDecimal betrag) {
+    public Geldbetrag(double betrag) {
+        this(BigDecimal.valueOf(betrag));
+    }
+
+    /**
+     * Erzeugt eine Geldbetrag in der aktuellen Landeswaehrung.
+     *
+     * @param betrag Geldbetrag, z.B. "1"
+     */
+    public Geldbetrag(String betrag) {
+        this(new BigDecimal(betrag));
+    }
+
+    /**
+     * Erzeugt eine Geldbetrag in der aktuellen Landeswaehrung.
+     *
+     * @param betrag Geldbetrag, z.B. 1.00
+     */
+    public Geldbetrag(Number betrag) {
         this(betrag, DEFAULT_CURRENCY);
     }
 
@@ -62,9 +89,43 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * @param betrag   Geldbetrag, z.B. 1.00
      * @param currency Waehrung, z.B. Euro
      */
-    public Geldbetrag(BigDecimal betrag, Currency currency) {
-        this.betrag = betrag;
+    public Geldbetrag(Number betrag, Currency currency) {
+        this.betrag = BigDecimal.valueOf(betrag.doubleValue());
         this.currency = currency;
+    }
+
+    /**
+     * Liefert einen Geldbetrag mit der neuen gewuenschten Waehrung zurueck.
+     * Dabei findet <b>keine</b> Umrechnung statt.
+     * <p>
+     * Anmerkung: Der Prefix "with" kommt von der Namenskonvention in Scala
+     * fuer immutable Objekte.
+     * </p>
+     *
+     * @param waehrung Waehrung
+     * @return Geldbetrag mit neuer Waehrung
+     */
+    public Geldbetrag withWaehrung(String waehrung) {
+        String normalized = waehrung.toUpperCase().trim();
+        if ("DM".equalsIgnoreCase(normalized)) {
+            normalized = "DEM";
+        }
+        return withWaehrung(Currency.getInstance(normalized));
+    }
+
+    /**
+     * Liefert einen Geldbetrag mit der neuen gewuenschten Waehrung zurueck.
+     * Dabei findet <b>keine</b> Umrechnung statt.
+     * <p>
+     * Anmerkung: Der Prefix "with" kommt von der Namenskonvention in Scala
+     * fuer immutable Objekte.
+     * </p>
+     *
+     * @param currency Waehrung
+     * @return Geldbetrag mit neuer Waehrung
+     */
+    public Geldbetrag withWaehrung(Currency currency) {
+        return new Geldbetrag(this.getNumber(), currency);
     }
 
     /**

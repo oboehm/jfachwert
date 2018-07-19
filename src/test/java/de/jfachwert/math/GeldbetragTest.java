@@ -18,8 +18,13 @@
 package de.jfachwert.math;
 
 import de.jfachwert.AbstractFachwertTest;
+import org.junit.Test;
+import patterntesting.runtime.junit.ObjectTester;
 
 import java.math.BigDecimal;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Unit-Tests fuer {@link Geldbetrag}-Klasse.
@@ -40,6 +45,40 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     @Override
     protected Geldbetrag createFachwert() {
         return new Geldbetrag(BigDecimal.ONE);
+    }
+
+    /**
+     * Rundungsdifferenzen beim Vergleich im 1/10-Cent-Bereich sollten keine
+     * Rolle fuer den Vergleich spielen.
+     */
+    @Test
+    public void testEqualsGerundet() {
+        Geldbetrag one = new Geldbetrag(1);
+        Geldbetrag hundredCents = new Geldbetrag(0.9999);
+        assertEquals(one, hundredCents);
+    }
+
+    /**
+     * Bei 0 sollte das Vorzeichen keine Rolle spielen.
+     */
+    @Test
+    public void testEqualsZero() {
+        Geldbetrag plus = new Geldbetrag("0.0049");
+        Geldbetrag minus = new Geldbetrag("-0.0049");
+        assertEquals(plus, minus);
+    }
+
+    /**
+     * Gleiche Betraege, aber mit unterschiedlichen Waehrungen, sind nicht
+     * gleich. Dies wird hier getestet.
+     */
+    @Test
+    public void testNotEquals() {
+        Geldbetrag one = new Geldbetrag(1.0);
+        Geldbetrag anotherOne = new Geldbetrag(1.0);
+        Geldbetrag oneDM = new Geldbetrag(1.0).withWaehrung("DEM");
+        ObjectTester.assertEquals(one, anotherOne);
+        assertFalse(one + " != " + oneDM, one.equals(oneDM));
     }
 
 }
