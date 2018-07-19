@@ -94,6 +94,10 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
         this.currency = currency;
     }
 
+    public Geldbetrag(MonetaryAmount other) {
+        this(other.getNumber());
+    }
+
     /**
      * Liefert einen Geldbetrag mit der neuen gewuenschten Waehrung zurueck.
      * Dabei findet <b>keine</b> Umrechnung statt.
@@ -220,11 +224,8 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public boolean isEqualTo(MonetaryAmount other) {
-        if (this.getCurrency().equals(other.getCurrency())) {
-            return isNumberEqualTo(other.getNumber());
-        } else {
-            throw new MonetaryException("different currencies: cannot compare " + this + " with " + other);
-        }
+        checkCurrency(other);
+        return isNumberEqualTo(other.getNumber());
     }
 
     private boolean isNumberEqualTo(NumberValue value) {
@@ -253,14 +254,16 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * <code>max(this.scale(),
      * amount.scale()</code>.
      *
-     * @param amount value to be added to this {@code MonetaryAmount}.
+     * @param other value to be added to this {@code MonetaryAmount}.
      * @return {@code this + amount}
      * @throws ArithmeticException if the result exceeds the numeric capabilities of this implementation class, i.e.
      *                             the {@link MonetaryContext} cannot be adapted as required.
      */
     @Override
-    public MonetaryAmount add(MonetaryAmount amount) {
-        return null;
+    public Geldbetrag add(MonetaryAmount other) {
+        checkCurrency(other);
+        BigDecimal n = other.getNumber().numberValue(BigDecimal.class);
+        return new Geldbetrag(betrag.add(n));
     }
 
     /**
@@ -714,10 +717,16 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
             return false;
         }
         Geldbetrag other = (Geldbetrag) obj;
-        if (!this.getCurrency().equals(other.getCurrency())) {
-            return false;
-        }
+        if (!hasSameCurrency(other)) return false;
         return this.isEqualTo(other);
+    }
+
+    private boolean hasSameCurrency(MonetaryAmount other) {
+        return this.getCurrency().equals(other.getCurrency());
+    }
+    
+    private void checkCurrency(MonetaryAmount other) {
+        if (!hasSameCurrency(other)) throw new MonetaryException("different currencies: " + this + " with " + other);
     }
 
     /**

@@ -25,8 +25,7 @@ import javax.money.MonetaryAmount;
 import javax.money.MonetaryException;
 import java.math.BigDecimal;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 /**
  * Unit-Tests fuer {@link Geldbetrag}-Klasse.
@@ -93,6 +92,30 @@ public final class GeldbetragTest extends AbstractFachwertTest {
         Geldbetrag oneEuro = new Geldbetrag(1.0);
         Geldbetrag oneDM = new Geldbetrag(1.0).withWaehrung("DEM");
         oneEuro.isEqualTo(oneDM);
+    }
+    
+    @Test
+    public void testAddZero() {
+        Geldbetrag base = new Geldbetrag(11L);
+        Geldbetrag zero = new Geldbetrag(0L);
+        Geldbetrag sum = base.add(zero);
+        assertEquals("Summe von x + 0 sollte x sein", base, sum);
+    }
+
+    @Test
+    public void testAddOperationLeadsToNewObject() {
+        Geldbetrag base = new Geldbetrag(11L);
+        Geldbetrag one = new Geldbetrag(1L);
+        Geldbetrag sum = base.add(one);
+        assertNotSame(base, sum);
+        assertNotSame(one, sum);
+    }
+    
+    @Test(expected = MonetaryException.class)
+    public void testAddWithDifferentCurrency() {
+        Geldbetrag oneEuro = new Geldbetrag(1.0).withWaehrung("EUR");
+        Geldbetrag oneDM = new Geldbetrag(1.0).withWaehrung("DEM");
+        oneEuro.add(oneDM);
     }
 
 }
