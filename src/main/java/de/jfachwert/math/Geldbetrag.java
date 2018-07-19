@@ -91,6 +91,9 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     public Geldbetrag(Number betrag, Currency currency) {
         this.betrag = BigDecimal.valueOf(betrag.doubleValue());
+        if (this.betrag.scale() > 4) {
+            throw new IllegalArgumentException("wrong precicion:" + this.betrag);
+        } 
         this.currency = currency;
     }
 

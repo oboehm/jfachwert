@@ -117,5 +117,17 @@ public final class GeldbetragTest extends AbstractFachwertTest {
         Geldbetrag oneDM = new Geldbetrag(1.0).withWaehrung("DEM");
         oneEuro.add(oneDM);
     }
+    
+    @Test
+    public void testAddKleineBetraege() {
+        Geldbetrag a = new Geldbetrag(0.004);
+        Geldbetrag b = new Geldbetrag(0.006);
+        assertEquals(new Geldbetrag(0.01), a.add(b));
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testPrecision() {
+        new Geldbetrag(0.00001);
+    }
 
 }
