@@ -17,12 +17,7 @@
  */
 package de.jfachwert.pruefung.exception;
 
-import org.apache.commons.lang3.StringUtils;
-
 import javax.validation.ValidationException;
-import java.text.MessageFormat;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 
 /**
  * Im Gegensatz zur {@link ValidationException} wurde hier
@@ -32,10 +27,7 @@ import java.util.ResourceBundle;
  * @author oboehm
  * @since 0.2 (15.05.2017)
  */
-public abstract class LocalizedValidationException extends ValidationException {
-
-    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("de.jfachwert.messages");
-    private final String key;
+public class LocalizedValidationException extends ValidationException implements LocalizedException {
 
     /**
      * Erzeugt eine {@link LocalizedValidationException}.
@@ -44,7 +36,6 @@ public abstract class LocalizedValidationException extends ValidationException {
      */
     public LocalizedValidationException(String message) {
         super(message);
-        this.key = asKey(message);
     }
 
     /**
@@ -55,51 +46,16 @@ public abstract class LocalizedValidationException extends ValidationException {
      */
     public LocalizedValidationException(String message, Throwable cause) {
         super(message, cause);
-        this.key = asKey(message);
     }
-
-    private static String asKey(String message) {
-        return StringUtils.replaceAll(message, " ", "_");
-    }
-
+    
     /**
      * Im Gegensatz {@code getMessage()} wird hier die Beschreibung auf deutsch
      * zurueckgegeben, wenn die Loacale auf Deutsch steht.
      *
      * @return lokalisierte Beschreibung
      */
-    @Override
     public String getLocalizedMessage() {
-        return getLocalizedMessage(key);
-    }
-    
-    /**
-     * Diese Methode sollte von {@link #getLocalizedMessage()} aufgerufen
-     * werden, damit das {@link ResourceBundle} fuer die lokalisierte
-     * Message angezogen wird.
-     *
-     * @param key Eintrag aus messages.properties
-     * @param args die einzelnen Arugmente zum 'key'
-     * @return lokalisierter String
-     */
-    protected String getLocalizedMessage(String key, Object... args) {
-        return MessageFormat.format(getLocalizedString(key), args);
-    }
-
-    /**
-     * Liefert den lokalisierten String aus dem {@link ResourceBundle}. Falls
-     * dieser nicht existiert wird der Schluessel fuer die Resource selbst
-     * als Rueckgabewert verwendet.
-     *
-     * @param key Resource-Schluessel
-     * @return lokalisierter String
-     */
-    protected String getLocalizedString(String key) {
-        try {
-            return BUNDLE.getString(key);
-        } catch (MissingResourceException ex) {
-            return key;
-        }
+        return getLocalizedString(getMessageKey(getMessage()));
     }
 
 }

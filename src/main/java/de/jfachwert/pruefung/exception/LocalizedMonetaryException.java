@@ -17,8 +17,9 @@
  */
 package de.jfachwert.pruefung.exception;
 
+import javax.money.MonetaryAmount;
 import javax.money.MonetaryException;
-import java.util.ResourceBundle;
+import java.util.Arrays;
 
 /**
  * Im Gegensatz zur {@link MonetaryException} wurde hier
@@ -28,16 +29,44 @@ import java.util.ResourceBundle;
  * @author oboehm
  * @since 0.8 (19.07.2018)
  */
-public class LocalizedMonetaryException extends MonetaryException {
+public class LocalizedMonetaryException extends MonetaryException implements LocalizedException {
+    
+    private final MonetaryAmount[] amounts = new MonetaryAmount[2];
 
-    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("de.jfachwert.messages");
-    //private final String key;
-
-    public LocalizedMonetaryException(String message) {
+    /**
+     * Diese Exception wird vervendet, wenn zwei Geldbetraege mit 
+     * unterschiedlichen Waehrungen verglichen oder addiert werden.
+     * 
+     * @param message Meldung (z.B. "different currencies")
+     * @param a1 der erste Geldbetrag
+     * @param a2 der zweite Geldbetrag
+     */
+    public LocalizedMonetaryException(String message, MonetaryAmount a1, MonetaryAmount a2) {
         super(message);
+        amounts[0] = a1;
+        amounts[1] = a2;
     }
 
-    public LocalizedMonetaryException(String message, Throwable cause) {
-        super(message, cause);
+    /**
+     * Returns the detail message string of this throwable.
+     *
+     * @return the detail message string of this {@code Throwable} instance
+     * (which may be {@code null}).
+     */
+    @Override
+    public String getMessage() {
+        return super.getMessage() + ": " + Arrays.toString(amounts);
     }
+
+    /**
+     * Im Gegensatz {@code getMessage()} wird hier die Beschreibung auf deutsch
+     * zurueckgegeben, wenn die Loacale auf Deutsch steht.
+     *
+     * @return lokalisierte Beschreibung
+     */
+    @Override
+    public String getLocalizedMessage() {
+        return getLocalizedString(getMessageKey(super.getMessage())) + ": " + Arrays.toString(amounts);
+    }
+
 }

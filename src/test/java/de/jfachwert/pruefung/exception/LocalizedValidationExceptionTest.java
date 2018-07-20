@@ -17,16 +17,18 @@
  */
 package de.jfachwert.pruefung.exception;
 
-import de.jfachwert.pruefung.exception.InvalidValueException;
-import de.jfachwert.pruefung.exception.LocalizedValidationException;
-import org.junit.*;
-import patterntesting.runtime.junit.*;
-import patterntesting.runtime.util.*;
+import org.junit.Test;
+import patterntesting.runtime.junit.SerializableTester;
+import patterntesting.runtime.util.Converter;
 
-import java.io.*;
+import java.io.NotSerializableException;
+import java.util.Locale;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.startsWith;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Unit-Tests fuer {@link LocalizedValidationException}-Klasse.
@@ -44,6 +46,11 @@ public final class LocalizedValidationExceptionTest {
     public void getLocalizedString() {
         String s = exception.getLocalizedMessage();
         assertThat(s, not(isEmptyOrNullString()));
+        if ("DE".equals(Locale.getDefault().getCountry())) {
+            assertThat(s, startsWith("fehlender Wert"));
+        } else {
+            assertThat(s, startsWith("missing value"));
+        }
     }
 
     /**
