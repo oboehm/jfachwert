@@ -32,7 +32,6 @@ import static org.junit.Assert.*;
  * Unit-Tests fuer {@link Geldbetrag}-Klasse.
  *
  * @author oboehm
- * @since x.x (18.07.2018)
  */
 public final class GeldbetragTest extends AbstractFachwertTest {
 
@@ -94,13 +93,28 @@ public final class GeldbetragTest extends AbstractFachwertTest {
         Geldbetrag oneDM = new Geldbetrag(1.0).withWaehrung("DEM");
         oneEuro.isEqualTo(oneDM);
     }
-    
+
+    /**
+     * Die Addition von 0 sollte wieder den Betrag selber ergeben.
+     * Dieser Test entstand vor der Implementierung auf dem Hackergarden
+     * Stuttgart am 19. Juli 2018. 
+     */
     @Test
     public void testAddZero() {
         Geldbetrag base = new Geldbetrag(11L);
-        Geldbetrag zero = new Geldbetrag(0L);
-        Geldbetrag sum = base.add(zero);
+        Geldbetrag sum = base.add(Geldbetrag.ZERO);
         assertEquals("Summe von x + 0 sollte x sein", base, sum);
+    }
+
+    /**
+     * Um die Anzahl an Objekte gering zu halten, sollten bei der Addition
+     * von 0 keine neuen Objekte entstehen.
+     */
+    @Test
+    public void testAddZeroSameBetrag() {
+        Geldbetrag betrag = new Geldbetrag(47.11);
+        assertSame(betrag, betrag.add(Geldbetrag.ZERO));
+        assertSame(betrag, Geldbetrag.ZERO.add(betrag));
     }
 
     @Test

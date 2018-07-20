@@ -37,7 +37,13 @@ import java.util.logging.Logger;
  * Schnittstelle weitgehende unterstützt. Einzige Unterschied ist
  * die {@link MonetaryAmount#stripTrailingZeros()}-Methode, die einen anderen
  * Rueckgabewert hat. Deswegen ist dies Klasse auch nicht von
- * {@link BigDecimal} abgeleitet..
+ * {@link BigDecimal} abgeleitet...
+ * <p>
+ * Im Gegensatz zur {@link org.javamoney.moneta.Money}- und 
+ * {@link org.javamoney.moneta.FastMoney}-Klasse kann diese Klasse
+ * ueberschrieben werden, falls anderes Rundungsverhalten oder
+ * eine angepasste Implementierung benoetigt wird.
+ * </p>
  *
  * @author oboehm
  * @since 0.8 (18.07.2018)
@@ -46,6 +52,10 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     
     private static final Logger LOG = Logger.getLogger(Geldbetrag.class.getName());
     private static final Currency DEFAULT_CURRENCY = getDefaultCurrency();
+    
+    /** Da 0-Betraege relativ haeufig vorkommen, spendieren wir dafuer eine eigene Konstante. */
+    public static final Geldbetrag ZERO = new Geldbetrag(BigDecimal.ZERO);
+    
     private final BigDecimal betrag;
     private final Currency currency;
 
@@ -99,6 +109,24 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
         this.currency = currency;
     }
 
+    /**
+     * Wandelt den angegebenen MonetaryAmount in einen Geldbetrag um. Um die
+     * Anzahl von Objekten gering zu halten, wird nur dann tatsaechlich eine
+     * neues Objekt erzeugt, wenn es sich nicht vermeiden laesst.
+     *
+     * @param other the other
+     * @return the geldbetrag
+     */
+    public static Geldbetrag of(MonetaryAmount other) {
+        if (other instanceof Geldbetrag) {
+            return (Geldbetrag) other;
+        }
+        BigDecimal value = other.getNumber().numberValue(BigDecimal.class);
+        if (value.equals(BigDecimal.ZERO)) {
+            return Geldbetrag.ZERO;
+        }
+        return new Geldbetrag(value).withWaehrung(other.getCurrency());
+    }
 
     /**
      * Validiert die uebergebene Zahl, ob sie sich als Geldbetrag eignet.
@@ -108,6 +136,21 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     public static String validate(String zahl) {
         return new NumberValidator().validate(zahl);
+    }
+    
+    /**
+     * Liefert einen Geldbetrag mit der neuen gewuenschten Waehrung zurueck.
+     * Dabei findet <b>keine</b> Umrechnung statt.
+     * <p>
+     * Anmerkung: Der Prefix "with" kommt von der Namenskonvention in Scala
+     * fuer immutable Objekte.
+     * </p>
+     *
+     * @param unit die Waehrungseinheit
+     * @return Geldbetrag mit neuer Waehrung
+     */
+    public Geldbetrag withWaehrung(CurrencyUnit unit) {
+        return withWaehrung(unit.getCurrencyCode());
     }
 
     /**
@@ -274,6 +317,12 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     @Override
     public Geldbetrag add(MonetaryAmount other) {
         checkCurrency(other);
+        if (other.isEqualTo(Geldbetrag.ZERO)) {
+            return this;
+        }
+        if (this.isEqualTo(Geldbetrag.ZERO)) {
+            return Geldbetrag.of(other);
+        }
         BigDecimal n = other.getNumber().numberValue(BigDecimal.class);
         return new Geldbetrag(betrag.add(n));
     }
