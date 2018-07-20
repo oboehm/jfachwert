@@ -86,6 +86,10 @@ letzte Release verfügbar ist.
 |https://oss.sonatype.org/[oss.sonatype.org]
 |"Staging Repositories" selektieren, danach "Close", "Refresh" und "Release".
 
+|Release-Notes erstellen
+|https://github.com/oboehm/jfachwert/releases[releases]
+|Unter https://github.com/oboehm/jfachwert/tags[Tags] "Add release notes" selektieren und Release-Notes erstellen.
+
 |Site-Generierung
 |`mvn site`
 |Damit werden die Maven-Reports gebaut, die anschliessend auf die Projektseite
