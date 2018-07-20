@@ -51,7 +51,7 @@ public class LocalizedMonetaryExceptionTest {
     @Test
     public void testGetLocalizedMessage() {
         String msg = exception.getLocalizedMessage();
-        assertThat(msg, containsString("DM"));
+        checkMessage(exception.getMessage());
         if ("DE".equals(Locale.getDefault().getCountry())) {
             assertThat(msg, containsString("unterschiedliche W\u00e4hrung"));
         } else {
