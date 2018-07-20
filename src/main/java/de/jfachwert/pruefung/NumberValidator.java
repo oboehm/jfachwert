@@ -39,6 +39,13 @@ public class NumberValidator implements SimpleValidator<String> {
     public static final BigDecimal INFINITE = BigDecimal.valueOf(Long.MAX_VALUE);
 
     /**
+     * Als Default werden alle numerischen Werte zugelassen.
+     */
+    public NumberValidator() {
+        this(INFINITE.negate(), INFINITE);
+    }
+
+    /**
      * Instanziert einen Validator, der prueft, ob ein Wert zwischen den
      * vorgegebenen Grenzen liegt.
      *

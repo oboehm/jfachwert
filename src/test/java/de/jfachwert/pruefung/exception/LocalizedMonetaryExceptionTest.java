@@ -16,7 +16,7 @@ package de.jfachwert.pruefung.exception;/*
  * (c)reated 20.07.2018 by oboehm (ob@oasd.de)
  */
 
-import de.jfachwert.math.Geldbetrag;
+import de.jfachwert.bank.Geldbetrag;
 import org.junit.Before;
 import org.junit.Test;
 

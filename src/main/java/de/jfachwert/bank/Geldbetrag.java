@@ -15,9 +15,10 @@
  *
  * (c)reated 18.07.2018 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.math;
+package de.jfachwert.bank;
 
 import de.jfachwert.Fachwert;
+import de.jfachwert.pruefung.NumberValidator;
 import de.jfachwert.pruefung.exception.LocalizedMonetaryException;
 import org.javamoney.moneta.spi.DefaultNumberValue;
 
@@ -72,7 +73,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * @param betrag Geldbetrag, z.B. "1"
      */
     public Geldbetrag(String betrag) {
-        this(new BigDecimal(betrag));
+        this(new BigDecimal(validate(betrag)));
     }
 
     /**
@@ -98,8 +99,15 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
         this.currency = currency;
     }
 
-    public Geldbetrag(MonetaryAmount other) {
-        this(other.getNumber());
+
+    /**
+     * Validiert die uebergebene Zahl, ob sie sich als Geldbetrag eignet.
+     *
+     * @param zahl als String
+     * @return die Zahl zur Weitervarabeitung
+     */
+    public static String validate(String zahl) {
+        return new NumberValidator().validate(zahl);
     }
 
     /**
@@ -755,7 +763,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * <pre>
      * java.lang.IllegalArgumentException
      *     at java.util.Currency.getInstance(Currency.java:384)
-     *     at de.jfachwert.math.Geldbetrag.&lt;clinit&gt;
+     *     at de.jfachwert.bank.Geldbetrag.&lt;clinit&gt;
      *     ...
      * </pre>
      *

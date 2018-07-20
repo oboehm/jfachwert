@@ -15,7 +15,7 @@
  *
  * (c)reated 18.07.2018 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.math;
+package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
@@ -23,6 +23,7 @@ import patterntesting.runtime.junit.ObjectTester;
 
 import javax.money.MonetaryAmount;
 import javax.money.MonetaryException;
+import javax.validation.ValidationException;
 import java.math.BigDecimal;
 
 import static org.junit.Assert.*;
@@ -138,6 +139,14 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     @Test(expected = IllegalArgumentException.class)
     public void testPrecisionOfZeroInFifthAfterCommaPosition() {
         new Geldbetrag(new BigDecimal("0.00010"));
+    }
+
+    /**
+     * Illegale Betraege sollte nicht akzeptiert werden.
+     */
+    @Test(expected = ValidationException.class)
+    public void testInvalidGeldbetrag() {
+        new Geldbetrag("falscher Fuffzger");
     }
 
 }

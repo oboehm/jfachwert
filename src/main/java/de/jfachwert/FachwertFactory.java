@@ -19,7 +19,7 @@ package de.jfachwert;
 
 import de.jfachwert.bank.*;
 import de.jfachwert.math.Bruch;
-import de.jfachwert.math.Geldbetrag;
+import de.jfachwert.bank.Geldbetrag;
 import de.jfachwert.math.Nummer;
 import de.jfachwert.math.PackedDecimal;
 import de.jfachwert.net.ChatAccount;
