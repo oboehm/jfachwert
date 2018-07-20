@@ -24,6 +24,7 @@ import javax.money.MonetaryAmount;
 import java.util.Locale;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -44,7 +45,7 @@ public class LocalizedMonetaryExceptionTest {
 
     @Test
     public void testGetMessage() {
-        assertThat(exception.getMessage(), containsString("DM"));
+        checkMessage(exception.getMessage());
     }
 
     @Test
@@ -56,6 +57,10 @@ public class LocalizedMonetaryExceptionTest {
         } else {
             assertThat(msg, containsString("different currencies"));
         }
+    }
+    
+    private static void checkMessage(String msg) {
+        assertThat("too short message: " + msg, msg.length(), greaterThan(30));
     }
 
 }
