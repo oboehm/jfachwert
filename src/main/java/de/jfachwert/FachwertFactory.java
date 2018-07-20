@@ -164,7 +164,7 @@ public class FachwertFactory {
     }
 
     /**
-     * Liefert einen Fachwert zu angegebenen Klasse.
+     * Liefert einen Fachwert zur angegebenen Klasse.
      *
      * @param clazz Fachwert-Klasse
      * @param args Argument(e) fuer den Konstruktor der Fachwert-Klasse
@@ -214,6 +214,7 @@ public class FachwertFactory {
      * Konstruktor fuer die Validierung herangezogen. Schlaegt die Validierung
      * fehl, wird eine {@link javax.validation.ValidationException} geworfen.
      * <p>
+     * Dies ist eine der wenigen Stelle, wo eine
      * Log-Ausgabe erscheinen kann. Hintergrund ist die Exception, die hier
      * gefangen, aber nicht weitergegeben wird. Im Log-Level "FINE" kann man
      * sich diese Exception zur Fehlersuche ausgeben.
