@@ -18,6 +18,7 @@
 package de.jfachwert.math;
 
 import de.jfachwert.Fachwert;
+import de.jfachwert.pruefung.exception.LocalizedMonetaryException;
 import org.javamoney.moneta.spi.DefaultNumberValue;
 
 import javax.money.*;
@@ -729,7 +730,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     }
     
     private void checkCurrency(MonetaryAmount other) {
-        if (!hasSameCurrency(other)) throw new MonetaryException("different currencies: " + this + " with " + other);
+        if (!hasSameCurrency(other)) throw new LocalizedMonetaryException("different currencies", this, other);
     }
 
     /**

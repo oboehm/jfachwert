@@ -124,10 +124,20 @@ public final class GeldbetragTest extends AbstractFachwertTest {
         Geldbetrag b = new Geldbetrag(0.006);
         assertEquals(new Geldbetrag(0.01), a.add(b));
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void testPrecision() {
         new Geldbetrag(0.00001);
+    }
+
+    @Test
+    public void testPrecisionOfFiveZerosAfterComma() {
+        new Geldbetrag(new BigDecimal("3.00000"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testPrecisionOfZeroInFifthAfterCommaPosition() {
+        new Geldbetrag(new BigDecimal("0.00010"));
     }
 
 }
