@@ -113,11 +113,48 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * Wandelt den angegebenen MonetaryAmount in einen Geldbetrag um. Um die
      * Anzahl von Objekten gering zu halten, wird nur dann tatsaechlich eine
      * neues Objekt erzeugt, wenn es sich nicht vermeiden laesst.
+     * <p>
+     * In Anlehnung an {@link BigDecimal} heisst die Methode "valueOf" und
+     * nicht "of".
+     * </p>
      *
      * @param other the other
-     * @return the geldbetrag
+     * @return ein Geldbetrag
      */
-    public static Geldbetrag of(MonetaryAmount other) {
+    public static Geldbetrag valueOf(String other) {
+        return valueOf(new Geldbetrag(other));
+    }
+
+    /**
+     * Wandelt den angegebenen MonetaryAmount in einen Geldbetrag um. Um die
+     * Anzahl von Objekten gering zu halten, wird nur dann tatsaechlich eine
+     * neues Objekt erzeugt, wenn es sich nicht vermeiden laesst.
+     * <p>
+     * In Anlehnung an {@link BigDecimal} heisst die Methode "valueOf" und
+     * nicht "of".
+     * </p>
+     *
+     * @param value Wert des andere Geldbetrags
+     * @param currency Waehrung des anderen Geldbetrags
+     * @return ein Geldbetrag
+     */
+    public static Geldbetrag valueOf(Number value, Currency currency) {
+        return valueOf(new Geldbetrag(value, currency));
+    }
+
+    /**
+     * Wandelt den angegebenen MonetaryAmount in einen Geldbetrag um. Um die
+     * Anzahl von Objekten gering zu halten, wird nur dann tatsaechlich eine
+     * neues Objekt erzeugt, wenn es sich nicht vermeiden laesst.
+     * <p>
+     * In Anlehnung an {@link BigDecimal} heisst die Methode "valueOf" und
+     * nicht "of".
+     * </p>
+     *
+     * @param other the other
+     * @return ein Geldbetrag
+     */
+    public static Geldbetrag valueOf(MonetaryAmount other) {
         if (other instanceof Geldbetrag) {
             return (Geldbetrag) other;
         }
@@ -198,7 +235,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryContext getContext() {
-        return null;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -214,7 +251,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmountFactory<? extends MonetaryAmount> getFactory() {
-        return null;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -301,7 +338,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public int signum() {
-        return 0;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -321,7 +358,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
             return this;
         }
         if (this.isEqualTo(Geldbetrag.ZERO)) {
-            return Geldbetrag.of(other);
+            return Geldbetrag.valueOf(other);
         }
         BigDecimal n = other.getNumber().numberValue(BigDecimal.class);
         return new Geldbetrag(betrag.add(n));
@@ -339,7 +376,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount subtract(MonetaryAmount amount) {
-        return null;
+        return add(amount.negate());
     }
 
     /**
@@ -354,7 +391,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount multiply(long multiplicand) {
-        return null;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -374,7 +411,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount multiply(double multiplicand) {
-        return null;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -391,7 +428,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount multiply(Number multiplicand) {
-        return null;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -408,7 +445,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount divide(long divisor) {
-        return null;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -425,7 +462,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount divide(double divisor) {
-        return null;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -442,7 +479,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount divide(Number divisor) {
-        return null;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -461,7 +498,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount remainder(long divisor) {
-        return null;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -480,7 +517,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount remainder(double divisor) {
-        return null;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -499,7 +536,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount remainder(Number divisor) {
-        return null;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -525,7 +562,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount[] divideAndRemainder(long divisor) {
-        return new MonetaryAmount[0];
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -551,7 +588,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount[] divideAndRemainder(double divisor) {
-        return new MonetaryAmount[0];
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -577,7 +614,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount[] divideAndRemainder(Number divisor) {
-        return new MonetaryAmount[0];
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -593,7 +630,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount divideToIntegralValue(long divisor) {
-        return null;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -608,7 +645,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount divideToIntegralValue(double divisor) {
-        return null;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -624,7 +661,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount divideToIntegralValue(Number divisor) {
-        return null;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -639,7 +676,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount scaleByPowerOfTen(int power) {
-        return null;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -650,7 +687,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount abs() {
-        return null;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -661,7 +698,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount negate() {
-        return null;
+        return valueOf(betrag.negate(), currency);
     }
 
     /**
@@ -674,7 +711,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount plus() {
-        return null;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
@@ -688,50 +725,23 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount stripTrailingZeros() {
-        return null;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**
+     * Vergleicht die Zahlenwerter der beiden Geldbetraege. Aber nur, wenn es
+     * sich um die gleiche Waehrung handelt. Sonst wird eine 
+     * {@link MonetaryException} ausgeloest.
      * Compares this object with the specified object for order.  Returns a
-     * negative integer, zero, or a positive integer as this object is less
-     * than, equal to, or greater than the specified object.
-     *
-     * <p>The implementor must ensure <tt>sgn(x.compareTo(y)) ==
-     * -sgn(y.compareTo(x))</tt> for all <tt>x</tt> and <tt>y</tt>.  (This
-     * implies that <tt>x.compareTo(y)</tt> must throw an exception iff
-     * <tt>y.compareTo(x)</tt> throws an exception.)
-     *
-     * <p>The implementor must also ensure that the relation is transitive:
-     * <tt>(x.compareTo(y)&gt;0 &amp;&amp; y.compareTo(z)&gt;0)</tt> implies
-     * <tt>x.compareTo(z)&gt;0</tt>.
-     *
-     * <p>Finally, the implementor must ensure that <tt>x.compareTo(y)==0</tt>
-     * implies that <tt>sgn(x.compareTo(z)) == sgn(y.compareTo(z))</tt>, for
-     * all <tt>z</tt>.
-     *
-     * <p>It is strongly recommended, but <i>not</i> strictly required that
-     * <tt>(x.compareTo(y)==0) == (x.equals(y))</tt>.  Generally speaking, any
-     * class that implements the <tt>Comparable</tt> interface and violates
-     * this condition should clearly indicate this fact.  The recommended
-     * language is "Note: this class has a natural ordering that is
-     * inconsistent with equals."
-     *
-     * <p>In the foregoing description, the notation
-     * <tt>sgn(</tt><i>expression</i><tt>)</tt> designates the mathematical
-     * <i>signum</i> function, which is defined to return one of <tt>-1</tt>,
-     * <tt>0</tt>, or <tt>1</tt> according to whether the value of
-     * <i>expression</i> is negative, zero or positive.
-     *
-     * @param o the object to be compared.
-     * @return a negative integer, zero, or a positive integer as this object
-     * is less than, equal to, or greater than the specified object.
-     * @throws NullPointerException if the specified object is null
-     * @throws ClassCastException   if the specified object's type prevents it
-     *                              from being compared to this object.
+     * 
+     * @param other der andere Geldbetrag
+     * @return 0 bei Gleicheit; negative Zahl, wenn dieser Geldbetrag kleiner
+     * als der andere ist; sonst positive Zahl.
      */
     @Override
-    public int compareTo(MonetaryAmount o) {
-        return 0;
+    public int compareTo(MonetaryAmount other) {
+        checkCurrency(other);
+        return betrag.compareTo(other.getNumber().numberValue(BigDecimal.class));
     }
 
     /**

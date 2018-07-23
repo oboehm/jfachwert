@@ -49,6 +49,14 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     }
 
     /**
+     * Illegale Betraege sollte nicht akzeptiert werden.
+     */
+    @Test(expected = ValidationException.class)
+    public void testInvalidGeldbetrag() {
+        new Geldbetrag("falscher Fuffzger");
+    }
+
+    /**
      * Rundungsdifferenzen beim Vergleich im 1/10-Cent-Bereich sollten keine
      * Rolle fuer den Vergleich spielen.
      */
@@ -119,13 +127,19 @@ public final class GeldbetragTest extends AbstractFachwertTest {
 
     @Test
     public void testAddOperationLeadsToNewObject() {
-        Geldbetrag base = new Geldbetrag(11L);
+        Geldbetrag base = new Geldbetrag("12.3456");
         Geldbetrag one = new Geldbetrag(1L);
         Geldbetrag sum = base.add(one);
         assertNotSame(base, sum);
         assertNotSame(one, sum);
+        assertEquals(Geldbetrag.valueOf("13.3456"), sum);
     }
-    
+
+    /**
+     * Laut API-Doc sollte bei unterschiedlichen Waehrungen eine
+     * {@link MonetaryException} geworfen werden.
+     * 
+     */
     @Test(expected = MonetaryException.class)
     public void testAddWithDifferentCurrency() {
         Geldbetrag oneEuro = new Geldbetrag(1.0).withWaehrung("EUR");
@@ -154,13 +168,15 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     public void testPrecisionOfZeroInFifthAfterCommaPosition() {
         new Geldbetrag(new BigDecimal("0.00010"));
     }
-
     /**
-     * Illegale Betraege sollte nicht akzeptiert werden.
+     * Test-Methode fuer {@link Geldbetrag#subtract(MonetaryAmount)}.
      */
-    @Test(expected = ValidationException.class)
-    public void testInvalidGeldbetrag() {
-        new Geldbetrag("falscher Fuffzger");
+
+    @Test
+    public void testSubtract() {
+        MonetaryAmount guthaben = new Geldbetrag(42);
+        MonetaryAmount schulden = new Geldbetrag(50);
+        assertEquals(new Geldbetrag(-8), guthaben.subtract(schulden));
     }
 
 }
