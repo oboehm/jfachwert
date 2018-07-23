@@ -72,3 +72,20 @@ Zwei Fachwerte sind gleich, wenn sie jeweils die gleichen Werte besitzen.
 
 Jeder Fachwert hat eine aussagekräftige `toString`-Implementierung.
 Meist ist dies der Wert selbst.
+
+
+
+=== Eigene Money-Klasse (Geldbetrag)
+
+Mit 0.8 kam die Geldbetrag-Klasse hinzu, die das MonetaryAmount-Interface aus "javax.money" implementiert.
+Gründe für eine eigene Implementierung waren:
+
+* Der Umgang mit dem Package "javax.money" und das Anlegen von MonetaryAmount-Objekten ist etwas sperrig.
+  Ziel war es, den Umgang möglichst einfach, zumindestens aber so einfach wie der Umgang mit BigDicimal-Beträgen zu machen.
+* Für Sonderfälle sollte es möglich sein, das Default-Verhalten einer MonetaryAmount-Klasse zu überschreiben.
+  Dies ist mit der http://javamoney.github.io/ri.html[Referenz-Implementierung] leider nicht möglich.
+* Die Geldbetrag sollte als Alternative zur BigDecimal-Klasse eingesetzt werden können.
+  Dies ist vor allem für die Portierung älterer Anwendungen gedacht, die noch mit BigDecimal arbeiten.
+
+Der letzte Punkt ist auch der Grund, warum die Geldbetrag statt einer of(..)-Methode eine valueOf(..)-Methode besitzt.
+Dabei werden die gleichen Parameter wie bei BigDecimal akzeptiert.

@@ -1,13 +1,18 @@
 @startuml
 
-package "bank" {
+package "de.fachwert.bank" {
 
     class Kontonummer
     class IBAN
     class BLZ
     class BIC
     class Bankverbindung
+    class Geldbetrag
 
 }
+
+interface javax.money.MonetaryAmount #white
+
+javax.money.MonetaryAmount <|.. Geldbetrag
 
 @enduml

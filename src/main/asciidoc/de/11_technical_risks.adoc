@@ -7,3 +7,6 @@ Durch den überwiegenden Verzicht auf Logging erschwert sich die Fehlersuche.
 Dies wird dadurch ausgeglichen, dass nur valide Objekte erzeugt werden können.
 Bei fehlerhaften Aufrufen wird eine aussagekräftige Exception geworfen, aus der die Fehlerursache hervorgeht.
 --
+
+Durch den Fokus auf Validierung und Optimierung des Speicherverbrauchs spielt Performance eine untergeordnete Rolle.
+Dies ist bei der Generierung vieler Objekte zu beachten.

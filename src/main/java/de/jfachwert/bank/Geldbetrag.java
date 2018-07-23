@@ -60,7 +60,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     private final Currency currency;
 
     /**
-     * Erzeugt eine Geldbetrag in der aktuellen Landeswaehrung.
+     * Erzeugt einen Geldbetrag in der aktuellen Landeswaehrung.
      *
      * @param betrag Geldbetrag, z.B. 1
      */
@@ -69,7 +69,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     }
 
     /**
-     * Erzeugt eine Geldbetrag in der aktuellen Landeswaehrung.
+     * Erzeugt einen Geldbetrag in der aktuellen Landeswaehrung.
      *
      * @param betrag Geldbetrag, z.B. 1.00
      */
@@ -78,7 +78,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     }
 
     /**
-     * Erzeugt eine Geldbetrag in der aktuellen Landeswaehrung.
+     * Erzeugt einen Geldbetrag in der aktuellen Landeswaehrung.
      *
      * @param betrag Geldbetrag, z.B. "1"
      */
@@ -87,7 +87,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     }
 
     /**
-     * Erzeugt eine Geldbetrag in der aktuellen Landeswaehrung.
+     * Erzeugt einen Geldbetrag in der aktuellen Landeswaehrung.
      *
      * @param betrag Geldbetrag, z.B. 1.00
      */
@@ -96,7 +96,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     }
 
     /**
-     * Erzeugt eine Geldbetrag in der angegebenen Waehrung.
+     * Erzeugt einen Geldbetrag in der angegebenen Waehrung.
      *
      * @param betrag   Geldbetrag, z.B. 1.00
      * @param currency Waehrung, z.B. Euro
