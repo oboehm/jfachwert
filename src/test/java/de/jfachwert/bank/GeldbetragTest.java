@@ -85,7 +85,7 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     public void testNotEquals() {
         Geldbetrag one = new Geldbetrag(1.0);
         Geldbetrag anotherOne = new Geldbetrag(1.0);
-        Geldbetrag oneDM = new Geldbetrag(1.0).withWaehrung("DEM");
+        Geldbetrag oneDM = new Geldbetrag(1.0).withCurrency("DEM");
         ObjectTester.assertEquals(one, anotherOne);
         assertFalse(one + " != " + oneDM, one.equals(oneDM));
     }
@@ -98,7 +98,7 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     @Test(expected = MonetaryException.class)
     public void testIsEqualsTo() {
         Geldbetrag oneEuro = new Geldbetrag(1.0);
-        Geldbetrag oneDM = new Geldbetrag(1.0).withWaehrung("DEM");
+        Geldbetrag oneDM = new Geldbetrag(1.0).withCurrency("DEM");
         oneEuro.isEqualTo(oneDM);
     }
 
@@ -142,8 +142,8 @@ public final class GeldbetragTest extends AbstractFachwertTest {
      */
     @Test(expected = MonetaryException.class)
     public void testAddWithDifferentCurrency() {
-        Geldbetrag oneEuro = new Geldbetrag(1.0).withWaehrung("EUR");
-        Geldbetrag oneDM = new Geldbetrag(1.0).withWaehrung("DEM");
+        Geldbetrag oneEuro = new Geldbetrag(1.0).withCurrency("EUR");
+        Geldbetrag oneDM = new Geldbetrag(1.0).withCurrency("DEM");
         oneEuro.add(oneDM);
     }
     
@@ -196,6 +196,25 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     @Test
     public void testGetCurrency() {
         assertEquals(Geldbetrag.getDefaultCurrency().toString(), Geldbetrag.ZERO.getCurrency().getCurrencyCode());
+    }
+
+    /**
+     * Manchmal muessen wir auch die Waehrung setzen koennen muessen. Dies
+     * erfolgt ueber {@link Geldbetrag#withCurrency(String)}.
+     */
+    @Test
+    public void testSetWaehrungEUR() {
+        Geldbetrag betrag = Geldbetrag.ZERO.withCurrency("EUR");
+        assertEquals("EUR", betrag.getCurrency().getCurrencyCode());
+    }
+
+    /**
+     * Manchmal brauchen wir vielleicht noch die gute alte DM.
+     */
+    @Test
+    public void testSetWaehrungDM() {
+        Geldbetrag betrag = Geldbetrag.ZERO.withCurrency("DM");
+        assertEquals("DEM", betrag.getCurrency().getCurrencyCode());
     }
     
 }

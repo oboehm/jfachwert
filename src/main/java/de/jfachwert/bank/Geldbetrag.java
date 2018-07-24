@@ -162,7 +162,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
         if (value.equals(BigDecimal.ZERO)) {
             return Geldbetrag.ZERO;
         }
-        return new Geldbetrag(value).withWaehrung(other.getCurrency());
+        return new Geldbetrag(value).withCurrency(other.getCurrency());
     }
 
     /**
@@ -186,8 +186,8 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * @param unit die Waehrungseinheit
      * @return Geldbetrag mit neuer Waehrung
      */
-    public Geldbetrag withWaehrung(CurrencyUnit unit) {
-        return withWaehrung(unit.getCurrencyCode());
+    public Geldbetrag withCurrency(CurrencyUnit unit) {
+        return withCurrency(unit.getCurrencyCode());
     }
 
     /**
@@ -201,12 +201,12 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * @param waehrung Waehrung
      * @return Geldbetrag mit neuer Waehrung
      */
-    public Geldbetrag withWaehrung(String waehrung) {
+    public Geldbetrag withCurrency(String waehrung) {
         String normalized = waehrung.toUpperCase().trim();
         if ("DM".equalsIgnoreCase(normalized)) {
             normalized = "DEM";
         }
-        return withWaehrung(Currency.getInstance(normalized));
+        return withCurrency(Currency.getInstance(normalized));
     }
 
     /**
@@ -220,7 +220,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * @param currency Waehrung
      * @return Geldbetrag mit neuer Waehrung
      */
-    public Geldbetrag withWaehrung(Currency currency) {
+    public Geldbetrag withCurrency(Currency currency) {
         return new Geldbetrag(this.getNumber(), currency);
     }
 

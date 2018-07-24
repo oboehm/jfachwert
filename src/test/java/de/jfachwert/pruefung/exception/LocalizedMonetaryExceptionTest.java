@@ -38,8 +38,8 @@ public class LocalizedMonetaryExceptionTest {
     
     @Before
     public void setUpException() {
-        MonetaryAmount einEuro = new Geldbetrag(1).withWaehrung("EUR");
-        MonetaryAmount zweiDM = new Geldbetrag(2).withWaehrung("DEM");
+        MonetaryAmount einEuro = new Geldbetrag(1).withCurrency("EUR");
+        MonetaryAmount zweiDM = new Geldbetrag(2).withCurrency("DEM");
         exception = new LocalizedMonetaryException("different currencies", einEuro, zweiDM);
     }
 
