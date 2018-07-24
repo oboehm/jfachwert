@@ -375,7 +375,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      *                             the {@link MonetaryContext} cannot be adapted as required.
      */
     @Override
-    public MonetaryAmount subtract(MonetaryAmount amount) {
+    public Geldbetrag subtract(MonetaryAmount amount) {
         return add(amount.negate());
     }
 
@@ -444,8 +444,8 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      *                             {@link MonetaryContext} cannot be adapted as required.
      */
     @Override
-    public MonetaryAmount divide(long divisor) {
-        throw new UnsupportedOperationException("not yet implemented");
+    public Geldbetrag divide(long divisor) {
+        return Geldbetrag.valueOf(betrag.divide(BigDecimal.valueOf(divisor)), currency);
     }
 
     /**

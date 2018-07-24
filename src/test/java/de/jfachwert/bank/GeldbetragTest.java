@@ -179,4 +179,23 @@ public final class GeldbetragTest extends AbstractFachwertTest {
         assertEquals(new Geldbetrag(-8), guthaben.subtract(schulden));
     }
 
+    /**
+     * Hier testen wir die Rundung, indem wir 2x einen kleinen Betrag abziehen.
+     */
+    @Test
+    public void testSubtractKleinerBetrag() {
+        Geldbetrag einEuro = new Geldbetrag(1);
+        Geldbetrag zinsen = einEuro.divide(200);
+        assertEquals(Geldbetrag.valueOf("0.99"), einEuro.subtract(zinsen).subtract(zinsen));
+    }
+
+    /**
+     * Hier sollte eigentlich in den allermeisten Faellen "EUR" zurueckgegeben
+     * werden. Falls nicht, stimmt die Locale nicht.
+     */
+    @Test
+    public void testGetCurrency() {
+        assertEquals(Geldbetrag.getDefaultCurrency().toString(), Geldbetrag.ZERO.getCurrency().getCurrencyCode());
+    }
+    
 }
