@@ -110,6 +110,17 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     }
 
     /**
+     * Hierueber kann eine Geldbetrag ueber die Anzahl an Cents angelegt
+     * werden.
+     *
+     * @param cents Cent-Betrag, z.B. 42
+     * @return Geldbetrag, z.B. 0.42$
+     */
+    public static Geldbetrag fromCent(long cents) {
+        return Geldbetrag.valueOf(cents).divide(100);
+    }
+
+    /**
      * Wandelt den angegebenen MonetaryAmount in einen Geldbetrag um. Um die
      * Anzahl von Objekten gering zu halten, wird nur dann tatsaechlich eine
      * neues Objekt erzeugt, wenn es sich nicht vermeiden laesst.
@@ -123,6 +134,22 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     public static Geldbetrag valueOf(String other) {
         return valueOf(new Geldbetrag(other));
+    }
+
+    /**
+     * Wandelt den angegebenen MonetaryAmount in einen Geldbetrag um. Um die
+     * Anzahl von Objekten gering zu halten, wird nur dann tatsaechlich eine
+     * neues Objekt erzeugt, wenn es sich nicht vermeiden laesst.
+     * <p>
+     * In Anlehnung an {@link BigDecimal} heisst die Methode "valueOf" und
+     * nicht "of".
+     * </p>
+     *
+     * @param value Wert des andere Geldbetrags
+     * @return ein Geldbetrag
+     */
+    public static Geldbetrag valueOf(long value) {
+        return valueOf(new Geldbetrag(value));
     }
 
     /**
@@ -255,55 +282,55 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     }
 
     /**
-     * Compares two instances of {@link MonetaryAmount}, hereby ignoring non significant trailing
-     * zeroes and different numeric capabilities.
+     * Vergleicht zwei Instanzen von {@link MonetaryAmount}. Nicht signifikante
+     * Nachkommastellen werden dabei ignoriert.
      *
-     * @param amount the {@code MonetaryAmount} to be compared with this instance.
-     * @return {@code true} if {@code amount > this}.
-     * @throws MonetaryException if the amount's currency is not equals to the currency of this instance.
+     * @param amount Betrag eines {@code MonetaryAmount}, mit dem verglichen werid
+     * @return {@code true} falls {@code amount > this}.
+     * @throws MonetaryException bei unterschiedlichen Waehrungen.
      */
     @Override
     public boolean isGreaterThan(MonetaryAmount amount) {
-        throw new UnsupportedOperationException("not yet implemented");
+        return this.compareTo(amount) > 0;
     }
 
     /**
-     * Compares two instances of {@link MonetaryAmount}, hereby ignoring non significant trailing
-     * zeroes and different numeric capabilities.
+     * Vergleicht zwei Instanzen von {@link MonetaryAmount}. Nicht signifikante
+     * Nachkommastellen werden dabei ignoriert.
      *
-     * @param amount the {@link MonetaryAmount} to be compared with this instance.
-     * @return {@code true} if {@code amount >= this}.
-     * @throws MonetaryException if the amount's currency is not equals to the currency of this instance.
+     * @param amount Betrag eines {@code MonetaryAmount}, mit dem verglichen werid
+     * @return {@code true} falls {@code amount >= this}.
+     * @throws MonetaryException bei unterschiedlichen Waehrungen.
      */
     @Override
     public boolean isGreaterThanOrEqualTo(MonetaryAmount amount) {
-        throw new UnsupportedOperationException("not yet implemented");
+        return this.compareTo(amount) >= 0;
     }
 
     /**
-     * Compares two instances of {@link MonetaryAmount}, hereby ignoring non significant trailing
-     * zeroes and different numeric capabilities.
+     * Vergleicht zwei Instanzen von {@link MonetaryAmount}. Nicht signifikante
+     * Nachkommastellen werden dabei ignoriert.
      *
-     * @param amount the {@link MonetaryAmount} to be compared with this instance.
-     * @return {@code true} if {@code amount < this}.
-     * @throws MonetaryException if the amount's currency is not equals to the currency of this instance.
+     * @param amount Betrag eines {@code MonetaryAmount}, mit dem verglichen werid
+     * @return {@code true} falls {@code amount < this}.
+     * @throws MonetaryException bei unterschiedlichen Waehrungen.
      */
     @Override
     public boolean isLessThan(MonetaryAmount amount) {
-        throw new UnsupportedOperationException("not yet implemented");
+        return this.compareTo(amount) < 0;
     }
 
     /**
-     * Compares two instances of {@link MonetaryAmount}, hereby ignoring non significant trailing
-     * zeroes and different numeric capabilities.
+     * Vergleicht zwei Instanzen von {@link MonetaryAmount}. Nicht signifikante
+     * Nachkommastellen werden dabei ignoriert.
      *
-     * @param amt the {@link MonetaryAmount} to be compared with this instance.
-     * @return {@code true} if {@code amount <= this}.
-     * @throws MonetaryException if the amount's currency is not equals to the currency of this instance.
+     * @param amount Betrag eines {@code MonetaryAmount}, mit dem verglichen werid
+     * @return {@code true} falls {@code amount <= this}.
+     * @throws MonetaryException bei unterschiedlichen Waehrungen.
      */
     @Override
-    public boolean isLessThanOrEqualTo(MonetaryAmount amt) {
-        throw new UnsupportedOperationException("not yet implemented");
+    public boolean isLessThanOrEqualTo(MonetaryAmount amount) {
+        return this.compareTo(amount) <= 0;
     }
 
     /**

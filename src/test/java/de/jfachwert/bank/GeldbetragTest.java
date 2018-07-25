@@ -26,6 +26,7 @@ import javax.money.MonetaryException;
 import javax.validation.ValidationException;
 import java.math.BigDecimal;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 /**
@@ -216,5 +217,35 @@ public final class GeldbetragTest extends AbstractFachwertTest {
         Geldbetrag betrag = Geldbetrag.ZERO.withCurrency("DM");
         assertEquals("DEM", betrag.getCurrency().getCurrencyCode());
     }
-    
+
+    /**
+     * Testmethode fuer {@link Geldbetrag#isGreaterThan(MonetaryAmount)} und
+     * {@link Geldbetrag#isGreaterThanOrEqualTo(MonetaryAmount)}.
+     */
+    @Test
+    public void testIsGreaterThan() {
+        Geldbetrag oneCent = Geldbetrag.fromCent(1);
+        Geldbetrag anotherCent = Geldbetrag.fromCent(1);
+        Geldbetrag twoCent = Geldbetrag.fromCent(2);
+        assertThat(oneCent.isGreaterThan(twoCent), is(Boolean.FALSE));
+        assertThat(twoCent.isGreaterThan(oneCent), is(Boolean.TRUE));
+        assertThat(oneCent.isGreaterThan(anotherCent), is(Boolean.FALSE));
+        assertThat(oneCent.isGreaterThanOrEqualTo(anotherCent), is(Boolean.TRUE));
+    }
+
+    /**
+     * Testmethode fuer {@link Geldbetrag#isGreaterThan(MonetaryAmount)} und
+     * {@link Geldbetrag#isGreaterThanOrEqualTo(MonetaryAmount)}.
+     */
+    @Test
+    public void testIsLessThan() {
+        Geldbetrag oneCent = Geldbetrag.fromCent(1);
+        Geldbetrag anotherCent = Geldbetrag.fromCent(1);
+        Geldbetrag twoCent = Geldbetrag.fromCent(2);
+        assertThat(oneCent.isLessThan(twoCent), is(Boolean.TRUE));
+        assertThat(twoCent.isLessThan(oneCent), is(Boolean.FALSE));
+        assertThat(oneCent.isLessThan(anotherCent), is(Boolean.FALSE));
+        assertThat(oneCent.isLessThanOrEqualTo(anotherCent), is(Boolean.TRUE));
+    }
+
 }
