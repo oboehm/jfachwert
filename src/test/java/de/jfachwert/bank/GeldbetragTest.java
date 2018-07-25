@@ -27,6 +27,8 @@ import javax.validation.ValidationException;
 import java.math.BigDecimal;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.number.OrderingComparison.greaterThan;
+import static org.hamcrest.number.OrderingComparison.lessThan;
 import static org.junit.Assert.*;
 
 /**
@@ -88,7 +90,7 @@ public final class GeldbetragTest extends AbstractFachwertTest {
         Geldbetrag anotherOne = new Geldbetrag(1.0);
         Geldbetrag oneDM = new Geldbetrag(1.0).withCurrency("DEM");
         ObjectTester.assertEquals(one, anotherOne);
-        assertFalse(one + " != " + oneDM, one.equals(oneDM));
+        assertNotEquals(one, oneDM);
     }
 
     /**
@@ -269,4 +271,34 @@ public final class GeldbetragTest extends AbstractFachwertTest {
         assertEquals(einCent, halberCent.add(halberCent));
     }
 
+    /**
+     * Test-Methode fuer {@link Geldbetrag#compareTo(MonetaryAmount)}.
+     */
+    @Test
+    public void testCompareToEquals() {
+        Geldbetrag einEuro = new Geldbetrag(1);
+        Geldbetrag hundertCent = Geldbetrag.fromCent(100);
+        assertEquals(einEuro, hundertCent);
+        assertEquals(0, einEuro.compareTo(hundertCent));
+    }
+
+    /**
+     * Test-Methode fuer {@link Geldbetrag#compareTo(MonetaryAmount)}.
+     */
+    @Test
+    public void testCompareTo() {
+        Geldbetrag fiftyCents = Geldbetrag.fromCent(50);
+        Geldbetrag fiftyoneCents = Geldbetrag.fromCent(51);
+        assertThat(fiftyoneCents.compareTo(fiftyCents), greaterThan(0));
+        assertThat(fiftyCents.compareTo(fiftyoneCents), lessThan(0));
+    }
+
+    /**
+     * Test-Methode fuer {@link Geldbetrag#compareTo(Number)}.
+     */
+    @Test
+    public void testCompareToBigDecimal() {
+        assertEquals(0, Geldbetrag.ZERO.compareTo(BigDecimal.ZERO));
+    }
+    
 }

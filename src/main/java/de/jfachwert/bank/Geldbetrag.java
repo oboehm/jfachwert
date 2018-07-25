@@ -472,7 +472,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public Geldbetrag divide(long divisor) {
-        return Geldbetrag.valueOf(betrag.divide(BigDecimal.valueOf(divisor)), currency);
+        return Geldbetrag.valueOf(betrag.divide(BigDecimal.valueOf(divisor),RoundingMode.HALF_UP), currency);
     }
 
     /**
@@ -506,7 +506,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public Geldbetrag divide(Number divisor) {
-        return Geldbetrag.valueOf(betrag.divide(toBigDecimal(divisor)), currency);
+        return Geldbetrag.valueOf(betrag.divide(toBigDecimal(divisor), RoundingMode.HALF_UP), currency);
     }
 
     /**
@@ -772,6 +772,18 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     }
 
     /**
+     * Vergleicht nur den Zahlenwert und ignoriert die Waehrung. Diese Methode
+     * ist aus Kompatibiltaetsgruenden zur BigDecimal-Klasse enthalten.
+     *
+     * @param other der andere Betrag
+     * @return 0 bei Gleicheit; negative Zahl, wenn die Zahle kleiner als die
+     * andere ist, sonst positive Zahl.
+     */
+    public int compareTo(Number other) {
+        return this.compareTo(Geldbetrag.valueOf(other, currency));
+    }
+
+    /**
      * Liefert die entsprechende Waehrungseinheit ({@link CurrencyUnit}).
      *
      * @return die entsprechende {@link CurrencyUnit}, not null.
@@ -834,16 +846,16 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
             return false;
         }
         Geldbetrag other = (Geldbetrag) obj;
-        if (!hasSameCurrency(other)) return false;
+        if (hasNotSameCurrency(other)) return false;
         return this.isEqualTo(other);
     }
 
-    private boolean hasSameCurrency(MonetaryAmount other) {
-        return this.getCurrency().equals(other.getCurrency());
+    private boolean hasNotSameCurrency(MonetaryAmount other) {
+        return !this.getCurrency().equals(other.getCurrency());
     }
     
     private void checkCurrency(MonetaryAmount other) {
-        if (!hasSameCurrency(other)) throw new LocalizedMonetaryException("different currencies", this, other);
+        if (hasNotSameCurrency(other)) throw new LocalizedMonetaryException("different currencies", this, other);
     }
 
     /**
