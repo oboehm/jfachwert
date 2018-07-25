@@ -20,6 +20,7 @@ package de.jfachwert.bank;
 import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.NumberValidator;
 import de.jfachwert.pruefung.exception.LocalizedMonetaryException;
+import de.jfachwert.pruefung.exception.LocalizedValidationException;
 import org.javamoney.moneta.spi.DefaultNumberValue;
 
 import javax.money.*;
@@ -102,10 +103,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * @param currency Waehrung, z.B. Euro
      */
     public Geldbetrag(Number betrag, Currency currency) {
-        this.betrag = BigDecimal.valueOf(betrag.doubleValue());
-        if (this.betrag.scale() > 4) {
-            throw new IllegalArgumentException("wrong precicion:" + this.betrag);
-        } 
+        this.betrag = validate(toBigDecimal(betrag), currency);
         this.currency = currency;
     }
 
@@ -162,6 +160,22 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * </p>
      *
      * @param value Wert des andere Geldbetrags
+     * @return ein Geldbetrag
+     */
+    public static Geldbetrag valueOf(double value) {
+        return valueOf(new Geldbetrag(value));
+    }
+
+    /**
+     * Wandelt den angegebenen MonetaryAmount in einen Geldbetrag um. Um die
+     * Anzahl von Objekten gering zu halten, wird nur dann tatsaechlich eine
+     * neues Objekt erzeugt, wenn es sich nicht vermeiden laesst.
+     * <p>
+     * In Anlehnung an {@link BigDecimal} heisst die Methode "valueOf" und
+     * nicht "of".
+     * </p>
+     *
+     * @param value Wert des andere Geldbetrags
      * @param currency Waehrung des anderen Geldbetrags
      * @return ein Geldbetrag
      */
@@ -201,7 +215,23 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     public static String validate(String zahl) {
         return new NumberValidator().validate(zahl);
     }
-    
+
+    /**
+     * Validiert die uebergebene Zahl, ob die Praezision nicht zu hoch ist.
+     *
+     * @param zahl als String
+     * @return die Zahl zur Weitervarabeitung
+     */
+    public static BigDecimal validate(BigDecimal zahl, Currency currency) {
+        if (zahl.scale() > 4) { 
+            throw new LocalizedValidationException("wrong precision: " + zahl);
+        }
+        if (zahl.scale() == 0) {
+            return zahl.setScale(currency.getDefaultFractionDigits(), RoundingMode.HALF_UP);
+        }
+        return zahl;
+    }
+
     /**
      * Liefert einen Geldbetrag mit der neuen gewuenschten Waehrung zurueck.
      * Dabei findet <b>keine</b> Umrechnung statt.
@@ -455,7 +485,8 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount multiply(Number multiplicand) {
-        return Geldbetrag.valueOf(betrag.multiply(toBigDecimal(multiplicand)), currency);
+        BigDecimal multiplied = betrag.multiply(toBigDecimal(multiplicand));
+        return Geldbetrag.valueOf(limitScale(multiplied), currency);
     }
 
     /**
@@ -472,7 +503,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public Geldbetrag divide(long divisor) {
-        return Geldbetrag.valueOf(betrag.divide(BigDecimal.valueOf(divisor),RoundingMode.HALF_UP), currency);
+        return divide(BigDecimal.valueOf(divisor));
     }
 
     /**
@@ -506,7 +537,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public Geldbetrag divide(Number divisor) {
-        return Geldbetrag.valueOf(betrag.divide(toBigDecimal(divisor), RoundingMode.HALF_UP), currency);
+        return Geldbetrag.valueOf(betrag.setScale(4, RoundingMode.HALF_UP).divide(toBigDecimal(divisor), RoundingMode.HALF_UP), currency);
     }
 
     /**
@@ -815,11 +846,15 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     }
 
     private static BigDecimal toBigDecimal(Number value) {
+        BigDecimal n = BigDecimal.valueOf(value.doubleValue());
         if (value instanceof BigDecimal) {
-            return (BigDecimal) value;
-        } else {
-            return BigDecimal.valueOf(value.doubleValue());
+            n = (BigDecimal) value;
         }
+        return n;
+    }
+    
+    private static BigDecimal limitScale(BigDecimal value) {
+        return value.setScale(4, RoundingMode.HALF_UP);
     }
 
     /**

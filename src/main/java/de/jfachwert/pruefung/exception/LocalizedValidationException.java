@@ -17,6 +17,8 @@
  */
 package de.jfachwert.pruefung.exception;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.validation.ValidationException;
 
 /**
@@ -55,7 +57,12 @@ public class LocalizedValidationException extends ValidationException implements
      * @return lokalisierte Beschreibung
      */
     public String getLocalizedMessage() {
-        return getLocalizedString(getMessageKey(getMessage()));
+        String[] parts = StringUtils.split(getMessage(),":", 2);
+        String localized = getLocalizedString(getMessageKey(parts[0]));
+        if (parts.length > 1) {
+            localized += ":" + parts[1];
+        }
+        return localized;
     }
 
 }

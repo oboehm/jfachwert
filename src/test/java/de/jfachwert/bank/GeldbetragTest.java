@@ -18,11 +18,13 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwertTest;
+import org.junit.Ignore;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
 import javax.money.MonetaryAmount;
 import javax.money.MonetaryException;
+import javax.money.NumberValue;
 import javax.validation.ValidationException;
 import java.math.BigDecimal;
 
@@ -157,17 +159,18 @@ public final class GeldbetragTest extends AbstractFachwertTest {
         assertEquals(new Geldbetrag(0.01), a.add(b));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = ValidationException.class)
     public void testPrecision() {
         new Geldbetrag(0.00001);
     }
 
     @Test
+    @Ignore // Ergebnis noch unklar
     public void testPrecisionOfFiveZerosAfterComma() {
         new Geldbetrag(new BigDecimal("3.00000"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = ValidationException.class)
     public void testPrecisionOfZeroInFifthAfterCommaPosition() {
         new Geldbetrag(new BigDecimal("0.00010"));
     }
@@ -206,7 +209,7 @@ public final class GeldbetragTest extends AbstractFachwertTest {
      * erfolgt ueber {@link Geldbetrag#withCurrency(String)}.
      */
     @Test
-    public void testSetWaehrungEUR() {
+    public void testWithCurrencyEUR() {
         Geldbetrag betrag = Geldbetrag.ZERO.withCurrency("EUR");
         assertEquals("EUR", betrag.getCurrency().getCurrencyCode());
     }
@@ -215,9 +218,17 @@ public final class GeldbetragTest extends AbstractFachwertTest {
      * Manchmal brauchen wir vielleicht noch die gute alte DM.
      */
     @Test
-    public void testSetWaehrungDM() {
+    public void testWithCurrencyDM() {
         Geldbetrag betrag = Geldbetrag.ZERO.withCurrency("DM");
         assertEquals("DEM", betrag.getCurrency().getCurrencyCode());
+    }
+
+    /**
+     * Testmethode fuer {@link Geldbetrag#fromCent(long)}.
+     */
+    @Test
+    public void testFromCent() {
+        assertEquals(Geldbetrag.fromCent(52), Geldbetrag.valueOf(0.52));
     }
 
     /**
@@ -300,5 +311,16 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     public void testCompareToBigDecimal() {
         assertEquals(0, Geldbetrag.ZERO.compareTo(BigDecimal.ZERO));
     }
-    
+
+    /**
+     * Hier testen wir die Rundung von {@link Geldbetrag#getNumber()}.
+     */
+    @Test
+    @Ignore // Ergebnis noch unklar
+    public void testToNumber() {
+        Geldbetrag betrag = Geldbetrag.fromCent(1234);
+        NumberValue number = betrag.getNumber();
+        assertEquals("12.34", number.toString());
+    }
+
 }
