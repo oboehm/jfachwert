@@ -248,4 +248,25 @@ public final class GeldbetragTest extends AbstractFachwertTest {
         assertThat(oneCent.isLessThanOrEqualTo(anotherCent), is(Boolean.TRUE));
     }
 
+    /**
+     * Ueberpruefung der Mulitipliation anhand der Mehrwersteuerberechnung.
+     */
+    @Test
+    public void testMultiplyMwst() {
+        Geldbetrag fuffzger = Geldbetrag.fromCent(50);
+        BigDecimal mwst = BigDecimal.valueOf(0.19);
+        assertEquals(Geldbetrag.fromCent(10), fuffzger.multiply(mwst));
+    }
+
+    /**
+     * Pruefung der Division.
+     */
+    @Test
+    public void testDivide() {
+        Geldbetrag einCent = Geldbetrag.fromCent(1);
+        Geldbetrag halberCent = einCent.divide(BigDecimal.valueOf(2.0));
+        assertEquals(0.005, halberCent.doubleValue(), 0.0001);
+        assertEquals(einCent, halberCent.add(halberCent));
+    }
+
 }

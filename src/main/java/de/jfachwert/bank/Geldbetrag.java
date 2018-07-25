@@ -455,7 +455,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount multiply(Number multiplicand) {
-        throw new UnsupportedOperationException("not yet implemented");
+        return Geldbetrag.valueOf(betrag.multiply(toBigDecimal(multiplicand)), currency);
     }
 
     /**
@@ -505,7 +505,26 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      *                             {@link MonetaryContext} cannot be adapted as required.
      */
     @Override
-    public MonetaryAmount divide(Number divisor) {
+    public Geldbetrag divide(Number divisor) {
+        return Geldbetrag.valueOf(betrag.divide(toBigDecimal(divisor)), currency);
+    }
+
+    /**
+     * Returns a {@code MonetaryAmount} whose value is <code>this % divisor</code>.
+     * <p>
+     * <p>
+     * The remainder is given by
+     * <code>this.subtract(this.divideToIntegralValue(divisor).multiply(divisor)</code> . Note that this
+     * is not the modulo operation (the result can be negative).
+     *
+     * @param divisor value by which this {@code MonetaryAmount} is to be divided.
+     * @return {@code this % divisor}.
+     * @throws ArithmeticException if {@code divisor==0}, or if the result exceeds the numeric capabilities of this
+     *                             implementation class, i.e. the {@link MonetaryContext} cannot be adapted as
+     *                             required.
+     */
+    @Override
+    public Geldbetrag remainder(long divisor) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
@@ -524,7 +543,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      *                             required.
      */
     @Override
-    public MonetaryAmount remainder(long divisor) {
+    public Geldbetrag remainder(double divisor) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
@@ -543,26 +562,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      *                             required.
      */
     @Override
-    public MonetaryAmount remainder(double divisor) {
-        throw new UnsupportedOperationException("not yet implemented");
-    }
-
-    /**
-     * Returns a {@code MonetaryAmount} whose value is <code>this % divisor</code>.
-     * <p>
-     * <p>
-     * The remainder is given by
-     * <code>this.subtract(this.divideToIntegralValue(divisor).multiply(divisor)</code> . Note that this
-     * is not the modulo operation (the result can be negative).
-     *
-     * @param divisor value by which this {@code MonetaryAmount} is to be divided.
-     * @return {@code this % divisor}.
-     * @throws ArithmeticException if {@code divisor==0}, or if the result exceeds the numeric capabilities of this
-     *                             implementation class, i.e. the {@link MonetaryContext} cannot be adapted as
-     *                             required.
-     */
-    @Override
-    public MonetaryAmount remainder(Number divisor) {
+    public Geldbetrag remainder(Number divisor) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
@@ -656,7 +656,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * @see BigDecimal#divideToIntegralValue(BigDecimal)
      */
     @Override
-    public MonetaryAmount divideToIntegralValue(long divisor) {
+    public Geldbetrag divideToIntegralValue(long divisor) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
@@ -671,7 +671,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * @see BigDecimal#divideToIntegralValue(BigDecimal)
      */
     @Override
-    public MonetaryAmount divideToIntegralValue(double divisor) {
+    public Geldbetrag divideToIntegralValue(double divisor) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
@@ -687,7 +687,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * @see BigDecimal#divideToIntegralValue(BigDecimal)
      */
     @Override
-    public MonetaryAmount divideToIntegralValue(Number divisor) {
+    public Geldbetrag divideToIntegralValue(Number divisor) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
@@ -702,7 +702,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      *                             {@link MonetaryContext} cannot be adapted as required.
      */
     @Override
-    public MonetaryAmount scaleByPowerOfTen(int power) {
+    public Geldbetrag scaleByPowerOfTen(int power) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
@@ -713,7 +713,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * @return <code>abs(this</code>
      */
     @Override
-    public MonetaryAmount abs() {
+    public Geldbetrag abs() {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
@@ -724,7 +724,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * @return {@code -this}.
      */
     @Override
-    public MonetaryAmount negate() {
+    public Geldbetrag negate() {
         return valueOf(betrag.negate(), currency);
     }
 
@@ -737,7 +737,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * @see BigDecimal#plus()
      */
     @Override
-    public MonetaryAmount plus() {
+    public Geldbetrag plus() {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
@@ -751,7 +751,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * @return a numerically equal {@code MonetaryAmount} with any trailing zeros removed.
      */
     @Override
-    public MonetaryAmount stripTrailingZeros() {
+    public Geldbetrag stripTrailingZeros() {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
@@ -789,6 +789,25 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     @Override
     public NumberValue getNumber() {
         return new DefaultNumberValue(betrag);
+    }
+
+    /**
+     * Liefert nur die Zahl als 'double' zurueck. Sie entspricht der
+     * gleichnamigen Methode aus {@link BigDecimal}.
+     *
+     * @return Zahl als 'double'
+     * @see BigDecimal#doubleValue()
+     */
+    public double doubleValue() {
+        return betrag.doubleValue();
+    }
+
+    private static BigDecimal toBigDecimal(Number value) {
+        if (value instanceof BigDecimal) {
+            return (BigDecimal) value;
+        } else {
+            return BigDecimal.valueOf(value.doubleValue());
+        }
     }
 
     /**
