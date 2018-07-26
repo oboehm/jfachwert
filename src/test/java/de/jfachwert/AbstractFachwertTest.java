@@ -17,6 +17,7 @@
  */
 package de.jfachwert;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.*;
 import patterntesting.runtime.junit.*;
 
@@ -42,6 +43,7 @@ import static org.junit.Assert.*;
  */
 public abstract class AbstractFachwertTest {
 
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private Fachwert fachwert;
 
     /**
@@ -113,6 +115,40 @@ public abstract class AbstractFachwertTest {
         Fachwert one = this.createFachwert();
         Fachwert anotherOne = this.createFachwert();
         ObjectTester.assertEquals(one, anotherOne);
+    }
+
+    /**
+     * Wandelt ein Klassen-Objekt in einen JSON-String.
+     *
+     * @param <T> the generic type
+     * @param obj the obj
+     * @return the string
+     */
+    protected static <T> String marshal(final T obj) {
+        try {
+            StringWriter writer = new StringWriter();
+            OBJECT_MAPPER.writeValue( writer, obj );
+            writer.close();
+            return writer.toString();
+        } catch (IOException ex) {
+            throw new IllegalArgumentException("could not marshal " + obj + " to JSON string", ex);
+        }
+    }
+
+    /**
+     * Wandelt den uebergebenen JSON-String in ein gewuenschtes Klassen-Objekt.
+     *
+     * @param <T> the generic type
+     * @param json the json
+     * @param clazz the clazz
+     * @return the t
+     */
+    protected static <T> T unmarshal(final String json, final Class<T> clazz) {
+        try {
+            return OBJECT_MAPPER.readValue(json, clazz);
+        } catch (IOException ex) {
+            throw new IllegalArgumentException("could not unmarshall '" + json + "' to " + clazz, ex);
+        }
     }
 
 }

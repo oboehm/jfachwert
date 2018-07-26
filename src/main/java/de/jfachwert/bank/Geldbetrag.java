@@ -17,10 +17,15 @@
  */
 package de.jfachwert.bank;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import de.jfachwert.Fachwert;
+import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.NumberValidator;
+import de.jfachwert.pruefung.exception.InvalidValueException;
 import de.jfachwert.pruefung.exception.LocalizedMonetaryException;
 import de.jfachwert.pruefung.exception.LocalizedValidationException;
+import org.apache.commons.lang3.StringUtils;
 import org.javamoney.moneta.spi.DefaultNumberValue;
 
 import javax.money.*;
@@ -49,6 +54,7 @@ import java.util.logging.Logger;
  * @author oboehm
  * @since 0.8 (18.07.2018)
  */
+@JsonSerialize(using = ToStringSerializer.class)
 public class Geldbetrag implements MonetaryAmount, Fachwert {
     
     private static final Logger LOG = Logger.getLogger(Geldbetrag.class.getName());
@@ -84,7 +90,18 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * @param betrag Geldbetrag, z.B. "1"
      */
     public Geldbetrag(String betrag) {
-        this(new BigDecimal(validate(betrag)));
+        this(Geldbetrag.valueOf(betrag));
+    }
+
+    /**
+     * Dies ist zum einen der CopyConstructor als Ersatz fuer eine
+     * clone-Methode, zum anderen wandelt es einen {@link MonetaryAmount}
+     * in ein GeldBetrag-Objekt.
+     * 
+     * @param other der andere Geldbetrag
+     */
+    public Geldbetrag(MonetaryAmount other) {
+        this(other.getNumber(), Currency.getInstance(other.getCurrency().getCurrencyCode()));
     }
 
     /**
@@ -131,7 +148,32 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * @return ein Geldbetrag
      */
     public static Geldbetrag valueOf(String other) {
-        return valueOf(new Geldbetrag(other));
+        String trimmed = new NullValidator<String>().validate(other).trim();
+        String[] parts = StringUtils.splitByCharacterType(StringUtils.upperCase(trimmed));
+        if (parts.length == 0) {
+            throw new InvalidValueException(other, "money amount");
+        }
+        Currency cry = DEFAULT_CURRENCY;
+        String waehrung = parts[parts.length - 1];
+        if (!StringUtils.isNumericSpace(waehrung)) {
+            cry = toCurrency(waehrung);
+            trimmed = trimmed.substring(0, trimmed.length() - waehrung.length()).trim();
+        }
+        BigDecimal n = new BigDecimal(new NumberValidator().validate(trimmed));
+        return valueOf(n, cry);
+    }
+
+    private static Currency toCurrency(String waehrung) {
+        try {
+            return Currency.getInstance(waehrung);
+        } catch (IllegalArgumentException iae) {
+            for (Currency c : Currency.getAvailableCurrencies()) {
+                if (waehrung.equals(c.getSymbol())) {
+                    return c;
+                }
+            }
+            throw new InvalidValueException(waehrung, "currency", iae);
+        }
     }
 
     /**
@@ -213,7 +255,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * @return die Zahl zur Weitervarabeitung
      */
     public static String validate(String zahl) {
-        return new NumberValidator().validate(zahl);
+        return Geldbetrag.valueOf(zahl).toString();
     }
 
     /**
@@ -897,12 +939,12 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * Um anzuzeigen, dass es ein Geldbtrag ist, wird zusaetzlich noch das
      * Waehrungszeichen (abhaengig von der eingestellten Locale) ausgegeben.
      *
-     * @return z.B. "19.00$"
+     * @return z.B. "19.00 $"
      * @see java.math.BigDecimal#toString()
      */
     @Override
     public String toString() {
-        return this.getNumber() + currency.getSymbol();
+        return this.getNumber() + " " + currency.getSymbol();
     }
 
     /**

@@ -27,6 +27,7 @@ import javax.money.MonetaryException;
 import javax.money.NumberValue;
 import javax.validation.ValidationException;
 import java.math.BigDecimal;
+import java.util.Currency;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
@@ -59,6 +60,24 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     @Test(expected = ValidationException.class)
     public void testInvalidGeldbetrag() {
         new Geldbetrag("falscher Fuffzger");
+    }
+
+    /**
+     * Hier wird getestet, ob die Waehrung richtig erkannt wird.
+     */
+    @Test
+    public void testGeldbetragString() {
+        Geldbetrag fuffzger = new Geldbetrag("50 CHF");
+        assertEquals(Geldbetrag.valueOf(BigDecimal.valueOf(50), Currency.getInstance("CHF")), fuffzger);
+    }
+
+    /**
+     * Hier wird getestet, ob die Waehrung richtig erkannt wird.
+     */
+    @Test
+    public void testGeldbetragEuro() {
+        Geldbetrag fuffzger = new Geldbetrag("50\u20AC");
+        assertEquals(Geldbetrag.valueOf(BigDecimal.valueOf(50), Currency.getInstance("EUR")), fuffzger);
     }
 
     /**
@@ -330,5 +349,25 @@ public final class GeldbetragTest extends AbstractFachwertTest {
         Geldbetrag schulden = new Geldbetrag(-10);
         assertEquals(10, schulden.abs().getNumber().intValueExact());
     }
-    
+
+    /**
+     * Ein Geldbetrag sollte sich ohne Exception als JSON serialisieren lassen.
+     */
+    @Test
+    public void testToJson() {
+        Geldbetrag betrag = Geldbetrag.fromCent(5678);
+        marshal(betrag);
+    }
+
+    /**
+     * Und der Geldbetrag sollte sich auch vom JSON wieder deseralisieren
+     * lassen.
+     */
+    @Test
+    public void testFromJson() {
+        Geldbetrag fiftyCent = Geldbetrag.fromCent(50);
+        String json = marshal(fiftyCent);
+        assertEquals(fiftyCent, unmarshal(json, Geldbetrag.class));
+    }
+
 }
