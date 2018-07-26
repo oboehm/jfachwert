@@ -316,11 +316,10 @@ public final class GeldbetragTest extends AbstractFachwertTest {
      * Hier testen wir die Rundung von {@link Geldbetrag#getNumber()}.
      */
     @Test
-    @Ignore // Ergebnis noch unklar
     public void testToNumber() {
         Geldbetrag betrag = Geldbetrag.fromCent(1234);
         NumberValue number = betrag.getNumber();
-        assertEquals("12.34", number.toString());
+        assertEquals(Geldbetrag.valueOf("12.34"), new Geldbetrag(number));
     }
 
 }
