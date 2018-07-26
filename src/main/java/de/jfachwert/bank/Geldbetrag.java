@@ -745,7 +745,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public Geldbetrag abs() {
-        throw new UnsupportedOperationException("not yet implemented");
+        return Geldbetrag.valueOf(betrag.abs(), currency);
     }
 
     /**
