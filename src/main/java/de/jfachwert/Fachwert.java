@@ -19,6 +19,7 @@ package de.jfachwert;
 
 import javax.annotation.concurrent.Immutable;
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * In diesem Interface fuer Fachwerte sind alle Eigenschaften zusammengefasst,
@@ -33,4 +34,14 @@ import java.io.Serializable;
  */
 @Immutable
 public interface Fachwert extends Serializable {
+
+    /**
+     * Liefert die einzelnen Attribute eines Fachwertes als Map.
+     * 
+     * @return Attribute als Map
+     */
+    default Map<String, Object> toMap() {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+    
 }

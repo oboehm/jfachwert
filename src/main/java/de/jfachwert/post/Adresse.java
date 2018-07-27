@@ -25,10 +25,7 @@ import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ValidationException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -176,6 +173,15 @@ public class Adresse implements Fachwert {
     }
 
     /**
+     * Liefert den Ortsnamen.
+     * 
+     * @return Ortsname
+     */
+    public String getOrtsname() {
+        return ort.getName();
+    }
+
+    /**
      * Eine PLZ <em>muss</em> fuer eine Adresse vorhanden sein, sonst laesst
      * sich keine Aresse Anlagen. Diese wird hierueber zurueckgegeben.
      *
@@ -240,6 +246,21 @@ public class Adresse implements Fachwert {
     @Override
     public String toString() {
         return this.getOrt() + ", " + this.getStrasse() + " " + this.getHausnummer();
+    }
+
+    /**
+     * Liefert die einzelnen Attribute einer Adresse als Map.
+     *
+     * @return Attribute als Map
+     */
+    @Override
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("plz", getPLZ());
+        map.put("ortsname", getOrtsname());
+        map.put("strasse", getStrasse());
+        map.put("hausnummer", getHausnummer());
+        return map;
     }
 
 }

@@ -17,12 +17,14 @@
  */
 package de.jfachwert.post.internal;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import de.jfachwert.post.Adresse;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class ToAdresseSerializer extends StdSerializer<Adresse> {
 
@@ -36,13 +38,16 @@ public class ToAdresseSerializer extends StdSerializer<Adresse> {
 
     @Override
     public void serialize(Adresse adresse, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+        serialize(adresse.toMap(), jgen, provider);
+    }
+
+    private void serialize(final Map<String, Object> map, final JsonGenerator jgen, final SerializerProvider provider)
+            throws IOException, JsonGenerationException {
         jgen.writeStartObject();
-        jgen.writeStringField("plz", adresse.getPLZ().toString());
-        jgen.writeStringField("ortsname", adresse.getOrt().getName());
-        jgen.writeStringField("strasse", adresse.getStrasse());
-        jgen.writeStringField("hausnummer", adresse.getHausnummer());
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            jgen.writeObjectField(entry.getKey(), entry.getValue());
+        }
         jgen.writeEndObject();
     }
 
 }
-
