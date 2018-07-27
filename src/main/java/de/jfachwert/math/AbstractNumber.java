@@ -17,6 +17,9 @@
  */
 package de.jfachwert.math;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import de.jfachwert.math.internal.ToNumberSerializer;
+
 import java.math.BigDecimal;
 
 /**
@@ -27,6 +30,7 @@ import java.math.BigDecimal;
  * @author <a href="ob@aosd.de">oliver</a>
  * @since 0.7
  */
+@JsonSerialize(using = ToNumberSerializer.class)
 public abstract class AbstractNumber extends Number {
 
     /**

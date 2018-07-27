@@ -47,6 +47,17 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
     }
 
     /**
+     * Aus einem gegebenen TinyUUID-String sollte sich die TinyUUID wieder
+     * rekonstruieren lassen.
+     */
+    @Test
+    public void testTinyUUIDString() {
+        String tiny = tinyUUID.toShortString();
+        TinyUUID id = new TinyUUID(tiny);
+        assertEquals(tinyUUID, id);
+    }
+            
+    /**
      * Test-Methode fuer {@link TinyUUID#toNumber()}.
      */
     @Test

@@ -17,6 +17,8 @@
  */
 package de.jfachwert.rechnung;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.Range;
@@ -50,6 +52,7 @@ import java.util.WeakHashMap;
  * @author oboehm
  * @since 0.3.1 (12.07.2017)
  */
+@JsonSerialize(using = ToStringSerializer.class)
 public class Rechnungsmonat implements Fachwert {
 
     private static final Map<Short, Rechnungsmonat> CACHE = new WeakHashMap<>();

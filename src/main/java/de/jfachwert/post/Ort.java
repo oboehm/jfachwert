@@ -17,6 +17,8 @@
  */
 package de.jfachwert.post;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.LengthValidator;
 import org.apache.commons.lang3.StringUtils;
@@ -39,6 +41,7 @@ import java.util.logging.Logger;
  * @author oboehm
  * @since 0.2.0 (13.04.2017)
  */
+@JsonSerialize(using = ToStringSerializer.class)
 public class Ort implements Fachwert {
 
     private static final Logger LOG = Logger.getLogger(Ort.class.getName());

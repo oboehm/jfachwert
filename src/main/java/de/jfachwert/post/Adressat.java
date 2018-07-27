@@ -17,7 +17,9 @@
  */
 package de.jfachwert.post;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.jfachwert.AbstractFachwert;
+import de.jfachwert.post.internal.ToAdresseSerializer;
 import org.apache.commons.lang3.StringUtils;
 
 /**

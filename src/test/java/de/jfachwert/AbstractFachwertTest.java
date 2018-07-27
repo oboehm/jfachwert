@@ -118,6 +118,16 @@ public abstract class AbstractFachwertTest {
     }
 
     /**
+     * Hier testen wir, ob die Serialisierung nach und von JSON funktioniert.
+     */
+    @Test
+    public void testJsonSerialization() {
+        String json = marshal(fachwert);
+        Fachwert deserialized = unmarshal(json, fachwert.getClass());
+        assertEquals(json, fachwert, deserialized);
+    }
+
+    /**
      * Wandelt ein Klassen-Objekt in einen JSON-String.
      *
      * @param <T> the generic type

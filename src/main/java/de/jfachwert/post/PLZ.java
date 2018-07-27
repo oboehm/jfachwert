@@ -122,6 +122,16 @@ public class PLZ extends AbstractFachwert<String> {
     }
 
     /**
+     * Liefert eine PLZ zurueck.
+     * 
+     * @param plz PLZ als String
+     * @return PLZ
+     */
+    public static PLZ of(String plz) {
+        return new PLZ(plz);
+    }
+
+    /**
      * Hierueber kann man abfragen, ob der Postleitzahl eine Landeskennung
      * vorangestellt ist.
      *

@@ -78,9 +78,18 @@ public class Bruch extends AbstractNumber implements Fachwert, Comparable<Bruch>
     }
 
     /**
+     * Legt die uebergebene Gleitkommazahl als Bruch an.
+     *
+     * @param number Dezimalzahl, z.B. 0.5
+     */
+    public Bruch(double number) {
+        this(BigDecimal.valueOf(number));
+    }
+
+    /**
      * Legt die uebergebene Dezimalzahl als Bruch an.
      *
-     * @param decimal Dezimalzahl, z.B. "0.5"
+     * @param decimal Dezimalzahl, z.B. 0.5
      */
     public Bruch(BigDecimal decimal) {
         this(toNumbers(decimal));

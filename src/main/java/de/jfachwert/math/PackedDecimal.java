@@ -17,6 +17,8 @@
  */
 package de.jfachwert.math;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import de.jfachwert.Fachwert;
 import de.jfachwert.SimpleValidator;
 import de.jfachwert.pruefung.NullValidator;
@@ -101,6 +103,7 @@ import java.util.logging.Logger;
  * @author oboehm
  * @since 0.6 (29.03.2018)
  */
+@JsonSerialize(using = ToStringSerializer.class)
 public class PackedDecimal extends AbstractNumber implements Fachwert, Comparable<PackedDecimal> {
 
     private static final Logger LOG = Logger.getLogger(PackedDecimal.class.getName());

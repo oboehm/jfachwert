@@ -69,7 +69,7 @@ public class TinyUUID extends AbstractFachwert<UUID> {
      * @param uuid z.B. "4e8108fa-e517-41bd-8372-a828843030ba"
      */
     public TinyUUID(String uuid) {
-        this(toBigInteger(uuid));
+        this(toUUID(uuid));
     }
 
     /**
@@ -89,7 +89,11 @@ public class TinyUUID extends AbstractFachwert<UUID> {
      * @param bytes 16 Bytes
      */
     public TinyUUID(byte[] bytes) {
-        this(UUID.fromString(toString(validate(bytes))));
+        this(toUUID(bytes));
+    }
+
+    private static UUID toUUID(byte[] bytes) {
+        return UUID.fromString(toString(validate(bytes)));
     }
 
     private static byte[] validate(byte[] bytes) {
@@ -231,13 +235,21 @@ public class TinyUUID extends AbstractFachwert<UUID> {
      * @return a TinyUUID
      */
     public static TinyUUID fromString(String id) {
+        return new TinyUUID(toUUID(id));
+    }
+    
+    private static UUID toUUID(String id) {
         switch (id.length()) {
             case 22:
                 String base64 = id.replace('-', '+').replace('_', '/');
                 byte [] bytes = Base64.getDecoder().decode(base64.getBytes(StandardCharsets.UTF_8));
-                return new TinyUUID(bytes);
+                return toUUID(bytes);
             default:
-                return new TinyUUID(UUID.fromString(id));
+                try {
+                    return UUID.fromString(id);
+                } catch (IllegalArgumentException ex) {
+                    throw new InvalidValueException(id, "UUID");
+                }
         }
     }
 

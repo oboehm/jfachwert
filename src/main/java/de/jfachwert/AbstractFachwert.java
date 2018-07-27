@@ -17,6 +17,8 @@
  */
 package de.jfachwert;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import de.jfachwert.pruefung.NullValidator;
 
 import java.io.Serializable;
@@ -30,6 +32,7 @@ import java.util.Objects;
  * @since 14.03.2017
  * @since 0.0.2
  */
+@JsonSerialize(using = ToStringSerializer.class)
 public abstract class AbstractFachwert<T extends Serializable> implements Fachwert {
 
     private final T code;

@@ -20,6 +20,7 @@ package de.jfachwert.math;
 import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Objects;
 
@@ -40,7 +41,7 @@ import java.util.Objects;
  * @author oboehm
  * @since 0.6 (24.01.2018)
  */
-public class Nummer implements Fachwert {
+public class Nummer extends AbstractNumber implements Fachwert {
 
     private static final Nummer[] CACHE = new Nummer[11];
     private final PackedDecimal code;
@@ -147,6 +148,17 @@ public class Nummer implements Fachwert {
         } catch (NumberFormatException nfe) {
             throw new InvalidValueException(nummer, "number");
         }
+    }
+
+    /**
+     * Diese Methode liefert die Zahl als BigDecimal zurueck und wird fuer
+     * die Default-Implementierung der Number-Methoden benoetigt.
+     *
+     * @return die Zahl als {@link BigDecimal}
+     */
+    @Override
+    public BigDecimal toBigDecimal() {
+        return code.toBigDecimal();
     }
 
     /**
