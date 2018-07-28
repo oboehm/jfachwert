@@ -350,24 +350,4 @@ public final class GeldbetragTest extends AbstractFachwertTest {
         assertEquals(10, schulden.abs().getNumber().intValueExact());
     }
 
-    /**
-     * Ein Geldbetrag sollte sich ohne Exception als JSON serialisieren lassen.
-     */
-    @Test
-    public void testToJson() {
-        Geldbetrag betrag = Geldbetrag.fromCent(5678);
-        marshal(betrag);
-    }
-
-    /**
-     * Und der Geldbetrag sollte sich auch vom JSON wieder deseralisieren
-     * lassen.
-     */
-    @Test
-    public void testFromJson() {
-        Geldbetrag fiftyCent = Geldbetrag.fromCent(50);
-        String json = marshal(fiftyCent);
-        assertEquals(fiftyCent, unmarshal(json, Geldbetrag.class));
-    }
-
 }

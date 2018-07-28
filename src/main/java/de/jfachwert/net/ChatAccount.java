@@ -17,9 +17,15 @@
  */
 package de.jfachwert.net;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.util.ToFachwertSerializer;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Die Klasse ChatAccount steht fuer einen Account bei einem der uebleichen
@@ -28,6 +34,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author <a href="ob@aosd.de">oliver</a>
  * @since 0.4 (08.08.2017)
  */
+@JsonSerialize(using = ToFachwertSerializer.class)
 public class ChatAccount implements Fachwert {
 
     private final ChatDienst chatDienst;
@@ -51,6 +58,17 @@ public class ChatAccount implements Fachwert {
     
     private ChatAccount(String[] values) {
         this(ChatDienst.toChatDienst(values[0]), values[0], values[1]);
+    }
+
+    /**
+     * Erzeugt einen neuen ChatAccount aus der uebergebenen Map.
+     *
+     * @param map mit den einzelnen Elementen fuer "chatDienst", "dienstName"
+     *            und "account".
+     */
+    @JsonCreator
+    public ChatAccount(Map<String, String> map) {
+        this(ChatDienst.toChatDienst(map.get("chatDienst")), map.get("dienstName"), map.get("account"));
     }
 
     /**
@@ -163,4 +181,18 @@ public class ChatAccount implements Fachwert {
         return this.getDienstName() + ": " + this.getAccount();
     }
 
+    /**
+     * Liefert die einzelnen Attribute eines ChatAccounts als Map.
+     *
+     * @return Attribute als Map
+     */
+    @Override
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("chatDienst", getChatDienst());
+        map.put("dienstName", getDienstName());
+        map.put("account", getAccount());
+        return map;
+    }
+    
 }
