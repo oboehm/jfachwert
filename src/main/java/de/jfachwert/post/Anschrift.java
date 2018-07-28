@@ -17,11 +17,16 @@
  */
 package de.jfachwert.post;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.util.ToFachwertSerializer;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ValidationException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,6 +38,7 @@ import java.util.logging.Logger;
  * @author oboehm
  * @since 0.2 (12.05.2017)
  */
+@JsonSerialize(using = ToFachwertSerializer.class)
 public class Anschrift implements Fachwert {
 
     private static final Logger LOG = Logger.getLogger(Anschrift.class.getName());
@@ -59,6 +65,16 @@ public class Anschrift implements Fachwert {
     
     private Anschrift(Object[] anschrift) {
         this(new Adressat(anschrift[0].toString()), (Adresse) anschrift[1], (Postfach) anschrift[2]);
+    }
+    
+    /**
+     * Erzeugt eine neue Anschrift aus der uebergebenen Map.
+     *
+     * @param map mit den einzelnen Elementen fuer "adressat" und "adresse".
+     */
+    @JsonCreator
+    public Anschrift(Map<String, Object> map) {
+        this(new Adressat(map.get("adressat").toString()), new Adresse((Map<String, String>) (map.get("adresse"))));
     }
 
     /**
@@ -109,7 +125,7 @@ public class Anschrift implements Fachwert {
         this.postfach = postfach;
         if (adresse == null) {
             if (postfach == null) {
-                throw new InvalidValueException(postfach, "post_office_box");
+                throw new InvalidValueException("post_office_box");
             }
         } else {
             if (postfach != null) {
@@ -190,7 +206,7 @@ public class Anschrift implements Fachwert {
      * Liefert den Adressaten. Ein Adressat kann eine Person oder eine 
      * Personengruppe (zum Beispiel Unternehmen, Vereine und Aehnliches) sein.
      *
-     * @return z.B. "Mustermann, Max" als Aderssat
+     * @return z.B. "Mustermann, Max" als Adressat
      */
     public Adressat getAdressat() {
         return adressat;
@@ -281,6 +297,19 @@ public class Anschrift implements Fachwert {
     @Override
     public String toString() {
         return getName() + ", " + (hasPostfach() ? getPostfach() : getAdresse());
+    }
+
+    /**
+     * Liefert die einzelnen Attribute eines Postfaches als Map.
+     *
+     * @return Attribute als Map
+     */
+    @Override
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("adressat", getAdressat());
+        map.put("adresse", getAdresse());
+        return map;
     }
 
 }
