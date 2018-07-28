@@ -17,10 +17,15 @@
  */
 package de.jfachwert.bank;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.util.ToFachwertSerializer;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -32,6 +37,7 @@ import java.util.Optional;
  * @author <a href="ob@aosd.de">oliver</a>
  * @since 0.3.0
  */
+@JsonSerialize(using = ToFachwertSerializer.class)
 public class Bankverbindung implements Fachwert {
 
     private final String kontoinhaber;
@@ -62,7 +68,18 @@ public class Bankverbindung implements Fachwert {
     private Bankverbindung(Object[] bankverbindung) {
         this(bankverbindung[0].toString(), (IBAN) bankverbindung[1], (BIC) bankverbindung[2]);
     }
-
+    
+    /**
+     * Erzeugt eine neue Bankverbindung aus der uebergebenen Map.
+     *
+     * @param map mit den einzelnen Elementen fuer "kontoinhaber", "iban" und
+     *            "bic".
+     */
+    @JsonCreator
+    public Bankverbindung(Map<String, String> map) {
+        this(map.get("kontoinhaber"), new IBAN(map.get("iban")), new BIC(map.get("bic")));
+    }
+    
     /**
      * Erzeugt eine neue Bankverbindung.
      *
@@ -163,6 +180,20 @@ public class Bankverbindung implements Fachwert {
             buf.append(getBic().get());
         }
         return buf.toString();
+    }
+
+    /**
+     * Liefert die einzelnen Attribute einer Bankverbindung als Map.
+     *
+     * @return Attribute als Map
+     */
+    @Override
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("kontoinhaber", getKontoinhaber());
+        map.put("iban", getIban());
+        getBic().ifPresent(b -> map.put("bic", b));
+        return map;
     }
 
 }
