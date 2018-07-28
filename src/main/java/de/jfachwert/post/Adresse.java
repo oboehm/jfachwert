@@ -20,7 +20,7 @@ package de.jfachwert.post;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.jfachwert.Fachwert;
-import de.jfachwert.post.internal.ToAdresseSerializer;
+import de.jfachwert.util.ToFachwertSerializer;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.StringUtils;
 
@@ -37,7 +37,7 @@ import java.util.logging.Logger;
  * @author oboehm
  * @since 0.2 (02.05.2017)
  */
-@JsonSerialize(using = ToAdresseSerializer.class)
+@JsonSerialize(using = ToFachwertSerializer.class)
 public class Adresse implements Fachwert {
 
     private static final Logger LOG = Logger.getLogger(Adresse.class.getName());
@@ -79,7 +79,13 @@ public class Adresse implements Fachwert {
         this.hausnummer = hausnummer;
         validate(ort, strasse, hausnummer);
     }
-    
+
+    /**
+     * Erzeugt eine neue Adresse.
+     *
+     * @param map mit den einzelnen Elementen fuer "plz", "ortsname",
+     *            "strasse" und "hausnummer".
+     */
     @JsonCreator
     public Adresse(Map<String, String> map) {
         this(new Ort(PLZ.of(map.get("plz")), map.get("ortsname")), map.get("strasse"), map.get("hausnummer"));

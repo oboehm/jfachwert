@@ -17,11 +17,17 @@
  */
 package de.jfachwert.post;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.util.ToFachwertSerializer;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -35,6 +41,7 @@ import java.util.Optional;
  * @author oboehm
  * @since 0.2 (19.06.2017)
  */
+@JsonSerialize(using = ToFachwertSerializer.class)
 public class Postfach implements Fachwert {
 
     private final BigInteger nummer;
@@ -79,6 +86,17 @@ public class Postfach implements Fachwert {
      */
     public Postfach(String nummer, String ort) {
         this(toNumber(nummer), new Ort(ort));
+    }
+
+    /**
+     * Erzeugt ein neues Postfach.
+     *
+     * @param map mit den einzelnen Elementen fuer "plz", "ortsname" und
+     *            "nummer".
+     */
+    @JsonCreator
+    public Postfach(Map<String, String> map) {
+        this(toNumber(map.get("nummer")), new Ort(PLZ.of(map.get("plz")), map.get("ortsname")));
     }
 
     /**
@@ -224,9 +242,21 @@ public class Postfach implements Fachwert {
      * angelegt werden, weswegen hier immer eine PLZ zurueckgegeben wird.
      *
      * @return z.B. 09876
+     * @deprecated bitte {@link #getPLZ()} verwenden
      */
-    @SuppressWarnings("squid:S3655")
+    @Deprecated
+    @JsonIgnore
     public PLZ getPlz() {
+        return this.ort.getPLZ().get();
+    }
+
+    /**
+     * Liefert die Postleitzahl. Ohne gueltige Postleitzahl kann kein Postfach
+     * angelegt werden, weswegen hier immer eine PLZ zurueckgegeben wird.
+     *
+     * @return z.B. 09876
+     */
+    public PLZ getPLZ() {
         return this.ort.getPLZ().get();
     }
 
@@ -237,6 +267,15 @@ public class Postfach implements Fachwert {
      */
     public Ort getOrt() {
         return this.ort;
+    }
+
+    /**
+     * Liefert den Ortsnamen.
+     *
+     * @return Ortsname
+     */
+    public String getOrtsname() {
+        return ort.getName();
     }
 
     /**
@@ -278,5 +317,21 @@ public class Postfach implements Fachwert {
             return this.getOrt().toString();
         }
     }
-
+    
+    /**
+     * Liefert die einzelnen Attribute eines Postfaches als Map.
+     *
+     * @return Attribute als Map
+     */
+    @Override
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("plz", getPLZ());
+        map.put("ortsname", getOrtsname());
+        if (getNummer().isPresent()) {
+            map.put("nummer", getNummer().get());
+        }
+        return map;
+    }
+    
 }

@@ -15,30 +15,51 @@
  *
  * (c)reated 27.07.2018 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.post.internal;
+package de.jfachwert.util;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import de.jfachwert.post.Adresse;
+import de.jfachwert.Fachwert;
 
 import java.io.IOException;
 import java.util.Map;
 
-public class ToAdresseSerializer extends StdSerializer<Adresse> {
+/**
+ * Die Klasse serialisiert Fachwerte nach und von JSON. Damit die
+ * Serialisierung funktioniert, muss
+ * <pre>
+ *       &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
+ *       &lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;
+ * </pre>
+ * als Abhaengigkeit eingebunden werden.
+ *
+ * @author oboehm
+ * @since 0.8
+ */
+public class ToFachwertSerializer extends StdSerializer<Fachwert> {
 
-    public ToAdresseSerializer() {
-        this(Adresse.class);
+    public ToFachwertSerializer() {
+        this(Fachwert.class);
     }
 
-    public ToAdresseSerializer(Class<Adresse> t) {
+    public ToFachwertSerializer(Class<Fachwert> t) {
         super(t);
     }
 
+    /**
+     * Fuer die Serialisierung wird der uebergebenen Fachwert nach seinen
+     * einzelnen Elementen aufgeteilt und serialisiert.
+     *
+     * @param fachwert Fachwert
+     * @param jgen Json-Generator
+     * @param provider Provider
+     * @throws IOException sollte nicht auftreten
+     */
     @Override
-    public void serialize(Adresse adresse, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-        serialize(adresse.toMap(), jgen, provider);
+    public void serialize(Fachwert fachwert, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+        serialize(fachwert.toMap(), jgen, provider);
     }
 
     private void serialize(final Map<String, Object> map, final JsonGenerator jgen, final SerializerProvider provider)
