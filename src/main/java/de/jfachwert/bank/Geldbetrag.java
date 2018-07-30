@@ -59,6 +59,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     
     private static final Logger LOG = Logger.getLogger(Geldbetrag.class.getName());
     private static final Currency DEFAULT_CURRENCY = getDefaultCurrency();
+    private static final GeldbetragFactory FACTORY = new GeldbetragFactory();
     
     /** Da 0-Betraege relativ haeufig vorkommen, spendieren wir dafuer eine eigene Konstante. */
     public static final Geldbetrag ZERO = new Geldbetrag(BigDecimal.ZERO);
@@ -349,8 +350,8 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * default values.
      */
     @Override
-    public MonetaryAmountFactory<? extends MonetaryAmount> getFactory() {
-        throw new UnsupportedOperationException("not yet implemented");
+    public GeldbetragFactory getFactory() {
+        return FACTORY;
     }
 
     /**

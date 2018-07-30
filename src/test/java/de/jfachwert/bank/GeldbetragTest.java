@@ -384,4 +384,13 @@ public final class GeldbetragTest extends AbstractFachwertTest {
         assertEquals(-1, Geldbetrag.valueOf(-0.01).signum());
     }
 
+    /**
+     * Testmethode fuer {@link Geldbetrag#getFactory()}.
+     */
+    @Test
+    public void testGetFactory() {
+        GeldbetragFactory factory = Geldbetrag.ZERO.getFactory();
+        assertNotNull(factory);
+    }
+
 }
