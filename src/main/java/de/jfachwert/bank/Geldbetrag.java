@@ -437,7 +437,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public int signum() {
-        throw new UnsupportedOperationException("not yet implemented");
+        return toBigDecimal(getNumber()).signum();
     }
 
     /**

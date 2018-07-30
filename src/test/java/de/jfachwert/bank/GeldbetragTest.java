@@ -350,4 +350,14 @@ public final class GeldbetragTest extends AbstractFachwertTest {
         assertEquals(10, schulden.abs().getNumber().intValueExact());
     }
 
+    /**
+     * Testmethode fuer {@link Geldbetrag#signum()}.
+     */
+    @Test
+    public void testSignum() {
+        assertEquals(0, Geldbetrag.ZERO.signum());
+        assertEquals(1, Geldbetrag.valueOf(0.01).signum());
+        assertEquals(-1, Geldbetrag.valueOf(-0.01).signum());
+    }
+
 }
