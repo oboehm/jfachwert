@@ -303,10 +303,22 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     }
 
     /**
-     * Pruefung der Division.
+     * Test fuer die verschieden divide-Methoden.
      */
     @Test
     public void testDivide() {
+        Geldbetrag oneEuro = Geldbetrag.valueOf("1 EUR");
+        Geldbetrag fiftyCent = Geldbetrag.fromCent(50);
+        assertEquals(fiftyCent, oneEuro.divide(2));
+        assertEquals(fiftyCent, oneEuro.divide(BigDecimal.valueOf(2)));
+        assertEquals(fiftyCent, oneEuro.divide(2.0));
+    }
+
+    /**
+     * Pruefung der Division.
+     */
+    @Test
+    public void testDivideEinCent() {
         Geldbetrag einCent = Geldbetrag.fromCent(1);
         Geldbetrag halberCent = einCent.divide(BigDecimal.valueOf(2.0));
         assertEquals(0.005, halberCent.doubleValue(), 0.0001);

@@ -562,7 +562,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount divide(double divisor) {
-        throw new UnsupportedOperationException("not yet implemented");
+        return divide(BigDecimal.valueOf(divisor));
     }
 
     /**
