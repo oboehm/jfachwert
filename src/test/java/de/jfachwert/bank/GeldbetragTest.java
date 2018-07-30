@@ -281,6 +281,18 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     }
 
     /**
+     * Test der verschiedenen Multiplikationsmethoden.
+     */
+    @Test
+    public void testMultiply() {
+        Geldbetrag einEuroFunefzig = Geldbetrag.valueOf("1.50 EUR");
+        Geldbetrag dreiEuro = Geldbetrag.valueOf("3 EUR");
+        assertEquals(dreiEuro, einEuroFunefzig.multiply(2));
+        assertEquals(dreiEuro, einEuroFunefzig.multiply(2.0));
+        assertEquals(dreiEuro, einEuroFunefzig.multiply(BigDecimal.valueOf(2)));
+    }
+
+    /**
      * Ueberpruefung der Mulitipliation anhand der Mehrwersteuerberechnung.
      */
     @Test

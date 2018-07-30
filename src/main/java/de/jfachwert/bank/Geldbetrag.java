@@ -490,7 +490,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount multiply(long multiplicand) {
-        throw new UnsupportedOperationException("not yet implemented");
+        return multiply(BigDecimal.valueOf(multiplicand));
     }
 
     /**
@@ -510,7 +510,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount multiply(double multiplicand) {
-        throw new UnsupportedOperationException("not yet implemented");
+        return multiply(BigDecimal.valueOf(multiplicand));
     }
 
     /**
