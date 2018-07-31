@@ -88,7 +88,8 @@ letzte Release verfügbar ist.
 
 |Release-Notes erstellen
 |https://github.com/oboehm/jfachwert/releases[releases]
-|Unter https://github.com/oboehm/jfachwert/tags[Tags] "Add release notes" selektieren und Release-Notes erstellen.
+|Unter https://github.com/oboehm/jfachwert/tags[Tags] "Add release notes" selektieren und Release-Notes erstellen
+oder/und mit link:release-notes.adoc[Release-Notes] verlinken
 
 |Site-Generierung
 |`mvn site`

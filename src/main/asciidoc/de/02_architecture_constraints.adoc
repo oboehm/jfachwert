@@ -14,6 +14,6 @@ Dies erleichtert den Einsatz von jFachwert für andere Projekte.
 
 === Organisatorische Randbedinungen
 
-jFachwert wird nach dem hhttp://nvie.com/posts/a-successful-git-branching-model/[GitFlow-Modell].
+jFachwert wird nach dem http://nvie.com/posts/a-successful-git-branching-model/[GitFlow-Modell].
 D.h. die eigentliche Entwicklung findet auf dem develop-Zweig statt.
 Releases werden mit dem jgitflow-maven-plugin gebaut, wie in der https://github.com/oboehm/jfachwert/blob/master/doc/README.adoc[Entwickler-Dokumentation] beschrieben.

@@ -51,7 +51,7 @@ import java.util.logging.Logger;
  * Eine noch kompaktere Darstellung (ca. 20%) laesst sich mit der Chen-Ho- oder
  * Densely-Packed-Decimal-Kodierung (s.
  * <a href="http://speleotrove.com/decimal/DPDecimal.html">A Summary of Densely Packed Decimal encoding</a>).
- * Diese kommt hier aber nicht zum Einsatz. Stattdessen der BCD-Algorithmus
+ * Diese kommt hier aber nicht zum Einsatz. Stattdessen kommt der BCD-Algorithmus
  * zum Einsatz. Dadurch koennen auch weitere Trenn- und Fuell-Zeichen aufgenommen
  * werden:
  * </p>
