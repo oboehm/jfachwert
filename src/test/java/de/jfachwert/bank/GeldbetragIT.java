@@ -19,16 +19,22 @@ package de.jfachwert.bank;
 
 import org.javamoney.tck.JSR354TestConfiguration;
 import org.javamoney.tck.TCKRunner;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.money.CurrencyUnit;
 import javax.money.MonetaryAmount;
 import javax.money.MonetaryOperator;
 import javax.money.spi.MonetaryAmountFactoryProviderSpi;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+
+import static org.hamcrest.Matchers.lessThan;
+import static org.junit.Assert.assertThat;
 
 /**
  * Fuer den Integrationstest der {@link Geldbetrag}-Klasse wird das TCK
@@ -39,15 +45,27 @@ import java.util.Collections;
  * @author oboehm
  * @since 0.8 (20.07.2018)
  */
-@Ignore // TODO: Factory-Klasse fehlt noch
 public class GeldbetragIT implements JSR354TestConfiguration {
 
     /**
      * Start der TCK-Suite.
+     * <p>
+     * Momentan wird nur abgesichert, dass sich die Anzahl der fehlgeschlagenen
+     * Tests nicht weiter erhoeht.
+     * TODO: Fehler beheben (31-Jul-2018, obhoehm)
+     * </p>
+     * 
+     * @throws IOException falls Resultat nicht gelesen werden kann
      */
     @Test
-    public void runTCK(){
-        TCKRunner.main(new String[0]);
+    public void runTCK() throws IOException {
+        TCKRunner.main();
+        assertThat("number of failed tests", getNumberOfFailedTests(), lessThan(12L));
+    }
+    
+    private static long getNumberOfFailedTests() throws IOException {
+        Path failedReportsDir = Paths.get("target", "tck-output", "junitreports");
+        return Files.list(failedReportsDir).count();
     }
 
     /**
