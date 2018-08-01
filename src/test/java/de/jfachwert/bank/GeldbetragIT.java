@@ -32,7 +32,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -48,11 +48,6 @@ public class GeldbetragIT implements JSR354TestConfiguration {
 
     /**
      * Start der TCK-Suite.
-     * <p>
-     * Momentan wird nur abgesichert, dass sich die Anzahl der fehlgeschlagenen
-     * Tests nicht weiter erhoeht.
-     * TODO: Fehler beheben (31-Jul-2018, obhoehm)
-     * </p>
      * 
      * @throws IOException falls Resultat nicht gelesen werden kann
      */
@@ -60,15 +55,15 @@ public class GeldbetragIT implements JSR354TestConfiguration {
     public void runTCK() throws IOException {
         ServiceLoader.load(GeldbetragIT.class);
         TCKRunner.main();
-        assertThat("number of failed tests", getNumberOfFailedTests(), lessThan(3L));
+        assertThat("number of failed tests", getNumberOfFailedTests(), equalTo(0));
     }
     
-    private static long getNumberOfFailedTests() throws IOException {
+    private static int getNumberOfFailedTests() throws IOException {
         Path resultsFile = Paths.get("target", "tck-results.txt");
         List<String> lines = Files.readAllLines(resultsFile);
         String testsFailedLine = lines.get(lines.size() - 1);
         String n = StringUtils.substringAfter(testsFailedLine, ":").trim();
-        return Long.parseLong(n);
+        return Integer.parseInt(n);
     }
 
     /**
