@@ -17,6 +17,7 @@
  */
 package de.jfachwert.bank;
 
+import org.apache.commons.lang3.StringUtils;
 import org.javamoney.tck.JSR354TestConfiguration;
 import org.javamoney.tck.TCKRunner;
 import org.junit.Test;
@@ -29,9 +30,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertThat;
@@ -59,13 +58,17 @@ public class GeldbetragIT implements JSR354TestConfiguration {
      */
     @Test
     public void runTCK() throws IOException {
+        ServiceLoader.load(GeldbetragIT.class);
         TCKRunner.main();
-        assertThat("number of failed tests", getNumberOfFailedTests(), lessThan(12L));
+        assertThat("number of failed tests", getNumberOfFailedTests(), lessThan(4L));
     }
     
     private static long getNumberOfFailedTests() throws IOException {
-        Path failedReportsDir = Paths.get("target", "tck-output", "junitreports");
-        return Files.list(failedReportsDir).count();
+        Path resultsFile = Paths.get("target", "tck-results.txt");
+        List<String> lines = Files.readAllLines(resultsFile);
+        String testsFailedLine = lines.get(lines.size() - 1);
+        String n = StringUtils.substringAfter(testsFailedLine, ":").trim();
+        return Long.parseLong(n);
     }
 
     /**

@@ -121,14 +121,14 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
     }
 
     /**
-     * Creates a new instance of {@link MonetaryAmount}, using the current data set on this factory.
+     * Erzeugt einen neuen {@link Geldbetrag} anhand der eingestellten Daten.
      *
-     * @return the corresponding {@link MonetaryAmount}.
+     * @return den entsprechenden {@link Geldbetrag}.
      * @see #getAmountType()
      */
     @Override
     public Geldbetrag create() {
-        throw new UnsupportedOperationException("not yet implemented");
+        return Geldbetrag.ZERO;
     }
 
     /**
