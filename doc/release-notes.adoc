@@ -4,27 +4,27 @@
 
 == 0.8 (kommt noch)
 
-* #neu#: Unterstützung von JSR-354 (Money und Currency API) durch eine Geldbetrag-Klasse.
+* #_neu_#: Unterstützung von JSR-354 (Money und Currency API) durch eine Geldbetrag-Klasse.
   Ziel ist es, den schwierigen Umgang mit Geldbeträgen zu vereinfachen.
-* #neu#: JSON-Serialisierung (erfordert Einbindung von jackson-databind als abhängige Bibliothek)
+* #_neu_#: JSON-Serialisierung (erfordert Einbindung von jackson-databind als abhängige Bibliothek)
 
 
 
 == 0.7 (12-Apr-2018)
 
-* #verbessert#: Speicherverbrauch wurde teilweise drastisch reduziert.
+* #_verbessert_#: Speicherverbrauch wurde teilweise drastisch reduziert.
   Dazu wurde intern auf PackedDecimal aus 0.6 zurückgegriffen, soweit möglich.
-* #neu#: TinyUUID als kleine Schwester zur UUID - reduziert den Platzbedarf um 63% (als String)
-* #fixed https://github.com/oboehm/jfachwert/issues/5[#5]#: Fehler mit "Illegal base64 character 2d" in TinyUUID.fromString(..) (v0.7.1)
+* #_neu_#: TinyUUID als kleine Schwester zur UUID - reduziert den Platzbedarf um 63% (als String)
+* #_fixed_ https://github.com/oboehm/jfachwert/issues/5[#5]#: Fehler mit "Illegal base64 character 2d" in TinyUUID.fromString(..) (v0.7.1)
 
 
 
 == 0.6 (2-Apr-2018)
 
-* #neu#: ein math-Paket mit Nummer-, Bruch- und PackedDecimal-Klasse.
+* #_neu_#: ein math-Paket mit Nummer-, Bruch- und PackedDecimal-Klasse.
   Der Datentyp http://acc-gmbh.com/dochtml/Datentypen4.html[PackedDecimal] speichert die einzelnen Ziffern in Nibbles ab
   und ist eine Reminenzenz an das gute alte COBOL.
-* #neu#: um die Informatik-Erstsemester und Programmierneulinge nicht ständig mit der Implementierung von Primzahlen zu quälen,
+* #_neu_#: um die Informatik-Erstsemester und Programmierneulinge nicht ständig mit der Implementierung von Primzahlen zu quälen,
   gibt es diese Klasse jetzt fertig im math-Paket (v0.6.1)
-* #verbessert#: Speicherverbrauch von Rechnungsmonat wurde um 75% reduziert
+* #_verbessert_#: Speicherverbrauch von Rechnungsmonat wurde um 75% reduziert
 
