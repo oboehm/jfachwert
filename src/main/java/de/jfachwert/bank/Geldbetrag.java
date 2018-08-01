@@ -58,9 +58,11 @@ import java.util.logging.Logger;
 public class Geldbetrag implements MonetaryAmount, Fachwert {
     
     private static final Logger LOG = Logger.getLogger(Geldbetrag.class.getName());
-    private static final Currency DEFAULT_CURRENCY = getDefaultCurrency();
     private static final GeldbetragFactory FACTORY = new GeldbetragFactory();
-    
+
+    /** Default-Waehrung, die durch die Landeseinstellung (Locale) vorgegeben wird. */
+    public static final Currency DEFAULT_CURRENCY = getDefaultCurrency();
+
     /** Da 0-Betraege relativ haeufig vorkommen, spendieren wir dafuer eine eigene Konstante. */
     public static final Geldbetrag ZERO = new Geldbetrag(BigDecimal.ZERO);
     
@@ -964,7 +966,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      *
      * @return normalerweise die deutsche Currency
      */
-    public static Currency getDefaultCurrency() {
+    private static Currency getDefaultCurrency() {
         Locale[] locales = { Locale.getDefault(), Locale.GERMANY, Locale.GERMAN };
         for (Locale loc : locales) {
             try {

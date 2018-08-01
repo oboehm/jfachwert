@@ -19,6 +19,8 @@ package de.jfachwert.bank;
 
 import org.junit.Test;
 
+import java.math.BigDecimal;
+
 import static org.junit.Assert.*;
 
 /**
@@ -39,4 +41,14 @@ public final class GeldbetragFactoryTest {
         assertEquals(Geldbetrag.ZERO, zero);
     }
 
+    /**
+     * Tested das Setzen eines Geldbetrags.
+     */
+    @Test
+    public void testSetNumber() {
+        factory.setNumber(BigDecimal.ONE);
+        factory.setCurrency("CHF");
+        assertEquals(Geldbetrag.valueOf("1 CHF"), factory.create());
+    }
+    
 }

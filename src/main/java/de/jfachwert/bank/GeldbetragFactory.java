@@ -18,6 +18,8 @@
 package de.jfachwert.bank;
 
 import javax.money.*;
+import java.math.BigDecimal;
+import java.util.Currency;
 
 /**
  * Analog zu den anderen {@link Monetary}-Datentype kann mit dieser Factory
@@ -27,6 +29,9 @@ import javax.money.*;
  * @since 0.8 (30.07.2018)
  */
 public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
+
+    private Number number = BigDecimal.ZERO;
+    private Currency currency = Geldbetrag.DEFAULT_CURRENCY;
 
     /**
      * Access the {@link MonetaryAmount} implementation type.
@@ -39,47 +44,50 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
     }
 
     /**
-     * Sets the {@link CurrencyUnit} to be used.
+     * Setzt die {@link CurrencyUnit}.
      *
-     * @param currency the {@link CurrencyUnit} to be used, not {@code null}
-     * @return This factory instance, for chaining.
+     * @param currency {@link CurrencyUnit}, nicht {@code null}
+     * @return die Factory selber
      */
     @Override
     public MonetaryAmountFactory<Geldbetrag> setCurrency(CurrencyUnit currency) {
-        throw new UnsupportedOperationException("not yet implemented");
+        this.currency = Currency.getInstance(currency.getCurrencyCode());
+        return this;
     }
 
     /**
-     * Sets the number to be used.
+     * Setzt die Nummer fuer den Geldbetrag.
      *
-     * @param number the number to be used
-     * @return This factory instance, for chaining.
+     * @param number Betrag, darf nicht {@code null} sein.
+     * @return die Factory selber
      */
     @Override
     public MonetaryAmountFactory<Geldbetrag> setNumber(double number) {
-        throw new UnsupportedOperationException("not yet implemented");
+        this.number = number;
+        return this;
     }
 
     /**
-     * Sets the number to be used.
+     * Setzt die Nummer fuer den Geldbetrag.
      *
-     * @param number the number to be used
-     * @return This factory instance, for chaining.
+     * @param number Betrag, darf nicht {@code null} sein.
+     * @return die Factory selber
      */
     @Override
     public MonetaryAmountFactory<Geldbetrag> setNumber(long number) {
-        throw new UnsupportedOperationException("not yet implemented");
+        return setNumber(BigDecimal.valueOf(number));
     }
 
     /**
-     * Sets the number to be used.
+     * Setzt die Nummer fuer den Geldbetrag.
      *
-     * @param number the number to be used, not {@code null}.
-     * @return This factory instance, for chaining.
+     * @param number Betrag, darf nicht {@code null} sein.
+     * @return die Factory selber
      */
     @Override
     public MonetaryAmountFactory<Geldbetrag> setNumber(Number number) {
-        throw new UnsupportedOperationException("not yet implemented");
+        this.number = number;
+        return this;
     }
 
     /**
@@ -128,7 +136,7 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
      */
     @Override
     public Geldbetrag create() {
-        return Geldbetrag.ZERO;
+        return new Geldbetrag(number, currency);
     }
 
     /**

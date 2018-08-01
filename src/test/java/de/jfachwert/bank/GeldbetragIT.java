@@ -60,7 +60,7 @@ public class GeldbetragIT implements JSR354TestConfiguration {
     public void runTCK() throws IOException {
         ServiceLoader.load(GeldbetragIT.class);
         TCKRunner.main();
-        assertThat("number of failed tests", getNumberOfFailedTests(), lessThan(4L));
+        assertThat("number of failed tests", getNumberOfFailedTests(), lessThan(3L));
     }
     
     private static long getNumberOfFailedTests() throws IOException {
