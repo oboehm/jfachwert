@@ -65,7 +65,13 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
 
     /** Da 0-Betraege relativ haeufig vorkommen, spendieren wir dafuer eine eigene Konstante. */
     public static final Geldbetrag ZERO = new Geldbetrag(BigDecimal.ZERO);
-    
+
+    /** Der minimale Betrag, den wir unterstuetzen. */
+    public static final Geldbetrag MIN_VALUE = new Geldbetrag(BigDecimal.valueOf(Long.MIN_VALUE));
+
+    /** Der maximale Betrag, den wir unterstuetzen. */
+    public static final Geldbetrag MAX_VALUE = new Geldbetrag(BigDecimal.valueOf(Long.MAX_VALUE));
+
     private final BigDecimal betrag;
     private final Currency currency;
 

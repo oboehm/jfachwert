@@ -19,9 +19,11 @@ package de.jfachwert.bank;
 
 import org.junit.Test;
 
-import java.math.BigDecimal;
+import javax.money.NumberValue;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.lessThan;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Unit-Tests fuer {@link GeldbetragFactory}-Klasse.
@@ -46,9 +48,35 @@ public final class GeldbetragFactoryTest {
      */
     @Test
     public void testSetNumber() {
-        factory.setNumber(BigDecimal.ONE);
-        factory.setCurrency("CHF");
+        factory.setNumber(1).setCurrency("CHF");
         assertEquals(Geldbetrag.valueOf("1 CHF"), factory.create());
     }
     
+    /**
+     * Testet das Setzen eines Geldbetrags.
+     */
+    @Test
+    public void testSetNumberDouble() {
+        factory.setNumber(0.25).setCurrency("EUR");
+        assertEquals(Geldbetrag.valueOf("0.25 EUR"), factory.create());
+    }
+
+    /**
+     * Hier wird der Min-/Max-Bereich eines Geldbetrags geprueft.
+     */
+    @Test
+    public void testMinMaxNumber() {
+        NumberValue minNumber = factory.getMinNumber();
+        NumberValue maxNumber = factory.getMaxNumber();
+        assertThat(minNumber + " < " + maxNumber, minNumber.compareTo(maxNumber), lessThan(0));
+    }
+
+    /**
+     * Testmethode fuer {@link GeldbetragFactory#getAmountType()}.
+     */
+    @Test
+    public void testGetAmountType() {
+        assertEquals(Geldbetrag.class, factory.getAmountType());
+    }
+
 }

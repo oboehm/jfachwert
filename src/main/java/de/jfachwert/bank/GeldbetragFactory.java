@@ -40,7 +40,7 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
      */
     @Override
     public Class<? extends MonetaryAmount> getAmountType() {
-        throw new UnsupportedOperationException("not yet implemented");
+        return Geldbetrag.class;
     }
 
     /**
@@ -91,27 +91,23 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
     }
 
     /**
-     * Get the maximum possible number that this type can represent. If the numeric model has no limitations on the
-     * numeric range, null should be returned. If {@link MonetaryContext#getPrecision()} returns a value > 0 this
-     * method is required to provide a maximal amount.
+     * Liefert die Maximal-Nummer, die der {@link Geldbetrag} darstellen kann.
      *
-     * @return the maximum possible number, or null.
+     * @return Maximal-Betrag
      */
     @Override
     public NumberValue getMaxNumber() {
-        throw new UnsupportedOperationException("not yet implemented");
+        return Geldbetrag.MAX_VALUE.getNumber();
     }
 
     /**
-     * Get the minimum possible number that this type can represent. If the numeric model has no limitations on the
-     * numeric range, null should be returned.  If {@link MonetaryContext#getPrecision()} returns a value > 0 this
-     * method is required to provide a maximal amount.
+     * Liefert die Minimal-Nummer, die der {@link Geldbetrag} darstellen kann.
      *
-     * @return the minimum possible number, or null.
+     * @return Minimal-Betrag
      */
     @Override
     public NumberValue getMinNumber() {
-        throw new UnsupportedOperationException("not yet implemented");
+        return Geldbetrag.MIN_VALUE.getNumber();
     }
 
     /**
