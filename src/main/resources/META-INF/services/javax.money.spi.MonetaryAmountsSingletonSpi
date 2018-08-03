@@ -1,0 +1,3 @@
+# Diese Klasse ist dafuer zustaendig, dass unsere Instanz der
+# {@link javax.money.MonetaryAmountFactory} registriert wird.
+de.jfachwert.bank.internal.GeldbetragSingletonSpi
