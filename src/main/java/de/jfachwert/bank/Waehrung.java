@@ -39,6 +39,9 @@ public class Waehrung extends AbstractFachwert<Currency> implements CurrencyUnit
 
     /** Default-Waehrung, die durch die Landeseinstellung (Locale) vorgegeben wird. */
     public static final Currency DEFAULT_CURRENCY = getDefaultCurrency();
+    
+    /** Default-Waehrung, die durch die Landeseinstellung (Locale) vorgegeben wird. */
+    public static final Waehrung DEFAULT = new Waehrung(DEFAULT_CURRENCY);
 
     /**
      * Darueber kann eine Waehrung angelegt werden.
@@ -58,6 +61,20 @@ public class Waehrung extends AbstractFachwert<Currency> implements CurrencyUnit
         super(code);
     }
 
+    /**
+     * Gibt die entsprechende Currency als Waehrung zurueck.
+     * 
+     * @param currency Currency
+     * @return Waehrung
+     */
+    public static Waehrung of(Currency currency) {
+        if (DEFAULT_CURRENCY.equals(currency)) {
+            return DEFAULT;
+        } else {
+            return new Waehrung(currency);
+        }
+    }
+    
     /**
      * Validiert den uebergebenen Waehrungscode.
      *

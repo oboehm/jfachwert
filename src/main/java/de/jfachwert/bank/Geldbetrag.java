@@ -32,7 +32,6 @@ import javax.money.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
-import java.util.logging.Logger;
 
 /**
  * Diese Klasse unterstuetzt sie JSR 354 und das{@link MonetaryAmount} 
@@ -55,7 +54,6 @@ import java.util.logging.Logger;
 @JsonSerialize(using = ToStringSerializer.class)
 public class Geldbetrag implements MonetaryAmount, Fachwert {
     
-    private static final Logger LOG = Logger.getLogger(Geldbetrag.class.getName());
     private static final GeldbetragFactory FACTORY = new GeldbetragFactory();
 
     /** Da 0-Betraege relativ haeufig vorkommen, spendieren wir dafuer eine eigene Konstante. */
@@ -68,7 +66,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     public static final Geldbetrag MAX_VALUE = new Geldbetrag(BigDecimal.valueOf(Long.MAX_VALUE));
 
     private final BigDecimal betrag;
-    private final Currency currency;
+    private final CurrencyUnit currency;
 
     /**
      * Erzeugt einen Geldbetrag in der aktuellen Landeswaehrung.
@@ -124,6 +122,16 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * @param currency Waehrung, z.B. Euro
      */
     public Geldbetrag(Number betrag, Currency currency) {
+        this(betrag, Waehrung.of(currency));
+    }
+
+    /**
+     * Erzeugt einen Geldbetrag in der angegebenen Waehrung.
+     *
+     * @param betrag   Geldbetrag, z.B. 1.00
+     * @param currency Waehrung, z.B. Euro
+     */
+    public Geldbetrag(Number betrag, CurrencyUnit currency) {
         this.betrag = validate(toBigDecimal(betrag), currency);
         this.currency = currency;
     }
@@ -238,6 +246,23 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * nicht "of".
      * </p>
      *
+     * @param value Wert des andere Geldbetrags
+     * @param currency Waehrung des anderen Geldbetrags
+     * @return ein Geldbetrag
+     */
+    public static Geldbetrag valueOf(Number value, CurrencyUnit currency) {
+        return valueOf(new Geldbetrag(value, currency));
+    }
+    
+    /**
+     * Wandelt den angegebenen MonetaryAmount in einen Geldbetrag um. Um die
+     * Anzahl von Objekten gering zu halten, wird nur dann tatsaechlich eine
+     * neues Objekt erzeugt, wenn es sich nicht vermeiden laesst.
+     * <p>
+     * In Anlehnung an {@link BigDecimal} heisst die Methode "valueOf" und
+     * nicht "of".
+     * </p>
+     *
      * @param other the other
      * @return ein Geldbetrag
      */
@@ -268,7 +293,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * @param zahl als String
      * @return die Zahl zur Weitervarabeitung
      */
-    public static BigDecimal validate(BigDecimal zahl, Currency currency) {
+    public static BigDecimal validate(BigDecimal zahl, CurrencyUnit currency) {
         if (zahl.scale() > 4) { 
             throw new LocalizedValidationException("wrong precision: " + zahl);
         }
@@ -954,7 +979,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public String toString() {
-        return this.getNumber() + " " + currency.getSymbol();
+        return this.getNumber() + " " + currency;
     }
 
 }
