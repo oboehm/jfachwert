@@ -17,6 +17,12 @@
 
   <body>
 
+    <release version="1.x">
+      <action dev="oboehm">
+        Verlagerung der Release-Notes nach doc/release-notes.adoc
+      </action>
+    </release>
+
     <release version="0.7.1" date="30-Mai-2018"
              description="Bugfix">
       <action dev="oboehm" type="fix" issue="issues/5" date="29-Mai-2018">
