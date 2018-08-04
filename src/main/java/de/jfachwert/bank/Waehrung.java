@@ -23,6 +23,9 @@ import de.jfachwert.pruefung.exception.InvalidValueException;
 import javax.money.CurrencyContext;
 import javax.money.CurrencyUnit;
 import java.util.Currency;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class Waehrung.
@@ -30,7 +33,12 @@ import java.util.Currency;
  * @author <a href="ob@aosd.de">oliver</a>
  * @since 0.8
  */
-public class Waehrung extends AbstractFachwert<Currency> implements CurrencyUnit {
+public class Waehrung extends AbstractFachwert<Currency> implements CurrencyUnit, Comparable<CurrencyUnit> {
+
+    private static final Logger LOG = Logger.getLogger(Waehrung.class.getName());
+
+    /** Default-Waehrung, die durch die Landeseinstellung (Locale) vorgegeben wird. */
+    public static final Currency DEFAULT_CURRENCY = getDefaultCurrency();
 
     /**
      * Darueber kann eine Waehrung angelegt werden.
@@ -121,6 +129,35 @@ public class Waehrung extends AbstractFachwert<Currency> implements CurrencyUnit
     @Override
     public String toString() {
         return getCurrencyCode();
+    }
+
+    /**
+     * Ermittelt die Waehrung. Urspruenglich wurde die Default-Currency ueber
+     * <pre>
+     *     Currency.getInstance(Locale.getDefault())
+     * </pre>
+     * ermittelt. Dies fuehrte aber auf der Sun zu Problemen, da dort
+     * die Currency fuer die Default-Locale folgende Exception hervorrief:
+     * <pre>
+     * java.lang.IllegalArgumentException
+     *     at java.util.Currency.getInstance(Currency.java:384)
+     *     at de.jfachwert.bank.Geldbetrag.&lt;clinit&gt;
+     *     ...
+     * </pre>
+     *
+     * @return normalerweise die deutsche Currency
+     */
+    private static Currency getDefaultCurrency() {
+        Locale[] locales = { Locale.getDefault(), Locale.GERMANY, Locale.GERMAN };
+        for (Locale loc : locales) {
+            try {
+                return Currency.getInstance(loc);
+            } catch (IllegalArgumentException iae) {
+                LOG.log(Level.INFO,
+                        "No currency for locale '" + loc + "' available on this machine - will try next one.", iae);
+            }
+        }
+        return Currency.getAvailableCurrencies().iterator().next();
     }
 
 }

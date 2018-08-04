@@ -220,7 +220,7 @@ public final class GeldbetragTest extends AbstractFachwertTest {
      */
     @Test
     public void testGetCurrency() {
-        assertEquals(Geldbetrag.DEFAULT_CURRENCY.toString(), Geldbetrag.ZERO.getCurrency().getCurrencyCode());
+        assertEquals(Waehrung.DEFAULT_CURRENCY.toString(), Geldbetrag.ZERO.getCurrency().getCurrencyCode());
     }
 
     /**

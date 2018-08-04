@@ -32,8 +32,6 @@ import javax.money.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
-import java.util.Locale;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -59,9 +57,6 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     
     private static final Logger LOG = Logger.getLogger(Geldbetrag.class.getName());
     private static final GeldbetragFactory FACTORY = new GeldbetragFactory();
-
-    /** Default-Waehrung, die durch die Landeseinstellung (Locale) vorgegeben wird. */
-    public static final Currency DEFAULT_CURRENCY = getDefaultCurrency();
 
     /** Da 0-Betraege relativ haeufig vorkommen, spendieren wir dafuer eine eigene Konstante. */
     public static final Geldbetrag ZERO = new Geldbetrag(BigDecimal.ZERO);
@@ -119,7 +114,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * @param betrag Geldbetrag, z.B. 1.00
      */
     public Geldbetrag(Number betrag) {
-        this(betrag, DEFAULT_CURRENCY);
+        this(betrag, Waehrung.DEFAULT_CURRENCY);
     }
 
     /**
@@ -162,7 +157,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
         if (parts.length == 0) {
             throw new InvalidValueException(other, "money amount");
         }
-        Currency cry = DEFAULT_CURRENCY;
+        Currency cry = Waehrung.DEFAULT_CURRENCY;
         String waehrung = parts[parts.length - 1];
         if (!StringUtils.isNumericSpace(waehrung)) {
             cry = toCurrency(waehrung);
@@ -960,35 +955,6 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     @Override
     public String toString() {
         return this.getNumber() + " " + currency.getSymbol();
-    }
-
-    /**
-     * Ermittelt die Waehrung. Urspruenglich wurde die Default-Currency ueber
-     * <pre>
-     *     Currency.getInstance(Locale.getDefault())
-     * </pre>
-     * ermittelt. Dies fuehrte aber auf der Sun zu Problemen, da dort
-     * die Currency fuer die Default-Locale folgende Exception hervorrief:
-     * <pre>
-     * java.lang.IllegalArgumentException
-     *     at java.util.Currency.getInstance(Currency.java:384)
-     *     at de.jfachwert.bank.Geldbetrag.&lt;clinit&gt;
-     *     ...
-     * </pre>
-     *
-     * @return normalerweise die deutsche Currency
-     */
-    private static Currency getDefaultCurrency() {
-        Locale[] locales = { Locale.getDefault(), Locale.GERMANY, Locale.GERMAN };
-        for (Locale loc : locales) {
-            try {
-                return Currency.getInstance(loc);
-            } catch (IllegalArgumentException iae) {
-                LOG.log(Level.INFO,
-                        "No currency for locale '" + loc + "' available on this machine - will try next one.", iae);
-            }
-        }
-        return Currency.getAvailableCurrencies().iterator().next();
     }
 
 }

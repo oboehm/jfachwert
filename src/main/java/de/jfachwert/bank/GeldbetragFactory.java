@@ -31,7 +31,7 @@ import java.util.Currency;
 public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
 
     private Number number = BigDecimal.ZERO;
-    private Currency currency = Geldbetrag.DEFAULT_CURRENCY;
+    private Currency currency = Waehrung.DEFAULT_CURRENCY;
 
     /**
      * Access the {@link MonetaryAmount} implementation type.
