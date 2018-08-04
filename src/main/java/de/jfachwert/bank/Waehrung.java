@@ -74,6 +74,29 @@ public class Waehrung extends AbstractFachwert<Currency> implements CurrencyUnit
             return new Waehrung(currency);
         }
     }
+
+    /**
+     * Gibt die entsprechende Currency als Waehrung zurueck.
+     *
+     * @param currencyUnit CurrencyUnit
+     * @return Waehrung
+     */
+    public static Waehrung of(CurrencyUnit currencyUnit) {
+        if (currencyUnit instanceof Waehrung) {
+            return (Waehrung) currencyUnit;
+        } else {
+            return of(currencyUnit.getCurrencyCode());
+        }
+    }
+    /**
+     * Gibt die entsprechende Currency als Waehrung zurueck.
+     *
+     * @param currency Waehrung, z.B. "EUR"
+     * @return Waehrung
+     */
+    public static Waehrung of(String currency) {
+        return of(Currency.getInstance(currency));
+    }
     
     /**
      * Validiert den uebergebenen Waehrungscode.
@@ -123,6 +146,15 @@ public class Waehrung extends AbstractFachwert<Currency> implements CurrencyUnit
     @Override
     public CurrencyContext getContext() {
         throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    /**
+     * Liefert das Waehrungssymbol.
+     * 
+     * @return z.B. "$"
+     */
+    public String getSymbol() {
+        return getCode().getSymbol();
     }
 
     /**
