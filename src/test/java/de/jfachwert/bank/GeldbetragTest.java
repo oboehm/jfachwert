@@ -369,9 +369,18 @@ public final class GeldbetragTest extends AbstractFachwertTest {
      * Test der {@link Geldbetrag#abs()}-Funktion.
      */
     @Test
-    public void testAbs() {
+    public void testAbsNegativ() {
         Geldbetrag schulden = new Geldbetrag(-10);
         assertEquals(10, schulden.abs().getNumber().intValueExact());
+    }
+
+    /**
+     * Test der {@link Geldbetrag#abs()}-Funktion.
+     */
+    @Test
+    public void testAbsPosititv() {
+        Geldbetrag guthaben = new Geldbetrag(10);
+        assertEquals(guthaben, guthaben.abs());
     }
 
     /**

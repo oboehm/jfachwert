@@ -796,7 +796,11 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public Geldbetrag abs() {
-        return Geldbetrag.valueOf(betrag.abs(), currency);
+        if (betrag.compareTo(BigDecimal.ZERO) < 0) {
+            return negate();
+        } else {
+            return this;
+        }
     }
 
     /**
