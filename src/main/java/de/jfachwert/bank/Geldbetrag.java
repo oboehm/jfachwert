@@ -815,16 +815,18 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     }
 
     /**
-     * Returns a {@code MonetaryAmount} whose value is <code>+this</code>, with rounding according to
-     * the context settings.
+     * Liefert immer eine positiven Geldbetrag.
      *
-     * @return {@code this}, rounded as necessary. A zero result will have a scale of 0.
-     * @throws ArithmeticException if rounding fails.
+     * @return positiver Geldbetrag
      * @see BigDecimal#plus()
      */
     @Override
     public Geldbetrag plus() {
-        throw new UnsupportedOperationException("not yet implemented");
+        if (betrag.compareTo(BigDecimal.ZERO) < 0) {
+            return negate();
+        } else {
+            return this;
+        }
     }
 
     /**

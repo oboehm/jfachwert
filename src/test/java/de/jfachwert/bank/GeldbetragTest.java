@@ -384,6 +384,17 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     }
 
     /**
+     * Testmethode fuer {@link Geldbetrag#plus()}.
+     */
+    @Test
+    public void testPlus() {
+        Geldbetrag plus = Geldbetrag.valueOf(56.78);
+        Geldbetrag minus = plus.negate();
+        assertEquals(plus, plus.plus());
+        assertEquals(plus, minus.plus());
+    }
+
+    /**
      * Testmethode fuer {@link Geldbetrag#signum()}.
      */
     @Test
