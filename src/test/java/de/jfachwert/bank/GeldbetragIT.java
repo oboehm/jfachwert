@@ -87,7 +87,7 @@ public class GeldbetragIT implements JSR354TestConfiguration {
      */
     @Override
     public Collection<Class> getCurrencyClasses() {
-        return new ArrayList<>();
+        return Collections.singletonList(Waehrung.class);
     }
 
     /**

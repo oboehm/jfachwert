@@ -22,6 +22,8 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import de.jfachwert.pruefung.NullValidator;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -87,6 +89,20 @@ public abstract class AbstractFachwert<T extends Serializable> implements Fachwe
     @Override
     public String toString() {
         return Objects.toString(this.code);
+    }
+
+    /**
+     * Liefert die einzelnen Attribute eines Fachwertes als Map. Bei einem
+     * einzelnen Wert wird als Default-Implementierung der Klassenname und
+     * die toString()-Implementierung herangezogen.
+     *
+     * @return Attribute als Map
+     */
+    @Override
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put(this.getClass().getSimpleName().toLowerCase(), toString());
+        return map;
     }
 
 }

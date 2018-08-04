@@ -106,6 +106,7 @@ public class FachwertFactory {
         INSTANCE.register(Bruch.class);
         INSTANCE.register(TinyUUID.class);
         INSTANCE.register(Geldbetrag.class);
+        INSTANCE.register(Waehrung.class);
     }
 
     private FachwertFactory() {
