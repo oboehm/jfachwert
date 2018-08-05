@@ -470,9 +470,10 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     }
 
     /**
-     * Returns a {@code MonetaryAmount} whose value is <code>this + amount</code>, and whose scale is
-     * <code>max(this.scale(),
-     * amount.scale()</code>.
+     * Liefert die Summe mit dem anderen Gelbetrag zurueck. Vorausgesetzt,
+     * beide Betraege haben die gleichen Waehrungen. Einzige Ausnahem davon
+     * ist die Addition von 0, da hier die Waehrung egal ist (neutrale
+     * Operation).
      *
      * @param other value to be added to this {@code MonetaryAmount}.
      * @return {@code this + amount}
@@ -484,14 +485,12 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
         if (betrag.compareTo(BigDecimal.ZERO) == 0) {
             return Geldbetrag.valueOf(other);
         }
-        checkCurrency(other);
         BigDecimal n = other.getNumber().numberValue(BigDecimal.class);
-        BigDecimal sum = betrag.add(n);
-        if (sum.compareTo(betrag) == 0) {
+        if (n.compareTo(BigDecimal.ZERO) == 0) {
             return this;
-        } else {
-            return Geldbetrag.valueOf(sum, waehrung);
         }
+        checkCurrency(other);
+        return Geldbetrag.valueOf(betrag.add(n), waehrung);
     }
 
     /**

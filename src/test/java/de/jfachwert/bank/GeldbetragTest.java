@@ -18,7 +18,6 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwertTest;
-import org.junit.Ignore;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
@@ -183,20 +182,14 @@ public final class GeldbetragTest extends AbstractFachwertTest {
         new Geldbetrag(0.00001);
     }
 
-    @Test
-    @Ignore // Ergebnis noch unklar
-    public void testPrecisionOfFiveZerosAfterComma() {
-        new Geldbetrag(new BigDecimal("3.00000"));
-    }
-
     @Test(expected = ValidationException.class)
     public void testPrecisionOfZeroInFifthAfterCommaPosition() {
         new Geldbetrag(new BigDecimal("0.00010"));
     }
+
     /**
      * Test-Methode fuer {@link Geldbetrag#subtract(MonetaryAmount)}.
      */
-
     @Test
     public void testSubtract() {
         MonetaryAmount guthaben = new Geldbetrag(42);

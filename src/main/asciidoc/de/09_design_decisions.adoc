@@ -83,9 +83,27 @@ Gründe für eine eigene Implementierung waren:
 * Der Umgang mit dem Package "javax.money" und das Anlegen von MonetaryAmount-Objekten ist etwas sperrig.
   Ziel war es, den Umgang möglichst einfach, zumindestens aber so einfach wie der Umgang mit BigDicimal-Beträgen zu machen.
 * Für Sonderfälle sollte es möglich sein, das Default-Verhalten einer MonetaryAmount-Klasse zu überschreiben.
-  Dies ist mit der http://javamoney.github.io/ri.html[Referenz-Implementierung] leider nicht möglich.
+  Dies ist mit der http://javamoney.github.io/ri.html[Referenz-Implementierung] leider nicht möglich, da die Klassen 'final' sind.
 * Die Geldbetrag sollte als Alternative zur BigDecimal-Klasse eingesetzt werden können.
   Dies ist vor allem für die Portierung älterer Anwendungen gedacht, die noch mit BigDecimal arbeiten.
 
 Der letzte Punkt ist auch der Grund, warum die Geldbetrag statt einer of(..)-Methode eine valueOf(..)-Methode besitzt.
 Dabei werden die gleichen Parameter wie bei BigDecimal akzeptiert.
+
+
+==== JSR 354 - Technical Compatibiliy Kit (TCK)
+
+Auf GitHub gibt es unter https://github.com/JavaMoney/jsr354-tck[JavaMoney/jsr354-tck] ein TCK, das zur Verifizierung der korrekten Implementierung herangeogen wird.
+Resultat des TCKs war u.a. die `GeldbetragFactory`-Klasse, aber auch andere Klassen, die nur für den internen Gebrauch gedacht sind und dementsprechend auch unter `de.jfachwert.bank.internal` abgelegt wurden.
+Aufgerufen wird das TCK über den Integrationstest `GeldbetragIT`.
+
+
+==== Operatoren
+
+Alle Operatoren geben einen Geldbetrag zurück, da die Klasse selbst immutable ist.
+Um die Erzeugung neuer Objekte zu minimieren, wird der Geldbetrag selbst zurueckgegeben, falls dies moeglich ist (z.B. beim Absolutbetrag, wenn der Geldbetrag bereits positiv ist).
+
+Bei Operatoren, die einen Geldbetrag als Operand erwarten (z.B. Addition), müssen die Währungen übereinstimmen.
+Ansonsten wird eine `MonetaryException` geworfen.
+Ausnahmen hiervon sind neutrale Operanden wie z.B. die Addtion oder Subtraktion von 0 EUR.
+Da dies den Wert eines Geldbetrags nicht ändert, wird hier die Währung ignoriert und _keine_ MonetaryException ausgelöst.
