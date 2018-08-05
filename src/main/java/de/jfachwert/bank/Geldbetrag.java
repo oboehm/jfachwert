@@ -481,15 +481,17 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public Geldbetrag add(MonetaryAmount other) {
-        checkCurrency(other);
-        if (other.isEqualTo(Geldbetrag.ZERO)) {
-            return this;
-        }
-        if (this.isEqualTo(Geldbetrag.ZERO)) {
+        if (betrag.compareTo(BigDecimal.ZERO) == 0) {
             return Geldbetrag.valueOf(other);
         }
+        checkCurrency(other);
         BigDecimal n = other.getNumber().numberValue(BigDecimal.class);
-        return new Geldbetrag(betrag.add(n));
+        BigDecimal sum = betrag.add(n);
+        if (sum.compareTo(betrag) == 0) {
+            return this;
+        } else {
+            return Geldbetrag.valueOf(sum, waehrung);
+        }
     }
 
     /**
@@ -960,16 +962,16 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
             return false;
         }
         Geldbetrag other = (Geldbetrag) obj;
-        if (hasNotSameCurrency(other)) return false;
+        if (!hasSameCurrency(other)) return false;
         return this.isEqualTo(other);
     }
 
-    private boolean hasNotSameCurrency(MonetaryAmount other) {
-        return !this.getCurrency().equals(other.getCurrency());
+    private boolean hasSameCurrency(MonetaryAmount other) {
+        return this.getCurrency().equals(other.getCurrency());
     }
     
     private void checkCurrency(MonetaryAmount other) {
-        if (hasNotSameCurrency(other)) throw new LocalizedMonetaryException("different currencies", this, other);
+        if (!hasSameCurrency(other)) throw new LocalizedMonetaryException("different currencies", this, other);
     }
 
     /**

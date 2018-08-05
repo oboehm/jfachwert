@@ -151,12 +151,12 @@ public final class GeldbetragTest extends AbstractFachwertTest {
 
     @Test
     public void testAddOperationLeadsToNewObject() {
-        Geldbetrag base = new Geldbetrag("12.3456");
-        Geldbetrag one = new Geldbetrag(1L);
+        Geldbetrag base = new Geldbetrag("12.3456 CHF");
+        Geldbetrag one = new Geldbetrag("1 CHF");
         Geldbetrag sum = base.add(one);
         assertNotSame(base, sum);
         assertNotSame(one, sum);
-        assertEquals(Geldbetrag.valueOf("13.3456"), sum);
+        assertEquals(Geldbetrag.valueOf("13.3456 CHF"), sum);
     }
 
     /**
