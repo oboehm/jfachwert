@@ -19,6 +19,7 @@ package de.jfachwert.bank;
 
 import javax.money.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Currency;
 
 /**
@@ -32,6 +33,8 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
 
     private Number number = BigDecimal.ZERO;
     private Currency currency = Waehrung.DEFAULT_CURRENCY;
+    private MonetaryContext context = MonetaryContextBuilder.of(Geldbetrag.class).setMaxScale(63).setPrecision(4)
+                                                            .set(RoundingMode.HALF_EVEN).build();
 
     /**
      * Access the {@link MonetaryAmount} implementation type.
@@ -121,7 +124,8 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
      */
     @Override
     public MonetaryAmountFactory<Geldbetrag> setContext(MonetaryContext monetaryContext) {
-        throw new UnsupportedOperationException("not yet implemented");
+        context = monetaryContext;
+        return this;
     }
 
     /**
@@ -147,6 +151,7 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
      */
     @Override
     public MonetaryContext getDefaultMonetaryContext() {
-        throw new UnsupportedOperationException("not yet implemented");
+        return context;
     }
+
 }

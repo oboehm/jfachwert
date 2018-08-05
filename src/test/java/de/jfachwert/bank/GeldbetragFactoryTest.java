@@ -19,10 +19,12 @@ package de.jfachwert.bank;
 
 import org.junit.Test;
 
+import javax.money.MonetaryContext;
 import javax.money.NumberValue;
 
 import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -77,6 +79,15 @@ public final class GeldbetragFactoryTest {
     @Test
     public void testGetAmountType() {
         assertEquals(Geldbetrag.class, factory.getAmountType());
+    }
+
+    /**
+     * Testmethode fuer {@link GeldbetragFactory#getDefaultMonetaryContext()}.
+     */
+    @Test
+    public void testGetDefaultMonetaryContext() {
+        MonetaryContext context = factory.getDefaultMonetaryContext();
+        assertNotNull(context);
     }
 
 }
