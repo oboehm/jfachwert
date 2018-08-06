@@ -319,6 +319,17 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     }
 
     /**
+     * Testmethode fuer {@link Geldbetrag#divideAndRemainder(long)}.
+     */
+    @Test
+    public void testDivideAndReminder() {
+        Geldbetrag betrag = Geldbetrag.valueOf("7 USD");
+        MonetaryAmount[] amounts = betrag.divideAndRemainder(2);
+        assertEquals(betrag.divideToIntegralValue(2), amounts[0]);
+        assertEquals(betrag.remainder(2), amounts[1]);
+    }
+
+    /**
      * Test-Methode fuer {@link Geldbetrag#compareTo(MonetaryAmount)}.
      */
     @Test

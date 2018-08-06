@@ -630,7 +630,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public Geldbetrag remainder(long divisor) {
-        throw new UnsupportedOperationException("not yet implemented");
+        return remainder(BigDecimal.valueOf(divisor));
     }
 
     /**
@@ -649,7 +649,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public Geldbetrag remainder(double divisor) {
-        throw new UnsupportedOperationException("not yet implemented");
+        return remainder(BigDecimal.valueOf(divisor));
     }
 
     /**
@@ -668,132 +668,98 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public Geldbetrag remainder(Number divisor) {
-        throw new UnsupportedOperationException("not yet implemented");
+        return Geldbetrag.valueOf(betrag.remainder(toBigDecimal(divisor)), waehrung);
     }
 
     /**
-     * Returns a two-element {@code MonetaryAmount} array containing the result of
-     * {@code divideToIntegralValue} followed by the result of {@code remainder} on the two
-     * operands.
-     * <p>
-     * <p>
-     * Note that if both the integer quotient and remainder are needed, this method is faster than
-     * using the {@code divideToIntegralValue} and {@code remainder} methods separately because the
-     * division need only be carried out once.
+     * Liefert ein zwei-elementiges {@code Geldbatrag}-Array mit dem Ergebnis 
+     * {@code divideToIntegralValue} und{@code remainder}.
      *
-     * @param divisor value by which this {@code MonetaryAmount} is to be divided, and the remainder
-     *                computed.
-     * @return a two element {@code MonetaryAmount} array: the quotient (the result of
-     * {@code divideToIntegralValue}) is the initial element and the remainder is the final
-     * element.
-     * @throws ArithmeticException if {@code divisor==0}, or if the result exceeds the numeric capabilities of this
-     *                             implementation class, i.e. the {@link MonetaryContext} cannot be adapted as
-     *                             required.
+     * @param divisor Teiler
+     * @return ein zwei-elementiges {@code Geldbatrag}-Array
+     * @throws ArithmeticException bei {@code divisor==0}
      * @see #divideToIntegralValue(long)
      * @see #remainder(long)
      */
     @Override
-    public MonetaryAmount[] divideAndRemainder(long divisor) {
-        throw new UnsupportedOperationException("not yet implemented");
+    public Geldbetrag[] divideAndRemainder(long divisor) {
+        return divideAndRemainder(BigDecimal.valueOf(divisor));
     }
 
     /**
-     * Returns a two-element {@code MonetaryAmount} array containing the result of
-     * {@code divideToIntegralValue} followed by the result of {@code remainder} on the two
-     * operands.
-     * <p>
-     * <p>
-     * Note that if both the integer quotient and remainder are needed, this method is faster than
-     * using the {@code divideToIntegralValue} and {@code remainder} methods separately because the
-     * division need only be carried out once.
+     * Liefert ein zwei-elementiges {@code Geldbatrag}-Array mit dem Ergebnis 
+     * {@code divideToIntegralValue} und{@code remainder}.
      *
-     * @param divisor value by which this {@code MonetaryAmount} is to be divided, and the remainder
-     *                computed.
-     * @return a two element {@code MonetaryAmount} array: the quotient (the result of
-     * {@code divideToIntegralValue}) is the initial element and the remainder is the final
-     * element.
-     * @throws ArithmeticException if {@code divisor==0}, or if the result exceeds the numeric capabilities of this
-     *                             implementation class, i.e. the {@link MonetaryContext} cannot be adapted as
-     *                             required.
+     * @param divisor Teiler
+     * @return ein zwei-elementiges {@code Geldbatrag}-Array
+     * @throws ArithmeticException bei {@code divisor==0}
      * @see #divideToIntegralValue(double)
      * @see #remainder(double)
      */
     @Override
-    public MonetaryAmount[] divideAndRemainder(double divisor) {
-        throw new UnsupportedOperationException("not yet implemented");
+    public Geldbetrag[] divideAndRemainder(double divisor) {
+        return divideAndRemainder(BigDecimal.valueOf(divisor));
     }
 
     /**
-     * Returns a two-element {@code MonetaryAmount} array containing the result of
-     * {@code divideToIntegralValue} followed by the result of {@code remainder} on the two
-     * operands.
-     * <p>
-     * <p>
-     * Note that if both the integer quotient and remainder are needed, this method is faster than
-     * using the {@code divideToIntegralValue} and {@code remainder} methods separately because the
-     * division need only be carried out once.
+     * Liefert ein zwei-elementiges {@code Geldbatrag}-Array mit dem Ergebnis 
+     * {@code divideToIntegralValue} und{@code remainder}.
      *
-     * @param divisor value by which this {@code MonetaryAmount} is to be divided, and the remainder
-     *                computed.
-     * @return a two element {@code MonetaryAmount} array: the quotient (the result of
-     * {@code divideToIntegralValue}) is the initial element and the remainder is the final
-     * element.
-     * @throws ArithmeticException if {@code divisor==0}, or if the result exceeds the numeric capabilities of this
-     *                             implementation class, i.e. the {@link MonetaryContext} cannot be adapted as
-     *                             required.
+     * @param divisor Teiler
+     * @return ein zwei-elementiges {@code Geldbatrag}-Array
+     * @throws ArithmeticException bei {@code divisor==0}
      * @see #divideToIntegralValue(Number)
      * @see #remainder(Number)
      */
     @Override
-    public MonetaryAmount[] divideAndRemainder(Number divisor) {
-        throw new UnsupportedOperationException("not yet implemented");
+    public Geldbetrag[] divideAndRemainder(Number divisor) {
+        BigDecimal[] numbers = betrag.divideAndRemainder(toBigDecimal(divisor));
+        Geldbetrag[] betraege = new Geldbetrag[2];
+        betraege[0] = Geldbetrag.valueOf(numbers[0], waehrung);
+        betraege[1] = Geldbetrag.valueOf(numbers[1], waehrung);
+        return betraege;
     }
 
     /**
-     * Returns a {@code MonetaryAmount} whose value is the integer part of the quotient
-     * <code>this / divisor</code> rounded down. The preferred scale of the result is
-     * <code>this.scale() -
-     * divisor.scale()</code>.
+     * Liefert den Integer-Teil des Quotienten <code>this / divisor</code>
+     * (abgerundet).
      *
-     * @param divisor value by which this {@code BigDecimal} is to be divided.
-     * @return The integer part of {@code this / divisor}.
-     * @throws ArithmeticException if {@code divisor==0}
+     * @param divisor Teiler
+     * @return Integer-Teil von {@code this / divisor}.
+     * @throws ArithmeticException falls {@code divisor==0}
      * @see BigDecimal#divideToIntegralValue(BigDecimal)
      */
     @Override
     public Geldbetrag divideToIntegralValue(long divisor) {
-        throw new UnsupportedOperationException("not yet implemented");
+        return divideToIntegralValue(BigDecimal.valueOf(divisor));
     }
 
     /**
-     * Returns a {@code MonetaryAmount} whose value is the integer part of the quotient
-     * <code>this / divisor</code> rounded down. The preferred scale of the result is
-     * <code>this.scale() - divisor.scale()</code>.
+     * Liefert den Integer-Teil des Quotienten <code>this / divisor</code>
+     * (abgerundet).
      *
-     * @param divisor value by which this {@code BigDecimal} is to be divided.
-     * @return The integer part of {@code this / divisor}.
-     * @throws ArithmeticException if {@code divisor==0}
+     * @param divisor Teiler
+     * @return Integer-Teil von {@code this / divisor}.
+     * @throws ArithmeticException falls {@code divisor==0}
      * @see BigDecimal#divideToIntegralValue(BigDecimal)
      */
     @Override
     public Geldbetrag divideToIntegralValue(double divisor) {
-        throw new UnsupportedOperationException("not yet implemented");
+        return divideToIntegralValue(BigDecimal.valueOf(divisor));
     }
 
     /**
-     * Returns a {@code MonetaryAmount} whose value is the integer part of the quotient
-     * <code>this / divisor</code> rounded down. The preferred scale of the result is
-     * <code>this.scale() -
-     * divisor.scale()</code>.
+     * Liefert den Integer-Teil des Quotienten <code>this / divisor</code>
+     * (abgerundet).
      *
-     * @param divisor value by which this {@code BigDecimal} is to be divided.
-     * @return The integer part of {@code this / divisor}.
-     * @throws ArithmeticException if {@code divisor==0}
+     * @param divisor Teiler
+     * @return Integer-Teil von {@code this / divisor}.
+     * @throws ArithmeticException falls {@code divisor==0}
      * @see BigDecimal#divideToIntegralValue(BigDecimal)
      */
     @Override
     public Geldbetrag divideToIntegralValue(Number divisor) {
-        throw new UnsupportedOperationException("not yet implemented");
+        return Geldbetrag.valueOf(betrag.divideToIntegralValue(toBigDecimal(divisor)), waehrung);
     }
 
     /**
