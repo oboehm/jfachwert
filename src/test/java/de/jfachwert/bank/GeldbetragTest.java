@@ -177,16 +177,6 @@ public final class GeldbetragTest extends AbstractFachwertTest {
         assertEquals(new Geldbetrag(0.01), a.add(b));
     }
 
-    @Test(expected = ValidationException.class)
-    public void testPrecision() {
-        new Geldbetrag(0.00001);
-    }
-
-    @Test(expected = ValidationException.class)
-    public void testPrecisionOfZeroInFifthAfterCommaPosition() {
-        new Geldbetrag(new BigDecimal("0.00010"));
-    }
-
     /**
      * Test-Methode fuer {@link Geldbetrag#subtract(MonetaryAmount)}.
      */

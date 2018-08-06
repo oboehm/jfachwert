@@ -24,7 +24,6 @@ import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.NumberValidator;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 import de.jfachwert.pruefung.exception.LocalizedMonetaryException;
-import de.jfachwert.pruefung.exception.LocalizedValidationException;
 import org.apache.commons.lang3.StringUtils;
 import org.javamoney.moneta.spi.DefaultNumberValue;
 
@@ -288,15 +287,12 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     }
 
     /**
-     * Validiert die uebergebene Zahl, ob die Praezision nicht zu hoch ist.
+     * Validiert die uebergebene Zahl.
      *
      * @param zahl als String
      * @return die Zahl zur Weitervarabeitung
      */
     public static BigDecimal validate(BigDecimal zahl, CurrencyUnit currency) {
-        if (zahl.scale() > 4) { 
-            throw new LocalizedValidationException("wrong precision: " + zahl);
-        }
         if (zahl.scale() == 0) {
             return zahl.setScale(currency.getDefaultFractionDigits(), RoundingMode.HALF_UP);
         }
