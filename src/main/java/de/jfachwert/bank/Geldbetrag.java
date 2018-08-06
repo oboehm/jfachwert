@@ -694,6 +694,9 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public Geldbetrag[] divideAndRemainder(double divisor) {
+        if ((divisor == Double.POSITIVE_INFINITY) || (divisor == Double.NEGATIVE_INFINITY)) {
+            return toGeldbetragArray(BigDecimal.ZERO, BigDecimal.ZERO);
+        }
         return divideAndRemainder(BigDecimal.valueOf(divisor));
     }
 
@@ -710,9 +713,14 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     @Override
     public Geldbetrag[] divideAndRemainder(Number divisor) {
         BigDecimal[] numbers = betrag.divideAndRemainder(toBigDecimal(divisor));
-        Geldbetrag[] betraege = new Geldbetrag[2];
-        betraege[0] = Geldbetrag.valueOf(numbers[0], waehrung);
-        betraege[1] = Geldbetrag.valueOf(numbers[1], waehrung);
+        return toGeldbetragArray(numbers);
+    }
+
+    private Geldbetrag[] toGeldbetragArray(BigDecimal... numbers) {
+        Geldbetrag[] betraege = new Geldbetrag[numbers.length];
+        for (int i = 0; i < betraege.length; i++) {
+            betraege[i] = Geldbetrag.valueOf(numbers[i], waehrung);
+        }
         return betraege;
     }
 
