@@ -697,6 +697,9 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
         if ((divisor == Double.POSITIVE_INFINITY) || (divisor == Double.NEGATIVE_INFINITY)) {
             return toGeldbetragArray(BigDecimal.ZERO, BigDecimal.ZERO);
         }
+        if (Double.isNaN(divisor)) {
+            throw new ArithmeticException("invalid number: NaN");
+        }
         return divideAndRemainder(BigDecimal.valueOf(divisor));
     }
 
