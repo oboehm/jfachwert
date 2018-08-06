@@ -17,6 +17,8 @@
  */
 package de.jfachwert.bank;
 
+import org.javamoney.moneta.Money;
+
 import javax.money.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -31,10 +33,12 @@ import java.util.Currency;
  */
 public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
 
+    private static final MonetaryContext MAX_CONTEXT =
+            MonetaryContextBuilder.of(Money.class).setPrecision(0).setMaxScale(-1).set(RoundingMode.HALF_EVEN).build();
     private Number number = BigDecimal.ZERO;
     private Currency currency = Waehrung.DEFAULT_CURRENCY;
-    private MonetaryContext context = MonetaryContextBuilder.of(Geldbetrag.class).setMaxScale(63).setPrecision(4)
-                                                            .set(RoundingMode.HALF_EVEN).build();
+    private MonetaryContext context =
+            MonetaryContextBuilder.of(Money.class).set(64).setMaxScale(63).set(RoundingMode.HALF_EVEN).build();
 
     /**
      * Access the {@link MonetaryAmount} implementation type.
@@ -140,18 +144,27 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
     }
 
     /**
-     * Returns the default {@link MonetaryContext} used, when no {@link MonetaryContext} is
-     * provided.
-     * <p>
-     * The default context is not allowed to exceed the capabilities of the maximal
-     * {@link MonetaryContext} supported.
+     * In der Standardeinstellung liefert der {@link MonetaryContext} einen 
+     * Wertbereich fuer den Geldbetrag von {@link Geldbetrag#MIN_VALUE} bis
+     * {@link Geldbetrag#MAX_VALUE}.
      *
-     * @return the default {@link MonetaryContext}, never {@code null}.
+     * @return den Default-{@link MonetaryContext}.
      * @see #getMaximalMonetaryContext()
      */
     @Override
     public MonetaryContext getDefaultMonetaryContext() {
         return context;
+    }
+
+    /**
+     * Der maximale {@link MonetaryContext} schraenkt den Wertebereich eines
+     * Geldbetrags nicth ein. D.h. es gibt keine obere und untere Grenze.
+     *
+     * @return maximaler {@link MonetaryContext}.
+     */
+    @Override
+    public MonetaryContext getMaximalMonetaryContext() {
+        return MAX_CONTEXT;
     }
 
 }
