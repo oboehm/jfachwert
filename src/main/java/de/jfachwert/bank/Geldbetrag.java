@@ -588,6 +588,9 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount divide(double divisor) {
+        if (isInfinite(divisor)) {
+            return Geldbetrag.valueOf(BigDecimal.ZERO, waehrung);
+        }
         return divide(BigDecimal.valueOf(divisor));
     }
 
@@ -694,13 +697,20 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public Geldbetrag[] divideAndRemainder(double divisor) {
-        if ((divisor == Double.POSITIVE_INFINITY) || (divisor == Double.NEGATIVE_INFINITY)) {
+        if (isInfinite(divisor)) {
             return toGeldbetragArray(BigDecimal.ZERO, BigDecimal.ZERO);
+        }
+        return divideAndRemainder(BigDecimal.valueOf(divisor));
+    }
+
+    private static boolean isInfinite(double divisor) {
+        if ((divisor == Double.POSITIVE_INFINITY) || (divisor == Double.NEGATIVE_INFINITY)) {
+            return true;
         }
         if (Double.isNaN(divisor)) {
             throw new ArithmeticException("invalid number: NaN");
         }
-        return divideAndRemainder(BigDecimal.valueOf(divisor));
+        return false;
     }
 
     /**
