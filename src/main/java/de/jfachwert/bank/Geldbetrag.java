@@ -553,7 +553,11 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public MonetaryAmount multiply(Number multiplicand) {
-        BigDecimal multiplied = betrag.multiply(toBigDecimal(multiplicand));
+        BigDecimal d = toBigDecimal(multiplicand);
+        if (BigDecimal.ONE.compareTo(d) == 0) {
+            return this;
+        }
+        BigDecimal multiplied = betrag.multiply(d);
         return Geldbetrag.valueOf(limitScale(multiplied), waehrung);
     }
 
@@ -608,9 +612,12 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public Geldbetrag divide(Number divisor) {
-        return Geldbetrag.valueOf(betrag.setScale(4, RoundingMode.HALF_UP).divide(toBigDecimal(divisor), RoundingMode.HALF_UP),
-                
-                waehrung);
+        BigDecimal d = toBigDecimal(divisor);
+        if (BigDecimal.ONE.compareTo(d) == 0) {
+            return this;
+        }
+        return Geldbetrag
+                .valueOf(betrag.setScale(4, RoundingMode.HALF_UP).divide(d, RoundingMode.HALF_UP), waehrung);
     }
 
     /**
