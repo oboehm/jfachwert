@@ -34,11 +34,13 @@ import java.util.Currency;
 public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
 
     private static final MonetaryContext MAX_CONTEXT =
-            MonetaryContextBuilder.of(Money.class).setPrecision(0).setMaxScale(-1).set(RoundingMode.HALF_EVEN).build();
+            MonetaryContextBuilder.of(Money.class).setAmountType(Geldbetrag.class).setPrecision(0).setMaxScale(-1)
+                                  .set(RoundingMode.HALF_EVEN).build();
     private Number number = BigDecimal.ZERO;
     private Currency currency = Waehrung.DEFAULT_CURRENCY;
     private MonetaryContext context =
-            MonetaryContextBuilder.of(Money.class).set(64).setMaxScale(63).set(RoundingMode.HALF_EVEN).build();
+            MonetaryContextBuilder.of(Money.class).setAmountType(Geldbetrag.class).set(64).setMaxScale(63)
+                                  .set(RoundingMode.HALF_EVEN).build();
 
     /**
      * Access the {@link MonetaryAmount} implementation type.

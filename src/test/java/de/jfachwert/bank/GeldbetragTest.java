@@ -22,6 +22,7 @@ import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
 import javax.money.MonetaryAmount;
+import javax.money.MonetaryContext;
 import javax.money.MonetaryException;
 import javax.money.NumberValue;
 import javax.validation.ValidationException;
@@ -405,6 +406,16 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     public void testGetFactory() {
         GeldbetragFactory factory = Geldbetrag.ZERO.getFactory();
         assertNotNull(factory);
+    }
+
+    /**
+     * Testmethode fuer {@link Geldbetrag#getContext()}.
+     */
+    @Test
+    public void testGetContext() {
+        MonetaryContext context = Geldbetrag.valueOf("1 AUD").getContext();
+        assertNotNull(context);
+        assertEquals(Geldbetrag.class, context.getAmountType());
     }
 
 }

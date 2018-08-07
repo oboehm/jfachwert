@@ -54,6 +54,7 @@ import java.util.Currency;
 public class Geldbetrag implements MonetaryAmount, Fachwert {
     
     private static final GeldbetragFactory FACTORY = new GeldbetragFactory();
+    private static final MonetaryContext CONTEXT = FACTORY.getDefaultMonetaryContext();
 
     /** Da 0-Betraege relativ haeufig vorkommen, spendieren wir dafuer eine eigene Konstante. */
     public static final Geldbetrag ZERO = new Geldbetrag(BigDecimal.ZERO);
@@ -349,17 +350,15 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     }
 
     /**
-     * Returns the {@link MonetaryContext} of this {@code MonetaryAmount}. The
-     * {@link MonetaryContext} provides additional information about the numeric representation and
-     * the numeric capabilities. This information can be used by code to determine situations where
-     * {@code MonetaryAmount} instances must be converted to avoid implicit truncation, which can
-     * lead to invalid results.
+     * Gibt den {@link MonetaryContext} des Geldbetrags zurueck. Der
+     * {@link MonetaryContext} enthaelt Informationen ueber numerische
+     * Eigenschaften wie Anzahl Nachkommastellen oder Rundungsinformation.
      *
-     * @return the {@link MonetaryContext} of this {@code MonetaryAmount}, never {@code null} .
+     * @return den {@link MonetaryContext} zum Geldbetrag
      */
     @Override
     public MonetaryContext getContext() {
-        throw new UnsupportedOperationException("not yet implemented");
+        return CONTEXT;
     }
 
     /**
