@@ -51,7 +51,7 @@ import java.util.Currency;
  * @since 0.8 (18.07.2018)
  */
 @JsonSerialize(using = ToStringSerializer.class)
-public class Geldbetrag implements MonetaryAmount, Fachwert {
+public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, Fachwert {
     
     private static final GeldbetragFactory FACTORY = new GeldbetragFactory();
     private static final MonetaryContext CONTEXT = FACTORY.getDefaultMonetaryContext();
@@ -66,7 +66,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     public static final Geldbetrag MAX_VALUE = new Geldbetrag(BigDecimal.valueOf(Long.MAX_VALUE));
 
     private final BigDecimal betrag;
-    private final Waehrung waehrung;
+    private final Currency currency;
 
     /**
      * Erzeugt einen Geldbetrag in der aktuellen Landeswaehrung.
@@ -133,7 +133,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     public Geldbetrag(Number betrag, CurrencyUnit currency) {
         this.betrag = validate(toBigDecimal(betrag), currency);
-        this.waehrung = Waehrung.of(currency);
+        this.currency = Waehrung.of(currency).getCurrency();
     }
 
     /**
@@ -367,7 +367,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * value, the algorithmic implementation as well as the current {@link MonetaryContext}.
      * <p>
      * This method is used for creating a new amount result after having done calculations that are
-     * not directly mappable to the default monetary arithmetics, e.g. waehrung conversion.
+     * not directly mappable to the default monetary arithmetics, e.g. currency conversion.
      *
      * @return the new {@code MonetaryAmountFactory} with the given {@link MonetaryAmount} as its
      * default values.
@@ -485,7 +485,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
             return this;
         }
         checkCurrency(other);
-        return Geldbetrag.valueOf(betrag.add(n), waehrung);
+        return Geldbetrag.valueOf(betrag.add(n), currency);
     }
 
     /**
@@ -557,7 +557,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
             return this;
         }
         BigDecimal multiplied = betrag.multiply(d);
-        return Geldbetrag.valueOf(limitScale(multiplied), waehrung);
+        return Geldbetrag.valueOf(limitScale(multiplied), currency);
     }
 
     /**
@@ -592,7 +592,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     @Override
     public MonetaryAmount divide(double divisor) {
         if (isInfinite(divisor)) {
-            return Geldbetrag.valueOf(BigDecimal.ZERO, waehrung);
+            return Geldbetrag.valueOf(BigDecimal.ZERO, currency);
         }
         return divide(BigDecimal.valueOf(divisor));
     }
@@ -616,7 +616,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
             return this;
         }
         return Geldbetrag
-                .valueOf(betrag.setScale(4, RoundingMode.HALF_UP).divide(d, RoundingMode.HALF_UP), waehrung);
+                .valueOf(betrag.setScale(4, RoundingMode.HALF_UP).divide(d, RoundingMode.HALF_UP), currency);
     }
 
     /**
@@ -673,7 +673,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public Geldbetrag remainder(Number divisor) {
-        return Geldbetrag.valueOf(betrag.remainder(toBigDecimal(divisor)), waehrung);
+        return Geldbetrag.valueOf(betrag.remainder(toBigDecimal(divisor)), currency);
     }
 
     /**
@@ -738,7 +738,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
     private Geldbetrag[] toGeldbetragArray(BigDecimal... numbers) {
         Geldbetrag[] betraege = new Geldbetrag[numbers.length];
         for (int i = 0; i < betraege.length; i++) {
-            betraege[i] = Geldbetrag.valueOf(numbers[i], waehrung);
+            betraege[i] = Geldbetrag.valueOf(numbers[i], currency);
         }
         return betraege;
     }
@@ -782,7 +782,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public Geldbetrag divideToIntegralValue(Number divisor) {
-        return Geldbetrag.valueOf(betrag.divideToIntegralValue(toBigDecimal(divisor)), waehrung);
+        return Geldbetrag.valueOf(betrag.divideToIntegralValue(toBigDecimal(divisor)), currency);
     }
 
     /**
@@ -823,7 +823,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public Geldbetrag negate() {
-        return valueOf(betrag.negate(), waehrung);
+        return valueOf(betrag.negate(), currency);
     }
 
     /**
@@ -867,8 +867,11 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public int compareTo(MonetaryAmount other) {
-        checkCurrency(other);
-        return betrag.compareTo(other.getNumber().numberValue(BigDecimal.class));
+        BigDecimal n = toBigDecimal(other.getNumber());
+        if ((this.betrag.compareTo(BigDecimal.ZERO) != 0) && (n.compareTo(BigDecimal.ZERO) != 0)) {
+            checkCurrency(other);
+        }
+        return betrag.compareTo(n);
     }
 
     /**
@@ -880,7 +883,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      * andere ist, sonst positive Zahl.
      */
     public int compareTo(Number other) {
-        return this.compareTo(Geldbetrag.valueOf(other, waehrung));
+        return this.compareTo(Geldbetrag.valueOf(other, currency));
     }
 
     /**
@@ -890,7 +893,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public CurrencyUnit getCurrency() {
-        return Monetary.getCurrency(waehrung.getCurrencyCode());
+        return Monetary.getCurrency(currency.getCurrencyCode());
     }
 
     /**
@@ -971,7 +974,7 @@ public class Geldbetrag implements MonetaryAmount, Fachwert {
      */
     @Override
     public String toString() {
-        return this.getNumber() + " " + waehrung.getSymbol();
+        return this.getNumber() + " " + currency.getSymbol();
     }
 
 }

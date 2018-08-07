@@ -114,6 +114,15 @@ public class Waehrung extends AbstractFachwert<Currency> implements CurrencyUnit
     }
 
     /**
+     * Liefert die Currency zurueck.
+     * 
+     * @return die Currency aus java.util.
+     */
+    public Currency getCurrency() {
+        return getCode();
+    }
+
+    /**
      * Liefert den Waehrungscode.
      *
      * @return z.B. "EUR"
