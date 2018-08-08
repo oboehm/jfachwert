@@ -19,6 +19,7 @@ package de.jfachwert.bank;
 
 import org.junit.Test;
 
+import javax.money.CurrencyUnit;
 import javax.money.MonetaryContext;
 import javax.money.NumberValue;
 
@@ -88,6 +89,12 @@ public final class GeldbetragFactoryTest {
     public void testGetDefaultMonetaryContext() {
         MonetaryContext context = factory.getDefaultMonetaryContext();
         assertNotNull(context);
+    }
+    
+    @Test
+    public void testSetCurrency() {
+        CurrencyUnit cu = Waehrung.of("SDR");
+        factory.setCurrency(cu);
     }
 
 }
