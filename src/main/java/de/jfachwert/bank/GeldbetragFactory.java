@@ -17,10 +17,9 @@
  */
 package de.jfachwert.bank;
 
-import org.javamoney.moneta.Money;
-
 import javax.money.*;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Currency;
 
@@ -34,13 +33,13 @@ import java.util.Currency;
 public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
 
     private static final MonetaryContext MAX_CONTEXT =
-            MonetaryContextBuilder.of(Money.class).setAmountType(Geldbetrag.class).setPrecision(0).setMaxScale(-1)
-                                  .set(RoundingMode.HALF_EVEN).build();
+            MonetaryContextBuilder.of(Geldbetrag.class).setAmountType(Geldbetrag.class).setPrecision(0).setMaxScale(-1)
+                                  .set(RoundingMode.HALF_UP).build();
     private Number number = BigDecimal.ZERO;
     private Currency currency = Waehrung.DEFAULT_CURRENCY;
     private MonetaryContext context =
-            MonetaryContextBuilder.of(Money.class).setAmountType(Geldbetrag.class).set(64).setMaxScale(63)
-                                  .set(RoundingMode.HALF_EVEN).build();
+            MonetaryContextBuilder.of(Geldbetrag.class).setAmountType(Geldbetrag.class).set(64).setMaxScale(63)
+                                  .set(RoundingMode.HALF_UP).build();
 
     /**
      * Access the {@link MonetaryAmount} implementation type.
@@ -142,9 +141,9 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
      */
     @Override
     public Geldbetrag create() {
-        return new Geldbetrag(number, currency);
+        return new Geldbetrag(number, Waehrung.of(currency), context);
     }
-
+    
     /**
      * In der Standardeinstellung liefert der {@link MonetaryContext} einen 
      * Wertbereich fuer den Geldbetrag von {@link Geldbetrag#MIN_VALUE} bis
@@ -167,6 +166,13 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
     @Override
     public MonetaryContext getMaximalMonetaryContext() {
         return MAX_CONTEXT;
+    }
+
+    public MonetaryContext getContextFor(MathContext mc) {
+        return MonetaryContextBuilder.of(Geldbetrag.class).setAmountType(Geldbetrag.class).set(64)
+                              .setMaxScale(context.getMaxScale())
+                              .setPrecision(mc.getPrecision())
+                              .set(mc.getRoundingMode()).build();
     }
 
 }

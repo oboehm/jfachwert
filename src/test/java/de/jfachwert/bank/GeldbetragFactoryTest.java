@@ -21,12 +21,11 @@ import org.junit.Test;
 
 import javax.money.CurrencyUnit;
 import javax.money.MonetaryContext;
+import javax.money.MonetaryContextBuilder;
 import javax.money.NumberValue;
 
 import static org.hamcrest.Matchers.lessThan;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * Unit-Tests fuer {@link GeldbetragFactory}-Klasse.
@@ -90,11 +89,27 @@ public final class GeldbetragFactoryTest {
         MonetaryContext context = factory.getDefaultMonetaryContext();
         assertNotNull(context);
     }
-    
+
+    /**
+     * Hier testen wir das Setzen der Waehrung
+     */
     @Test
     public void testSetCurrency() {
-        CurrencyUnit cu = Waehrung.of("SDR");
+        CurrencyUnit cu = Waehrung.of("XXX");
         factory.setCurrency(cu);
+        Geldbetrag geldbetrag = factory.create();
+        assertEquals(cu, geldbetrag.getCurrency());
+    }
+
+    /**
+     * Hier testen wir das Setzen des {@link MonetaryContext}es.
+     */
+    @Test
+    public void testSetContext() {
+        MonetaryContext context = MonetaryContextBuilder.of(Geldbetrag.class).setPrecision(5).build();
+        factory.setContext(context);
+        Geldbetrag geldbetrag = factory.create();
+        assertEquals(context, geldbetrag.getContext());
     }
 
 }

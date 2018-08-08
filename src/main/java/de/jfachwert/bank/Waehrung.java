@@ -49,7 +49,7 @@ public class Waehrung extends AbstractFachwert<Currency> implements CurrencyUnit
      * @param code z.B. "EUR"
      */
     public Waehrung(String code) {
-        this(Currency.getInstance(validate(code)));
+        this(toCurrency(validate(code)));
     }
 
     /**
@@ -95,9 +95,22 @@ public class Waehrung extends AbstractFachwert<Currency> implements CurrencyUnit
      * @return Waehrung
      */
     public static Waehrung of(String currency) {
-        return of(Currency.getInstance(currency));
+        return of(toCurrency(currency));
     }
-    
+
+    private static Currency toCurrency(String name) {
+        try {
+            return Currency.getInstance(name);
+        } catch (IllegalArgumentException iae) {
+            for (Currency c : Currency.getAvailableCurrencies()) {
+                if (name.equalsIgnoreCase(c.getCurrencyCode())) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException("cannot get currency for '" + name + "'", iae);
+        }
+    }
+
     /**
      * Validiert den uebergebenen Waehrungscode.
      *
@@ -106,7 +119,7 @@ public class Waehrung extends AbstractFachwert<Currency> implements CurrencyUnit
      */
     public static String validate(String code) {
         try {
-            Currency.getInstance(code);
+            toCurrency(code);
         } catch (IllegalArgumentException ex) {
             throw new InvalidValueException(code, "currency");
         }

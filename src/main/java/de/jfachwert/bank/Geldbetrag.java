@@ -54,7 +54,6 @@ import java.util.Currency;
 public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, Fachwert {
     
     private static final GeldbetragFactory FACTORY = new GeldbetragFactory();
-    private static final MonetaryContext CONTEXT = FACTORY.getDefaultMonetaryContext();
 
     /** Da 0-Betraege relativ haeufig vorkommen, spendieren wir dafuer eine eigene Konstante. */
     public static final Geldbetrag ZERO = new Geldbetrag(BigDecimal.ZERO);
@@ -67,6 +66,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
 
     private final BigDecimal betrag;
     private final Currency currency;
+    private final MonetaryContext context;
 
     /**
      * Erzeugt einen Geldbetrag in der aktuellen Landeswaehrung.
@@ -132,8 +132,20 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      * @param currency Waehrung, z.B. Euro
      */
     public Geldbetrag(Number betrag, CurrencyUnit currency) {
+        this(betrag, currency, FACTORY.getDefaultMonetaryContext());
+    }
+
+    /**
+     * Erzeugt einen Geldbetrag in der angegebenen Waehrung.
+     *
+     * @param betrag   Geldbetrag, z.B. 1.00
+     * @param currency Waehrung, z.B. Euro
+     * @param context  den Kontext mit Rundungs- und anderen Informationen
+     */
+    public Geldbetrag(Number betrag, CurrencyUnit currency, MonetaryContext context) {
         this.betrag = validate(toBigDecimal(betrag), currency);
         this.currency = Waehrung.of(currency).getCurrency();
+        this.context = context;
     }
 
     /**
@@ -358,7 +370,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      */
     @Override
     public MonetaryContext getContext() {
-        return CONTEXT;
+        return context;
     }
 
     /**
