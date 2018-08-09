@@ -180,6 +180,21 @@ public class Waehrung extends AbstractFachwert<Currency> implements CurrencyUnit
     }
 
     /**
+     * Lieft das Waehrungssymbol der uebergebenen Waehrungseinheit.
+     * 
+     * @param cu Waehrungseinheit
+     * @return z.B. das Euro-Zeichen
+     */
+    public static String getSymbol(CurrencyUnit cu) {
+        try {
+            return Waehrung.of(cu).getSymbol();
+        } catch (IllegalArgumentException ex) {
+            LOG.log(Level.WARNING, "Cannot get symbol for '" + cu + "':", ex);
+            return cu.getCurrencyCode();
+        }
+    }
+
+    /**
      * Zum Vergleich wird der Waehrungscode herangezogen und alphabetisch
      * verglichen.
      *

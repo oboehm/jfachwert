@@ -18,6 +18,10 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwertTest;
+import org.junit.Test;
+import patterntesting.runtime.junit.ObjectTester;
+
+import javax.money.CurrencyUnit;
 
 /**
  * Unit-Tests fuer {@link Waehrung}-Klasse.
@@ -32,6 +36,18 @@ public final class WaehrungTest extends AbstractFachwertTest {
     @Override
     protected Waehrung createFachwert() {
         return new Waehrung("EUR");
+    }
+
+    /**
+     * Hier wird {@link Waehrung#compareTo(CurrencyUnit)} ueberprueft.
+     */
+    @Test
+    public void testCompareTo() {
+        Waehrung one = Waehrung.of("CHF");
+        Waehrung anotherOne = Waehrung.of("CHF");
+        ObjectTester.assertEquals(one, anotherOne);
+        Waehrung two = Waehrung.of("EUR");
+        ObjectTester.assertNotEquals(one, two);
     }
 
 }

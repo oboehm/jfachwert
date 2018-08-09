@@ -65,7 +65,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     public static final Geldbetrag MAX_VALUE = new Geldbetrag(BigDecimal.valueOf(Long.MAX_VALUE));
 
     private final BigDecimal betrag;
-    private final Currency currency;
+    private final CurrencyUnit currency;
     private final MonetaryContext context;
 
     /**
@@ -144,7 +144,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      */
     public Geldbetrag(Number betrag, CurrencyUnit currency, MonetaryContext context) {
         this.betrag = validate(toBigDecimal(betrag), currency);
-        this.currency = Waehrung.of(currency).getCurrency();
+        this.currency = currency;
         this.context = context;
     }
 
@@ -986,7 +986,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      */
     @Override
     public String toString() {
-        return this.getNumber() + " " + currency.getSymbol();
+        return this.getNumber() + " " + Waehrung.getSymbol(currency);
     }
 
 }

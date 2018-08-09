@@ -21,7 +21,6 @@ import javax.money.*;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.util.Currency;
 
 /**
  * Analog zu den anderen {@link Monetary}-Datentype kann mit dieser Factory
@@ -36,7 +35,7 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
             MonetaryContextBuilder.of(Geldbetrag.class).setAmountType(Geldbetrag.class).setPrecision(0).setMaxScale(-1)
                                   .set(RoundingMode.HALF_UP).build();
     private Number number = BigDecimal.ZERO;
-    private Currency currency = Waehrung.DEFAULT_CURRENCY;
+    private CurrencyUnit currency = Waehrung.DEFAULT;
     private MonetaryContext context =
             MonetaryContextBuilder.of(Geldbetrag.class).setAmountType(Geldbetrag.class).set(64).setMaxScale(63)
                                   .set(RoundingMode.HALF_UP).build();
@@ -59,7 +58,7 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
      */
     @Override
     public MonetaryAmountFactory<Geldbetrag> setCurrency(CurrencyUnit currency) {
-        this.currency = Currency.getInstance(currency.getCurrencyCode());
+        this.currency = currency;
         return this;
     }
 
@@ -141,7 +140,7 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
      */
     @Override
     public Geldbetrag create() {
-        return new Geldbetrag(number, Waehrung.of(currency), context);
+        return new Geldbetrag(number, currency, context);
     }
     
     /**
