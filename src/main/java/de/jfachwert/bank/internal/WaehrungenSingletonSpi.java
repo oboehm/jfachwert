@@ -26,6 +26,8 @@ import javax.money.spi.Bootstrap;
 import javax.money.spi.CurrencyProviderSpi;
 import javax.money.spi.MonetaryCurrenciesSingletonSpi;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Die Klasse WaehrungenSingletonSpi wird benoetigt, umn die entsprechende
@@ -35,7 +37,9 @@ import java.util.*;
  * @since 0.8 (07.08.2018)
  */
 public final class WaehrungenSingletonSpi implements MonetaryCurrenciesSingletonSpi {
-    
+
+    private static final Logger LOG = Logger.getLogger(WaehrungenSingletonSpi.class.getName());
+
     /**
      * Access a list of the currently registered default providers. The default providers are used, when
      * no provider names are passed by the caller.
@@ -78,10 +82,18 @@ public final class WaehrungenSingletonSpi implements MonetaryCurrenciesSingleton
     public Set<CurrencyUnit> getCurrencies(CurrencyQuery query) {
         Set<CurrencyUnit> result = new HashSet<>();
         for (Locale locale : query.getCountries()) {
-            result.add(Waehrung.of(Currency.getInstance(locale)));
+            try {
+                result.add(Waehrung.of(Currency.getInstance(locale)));
+            } catch (IllegalArgumentException ex) {
+                LOG.log(Level.WARNING, "Cannot get currency for locale '" + locale + "':", ex);
+            }
         }
         for (String currencyCode : query.getCurrencyCodes()) {
-            result.add(Waehrung.of(currencyCode));
+            try {
+                result.add(Waehrung.of(currencyCode));
+            } catch (IllegalArgumentException ex) {
+                LOG.log(Level.WARNING, "Cannot get currency '" + currencyCode + "':", ex);
+            }
         }
         for (CurrencyProviderSpi spi : Bootstrap.getServices(CurrencyProviderSpi.class)) {
             result.addAll(spi.getCurrencies(query));
