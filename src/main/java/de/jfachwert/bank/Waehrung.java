@@ -103,7 +103,9 @@ public class Waehrung extends AbstractFachwert<Currency> implements CurrencyUnit
             return Currency.getInstance(name);
         } catch (IllegalArgumentException iae) {
             for (Currency c : Currency.getAvailableCurrencies()) {
-                if (name.equalsIgnoreCase(c.getCurrencyCode())) {
+                if (name.equalsIgnoreCase(c.getCurrencyCode()) 
+                        || name.equalsIgnoreCase(c.getSymbol())
+                        || name.equalsIgnoreCase(c.getDisplayName())) {
                     return c;
                 }
             }

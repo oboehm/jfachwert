@@ -29,6 +29,7 @@ import org.javamoney.moneta.spi.DefaultNumberValue;
 
 import javax.money.*;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Currency;
 
@@ -143,7 +144,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      * @param context  den Kontext mit Rundungs- und anderen Informationen
      */
     public Geldbetrag(Number betrag, CurrencyUnit currency, MonetaryContext context) {
-        this.betrag = validate(toBigDecimal(betrag), currency);
+        this.betrag = validate(toBigDecimal(betrag, context), currency);
         this.currency = currency;
         this.context = context;
     }
@@ -564,7 +565,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      */
     @Override
     public MonetaryAmount multiply(Number multiplicand) {
-        BigDecimal d = toBigDecimal(multiplicand);
+        BigDecimal d = toBigDecimal(multiplicand, context);
         if (BigDecimal.ONE.compareTo(d) == 0) {
             return this;
         }
@@ -623,7 +624,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      */
     @Override
     public Geldbetrag divide(Number divisor) {
-        BigDecimal d = toBigDecimal(divisor);
+        BigDecimal d = toBigDecimal(divisor, context);
         if (BigDecimal.ONE.compareTo(d) == 0) {
             return this;
         }
@@ -685,7 +686,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      */
     @Override
     public Geldbetrag remainder(Number divisor) {
-        return Geldbetrag.valueOf(betrag.remainder(toBigDecimal(divisor)), currency);
+        return Geldbetrag.valueOf(betrag.remainder(toBigDecimal(divisor, context)), currency);
     }
 
     /**
@@ -743,7 +744,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      */
     @Override
     public Geldbetrag[] divideAndRemainder(Number divisor) {
-        BigDecimal[] numbers = betrag.divideAndRemainder(toBigDecimal(divisor));
+        BigDecimal[] numbers = betrag.divideAndRemainder(toBigDecimal(divisor, context));
         return toGeldbetragArray(numbers);
     }
 
@@ -794,7 +795,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      */
     @Override
     public Geldbetrag divideToIntegralValue(Number divisor) {
-        return Geldbetrag.valueOf(betrag.divideToIntegralValue(toBigDecimal(divisor)), currency);
+        return Geldbetrag.valueOf(betrag.divideToIntegralValue(toBigDecimal(divisor, context)), currency);
     }
 
     /**
@@ -905,7 +906,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      */
     @Override
     public CurrencyUnit getCurrency() {
-        return Monetary.getCurrency(currency.getCurrencyCode());
+        return currency;
     }
 
     /**
@@ -929,12 +930,16 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
         return betrag.doubleValue();
     }
 
-    private static BigDecimal toBigDecimal(Number value) {
-        BigDecimal n = BigDecimal.valueOf(value.doubleValue());
+    private static BigDecimal toBigDecimal(Number value, MonetaryContext monetaryContext) {
         if (value instanceof BigDecimal) {
-            n = (BigDecimal) value;
+            BigDecimal n = (BigDecimal) value;
+            return n.setScale(monetaryContext.getPrecision(), monetaryContext.get(RoundingMode.class));
         }
-        return n;
+        return new BigDecimal(value.doubleValue(), toMathContext(monetaryContext));
+    }
+    
+    private static MathContext toMathContext(MonetaryContext monetaryContext) {
+        return new MathContext(monetaryContext.getPrecision(),  monetaryContext.get(RoundingMode.class));
     }
     
     private static BigDecimal limitScale(BigDecimal value) {

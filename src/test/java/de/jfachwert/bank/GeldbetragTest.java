@@ -418,4 +418,16 @@ public final class GeldbetragTest extends AbstractFachwertTest {
         assertEquals(Geldbetrag.class, context.getAmountType());
     }
 
+    /**
+     * Hier testen wir, ob intern tatsaechlich die eingestellte Genauigekit
+     * eingehalten wird.
+     */
+    @Test
+    public void testTruncation() {
+        BigDecimal expected = BigDecimal.valueOf(-1.1);
+        Geldbetrag betrag = new GeldbetragFactory().setNumber(expected).create();
+        BigDecimal number = (BigDecimal) betrag.getNumber().numberValue(BigDecimal.class); 
+        assertEquals(expected, number.stripTrailingZeros());
+    }
+
 }
