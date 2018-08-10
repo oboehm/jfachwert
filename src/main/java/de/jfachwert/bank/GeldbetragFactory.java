@@ -37,7 +37,7 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
     private Number number = BigDecimal.ZERO;
     private CurrencyUnit currency = Waehrung.DEFAULT;
     private MonetaryContext context =
-            MonetaryContextBuilder.of(Geldbetrag.class).setAmountType(Geldbetrag.class).setPrecision(4).setMaxScale(63)
+            MonetaryContextBuilder.of(Geldbetrag.class).setAmountType(Geldbetrag.class).setPrecision(41).setMaxScale(41)
                                   .set(RoundingMode.HALF_UP).build();
 
     /**
