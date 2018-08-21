@@ -19,6 +19,7 @@ package de.jfachwert.pruefung;
 
 import de.jfachwert.*;
 import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.pruefung.exception.LocalizedArithmeticException;
 import org.apache.commons.lang3.*;
 
 import javax.validation.*;
@@ -86,6 +87,24 @@ public class NumberValidator implements SimpleValidator<String> {
             throw new InvalidValueException(value, "number", ex);
         }
         throw new InvalidValueException(value, "number", range);
+    }
+
+    /**
+     * Verifiziert die uebergebene Nummer, ob sie eine gueltige Nummer und
+     * nicht unendlich oder 'NaN' ist. Falls die Nummer unendlich oder 'NaN'
+     * ist, wird eine {@link ArithmeticException} geworfen.
+     *
+     * @param number zu pruefende Nummer
+     * @return die Nummer selbst zur Weiterverarbeitung
+     */
+    public Number verifyNumber(Number number) {
+        if ((number instanceof Double) || (number instanceof Float)) {
+            double dValue = number.doubleValue();
+            if (Double.isNaN(dValue) || Double.isInfinite(dValue)) {
+                throw new LocalizedArithmeticException(dValue, "number");
+            }
+        }
+        return number;
     }
 
 }

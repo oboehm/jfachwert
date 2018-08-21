@@ -55,6 +55,7 @@ import java.util.Currency;
 public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, Fachwert {
     
     private static final GeldbetragFactory FACTORY = new GeldbetragFactory();
+    private static final NumberValidator NUMBER_VALIDATOR = new NumberValidator();
 
     /** Da 0-Betraege relativ haeufig vorkommen, spendieren wir dafuer eine eigene Konstante. */
     public static final Geldbetrag ZERO = new Geldbetrag(BigDecimal.ZERO);
@@ -465,6 +466,11 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     private static BigDecimal toBigDecimal(NumberValue value) {
         return value.numberValue(BigDecimal.class).setScale(2, RoundingMode.HALF_UP);
     }
+    
+    private static BigDecimal toBigDecimal(double value) {
+        NUMBER_VALIDATOR.verifyNumber(value);
+        return BigDecimal.valueOf(value);
+    }
 
     /**
      * Returns the signum function of this {@code MonetaryAmount}.
@@ -532,23 +538,18 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     }
 
     /**
-     * Returns a {@code MonetaryAmount} whose value is <tt>(this &times;
-     * multiplicand)</tt>, and whose scale is <code>this.scale() +
-     * multiplicand.scale()</code>.
-     * By default the input value's scale will be rounded to
-     * accommodate the format capabilities, and no {@link ArithmeticException}
-     * is thrown if the input number's scale exceeds the capabilities.
+     * Liefert einen GeldBetrag, desseen Wert <tt>(this &times; 
+     * multiplicand)</tt> und desse Genauigkeit (scale) 
+     * <code>this.scale() + multiplicand.scale()</code> entspricht.
      *
-     * @param multiplicand value to be multiplied by this {@code MonetaryAmount}. If the multiplicand's scale exceeds
-     *                     the
-     *                     capabilities of the implementation, it may be rounded implicitly.
+     * @param multiplicand Multiplikant (wird evtl. gerundet, wenn die
+     *                     Genauigkeit zu hoch ist
      * @return {@code this * multiplicand}
-     * @throws ArithmeticException if the result exceeds the numeric capabilities of this implementation class, i.e.
-     *                             the {@link MonetaryContext} cannot be adapted as required.
+     * @throws ArithmeticException bei "unendlich" oder "NaN" als Mulitiplikant
      */
     @Override
     public MonetaryAmount multiply(double multiplicand) {
-        return multiply(BigDecimal.valueOf(multiplicand));
+        return multiply(toBigDecimal(multiplicand));
     }
 
     /**
@@ -667,7 +668,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      */
     @Override
     public Geldbetrag remainder(double divisor) {
-        return remainder(BigDecimal.valueOf(divisor));
+        return remainder(toBigDecimal(divisor));
     }
 
     /**
