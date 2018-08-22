@@ -57,7 +57,7 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
      * @return die Factory selber
      */
     @Override
-    public MonetaryAmountFactory<Geldbetrag> setCurrency(CurrencyUnit currency) {
+    public GeldbetragFactory setCurrency(CurrencyUnit currency) {
         this.currency = currency;
         return this;
     }
@@ -69,7 +69,7 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
      * @return die Factory selber
      */
     @Override
-    public MonetaryAmountFactory<Geldbetrag> setNumber(double number) {
+    public GeldbetragFactory setNumber(double number) {
         this.number = number;
         return this;
     }
@@ -81,7 +81,7 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
      * @return die Factory selber
      */
     @Override
-    public MonetaryAmountFactory<Geldbetrag> setNumber(long number) {
+    public GeldbetragFactory setNumber(long number) {
         return setNumber(BigDecimal.valueOf(number));
     }
 
@@ -92,7 +92,7 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
      * @return die Factory selber
      */
     @Override
-    public MonetaryAmountFactory<Geldbetrag> setNumber(Number number) {
+    public GeldbetragFactory setNumber(Number number) {
         this.number = number;
         return this;
     }
@@ -127,7 +127,7 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
      * @see #getMaximalMonetaryContext()
      */
     @Override
-    public MonetaryAmountFactory<Geldbetrag> setContext(MonetaryContext monetaryContext) {
+    public GeldbetragFactory setContext(MonetaryContext monetaryContext) {
         context = monetaryContext;
         return this;
     }

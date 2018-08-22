@@ -398,8 +398,10 @@ public final class GeldbetragTest extends AbstractFachwertTest {
      */
     @Test
     public void testGetFactory() {
-        GeldbetragFactory factory = Geldbetrag.ZERO.getFactory();
+        Geldbetrag betrag = Geldbetrag.valueOf("8.15 CHF");
+        GeldbetragFactory factory = betrag.getFactory();
         assertNotNull(factory);
+        assertEquals("CHF", factory.create().getCurrency().getCurrencyCode());
     }
 
     /**

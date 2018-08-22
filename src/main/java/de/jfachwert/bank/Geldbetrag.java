@@ -376,19 +376,15 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     }
 
     /**
-     * Creates a new {@code MonetaryAmountFactory}, returning the same implementation type Hereby
-     * this given amount is used as a template, so reusing the {@link CurrencyUnit}, its numeric
-     * value, the algorithmic implementation as well as the current {@link MonetaryContext}.
-     * <p>
-     * This method is used for creating a new amount result after having done calculations that are
-     * not directly mappable to the default monetary arithmetics, e.g. currency conversion.
+     * Erzeugt eine neue @code GeldbetragFactory}, die @link CurrencyUnit}, den
+     * numerischen Werte und den aktuellen {@link MonetaryContext} verwendet.
      *
-     * @return the new {@code MonetaryAmountFactory} with the given {@link MonetaryAmount} as its
-     * default values.
+     * @return eine {@code GeldbetragFactory}, mit dem ein neuer (gleicher)
+     *         Geldbetrag erzeugt werden kann.
      */
     @Override
     public GeldbetragFactory getFactory() {
-        return FACTORY;
+        return new GeldbetragFactory().setCurrency(currency).setNumber(betrag).setContext(context);
     }
 
     /**
