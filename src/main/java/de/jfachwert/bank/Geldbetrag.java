@@ -653,21 +653,18 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     }
 
     /**
-     * Returns a {@code MonetaryAmount} whose value is <code>this % divisor</code>.
-     * <p>
-     * <p>
-     * The remainder is given by
-     * <code>this.subtract(this.divideToIntegralValue(divisor).multiply(divisor)</code> . Note that this
-     * is not the modulo operation (the result can be negative).
+     * Liefert eine @code Geldbetrag} zurueck, dessen Wert 
+     * <code>this % divisor</code> entspricht. Der Betrag kann auch
+     * negativ sein (im Gegensatz zur Modulo-Operation).
      *
-     * @param divisor value by which this {@code MonetaryAmount} is to be divided.
+     * @param divisor Wert, durch den der {@code Geldbetrag} geteilt wird.
      * @return {@code this % divisor}.
-     * @throws ArithmeticException if {@code divisor==0}, or if the result exceeds the numeric capabilities of this
-     *                             implementation class, i.e. the {@link MonetaryContext} cannot be adapted as
-     *                             required.
      */
     @Override
     public Geldbetrag remainder(double divisor) {
+        if (isInfinite(divisor)) {
+            return Geldbetrag.valueOf(0, currency);
+        }
         return remainder(toBigDecimal(divisor));
     }
 
