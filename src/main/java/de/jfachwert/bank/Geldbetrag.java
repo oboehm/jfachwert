@@ -945,11 +945,16 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
         if (roundingMode == null) {
             roundingMode = RoundingMode.HALF_UP;
         }
-        BigDecimal scaled = n.setScale(monetaryContext.getMaxScale(), roundingMode);
-        if (scaled.compareTo(n) != 0) {
-            throw new LocalizedArithmeticException(value, "lost_precision");
+        int scale = monetaryContext.getMaxScale();
+        if (scale < 0) {
+            return n;
+        } else {
+            BigDecimal scaled = n.setScale(scale, roundingMode);
+            if (scaled.compareTo(n) != 0) {
+                throw new LocalizedArithmeticException(value, "lost_precision");
+            }
+            return scaled;
         }
-        return scaled;
     }
     
     /**
