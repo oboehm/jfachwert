@@ -459,7 +459,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
 
     private boolean isNumberEqualTo(NumberValue value) {
         BigDecimal otherValue = toBigDecimal(value, context);
-        return betrag.equals(otherValue);
+        return betrag.compareTo(otherValue) == 0;
     }
 
     private static BigDecimal toBigDecimal(NumberValue value) {
@@ -467,7 +467,8 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     }
 
     private static BigDecimal toBigDecimal(NumberValue value, MonetaryContext mc) {
-        return toBigDecimal(value).setScale(mc.getMaxScale(), mc.get(RoundingMode.class));
+        Number n = toBigDecimal(value);
+        return toBigDecimal(n, mc);
     }
 
     private static BigDecimal toBigDecimal(double value) {
