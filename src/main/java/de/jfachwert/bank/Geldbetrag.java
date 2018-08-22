@@ -28,8 +28,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.javamoney.moneta.spi.DefaultNumberValue;
 
 import javax.money.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Currency;
 
@@ -458,15 +458,18 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     }
 
     private boolean isNumberEqualTo(NumberValue value) {
-        BigDecimal otherValue = toBigDecimal(value);
-        BigDecimal thisValue = toBigDecimal(this.getNumber());
-        return thisValue.equals(otherValue);
+        BigDecimal otherValue = toBigDecimal(value, context);
+        return betrag.equals(otherValue);
     }
 
     private static BigDecimal toBigDecimal(NumberValue value) {
-        return value.numberValue(BigDecimal.class).setScale(2, RoundingMode.HALF_UP);
+        return value.numberValue(BigDecimal.class);
     }
-    
+
+    private static BigDecimal toBigDecimal(NumberValue value, MonetaryContext mc) {
+        return toBigDecimal(value).setScale(mc.getMaxScale(), mc.get(RoundingMode.class));
+    }
+
     private static BigDecimal toBigDecimal(double value) {
         NUMBER_VALIDATOR.verifyNumber(value);
         return BigDecimal.valueOf(value);
@@ -499,7 +502,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
         if (betrag.compareTo(BigDecimal.ZERO) == 0) {
             return Geldbetrag.valueOf(other);
         }
-        BigDecimal n = other.getNumber().numberValue(BigDecimal.class);
+        BigDecimal n = toBigDecimal(other.getNumber(), context);
         if (n.compareTo(BigDecimal.ZERO) == 0) {
             return this;
         }
@@ -880,7 +883,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      * als der andere ist; sonst positive Zahl.
      */
     @Override
-    public int compareTo(MonetaryAmount other) {
+    public int compareTo(@NotNull MonetaryAmount other) {
         BigDecimal n = toBigDecimal(other.getNumber());
         if ((this.betrag.compareTo(BigDecimal.ZERO) != 0) && (n.compareTo(BigDecimal.ZERO) != 0)) {
             checkCurrency(other);
@@ -932,15 +935,13 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     }
 
     private static BigDecimal toBigDecimal(Number value, MonetaryContext monetaryContext) {
+        BigDecimal n = BigDecimal.valueOf(value.doubleValue());
         if (value instanceof BigDecimal) {
-            BigDecimal n = (BigDecimal) value;
-            return n.setScale(monetaryContext.getPrecision(), monetaryContext.get(RoundingMode.class));
+            n = (BigDecimal) value;
+        } else if (value instanceof DefaultNumberValue) {
+            n = ((DefaultNumberValue) value).numberValue(BigDecimal.class);
         }
-        return new BigDecimal(value.doubleValue(), toMathContext(monetaryContext));
-    }
-    
-    private static MathContext toMathContext(MonetaryContext monetaryContext) {
-        return new MathContext(monetaryContext.getPrecision(),  monetaryContext.get(RoundingMode.class));
+        return n.setScale(monetaryContext.getMaxScale(), monetaryContext.get(RoundingMode.class));
     }
     
     private static BigDecimal limitScale(BigDecimal value) {

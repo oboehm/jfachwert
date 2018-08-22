@@ -40,6 +40,8 @@ import static org.junit.Assert.*;
  * @author oboehm
  */
 public final class GeldbetragTest extends AbstractFachwertTest {
+    
+    private static final GeldbetragFactory FACTORY = new GeldbetragFactory();
 
     /**
      * Zum Testen brauchen wir ein Test-Objekt. Dies muss hierueber von den
@@ -81,13 +83,13 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     }
 
     /**
-     * Rundungsdifferenzen beim Vergleich im 1/10-Cent-Bereich sollten keine
-     * Rolle fuer den Vergleich spielen.
+     * Rundungsdifferenzen beim Vergleich im Millionstel-Cent-Bereich sollten
+     * keine Rolle fuer den Vergleich spielen.
      */
     @Test
     public void testEqualsGerundet() {
         Geldbetrag one = new Geldbetrag(1);
-        Geldbetrag hundredCents = new Geldbetrag(0.9999);
+        Geldbetrag hundredCents = new Geldbetrag(0.9999999999999999);
         assertEquals(one, hundredCents);
     }
 
@@ -96,8 +98,8 @@ public final class GeldbetragTest extends AbstractFachwertTest {
      */
     @Test
     public void testEqualsZero() {
-        Geldbetrag plus = new Geldbetrag("0.0049");
-        Geldbetrag minus = new Geldbetrag("-0.0049");
+        Geldbetrag plus = new Geldbetrag("0.0000000000000049");
+        Geldbetrag minus = new Geldbetrag("-0.0000000000000049");
         assertEquals(plus, minus);
     }
 
@@ -120,10 +122,21 @@ public final class GeldbetragTest extends AbstractFachwertTest {
      * {@link MonetaryException} fuehren.
      */
     @Test(expected = MonetaryException.class)
-    public void testIsEqualsTo() {
+    public void testIsEqualsToDifferentCurrencies() {
         Geldbetrag oneEuro = new Geldbetrag(1.0);
         Geldbetrag oneDM = new Geldbetrag(1.0).withCurrency("DEM");
         oneEuro.isEqualTo(oneDM);
+    }
+
+    /**
+     * Rundungsdifferenzen spielen fuer das TCK eine Rolle.
+     */
+    @Test
+    public void testIsEqualsToRounding() {
+        Geldbetrag zero = FACTORY.setNumber(BigDecimal.valueOf(0d)).create();
+        Geldbetrag fastNix = FACTORY.setNumber(BigDecimal.valueOf(0.00001d)).create();
+        assertFalse(zero.isEqualTo(fastNix));
+        assertFalse(fastNix.isEqualTo(zero));
     }
 
     /**
@@ -281,9 +294,9 @@ public final class GeldbetragTest extends AbstractFachwertTest {
      */
     @Test
     public void testMultiplyMwst() {
-        Geldbetrag fuffzger = Geldbetrag.fromCent(50);
+        Geldbetrag fuffzger = Geldbetrag.fromCent(500);
         BigDecimal mwst = BigDecimal.valueOf(0.19);
-        assertEquals(Geldbetrag.fromCent(10), fuffzger.multiply(mwst));
+        assertEquals(Geldbetrag.fromCent(95), fuffzger.multiply(mwst));
     }
 
     /**
