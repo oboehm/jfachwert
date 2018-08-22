@@ -28,6 +28,7 @@ import javax.money.NumberValue;
 import javax.validation.ValidationException;
 import java.math.BigDecimal;
 import java.util.Currency;
+import java.util.logging.Logger;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
@@ -41,6 +42,7 @@ import static org.junit.Assert.*;
  */
 public final class GeldbetragTest extends AbstractFachwertTest {
     
+    private static final Logger LOG = Logger.getLogger(Geldbetrag.class.getName());
     private static final GeldbetragFactory FACTORY = new GeldbetragFactory();
 
     /**
@@ -80,27 +82,6 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     public void testGeldbetragEuro() {
         Geldbetrag fuffzger = new Geldbetrag("50\u20AC");
         assertEquals(Geldbetrag.valueOf(BigDecimal.valueOf(50), Currency.getInstance("EUR")), fuffzger);
-    }
-
-    /**
-     * Rundungsdifferenzen beim Vergleich im Millionstel-Cent-Bereich sollten
-     * keine Rolle fuer den Vergleich spielen.
-     */
-    @Test
-    public void testEqualsGerundet() {
-        Geldbetrag one = new Geldbetrag(1);
-        Geldbetrag hundredCents = new Geldbetrag(0.9999999999999999);
-        assertEquals(one, hundredCents);
-    }
-
-    /**
-     * Bei 0 sollte das Vorzeichen keine Rolle spielen.
-     */
-    @Test
-    public void testEqualsZero() {
-        Geldbetrag plus = new Geldbetrag("0.0000000000000049");
-        Geldbetrag minus = new Geldbetrag("-0.0000000000000049");
-        assertEquals(plus, minus);
     }
 
     /**
@@ -432,15 +413,21 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     }
 
     /**
-     * Hier testen wir, ob intern tatsaechlich die eingestellte Genauigekit
-     * eingehalten wird.
+     * Hier testen wir, ob eine Double korrekt abgespeichert wird. Der Test
+     * wurde aus org.javamoney.tck.tests.ExternalizingNumericValueTest
+     * abgeleitet.
      */
     @Test
-    public void testTruncation() {
-        BigDecimal expected = BigDecimal.valueOf(-1.1);
-        Geldbetrag betrag = new GeldbetragFactory().setNumber(expected).create();
-        BigDecimal number = (BigDecimal) betrag.getNumber().numberValue(BigDecimal.class); 
-        assertEquals(expected, number.stripTrailingZeros());
+    public void testValidDoubleWithTruncation() {
+        double[] numbers = { 1.24, 1.2435d, 1.2435535454353455d};
+        for (double expected : numbers) {
+            try {
+                Geldbetrag betrag = FACTORY.setNumber(expected).create();
+                assertEquals(expected, betrag.getNumber().doubleValue(), 1E-15d);
+            } catch (ArithmeticException canhappen) {
+                LOG.info(canhappen.getLocalizedMessage());
+            }
+        }
     }
 
 }

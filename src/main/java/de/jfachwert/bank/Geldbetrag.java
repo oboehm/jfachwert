@@ -23,12 +23,12 @@ import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.NumberValidator;
 import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.pruefung.exception.LocalizedArithmeticException;
 import de.jfachwert.pruefung.exception.LocalizedMonetaryException;
 import org.apache.commons.lang3.StringUtils;
 import org.javamoney.moneta.spi.DefaultNumberValue;
 
 import javax.money.*;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
@@ -574,7 +574,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
             return this;
         }
         BigDecimal multiplied = betrag.multiply(d);
-        return Geldbetrag.valueOf(limitScale(multiplied), currency);
+        return Geldbetrag.valueOf(multiplied, currency);
     }
 
     /**
@@ -883,7 +883,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      * als der andere ist; sonst positive Zahl.
      */
     @Override
-    public int compareTo(@NotNull MonetaryAmount other) {
+    public int compareTo(MonetaryAmount other) {
         BigDecimal n = toBigDecimal(other.getNumber());
         if ((this.betrag.compareTo(BigDecimal.ZERO) != 0) && (n.compareTo(BigDecimal.ZERO) != 0)) {
             checkCurrency(other);
@@ -941,13 +941,17 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
         } else if (value instanceof DefaultNumberValue) {
             n = ((DefaultNumberValue) value).numberValue(BigDecimal.class);
         }
-        return n.setScale(monetaryContext.getMaxScale(), monetaryContext.get(RoundingMode.class));
+        RoundingMode roundingMode = monetaryContext.get(RoundingMode.class);
+        if (roundingMode == null) {
+            roundingMode = RoundingMode.HALF_UP;
+        }
+        BigDecimal scaled = n.setScale(monetaryContext.getMaxScale(), roundingMode);
+        if (scaled.compareTo(n) != 0) {
+            throw new LocalizedArithmeticException(value, "lost_precision");
+        }
+        return scaled;
     }
     
-    private static BigDecimal limitScale(BigDecimal value) {
-        return value.setScale(4, RoundingMode.HALF_UP);
-    }
-
     /**
      * Hash-Code.
      * 

@@ -101,9 +101,9 @@ public class InvalidValueException extends LocalizedValidationException {
             return getLocalizedMessage("pruefung.missingvalue.exception.message", localizedContext);
         }
         if (range == null) {
-            return getLocalizedMessage("pruefung.invalidvalue.exception.message", value, localizedContext);
+            return getLocalizedMessage("pruefung.invalidvalue.exception.message", value.toString(), localizedContext);
         }
-        return getLocalizedMessage("pruefung.invalidrange.exception.message", value, localizedContext, range);
+        return getLocalizedMessage("pruefung.invalidrange.exception.message", value.toString(), localizedContext, range);
     }
 
 }
