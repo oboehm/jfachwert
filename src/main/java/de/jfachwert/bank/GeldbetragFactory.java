@@ -17,6 +17,8 @@
  */
 package de.jfachwert.bank;
 
+import de.jfachwert.pruefung.exception.LocalizedMonetaryException;
+
 import javax.money.*;
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -35,7 +37,7 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
             MonetaryContextBuilder.of(Geldbetrag.class).setAmountType(Geldbetrag.class).setPrecision(0).setMaxScale(-1)
                                   .set(RoundingMode.HALF_UP).build();
     private Number number = BigDecimal.ZERO;
-    private CurrencyUnit currency = Waehrung.DEFAULT;
+    private CurrencyUnit currency;
     private MonetaryContext context =
             MonetaryContextBuilder.of(Geldbetrag.class).setAmountType(Geldbetrag.class).setPrecision(41).setMaxScale(14)
                                   .set(RoundingMode.HALF_UP).build();
@@ -140,7 +142,10 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
      */
     @Override
     public Geldbetrag create() {
-        return new Geldbetrag(number, currency, context);
+        if (currency == null) {
+            throw new LocalizedMonetaryException("currency missing", number);
+        }
+        return Geldbetrag.valueOf(number, currency, context);
     }
     
     /**

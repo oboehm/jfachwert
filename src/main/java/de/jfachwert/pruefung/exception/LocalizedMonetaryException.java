@@ -17,9 +17,9 @@
  */
 package de.jfachwert.pruefung.exception;
 
-import javax.money.MonetaryAmount;
 import javax.money.MonetaryException;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Im Gegensatz zur {@link MonetaryException} wurde hier
@@ -31,20 +31,18 @@ import java.util.Arrays;
  */
 public class LocalizedMonetaryException extends MonetaryException implements LocalizedException {
     
-    private final MonetaryAmount[] amounts = new MonetaryAmount[2];
+    private final Object[] amounts;
 
     /**
      * Diese Exception wird vervendet, wenn zwei Geldbetraege mit 
      * unterschiedlichen Waehrungen verglichen oder addiert werden.
      * 
      * @param message Meldung (z.B. "different currencies")
-     * @param a1 der erste Geldbetrag
-     * @param a2 der zweite Geldbetrag
+     * @param args die verschiedenen Geldbetraege oder Argumente
      */
-    public LocalizedMonetaryException(String message, MonetaryAmount a1, MonetaryAmount a2) {
+    public LocalizedMonetaryException(String message, Object... args) {
         super(message);
-        amounts[0] = a1;
-        amounts[1] = a2;
+        amounts = args;
     }
 
     /**
@@ -66,7 +64,8 @@ public class LocalizedMonetaryException extends MonetaryException implements Loc
      */
     @Override
     public String getLocalizedMessage() {
-        return getLocalizedString(getMessageKey(super.getMessage())) + ": " + Arrays.toString(amounts);
+        String values = (amounts.length == 1) ? Objects.toString(amounts[0]) : Arrays.toString(amounts);
+        return getLocalizedString(getMessageKey(super.getMessage())) + ": " + values;
     }
 
 }

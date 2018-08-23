@@ -17,6 +17,7 @@
  */
 package de.jfachwert.bank;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import javax.money.CurrencyUnit;
@@ -35,6 +36,11 @@ import static org.junit.Assert.*;
 public final class GeldbetragFactoryTest {
     
     private final GeldbetragFactory factory = new GeldbetragFactory();
+    
+    @Before
+    public void setUpFactory() {
+        factory.setCurrency(Waehrung.DEFAULT);
+    }
 
     /**
      * Tested das Anlegen eines Geldbetrags ueber die GeldbetragFactory.
