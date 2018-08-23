@@ -267,7 +267,25 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     public static Geldbetrag valueOf(Number value, CurrencyUnit currency) {
         return valueOf(new Geldbetrag(value, currency));
     }
-    
+
+    /**
+     * Wandelt den angegebenen MonetaryAmount in einen Geldbetrag um. Um die
+     * Anzahl von Objekten gering zu halten, wird nur dann tatsaechlich eine
+     * neues Objekt erzeugt, wenn es sich nicht vermeiden laesst.
+     * <p>
+     * In Anlehnung an {@link BigDecimal} heisst die Methode "valueOf" und
+     * nicht "of".
+     * </p>
+     *
+     * @param value Wert des andere Geldbetrags
+     * @param currency Waehrung des anderen Geldbetrags
+     * @param monetaryContext Kontext des anderen Geldbetrags
+     * @return ein Geldbetrag
+     */
+    public static Geldbetrag valueOf(Number value, CurrencyUnit currency, MonetaryContext monetaryContext) {
+        return valueOf(new Geldbetrag(value, currency, monetaryContext));
+    }
+
     /**
      * Wandelt den angegebenen MonetaryAmount in einen Geldbetrag um. Um die
      * Anzahl von Objekten gering zu halten, wird nur dann tatsaechlich eine
@@ -808,7 +826,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      */
     @Override
     public Geldbetrag scaleByPowerOfTen(int power) {
-        throw new UnsupportedOperationException("not yet implemented");
+        return Geldbetrag.valueOf(betrag.scaleByPowerOfTen(power), getCurrency(), context);
     }
 
     /**
@@ -853,17 +871,18 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     }
 
     /**
-     * Returns a {@code MonetaryAmount} which is numerically equal to this one but with any trailing
-     * zeros removed from the representation. For example, stripping the trailing zeros from the
-     * {@code MonetaryAmount} value {@code CHF 600.0}, which has [{@code BigInteger}, {@code scale}]
-     * components equals to [6000, 1], yields {@code 6E2} with [ {@code BigInteger}, {@code scale}]
-     * components equals to [6, -2]
+     * Liefert einen {@code Geldbetrag}, der numerisch dem gleichen Wert
+     * entspricht, aber ohne Nullen in den Nachkommastellen.
      *
-     * @return a numerically equal {@code MonetaryAmount} with any trailing zeros removed.
+     * @return im Priip der gleiche {@code Geldbetrag}, nur wird die Zahl
+     *         intern anders repraesentiert.
      */
     @Override
     public Geldbetrag stripTrailingZeros() {
-        throw new UnsupportedOperationException("not yet implemented");
+        if (isZero()) {
+            return valueOf(BigDecimal.ZERO, getCurrency());
+        }
+        return valueOf(betrag.stripTrailingZeros(), getCurrency(), context);
     }
 
     /**
