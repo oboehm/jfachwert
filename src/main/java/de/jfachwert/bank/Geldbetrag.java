@@ -959,7 +959,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
             roundingMode = RoundingMode.HALF_UP;
         }
         int scale = monetaryContext.getMaxScale();
-        if (scale < 0) {
+        if (scale <= 0) {
             return n;
         } else {
             BigDecimal scaled = n.setScale(scale, roundingMode);

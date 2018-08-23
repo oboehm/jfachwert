@@ -18,6 +18,7 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwertTest;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
@@ -44,6 +45,11 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     
     private static final Logger LOG = Logger.getLogger(Geldbetrag.class.getName());
     private static final GeldbetragFactory FACTORY = new GeldbetragFactory();
+    
+    @BeforeClass
+    public static void setUpFactory() {
+        FACTORY.setCurrency(Waehrung.DEFAULT);
+    }
 
     /**
      * Zum Testen brauchen wir ein Test-Objekt. Dies muss hierueber von den

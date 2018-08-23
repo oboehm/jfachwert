@@ -21,7 +21,6 @@ import de.jfachwert.pruefung.exception.LocalizedMonetaryException;
 
 import javax.money.*;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 
 /**
@@ -170,13 +169,6 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
     @Override
     public MonetaryContext getMaximalMonetaryContext() {
         return MAX_CONTEXT;
-    }
-
-    public MonetaryContext getContextFor(MathContext mc) {
-        return MonetaryContextBuilder.of(Geldbetrag.class).setAmountType(Geldbetrag.class)
-                              .setMaxScale(context.getMaxScale())
-                              .setPrecision(mc.getPrecision())
-                              .set(mc.getRoundingMode()).build();
     }
 
 }
