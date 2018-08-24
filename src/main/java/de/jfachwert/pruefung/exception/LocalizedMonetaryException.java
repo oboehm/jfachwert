@@ -46,6 +46,19 @@ public class LocalizedMonetaryException extends MonetaryException implements Loc
     }
 
     /**
+     * Diese Exception wird vervendet, wenn ein verwendeter Operator mit
+     * einer Exception fehlschlaegt.
+     *
+     * @param message Meldung (z.B. "operator failed")
+     * @param arg z.B. der Operator
+     */
+    public LocalizedMonetaryException(String message, Object arg, Throwable cause) {
+        super(message);
+        amounts = new Object[1];
+        amounts[0] = arg;
+    }
+
+    /**
      * Returns the detail message string of this throwable.
      *
      * @return the detail message string of this {@code Throwable} instance

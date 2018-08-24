@@ -32,6 +32,7 @@ import javax.money.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
+import java.util.Objects;
 
 /**
  * Diese Klasse unterstuetzt sie JSR 354 und das{@link MonetaryAmount} 
@@ -1004,6 +1005,24 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     
     private void checkCurrency(MonetaryAmount other) {
         if (!hasSameCurrency(other)) throw new LocalizedMonetaryException("different currencies", this, other);
+    }
+
+    /**
+     * Liefert das Ergebnis des Operator <b>vom selben Typ</b>.
+     *
+     * @param operator Operator (nicht null)
+     * @return ein Objekt desselben Typs (nicht null)
+     */
+    @Override
+    public Geldbetrag with(MonetaryOperator operator) {
+        Objects.requireNonNull(operator);
+        try {
+            return (Geldbetrag) operator.apply(this);
+        } catch (MonetaryException ex) {
+            throw ex;
+        } catch (RuntimeException ex) {
+            throw new LocalizedMonetaryException("operator failed", operator, ex);
+        }
     }
 
     /**
