@@ -1012,6 +1012,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      *
      * @param operator Operator (nicht null)
      * @return ein Objekt desselben Typs (nicht null)
+     * @see javax.money.MonetaryAmount#with(javax.money.MonetaryOperator)
      */
     @Override
     public Geldbetrag with(MonetaryOperator operator) {
@@ -1022,6 +1023,25 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
             throw ex;
         } catch (RuntimeException ex) {
             throw new LocalizedMonetaryException("operator failed", operator, ex);
+        }
+    }
+
+    /**
+     * Fraegt einen Wert an.
+     *
+     * @param query Anrfage (nicht null)
+     * @return Ergebnis der Anfrage (kann null sein)
+     * @see javax.money.MonetaryAmount#query(javax.money.MonetaryQuery)
+     */
+    @Override
+    public <R> R query(MonetaryQuery<R> query) {
+        Objects.requireNonNull(query);
+        try {
+            return query.queryFrom(this);
+        } catch (MonetaryException ex) {
+            throw ex;
+        } catch (RuntimeException ex) {
+            throw new LocalizedMonetaryException("query failed", query, ex);
         }
     }
 
