@@ -31,6 +31,7 @@ import org.javamoney.moneta.spi.DefaultNumberValue;
 import javax.money.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.Objects;
 
@@ -1049,12 +1050,13 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      * Um anzuzeigen, dass es ein Geldbtrag ist, wird zusaetzlich noch das
      * Waehrungszeichen (abhaengig von der eingestellten Locale) ausgegeben.
      *
-     * @return z.B. "19.00 $"
+     * @return z.B. "19.00 USD"
      * @see java.math.BigDecimal#toString()
      */
     @Override
     public String toString() {
-        return this.getNumber() + " " + Waehrung.getSymbol(currency);
+        return StringUtils.substringBefore(NumberFormat.getCurrencyInstance().format(this.betrag), " ") + " " +
+                currency;
     }
 
 }

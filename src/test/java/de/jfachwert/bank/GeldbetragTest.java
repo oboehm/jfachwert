@@ -29,9 +29,11 @@ import javax.money.NumberValue;
 import javax.validation.ValidationException;
 import java.math.BigDecimal;
 import java.util.Currency;
+import java.util.Locale;
 import java.util.logging.Logger;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.startsWith;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
 import static org.hamcrest.number.OrderingComparison.lessThan;
 import static org.junit.Assert.*;
@@ -435,6 +437,22 @@ public final class GeldbetragTest extends AbstractFachwertTest {
             } catch (ArithmeticException canhappen) {
                 LOG.info(canhappen.getLocalizedMessage());
             }
+        }
+    }
+
+    /**
+     * Hier erwarten wir die Ausgabe mit Nachkommastellen (falls die Waehrung
+     * das vorsieht). Und die Ausgabe im laenderspezifischen Format.
+     */
+    @Test
+    public void testToStringLocalized() {
+        Geldbetrag betrag = Geldbetrag.valueOf(Double.valueOf("1E2"), Waehrung.of("EUR"));
+        String s = betrag.toString();
+        assertThat(s, startsWith("100"));
+        if (Locale.getDefault().getLanguage().equals("de")) {
+            assertEquals("100,00 EUR", s);
+        } else {
+            assertEquals("100.00 EUR", s);
         }
     }
 
