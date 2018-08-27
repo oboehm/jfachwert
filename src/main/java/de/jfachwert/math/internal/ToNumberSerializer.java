@@ -21,7 +21,7 @@ import java.io.IOException;
  * als Abhaengigkeit eingebunden werden.
  * 
  * @author oboehm
- * @since 0.8
+ * @since 1.0
  */
 public final class ToNumberSerializer extends StdSerializer<AbstractNumber> {
 

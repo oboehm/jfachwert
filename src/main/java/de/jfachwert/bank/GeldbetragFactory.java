@@ -28,7 +28,7 @@ import java.math.RoundingMode;
  * ein {@link Geldbetrag} erzeugt und vorblegt werden.
  *
  * @author oboehm
- * @since 0.8 (30.07.2018)
+ * @since 1.0 (30.07.2018)
  */
 public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
 

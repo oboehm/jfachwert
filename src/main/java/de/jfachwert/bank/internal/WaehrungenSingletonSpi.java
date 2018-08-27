@@ -34,7 +34,7 @@ import java.util.logging.Logger;
  * Waehrung zu erzeugen und das TCK zu bestehen.
  *
  * @author oboehm
- * @since 0.8 (07.08.2018)
+ * @since 1.0 (07.08.2018)
  */
 public final class WaehrungenSingletonSpi implements MonetaryCurrenciesSingletonSpi {
 
@@ -51,8 +51,7 @@ public final class WaehrungenSingletonSpi implements MonetaryCurrenciesSingleton
      */
     @Override
     public List<String> getDefaultProviderChain() {
-        List<String> list = new ArrayList<>();
-        list.addAll(getProviderNames());
+        List<String> list = new ArrayList<>(getProviderNames());
         return list;
     }
 

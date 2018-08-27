@@ -21,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.javamoney.moneta.Money;
 import org.javamoney.tck.JSR354TestConfiguration;
 import org.javamoney.tck.TCKRunner;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.money.*;
@@ -42,7 +43,7 @@ import static org.junit.Assert.assertThat;
  * finden.
  *
  * @author oboehm
- * @since 0.8 (20.07.2018)
+ * @since 1.0 (20.07.2018)
  */
 public class GeldbetragIT implements JSR354TestConfiguration {
 
@@ -117,7 +118,7 @@ public class GeldbetragIT implements JSR354TestConfiguration {
      * anderes Ergebnis, weswegen sie auf "@Ignore" gesetzt wurde.
      */
     @Test
-    //@Ignore
+    @Ignore
     public void testCompareToMoney() {
         checkCompareTo(Monetary.getAmountFactory(Money.class));
     }

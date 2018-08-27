@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
  * die betroffenen Exceptions bereits von anderen Exceptions abgeleitet sind.
  *
  * @author oboehm
- * @since 0.8 (19.07.2018)
+ * @since 1.0 (19.07.2018)
  */
 public interface LocalizedException {
     

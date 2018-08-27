@@ -17,7 +17,6 @@
  */
 package de.jfachwert.pruefung.exception;
 
-import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.junit.Test;
 
 import java.util.Locale;
@@ -51,7 +50,7 @@ public final class InvalidValueExceptionTest {
     @Test
     public void testGetLocalizedMessage() {
         if ("de".equalsIgnoreCase(Locale.getDefault().getLanguage())) {
-            assertEquals("ung\u00fcltiger Wert f\u00fcr Land: \"xx\"", exception.getLocalizedMessage());
+            assertEquals("ung\u00fcltiger Wert wegen Land: \"xx\"", exception.getLocalizedMessage());
         }
     }
 

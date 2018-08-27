@@ -17,7 +17,6 @@
  */
 package de.jfachwert.util;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
@@ -36,7 +35,7 @@ import java.util.Map;
  * als Abhaengigkeit eingebunden werden.
  *
  * @author oboehm
- * @since 0.8
+ * @since 1.0
  */
 public class ToFachwertSerializer extends StdSerializer<Fachwert> {
 
@@ -63,7 +62,7 @@ public class ToFachwertSerializer extends StdSerializer<Fachwert> {
     }
 
     private void serialize(final Map<String, Object> map, final JsonGenerator jgen, final SerializerProvider provider)
-            throws IOException, JsonGenerationException {
+            throws IOException {
         jgen.writeStartObject();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             jgen.writeObjectField(entry.getKey(), entry.getValue());

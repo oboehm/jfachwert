@@ -423,7 +423,7 @@ public class Rechnungsmonat implements Fachwert {
      *
      * @param yearsToAdd Anzahl Jahre, die aufaddiert werden
      * @return neuen Rechnungsmonat
-     * @since 0.8
+     * @since 1.0
      * @see LocalDate#plusYears(long)
      */
     public Rechnungsmonat plusYears(int yearsToAdd) {
@@ -438,7 +438,7 @@ public class Rechnungsmonat implements Fachwert {
      *
      * @param monthsToAdd Anzahl Monate, die aufaddiert werden
      * @return neuen Rechnungsmonat
-     * @since 0.8
+     * @since 1.0
      * @see LocalDate#plusMonths(long)
      */
     public Rechnungsmonat plusMonths(int monthsToAdd) {
@@ -457,7 +457,7 @@ public class Rechnungsmonat implements Fachwert {
      *
      * @param years Anzahl Jahre, die subtrahiert werden
      * @return neuen Rechnungsmonat
-     * @since 0.8
+     * @since 1.0
      * @see LocalDate#minusYears(long)
      */
     public Rechnungsmonat minusYears(int years) {
@@ -472,7 +472,7 @@ public class Rechnungsmonat implements Fachwert {
      *
      * @param months Anzahl Monate, die subtrahiert werden
      * @return neuen Rechnungsmonat
-     * @since 0.8
+     * @since 1.0
      * @see LocalDate#minusMonths(long)
      */
     public Rechnungsmonat minusMonths(int months) {

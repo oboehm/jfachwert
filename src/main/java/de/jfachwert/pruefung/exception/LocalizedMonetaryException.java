@@ -27,7 +27,7 @@ import java.util.Objects;
  * eine lokalisierte Fehlermeldung zur Verfuegung stellen zu koennen.
  *
  * @author oboehm
- * @since 0.8 (19.07.2018)
+ * @since 1.0 (19.07.2018)
  */
 public class LocalizedMonetaryException extends MonetaryException implements LocalizedException {
     

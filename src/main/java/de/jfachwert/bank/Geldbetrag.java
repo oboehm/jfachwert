@@ -50,7 +50,7 @@ import java.util.Objects;
  * </p>
  *
  * @author oboehm
- * @since 0.8 (18.07.2018)
+ * @since 1.0 (18.07.2018)
  */
 @JsonSerialize(using = ToStringSerializer.class)
 public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, Fachwert {

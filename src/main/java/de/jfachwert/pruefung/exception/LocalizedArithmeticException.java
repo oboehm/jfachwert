@@ -24,7 +24,7 @@ import java.io.Serializable;
  * {@link ArithmeticException} mit lokalisierter Fehlermeldung.
  *
  * @author oboehm
- * @since 0.8 (20.08.2018)
+ * @since 1.0 (20.08.2018)
  */
 public class LocalizedArithmeticException extends ArithmeticException implements LocalizedException {
     

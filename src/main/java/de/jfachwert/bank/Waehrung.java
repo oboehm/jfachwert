@@ -31,7 +31,7 @@ import java.util.logging.Logger;
  * Class Waehrung.
  *
  * @author <a href="ob@aosd.de">oliver</a>
- * @since 0.8
+ * @since 1.0
  */
 public class Waehrung extends AbstractFachwert<Currency> implements CurrencyUnit, Comparable<CurrencyUnit> {
 
