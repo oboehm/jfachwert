@@ -84,6 +84,16 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     }
 
     /**
+     * Hier testen wir, ob der Konstruktor mit der Formattierung des Betrags
+     * in deutscher Sprache klarkommt.
+     */
+    @Test
+    public void testGeldbetragInGerman() {
+        Geldbetrag one = new Geldbetrag("1,23 EUR");
+        assertEquals(1.23, one.getNumber().doubleValue(), 0.0001);
+    }
+
+    /**
      * Hier wird getestet, ob die Waehrung richtig erkannt wird.
      */
     @Test
@@ -449,11 +459,20 @@ public final class GeldbetragTest extends AbstractFachwertTest {
         Geldbetrag betrag = Geldbetrag.valueOf(Double.valueOf("1E2"), Waehrung.of("EUR"));
         String s = betrag.toString();
         assertThat(s, startsWith("100"));
-        if (Locale.getDefault().getLanguage().equals("de")) {
+        if ("de".equals(Locale.getDefault().getLanguage())) {
             assertEquals("100,00 EUR", s);
         } else {
             assertEquals("100.00 EUR", s);
         }
+    }
+
+    /**
+     * Hier erwarten wir jetzt die Ausgabe ohne Nachkommastellen.
+     */
+    @Test
+    public void testToShortString() {
+        Geldbetrag betrag = Geldbetrag.valueOf("123.45 EUR");
+        assertEquals(betrag.toShortString(), "123 \u20ac");
     }
 
 }

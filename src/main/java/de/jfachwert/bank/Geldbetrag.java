@@ -1047,6 +1047,16 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     }
 
     /**
+     * Gibt den Betrag in Kurz-Format aus: ohne Nachkommastellen und mit dem
+     * Waehrungssymbol.
+     * 
+     * @return z.B. "19 $"
+     */
+    public String toShortString() {
+        return betrag.setScale(0, RoundingMode.HALF_UP) + " " + Waehrung.getSymbol(currency);
+    }
+
+    /**
      * Um anzuzeigen, dass es ein Geldbtrag ist, wird zusaetzlich noch das
      * Waehrungszeichen (abhaengig von der eingestellten Locale) ausgegeben.
      *

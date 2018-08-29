@@ -17,13 +17,16 @@
  */
 package de.jfachwert.pruefung;
 
-import de.jfachwert.*;
+import de.jfachwert.SimpleValidator;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 import de.jfachwert.pruefung.exception.LocalizedArithmeticException;
-import org.apache.commons.lang3.*;
+import org.apache.commons.lang3.Range;
 
-import javax.validation.*;
-import java.math.*;
+import javax.validation.ValidationException;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.util.Locale;
 
 /**
  * Der NumberValidator ueberprueft eine uebergebene {@link Number}, ob sie
@@ -78,15 +81,40 @@ public class NumberValidator implements SimpleValidator<String> {
      */
     @Override
     public String validate(String value) {
+        String normalized = normalize(value);
         try {
-            BigDecimal n = new BigDecimal(value);
+            BigDecimal n = new BigDecimal(normalized);
             if (range.contains(n)) {
-                return value;
+                return normalized;
             }
         } catch (NumberFormatException ex) {
             throw new InvalidValueException(value, "number", ex);
         }
         throw new InvalidValueException(value, "number", range);
+    }
+
+    /**
+     * Normalisiert einen String, sodass er zur Generierung einer Zahl
+     * herangezogen werden kann.
+     * 
+     * @param value z.B. "1,234.5"
+     * @return normalisiert, z.B. "1234.5"
+     */
+    public String normalize(String value) {
+        if (!value.matches("[\\d,.]+([eE]\\d+)?")) {
+            throw new InvalidValueException(value, "number");
+        }
+        Locale locale = guessLocale(value);
+        DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance(locale);
+        try {
+            return df.parse(value).toString();
+        } catch (ParseException ex) {
+            throw new InvalidValueException(value, "number", ex);
+        }
+    }
+
+    private static Locale guessLocale(String value) {
+        return value.matches("\\d+(\\.\\d{3})*(,\\d+)?") ? Locale.GERMAN : Locale.ENGLISH;
     }
 
     /**
