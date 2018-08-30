@@ -423,13 +423,15 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     }
 
     /**
-     * Testmethode fuer {@link Geldbetrag#getContext()}.
+     * Testmethode fuer {@link Geldbetrag#getContext()}. Die Genauigkeit wird
+     * dabei durch den Betrag vorgegeben.
      */
     @Test
     public void testGetContext() {
-        MonetaryContext context = Geldbetrag.valueOf("1 AUD").getContext();
+        MonetaryContext context = Geldbetrag.valueOf("0.123456789012345 AUD").getContext();
         assertNotNull(context);
         assertEquals(Geldbetrag.class, context.getAmountType());
+        assertEquals(15, context.getMaxScale());
     }
 
     /**
@@ -473,6 +475,19 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     public void testToShortString() {
         Geldbetrag betrag = Geldbetrag.valueOf("123.45 EUR");
         assertEquals(betrag.toShortString(), "123 \u20ac");
+    }
+
+    /**
+     * In der Long-Ausgabe wollen wir die volle Genauigkeit sehen.
+     */
+    @Test
+    public void testToLongString() {
+        Geldbetrag betrag = Geldbetrag.valueOf("12345.6789 EUR");
+        if ("de".equals(Locale.getDefault().getLanguage())) {
+            assertEquals("12.345,6789 EUR", betrag.toLongString());
+        } else {
+            assertEquals("12,345.6789 EUR", betrag.toLongString());
+        }
     }
 
 }

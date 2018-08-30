@@ -136,7 +136,22 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      * @param currency Waehrung, z.B. Euro
      */
     public Geldbetrag(Number betrag, CurrencyUnit currency) {
-        this(betrag, currency, FACTORY.getDefaultMonetaryContext());
+        this(betrag, currency, getMonetaryContextOf(betrag));
+    }
+
+    private static MonetaryContext getMonetaryContextOf(Number number) {
+        MonetaryContext mc = FACTORY.getDefaultMonetaryContext();
+        if (number instanceof BigDecimal) {
+            BigDecimal value = (BigDecimal) number;
+            if (value.scale() > mc.getMaxScale()) {
+                mc = MonetaryContextBuilder.of(Geldbetrag.class)
+                                           .setAmountType(Geldbetrag.class)
+                                           .setPrecision(mc.getPrecision())
+                                           .setMaxScale(value.scale())
+                                           .set(RoundingMode.HALF_UP).build();
+            }
+        }
+        return mc;
     }
 
     /**
@@ -1067,6 +1082,15 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     public String toString() {
         return StringUtils.substringBefore(NumberFormat.getCurrencyInstance().format(this.betrag), " ") + " " +
                 currency;
+    }
+
+    /**
+     * Hier wird der Geldbetrag mit voller Genauigkeit ausgegeben.
+     * 
+     * @return z.B. "19.0012 USD"
+     */
+    public String toLongString() {
+        return betrag + " " + currency;
     }
 
 }
