@@ -482,11 +482,11 @@ public final class GeldbetragTest extends AbstractFachwertTest {
      */
     @Test
     public void testToLongString() {
-        Geldbetrag betrag = Geldbetrag.valueOf("12345.6789 EUR");
+        Geldbetrag betrag = Geldbetrag.valueOf("12345.67890000 EUR");
         if ("de".equals(Locale.getDefault().getLanguage())) {
-            assertEquals("12.345,6789 EUR", betrag.toLongString());
+            assertEquals("12.345,67890000 EUR", betrag.toLongString());
         } else {
-            assertEquals("12,345.6789 EUR", betrag.toLongString());
+            assertEquals("12,345.67890000 EUR", betrag.toLongString());
         }
     }
 

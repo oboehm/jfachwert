@@ -41,6 +41,14 @@ import static org.junit.Assert.assertThat;
  * (Technical Compatibility Kit) fuer JSR 354 durchlaufen. Es ist unter
  * <a href="https://github.com/JavaMoney/jsr354-tck">jsr-354-tck</a> zu
  * finden.
+ * <p>
+ * Wenn man die Log-Ausgabe des TCK reduzieren will, sollte man den Test
+ * mit
+ * <pre>
+ *      -Djava.util.logging.config.file=logging.properties
+ * </pre>
+ * aufrufen.
+ * </p>
  *
  * @author oboehm
  * @since 1.0 (20.07.2018)

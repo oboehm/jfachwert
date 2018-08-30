@@ -31,6 +31,7 @@ import org.javamoney.moneta.spi.DefaultNumberValue;
 import javax.money.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.Objects;
@@ -1090,7 +1091,10 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      * @return z.B. "19.0012 USD"
      */
     public String toLongString() {
-        return betrag + " " + currency;
+        NumberFormat formatter = DecimalFormat.getInstance();
+        formatter.setMinimumFractionDigits(context.getMaxScale());
+        formatter.setMinimumFractionDigits(context.getMaxScale());
+        return formatter.format(betrag) + " " + currency;
     }
 
 }
