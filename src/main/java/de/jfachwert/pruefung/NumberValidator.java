@@ -106,6 +106,7 @@ public class NumberValidator implements SimpleValidator<String> {
         }
         Locale locale = guessLocale(value);
         DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance(locale);
+        df.setParseBigDecimal(true);
         try {
             return df.parse(value).toString();
         } catch (ParseException ex) {

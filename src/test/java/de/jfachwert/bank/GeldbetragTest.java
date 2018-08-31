@@ -299,6 +299,27 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     }
 
     /**
+     * Testmethode von {@link Geldbetrag#scaleByPowerOfTen(int)}.
+     */
+    @Test
+    public void testScaleByPowerOfTen() {
+        Geldbetrag one = Geldbetrag.valueOf(1);
+        Geldbetrag oneMille = Geldbetrag.valueOf(1000000);
+        assertEquals(oneMille, one.scaleByPowerOfTen(6));
+        assertEquals(one, oneMille.scaleByPowerOfTen(-6));
+    }
+
+    /**
+     * Bei diesem Test geht die Genauigkeit verloren. Dies soll aber nicht
+     * zum Abbruch fuehren - sonst wuerde das TCK fehlschlagen, wenn die
+     * Ganauigkeit auf 4 Nachkommastellen heruntergesestzt wird.
+     */
+    @Test
+    public void testScaleByPowerOfTenWithLostPrecision() {
+        assertEquals(Geldbetrag.valueOf(3.0002), Geldbetrag.valueOf(3000200.0001).scaleByPowerOfTen(-6));
+    }
+    
+    /**
      * Test fuer die verschieden divide-Methoden.
      */
     @Test
@@ -450,6 +471,15 @@ public final class GeldbetragTest extends AbstractFachwertTest {
                 LOG.info(canhappen.getLocalizedMessage());
             }
         }
+    }
+
+    /**
+     * Ist kein Context angegeben, sollte er aus der Zahl abgeleitet werden.
+     */
+    @Test
+    public void testPrecision() {
+        Geldbetrag betrag = Geldbetrag.valueOf("1.123400 EUR");
+        assertEquals(6, betrag.getContext().getMaxScale());
     }
 
     /**

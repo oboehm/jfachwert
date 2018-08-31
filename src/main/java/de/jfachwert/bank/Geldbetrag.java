@@ -833,18 +833,17 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     }
 
     /**
-     * Returns a {@code MonetaryAmount} whose numerical value is equal to ( {@code this} *
-     * 10<sup>n</sup>). The scale of the result is <code>this.scale() - n</code>.
+     * Liefert eine {@code Geldbetrag}, dessen Wert ({@code this} * 10<sup>n</sup>)
+     * entspricht.
      *
-     * @param power the power.
-     * @return the calculated amount value.
-     * @throws ArithmeticException if the scale would be outside the range of a 32-bit integer, or if the result
-     *                             exceeds the numeric capabilities of this implementation class, i.e. the
-     *                             {@link MonetaryContext} cannot be adapted as required.
+     * @param power 10er-Potenz (z.B. 3 fuer 1000)
+     * @return berechneter Geldbetrag
      */
     @Override
     public Geldbetrag scaleByPowerOfTen(int power) {
-        return Geldbetrag.valueOf(betrag.scaleByPowerOfTen(power), getCurrency(), context);
+        BigDecimal scaled =
+                betrag.scaleByPowerOfTen(power).setScale(context.getMaxScale(), context.get(RoundingMode.class));
+        return Geldbetrag.valueOf(scaled, getCurrency(), context);
     }
 
     /**
