@@ -38,7 +38,7 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
     private Number number = BigDecimal.ZERO;
     private CurrencyUnit currency;
     private MonetaryContext context =
-            MonetaryContextBuilder.of(Geldbetrag.class).setAmountType(Geldbetrag.class).setPrecision(41).setMaxScale(5)
+            MonetaryContextBuilder.of(Geldbetrag.class).setAmountType(Geldbetrag.class).setPrecision(41).setMaxScale(4)
                                   .set(RoundingMode.HALF_UP).build();
 
     /**
@@ -71,8 +71,7 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
      */
     @Override
     public GeldbetragFactory setNumber(double number) {
-        this.number = number;
-        return this;
+        return this.setNumber(BigDecimal.valueOf(number));
     }
 
     /**
@@ -95,7 +94,22 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
     @Override
     public GeldbetragFactory setNumber(Number number) {
         this.number = number;
+        this.context = getMonetaryContextOf(number);
         return this;
+    }
+
+    public MonetaryContext getMonetaryContextOf(Number number) {
+        if (number instanceof BigDecimal) {
+            BigDecimal value = (BigDecimal) number;
+            if (value.scale() > context.getMaxScale()) {
+                return MonetaryContextBuilder.of(Geldbetrag.class)
+                        .setAmountType(Geldbetrag.class)
+                        .setPrecision(context.getPrecision())
+                        .setMaxScale(value.scale())
+                        .set(RoundingMode.HALF_UP).build();
+            }
+        }
+        return context;
     }
 
     /**

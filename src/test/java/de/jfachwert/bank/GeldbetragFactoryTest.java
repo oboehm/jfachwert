@@ -70,6 +70,16 @@ public final class GeldbetragFactoryTest {
     }
 
     /**
+     * Falls eine Nummer mit hoeherer Genauigkeit als der Default gesetzt wird,
+     * sollte der Context entsprechend angepasst werden.
+     */
+    @Test
+    public void testSetContextByNumber() {
+        Geldbetrag betrag = factory.setNumber(0.123456789).setCurrency("EUR").create();
+        assertEquals(9, betrag.getContext().getMaxScale());
+    }
+
+    /**
      * Hier wird der Min-/Max-Bereich eines Geldbetrags geprueft.
      */
     @Test

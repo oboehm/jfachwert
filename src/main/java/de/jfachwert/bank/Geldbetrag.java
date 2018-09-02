@@ -137,22 +137,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      * @param currency Waehrung, z.B. Euro
      */
     public Geldbetrag(Number betrag, CurrencyUnit currency) {
-        this(betrag, currency, getMonetaryContextOf(betrag));
-    }
-
-    private static MonetaryContext getMonetaryContextOf(Number number) {
-        MonetaryContext mc = FACTORY.getDefaultMonetaryContext();
-        if (number instanceof BigDecimal) {
-            BigDecimal value = (BigDecimal) number;
-            if (value.scale() > mc.getMaxScale()) {
-                mc = MonetaryContextBuilder.of(Geldbetrag.class)
-                                           .setAmountType(Geldbetrag.class)
-                                           .setPrecision(mc.getPrecision())
-                                           .setMaxScale(value.scale())
-                                           .set(RoundingMode.HALF_UP).build();
-            }
-        }
-        return mc;
+        this(betrag, currency, FACTORY.getMonetaryContextOf(betrag));
     }
 
     /**
