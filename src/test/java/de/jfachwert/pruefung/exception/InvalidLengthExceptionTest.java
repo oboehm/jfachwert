@@ -1,4 +1,4 @@
-package de.jfachwert.pruefung.exception;/*
+/*
  * Copyright (c) 2017 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,8 +15,8 @@ package de.jfachwert.pruefung.exception;/*
  *
  * (c)reated 21.02.2017 by oboehm (ob@oasd.de)
  */
+package de.jfachwert.pruefung.exception;
 
-import de.jfachwert.pruefung.exception.IllegalLengthException;
 import org.junit.Test;
 
 import java.util.Locale;
@@ -25,19 +25,19 @@ import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
 
 /**
- * Unit-Teests fuer de.jfachwert.pruefung.exception.IllegalLengthException.
+ * Unit-Teests fuer de.jfachwert.pruefung.exception.InvalidLengthException.
  *
  * @author oboehm
  * @since 0.2 (21.04.2017)
  */
-public final class IllegalLengthExceptionTest {
+public final class InvalidLengthExceptionTest {
 
     /**
      * Die Message sollte die uebergebenen Parameter beinhalten.
      */
     @Test
     public void getMessage() {
-        IllegalLengthException exception = new IllegalLengthException("hello", 2, 3);
+        InvalidLengthException exception = new InvalidLengthException("hello", 2, 3);
         checkMessage(exception.getMessage(), 2, 3);
     }
 
@@ -47,7 +47,7 @@ public final class IllegalLengthExceptionTest {
      */
     @Test
     public void getLocalizedMessage() {
-        IllegalLengthException exception = new IllegalLengthException("world", 6, 7);
+        InvalidLengthException exception = new InvalidLengthException("world", 6, 7);
         String message = exception.getLocalizedMessage();
         checkMessage(message);
         if ("de".equalsIgnoreCase(Locale.getDefault().getLanguage())) {

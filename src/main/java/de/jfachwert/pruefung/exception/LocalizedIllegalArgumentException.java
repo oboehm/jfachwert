@@ -28,7 +28,16 @@ import java.io.Serializable;
 @SuppressWarnings("squid:MaximumInheritanceDepth")
 public class LocalizedIllegalArgumentException extends IllegalArgumentException implements LocalizedException {
 
-    private final InvalidValueException valueException;
+    private final Throwable valueException;
+
+    /**
+     * Erzeugt eine {@link LocalizedIllegalArgumentException}.
+     *
+     * @param message Fehlermeldung
+     */
+    public LocalizedIllegalArgumentException(String message) {
+        this(null, message);
+    }
 
     /**
      * Erzeugt eine neue Exception fuer einen fehlerhaften Wert.
@@ -37,8 +46,28 @@ public class LocalizedIllegalArgumentException extends IllegalArgumentException 
      * @param context Resource des fehlerhaften Wertes (z.B. "email_address")
      */
     public LocalizedIllegalArgumentException(Serializable value, String context) {
-        super("invalid value for " + context.replace('_', ' ') + ": \"" + value + '"');
-        this.valueException = new InvalidValueException(value, context);
+        this("invalid value for " + context.replace('_', ' ') + ": \"" + value + '"', 
+                new InvalidValueException(value, context));
+    }
+
+    /**
+     * Erzeugt eine neue Exception fuer einen fehlerhaften Wert.
+     *
+     * @param cause eigentliche Ursache
+     */
+    public LocalizedIllegalArgumentException(Throwable cause) {
+        this(cause.getMessage(), cause);
+    }
+
+    /**
+     * Erzeugt eine neue Exception fuer einen fehlerhaften Wert.
+     *
+     * @param message Meldung
+     * @param cause eigentliche Ursache
+     */
+    public LocalizedIllegalArgumentException(String message, Throwable cause) {
+        super(message, cause);
+        this.valueException = cause;
     }
 
     /**

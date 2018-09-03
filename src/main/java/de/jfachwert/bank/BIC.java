@@ -18,7 +18,8 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwert;
-import de.jfachwert.pruefung.exception.IllegalLengthException;
+import de.jfachwert.pruefung.exception.InvalidLengthException;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
@@ -60,7 +61,15 @@ public class BIC extends AbstractFachwert<String> {
      * @param code eine 11- oder 14-stellige BIC
      */
     public BIC(String code) {
-        super(validate(code));
+        super(verify(code));
+    }
+
+    private static String verify(String bic) {
+        try {
+            return validate(bic);
+        } catch (InvalidLengthException ex) {
+            throw new LocalizedIllegalArgumentException(ex);
+        }
     }
 
     /**
@@ -74,7 +83,7 @@ public class BIC extends AbstractFachwert<String> {
         String normalized = StringUtils.trim(bic);
         List<Integer> allowedLengths = Arrays.asList(8, 11, 14);
         if (!allowedLengths.contains(normalized.length()))  {
-            throw new IllegalLengthException(normalized, allowedLengths);
+            throw new InvalidLengthException(normalized, allowedLengths);
         }
         return normalized;
     }

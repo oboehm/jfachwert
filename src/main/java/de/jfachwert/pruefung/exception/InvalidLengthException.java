@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Die Klasse IllegalLengthException ist fuer die Laengen-Validierung
+ * Die Klasse InvalidLengthException ist fuer die Laengen-Validierung
  * von Argumenten vorgesehen. Sind diese zu kurz oder zu lang, sollte diese
  * Exception geworfen werden.
  *
@@ -32,7 +32,7 @@ import java.util.List;
  * @since 0.2 (20.04.2017)
  */
 @SuppressWarnings("squid:MaximumInheritanceDepth")
-public class IllegalLengthException extends LocalizedValidationException {
+public class InvalidLengthException extends LocalizedValidationException {
 
     private final Object[] arguments;
     private final int min;
@@ -47,7 +47,7 @@ public class IllegalLengthException extends LocalizedValidationException {
      * @param argument das fehlerhafte Argument
      * @param expected erwartete Laenge
      */
-    public IllegalLengthException(String argument, int expected) {
+    public InvalidLengthException(String argument, int expected) {
         this(argument, Collections.singletonList(expected));
     }
 
@@ -58,7 +58,7 @@ public class IllegalLengthException extends LocalizedValidationException {
      * @param array fehlerhaftes Array
      * @param expected erwartete Array-Groesse
      */
-    public IllegalLengthException(byte[] array, int expected) {
+    public InvalidLengthException(byte[] array, int expected) {
         super("array=" + Arrays.toString(array) + " has not length " + expected + " (but " + array.length + ")");
         this.min = expected;
         this.max = expected;
@@ -77,7 +77,7 @@ public class IllegalLengthException extends LocalizedValidationException {
      * @param min      erwartete Mindest-Laenge
      * @param max      erwartete Maximal-Laenge
      */
-    public IllegalLengthException(String argument, int min, int max) {
+    public InvalidLengthException(String argument, int min, int max) {
         super("'" + argument + "': length (" + argument.length() + ") is not between " + min + " and " + max);
         this.min = min;
         this.max = max;
@@ -92,7 +92,7 @@ public class IllegalLengthException extends LocalizedValidationException {
      * @param argument das fehlerhafte Argument
      * @param allowedLengths erlaubten Laengen
      */
-    public IllegalLengthException(String argument, List<Integer> allowedLengths) {
+    public InvalidLengthException(String argument, List<Integer> allowedLengths) {
         super("'" + argument + "': " + argument.length() + " is not in allowed lengths " + allowedLengths);
         this.min = 0;
         this.max = 0;

@@ -27,6 +27,7 @@ import de.jfachwert.net.Domainname;
 import de.jfachwert.net.EMailAdresse;
 import de.jfachwert.net.Telefonnummer;
 import de.jfachwert.post.*;
+import de.jfachwert.pruefung.exception.LocalizedValidationException;
 import de.jfachwert.rechnung.*;
 import de.jfachwert.steuer.SteuerIdNr;
 import de.jfachwert.steuer.Steuernummer;
@@ -180,6 +181,8 @@ public class FachwertFactory {
             Throwable cause = ex.getCause();
             if (cause instanceof ValidationException) {
                 throw (ValidationException) cause;
+            } else if (cause instanceof IllegalArgumentException) {
+                throw new LocalizedValidationException(cause.getMessage(), cause);
             } else {
                 throw new IllegalArgumentException("cannot create " + clazz + " with " + Arrays.toString(args), ex);
             }

@@ -18,7 +18,7 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwert;
-import de.jfachwert.pruefung.exception.IllegalLengthException;
+import de.jfachwert.pruefung.exception.InvalidLengthException;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.StringUtils;
 
@@ -77,7 +77,7 @@ public class Kontonummer extends AbstractFachwert<Long> {
             throw new InvalidValueException(kontonr, "account_number");
         }
         if (kontonr > 9_999_999_999L) {
-            throw new IllegalLengthException(Long.toString(kontonr), 1, 10);
+            throw new InvalidLengthException(Long.toString(kontonr), 1, 10);
         }
         return kontonr;
     }

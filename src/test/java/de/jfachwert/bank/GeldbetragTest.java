@@ -26,11 +26,13 @@ import javax.money.MonetaryAmount;
 import javax.money.MonetaryContext;
 import javax.money.MonetaryException;
 import javax.money.NumberValue;
+import javax.validation.ValidationException;
 import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Locale;
 import java.util.logging.Logger;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
@@ -516,6 +518,19 @@ public final class GeldbetragTest extends AbstractFachwertTest {
             assertEquals("12.345,67890000 EUR", betrag.toLongString());
         } else {
             assertEquals("12,345.67890000 EUR", betrag.toLongString());
+        }
+    }
+
+    /**
+     * Test-Methode fuer {@link Geldbetrag#validate(String)}.
+     */
+    @Test
+    public void testValidate() {
+        try {
+            Geldbetrag.validate("TEST");
+            fail("ValidationException expected.");
+        } catch (ValidationException expected) {
+            assertThat(expected.getMessage(), containsString("TEST"));
         }
     }
 

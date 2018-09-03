@@ -18,7 +18,7 @@
 package de.jfachwert.pruefung;
 
 import de.jfachwert.*;
-import de.jfachwert.pruefung.exception.IllegalLengthException;
+import de.jfachwert.pruefung.exception.InvalidLengthException;
 
 import java.io.*;
 import java.util.*;
@@ -75,7 +75,7 @@ public class LengthValidator<T extends Serializable> extends NoopVerfahren<T> {
     @Override
     public T validate(T wert) {
         if (!isValid(wert)) {
-            throw new IllegalLengthException(Objects.toString(wert), min, max);
+            throw new InvalidLengthException(Objects.toString(wert), min, max);
         }
         return wert;
     }
@@ -89,7 +89,7 @@ public class LengthValidator<T extends Serializable> extends NoopVerfahren<T> {
      */
     public static String validate(String value, int expected) {
         if (value.length() != expected) {
-            throw new IllegalLengthException(value, expected);
+            throw new InvalidLengthException(value, expected);
         }
         return value;
     }
@@ -107,7 +107,7 @@ public class LengthValidator<T extends Serializable> extends NoopVerfahren<T> {
             return validate(value, min);
         }
         if ((value.length() < min) || (value.length() > max)) {
-            throw new IllegalLengthException(value, min, max);
+            throw new InvalidLengthException(value, min, max);
         }
         return value;
     }

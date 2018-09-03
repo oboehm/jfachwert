@@ -19,7 +19,7 @@ package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.PruefzifferVerfahren;
-import de.jfachwert.pruefung.exception.IllegalLengthException;
+import de.jfachwert.pruefung.exception.InvalidLengthException;
 import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.Mod97Verfahren;
 import org.apache.commons.lang3.StringUtils;
@@ -67,7 +67,7 @@ public class IBAN extends AbstractFachwert<String> {
      * Mit dieser Methode kann man eine IBAN validieren, ohne dass man erst
      * den Konstruktor aufrufen muss. Falls die Pruefziffer nicht stimmt,
      * wird eine {@link javax.validation.ValidationException} geworfen, wenn
-     * die Laenge nicht uebereinstimmt eine {@link IllegalLengthException}.
+     * die Laenge nicht uebereinstimmt eine {@link InvalidLengthException}.
      * Die Laenge liegt zwischen 16 (Belgien) und 34 Zeichen.
      *
      * @param iban die 22-stellige IBAN

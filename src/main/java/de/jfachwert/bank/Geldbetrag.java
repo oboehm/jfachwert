@@ -22,9 +22,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.NumberValidator;
-import de.jfachwert.pruefung.exception.InvalidValueException;
-import de.jfachwert.pruefung.exception.LocalizedArithmeticException;
-import de.jfachwert.pruefung.exception.LocalizedMonetaryException;
+import de.jfachwert.pruefung.exception.*;
 import org.apache.commons.lang3.StringUtils;
 import org.javamoney.moneta.spi.DefaultNumberValue;
 
@@ -319,7 +317,11 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      * @return die Zahl zur Weitervarabeitung
      */
     public static String validate(String zahl) {
-        return Geldbetrag.valueOf(zahl).toString();
+        try {
+            return Geldbetrag.valueOf(zahl).toString();
+        } catch (IllegalArgumentException ex) {
+            throw new InvalidValueException(zahl, "money_amount", ex);
+        }
     }
 
     /**

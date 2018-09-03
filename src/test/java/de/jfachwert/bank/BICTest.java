@@ -51,7 +51,7 @@ public final class BICTest extends AbstractFachwertTest {
     /**
      * Hier testen wir den Konstruktor mit einer ungueltigen BIC.
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testBICinvalid() {
         new BIC("GENODEF1J");
     }
