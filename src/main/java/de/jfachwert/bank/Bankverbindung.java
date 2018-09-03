@@ -20,7 +20,7 @@ package de.jfachwert.bank;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.jfachwert.Fachwert;
-import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import de.jfachwert.util.ToFachwertSerializer;
 import org.apache.commons.lang3.StringUtils;
 
@@ -108,7 +108,7 @@ public class Bankverbindung implements Fachwert {
         splitted[0] = stripSeparator(StringUtils.substringBefore(bankverbindung, "IBAN"));
         splitted[1] = stripSeparator(StringUtils.substringAfter(bankverbindung, "IBAN"));
         if (StringUtils.isBlank(splitted[1])) {
-            throw new InvalidValueException(bankverbindung, "bank_account");
+            throw new LocalizedIllegalArgumentException(bankverbindung, "bank_account");
         }
         if (splitted[1].contains("BIC")) {
             splitted[2] = stripSeparator(StringUtils.substringAfter(splitted[1], "BIC"));

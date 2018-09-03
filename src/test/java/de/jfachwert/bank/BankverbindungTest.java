@@ -22,8 +22,6 @@ import de.jfachwert.Fachwert;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
-import javax.validation.ValidationException;
-
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.*;
 
@@ -74,8 +72,8 @@ public final class BankverbindungTest extends AbstractFachwertTest {
     public void testBankverbindungFehler() {
         try {
             new Bankverbindung("Max Muster");
-            fail("ValidationException expected");
-        } catch (ValidationException expected) {
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException expected) {
             String message = expected.getLocalizedMessage();
             assertThat(message, containsString("Max Muster"));
         }

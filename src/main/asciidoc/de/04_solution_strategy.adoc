@@ -35,6 +35,9 @@ Um den Konstruktor übersichtlich zu halten, werden die Prüfung in eigene Valid
 Auch sind Prüfziffer-Verfahren, die zur Erkennung fehlerhafter Fachwerte dienen, sind eine Art der Validierung.
 Deswegen befinden sich Validatoren und Prüfziffer-Verfahren im selben Package.
 
+IMPORTANT: Ab jFachwert 1.0 wird jetzt eine IllegalArgumentException (und nicht mehr eine ValidationException) geworfen, wenn die Validierung im Konstruktor fehlschlägt.
+Damit verhält sich jFachwert jetzt so, wie man es von anderen Konstruktoren gewohnt ist.
+
 
 === Exceptions
 
