@@ -18,6 +18,7 @@
 package de.jfachwert.pruefung.exception;
 
 import javax.validation.ValidationException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,7 +35,7 @@ import java.util.List;
 @SuppressWarnings("squid:MaximumInheritanceDepth")
 public class InvalidLengthException extends LocalizedValidationException {
 
-    private final Object[] arguments;
+    private final Serializable[] arguments;
     private final int min;
     private final int max;
     private final List<Integer> allowedLengths = new ArrayList<>();
@@ -62,7 +63,7 @@ public class InvalidLengthException extends LocalizedValidationException {
         super("array=" + Arrays.toString(array) + " has not length " + expected + " (but " + array.length + ")");
         this.min = expected;
         this.max = expected;
-        this.arguments = new Object[array.length];
+        this.arguments = new Serializable[array.length];
         for (int i = 0; i < array.length; i++) {
             this.arguments[i] = array[i];
         }
@@ -100,8 +101,8 @@ public class InvalidLengthException extends LocalizedValidationException {
         this.allowedLengths.addAll(allowedLengths);
     }
 
-    private static Object[] asArray(String s) {
-        Object[] a = new Object[1];
+    private static Serializable[] asArray(String s) {
+        Serializable[] a = new Serializable[1];
         a[0] = s;
         return a;
     }
