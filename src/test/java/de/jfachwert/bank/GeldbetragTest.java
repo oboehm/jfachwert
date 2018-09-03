@@ -26,7 +26,6 @@ import javax.money.MonetaryAmount;
 import javax.money.MonetaryContext;
 import javax.money.MonetaryException;
 import javax.money.NumberValue;
-import javax.validation.ValidationException;
 import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Locale;
@@ -69,7 +68,7 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     /**
      * Illegale Betraege sollte nicht akzeptiert werden.
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testInvalidGeldbetrag() {
         new Geldbetrag("falscher Fuffzger");
     }
@@ -133,7 +132,7 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     @Test
     public void testIsEqualsToRounding() {
         Geldbetrag zero = FACTORY.setNumber(BigDecimal.valueOf(0d)).create();
-        Geldbetrag fastNix = FACTORY.setNumber(BigDecimal.valueOf(0.00001d)).create();
+        Geldbetrag fastNix = FACTORY.setNumber(BigDecimal.valueOf(0.0001d)).create();
         assertFalse(zero.isEqualTo(fastNix));
         assertFalse(fastNix.isEqualTo(zero));
     }

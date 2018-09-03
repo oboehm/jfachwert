@@ -201,7 +201,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
                     return c;
                 }
             }
-            throw new InvalidValueException(waehrung, "currency", iae);
+            throw iae;
         }
     }
 
