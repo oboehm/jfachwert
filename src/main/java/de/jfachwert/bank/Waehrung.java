@@ -49,7 +49,7 @@ public class Waehrung extends AbstractFachwert<Currency> implements CurrencyUnit
      * @param code z.B. "EUR"
      */
     public Waehrung(String code) {
-        this(toCurrency(validate(code)));
+        this(toCurrency(code));
     }
 
     /**

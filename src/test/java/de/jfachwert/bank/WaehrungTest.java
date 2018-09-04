@@ -37,6 +37,11 @@ public final class WaehrungTest extends AbstractFachwertTest {
     protected Waehrung createFachwert() {
         return new Waehrung("EUR");
     }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testWaehrungInvalid() {
+        new Waehrung("Taler");
+    }
 
     /**
      * Hier wird {@link Waehrung#compareTo(CurrencyUnit)} ueberprueft.
