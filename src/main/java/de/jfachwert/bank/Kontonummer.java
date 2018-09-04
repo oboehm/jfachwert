@@ -20,7 +20,10 @@ package de.jfachwert.bank;
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.pruefung.exception.InvalidLengthException;
 import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.StringUtils;
+
+import javax.validation.ValidationException;
 
 /**
  * Eigentlich ist die Kontonummer Bestandteil der IBAN. Trotzdem wird sie
@@ -37,7 +40,7 @@ public class Kontonummer extends AbstractFachwert<Long> {
      * @param nr eine maximal 10-stellige Zahl
      */
     public Kontonummer(String nr) {
-        this(Long.valueOf(validate(nr)));
+        this(Long.valueOf(verify(nr)));
     }
 
     /**
@@ -47,7 +50,7 @@ public class Kontonummer extends AbstractFachwert<Long> {
      * @param nr the nr
      */
     public Kontonummer(long nr) {
-        super(validate(nr));
+        super(verify(nr));
     }
 
     /**
@@ -65,6 +68,14 @@ public class Kontonummer extends AbstractFachwert<Long> {
         }
         return normalized;
     }
+    
+    private static String verify(String kontonr) {
+        try {
+            return validate(kontonr);
+        } catch (ValidationException ex) {
+            throw new LocalizedIllegalArgumentException(ex);
+        }
+    }
 
     /**
      * Eine gueltige Kontonummer beginnt bei 1 und hat maximal 10 Stellen.
@@ -80,6 +91,14 @@ public class Kontonummer extends AbstractFachwert<Long> {
             throw new InvalidLengthException(Long.toString(kontonr), 1, 10);
         }
         return kontonr;
+    }
+
+    private static long verify(long kontonr) {
+        try {
+            return validate(kontonr);
+        } catch (ValidationException ex) {
+            throw new LocalizedIllegalArgumentException(ex);
+        }
     }
 
     /**
