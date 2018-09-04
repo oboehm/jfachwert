@@ -19,11 +19,13 @@ package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.PruefzifferVerfahren;
-import de.jfachwert.pruefung.exception.InvalidLengthException;
 import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.Mod97Verfahren;
+import de.jfachwert.pruefung.exception.InvalidLengthException;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.validation.ValidationException;
 import java.util.Locale;
 
 
@@ -60,7 +62,7 @@ public class IBAN extends AbstractFachwert<String> {
      * @param pzVerfahren das verwendete PruefzifferVerfahren
      */
     public IBAN(String iban, PruefzifferVerfahren<String> pzVerfahren) {
-        super(validate(iban, pzVerfahren));
+        super(verify(iban, pzVerfahren));
     }
 
     /**
@@ -95,6 +97,14 @@ public class IBAN extends AbstractFachwert<String> {
         return pzVerfahren.validate(normalized);
     }
 
+    private static String verify(String iban, PruefzifferVerfahren<String> pzVerfahren) {
+        try {
+            return validate(iban, pzVerfahren);
+        } catch (ValidationException ex) {
+            throw new LocalizedIllegalArgumentException(ex);
+        }
+    }
+
     /**
      * Liefert die IBAN formattiert in der DIN-Form. Dies ist die uebliche
      * Papierform, in der die IBAN in 4er-Bloecke formattiert wird, jeweils
@@ -106,7 +116,7 @@ public class IBAN extends AbstractFachwert<String> {
         String input = this.getUnformatted() + "   ";
         StringBuilder buf = new StringBuilder();
         for (int i = 0; i < this.getUnformatted().length(); i+= 4) {
-            buf.append(input.substring(i, i+4));
+            buf.append(input, i, i+4);
             buf.append(' ');
         }
         return buf.toString().trim();

@@ -46,7 +46,7 @@ public final class IBANTest extends AbstractFachwertTest {
     /**
      * Ungueltige IBANs sollten nicht erzeugt werden koennen.
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testIbanInvalid() {
         new IBAN("DE99300606010006605605");
     }
@@ -62,7 +62,7 @@ public final class IBANTest extends AbstractFachwertTest {
     /**
      * Eine leere IBAN sollte nicht moeglich sein.
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testIbanEmpty() {
         new IBAN("");
     }
