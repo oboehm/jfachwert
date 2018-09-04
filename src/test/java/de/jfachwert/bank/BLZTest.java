@@ -20,8 +20,6 @@ package de.jfachwert.bank;
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
-import javax.validation.ValidationException;
-
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -45,7 +43,7 @@ public final class BLZTest extends AbstractFachwertTest {
     /**
      * Bei Bankleitzahlen sind nur Ziffern erlaubt.
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testInvalidBLZ() {
         new BLZ("0x10");
     }

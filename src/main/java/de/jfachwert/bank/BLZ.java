@@ -20,7 +20,10 @@ package de.jfachwert.bank;
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.math.PackedDecimal;
 import de.jfachwert.pruefung.NumberValidator;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.StringUtils;
+
+import javax.validation.ValidationException;
 
 /**
  * Die BLZ (Bankleitzahl) ist eine eindeutige Kennziffer, die in Deutschland
@@ -37,13 +40,15 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class BLZ extends AbstractFachwert<PackedDecimal> {
 
+    private static final NumberValidator NUMBER_VALIDATOR = new NumberValidator(100, 99_999_999);
+
     /**
      * Hierueber wird eine neue BLZ angelegt.
      *
      * @param code eine 5- oder 8-stellige Zahl
      */
     public BLZ(String code) {
-        super(PackedDecimal.valueOf(validate(code)));
+        super(PackedDecimal.valueOf(verify(code)));
     }
 
     /**
@@ -62,8 +67,16 @@ public class BLZ extends AbstractFachwert<PackedDecimal> {
      * @return die Bankleitzahl zur Weitervarabeitung
      */
     public static int validate(int blz) {
-        validate(Integer.toString(blz));
+        verify(Integer.toString(blz));
         return blz;
+    }
+
+    private static String verify(String s) {
+        try {
+            return validate(s);
+        } catch (ValidationException ex) {
+            throw new LocalizedIllegalArgumentException(ex);
+        }
     }
 
     /**
@@ -74,7 +87,7 @@ public class BLZ extends AbstractFachwert<PackedDecimal> {
      */
     public static String validate(String blz) {
         String normalized = StringUtils.replaceAll(blz, "\\s", "");
-        return new NumberValidator(100, 99_999_999).validate(normalized);
+        return NUMBER_VALIDATOR.validate(normalized);
     }
 
     /**
@@ -95,7 +108,7 @@ public class BLZ extends AbstractFachwert<PackedDecimal> {
         String input = this.getUnformatted() + "   ";
         StringBuilder buf = new StringBuilder();
         for (int i = 0; i < this.getUnformatted().length(); i+= 3) {
-            buf.append(input.substring(i, i+3));
+            buf.append(input, i, i+3);
             buf.append(' ');
         }
         return buf.toString().trim();
