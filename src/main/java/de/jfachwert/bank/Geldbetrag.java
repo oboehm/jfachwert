@@ -183,24 +183,11 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
         Currency cry = Waehrung.DEFAULT_CURRENCY;
         String waehrung = parts[parts.length - 1];
         if (!StringUtils.isNumericSpace(waehrung)) {
-            cry = toCurrency(waehrung);
+            cry = Waehrung.toCurrency(waehrung);
             trimmed = trimmed.substring(0, trimmed.length() - waehrung.length()).trim();
         }
         BigDecimal n = new BigDecimal(new NumberValidator().validate(trimmed));
         return valueOf(n, cry);
-    }
-
-    private static Currency toCurrency(String waehrung) {
-        try {
-            return Currency.getInstance(waehrung);
-        } catch (IllegalArgumentException iae) {
-            for (Currency c : Currency.getAvailableCurrencies()) {
-                if (waehrung.equals(c.getSymbol())) {
-                    return c;
-                }
-            }
-            throw iae;
-        }
     }
 
     /**

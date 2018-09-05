@@ -98,19 +98,45 @@ public class Waehrung extends AbstractFachwert<Currency> implements CurrencyUnit
         return of(toCurrency(currency));
     }
 
-    private static Currency toCurrency(String name) {
+    /**
+     * Ermittelt aus dem uebergebenen String die entsprechende
+     * {@link Currency}.
+     *
+     * @param name z.B. "EUR" oder auch ein einzelnes Symbol
+     * @return die entsprechende Waehrung
+     */
+    public static Currency toCurrency(String name) {
         try {
             return Currency.getInstance(name);
         } catch (IllegalArgumentException iae) {
             for (Currency c : Currency.getAvailableCurrencies()) {
-                if (name.equalsIgnoreCase(c.getCurrencyCode()) 
-                        || name.equalsIgnoreCase(c.getSymbol())
-                        || name.equalsIgnoreCase(c.getDisplayName())) {
+                if (matchesCurrency(name, c)) {
+                    return c;
+                }
+            }
+            for (Locale locale : Locale.getAvailableLocales()) {
+                Currency c = Currency.getInstance(locale);
+                if (matchesCurrency(name, c)) {
                     return c;
                 }
             }
             throw new IllegalArgumentException("cannot get currency for '" + name + "'", iae);
         }
+    }
+
+    private static boolean matchesCurrency(String name, Currency c) {
+        if (name.equalsIgnoreCase(c.getCurrencyCode())
+                || name.equalsIgnoreCase(c.getSymbol())
+                || name.equalsIgnoreCase(c.getDisplayName())) {
+            return true;
+        }
+        for (Locale locale : Locale.getAvailableLocales()) {
+            if (name.equalsIgnoreCase(c.getSymbol(locale))
+                    || name.equalsIgnoreCase(c.getDisplayName(locale))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

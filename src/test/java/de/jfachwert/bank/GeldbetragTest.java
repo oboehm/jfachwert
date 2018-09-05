@@ -325,7 +325,7 @@ public final class GeldbetragTest extends AbstractFachwertTest {
      */
     @Test
     public void testDivide() {
-        Geldbetrag oneEuro = Geldbetrag.valueOf("1 EUR");
+        Geldbetrag oneEuro = Geldbetrag.valueOf(1);
         Geldbetrag fiftyCent = Geldbetrag.fromCent(50);
         assertEquals(fiftyCent, oneEuro.divide(2));
         assertEquals(fiftyCent, oneEuro.divide(BigDecimal.valueOf(2)));
@@ -492,10 +492,14 @@ public final class GeldbetragTest extends AbstractFachwertTest {
         Geldbetrag betrag = Geldbetrag.valueOf(Double.valueOf("1E2"), Waehrung.of("EUR"));
         String s = betrag.toString();
         assertThat(s, startsWith("100"));
-        if ("de".equals(Locale.getDefault().getLanguage())) {
-            assertEquals("100,00 EUR", s);
-        } else {
-            assertEquals("100.00 EUR", s);
+        switch (Locale.getDefault().getLanguage()) {
+            case "de":
+            case "fr":
+                assertEquals("100,00 EUR", s);
+                break;
+            case "en":
+                assertEquals("100.00 EUR", s);
+                break;
         }
     }
 
@@ -505,7 +509,7 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     @Test
     public void testToShortString() {
         Geldbetrag betrag = Geldbetrag.valueOf("123.45 EUR");
-        assertEquals(betrag.toShortString(), "123 \u20ac");
+        assertEquals(betrag.toShortString(), "123 " + Currency.getInstance("EUR").getSymbol());
     }
 
     /**
@@ -514,10 +518,13 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     @Test
     public void testToLongString() {
         Geldbetrag betrag = Geldbetrag.valueOf("12345.67890000 EUR");
-        if ("de".equals(Locale.getDefault().getLanguage())) {
-            assertEquals("12.345,67890000 EUR", betrag.toLongString());
-        } else {
-            assertEquals("12,345.67890000 EUR", betrag.toLongString());
+        switch (Locale.getDefault().getLanguage()) {
+            case "de":
+                assertEquals("12.345,67890000 EUR", betrag.toLongString());
+                break;
+            case "en":
+                assertEquals("12,345.67890000 EUR", betrag.toLongString());
+                break;
         }
     }
 
