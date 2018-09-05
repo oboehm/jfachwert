@@ -55,26 +55,22 @@ public class Bruch extends AbstractNumber implements Fachwert, Comparable<Bruch>
     }
 
     private static BigInteger[] toNumbers(String bruch) {
-        try {
-            BigInteger[] numbers = new BigInteger[2];
-            String[] parts = StringUtils.split(bruch, "/");
-            switch (parts.length) {
-                case 1:
-                    Bruch dezimalBruch = toBruch(new BigDecimal(parts[0]));
-                    numbers[0] = dezimalBruch.getZaehler();
-                    numbers[1] = dezimalBruch.getNenner();
-                    break;
-                case 2:
-                    numbers[0] = new BigInteger(parts[0]);
-                    numbers[1] = new BigInteger(parts[1]);
-                    break;
-                default:
-                    throw new InvalidValueException(bruch, "fraction");
-            }
-            return numbers;
-        } catch (NumberFormatException nfe) {
-            throw new InvalidValueException(bruch, "fraction", nfe);
+        BigInteger[] numbers = new BigInteger[2];
+        String[] parts = StringUtils.split(bruch, "/");
+        switch (parts.length) {
+            case 1:
+                Bruch dezimalBruch = toBruch(new BigDecimal(parts[0]));
+                numbers[0] = dezimalBruch.getZaehler();
+                numbers[1] = dezimalBruch.getNenner();
+                break;
+            case 2:
+                numbers[0] = new BigInteger(parts[0]);
+                numbers[1] = new BigInteger(parts[1]);
+                break;
+            default:
+                throw new InvalidValueException(bruch, "fraction");
         }
+        return numbers;
     }
 
     /**

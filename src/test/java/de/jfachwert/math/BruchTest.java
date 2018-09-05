@@ -47,6 +47,11 @@ public final class BruchTest extends AbstractFachwertTest {
         return new Bruch(1, 2);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testBruchInvalid() {
+        new Bruch("TE/ST");
+    }
+
     /**
      * Test-Methode fuer {@link Bruch#kuerzen()}.
      */
