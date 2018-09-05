@@ -32,9 +32,7 @@ import java.util.Currency;
 import java.util.Locale;
 import java.util.logging.Logger;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.startsWith;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
 import static org.hamcrest.number.OrderingComparison.lessThan;
 import static org.junit.Assert.*;
@@ -509,7 +507,7 @@ public final class GeldbetragTest extends AbstractFachwertTest {
     @Test
     public void testToShortString() {
         Geldbetrag betrag = Geldbetrag.valueOf("123.45 EUR");
-        assertEquals(betrag.toShortString(), "123 " + Currency.getInstance("EUR").getSymbol());
+        assertThat(betrag.toShortString(), endsWith("123"));
     }
 
     /**

@@ -1039,10 +1039,10 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      * Gibt den Betrag in Kurz-Format aus: ohne Nachkommastellen und mit dem
      * Waehrungssymbol.
      * 
-     * @return z.B. "19 $"
+     * @return z.B. "$19"
      */
     public String toShortString() {
-        return betrag.setScale(0, RoundingMode.HALF_UP) + " " + Waehrung.getSymbol(currency);
+        return Waehrung.getSymbol(currency) + betrag.setScale(0, RoundingMode.HALF_UP);
     }
 
     /**
@@ -1054,8 +1054,9 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      */
     @Override
     public String toString() {
-        return StringUtils.substringBefore(NumberFormat.getCurrencyInstance().format(this.betrag), " ") + " " +
-                currency;
+        DecimalFormat formatter = (DecimalFormat) DecimalFormat.getNumberInstance();
+        formatter.setMinimumFractionDigits(getCurrency().getDefaultFractionDigits());
+        return formatter.format(this.betrag) + " " + currency;
     }
 
     /**
