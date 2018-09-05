@@ -20,7 +20,6 @@ package de.jfachwert.math;
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
-import javax.validation.ValidationException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -71,7 +70,7 @@ public final class PackedDecimalTest extends AbstractFachwertTest {
     public void testCtorWithInvalidString() {
         try {
             new PackedDecimal("hello world");
-        } catch (ValidationException expected) {
+        } catch (IllegalArgumentException expected) {
             String msg = expected.getMessage();
             if (!msg.contains("hello world")) {
                 throw new IllegalStateException(msg + " does not contain 'hello world'", expected);

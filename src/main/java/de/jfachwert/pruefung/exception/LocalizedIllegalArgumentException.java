@@ -46,8 +46,18 @@ public class LocalizedIllegalArgumentException extends IllegalArgumentException 
      * @param context Resource des fehlerhaften Wertes (z.B. "email_address")
      */
     public LocalizedIllegalArgumentException(Serializable value, String context) {
-        this("invalid value for " + context.replace('_', ' ') + ": \"" + value + '"', 
-                new InvalidValueException(value, context));
+        this(value, context, new InvalidValueException(value, context));
+    }
+
+    /**
+     * Erzeugt eine neue Exception fuer einen fehlerhaften Wert.
+     *
+     * @param value der fehlerhafte Wert
+     * @param context Resource des fehlerhaften Wertes (z.B. "email_address")
+     * @param cause Ursache
+     */
+    public LocalizedIllegalArgumentException(Serializable value, String context, Throwable cause) {
+        this("invalid value for " + context.replace('_', ' ') + ": \"" + value + '"', cause);
     }
 
     /**

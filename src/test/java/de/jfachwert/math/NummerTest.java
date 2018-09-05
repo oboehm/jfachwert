@@ -42,10 +42,19 @@ public final class NummerTest extends AbstractFachwertTest {
     }
 
     /**
+     * Fehlerhafte Argumente sollten mit einer {@link IllegalArgumentException}
+     * zurueckgewiesen werden.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNummerInvalid() {
+        new Nummer("TEST");
+    }
+
+    /**
      * Test-Methode fuer {@link Nummer#intValue()}.
      */
     @Test
-    public void testGet() {
+    public void testIntValue() {
         Nummer nummer = new Nummer("4711");
         assertEquals(4711, nummer.intValue());
     }

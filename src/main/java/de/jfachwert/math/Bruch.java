@@ -18,7 +18,7 @@
 package de.jfachwert.math;
 
 import de.jfachwert.Fachwert;
-import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
@@ -68,7 +68,7 @@ public class Bruch extends AbstractNumber implements Fachwert, Comparable<Bruch>
                 numbers[1] = new BigInteger(parts[1]);
                 break;
             default:
-                throw new InvalidValueException(bruch, "fraction");
+                throw new LocalizedIllegalArgumentException(bruch, "fraction");
         }
         return numbers;
     }

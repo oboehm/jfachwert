@@ -22,10 +22,9 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import de.jfachwert.Fachwert;
 import de.jfachwert.SimpleValidator;
 import de.jfachwert.pruefung.NullValidator;
-import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.validation.ValidationException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.logging.Logger;
@@ -257,7 +256,7 @@ public class PackedDecimal extends AbstractNumber implements Fachwert, Comparabl
             try {
                 Bruch.of(s);
                 return true;
-            } catch (ValidationException ex) {
+            } catch (IllegalArgumentException ex) {
                 LOG.fine(s + " is not a fraction: " + ex);
                 return false;
             }
@@ -501,8 +500,8 @@ public class PackedDecimal extends AbstractNumber implements Fachwert, Comparabl
                 int lower = decode(chars[i * 2 + 1]);
                 bytes[i] = (byte) ((upper << 4) | lower);
             }
-        } catch (ValidationException ex) {
-            throw new InvalidValueException(zahl, "number");
+        } catch (IllegalArgumentException ex) {
+            throw new LocalizedIllegalArgumentException(zahl, "number", ex);
         }
         return bytes;
     }
@@ -536,7 +535,7 @@ public class PackedDecimal extends AbstractNumber implements Fachwert, Comparabl
             case '-':   return 0xD;
             case '.':   return 0xE;
             case ',':   return 0xF;
-            default:    throw new InvalidValueException(x, "number");
+            default:    throw new LocalizedIllegalArgumentException(x, "number");
         }
     }
 
