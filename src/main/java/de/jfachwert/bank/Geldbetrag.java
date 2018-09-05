@@ -1055,7 +1055,9 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     @Override
     public String toString() {
         DecimalFormat formatter = (DecimalFormat) DecimalFormat.getNumberInstance();
-        formatter.setMinimumFractionDigits(getCurrency().getDefaultFractionDigits());
+        int fractionDigits = getCurrency().getDefaultFractionDigits();
+        formatter.setMinimumFractionDigits(fractionDigits);
+        formatter.setMinimumFractionDigits(fractionDigits);
         return formatter.format(this.betrag) + " " + currency;
     }
 
