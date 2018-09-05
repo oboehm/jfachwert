@@ -48,7 +48,7 @@ public class Bestellnummer extends AbstractFachwert<String> {
      * @param pruefung Pruefverfahren
      */
     public Bestellnummer(String nummer, PruefzifferVerfahren<String> pruefung) {
-        super(pruefung.validate(nummer));
+        super(pruefung.verify(nummer));
     }
 
 }

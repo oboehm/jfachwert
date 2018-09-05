@@ -49,7 +49,7 @@ public class Kundennummer extends AbstractFachwert<String> {
      * @param pruefung     Pruefverfahren
      */
     public Kundennummer(String kundennummer, PruefzifferVerfahren<String> pruefung) {
-        super(pruefung.validate(kundennummer));
+        super(pruefung.verify(kundennummer));
     }
 
 }

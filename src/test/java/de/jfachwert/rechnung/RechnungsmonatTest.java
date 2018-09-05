@@ -17,11 +17,13 @@
  */
 package de.jfachwert.rechnung;
 
-import de.jfachwert.*;
-import org.junit.*;
+import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.Fachwert;
+import org.junit.Test;
 
-import javax.validation.*;
-import java.time.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.Month;
 
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
@@ -52,7 +54,7 @@ public final class RechnungsmonatTest extends AbstractFachwertTest {
      * Sollte der Konstruktur mit fehlerhaften Werten aufgerufen werden,
      * erwarten wir eine {@link IllegalArgumentException}.
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testRechnungsmonatWrongMonth() {
         new Rechnungsmonat(13, 2017);
     }

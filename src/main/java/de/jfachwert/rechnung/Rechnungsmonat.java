@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.Range;
 import org.apache.commons.lang3.StringUtils;
 
@@ -98,7 +99,7 @@ public class Rechnungsmonat implements Fachwert {
         String[] parts = monat.split("/");
         if ((parts.length == 2) && isDigit(parts[0]) && isDigit(parts[1])) {
             this.monate =
-                    asMonate(validate(MONTH, parts[0], VALID_MONTH_RANGE), validate(YEAR, parts[1], VALID_YEAR_RANGE));
+                    asMonate(verify(MONTH, parts[0], VALID_MONTH_RANGE), verify(YEAR, parts[1], VALID_YEAR_RANGE));
         } else {
             LocalDate date = toLocalDate(monat);
             this.monate = asMonate(date.getMonthValue(), date.getYear());
@@ -246,10 +247,10 @@ public class Rechnungsmonat implements Fachwert {
         throw new InvalidValueException(monat, MONTH, ex);
     }
 
-    private static int validate(String context, String value, Range<Integer> range) {
+    private static int verify(String context, String value, Range<Integer> range) {
         int number = Integer.parseInt(value);
         if (!range.contains(number)) {
-            throw new InvalidValueException(value, context, range);
+            throw new LocalizedIllegalArgumentException(value, context, range);
         }
         return number;
     }

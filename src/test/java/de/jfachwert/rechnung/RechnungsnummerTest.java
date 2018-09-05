@@ -16,10 +16,9 @@ package de.jfachwert.rechnung;/*
  * (c)reated 10.07.2017 by oboehm (ob@oasd.de)
  */
 
-import de.jfachwert.*;
-import org.junit.*;
-
-import javax.validation.*;
+import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.Fachwert;
+import org.junit.Test;
 
 /**
  * Unit-Tests fuer {@link Rechnungsnummer}-Klasse.
@@ -44,7 +43,7 @@ public class RechnungsnummerTest extends AbstractFachwertTest {
      * Eine leere Rechnungsnummer macht keinen Sinn und sollte deswegen nicht
      * angelegt werden koennen.
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNotEmpty() {
         new Rechnungsnummer("");
     }

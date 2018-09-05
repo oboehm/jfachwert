@@ -48,7 +48,7 @@ public class Referenznummer extends AbstractFachwert<String> {
      * @param pruefung Pruefverfahren
      */
     public Referenznummer(String nummer, PruefzifferVerfahren<String> pruefung) {
-        super(pruefung.validate(nummer));
+        super(pruefung.verify(nummer));
     }
 
 }
