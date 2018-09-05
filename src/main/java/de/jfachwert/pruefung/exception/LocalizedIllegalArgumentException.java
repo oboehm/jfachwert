@@ -17,6 +17,8 @@
  */
 package de.jfachwert.pruefung.exception;
 
+import org.apache.commons.lang3.Range;
+
 import java.io.Serializable;
 
 /**
@@ -50,6 +52,18 @@ public class LocalizedIllegalArgumentException extends IllegalArgumentException 
     }
 
     /**
+     * Erzeugt eine neue Exception fuer einen fehlerhaften Wert, der nicht
+     * zwischen den angegebenen Werten liegt.
+     *
+     * @param value   der fehlerhafte Wert
+     * @param context Resource des fehlerhaften Wertes (z.B. "email_address")
+     * @param range   untere und obere Schranke
+     */
+    public LocalizedIllegalArgumentException(Serializable value, String context, Range<? extends Comparable> range) {
+        this(value, context, new InvalidValueException(value, context, range));
+    }
+
+    /**
      * Erzeugt eine neue Exception fuer einen fehlerhaften Wert.
      *
      * @param value der fehlerhafte Wert
@@ -57,7 +71,7 @@ public class LocalizedIllegalArgumentException extends IllegalArgumentException 
      * @param cause Ursache
      */
     public LocalizedIllegalArgumentException(Serializable value, String context, Throwable cause) {
-        this("invalid value for " + context.replace('_', ' ') + ": \"" + value + '"', cause);
+        this("illegal value for " + context.replace('_', ' ') + ": \"" + value + '"', cause);
     }
 
     /**

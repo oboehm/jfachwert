@@ -60,8 +60,7 @@
         <artifactId>maven-failsafe-plugin</artifactId>
         <version>2.22.0</version>
         <configuration>
-          <argLine>$
-            {argLine} -Djava.util.logging.config.file=logging.properties</argLine>
+          <argLine>${argLine} -Djava.util.logging.config.file=logging.properties</argLine>
         </configuration>
         <executions>
           <execution>

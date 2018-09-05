@@ -18,8 +18,9 @@
 package de.jfachwert.net;
 
 import de.jfachwert.AbstractFachwertTest;
-import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.junit.Test;
+
+import javax.validation.ValidationException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -33,15 +34,21 @@ public class DomainnameTest extends AbstractFachwertTest {
     private final Domainname domainName = new Domainname("www.jfachwert.de");
 
     /**
-     * Zum Testen brauchen wir ein Test-Objekt. Dies muss hierueber von den abgeleiteten Unit-Tests bereitgestellt
-     * werden. Und zwar muss jedesmal der gleiche Fachwert erzeugt werden, weil sonst der equals-Test nicht
-     * funktioniert.
+     * Als Test-Objekt verwenden wir einen gueltigen Domainnamen.
      *
      * @return Test-Objekt zum Testen
      */
     @Override
     protected Domainname createFachwert() {
         return new Domainname("jfachwert.de");
+    }
+
+    /**
+     * Test mit einem ungueltigen Domainnamen.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testDomainnameInvalid() {
+        new Domainname("-abc");
     }
 
     /**
@@ -77,7 +84,7 @@ public class DomainnameTest extends AbstractFachwertTest {
     /**
      * Weitere Testmethode fuer {@link Domainname#getLevelDomain(int)}.
      */
-    @Test(expected =  InvalidValueException.class)
+    @Test(expected =  IllegalArgumentException.class)
     public void testGetFourthLevelDomain() {
         domainName.getLevelDomain(4);
     }
@@ -85,7 +92,7 @@ public class DomainnameTest extends AbstractFachwertTest {
     /**
      * Ein fuehrendes Minus-Zeichen sollte abgewiesen werden.
      */
-    @Test(expected = InvalidValueException.class)
+    @Test(expected = ValidationException.class)
     public void testValidate() {
         Domainname.validate("-a.com");
     }

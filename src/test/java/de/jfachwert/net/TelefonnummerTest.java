@@ -17,18 +17,21 @@
  */
 package de.jfachwert.net;
 
-import de.jfachwert.*;
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
-import patterntesting.runtime.junit.*;
+import de.jfachwert.AbstractFachwertTest;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import patterntesting.runtime.junit.ObjectTester;
 
-import javax.validation.*;
-import java.net.*;
-import java.util.*;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.startsWith;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Unit-Tests fuer {@link Telefonnummer}-Klasse.
@@ -82,7 +85,7 @@ public final class TelefonnummerTest extends AbstractFachwertTest {
     /**
      * Eine falsche Telefonnummer sollte zurueckgewiesen werden.
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testInvalidTelefonnummer() {
         new Telefonnummer("ABC-" + this.nummer);
     }

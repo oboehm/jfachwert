@@ -16,12 +16,10 @@ package de.jfachwert.net;/*
  * (c)reated 23.06.2017 by oboehm (ob@oasd.de)
  */
 
-import de.jfachwert.*;
-import org.junit.*;
+import de.jfachwert.AbstractFachwertTest;
+import org.junit.Test;
 
-import javax.validation.*;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Unit-Teests fuer de.jfachwert.net.EMailAdresse.
@@ -45,7 +43,7 @@ public final class EMailAdresseTest extends AbstractFachwertTest {
     /**
      * Eine falsche E-Mail-Adresse sollte zurueckgewiesen werden.
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testInvalidEmailAdresse() {
         new EMailAdresse("gibts.net");
     }

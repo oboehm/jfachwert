@@ -19,9 +19,11 @@ package de.jfachwert.net;
 
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.Range;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.validation.ValidationException;
 import java.util.regex.Pattern;
 
 /**
@@ -46,7 +48,15 @@ public class Domainname extends AbstractFachwert<String> {
      * @param name gueltiger Domain-Name
      */
     public Domainname(String name) {
-        super(validate(name.trim().toLowerCase()));
+        super(verify(name));
+    }
+
+    private static String verify(String name) {
+        try {
+            return validate(name.trim().toLowerCase());
+        } catch (ValidationException ex) {
+            throw new LocalizedIllegalArgumentException(ex);
+        }
     }
 
     /**
@@ -85,7 +95,7 @@ public class Domainname extends AbstractFachwert<String> {
         String[] parts = this.getCode().split("\\.");
         int firstPart = parts.length - level;
         if ((firstPart < 0) || (level < 1)) {
-            throw new InvalidValueException(level, "level", Range.between(1, parts.length));
+            throw new LocalizedIllegalArgumentException(level, "level", Range.between(1, parts.length));
         }
         StringBuilder name = new StringBuilder(parts[firstPart]);
         for (int i = firstPart + 1; i < parts.length; i++) {

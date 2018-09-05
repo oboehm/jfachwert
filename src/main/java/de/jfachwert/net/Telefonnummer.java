@@ -82,7 +82,7 @@ public class Telefonnummer extends AbstractFachwert<String> {
      * @param validator SimpleValidator zur Adressen-Validierung
      */
     public Telefonnummer(String nummer, TelefonnummerValidator validator) {
-        super(normalize(validator.validate(nummer)));
+        super(normalize(validator.verify(nummer)));
     }
 
     /**
