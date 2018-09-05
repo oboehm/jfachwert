@@ -17,6 +17,9 @@
  */
 package de.jfachwert;
 
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
+
+import javax.validation.ValidationException;
 import java.io.*;
 
 /**
@@ -41,5 +44,21 @@ public interface SimpleValidator<T extends Serializable> extends Serializable {
      * @return Wert selber, wenn er gueltig ist
      */
     T validate(T value);
+
+    /**
+     * Im Unterschied zur {@link #validate(Serializable)}-Methode wird hier
+     * eine {@link IllegalArgumentException} geworfen, wenn der Wert kein
+     * gueltiges Argument ist.
+     *
+     * @param value Wert, der verifiziert werden soll
+     * @return Wert selber, wenn er gueltig ist
+     */
+    default T verify(T value) {
+        try {
+            return validate(value);
+        } catch (ValidationException ex) {
+            throw new LocalizedIllegalArgumentException(ex);
+        }
+    }
 
 }

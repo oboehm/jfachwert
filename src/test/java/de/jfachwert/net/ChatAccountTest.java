@@ -19,8 +19,6 @@ package de.jfachwert.net;/*
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
-import javax.validation.ValidationException;
-
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -43,6 +41,15 @@ public final class ChatAccountTest extends AbstractFachwertTest {
         return new ChatAccount("Jabber", "alice@example.com");
     }
 
+    /**
+     * Bei falschen Argumenten sollte eine {@link IllegalArgumentException}
+     * geworfen werden.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testChatAccountInvalid() {
+        new ChatAccount(ChatDienst.SONSTIGER, null);
+    }
+    
     /**
      * Unit-Test fuer {@link ChatAccount#getChatDienst()}.
      */
@@ -81,7 +88,7 @@ public final class ChatAccountTest extends AbstractFachwertTest {
     /**
      * Test eines ungueltigen Jabber-Accounts.
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testChatAccountJabberInvalid() {
         new ChatAccount(ChatDienst.JABBER, "a@b@c");
     }
@@ -98,7 +105,7 @@ public final class ChatAccountTest extends AbstractFachwertTest {
      * Test eines ungueltigen ICQ-Accounts (ICQ-Nummber sind mindestens
      * 5-stelling).
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testChatAccountIcqInvalid() {
         new ChatAccount(ChatDienst.ICQ, "9999");
     }
@@ -107,7 +114,7 @@ public final class ChatAccountTest extends AbstractFachwertTest {
      * Test eines ungueltigen ICQ-Accounts (ICQ-Nummber sind mindestens
      * 5-stelling).
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testChatAccountNoNumber() {
         new ChatAccount(ChatDienst.ICQ, "0x12345");
     }

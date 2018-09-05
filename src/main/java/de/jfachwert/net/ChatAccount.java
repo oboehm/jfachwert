@@ -20,7 +20,7 @@ package de.jfachwert.net;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.jfachwert.Fachwert;
-import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import de.jfachwert.util.ToFachwertSerializer;
 import org.apache.commons.lang3.StringUtils;
 
@@ -101,13 +101,13 @@ public class ChatAccount implements Fachwert {
     public ChatAccount(ChatDienst chatDienst, String dienstName, String account) {
         this.chatDienst = chatDienst;
         this.dienstName = dienstName;
-        this.account = (String) chatDienst.getValidator().validate(account);
+        this.account = (String) chatDienst.getValidator().verify(account);
     }
     
     private static String[] split(String value) {
         String[] splitted = StringUtils.trimToEmpty(value).split(":\\s+");
         if (splitted.length != 2) {
-            throw new InvalidValueException(value, "chat_service");
+            throw new LocalizedIllegalArgumentException(value, "chat_service");
         }
         return splitted;
     }
