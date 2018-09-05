@@ -18,13 +18,14 @@
 package de.jfachwert.post;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import de.jfachwert.util.ToFachwertSerializer;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.validation.ValidationException;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
@@ -118,7 +119,7 @@ public class Postfach implements Fachwert {
     public Postfach(BigInteger nummer, Ort ort) {
         this.nummer = nummer;
         this.ort = ort;
-        validate(nummer, ort);
+        verify(nummer, ort);
     }
 
     /**
@@ -131,9 +132,9 @@ public class Postfach implements Fachwert {
         this.nummer = nummer.orElse(null);
         this.ort = ort;
         if (this.nummer == null) {
-            validate(ort);
+            verify(ort);
         } else {
-            validate(nummer.get(), ort);
+            verify(nummer.get(), ort);
         }
     }
 
@@ -192,6 +193,14 @@ public class Postfach implements Fachwert {
         validate(ort);
     }
 
+    private static void verify(BigInteger nummer, Ort ort) {
+        try {
+            validate(nummer, ort);
+        } catch (ValidationException ex) {
+            throw new LocalizedIllegalArgumentException(ex);
+        }
+    }
+
     /**
      * Ueberprueft, ob der uebergebene Ort tatsaechlich ein PLZ enthaelt.
      *
@@ -200,6 +209,14 @@ public class Postfach implements Fachwert {
     public static void validate(Ort ort) {
         if (!ort.getPLZ().isPresent()) {
             throw new InvalidValueException(ort, "postal_code");
+        }
+    }
+
+    private static void verify(Ort ort) {
+        try {
+            validate(ort);
+        } catch (ValidationException ex) {
+            throw new LocalizedIllegalArgumentException(ex);
         }
     }
 
@@ -235,19 +252,6 @@ public class Postfach implements Fachwert {
             formatted.insert(0, " " + i.remainder(hundert));
         }
         return formatted.toString().trim();
-    }
-
-    /**
-     * Liefert die Postleitzahl. Ohne gueltige Postleitzahl kann kein Postfach
-     * angelegt werden, weswegen hier immer eine PLZ zurueckgegeben wird.
-     *
-     * @return z.B. 09876
-     * @deprecated bitte {@link #getPLZ()} verwenden
-     */
-    @Deprecated
-    @JsonIgnore
-    public PLZ getPlz() {
-        return this.ort.getPLZ().get();
     }
 
     /**

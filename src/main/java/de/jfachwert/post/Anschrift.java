@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import de.jfachwert.util.ToFachwertSerializer;
 import org.apache.commons.lang3.StringUtils;
 
@@ -85,7 +86,7 @@ public class Anschrift implements Fachwert {
      */
     public Anschrift(String name, Adresse adresse) {
         this(new Adressat(name), adresse);
-        validate(name, adresse);
+        verify(name, adresse);
     }
 
     /**
@@ -179,6 +180,14 @@ public class Anschrift implements Fachwert {
         validateName(name);
         if (adresse == null) {
             throw new InvalidValueException("address");
+        }
+    }
+
+    private static void verify(String name, Adresse adresse) {
+        try {
+            validate(name, adresse);
+        } catch (ValidationException ex) {
+            throw new LocalizedIllegalArgumentException(ex);
         }
     }
 

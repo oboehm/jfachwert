@@ -43,6 +43,14 @@ public final class AdresseTest extends AbstractFachwertTest {
     }
 
     /**
+     * Eine Adresse besteht mindestens aus Ort und Strasse.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAdresseInvalid() {
+        new Adresse("Nirwana");
+    }
+
+    /**
      * Test-Methode fuer {@link Adresse#getOrt()}.
      */
     @Test

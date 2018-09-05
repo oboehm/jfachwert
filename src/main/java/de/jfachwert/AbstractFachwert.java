@@ -41,7 +41,7 @@ public abstract class AbstractFachwert<T extends Serializable> implements Fachwe
 
     protected AbstractFachwert(T code) {
         SimpleValidator<T> validator = new NullValidator();
-        this.code = validator.validate(code);
+        this.code = validator.verify(code);
     }
     
     /**

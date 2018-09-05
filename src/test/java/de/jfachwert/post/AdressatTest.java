@@ -19,8 +19,6 @@ package de.jfachwert.post;
 
 import org.junit.Test;
 
-import javax.validation.ValidationException;
-
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -35,7 +33,7 @@ public final class AdressatTest {
     /**
      * Null-Adressat soll nicht erzeugt werden koennen.
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testAdressatNull() {
         new Adressat(null);
     }

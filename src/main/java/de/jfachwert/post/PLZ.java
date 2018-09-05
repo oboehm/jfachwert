@@ -20,8 +20,10 @@ package de.jfachwert.post;
 import de.jfachwert.*;
 import de.jfachwert.pruefung.*;
 import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.*;
 
+import javax.validation.ValidationException;
 import java.math.*;
 import java.util.*;
 
@@ -41,7 +43,7 @@ public class PLZ extends AbstractFachwert<String> {
      * @param plz z.B. "70839" oder "D-70839"
      */
     public PLZ(String plz) {
-        super(validate(plz));
+        super(verify(plz));
     }
 
     /**
@@ -93,6 +95,14 @@ public class PLZ extends AbstractFachwert<String> {
             plz = LengthValidator.validate(plz, 3, 10);
         }
         return plz;
+    }
+
+    private static String verify(String code) {
+        try {
+            return validate(code);
+        } catch (ValidationException ex) {
+            throw new LocalizedIllegalArgumentException(ex);
+        }
     }
 
     private static void validateNumberOf(String plz) {

@@ -20,6 +20,7 @@ package de.jfachwert.post;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.jfachwert.Fachwert;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import de.jfachwert.util.ToFachwertSerializer;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.StringUtils;
@@ -134,7 +135,7 @@ public class Adresse implements Fachwert {
     private static String[] split(String adresse) {
         String[] lines = StringUtils.trimToEmpty(adresse).split("[,\\n$]");
         if (lines.length != 2) {
-            throw new InvalidValueException(adresse, "address");
+            throw new LocalizedIllegalArgumentException(adresse, "address");
         }
         List<String> splitted = new ArrayList<>();
         if (hasPLZ(lines[0])) {

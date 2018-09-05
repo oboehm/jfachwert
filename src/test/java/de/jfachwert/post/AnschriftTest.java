@@ -20,8 +20,6 @@ package de.jfachwert.post;
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
-import javax.validation.ValidationException;
-
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -48,7 +46,7 @@ public final class AnschriftTest extends AbstractFachwertTest {
     /**
      * Eine Anschrift mit leerem Namen sollte nicht angelegt werden koennen.
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testCreateAnschriftWithInvalidAdresse() {
         Adresse entenhausen = createFachwert().getAdresse();
         new Anschrift("", entenhausen);

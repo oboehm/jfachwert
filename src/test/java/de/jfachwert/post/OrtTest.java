@@ -122,4 +122,12 @@ public class OrtTest extends AbstractFachwertTest {
         assertEquals("Hamburg Altona", altona.getName());
     }
 
+    /**
+     * Ein leerer Ort sollte nicht angelegt werden koennen.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testCtorInvalid() {
+        new Ort(null);
+    }
+
 }

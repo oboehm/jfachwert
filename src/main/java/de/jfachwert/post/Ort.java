@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.LengthValidator;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ValidationException;
@@ -70,7 +71,7 @@ public class Ort implements Fachwert {
      */
     public Ort(PLZ plz, String name) {
         this.plz = plz;
-        this.name = validate(name);
+        this.name = verify(name);
     }
 
     /**
@@ -86,6 +87,14 @@ public class Ort implements Fachwert {
         String ortsname = splitted[1];
         LengthValidator.validate(ortsname, 1, Integer.MAX_VALUE);
         return name;
+    }
+
+    private static String verify(String name) {
+        try {
+            return validate(name);
+        } catch (ValidationException ex) {
+            throw new LocalizedIllegalArgumentException(ex);
+        }
     }
 
     private static String[] split(String name) {

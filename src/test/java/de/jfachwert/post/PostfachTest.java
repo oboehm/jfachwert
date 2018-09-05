@@ -68,7 +68,7 @@ public final class PostfachTest extends AbstractFachwertTest {
      * Postfaeche muessen immer eine positive Zahl sein. Andere Zahlen sollten
      * abgelehnt werden.
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testInvalidPostfach() {
         new Postfach(-1, new Ort(new PLZ("04711"), "Dufte"));
     }
@@ -103,7 +103,7 @@ public final class PostfachTest extends AbstractFachwertTest {
     @Test
     public void testPostfachString() {
         Postfach postfach = new Postfach("01234 Irgendwo");
-        assertEquals(new PLZ("01234"), postfach.getPlz());
+        assertEquals(new PLZ("01234"), postfach.getPLZ());
         assertEquals(postfach.getNummer(), Optional.empty());
     }
 
