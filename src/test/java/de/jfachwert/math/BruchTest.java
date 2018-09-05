@@ -25,10 +25,12 @@ import patterntesting.runtime.junit.ObjectTester;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 /**
  * Unit-Tests fuer {@link Bruch}-Klasse.
@@ -47,9 +49,14 @@ public final class BruchTest extends AbstractFachwertTest {
         return new Bruch(1, 2);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testBruchInvalid() {
-        new Bruch("TE/ST");
+        try {
+            new Bruch("TE/ST");
+            fail("IllegalArgumentException expected!");
+        } catch (IllegalArgumentException expected) {
+            assertThat(expected.getMessage(), containsString("TE/ST"));
+        }
     }
 
     /**

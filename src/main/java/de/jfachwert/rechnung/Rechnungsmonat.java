@@ -234,11 +234,13 @@ public class Rechnungsmonat implements Fachwert {
     private static LocalDate guessLocalDate(String monat, DateTimeParseException ex) {
         String[] datePatterns = {"d-MMM-yyyy", "d-MM-yyyy", "yyyy-MMM-d", "yyyy-MM-d", "MMM-d-yyyy"};
         for (String pattern : datePatterns) {
-            try {
-                return LocalDate.parse(monat, DateTimeFormatter.ofPattern(pattern));
-            } catch (DateTimeParseException ignored) {
-                ex.addSuppressed(new IllegalArgumentException(
-                        ignored.getMessage() + " / '" + monat + "' does not match '" + pattern + "'"));
+            for (Locale locale : Locale.getAvailableLocales()) {
+                try {
+                    return LocalDate.parse(monat, DateTimeFormatter.ofPattern(pattern, locale));
+                } catch (DateTimeParseException ignored) {
+                    ex.addSuppressed(new IllegalArgumentException(
+                            ignored.getMessage() + " / '" + monat + "' does not match '" + pattern + "'"));
+                }
             }
         }
         throw new InvalidValueException(monat, MONTH, ex);
