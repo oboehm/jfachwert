@@ -66,7 +66,7 @@ public class UStIdNr extends AbstractFachwert<String> {
      * @param pzVerfahren das verwendete PruefzifferVerfahren
      */
     public UStIdNr(String nr, PruefzifferVerfahren<String> pzVerfahren) {
-        super(validate(nr, pzVerfahren));
+        super(verify(nr, pzVerfahren));
     }
 
     private static PruefzifferVerfahren<String> selectPruefzifferVerfahrenFor(String nr) {
@@ -91,13 +91,13 @@ public class UStIdNr extends AbstractFachwert<String> {
      * @since 0.2.0
      */
     public static String validate(String nr) {
-        return validate(nr, selectPruefzifferVerfahrenFor(nr));
+        return verify(nr, selectPruefzifferVerfahrenFor(nr));
     }
 
-    private static String validate(String nr, PruefzifferVerfahren<String> verfahren) {
+    private static String verify(String nr, PruefzifferVerfahren<String> verfahren) {
         String unformatted = StringUtils.remove(nr, ' ');
-        LengthValidator.validate(unformatted, 7, 14);
-        verfahren.validate(unformatted.substring(2));
+        LengthValidator.verify(unformatted, 7, 14);
+        verfahren.verify(unformatted.substring(2));
         return unformatted;
     }
 

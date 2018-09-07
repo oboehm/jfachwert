@@ -21,7 +21,6 @@ import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Fachwert;
 import org.junit.Test;
 
-import javax.validation.ValidationException;
 import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
@@ -48,7 +47,7 @@ public final class UStIdNrTest extends AbstractFachwertTest {
      * Falls die UStIdNr eine falsche Pruefziffer enthaelt, soll sie nicht
      * erzeugt werden koennen.
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testUStIdNrInvalid() {
         new UStIdNr("DE136695970");
     }

@@ -22,6 +22,7 @@ import de.jfachwert.PruefzifferVerfahren;
 import de.jfachwert.math.PackedDecimal;
 import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.Mod11Verfahren;
+import de.jfachwert.pruefung.exception.InvalidValueException;
 
 /**
  * Die Steuernummer oder Steuer-Identnummer ist eine eindeutige Nummer, die vom
@@ -66,7 +67,7 @@ public class Steuernummer extends AbstractFachwert<PackedDecimal> {
      * @param pzVerfahren das verwendete PruefzifferVerfahren
      */
     public Steuernummer(String nr, PruefzifferVerfahren<String> pzVerfahren) {
-        super(PackedDecimal.valueOf(validate(nr, pzVerfahren)));
+        super(PackedDecimal.valueOf(verify(nr, pzVerfahren)));
     }
 
     /**
@@ -77,13 +78,17 @@ public class Steuernummer extends AbstractFachwert<PackedDecimal> {
      * @return die validierte Steuernummer zur Weiterverarbeitung
      */
     public static String validate(String nr) {
-        return validate(nr, MOD11);
+        try {
+            return verify(nr, MOD11);
+        } catch (IllegalArgumentException ex) {
+            throw new InvalidValueException(nr, "tax number", ex);
+        }
     }
 
-    private static String validate(String nr, PruefzifferVerfahren<String> pzVerfahren) {
-        LengthValidator.validate(nr, 10, 13);
+    private static String verify(String nr, PruefzifferVerfahren<String> pzVerfahren) {
+        LengthValidator.verify(nr, 10, 13);
         if (nr.length() == 11) {
-            return pzVerfahren.validate(nr);
+            return pzVerfahren.verify(nr);
         }
         return nr;
     }

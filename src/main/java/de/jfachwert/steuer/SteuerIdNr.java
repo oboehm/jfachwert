@@ -18,6 +18,9 @@
 package de.jfachwert.steuer;
 
 import de.jfachwert.pruefung.LengthValidator;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
+
+import javax.validation.ValidationException;
 
 /**
  * Die steuerliche Identifikationsnummer (SteuerIdNr) ist eine
@@ -37,7 +40,7 @@ public class SteuerIdNr extends Steuernummer {
      * @param idNr 11-stellige Zahl
      */
     public SteuerIdNr(String idNr) {
-        super(validate(idNr));
+        super(verify(idNr));
     }
 
     /**
@@ -49,6 +52,14 @@ public class SteuerIdNr extends Steuernummer {
     public static String validate(String nr) {
         LengthValidator.validate(nr, 11);
         return Steuernummer.validate(nr);
+    }
+
+    private static String verify(String nr) {
+        try {
+            return validate(nr);
+        } catch (ValidationException ex) {
+            throw new LocalizedIllegalArgumentException(ex);
+        }
     }
 
 }

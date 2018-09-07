@@ -19,6 +19,7 @@ package de.jfachwert.pruefung;
 
 import de.jfachwert.*;
 import de.jfachwert.pruefung.exception.InvalidLengthException;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 
 import java.io.*;
 import java.util.*;
@@ -110,6 +111,24 @@ public class LengthValidator<T extends Serializable> extends NoopVerfahren<T> {
             throw new InvalidLengthException(value, min, max);
         }
         return value;
+    }
+
+    /**
+     * Verifziert die Laenge des uebergebenen Wertes. Im Gegensatz zur
+     * {@link #validate(String, int, int)}-Methode wird herbei eine
+     * {@link IllegalArgumentException} geworfen.
+     *
+     * @param value zu pruefender Wert
+     * @param min   geforderte Minimal-Laenge
+     * @param max   Maximal-Laenge
+     * @return der gepruefte Wert (zur evtl. Weiterverarbeitung)
+     */
+    public static String verify(String value, int min, int max) {
+        try {
+            return validate(value, min, max);
+        } catch (IllegalArgumentException ex) {
+            throw new LocalizedIllegalArgumentException(ex);
+        }
     }
 
 }

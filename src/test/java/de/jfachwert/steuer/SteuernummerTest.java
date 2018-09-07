@@ -22,8 +22,6 @@ import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.NoopVerfahren;
 import org.junit.Test;
 
-import javax.validation.ValidationException;
-
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -43,7 +41,7 @@ public class SteuernummerTest extends AbstractFachwertTest {
     /**
      * Ungueltige Steuernummern sollten nicht erzeugt werden koennen.
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSteuernummerInvalid() {
         new Steuernummer("12345678001");
     }

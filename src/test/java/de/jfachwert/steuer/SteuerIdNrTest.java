@@ -20,8 +20,6 @@ package de.jfachwert.steuer;
 import de.jfachwert.Fachwert;
 import org.junit.Test;
 
-import javax.validation.ValidationException;
-
 /**
  * Unit-Test fuer {@link SteuerIdNr}-Klasse. Die Beispiel-Id stammt aus
  * https://www.lohnsteuer-kompakt.de/fag/2016/39/wo_kann_ich_meine_steuer-identifikationsnummer_finden.
@@ -42,7 +40,7 @@ public final class SteuerIdNrTest extends SteuernummerTest {
     /**
      * Ungueltige Steuernummern sollten nicht erzeugt werden koennen.
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSteuerIdNrInvalid() {
         new SteuerIdNr("12365489750");
     }
@@ -51,7 +49,7 @@ public final class SteuerIdNrTest extends SteuernummerTest {
      * Alte Steuernnummern und Nummer, die zu lang sind, sollten auch nicht
      * angelegt werden koennen.
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSteuerIdNrZuLang() {
         new SteuerIdNr("1121081508150");
     }
