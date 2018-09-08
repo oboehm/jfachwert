@@ -16,7 +16,7 @@ Er sorgt dafür, dass `null` als Parameter zurückgewiesen wird.
 === FachwertFactory
 
 Mit der `FachwertFactory`, die mit Version 0.5 eingeführt wurde, kann ein beliebiger Fachwert erzeugt werden.
-Damit kann die `FachwertFactory` auch zur Validierung von Fachwerten eingesetzt werden, ohne dass dieser explizit kreiert werden muss.
+Damit kann die `FachwertFactory` auch zur Validierung von Fachwerten eingesetzt werden, ohne dass dieser explizit erzeugt werden muss.
 
 ["plantuml", "sequence-factory", "svg"]
 ------------------------------------------------

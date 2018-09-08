@@ -46,7 +46,7 @@ Damit ist sichergestellt, dass
 
 
 
-=== of-Methode
+=== of-Methode (valueOf)
 
 Ursprünglich wurde auf eine statische `of`-Methode, wie sie seit Java 8 bei vielen Klassen aus dem JDK üblich ist (Beispiel: `LocalDate.of(jahr, monat, tag)`), bis v0.6 verzichtet,
 weil statische Methoden von abgeleiteten Klassen nicht überschrieben werden können.
@@ -59,6 +59,8 @@ Dies lohnt sich vor allem für Objekte, die immer den gleichen Werte oder nur ei
 Dies kann bei sehr vielen Objekten einen spürbaren Rückgang des Speicherverbraucs bedeuten.
 Bei vielen unterschiedlichen Objekten (z.B. IBAN) sollte man dagegen eher auf den Konstruktor verwenden, weil intern ein Cache für die die Ablage bereits erzeugter Objekte verwendet wird.
 Der interne Verwaltungs-Overhead ist umso größer, je mehr unterschiedliche Objekte erzeugt werden.
+
+Bei Klassen, die Ähnlichkeiten zur Number-Klasse haben (wie z.B. Geldbetrag), wird statt der of-Methode eine valueOf-Methode bereitgestellt, analog zur valueOf-Methode der Number-Klasse.
 
 
 
@@ -77,7 +79,7 @@ Meist ist dies der Wert selbst.
 
 === Eigene Money-Klasse (Geldbetrag)
 
-Mit 0.8 kam die Geldbetrag-Klasse hinzu, die das MonetaryAmount-Interface aus "javax.money" implementiert.
+Mit 1.0 kam die Geldbetrag-Klasse hinzu, die das MonetaryAmount-Interface aus "javax.money" implementiert.
 Gründe für eine eigene Implementierung waren:
 
 * Der Umgang mit dem Package "javax.money" und das Anlegen von MonetaryAmount-Objekten ist etwas sperrig.
@@ -97,6 +99,10 @@ Auf GitHub gibt es unter https://github.com/JavaMoney/jsr354-tck[JavaMoney/jsr35
 Resultat des TCKs war u.a. die `GeldbetragFactory`-Klasse, aber auch andere Klassen, die nur für den internen Gebrauch gedacht sind und dementsprechend auch unter `de.jfachwert.bank.internal` abgelegt wurden.
 Aufgerufen wird das TCK über den Integrationstest `GeldbetragIT`.
 
+Aktuell schlägt ein Test mit dem TCK fehl.
+Dies betrifft den Vergleich zweier Geldbeträge mit unterschiedlichen Wöhrungen mithilfe der compareTo-Methode.
+Dazu gibt es unter https://github.com/JavaMoney/jsr354-tck/issues/18//[Issue #18] ein Bug-Report, da die verwendete omparable-Implementierung (s.u.) durch JSR 354 abgedeckt ist.
+
 
 ==== Operatoren
 
@@ -107,3 +113,18 @@ Bei Operatoren, die einen Geldbetrag als Operand erwarten (z.B. Addition), müss
 Ansonsten wird eine `MonetaryException` geworfen.
 Ausnahmen hiervon sind neutrale Operanden wie z.B. die Addtion oder Subtraktion von 0 EUR.
 Da dies den Wert eines Geldbetrags nicht ändert, wird hier die Währung ignoriert und _keine_ MonetaryException ausgelöst.
+
+
+==== Comparable-Implementierung
+
+Die Comparable-Implementierung zweier Geldbeträge B1 und B2 richtet sich nach folgendem Schema:
+
+* gleiche Währung, B1 > B2: compareTo liefert Wert > 0
+* ungleiche Wöhrung, B1 = 0, B2 > 0: compareTo liefert Wert < 0
+* ungleiche Währung, B1 != 0, B2 != 0: MonetaryException wird geworfen.
+
+Wenn einer der Operatoren 0 ist, spielt die Währung für den Vergleich keine Rolle.
+Ansonsten muss die Wöhrung übereinstimmen.
+
+Dies gilt auch für die Implementierung der equals-Methode:
+zwei 0-Beträge werden als gleich angesehen, auch wenn sie unterschiedliche Währungseinheiten besitzen.

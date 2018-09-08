@@ -42,9 +42,9 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
                                   .set(RoundingMode.HALF_UP).build();
 
     /**
-     * Access the {@link MonetaryAmount} implementation type.
+     * Liefert den {@link MonetaryAmount} Implementierungstyp.
      *
-     * @return the {@link MonetaryAmount} implementation type, never {@code null}.
+     * @return die Klasse {@link Geldbetrag}
      */
     @Override
     public Class<? extends MonetaryAmount> getAmountType() {
@@ -98,6 +98,15 @@ public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
         return this;
     }
 
+    /**
+     * Ermittelt den {@link MonetaryContext} der uebergebenen Nummer. Laesst er
+     * sich nicht ermitteln, wird der voreigestellte {@link MonetaryContext}
+     * zurueckgeliefert.
+     *
+     * @param number eine Zahl, z.B. 8.15
+     * @return den Kontext, der mit dieser Zahl verbunden ist (wie z.B.
+     *         2 Nachkommastellen, ...)
+     */
     public MonetaryContext getMonetaryContextOf(Number number) {
         if (number instanceof BigDecimal) {
             BigDecimal value = (BigDecimal) number;

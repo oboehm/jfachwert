@@ -22,9 +22,15 @@ Prinzipiell bieten sich dabei folgende zwei Verfahren an:
 
 * Erzeugung über Konstruktur
 * Erzeugung über Builder-Pattern
+* Erzeugung über statische of(..)-Methode
 
 Builder-Pattern bieten sich eher dann dafür an, wenn die Erzeugung eines Objekts komplexer ist.
 Da Fachwerte aber tendenziell einfach aufgebaut sind und oft nur mit einem Argument für den Konstruktor auskommen, wird nur der Konstruktor für die Erzeugung eines Objekts angeboten.
+
+Die Erzeugung über eine statische of(..)-Methode hat den Vorteil, dass Objekte, die oft benötigt werden, in einem Cache vorgehalten werden können.
+Dies reduziert den Speicherverbrauch.
+Daher ist diese Art der Erzeugung zu bevorzugen.
+
 
 
 === Validierung
@@ -32,7 +38,7 @@ Da Fachwerte aber tendenziell einfach aufgebaut sind und oft nur mit einem Argum
 Da ungültige Objekte verhindert werden sollen, muss die Validierung im Konstruktor erfolgen.
 Um den Konstruktor übersichtlich zu halten, werden die Prüfung in eigene Validatoren ausgelagert.
 
-Auch sind Prüfziffer-Verfahren, die zur Erkennung fehlerhafter Fachwerte dienen, sind eine Art der Validierung.
+Auch sind Prüfziffer-Verfahren, die zur Erkennung fehlerhafter Fachwerte dienen, eine Art der Validierung.
 Deswegen befinden sich Validatoren und Prüfziffer-Verfahren im selben Package.
 
 IMPORTANT: Ab jFachwert 1.0 wird jetzt eine IllegalArgumentException (und nicht mehr eine ValidationException) geworfen, wenn die Validierung im Konstruktor fehlschlägt.
