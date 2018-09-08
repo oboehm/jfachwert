@@ -58,13 +58,31 @@ include::../images/package-bank.puml[]
 Mit dem bank-Package hat alles angefangen.
 Die Fachwerte in diesem Paket repräsentieren Konzepte, die im Bank-Umfeld typischerweise anzutreffen sind.
 
-Ab 0.8 kam die Geldbetrag-Klasse hinzu, die das MonetaryAmount-Interface implementiert.
+
+
+===== Geldbetrag
+
+Ab 1.0 kam die Geldbetrag-Klasse hinzu, die das MonetaryAmount-Interface implementiert.
 Geldbetrag vereinfacht den Umgang mit der Erzeugung von MonetaryAmount-Instanzen durch
 
 * Bereitstellung entsprechender Konstruktor,
 * statische valueOf-Methode.
 
 Daneben steht (fast) die gleiche Schnittstelle wie der BigDecimal- bzw. Number-Klasse zur Verfügung, sodass eine Portierung von Altlasten, in denen BigDecimal als Datentyp verwendet wurde, einfach möglich ist.
+
+["plantuml", "package-bank-geldbetrag", "svg"]
+------------------------------------------------
+include::../images/package-bank-geldbetrag.puml[]
+------------------------------------------------
+
+Die GeldbetragFactory ist durch JSR 354 vorgegeben, ebendso die Waehrung-Klasse.
+Beide muessen (neben einigen weiteren, internen Klassen) vorhanden sein, um das TCK (Technical Compatibility Kit) zu bestehen.
+
+Ein Geldetrag kann entweder über die GeldbetragFactory, als auch direkt über den Konstruktor oder valueOf-Methode der Geldbetrag-Klasse erzeugt werden.
+Die voreingestellte Genauigkeit beträgt dabei 4 Stellen.
+Wird eine höhere Genauikgeit gewünscht, kann dies über einen zusätzlichen MonetaryContext-Parameter beim Konstruktor der der valueOf-Methode eingestellt werden.
+
+
 
 
 ==== steuer
@@ -109,6 +127,17 @@ include::../images/package-net.puml[]
 Das net-Package ist mit v0.4 hinzugekommen.
 Hier befinden sich Begriffe aus dem Internet (z.B. `EMailAdresse`), aber auch Klassen, die im weitesten Sinn unter Vernetzung (z.B. `Telefonnummer`) eingeordnet werden können.
 
+
+==== util
+
+["plantuml", "package-util", "svg"]
+------------------------------------------------
+include::../images/package-util.puml[]
+------------------------------------------------
+
+Das util-Package ist mit v0.7 hinzugekommen.
+Es enthält im Wesentliche die TinyUUID-Klasse, die die gleiche Funktionalität wie die UUID-Klasse hat.
+Lediglich die toString()-Methode liefert eine kompaktere Schreibweise (22 Zeichen) als die UUID-Klasse (36 Zeichen).
 
 
 === Prüfungen und Exceptions

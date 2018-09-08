@@ -1,0 +1,10 @@
+@startuml
+
+package "util" {
+
+    class ToFachwertSerializer
+    class TinyUUID
+
+}
+
+@enduml

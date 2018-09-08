@@ -8,11 +8,13 @@ package "de.fachwert.bank" {
     class BIC
     class Bankverbindung
     class Geldbetrag
+    class Waehrung
 
 }
 
 interface javax.money.MonetaryAmount #white
 
 javax.money.MonetaryAmount <|.. Geldbetrag
+Geldbetrag -- Waehrung
 
 @enduml
