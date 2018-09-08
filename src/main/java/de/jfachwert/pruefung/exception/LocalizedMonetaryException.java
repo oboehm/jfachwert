@@ -51,6 +51,7 @@ public class LocalizedMonetaryException extends MonetaryException implements Loc
      *
      * @param message Meldung (z.B. "operator failed")
      * @param arg z.B. der Operator
+     * @param cause die Ursache fuer die Exception
      */
     public LocalizedMonetaryException(String message, Object arg, Throwable cause) {
         super(message);

@@ -314,7 +314,8 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     /**
      * Validiert die uebergebene Zahl.
      *
-     * @param zahl als String
+     * @param zahl     als String
+     * @param currency die Waehrung
      * @return die Zahl zur Weitervarabeitung
      */
     public static BigDecimal validate(BigDecimal zahl, CurrencyUnit currency) {
@@ -646,10 +647,10 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     /**
      * Returns a {@code MonetaryAmount} whose value is <code>this % divisor</code>.
      * <p>
-     * <p>
      * The remainder is given by
      * <code>this.subtract(this.divideToIntegralValue(divisor).multiply(divisor)</code> . Note that this
      * is not the modulo operation (the result can be negative).
+     * </p>
      *
      * @param divisor value by which this {@code MonetaryAmount} is to be divided.
      * @return {@code this % divisor}.
@@ -681,10 +682,10 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     /**
      * Returns a {@code MonetaryAmount} whose value is <code>this % divisor</code>.
      * <p>
-     * <p>
      * The remainder is given by
      * <code>this.subtract(this.divideToIntegralValue(divisor).multiply(divisor)</code> . Note that this
      * is not the modulo operation (the result can be negative).
+     * </p>
      *
      * @param divisor value by which this {@code MonetaryAmount} is to be divided.
      * @return {@code this % divisor}.
