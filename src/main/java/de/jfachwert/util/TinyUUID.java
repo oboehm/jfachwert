@@ -18,8 +18,8 @@
 package de.jfachwert.util;
 
 import de.jfachwert.AbstractFachwert;
-import de.jfachwert.pruefung.exception.InvalidLengthException;
 import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -93,12 +93,12 @@ public class TinyUUID extends AbstractFachwert<UUID> {
     }
 
     private static UUID toUUID(byte[] bytes) {
-        return UUID.fromString(toString(validate(bytes)));
+        return UUID.fromString(toString(verify(bytes)));
     }
 
-    private static byte[] validate(byte[] bytes) {
+    private static byte[] verify(byte[] bytes) {
         if (bytes.length != 16) {
-            throw new InvalidLengthException(bytes, 16);
+            throw new LocalizedIllegalArgumentException(bytes, 16);
         }
         return bytes;
     }

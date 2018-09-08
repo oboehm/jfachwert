@@ -20,6 +20,7 @@ package de.jfachwert.pruefung.exception;
 import org.apache.commons.lang3.Range;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * Die InvalidValueException ist eine Exception fuer ungueltige Werte.
@@ -72,6 +73,18 @@ public class LocalizedIllegalArgumentException extends IllegalArgumentException 
      */
     public LocalizedIllegalArgumentException(Serializable value, String context, Throwable cause) {
         this("illegal value for " + context.replace('_', ' ') + ": \"" + value + '"', cause);
+    }
+
+    /**
+     * Dieser Constructor kann bei Arrays mit falscher Groesse eingesetzt
+     * werden.
+     *
+     * @param array fehlerhaftes Array
+     * @param expected erwartete Array-Groesse
+     */
+    public LocalizedIllegalArgumentException(byte[] array, int expected) {
+        this("array=" + Arrays.toString(array) + " has not length " + expected + " (but " + array.length + ")",
+                new InvalidLengthException(array, expected));
     }
 
     /**

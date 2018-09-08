@@ -71,7 +71,7 @@ public final class TinyUUIDTest extends AbstractFachwertTest {
      * 16 Bytes uebergeben werden, sollte eine {@link ValidationException}
      * kommen.
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testTinyUUIDInvalidBytes() {
         new TinyUUID(new byte[1]);
     }
