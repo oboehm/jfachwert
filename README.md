@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/oboehm/jfachwert.svg?branch=develop)](https://travis-ci.org/oboehm/jfachwert)
 [![Coverage Status](https://coveralls.io/repos/github/oboehm/jfachwert/badge.svg?branch=develop)](https://coveralls.io/github/oboehm/jfachwert)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.jfachwert/jfachwert/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.jfachwert/jfachwert)
-[![Quality Gate](https://sonarcloud.io/api/badges/gate?key=de.jfachwert:jfachwert)](https://sonarcloud.io/dashboard?id=de.jfachwert%3Ajfachwert%3Adevelop)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?metric=alert_status&project=de.jfachwert:jfachwert)](https://sonarcloud.io/dashboard?id=de.jfachwert%3Ajfachwert%3Adevelop)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 # Was ist jFachwert?
@@ -43,12 +43,12 @@ Jetzt kann man die Argumente nicht mehr verwechseln, weil sonst der Compiler mec
 
 ## Aktueller Stand
 
-Die Arbeit hat begonnen und die Funktionaliaeten bei den wenig vorhandenen Fachwerten ist ueberschaubar.
-Dennoch kann man sie bereits einsetzen und profitiert von sprechenderen Methoden-Parametern, die nicht
+Mit 1.0 ist jetzt ein stabiler Stand erreicht, den man produktiv in eigenen Projekten einsetzen kann.
+Man profitiert dabei von sprechenderen Methoden-Parametern, die nicht
 mehr verwechselt werden koennen. Wer Ideen fuer weitere Fachwerte hat, darf gerne mitmachen - sei es durch Code,
 sei es durch Dokumentation oder einem schoenen Icon, oder sei es durch Anregungen und konstruktive Kritik.
 
-Bereits in Version 0.0.2 gab es einer einfache [IBAN](http://jfachwert.de/apidocs/de/jfachwert/bank/IBAN.html)- und 
+So gab es bereits in Version 0.0.2 gab es einer einfache [IBAN](http://jfachwert.de/apidocs/de/jfachwert/bank/IBAN.html)- und 
 [BIC](http://jfachwert.de/apidocs/de/jfachwert/bank/BIC.html)-Klasse, die im 
 [Maven-Repository](http://search.maven.org/#search%7Cga%7C1%7Cjfachwert)
 unter folgenden Koordinaten zu finden ist:
@@ -71,8 +71,6 @@ Die weitere Geschichte ist in den [Release Notes](http://jfachwert.de/changes-re
 Ziel dieser Bibliothek ist es, fuer den deutschsprachigen Raum alle wichtigen Datentypen bereitzustellen, die man
 sonst immer wieder selbst implementieren muesste. Mir ist klar, dass damit nicht alle Sonderfaelle abgedeckt werden
 koennen - deswegen sind die Klassen auch nicht 'final', sondern koennen erweitert werden.
-
-Juli 2017, Oli B.
 
 ---
 
