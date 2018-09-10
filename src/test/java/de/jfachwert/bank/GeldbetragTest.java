@@ -38,7 +38,12 @@ import static org.hamcrest.number.OrderingComparison.lessThan;
 import static org.junit.Assert.*;
 
 /**
- * Unit-Tests fuer {@link Geldbetrag}-Klasse.
+ * Unit-Tests fuer {@link Geldbetrag}-Klasse. Wenn der Test mit einer anderen
+ * Locale-Einstellung gestartet werden soll, kann man es z.B. mit
+ * <pre>
+ *     -Duser.language=en -Duser.country=US -Duser.country.format=UK
+ * </pre>
+ * versuchen.
  *
  * @author oboehm
  */
