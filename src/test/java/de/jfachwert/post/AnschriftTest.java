@@ -40,7 +40,7 @@ public final class AnschriftTest extends AbstractFachwertTest {
     @Override
     protected Anschrift createFachwert() {
         Adresse adresse = new AdresseTest().createFachwert();
-        return new Anschrift("Daisy", adresse);
+        return new Anschrift(Adressat.of("Daisy"), adresse);
     }
 
     /**
@@ -49,7 +49,7 @@ public final class AnschriftTest extends AbstractFachwertTest {
     @Test(expected = IllegalArgumentException.class)
     public void testCreateAnschriftWithInvalidAdresse() {
         Adresse entenhausen = createFachwert().getAdresse();
-        new Anschrift("", entenhausen);
+        new Anschrift(Adressat.of(""), entenhausen);
     }
 
     /**
@@ -58,7 +58,7 @@ public final class AnschriftTest extends AbstractFachwertTest {
     @Test
     public void testAnschriftWithPostfach() {
         Postfach postfach = new PostfachTest().createFachwert();
-        Anschrift anschrift = new Anschrift("Mr. Postman", postfach);
+        Anschrift anschrift = Anschrift.of(Adressat.of("Mr. Postman"), postfach);
         assertEquals(postfach, anschrift.getPostfach());
         assertThat(anschrift.toString(), containsString(postfach.toString()));
     }
@@ -69,8 +69,9 @@ public final class AnschriftTest extends AbstractFachwertTest {
     @Test
     public void testGetAdressat() {
         Adresse adresse = new AdresseTest().createFachwert();
-        Anschrift anschrift = new Anschrift("Dagobert, Duck", adresse);
+        Anschrift anschrift = Anschrift.of(Adressat.of("Dagobert, Duck"), adresse);
         assertEquals(new Adressat("Dagobert, Duck"), anschrift.getAdressat());
+        assertEquals(anschrift, Anschrift.of(anschrift.toString()));
     }
 
     /**

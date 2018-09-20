@@ -84,8 +84,8 @@ public class OrtTest extends AbstractFachwertTest {
      */
     @Test
     public void testEqualsSatisfiable() {
-        Ort neustadt = new Ort(new PLZ("99762"), "Neustadt");
-        Ort altstadt = new Ort("Altstadt");
+        Ort neustadt = Ort.of(new PLZ("99762"), "Neustadt");
+        Ort altstadt = Ort.of("Altstadt");
         assertThat(neustadt, not(altstadt));
     }
 

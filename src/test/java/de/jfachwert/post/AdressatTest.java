@@ -39,6 +39,14 @@ public final class AdressatTest {
     }
 
     /**
+     * Test-Methode fuer {@link Adressat#of(String)}.
+     */
+    @Test
+    public void testOf() {
+        assertEquals(mustermann, Adressat.of(mustermann.toString()));
+    }
+
+    /**
      * Test-Methode fuer {@link Adressat#getName()}.
      */
     @Test

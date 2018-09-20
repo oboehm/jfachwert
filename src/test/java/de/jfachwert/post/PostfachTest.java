@@ -60,7 +60,7 @@ public final class PostfachTest extends AbstractFachwertTest {
      */
     @Test
     public void testGetNummerFormatted() {
-        Postfach postfach = new Postfach(1234567890L, new Ort(new PLZ("12345"), "Irgendwo"));
+        Postfach postfach = Postfach.of(1234567890L, new Ort(new PLZ("12345"), "Irgendwo"));
         assertEquals("12 34 56 78 90", postfach.getNummerFormatted());
     }
 
@@ -102,7 +102,7 @@ public final class PostfachTest extends AbstractFachwertTest {
     
     @Test
     public void testPostfachString() {
-        Postfach postfach = new Postfach("01234 Irgendwo");
+        Postfach postfach = Postfach.of("01234 Irgendwo");
         assertEquals(new PLZ("01234"), postfach.getPLZ());
         assertEquals(postfach.getNummer(), Optional.empty());
     }

@@ -51,7 +51,7 @@ public class Ort implements Fachwert {
     private final PLZ plz;
 
     /**
-     * Hierueber kann ein Ort (ohne PLZ) angelegt werden.
+     * Hierueber kann ein Ort (mit oder ohne PLZ) angelegt werden.
      *
      * @param name des Ortes
      */
@@ -72,6 +72,25 @@ public class Ort implements Fachwert {
     public Ort(PLZ plz, String name) {
         this.plz = plz;
         this.name = verify(name);
+    }
+
+    /**
+     * Hierueber kann ein Ort (mit oder ohne PLZ) angelegt werden.
+     *
+     * @param name des Ortes
+     */
+    public static Ort of(String name) {
+        return new Ort(name);
+    }
+
+    /**
+     * Hierueber kann ein Ort mit PLZ angelegt werden.
+     *
+     * @param plz Postleitzahl des Ortes
+     * @param name Name des Ortes
+     */
+    public static Ort of(PLZ plz, String name) {
+        return new Ort(plz, name);
     }
 
     /**

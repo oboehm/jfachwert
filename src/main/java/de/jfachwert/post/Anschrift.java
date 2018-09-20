@@ -83,7 +83,9 @@ public class Anschrift implements Fachwert {
      *
      * @param name    Namen einer Person oder Personengruppe
      * @param adresse eine gueltige Adresse
+     * @deprecated bitte {@link Anschrift#Anschrift(Adressat, Adresse)} verwenden
      */
+    @Deprecated
     public Anschrift(String name, Adresse adresse) {
         this(new Adressat(name), adresse);
         verify(name, adresse);
@@ -104,7 +106,9 @@ public class Anschrift implements Fachwert {
      *
      * @param name     Namen einer Person oder Personengruppe
      * @param postfach ein gueltiges Postfach
+     * @deprecated bitte {@link Anschrift#Anschrift(Adressat, Postfach)} verwenden
      */
+    @Deprecated
     public Anschrift(String name, Postfach postfach) {
         this(new Adressat(name), postfach);
         validate(name, postfach);
@@ -133,6 +137,41 @@ public class Anschrift implements Fachwert {
                 throw new InvalidValueException(adresse, ADDRESS);
             }
         }
+    }
+
+    /**
+     * Zerlegt die uebergebene Anschrift in Adressat und Adresse oder Postfach,
+     * um daraus eine Anschrift zu erzeugen. Folgende Heuristiken werden fuer 
+     * die Zerlegung herangezogen:
+     * <ul>
+     *     <li>Adressat steht an erster Stelle</li>
+     *     <li>Einzelteile werden durch Komma oder Zeilenvorschub getrennt</li>
+     * </ul>
+     *
+     * @param anschrift z.B. "Donald Duck, 12345 Entenhausen, Gansstr. 23"
+     */
+    public static Anschrift of(String anschrift) {
+        return new Anschrift(anschrift);
+    }
+
+    /**
+     * Erzeugt aus dem Adressaten und einem Postfach eine Anschrift.
+     *
+     * @param name     Namen einer Person oder Personengruppe
+     * @param postfach ein gueltiges Postfach
+     */
+    public static Anschrift of(Adressat name, Postfach postfach) {
+        return new Anschrift(name, postfach);
+    }
+
+    /**
+     * Erzeugt aus dem Adressaten und Adresse eine Anschrift.
+     *
+     * @param name    Namen einer Person oder Personengruppe
+     * @param adresse eine gueltige Adresse
+     */
+    public static Anschrift of(Adressat name, Adresse adresse) {
+        return new Anschrift(name, adresse);
     }
 
     /**

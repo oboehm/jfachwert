@@ -93,6 +93,33 @@ public class Adresse implements Fachwert {
     }
 
     /**
+     * Zerlegt die uebergebene Adresse in ihre Einzelteile und baut daraus die
+     * Adresse zusammen. Folgende Heuristiken werden fuer die Zerlegung 
+     * herangezogen:
+     * <ul>
+     *     <li>Reihenfolge kann Ort, Strasse oder Strasse, Ort sein</li>
+     *     <li>Ort / Strasse werden durch Komma oder Zeilenvorschub getrennt</li>
+     *     <li>vor dem Ort steht die PLZ</li>
+     * </ul>
+     *
+     * @param adresse z.B. "12345 Entenhausen, Gansstr. 23"
+     */
+    public static Adresse of(String adresse) {
+        return new Adresse(adresse);
+    }
+
+    /**
+     * Liefert eine Adresse mit den uebergebenen Parametern.
+     *
+     * @param ort        the ort
+     * @param strasse    the strasse
+     * @param hausnummer the hausnummer
+     */
+    public static Adresse of(Ort ort, String strasse, String hausnummer) {
+        return new Adresse(ort, strasse, hausnummer);
+    }
+
+    /**
      * Validiert die uebergebene Adresse auf moegliche Fehler.
      *
      * @param ort        der Ort

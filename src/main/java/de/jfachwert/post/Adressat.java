@@ -18,6 +18,7 @@
 package de.jfachwert.post;
 
 import de.jfachwert.AbstractFachwert;
+import de.jfachwert.pruefung.EmptyValidator;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -43,7 +44,17 @@ public class Adressat extends AbstractFachwert<String> {
      * @param name z.B. "Mustermann, Max"
      */
     public Adressat(String name) {
-        super(name);
+        super(name, new EmptyValidator());
+    }
+
+    /**
+     * Liefert einen Adressat mit dem angegebenen Namen.
+     * 
+     * @param name z.B. "Mustermann, Max"
+     * @return Addressat mit dem angegebenen Namen
+     */
+    public static Adressat of(String name) {
+        return new Adressat(name);
     }
 
     /**

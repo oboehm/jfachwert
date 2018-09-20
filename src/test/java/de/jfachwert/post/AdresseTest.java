@@ -91,9 +91,10 @@ public final class AdresseTest extends AbstractFachwertTest {
     @Test
     public void testAdresse() {
         String musterdorf = "Alter Weg 110 a\n12345 Musterdorf";
-        Adresse adresse = new Adresse(musterdorf);
+        Adresse adresse = Adresse.of(musterdorf);
         assertEquals("Alter Weg", adresse.getStrasse());
         assertEquals("110 a", adresse.getHausnummer());
+        assertEquals(adresse, Adresse.of(adresse.getOrt(), adresse.getStrasse(), adresse.getHausnummer()));
     }
     
 }

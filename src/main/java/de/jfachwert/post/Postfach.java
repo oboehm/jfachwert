@@ -139,6 +139,40 @@ public class Postfach implements Fachwert {
     }
 
     /**
+     * Zerlegt den uebergebenen String in seine Einzelteile und validiert sie.
+     * Folgende Heuristiken werden fuer die Zerlegung herangezogen:
+     * <ul>
+     *     <li>Format ist "Postfach, Ort" oder nur "Ort" (mit PLZ)</li>
+     *     <li>Postfach ist vom Ort durch Komma oder Zeilenvorschub getrennt</li>
+     * </ul>
+     *
+     * @param postfach z.B. "Postfach 98765, 12345 Entenhausen"
+     */
+    public static Postfach of(String postfach) {
+        return new Postfach(postfach);
+    }
+
+    /**
+     * Erzeugt ein Postfach.
+     *
+     * @param nummer positive Zahl ohne fuehrende Null
+     * @param ort gueltiger Ort mit PLZ
+     */
+    public static Postfach of(long nummer, Ort ort) {
+        return new Postfach(nummer, ort);
+    }
+
+    /**
+     * Erzeugt ein Postfach.
+     *
+     * @param nummer positive Zahl ohne fuehrende Null
+     * @param ort gueltiger Ort mit PLZ
+     */
+    public static Postfach of(BigInteger nummer, Ort ort) {
+        return new Postfach(nummer, ort);
+    }
+
+    /**
      * Zerlegt das uebergebene Postfach in seine Einzelteile und validiert sie.
      * Folgende Heuristiken werden fuer die Zerlegung herangezogen:
      * <ul>

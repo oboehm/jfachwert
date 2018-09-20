@@ -40,10 +40,13 @@ public abstract class AbstractFachwert<T extends Serializable> implements Fachwe
     private final T code;
 
     protected AbstractFachwert(T code) {
-        SimpleValidator<T> validator = new NullValidator();
+        this(code, new NullValidator<>());
+    }
+
+    protected AbstractFachwert(T code, SimpleValidator<T> validator) {
         this.code = validator.verify(code);
     }
-    
+
     /**
      * Liefert die interne Praesentation fuer die abgeleiteten Klassen. Er
      * ist nicht fuer den direkten Aufruf vorgesehen, weswegen die Methode auch
