@@ -18,7 +18,7 @@
 package de.jfachwert.post;
 
 import de.jfachwert.AbstractFachwert;
-import de.jfachwert.pruefung.EmptyValidator;
+import de.jfachwert.pruefung.LengthValidator;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -44,7 +44,7 @@ public class Adressat extends AbstractFachwert<String> {
      * @param name z.B. "Mustermann, Max"
      */
     public Adressat(String name) {
-        super(name, new EmptyValidator());
+        super(name, LengthValidator.NOT_EMPTY_VALIDATOR);
     }
 
     /**
