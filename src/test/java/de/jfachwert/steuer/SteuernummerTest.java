@@ -43,7 +43,7 @@ public class SteuernummerTest extends AbstractFachwertTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testSteuernummerInvalid() {
-        new Steuernummer("12345678001");
+        Steuernummer.of("12345678001");
     }
 
     @Test

@@ -69,6 +69,17 @@ public class UStIdNr extends AbstractFachwert<String> {
         super(verify(nr, pzVerfahren));
     }
 
+    /**
+     * Erzeugt eine Umsatzsteuer-IdNr. Die uebergebene Nummer besteht aus
+     * einer 2-stelligen Laenderkennung, gefolgt von maximal 12
+     * alphanumerischen Zeichen.
+     *
+     * @param nr, z.B. "DE999999999"
+     */
+    public static UStIdNr of(String nr) {
+        return new UStIdNr(nr);
+    }
+
     private static PruefzifferVerfahren<String> selectPruefzifferVerfahrenFor(String nr) {
         String laenderkuerzel = toLaenderkuerzel(nr);
         PruefzifferVerfahren<String> verfahren = PRUEFZIFFER_VERFAHREN.get(laenderkuerzel);

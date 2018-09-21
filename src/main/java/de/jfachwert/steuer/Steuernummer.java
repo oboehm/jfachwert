@@ -71,6 +71,15 @@ public class Steuernummer extends AbstractFachwert<PackedDecimal> {
     }
 
     /**
+     * Hierueber wird eine neue Steuernummer angelegt.
+     *
+     * @param nr eine 10- bis 13-stellige Steuernummer.
+     */
+    public static Steuernummer of(String nr) {
+        return new Steuernummer(nr);
+    }
+
+    /**
      * Die Steuernummer muss zwischen 10 und 13 Stellen lang sein und die
      * Pruefziffer muss stimmen (falls sie bekannt ist).
      *

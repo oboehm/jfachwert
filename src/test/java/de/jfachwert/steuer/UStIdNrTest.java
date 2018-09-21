@@ -49,7 +49,7 @@ public final class UStIdNrTest extends AbstractFachwertTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testUStIdNrInvalid() {
-        new UStIdNr("DE136695970");
+        UStIdNr.of("DE136695970");
     }
 
     /**

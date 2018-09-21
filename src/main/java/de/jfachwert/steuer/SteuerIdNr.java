@@ -44,6 +44,15 @@ public class SteuerIdNr extends Steuernummer {
     }
 
     /**
+     * Die SteuerIdNr ist eine 11-stellige Zahl mit einer Pruefziffer.
+     *
+     * @param idNr 11-stellige Zahl
+     */
+    public static SteuerIdNr of(String idNr) {
+        return new SteuerIdNr(idNr);
+    }
+
+    /**
      * Eine SteuerId muss genau 11 Stellen besitzen.
      *
      * @param nr the nr

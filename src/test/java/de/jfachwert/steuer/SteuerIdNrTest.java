@@ -42,7 +42,7 @@ public final class SteuerIdNrTest extends SteuernummerTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testSteuerIdNrInvalid() {
-        new SteuerIdNr("12365489750");
+        SteuerIdNr.of("12365489750");
     }
 
     /**
