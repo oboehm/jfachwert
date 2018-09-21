@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.exception.InvalidValueException;
-import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import de.jfachwert.util.ToFachwertSerializer;
 import org.apache.commons.lang3.StringUtils;
 
@@ -88,7 +87,6 @@ public class Anschrift implements Fachwert {
     @Deprecated
     public Anschrift(String name, Adresse adresse) {
         this(new Adressat(name), adresse);
-        verify(name, adresse);
     }
 
     /**
@@ -111,7 +109,6 @@ public class Anschrift implements Fachwert {
     @Deprecated
     public Anschrift(String name, Postfach postfach) {
         this(new Adressat(name), postfach);
-        validate(name, postfach);
     }
 
     /**
@@ -206,48 +203,6 @@ public class Anschrift implements Fachwert {
             parts[2] = null;
         }
         return parts;
-    }
-
-    /**
-     * Validiert den uebergebenen Namen und die Adresse. Der Name sollte dabei
-     * nicht leer sein und die Adresse nicht 'null'.
-     *
-     * @param name zu pruefender Name
-     * @param adresse eine gueltige Adresse
-     */
-    public static void validate(String name, Adresse adresse) {
-        validateName(name);
-        if (adresse == null) {
-            throw new InvalidValueException("address");
-        }
-    }
-
-    private static void verify(String name, Adresse adresse) {
-        try {
-            validate(name, adresse);
-        } catch (ValidationException ex) {
-            throw new LocalizedIllegalArgumentException(ex);
-        }
-    }
-
-    /**
-     * Validiert den uebergebenen Namen und das Postfach. Der Name sollte dabei
-     * nicht leer sein und das Postfach nicht 'null'.
-     *
-     * @param name zu pruefender Name
-     * @param postfach ein gueltiges Postfach
-     */
-    public static void validate(String name, Postfach postfach) {
-        validateName(name);
-        if (postfach == null) {
-            throw new InvalidValueException("post_office_box");
-        }
-    }
-
-    private static void validateName(String name) {
-        if (StringUtils.isBlank(name)) {
-            throw new InvalidValueException(name, "name");
-        }
     }
 
     /**
