@@ -43,7 +43,7 @@ public class ReferenznummerTest extends AbstractFachwertTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testNotEmpty() {
-        new Referenznummer("");
+        Referenznummer.of("");
     }
 
 }

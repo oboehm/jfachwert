@@ -51,4 +51,13 @@ public class Rechnungsnummer extends AbstractFachwert<String> {
         super(pruefung.verify(nummer));
     }
 
+    /**
+     * Erzeugt eine Rechnungsnummer.
+     *
+     * @param nummer z.B. "000002835042"
+     */
+    public static Rechnungsnummer of(String nummer) {
+        return new Rechnungsnummer(nummer);
+    }
+
 }

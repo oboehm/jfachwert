@@ -52,4 +52,13 @@ public class Kundennummer extends AbstractFachwert<String> {
         super(pruefung.verify(kundennummer));
     }
 
+    /**
+     * Erzeugt eine Kundennummer.
+     *
+     * @param nummer z.B. "100.059"
+     */
+    public static Kundennummer of(String nummer) {
+        return new Kundennummer(nummer);
+    }
+
 }

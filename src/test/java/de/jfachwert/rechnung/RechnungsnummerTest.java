@@ -45,7 +45,7 @@ public class RechnungsnummerTest extends AbstractFachwertTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testNotEmpty() {
-        new Rechnungsnummer("");
+        Rechnungsnummer.of("");
     }
 
 }

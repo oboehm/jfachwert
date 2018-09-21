@@ -51,4 +51,13 @@ public class Bestellnummer extends AbstractFachwert<String> {
         super(pruefung.verify(nummer));
     }
 
+    /**
+     * Erzeugt eine Bestellnummer.
+     *
+     * @param nummer z.B. "000002835042"
+     */
+    public static Bestellnummer of(String nummer) {
+        return new Bestellnummer(nummer);
+    }
+
 }

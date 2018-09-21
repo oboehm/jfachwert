@@ -51,4 +51,13 @@ public class Referenznummer extends AbstractFachwert<String> {
         super(pruefung.verify(nummer));
     }
 
+    /**
+     * Erzeugt eine Referenznummer.
+     *
+     * @param nummer z.B. "000002835042"
+     */
+    public static Referenznummer of(String nummer) {
+        return new Referenznummer(nummer);
+    }
+    
 }

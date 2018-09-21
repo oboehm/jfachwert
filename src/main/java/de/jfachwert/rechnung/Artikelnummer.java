@@ -51,4 +51,13 @@ public class Artikelnummer extends AbstractFachwert<String> {
         super(pruefung.verify(nummer));
     }
 
+    /**
+     * Erzeugt eine Artikelnummer.
+     *
+     * @param nummer z.B. "000002835042"
+     */
+    public static Artikelnummer of(String nummer) {
+        return new Artikelnummer(nummer);
+    }
+
 }

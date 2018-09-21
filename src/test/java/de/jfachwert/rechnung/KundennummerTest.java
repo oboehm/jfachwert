@@ -45,7 +45,7 @@ public class KundennummerTest extends AbstractFachwertTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testNotEmpty() {
-        new Kundennummer("");
+        Kundennummer.of("");
     }
 
 }

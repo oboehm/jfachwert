@@ -43,7 +43,7 @@ public class ArtikelnummerTest extends AbstractFachwertTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testNotEmpty() {
-        new Artikelnummer("");
+        Artikelnummer.of("");
     }
 
 }

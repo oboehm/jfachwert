@@ -43,7 +43,7 @@ public class BestellnummerTest extends AbstractFachwertTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testNotEmpty() {
-        new Bestellnummer("");
+        Bestellnummer.of("");
     }
     
 }
