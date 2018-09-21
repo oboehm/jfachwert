@@ -2,9 +2,9 @@
 
 
 
-== 1.0 (kommt noch)
+== 1.0 (22-Sep-2018)
 
-* #_neu_#: Unterstützung von JSR-354 (Money und Currency API) durch eine Geldbetrag- und Waehrung-Klasse.
+* #_neu_#: Unterstützung von http://javamoney.github.io/api.html[JSR-354] (Money und Currency API) durch eine Geldbetrag- und Waehrung-Klasse.
   Ziel ist es, den schwierigen Umgang mit Geldbeträgen zu vereinfachen.
   Bis auf https://github.com/JavaMoney/jsr354-tck/issues/18[einen Test] wird das https://github.com/JavaMoney/jsr354-tck[JSR354-TCK] eingehalten.
 * #_neu_#: JSON-Serialisierung (erfordert Einbindung von jackson-databind als abhängige Bibliothek)

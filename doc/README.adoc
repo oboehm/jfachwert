@@ -17,8 +17,8 @@ sie nicht bereits im obersten link:../README.md[README] enthalten sind.
 |s. link:../.travis.yml[.travis.yml]
 
 |https://sonarcloud.io/projects[sonarcloud.io]
-|https://sonarcloud.io/dashboard?id=de.jfachwert%3Ajfachwert[image:https://sonarcloud.io/api/badges/gate?key=de.jfachwert:jfachwert[Quality Gate]]
-|https://sonarcloud.io/dashboard?id=de.jfachwert%3Ajfachwert%3Adevelop[image:https://sonarcloud.io/api/badges/gate?key=de.jfachwert:jfachwert:develop[Quality Gate]]
+|https://sonarcloud.io/dashboard?id=de.jfachwert%3Ajfachwert[image:https://sonarcloud.io/api/project_badges/measure?metric=alert_status&project=de.jfachwert:jfachwert[Quality Gate]]
+|https://sonarcloud.io/dashboard?id=de.jfachwert%3Ajfachwert%3Adevelop[image:https://sonarcloud.io/api/project_badges/measure?metric=alert_status&project=de.jfachwert:jfachwert:develop[Quality Gate]]
 |`sonar:sonar`
 
 |https://coveralls.io/github/oboehm/jfachwert[CoverAlls.io]
