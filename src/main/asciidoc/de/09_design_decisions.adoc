@@ -60,7 +60,7 @@ Dies kann bei sehr vielen Objekten einen spürbaren Rückgang des Speicherverbra
 Bei vielen unterschiedlichen Objekten (z.B. IBAN) sollte man dagegen eher auf den Konstruktor verwenden, weil intern ein Cache für die die Ablage bereits erzeugter Objekte verwendet wird.
 Der interne Verwaltungs-Overhead ist umso größer, je mehr unterschiedliche Objekte erzeugt werden.
 
-Bei Klassen, die Ähnlichkeiten zur Number-Klasse haben (wie z.B. Geldbetrag), wird statt der of-Methode eine valueOf-Methode bereitgestellt, analog zur valueOf-Methode der Number-Klasse.
+Bei Klassen, die Ähnlichkeiten zur Number-Klasse haben (wie z.B. Geldbetrag), wird zusätzlich zur of-Methode eine valueOf-Methode bereitgestellt, analog zur valueOf-Methode der Number-Klasse.
 
 
 
