@@ -161,7 +161,42 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      * @return Geldbetrag, z.B. 0.42$
      */
     public static Geldbetrag fromCent(long cents) {
-        return Geldbetrag.valueOf(cents).divide(100);
+        return ofMinor(Waehrung.of("EUR"), cents);
+    }
+
+    /**
+     * Legt einen Geldbetrag unter Angabe der Unter-Einheit an. So liefert
+     * {@code ofMinor(EUR, 12345)} die Instanz fuer '123,45 EUR' zurueck.
+     * <p>
+     * Die Methode wurde aus Kompatibitaetsgrunden zur Money-Klasse
+     * hinzugefuegt.
+     * </p>
+     *
+     * @param currency Waehrung
+     * @param amountMinor Betrag der Unter-Einzeit (z.B. 12345 Cents)
+     * @return Geldbetrag
+     * @since 1.0.1
+     */
+    public static Geldbetrag ofMinor(CurrencyUnit currency, long amountMinor) {
+        return ofMinor(currency, amountMinor, currency.getDefaultFractionDigits());
+    }
+
+    /**
+     * Legt einen Geldbetrag unter Angabe der Unter-Einheit an. So liefert
+     * {@code ofMinor(EUR, 12345)} die Instanz fuer '123,45 EUR' zurueck.
+     * <p>
+     * Die Methode wurde aus Kompatibitaetsgrunden zur Money-Klasse
+     * hinzugefuegt.
+     * </p>
+     *
+     * @param currency Waehrung
+     * @param amountMinor Betrag der Unter-Einzeit (z.B. 12345 Cents)
+     * @param fractionDigits Anzahl der Nachkommastellen
+     * @return Geldbetrag
+     * @since 1.0.1
+     */
+    public static Geldbetrag ofMinor(CurrencyUnit currency, long amountMinor, int fractionDigits) {
+        return of(BigDecimal.valueOf(amountMinor, fractionDigits), currency);
     }
 
     /**

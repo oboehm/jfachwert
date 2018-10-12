@@ -70,6 +70,13 @@ public class GeldbetragMoneyTest {
     }
 
     @Test
+    public void testMinorOf() {
+        Money money = Money.ofMinor(Waehrung.of("EUR"), 450);
+        Geldbetrag betrag = Geldbetrag.ofMinor(Waehrung.of("EUR"), 450);
+        assertEqualsMonetaryAmount(money, betrag);
+    }
+
+    @Test
     public void testFrom() {
         Money money = Money.of(number, "AUD");
         Geldbetrag betrag = Geldbetrag.of(number, "AUD");
