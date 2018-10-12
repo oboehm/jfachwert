@@ -20,13 +20,14 @@ package de.jfachwert.bank;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import de.jfachwert.Fachwert;
-import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.NumberValidator;
-import de.jfachwert.pruefung.exception.*;
-import org.apache.commons.lang3.StringUtils;
+import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.pruefung.exception.LocalizedArithmeticException;
+import de.jfachwert.pruefung.exception.LocalizedMonetaryException;
 import org.javamoney.moneta.spi.DefaultNumberValue;
 
 import javax.money.*;
+import javax.money.format.MonetaryAmountFormat;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -56,6 +57,7 @@ import java.util.Objects;
 public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, Fachwert {
     
     private static final GeldbetragFactory FACTORY = new GeldbetragFactory();
+    private static final GeldbetragFormatter DEFAULT_FORMATTER = new GeldbetragFormatter();
     private static final NumberValidator NUMBER_VALIDATOR = new NumberValidator();
 
     /** Da 0-Betraege relativ haeufig vorkommen, spendieren wir dafuer eine eigene Konstante. */
@@ -189,19 +191,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      * @return ein Geldbetrag
      */
     public static Geldbetrag valueOf(String other) {
-        String trimmed = new NullValidator<String>().validate(other).trim();
-        String[] parts = StringUtils.splitByCharacterType(StringUtils.upperCase(trimmed));
-        if (parts.length == 0) {
-            throw new InvalidValueException(other, "money amount");
-        }
-        Currency cry = Waehrung.DEFAULT_CURRENCY;
-        String waehrung = parts[parts.length - 1];
-        if (!StringUtils.isNumericSpace(waehrung)) {
-            cry = Waehrung.toCurrency(waehrung);
-            trimmed = trimmed.substring(0, trimmed.length() - waehrung.length()).trim();
-        }
-        BigDecimal n = new BigDecimal(new NumberValidator().validate(trimmed));
-        return valueOf(n, cry);
+        return DEFAULT_FORMATTER.parse(other);
     }
 
     /**
@@ -429,6 +419,28 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     }
 
     /**
+     * Erzeugt einen Geldbetrag anhand des uebergebenen Textes.
+     *
+     * @param text z.B. "1,25 EUR"
+     * @return Geldbetrag
+     */
+    public static Geldbetrag parse(CharSequence text) {
+        return parse(text, DEFAULT_FORMATTER);
+    }
+
+    /**
+     * Erzeugt einen Geldbetrag anhand des uebergebenen Textes und mittels
+     * des uebergebenen Formatters.
+     *
+     * @param text z.B. "12,25 EUR"
+     * @param formatter Formatter
+     * @return Geldbetrag
+     */
+    public static Geldbetrag parse(CharSequence text, MonetaryAmountFormat formatter) {
+        return from(formatter.parse(text));
+    }
+
+    /**
      * Wandelt den angegebenen MonetaryAmount in einen Geldbetrag um. Um die
      * Anzahl von Objekten gering zu halten, wird nur dann tatsaechlich eine
      * neues Objekt erzeugt, wenn es sich nicht vermeiden laesst.
@@ -481,6 +493,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
         }
         return new Geldbetrag(value).withCurrency(other.getCurrency());
     }
+
 
     /**
      * Validiert die uebergebene Zahl, ob sie sich als Geldbetrag eignet.

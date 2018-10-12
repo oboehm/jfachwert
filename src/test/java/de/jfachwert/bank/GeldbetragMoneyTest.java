@@ -77,6 +77,13 @@ public class GeldbetragMoneyTest {
         assertEquals(money, Money.from(betrag));
     }
 
+    @Test
+    public void testParse() {
+        Money money = Money.of(number, "BRL");
+        Geldbetrag betrag = Geldbetrag.parse(money.toString());
+        assertEqualsMonetaryAmount(money, betrag);
+    }
+
     private static void assertEqualsMonetaryAmount(Money money, Geldbetrag betrag) {
         assertEquals(0, betrag.compareTo(money));
         assertEquals(0, money.compareTo(betrag));
