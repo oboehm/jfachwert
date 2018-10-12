@@ -115,9 +115,13 @@ public class Waehrung extends AbstractFachwert<Currency> implements CurrencyUnit
                 }
             }
             for (Locale locale : Locale.getAvailableLocales()) {
-                Currency c = Currency.getInstance(locale);
-                if (matchesCurrency(name, c)) {
-                    return c;
+                try {
+                    Currency c = Currency.getInstance(locale);
+                    if (matchesCurrency(name, c)) {
+                        return c;
+                    }
+                } catch (IllegalArgumentException ex) {
+                    LOG.log(Level.FINE, "Cannot get currency for '" + locale + "'.", ex);
                 }
             }
             throw new IllegalArgumentException("cannot get currency for '" + name + "'", iae);

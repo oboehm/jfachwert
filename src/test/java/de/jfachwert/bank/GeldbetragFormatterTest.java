@@ -19,6 +19,7 @@ package de.jfachwert.bank;
 
 import org.junit.Test;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import static org.hamcrest.Matchers.containsString;
@@ -51,6 +52,13 @@ public final class GeldbetragFormatterTest {
     public void testQueryFrom() {
         String s = formatter.queryFrom(Geldbetrag.of(20000, "DKK"));
         assertThat(s, containsString("DKK"));
+    }
+
+    @Test
+    public void testPrint() throws IOException {
+        Appendable appendable = new StringBuilder();
+        formatter.print(appendable, Geldbetrag.of(100, "GBP"));
+        assertThat(appendable.toString(), containsString("GBP"));
     }
 
 }

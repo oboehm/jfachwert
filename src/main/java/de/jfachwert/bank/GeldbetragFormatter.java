@@ -41,9 +41,11 @@ import java.util.Objects;
 public class GeldbetragFormatter implements MonetaryAmountFormat {
 
     /**
-     * The {@link AmountFormatContext} to be applied when a {@link MonetaryAmount} is formatted.
+     * Der {@link AmountFormatContext}, der normalerweise fuer die
+     * Formattierung verwendet wird. Wird aber von dieser Klasse
+     * nicht unterstuetzt.
      *
-     * @return the {@link AmountFormatContext} used, never {@code null}.
+     * @return {@link AmountFormatContext}
      */
     @Override
     public AmountFormatContext getContext() {
@@ -51,21 +53,18 @@ public class GeldbetragFormatter implements MonetaryAmountFormat {
     }
 
     /**
-     * Formats the given {@link MonetaryAmount} to a {@code Appendable}.
+     * Gibt lediglich den Geldbetrag aus.
      * <p>
-     * Example implementations of {@code Appendable} are {@code StringBuilder}, {@code StringBuffer}
-     * or {@code Writer}. Note that {@code StringBuilder} and {@code StringBuffer} never throw an
-     * {@code IOException}.
+     * Beispiele fuer {@code Appendable} sind {@code StringBuilder}, {@code StringBuffer}
+     * oder {@code Writer}, wobei nur letzteres eine {@code IOException} verursachen kann.
      *
-     * @param appendable the appendable to add to, not null
-     * @param amount     the amount to print, not null
-     * @throws UnsupportedOperationException if the formatter is unable to print
-     * @throws IOException                   if an IO error occurs, thrown by the {@code appendable}
-     * @throws MonetaryParseException        if there is a problem while parsing
+     * @param appendable z.B. einen StringBuilder
+     * @param amount     Geldbetrag
+     * @throws IOException kann bei einem {@code Writer} auftreten
      */
     @Override
     public void print(Appendable appendable, MonetaryAmount amount) throws IOException {
-        throw new UnsupportedOperationException("not yet implemented");
+        appendable.append(queryFrom(amount));
     }
 
     /**
