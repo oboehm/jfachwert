@@ -20,6 +20,9 @@ package de.jfachwert.bank;
 import org.javamoney.moneta.Money;
 import org.junit.Test;
 
+import javax.money.CurrencyUnit;
+import javax.money.MonetaryContext;
+import javax.money.MonetaryContextBuilder;
 import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
@@ -34,11 +37,41 @@ import static org.junit.Assert.assertEquals;
  */
 public class GeldbetragMoneyTest {
 
+    private Number number = new BigDecimal("123.45");
+    private CurrencyUnit currency = Waehrung.of("DEM");
+    private MonetaryContext mc = MonetaryContextBuilder.of().build();
+
     @Test
     public void testOfNumberString() {
-        Number number = new BigDecimal("47.11");
         Money money = Money.of(number, "EUR");
         Geldbetrag betrag = Geldbetrag.of(number, "EUR");
+        assertEqualsMonetaryAmount(money, betrag);
+    }
+
+    @Test
+    public void testOfNumberCurrencyUnit() {
+        Money money = Money.of(number, currency);
+        Geldbetrag betrag = Geldbetrag.of(number, currency);
+        assertEqualsMonetaryAmount(money, betrag);
+    }
+
+    @Test
+    public void testOfNumberStringMonetaryContext() {
+        Money money = Money.of(number, "EUR", mc);
+        Geldbetrag betrag = Geldbetrag.of(number, "EUR", mc);
+        assertEqualsMonetaryAmount(money, betrag);
+    }
+
+    @Test
+    public void testOfNumberCurrencyUnitMonetaryContext() {
+        Money money = Money.of(number, currency, mc);
+        Geldbetrag betrag = Geldbetrag.of(number, currency, mc);
+        assertEqualsMonetaryAmount(money, betrag);
+    }
+
+    private static void assertEqualsMonetaryAmount(Money money, Geldbetrag betrag) {
+        assertEquals(0, betrag.compareTo(money));
+        assertEquals(0, money.compareTo(betrag));
         assertEquals(Geldbetrag.of(money), betrag);
     }
 

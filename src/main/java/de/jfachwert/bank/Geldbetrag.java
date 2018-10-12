@@ -373,6 +373,40 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      * @param monetaryContext Kontext des anderen Geldbetrags
      * @return ein Geldbetrag
      */
+    public static Geldbetrag of(Number value, String currency, MonetaryContext monetaryContext) {
+        return valueOf(value, currency, monetaryContext);
+    }
+
+    /**
+     * Wandelt den angegebenen MonetaryAmount in einen Geldbetrag um. Um die
+     * Anzahl von Objekten gering zu halten, wird nur dann tatsaechlich eine
+     * neues Objekt erzeugt, wenn es sich nicht vermeiden laesst.
+     * <p>
+     * In Anlehnung an {@link BigDecimal} heisst die Methode "valueOf".
+     * </p>
+     *
+     * @param value Wert des andere Geldbetrags
+     * @param currency Waehrung des anderen Geldbetrags
+     * @param monetaryContext Kontext des anderen Geldbetrags
+     * @return ein Geldbetrag
+     */
+    public static Geldbetrag valueOf(Number value, String currency, MonetaryContext monetaryContext) {
+        return valueOf(value, Waehrung.of(currency), monetaryContext);
+    }
+
+    /**
+     * Wandelt den angegebenen MonetaryAmount in einen Geldbetrag um. Um die
+     * Anzahl von Objekten gering zu halten, wird nur dann tatsaechlich eine
+     * neues Objekt erzeugt, wenn es sich nicht vermeiden laesst.
+     * <p>
+     * Diese Methode ist identisch mit der entsprechenden valueOf(..)-Methode.
+     * </p>
+     *
+     * @param value Wert des andere Geldbetrags
+     * @param currency Waehrung des anderen Geldbetrags
+     * @param monetaryContext Kontext des anderen Geldbetrags
+     * @return ein Geldbetrag
+     */
     public static Geldbetrag of(Number value, CurrencyUnit currency, MonetaryContext monetaryContext) {
         return valueOf(value, currency, monetaryContext);
     }
