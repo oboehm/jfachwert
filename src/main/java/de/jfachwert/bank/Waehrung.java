@@ -33,7 +33,7 @@ import java.util.logging.Logger;
  * @author <a href="ob@aosd.de">oliver</a>
  * @since 1.0
  */
-public class Waehrung extends AbstractFachwert<Currency> implements CurrencyUnit, Comparable<CurrencyUnit> {
+public class Waehrung extends AbstractFachwert<Currency> implements Comparable<CurrencyUnit>, CurrencyUnit {
 
     private static final Logger LOG = Logger.getLogger(Waehrung.class.getName());
 
