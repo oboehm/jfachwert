@@ -189,7 +189,7 @@ public class Anschrift implements Fachwert {
     private static Object[] split(String anschrift) {
         String[] lines = StringUtils.trimToEmpty(anschrift).split("[,\\n$]");
         if (lines.length < 2) {
-            throw new InvalidValueException(anschrift, "address");
+            throw new InvalidValueException(anschrift, ADDRESS);
         }
         Object[] parts = new Object[3];
         parts[0] = new Adressat(lines[0]);

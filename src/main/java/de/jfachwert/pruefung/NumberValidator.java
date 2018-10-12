@@ -37,6 +37,7 @@ import java.util.Locale;
  */
 public class NumberValidator implements SimpleValidator<String> {
 
+    private static final String NUMBER = "number";
     private final Range<BigDecimal> range;
 
      /** Wenn man keine obere Grenze angeben will, nimmt man diesen Wert. */
@@ -88,9 +89,9 @@ public class NumberValidator implements SimpleValidator<String> {
                 return normalized;
             }
         } catch (NumberFormatException ex) {
-            throw new InvalidValueException(value, "number", ex);
+            throw new InvalidValueException(value, NUMBER, ex);
         }
-        throw new InvalidValueException(value, "number", range);
+        throw new InvalidValueException(value, NUMBER, range);
     }
 
     /**
@@ -102,7 +103,7 @@ public class NumberValidator implements SimpleValidator<String> {
      */
     public String normalize(String value) {
         if (!value.matches("[\\d,.]+([eE]\\d+)?")) {
-            throw new InvalidValueException(value, "number");
+            throw new InvalidValueException(value, NUMBER);
         }
         Locale locale = guessLocale(value);
         DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance(locale);
@@ -110,7 +111,7 @@ public class NumberValidator implements SimpleValidator<String> {
         try {
             return df.parse(value).toString();
         } catch (ParseException ex) {
-            throw new InvalidValueException(value, "number", ex);
+            throw new InvalidValueException(value, NUMBER, ex);
         }
     }
 
@@ -130,7 +131,7 @@ public class NumberValidator implements SimpleValidator<String> {
         if ((number instanceof Double) || (number instanceof Float)) {
             double dValue = number.doubleValue();
             if (Double.isNaN(dValue) || Double.isInfinite(dValue)) {
-                throw new LocalizedArithmeticException(dValue, "number");
+                throw new LocalizedArithmeticException(dValue, NUMBER);
             }
         }
         return number;
