@@ -433,6 +433,23 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      * Anzahl von Objekten gering zu halten, wird nur dann tatsaechlich eine
      * neues Objekt erzeugt, wenn es sich nicht vermeiden laesst.
      * <p>
+     * Diese Methode ist identisch mit der entsprechenden of(..)-Methode und
+     * wurde eingefuehrt, um mit der Money-Klasse aus "org.javamoney.moneta"
+     * kompatibel zu sein.
+     * </p>
+     *
+     * @param other the other
+     * @return ein Geldbetrag
+     */
+    public static Geldbetrag from(MonetaryAmount other) {
+        return of(other);
+    }
+
+    /**
+     * Wandelt den angegebenen MonetaryAmount in einen Geldbetrag um. Um die
+     * Anzahl von Objekten gering zu halten, wird nur dann tatsaechlich eine
+     * neues Objekt erzeugt, wenn es sich nicht vermeiden laesst.
+     * <p>
      * Diese Methode ist identisch mit der entsprechenden valueOf(..)-Methode.
      * </p>
      *

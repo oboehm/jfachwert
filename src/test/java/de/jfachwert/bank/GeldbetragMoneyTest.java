@@ -69,6 +69,14 @@ public class GeldbetragMoneyTest {
         assertEqualsMonetaryAmount(money, betrag);
     }
 
+    @Test
+    public void testFrom() {
+        Money money = Money.of(number, "AUD");
+        Geldbetrag betrag = Geldbetrag.of(number, "AUD");
+        assertEquals(betrag, Geldbetrag.from(money));
+        assertEquals(money, Money.from(betrag));
+    }
+
     private static void assertEqualsMonetaryAmount(Money money, Geldbetrag betrag) {
         assertEquals(0, betrag.compareTo(money));
         assertEquals(0, money.compareTo(betrag));
