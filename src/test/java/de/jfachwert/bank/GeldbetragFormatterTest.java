@@ -21,6 +21,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.*;
 
 /**
@@ -44,6 +45,12 @@ public final class GeldbetragFormatterTest {
     public void testParseCurrencyNumber() {
         Geldbetrag parsed = formatter.parse("BRL 123.45");
         assertEquals(Geldbetrag.of(new BigDecimal("123.45"), "BRL"), parsed);
+    }
+
+    @Test
+    public void testQueryFrom() {
+        String s = formatter.queryFrom(Geldbetrag.of(20000, "DKK"));
+        assertThat(s, containsString("DKK"));
     }
 
 }
