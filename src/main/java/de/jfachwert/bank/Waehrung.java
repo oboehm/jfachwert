@@ -43,6 +43,9 @@ public class Waehrung extends AbstractFachwert<Currency> implements CurrencyUnit
     /** Default-Waehrung, die durch die Landeseinstellung (Locale) vorgegeben wird. */
     public static final Waehrung DEFAULT = new Waehrung(DEFAULT_CURRENCY);
 
+    /** Die Euro-Waehrung als Konstante. */
+    public static final Waehrung EUR = Waehrung.of("EUR");
+
     /**
      * Darueber kann eine Waehrung angelegt werden.
      *

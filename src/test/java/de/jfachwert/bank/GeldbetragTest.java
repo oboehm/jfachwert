@@ -247,7 +247,7 @@ public final class GeldbetragTest extends AbstractFachwertTest {
      */
     @Test
     public void testFromCent() {
-        assertEquals(Geldbetrag.fromCent(52), Geldbetrag.valueOf(0.52));
+        assertEquals(Geldbetrag.fromCent(52), Geldbetrag.valueOf(0.52, Waehrung.EUR));
     }
 
     /**
@@ -328,7 +328,7 @@ public final class GeldbetragTest extends AbstractFachwertTest {
      */
     @Test
     public void testDivide() {
-        Geldbetrag oneEuro = Geldbetrag.valueOf(1);
+        Geldbetrag oneEuro = Geldbetrag.valueOf(1, Waehrung.EUR);
         Geldbetrag fiftyCent = Geldbetrag.fromCent(50);
         assertEquals(fiftyCent, oneEuro.divide(2));
         assertEquals(fiftyCent, oneEuro.divide(BigDecimal.valueOf(2)));
@@ -362,7 +362,7 @@ public final class GeldbetragTest extends AbstractFachwertTest {
      */
     @Test
     public void testCompareToEquals() {
-        Geldbetrag einEuro = new Geldbetrag(1);
+        Geldbetrag einEuro = new Geldbetrag(1, Waehrung.EUR);
         Geldbetrag hundertCent = Geldbetrag.fromCent(100);
         assertEquals(einEuro, hundertCent);
         assertEquals(0, einEuro.compareTo(hundertCent));
