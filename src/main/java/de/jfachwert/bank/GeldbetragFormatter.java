@@ -20,6 +20,7 @@ package de.jfachwert.bank;
 import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.NumberValidator;
 import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.pruefung.exception.LocalizedMonetaryParseException;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.money.MonetaryAmount;
@@ -87,12 +88,16 @@ public class GeldbetragFormatter implements MonetaryAmountFormat {
         }
         Currency cry = Waehrung.DEFAULT_CURRENCY;
         String currencyString = findCurrencyString(parts);
-        if (StringUtils.isNotEmpty(currencyString)) {
-            cry = Waehrung.toCurrency(currencyString);
-            trimmed = StringUtils.remove(trimmed, currencyString).trim();
+        try {
+            if (StringUtils.isNotEmpty(currencyString)) {
+                cry = Waehrung.toCurrency(currencyString);
+                trimmed = StringUtils.remove(trimmed, currencyString).trim();
+            }
+            BigDecimal n = new BigDecimal(new NumberValidator().validate(trimmed));
+            return Geldbetrag.of(n, cry);
+        } catch (IllegalArgumentException ex) {
+            throw new LocalizedMonetaryParseException(text, ex);
         }
-        BigDecimal n = new BigDecimal(new NumberValidator().validate(trimmed));
-        return Geldbetrag.of(n, cry);
     }
 
     private static String findCurrencyString(String[] parts) {

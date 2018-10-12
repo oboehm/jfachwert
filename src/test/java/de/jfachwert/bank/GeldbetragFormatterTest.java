@@ -19,11 +19,13 @@ package de.jfachwert.bank;
 
 import org.junit.Test;
 
+import javax.money.format.MonetaryParseException;
 import java.io.IOException;
 import java.math.BigDecimal;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Unit-Tests fuer @link{de.jfachwert.bank.GeldbetragFormatter}.
@@ -46,6 +48,11 @@ public final class GeldbetragFormatterTest {
     public void testParseCurrencyNumber() {
         Geldbetrag parsed = formatter.parse("BRL 123.45");
         assertEquals(Geldbetrag.of(new BigDecimal("123.45"), "BRL"), parsed);
+    }
+
+    @Test(expected = MonetaryParseException.class)
+    public void testParseInvalid() {
+        formatter.parse("1-2-3 Polizei");
     }
 
     @Test

@@ -28,6 +28,7 @@ import org.javamoney.moneta.spi.DefaultNumberValue;
 
 import javax.money.*;
 import javax.money.format.MonetaryAmountFormat;
+import javax.money.format.MonetaryParseException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -226,7 +227,11 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      * @return ein Geldbetrag
      */
     public static Geldbetrag valueOf(String other) {
-        return DEFAULT_FORMATTER.parse(other);
+        try {
+            return DEFAULT_FORMATTER.parse(other);
+        } catch (MonetaryParseException ex) {
+            throw new IllegalArgumentException(other, ex);
+        }
     }
 
     /**
