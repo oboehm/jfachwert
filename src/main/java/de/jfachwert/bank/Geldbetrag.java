@@ -71,8 +71,14 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     public static final Geldbetrag MAX_VALUE = new Geldbetrag(BigDecimal.valueOf(Long.MAX_VALUE));
 
     private final BigDecimal betrag;
-    private final CurrencyUnit currency;
     private final MonetaryContext context;
+
+    // Eine Umstellung auf 'Waehrung' oder 'Currency' fuehrt leider dazu, dass
+    // dann das TCK zu JSR-354 fehlschlaegt, da Waehrung nicht final und damit
+    // potentiell nicht immutable ist. Daher unterdruecken wir jetzt die
+    // Sonar-Warnung "Make "currency" transient or serializable".
+    @SuppressWarnings("squid:S1948")
+    private final CurrencyUnit currency;
 
     /**
      * Erzeugt einen Geldbetrag in der aktuellen Landeswaehrung.

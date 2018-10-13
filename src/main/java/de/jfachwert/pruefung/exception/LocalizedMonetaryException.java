@@ -18,8 +18,9 @@
 package de.jfachwert.pruefung.exception;
 
 import javax.money.MonetaryException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.List;
 
 /**
  * Im Gegensatz zur {@link MonetaryException} wurde hier
@@ -31,7 +32,7 @@ import java.util.Objects;
  */
 public class LocalizedMonetaryException extends MonetaryException implements LocalizedException {
     
-    private final Object[] amounts;
+    private final List<Object> amounts = new ArrayList<>();
 
     /**
      * Diese Exception wird vervendet, wenn zwei Geldbetraege mit 
@@ -42,11 +43,11 @@ public class LocalizedMonetaryException extends MonetaryException implements Loc
      */
     public LocalizedMonetaryException(String message, Object... args) {
         super(message);
-        amounts = args;
+        amounts.addAll(Arrays.asList(args));
     }
 
     /**
-     * Diese Exception wird vervendet, wenn ein verwendeter Operator mit
+     * Diese Exception wird verwendet, wenn ein verwendeter Operator mit
      * einer Exception fehlschlaegt.
      *
      * @param message Meldung (z.B. "operator failed")
@@ -55,8 +56,7 @@ public class LocalizedMonetaryException extends MonetaryException implements Loc
      */
     public LocalizedMonetaryException(String message, Object arg, Throwable cause) {
         super(message);
-        amounts = new Object[1];
-        amounts[0] = arg;
+        amounts.add(arg);
     }
 
     /**
@@ -67,7 +67,7 @@ public class LocalizedMonetaryException extends MonetaryException implements Loc
      */
     @Override
     public String getMessage() {
-        return super.getMessage() + ": " + Arrays.toString(amounts);
+        return super.getMessage() + ": " + amounts;
     }
 
     /**
@@ -78,8 +78,7 @@ public class LocalizedMonetaryException extends MonetaryException implements Loc
      */
     @Override
     public String getLocalizedMessage() {
-        String values = (amounts.length == 1) ? Objects.toString(amounts[0]) : Arrays.toString(amounts);
-        return getLocalizedString(getMessageKey(super.getMessage())) + ": " + values;
+        return getLocalizedString(getMessageKey(super.getMessage())) + ": " + amounts;
     }
 
 }

@@ -31,6 +31,7 @@ import java.util.ResourceBundle;
  * @author oboehm
  * @since 1.0 (19.07.2018)
  */
+@SuppressWarnings("squid:S1214")
 public interface LocalizedException {
     
     ResourceBundle BUNDLE = ResourceBundle.getBundle("de.jfachwert.messages");
