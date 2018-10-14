@@ -5,6 +5,8 @@
 == 1.0.1-SNAPSHOT
 
 * Bereitstellung von of()-Methoden auch in der Geldbetrag-Klasse
+* API der Geldbetrag-Klasse an die Money-Klasse aus der Referenz-Implemntierung (org.javamoney.moneta)
+
 
 
 == 1.0.0 (22-Sep-2018)

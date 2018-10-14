@@ -82,14 +82,15 @@ Meist ist dies der Wert selbst.
 Mit 1.0 kam die Geldbetrag-Klasse hinzu, die das MonetaryAmount-Interface aus "javax.money" implementiert.
 Gründe für eine eigene Implementierung waren:
 
-* Der Umgang mit dem Package "javax.money" und das Anlegen von MonetaryAmount-Objekten ist etwas sperrig.
+* Der Umgang mit dem Package "javax.money" und das Anlegen von MonetaryAmount-Objekten ist manchmal etwas sperrig.
   Ziel war es, den Umgang möglichst einfach, zumindestens aber so einfach wie der Umgang mit BigDicimal-Beträgen zu machen.
+  D.h. das Erzeugen eines Geldbetrags sollte auch über Konstruktoren möglich sein.
 * Für Sonderfälle sollte es möglich sein, das Default-Verhalten einer MonetaryAmount-Klasse zu überschreiben.
   Dies ist mit der http://javamoney.github.io/ri.html[Referenz-Implementierung] leider nicht möglich, da die Klassen 'final' sind.
 * Die Geldbetrag sollte als Alternative zur BigDecimal-Klasse eingesetzt werden können.
   Dies ist vor allem für die Portierung älterer Anwendungen gedacht, die noch mit BigDecimal arbeiten.
 
-Der letzte Punkt ist auch der Grund, warum die Geldbetrag statt einer of(..)-Methode eine valueOf(..)-Methode besitzt.
+Der letzte Punkt ist auch der Grund, warum die Geldbetrag-Klasse neben of(..)-Methoden auch valueOf(..)-Methoden besitzen.
 Dabei werden die gleichen Parameter wie bei BigDecimal akzeptiert.
 
 
