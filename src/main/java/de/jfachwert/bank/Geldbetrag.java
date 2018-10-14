@@ -1148,6 +1148,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      * @return 0 bei Gleicheit; negative Zahl, wenn die Zahle kleiner als die
      * andere ist, sonst positive Zahl.
      */
+    @SuppressWarnings("squid:S4351")
     public int compareTo(Number other) {
         return this.compareTo(Geldbetrag.valueOf(other, currency));
     }

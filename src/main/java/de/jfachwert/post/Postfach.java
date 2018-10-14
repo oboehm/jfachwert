@@ -294,6 +294,7 @@ public class Postfach implements Fachwert {
      *
      * @return z.B. 09876
      */
+    @SuppressWarnings("squid:S3655")
     public PLZ getPLZ() {
         return this.ort.getPLZ().get();
     }
@@ -366,8 +367,8 @@ public class Postfach implements Fachwert {
         Map<String, Object> map = new HashMap<>();
         map.put("plz", getPLZ());
         map.put("ortsname", getOrtsname());
-        if (getNummer().isPresent()) {
-            map.put("nummer", getNummer().get());
+        if (nummer != null) {
+            map.put("nummer", nummer);
         }
         return map;
     }
