@@ -6,6 +6,7 @@
 
 * Bereitstellung von of()-Methoden auch in der Geldbetrag-Klasse
 * API der Geldbetrag-Klasse an die Money-Klasse aus der Referenz-Implemntierung (org.javamoney.moneta)
+* #_neu_#: Reduktion des Speicherbedarfs der Waehrung-Klasse und Performance-Optimierung (Laufzeit des TCKs von 50 Sek. auf ca. 3 Sek. reduziert)
 
 
 
