@@ -78,12 +78,7 @@ public class Waehrung extends AbstractFachwert<Currency> implements Comparable<C
      */
     public static Waehrung of(Currency currency) {
         String key = currency.getCurrencyCode();
-        Waehrung w = CACHE.get(key);
-        if (w == null) {
-            w = new Waehrung(currency);
-            CACHE.put(key, w);
-        }
-        return w;
+        return CACHE.computeIfAbsent(key, t -> new Waehrung(currency));
     }
 
     /**
@@ -132,18 +127,7 @@ public class Waehrung extends AbstractFachwert<Currency> implements Comparable<C
     }
 
     private static boolean matchesCurrency(String name, Currency c) {
-        if (name.equalsIgnoreCase(c.getCurrencyCode())
-                || name.equalsIgnoreCase(c.getSymbol())
-                || name.equalsIgnoreCase(c.getDisplayName())) {
-            return true;
-        }
-        for (Locale locale : Locale.getAvailableLocales()) {
-            if (name.equalsIgnoreCase(c.getSymbol(locale))
-                    || name.equalsIgnoreCase(c.getDisplayName(locale))) {
-                return true;
-            }
-        }
-        return false;
+        return name.equalsIgnoreCase(c.getCurrencyCode()) || name.equalsIgnoreCase(c.getSymbol());
     }
 
     /**
