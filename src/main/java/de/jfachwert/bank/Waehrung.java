@@ -19,11 +19,11 @@ package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.pruefung.exception.InvalidValueException;
+import org.apache.commons.collections4.map.ReferenceMap;
 
 import javax.money.CurrencyContext;
 import javax.money.CurrencyUnit;
-import java.util.Currency;
-import java.util.Locale;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,12 +36,17 @@ import java.util.logging.Logger;
 public class Waehrung extends AbstractFachwert<Currency> implements Comparable<CurrencyUnit>, CurrencyUnit {
 
     private static final Logger LOG = Logger.getLogger(Waehrung.class.getName());
+    private static final Map<String, Waehrung> CACHE = new ReferenceMap<>();
 
     /** Default-Waehrung, die durch die Landeseinstellung (Locale) vorgegeben wird. */
     public static final Currency DEFAULT_CURRENCY = getDefaultCurrency();
     
     /** Default-Waehrung, die durch die Landeseinstellung (Locale) vorgegeben wird. */
     public static final Waehrung DEFAULT = new Waehrung(DEFAULT_CURRENCY);
+
+    static {
+        CACHE.put(DEFAULT_CURRENCY.getCurrencyCode(), DEFAULT);
+    }
 
     /** Die Euro-Waehrung als Konstante. */
     public static final Waehrung EUR = Waehrung.of("EUR");
@@ -65,17 +70,20 @@ public class Waehrung extends AbstractFachwert<Currency> implements Comparable<C
     }
 
     /**
-     * Gibt die entsprechende Currency als Waehrung zurueck.
+     * Gibt die entsprechende Currency als Waehrung zurueck. Da die Anzahl der
+     * Waehrungen ueberschaubar ist
      * 
      * @param currency Currency
      * @return Waehrung
      */
     public static Waehrung of(Currency currency) {
-        if (DEFAULT_CURRENCY.equals(currency)) {
-            return DEFAULT;
-        } else {
-            return new Waehrung(currency);
+        String key = currency.getCurrencyCode();
+        Waehrung w = CACHE.get(key);
+        if (w == null) {
+            w = new Waehrung(currency);
+            CACHE.put(key, w);
         }
+        return w;
     }
 
     /**
@@ -112,9 +120,11 @@ public class Waehrung extends AbstractFachwert<Currency> implements Comparable<C
         try {
             return Currency.getInstance(name);
         } catch (IllegalArgumentException iae) {
-            for (Currency c : Currency.getAvailableCurrencies()) {
-                if (matchesCurrency(name, c)) {
-                    return c;
+            if (name.length() <= 3) {
+                for (Currency c : Currency.getAvailableCurrencies()) {
+                    if (matchesCurrency(name, c)) {
+                        return c;
+                    }
                 }
             }
             throw new IllegalArgumentException("cannot get currency for '" + name + "'", iae);

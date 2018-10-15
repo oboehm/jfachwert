@@ -25,6 +25,8 @@ Um sich nicht weitere unerwünschte Abhängigkeiten bei der Verwendung von jFach
 Die einzigen Abhängigkeiten, die in Kauf genommen werden, sind:
 
 * commons-lang3: diese Bibliothek ist bereits als Abhängigkeit vieler anderer Bibliotheken vorhanden
+* commons-collections4: aus dieser Bibliothek wurde die ReferenceMap verwendet, um Objekte, die oft gebraucht werden, vorhalten zu können
+  (zur Reduktion des Speicherverbrauchs)
 * validation-api: Basis-Bibliothek für Validierung
 * money-api (JSR 354): diese API ist Bestandteil ab Java 9
 * JavaMoney.org: diese Bibliothek kam mit 0.8 für die Unterstützung des Geldbetrags herein, da sonst `Monetary.getCurrency("EUR")` nicht funktioniert.
