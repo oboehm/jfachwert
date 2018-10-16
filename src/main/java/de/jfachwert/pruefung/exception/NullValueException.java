@@ -24,7 +24,6 @@ package de.jfachwert.pruefung.exception;
  * @author oboehm
  * @since 0.5 (17.01.2018)
  */
-@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class NullValueException extends LocalizedValidationException {
 
     /**

@@ -19,10 +19,21 @@
     </license>
   </licenses>
 
+
   <properties>
+
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+
+    <!-- Sonar 4.x Violations Filter -->
+    <!-- ignore violations -->
+    <sonar.issue.ignore.multicriteria>MaximumInheritanceDepth</sonar.issue.ignore.multicriteria>
+
+    <!-- Package names should comply with a naming convention -->
+    <sonar.issue.ignore.multicriteria.MaximumInheritanceDepth.ruleKey>squid:MaximumInheritanceDepth</sonar.issue.ignore.multicriteria.MaximumInheritanceDepth.ruleKey>
+    <sonar.issue.ignore.multicriteria.MaximumInheritanceDepth.resourceKey>**/*Exception.java</sonar.issue.ignore.multicriteria.MaximumInheritanceDepth.resourceKey>
+
   </properties>
 
 

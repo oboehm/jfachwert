@@ -31,7 +31,8 @@ import java.util.List;
  * @since 1.0 (19.07.2018)
  */
 public class LocalizedMonetaryException extends MonetaryException implements LocalizedException {
-    
+
+    @SuppressWarnings("squid:S1948")
     private final List<Object> amounts = new ArrayList<>();
 
     /**

@@ -32,7 +32,6 @@ import java.util.List;
  * @author oboehm
  * @since 0.2 (20.04.2017)
  */
-@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class InvalidLengthException extends LocalizedValidationException {
 
     private final Serializable[] arguments;

@@ -28,7 +28,6 @@ import java.util.Arrays;
  * @author oboehm
  * @since 0.2.0 (26.04.2017)
  */
-@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class LocalizedIllegalArgumentException extends IllegalArgumentException implements LocalizedException {
 
     private final Throwable valueException;

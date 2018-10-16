@@ -28,7 +28,6 @@ import java.io.Serializable;
  * @author oboehm
  * @since 0.1.0
  */
-@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class PruefzifferException extends LocalizedValidationException {
 
     private final Serializable wert;
