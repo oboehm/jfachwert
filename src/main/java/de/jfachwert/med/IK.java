@@ -21,6 +21,9 @@ import de.jfachwert.AbstractFachwert;
 import de.jfachwert.PruefzifferVerfahren;
 import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.Mod10Verfahren;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
+
+import javax.validation.ValidationException;
 
 /**
  * Die Klasse IK repraesentiert das neunstellige Instituionskennzeichen, das
@@ -43,6 +46,7 @@ import de.jfachwert.pruefung.Mod10Verfahren;
 public class IK extends AbstractFachwert<Integer> {
 
     private static final PruefzifferVerfahren<Integer> MOD10 = new Mod10Verfahren();
+    private static final LengthValidator<Integer> VALIDATOR = new LengthValidator<>(9, 9);
 
     /**
      * Erzeugt ein neues IK-Objekt.
@@ -63,7 +67,7 @@ public class IK extends AbstractFachwert<Integer> {
      * @param pzVerfahren das verwendete PruefzifferVerfahren
      */
     public IK(int code, PruefzifferVerfahren<Integer> pzVerfahren) {
-        super(validate(code), pzVerfahren);
+        super(verify(code), pzVerfahren);
     }
 
     /**
@@ -96,8 +100,15 @@ public class IK extends AbstractFachwert<Integer> {
     }
 
     public static int validate(int nummer) {
-        LengthValidator<Integer> validator = new LengthValidator<>(9);
-        return validator.validate(nummer);
+        return VALIDATOR.validate(nummer);
+    }
+
+    private static int verify(int nummer) {
+        try {
+            return validate(nummer);
+        } catch (ValidationException ex) {
+            throw new LocalizedIllegalArgumentException(ex);
+        }
     }
 
 }
