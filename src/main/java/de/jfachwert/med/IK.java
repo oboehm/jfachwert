@@ -19,6 +19,7 @@ package de.jfachwert.med;
 
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.Mod10Verfahren;
 
 /**
@@ -62,7 +63,7 @@ public class IK extends AbstractFachwert<Integer> {
      * @param pzVerfahren das verwendete PruefzifferVerfahren
      */
     public IK(int code, PruefzifferVerfahren<Integer> pzVerfahren) {
-        super(code, pzVerfahren);
+        super(validate(code), pzVerfahren);
     }
 
     /**
@@ -92,6 +93,11 @@ public class IK extends AbstractFachwert<Integer> {
      */
     public static IK of(String ik) {
         return new IK(ik);
+    }
+
+    public static int validate(int nummer) {
+        LengthValidator<Integer> validator = new LengthValidator<>(9);
+        return validator.validate(nummer);
     }
 
 }

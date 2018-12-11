@@ -19,9 +19,9 @@ package de.jfachwert;
 
 import de.jfachwert.bank.*;
 import de.jfachwert.math.Bruch;
-import de.jfachwert.bank.Geldbetrag;
 import de.jfachwert.math.Nummer;
 import de.jfachwert.math.PackedDecimal;
+import de.jfachwert.med.IK;
 import de.jfachwert.net.ChatAccount;
 import de.jfachwert.net.Domainname;
 import de.jfachwert.net.EMailAdresse;
@@ -108,6 +108,7 @@ public class FachwertFactory {
         INSTANCE.register(TinyUUID.class);
         INSTANCE.register(Geldbetrag.class);
         INSTANCE.register(Waehrung.class);
+        INSTANCE.register(IK.class);
     }
 
     private FachwertFactory() {

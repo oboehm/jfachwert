@@ -40,4 +40,14 @@ public final class IKTest extends AbstractFachwertTest {
         IK.of(260326823);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void test8stelligesIK() {
+        IK.of(12345671);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test10stelligesIK() {
+        IK.of(1234567897);
+    }
+
 }

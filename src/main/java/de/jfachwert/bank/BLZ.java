@@ -21,7 +21,7 @@ import de.jfachwert.AbstractFachwert;
 import de.jfachwert.math.PackedDecimal;
 import de.jfachwert.pruefung.NumberValidator;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.RegExUtils;
 
 import javax.validation.ValidationException;
 
@@ -86,7 +86,7 @@ public class BLZ extends AbstractFachwert<PackedDecimal> {
      * @return die Bankleitzahl zur Weitervarabeitung
      */
     public static String validate(String blz) {
-        String normalized = StringUtils.replaceAll(blz, "\\s", "");
+        String normalized = RegExUtils.replaceAll(blz, "\\s", "");
         return NUMBER_VALIDATOR.validate(normalized);
     }
 
