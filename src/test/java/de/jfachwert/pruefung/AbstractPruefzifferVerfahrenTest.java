@@ -21,8 +21,11 @@ import de.jfachwert.PruefzifferVerfahren;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.*;
+import java.io.Serializable;
 
+import static org.hamcrest.Matchers.greaterThan;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -58,6 +61,16 @@ public abstract class AbstractPruefzifferVerfahrenTest<T extends Serializable> {
     public void setUpPruefzifferVerfahren() {
         verfahren = getPruefzifferVerfahren();
         wert = getValidWert();
+    }
+
+    /**
+     * Testmehode fuer {@link PruefzifferVerfahren#getPruefziffer(Serializable)}.
+     */
+    @Test
+    public void testGetPruefziffer() {
+        T pruefziffer = verfahren.getPruefziffer(wert);
+        assertNotNull(pruefziffer);
+        assertThat(pruefziffer.toString().length(), greaterThan(0));
     }
 
     /**

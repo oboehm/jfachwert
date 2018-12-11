@@ -18,6 +18,7 @@
 package de.jfachwert.med;
 
 import de.jfachwert.AbstractFachwertTest;
+import org.junit.Test;
 
 /**
  * Unit-Tests fuer {@link IK}-Klasse.
@@ -32,6 +33,11 @@ public final class IKTest extends AbstractFachwertTest {
     @Override
     protected IK createFachwert() {
         return IK.of("260326822");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testIllegalIK() {
+        IK.of(260326823);
     }
 
 }

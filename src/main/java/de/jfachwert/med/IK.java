@@ -18,16 +18,30 @@
 package de.jfachwert.med;
 
 import de.jfachwert.AbstractFachwert;
+import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.pruefung.Mod10Verfahren;
 
 /**
  * Die Klasse IK repraesentiert das neunstellige Instituionskennzeichen, das
  * bundesweit eindeutig ist. Es wird fuer Abrechnungen im Bereich der deutschen
  * Sozialversicherung verwendet.
+ * <p>
+ * Die IK selbst ist eine neunstellige Ziffernfolge, die wie folgt aufgabaut
+ * ist:
+ * <ul>
+ *     <li>1+2: Kassifikation (beginnend bei 10)</li>
+ *     <li>3+4: Regionalbereich</li>
+ *     <li>5-8: Seriennummer</li>
+ *     <li>9: Pruefziffer (aus den Stellen 3 bis 8)</li>
+ * </ul>
+ * </p>
  *
  * @author oboehm
  * @since 1.1 (10.12.2018)
  */
-public class IK extends AbstractFachwert<Long> {
+public class IK extends AbstractFachwert<Integer> {
+
+    private static final PruefzifferVerfahren<Integer> MOD10 = new Mod10Verfahren();
 
     /**
      * Erzeugt ein neues IK-Objekt.
@@ -35,16 +49,29 @@ public class IK extends AbstractFachwert<Long> {
      * @param code Institutionskennzeichen (mit Pruefziffer), z.B. "260326822"
      */
     public IK(String code) {
-        this(Long.parseLong(code));
+        this(Integer.parseInt(code), MOD10);
+    }
+
+    /**
+     * Dieser Konstruktor ist hauptsaechlich fuer abgeleitete Klassen gedacht,
+     * damit diese das {@link PruefzifferVerfahren} ueberschreiben koennen.
+     * Man kann es auch verwenden, um das PruefzifferVerfahren abzuschalten,
+     * indem man das {@link de.jfachwert.pruefung.NoopVerfahren} verwendet.
+     *
+     * @param code        Instituionskennzeichen
+     * @param pzVerfahren das verwendete PruefzifferVerfahren
+     */
+    public IK(int code, PruefzifferVerfahren<Integer> pzVerfahren) {
+        super(code, pzVerfahren);
     }
 
     /**
      * Erzeugt ein neues IK-Objekt.
      *
-     * @param code Institutionskennzeichen (mit Pruefziffer), z.B. 260326822L
+     * @param code Institutionskennzeichen (mit Pruefziffer), z.B. 260326822
      */
-    public IK(long code) {
-        super(code);
+    public IK(int code) {
+        this(code, MOD10);
     }
 
     /**
@@ -53,7 +80,7 @@ public class IK extends AbstractFachwert<Long> {
      * @param ik 11-stelliges Insituionskennzeichen
      * @return eine gueltige IK
      */
-    public static IK of(long ik) {
+    public static IK of(int ik) {
         return new IK(ik);
     }
 

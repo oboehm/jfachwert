@@ -59,7 +59,7 @@ public class Mod11Verfahren implements PruefzifferVerfahren<String> {
     public boolean isValid(String wert) {
         int n = anzahlStellen + 1;
         if (wert.length() != n) {
-            throw new IllegalArgumentException("Steuernummer '" + wert + "' ist nicht " + n + " Zeichen lang");
+            throw new IllegalArgumentException("Nummer '" + wert + "' ist nicht " + n + " Zeichen lang");
         }
         String pruefziffer = getPruefziffer(wert);
         return pruefziffer.equals(berechnePruefziffer(wert.substring(0, wert.length() - 1)));
