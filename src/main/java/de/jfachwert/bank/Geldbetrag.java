@@ -236,7 +236,11 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
         try {
             return DEFAULT_FORMATTER.parse(other);
         } catch (MonetaryParseException ex) {
-            throw new IllegalArgumentException(other, ex);
+            if (other.endsWith("\u20AC")) {
+                return valueOf(other.substring(0, other.length() - 1) + " EUR");
+            } else {
+                throw new IllegalArgumentException(other, ex);
+            }
         }
     }
 
