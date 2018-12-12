@@ -22,6 +22,7 @@ import de.jfachwert.math.Bruch;
 import de.jfachwert.math.Nummer;
 import de.jfachwert.math.PackedDecimal;
 import de.jfachwert.med.IK;
+import de.jfachwert.med.LANR;
 import de.jfachwert.net.ChatAccount;
 import de.jfachwert.net.Domainname;
 import de.jfachwert.net.EMailAdresse;
@@ -109,6 +110,7 @@ public class FachwertFactory {
         INSTANCE.register(Geldbetrag.class);
         INSTANCE.register(Waehrung.class);
         INSTANCE.register(IK.class);
+        INSTANCE.register(LANR.class);
     }
 
     private FachwertFactory() {

@@ -54,7 +54,7 @@ public class IK extends AbstractFachwert<Integer> {
      * @param code Institutionskennzeichen (mit Pruefziffer), z.B. "260326822"
      */
     public IK(String code) {
-        this(Integer.parseInt(code), MOD10);
+        this(Integer.parseInt(code));
     }
 
     /**
