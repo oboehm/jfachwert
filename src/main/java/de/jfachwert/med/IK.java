@@ -33,7 +33,7 @@ import javax.validation.ValidationException;
  * Die IK selbst ist eine neunstellige Ziffernfolge, die wie folgt aufgabaut
  * ist:
  * <ul>
- *     <li>1+2: Kassifikation (beginnend bei 10)</li>
+ *     <li>1+2: Klassifikation (beginnend bei 10)</li>
  *     <li>3+4: Regionalbereich</li>
  *     <li>5-8: Seriennummer</li>
  *     <li>9: Pruefziffer (aus den Stellen 3 bis 8)</li>
@@ -111,4 +111,42 @@ public class IK extends AbstractFachwert<Integer> {
         }
     }
 
+    /**
+     * Die ersten beiden Ziffern bilden die Klassifikation, die hierueber
+     * zurueckgegeben werden kann.
+     *
+     * @return Zahl zwischen 10 und 99
+     */
+    public int getKlassifikation() {
+        return getCode() / 10_000_000;
+    }
+
+    /**
+     * Ziffer 3 und 4 stehen fuer den Regionalbereich. So steht z.B. 91 fuer
+     * die Region Schwaben.
+     *
+     * @return Zahl zwischen 0 und 99
+     */
+    public int getRegionalbereich() {
+        return getCode() / 100_000 % 100;
+    }
+
+    /**
+     * Die Seriennummer ermittelt sich aus Ziffer 5 bis 8.
+     *
+     * @return 4-stellige Zahl
+     */
+    public int getSeriennummer() {
+        return getCode() / 10 % 10000;
+    }
+
+    /**
+     * Die letzte Ziffer ist die Pruefziffer.
+     *
+     * @return Ziffer zwischen 0 und 9
+     */
+    public int getPruefziffer() {
+        return getCode() / 100_000_000;
+    }
+    
 }

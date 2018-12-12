@@ -20,10 +20,14 @@ package de.jfachwert.med;
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Unit-Tests fuer {@link IK}-Klasse.
  */
 public final class IKTest extends AbstractFachwertTest {
+
+    private final IK ik = createFachwert();
 
     /**
      * Zum Testen verwenden die IK, die auch in Wikipedia erwaehnt wird.
@@ -48,6 +52,26 @@ public final class IKTest extends AbstractFachwertTest {
     @Test(expected = IllegalArgumentException.class)
     public void test10stelligesIK() {
         IK.of(1234567897);
+    }
+
+    @Test
+    public void testGetKlassifikation() {
+        assertEquals(26, ik.getKlassifikation());
+    }
+
+    @Test
+    public void getGetRegionalbereich() {
+        assertEquals(3, ik.getRegionalbereich());
+    }
+
+    @Test
+    public void testGetSeriennummer() {
+        assertEquals(2682, ik.getSeriennummer());
+    }
+
+    @Test
+    public void testGetPruefziffer() {
+        assertEquals(2, ik.getPruefziffer());
     }
 
 }
