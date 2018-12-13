@@ -20,6 +20,8 @@ package de.jfachwert.med;
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Unit-Tests fuer {@link LANR}-Klasse.
  *
@@ -46,6 +48,11 @@ public class LANRTest extends AbstractFachwertTest {
     @Test(expected = IllegalArgumentException.class)
     public void test10stelligeLANR() {
         LANR.of(1234567890);
+    }
+
+    @Test
+    public void testGetFachgruppe() {
+        assertEquals(21, LANR.of(987654321).getFachgruppe());
     }
 
 }

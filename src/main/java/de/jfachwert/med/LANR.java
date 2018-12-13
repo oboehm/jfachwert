@@ -87,4 +87,13 @@ public class LANR extends AbstractFachwert<Integer> {
         }
     }
 
+    /**
+     * Die letzten beiden Ziffern der LANR bilden die Fachgruppe.
+     *
+     * @return Zahl zwischen 1 und 99
+     */
+    public int getFachgruppe() {
+        return this.getCode() % 100;
+    }
+    
 }
