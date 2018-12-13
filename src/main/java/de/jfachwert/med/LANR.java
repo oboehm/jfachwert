@@ -88,6 +88,29 @@ public class LANR extends AbstractFachwert<Integer> {
     }
 
     /**
+     * Die ersten 7 Ziffern kennzeichnen die Arztnummer, die von der
+     * Kassenaerztlichen Vereinigung generiert wird. Die 7. Stelle ist
+     * dabei die Pruefziffer, die aber leider nicht einheitlich
+     * generiert wird und daher zur Pruefung schlecht herangezogen werden
+     * kann.
+     *
+     * @return 7-stellige Arztnummer (inkl. Pruefziffer)
+     */
+    public int getArztnummer() {
+        return this.getCode() / 100;
+    }
+
+    /**
+     * Stelle 7 ist die Pruefziffer, die aber wertlos ist, da sie nicht
+     * einheitlich generiert wird.
+     *
+     * @return Zahl zwischen 0 und 9
+     */
+    public int getPruefziffer() {
+        return this.getCode() / 100 % 10;
+    }
+
+    /**
      * Die letzten beiden Ziffern der LANR bilden die Fachgruppe.
      *
      * @return Zahl zwischen 1 und 99

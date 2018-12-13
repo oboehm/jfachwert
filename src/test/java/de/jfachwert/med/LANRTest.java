@@ -51,6 +51,16 @@ public class LANRTest extends AbstractFachwertTest {
     }
 
     @Test
+    public void testGetArztnummer() {
+        assertEquals(1234567, LANR.of(123456789).getArztnummer());
+    }
+
+    @Test
+    public void testGetPruefziffer() {
+        assertEquals(7, LANR.of(123456789).getPruefziffer());
+    }
+
+    @Test
     public void testGetFachgruppe() {
         assertEquals(21, LANR.of(987654321).getFachgruppe());
     }
