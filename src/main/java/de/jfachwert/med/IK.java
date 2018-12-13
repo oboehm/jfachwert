@@ -82,7 +82,7 @@ public class IK extends AbstractFachwert<Integer> {
     /**
      * Liefert eine IK zurueck.
      *
-     * @param ik 11-stelliges Insituionskennzeichen
+     * @param ik 9-stelliges Insituionskennzeichen
      * @return eine gueltige IK
      */
     public static IK of(int ik) {
@@ -99,6 +99,13 @@ public class IK extends AbstractFachwert<Integer> {
         return new IK(ik);
     }
 
+    /**
+     * Ueberprueft die uebergebenen Nummer, ob sie 9-stellig und eine
+     * korrekte IK darstellt.
+     *
+     * @param nummer 9-stellige Nummer
+     * @return die Nummer selbst zur Weiterverarbeitung
+     */
     public static int validate(int nummer) {
         return VALIDATOR.validate(nummer);
     }

@@ -18,6 +18,10 @@
 package de.jfachwert.med;
 
 import de.jfachwert.AbstractFachwert;
+import de.jfachwert.pruefung.LengthValidator;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
+
+import javax.validation.ValidationException;
 
 /**
  * Die LANR ist die lebenslange Arztnummer. Sie ist eine neunstellige Nummer,
@@ -29,6 +33,11 @@ import de.jfachwert.AbstractFachwert;
  * @since 1.1 (12.12.2018)
  */
 public class LANR extends AbstractFachwert<Integer> {
+
+    private static final LengthValidator<Integer> VALIDATOR = new LengthValidator<>(9, 9);
+
+    /** Pseudonummer fuer Bundeswehraerzte, Zahnaerzte und Hebammen. */
+    public static final LANR PSEUDO_NUMMER = new LANR(999999900);
 
     /**
      * Erzeugt ein neues LANR-Objekt.
@@ -45,7 +54,37 @@ public class LANR extends AbstractFachwert<Integer> {
      * @param code neunstellige Zahl
      */
     public LANR(int code) {
-        super(code);
+        super(verify(code));
+    }
+
+    /**
+     * Liefert eine LANR zurueck.
+     *
+     * @param code 9-stellige Nummer
+     * @return die LANR
+     */
+    public static LANR of(int code) {
+        return new LANR(code);
+    }
+
+    /**
+     * Ueberprueft die uebergebenen Nummer, ob sie 9-stellig und eine
+     * korrekte LANR darstellt. Die Pruefziffer wird nicht ueberprueft,
+     * weil sie optional ist und nicht unbedingt stimmen muss.
+     *
+     * @param nummer 9-stellige Nummer
+     * @return die Nummer selbst zur Weiterverarbeitung
+     */
+    public static int validate(int nummer) {
+        return VALIDATOR.validate(nummer);
+    }
+
+    private static int verify(int nummer) {
+        try {
+            return validate(nummer);
+        } catch (ValidationException ex) {
+            throw new LocalizedIllegalArgumentException(ex);
+        }
     }
 
 }
