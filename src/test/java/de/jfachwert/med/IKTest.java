@@ -20,6 +20,8 @@ package de.jfachwert.med;
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
+import javax.validation.ValidationException;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -41,12 +43,17 @@ public final class IKTest extends AbstractFachwertTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalIK() {
-        IK.of(260326823);
+        IK.of(123456789);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test8stelligesIK() {
         IK.of(12345671);
+    }
+
+    @Test(expected = ValidationException.class)
+    public void testValidate() {
+        IK.validate(123456789);
     }
 
     @Test(expected = IllegalArgumentException.class)

@@ -56,27 +56,14 @@ public class IK extends AbstractFachwert<Integer> {
     public IK(String code) {
         this(Integer.parseInt(code));
     }
-
-    /**
-     * Dieser Konstruktor ist hauptsaechlich fuer abgeleitete Klassen gedacht,
-     * damit diese das {@link PruefzifferVerfahren} ueberschreiben koennen.
-     * Man kann es auch verwenden, um das PruefzifferVerfahren abzuschalten,
-     * indem man das {@link de.jfachwert.pruefung.NoopVerfahren} verwendet.
-     *
-     * @param code        Instituionskennzeichen
-     * @param pzVerfahren das verwendete PruefzifferVerfahren
-     */
-    public IK(int code, PruefzifferVerfahren<Integer> pzVerfahren) {
-        super(verify(code), pzVerfahren);
-    }
-
+    
     /**
      * Erzeugt ein neues IK-Objekt.
      *
      * @param code Institutionskennzeichen (mit Pruefziffer), z.B. 260326822
      */
     public IK(int code) {
-        this(code, MOD10);
+        super(verify(code));
     }
 
     /**
@@ -107,7 +94,8 @@ public class IK extends AbstractFachwert<Integer> {
      * @return die Nummer selbst zur Weiterverarbeitung
      */
     public static int validate(int nummer) {
-        return VALIDATOR.validate(nummer);
+        int n = VALIDATOR.validate(nummer);
+        return MOD10.validate(n);
     }
 
     private static int verify(int nummer) {
