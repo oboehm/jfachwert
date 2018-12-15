@@ -53,7 +53,7 @@ public final class TextTest extends AbstractFachwertTest {
 
     @Test
     public void testGetDistanceZero() {
-        Text hello = new Text("hello");
+        Text hello = Text.of("hello");
         assertEquals(0, hello.getDistance("hello"));
     }
 

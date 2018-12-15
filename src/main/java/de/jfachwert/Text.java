@@ -33,8 +33,8 @@ import de.jfachwert.pruefung.NullValidator;
  * @since 0.5 (17.01.2018)
  */
 public class Text extends AbstractFachwert<String> {
-    
-    private static final SimpleValidator<String> VALIDATOR = new NullValidator();
+
+    private static final SimpleValidator<String> VALIDATOR = new NullValidator<String>();
 
     /**
      * Erzeugt einen Text.
@@ -43,6 +43,16 @@ public class Text extends AbstractFachwert<String> {
      */
     public Text(String text) {
         super(validate(text));
+    }
+
+    /**
+     * Liefert einen Text zurueck.
+     *
+     * @param text darf nicht null sein
+     * @return Text
+     */
+    public static Text of(String text) {
+        return new Text(text);
     }
 
     /**
