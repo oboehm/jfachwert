@@ -20,6 +20,10 @@ import org.junit.Test;
 
 import javax.validation.ValidationException;
 
+import static org.hamcrest.Matchers.lessThan;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+
 /**
  * Unit-Tests fuer {@link Text}-Klasse.
  *
@@ -38,6 +42,27 @@ public final class TextTest extends AbstractFachwertTest {
     @Test(expected = ValidationException.class)
     public void testCtorNull() {
         new Text(null);
+    }
+
+    @Test
+    public void testGetDistanceKommuntativ() {
+        Text hello = new Text("hello");
+        Text hallo = new Text("hallo");
+        assertEquals(hello.getDistance(hallo), hallo.getDistance(hello));
+    }
+
+    @Test
+    public void testGetDistanceZero() {
+        Text hello = new Text("hello");
+        assertEquals(0, hello.getDistance("hello"));
+    }
+
+    @Test
+    public void testGetDistance() {
+        Text hello = new Text("hello");
+        Text hallo = new Text("hallo");
+        Text world = new Text("world");
+        assertThat(hello.getDistance(hallo), lessThan(hello.getDistance(world)));
     }
 
 }
