@@ -40,9 +40,10 @@ public class LANRTest extends AbstractFachwertTest {
         return LANR.PSEUDO_NUMMER;
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void test8stelligeLANR() {
-        LANR.of(12345678);
+    @Test
+    public void testLANRmit0() {
+        LANR nr = LANR.of(6789);
+        assertEquals(67, nr.getArztnummer());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -65,4 +66,10 @@ public class LANRTest extends AbstractFachwertTest {
         assertEquals(21, LANR.of(987654321).getFachgruppe());
     }
 
+    @Test
+    public void testToString000() {
+        String nr = "000456789";
+        assertEquals(nr, LANR.of(nr).toString());
+    }
+    
 }

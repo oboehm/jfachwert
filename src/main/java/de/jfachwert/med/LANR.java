@@ -34,7 +34,7 @@ import javax.validation.ValidationException;
  */
 public class LANR extends AbstractFachwert<Integer> {
 
-    private static final LengthValidator<Integer> VALIDATOR = new LengthValidator<>(9, 9);
+    private static final LengthValidator<Integer> VALIDATOR = new LengthValidator<>(4, 9);
 
     /** Pseudonummer fuer Bundeswehraerzte, Zahnaerzte und Hebammen. */
     public static final LANR PSEUDO_NUMMER = new LANR(999999900);
@@ -64,6 +64,16 @@ public class LANR extends AbstractFachwert<Integer> {
      * @return die LANR
      */
     public static LANR of(int code) {
+        return new LANR(code);
+    }
+
+    /**
+     * Liefert eine LANR zurueck.
+     *
+     * @param code 9-stellige Nummer
+     * @return die LANR
+     */
+    public static LANR of(String code) {
         return new LANR(code);
     }
 
@@ -118,5 +128,15 @@ public class LANR extends AbstractFachwert<Integer> {
     public int getFachgruppe() {
         return this.getCode() % 100;
     }
-    
+
+    /**
+     * Die LANR ist 9-stellig und wird auch neunstellig ausgegeben.
+     *
+     * @return 9-stellige Zeichenkette, evtl. mit fuehrenden Nullen
+     */
+    @Override
+    public String toString() {
+        return String.format("%09d", this.getCode());
+    }
+
 }
