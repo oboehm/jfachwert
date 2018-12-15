@@ -20,7 +20,7 @@ package de.jfachwert.med;
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.PruefzifferVerfahren;
 import de.jfachwert.pruefung.LengthValidator;
-import de.jfachwert.pruefung.Mod10Verfahren;
+import de.jfachwert.pruefung.LuhnVerfahren;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 
 import javax.validation.ValidationException;
@@ -45,7 +45,7 @@ import javax.validation.ValidationException;
  */
 public class IK extends AbstractFachwert<Integer> {
 
-    private static final PruefzifferVerfahren<Integer> MOD10 = new Mod10Verfahren();
+    private static final PruefzifferVerfahren<String> MOD10 = new LuhnVerfahren();
     private static final LengthValidator<Integer> VALIDATOR = new LengthValidator<>(9, 9);
 
     /**
@@ -95,7 +95,8 @@ public class IK extends AbstractFachwert<Integer> {
      */
     public static int validate(int nummer) {
         int n = VALIDATOR.validate(nummer);
-        return MOD10.validate(n);
+        MOD10.validate(Integer.toString(n));
+        return n;
     }
 
     private static int verify(int nummer) {

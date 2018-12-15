@@ -21,7 +21,7 @@ import de.jfachwert.PruefzifferVerfahren;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Das Modulo-10-Verfahren ist auch als Luhn-Alogorithmus oder Luhn-Formel
+ * Das Luhn-Verfahren ist auch als Luhn-Alogorithmus oder Luhn-Formel
  * bekannt und ist eine einfache Methode zur Berechnung einer Pruefsumme.
  * Das Verfahren dient u.a. zur Verifizierung von:
  * <ul>
@@ -33,51 +33,12 @@ import org.apache.commons.lang3.StringUtils;
  * Die Pruefziffer ergibt sich aus der Pruefsumme modulo 10. Sie wird an
  * die bestehende Zahl angehaengt.
  * </p>
- * <p>
- * Die verschiedenen Modulo10-Verfahren, die es gibt, unterscheiden sich noch
- * in der Gewichtung der einzelnen Ziffern. Naeheres kann man unter
- * https://www.activebarcode.de/codes/checkdigit/modulo10.html nachlesen.
- * </p>
  *
  * @author oboehm
  * @since 1.1 (11.12.2018)
  */
-public class Mod10Verfahren implements PruefzifferVerfahren<String> {
+public class LuhnVerfahren implements PruefzifferVerfahren<String> {
 
-    private final int gewichtungUngerade;
-    private final int gewichtungGerade;
-
-    /**
-     * Bei dem Standard-Modulo10-Verfahren wird eine Gewichtung von 2
-     * verwendet.
-     */
-    public Mod10Verfahren() {
-        this(2);
-    }
-
-    /**
-     * Die Gewichtung ist fuer die ungeraden Ziffern relevant. Sie werden
-     * damit multipliziert, bevor die Quersumme gebildet wird.
-     *
-     * @param gewichtung typischerweise z.B. 3
-     */
-    public Mod10Verfahren(int gewichtung) {
-        this(gewichtung, 1);
-    }
-
-    /**
-     * Die Gewichtung gibt an, mit welcher Zahl die ungeraden und geraden
-     * Stellen mulitpliziert werden, bevor die Quersumme fuer die Preufung
-     * gebildet wird. Bei Barcodes wird hier z.B. die Werte 4 und 9 verwendet.
-     *
-     * @param ungerade Gewichtung fuer ungerade Ziffern
-     * @param gerade   Gewichtung fuer gerade Ziffern
-     */
-    public Mod10Verfahren(int ungerade, int gerade) {
-        this.gewichtungUngerade = ungerade;
-        this.gewichtungGerade = gerade;
-    }
-    
     /**
      * Liefert true zurueck, wenn der uebergebene Wert gueltig ist.
      *
@@ -106,8 +67,7 @@ public class Mod10Verfahren implements PruefzifferVerfahren<String> {
     }
 
     /**
-     * Berechnet die Pruefziffer des uebergebenen Wertes. Die Berechung stammt
-     * aus https://de.wikipedia.org/wiki/Luhn-Algorithmus#Java.
+     * Berechnet die Pruefziffer des uebergebenen Wertes.
      *
      * @param wert Wert (ohne Pruefziffer)
      * @return errechnete Pruefziffer
@@ -117,18 +77,18 @@ public class Mod10Verfahren implements PruefzifferVerfahren<String> {
         return Integer.toString(sum % 10);
     }
 
-    private int getQuersumme(String wert) {
+    private static int getQuersumme(String wert) {
         char[] digits = wert.toCharArray();
         int sum = 0;
         int length = digits.length;
         for (int i = 0; i < length; i++) {
-            int digit = Character.digit(digits[i], 10);
-            if (i % 2 == 0) {
-                digit *= this.gewichtungUngerade;
-            } else {
-                digit *= this.gewichtungGerade;
+            // get digits in reverse order
+            int digit = Character.digit(digits[length - i - 1], 10);
+            // every 2nd number multiply with 2
+            if (i % 2 == 1) {
+                digit *= 2;
             }
-            sum += digit;
+            sum += digit > 9 ? digit - 9 : digit;
         }
         return sum;
     }
