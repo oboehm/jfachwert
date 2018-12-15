@@ -22,17 +22,27 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Unit-Tests fuer {@link Mod10Verfahren}-Klasse.
+ * Unit-Tests fuer {@link Mod10Verfahren}-Klasse. Die Beispiele dazu stammen
+ * aus https://www.activebarcode.de/codes/checkdigit/modulo10.html.
  *
  * @author oboehm
- * @since x.x (15.12.2018)
+ * @since 1.1 (15.12.2018)
  */
 public class Mod10VerfahrenTest {
 
     @Test
-    public void isValid() {
-        Mod10Verfahren leitcode = new Mod10Verfahren(4, 9);
-        assertTrue(leitcode.isValid("23669012012305"));
+    public void testEAN13() {
+        assertTrue(Mod10Verfahren.EAN13.isValid("4007630000116"));
+    }
+
+    @Test
+    public void testCode25() {
+        assertTrue(Mod10Verfahren.CODE25.isValid("123457"));
+    }
+
+    @Test
+    public void testLeitcode() {
+        assertTrue(Mod10Verfahren.LEITCODE.isValid("23669012012305"));
     }
 
 }

@@ -47,6 +47,15 @@ public class Mod10Verfahren implements PruefzifferVerfahren<String> {
     private final int gewichtungUngerade;
     private final int gewichtungGerade;
 
+    /** EAN13 mit Gewichtung 3. */
+    public static final Mod10Verfahren EAN13 = new Mod10Verfahren(1, 3);
+
+    /** Code25 wird mit der Gewichtung 3 und 1 berchnet. */
+    public static final Mod10Verfahren CODE25 = new Mod10Verfahren(3, 1);
+
+    /** Leitcode oder Identcode hat eine Gewichtung von 4 und 9. */
+    public static final Mod10Verfahren LEITCODE = new Mod10Verfahren(4, 9);
+
     /**
      * Bei dem Standard-Modulo10-Verfahren wird eine Gewichtung von 2
      * verwendet.
@@ -114,7 +123,7 @@ public class Mod10Verfahren implements PruefzifferVerfahren<String> {
      */
     public String berechnePruefziffer(String wert) {
         int sum = getQuersumme(wert);
-        return Integer.toString(sum % 10);
+        return Integer.toString((10 - sum % 10) % 10);
     }
 
     private int getQuersumme(String wert) {
