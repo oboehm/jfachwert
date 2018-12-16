@@ -21,6 +21,7 @@ import de.jfachwert.bank.*;
 import de.jfachwert.math.Bruch;
 import de.jfachwert.math.Nummer;
 import de.jfachwert.math.PackedDecimal;
+import de.jfachwert.med.BSNR;
 import de.jfachwert.med.IK;
 import de.jfachwert.med.LANR;
 import de.jfachwert.net.ChatAccount;
@@ -111,6 +112,7 @@ public class FachwertFactory {
         INSTANCE.register(Waehrung.class);
         INSTANCE.register(IK.class);
         INSTANCE.register(LANR.class);
+        INSTANCE.register(BSNR.class);
     }
 
     private FachwertFactory() {
