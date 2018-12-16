@@ -42,6 +42,7 @@ public class LuhnVerfahren extends Mod10Verfahren {
      * @param wert Wert (ohne Pruefziffer)
      * @return errechnete Pruefziffer
      */
+    @Override
     public String berechnePruefziffer(String wert) {
         int sum = getQuersumme(wert);
         return Integer.toString(sum % 10);
