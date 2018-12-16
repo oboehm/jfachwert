@@ -17,9 +17,6 @@
  */
 package de.jfachwert.pruefung;
 
-import de.jfachwert.PruefzifferVerfahren;
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * Das Luhn-Verfahren ist auch als Luhn-Alogorithmus oder Luhn-Formel
  * bekannt und ist eine einfache Methode zur Berechnung einer Pruefsumme.
@@ -37,34 +34,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author oboehm
  * @since 1.1 (11.12.2018)
  */
-public class LuhnVerfahren implements PruefzifferVerfahren<String> {
-
-    /**
-     * Liefert true zurueck, wenn der uebergebene Wert gueltig ist.
-     *
-     * @param wert Fachwert oder gekapselter Wert
-     * @return true oder false
-     */
-    @Override
-    public boolean isValid(String wert) {
-        if (StringUtils.length(wert) < 1) {
-            return false;
-        } else {
-            return getPruefziffer(wert).equals(berechnePruefziffer(wert.substring(0, wert.length() - 1)));
-        }
-    }
-
-    /**
-     * Meistens ist die letzte Ziffer die Pruefziffer, die hierueber abgefragt
-     * werden kann.
-     *
-     * @param wert Fachwert oder gekapselter Wert
-     * @return meist ein Wert zwischen 0 und 9
-     */
-    @Override
-    public String getPruefziffer(String wert) {
-        return wert.substring(wert.length() - 1);
-    }
+public class LuhnVerfahren extends Mod10Verfahren {
 
     /**
      * Berechnet die Pruefziffer des uebergebenen Wertes.
