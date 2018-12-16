@@ -2,8 +2,10 @@
 
 
 
-== 1.0.1-SNAPSHOT
+== 1.1.0 (16-Dez-2018)
 
+* med-Package für Klassen aus dem Krankenkassen-Bereich eingeführt
+* Text-Klasse kann jetzt auch die http://rosettacode.org/wiki/Levenshtein_distance[Levenshtein-Distanz] berechnen
 * Bereitstellung von of()-Methoden auch in der Geldbetrag-Klasse
 * API der Geldbetrag-Klasse an die Money-Klasse aus der Referenz-Implemntierung (org.javamoney.moneta)
 * #_neu_#: Reduktion des Speicherbedarfs der Waehrung-Klasse und Performance-Optimierung (Laufzeit des TCKs von 50 Sek. auf ca. 3 Sek. reduziert)

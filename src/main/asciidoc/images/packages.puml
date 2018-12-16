@@ -5,6 +5,9 @@ package "jfachwert" {
     package "util" {
     }
 
+    package "med" {
+    }
+
     package "net" {
     }
 
@@ -28,6 +31,7 @@ package "jfachwert" {
     post ..> pruefung
     rechnung ..> pruefung
     net ..> pruefung
+    med ..> pruefung
 
 }
 

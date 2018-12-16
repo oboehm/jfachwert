@@ -92,7 +92,7 @@ Gründe für eine eigene Implementierung waren:
 * Die Geldbetrag sollte als Alternative zur BigDecimal-Klasse eingesetzt werden können.
   Dies ist vor allem für die Portierung älterer Anwendungen gedacht, die noch mit BigDecimal arbeiten.
 
-Der letzte Punkt ist auch der Grund, warum die Geldbetrag-Klasse neben of(..)-Methoden auch valueOf(..)-Methoden besitzen.
+Der letzte Punkt ist auch der Grund, warum die Geldbetrag-Klasse zusätzlich zur of(..)-Methoden auch valueOf(..)-Methoden besitzen.
 Dabei werden die gleichen Parameter wie bei BigDecimal akzeptiert.
 
 

@@ -35,6 +35,9 @@ Die einzelnen Klassen sind in fachliche Packages aufgeteilt.
 
 |net
 |Fachwerte für das Neuland "Internet" wie `EMailAdresse` oder `Domainname`
+
+|med
+|Fachwerte für den medizinischen Bereich und der Welt der Krankenkasse
 |===
 
 Das pruefung-Package enthält Klassen zur Validierung und zu verschiedenen Pruefzifferverfahren.
@@ -113,6 +116,18 @@ include::../images/package-util.puml[]
 Das util-Package ist mit v0.7 hinzugekommen.
 Es enthält im Wesentliche die TinyUUID-Klasse, die die gleiche Funktionalität wie die UUID-Klasse hat.
 Lediglich die toString()-Methode liefert eine kompaktere Schreibweise (22 Zeichen) als die UUID-Klasse (36 Zeichen).
+
+
+==== med
+
+["plantuml", "package-med", "svg"]
+------------------------------------------------
+include::../images/package-med.puml[]
+------------------------------------------------
+
+Das med-Package ist mit v1.1 hinzugekommen.
+Es enthält Klassen aus der Welt der Krankenkassen.
+
 
 
 === Prüfungen und Exceptions

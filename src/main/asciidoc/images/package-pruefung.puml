@@ -6,6 +6,8 @@ package "pruefung" {
     class EMailValidator
     class LengthValidator
     class Mod11Verfahren
+    class Mod10Verfahren
+    class LuhnVerfahren
     class NoopVerfahren
     class NullValidator
     class NumberValidator
@@ -20,6 +22,8 @@ package "pruefung" {
     }
 
 }
+
+LuhnVerfahren <|-- Mod10Verfahren
 
 LocalizedValueException <|-- IllegalLengthException
 LocalizedValueException <|-- InvalidValueException

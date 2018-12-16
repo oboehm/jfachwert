@@ -1,0 +1,11 @@
+@startuml
+
+package "med" {
+
+    class IK
+    class LANR
+    class BSNR
+
+}
+
+@enduml
