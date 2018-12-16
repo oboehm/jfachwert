@@ -32,13 +32,13 @@ import javax.validation.ValidationException;
  * <p>
  * Die IK selbst ist eine neunstellige Ziffernfolge, die wie folgt aufgabaut
  * ist:
+ * </p>
  * <ul>
  *     <li>1+2: Klassifikation (beginnend bei 10)</li>
  *     <li>3+4: Regionalbereich</li>
  *     <li>5-8: Seriennummer</li>
  *     <li>9: Pruefziffer (aus den Stellen 3 bis 8)</li>
  * </ul>
- * </p>
  *
  * @author oboehm
  * @since 1.1 (10.12.2018)

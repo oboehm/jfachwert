@@ -75,6 +75,7 @@ public class UStIdNr extends AbstractFachwert<String> {
      * alphanumerischen Zeichen.
      *
      * @param nr, z.B. "DE999999999"
+     * @return UstIdNr
      */
     public static UStIdNr of(String nr) {
         return new UStIdNr(nr);

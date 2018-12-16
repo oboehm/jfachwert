@@ -55,6 +55,7 @@ public class Artikelnummer extends AbstractFachwert<String> {
      * Erzeugt eine Artikelnummer.
      *
      * @param nummer z.B. "000002835042"
+     * @return Artikelnummer
      */
     public static Artikelnummer of(String nummer) {
         return new Artikelnummer(nummer);

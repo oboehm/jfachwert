@@ -114,6 +114,7 @@ public class Adresse implements Fachwert {
      * @param ort        the ort
      * @param strasse    the strasse
      * @param hausnummer the hausnummer
+     * @return Adresse
      */
     public static Adresse of(Ort ort, String strasse, String hausnummer) {
         return new Adresse(ort, strasse, hausnummer);

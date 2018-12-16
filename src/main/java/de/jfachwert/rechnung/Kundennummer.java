@@ -56,6 +56,7 @@ public class Kundennummer extends AbstractFachwert<String> {
      * Erzeugt eine Kundennummer.
      *
      * @param nummer z.B. "100.059"
+     * @return Kundennummer
      */
     public static Kundennummer of(String nummer) {
         return new Kundennummer(nummer);

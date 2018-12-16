@@ -55,6 +55,7 @@ public class Rechnungsnummer extends AbstractFachwert<String> {
      * Erzeugt eine Rechnungsnummer.
      *
      * @param nummer z.B. "000002835042"
+     * @return Rechnungsnummer
      */
     public static Rechnungsnummer of(String nummer) {
         return new Rechnungsnummer(nummer);

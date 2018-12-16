@@ -55,6 +55,7 @@ public class Referenznummer extends AbstractFachwert<String> {
      * Erzeugt eine Referenznummer.
      *
      * @param nummer z.B. "000002835042"
+     * @return Referenznummer
      */
     public static Referenznummer of(String nummer) {
         return new Referenznummer(nummer);

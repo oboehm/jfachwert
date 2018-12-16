@@ -55,6 +55,7 @@ public class Bestellnummer extends AbstractFachwert<String> {
      * Erzeugt eine Bestellnummer.
      *
      * @param nummer z.B. "000002835042"
+     * @return Bestellnummer
      */
     public static Bestellnummer of(String nummer) {
         return new Bestellnummer(nummer);

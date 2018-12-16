@@ -146,6 +146,7 @@ public class Anschrift implements Fachwert {
      * </ul>
      *
      * @param anschrift z.B. "Donald Duck, 12345 Entenhausen, Gansstr. 23"
+     * @return Anschrift
      */
     public static Anschrift of(String anschrift) {
         return new Anschrift(anschrift);
@@ -156,6 +157,7 @@ public class Anschrift implements Fachwert {
      *
      * @param name     Namen einer Person oder Personengruppe
      * @param postfach ein gueltiges Postfach
+     * @return Anschrift
      */
     public static Anschrift of(Adressat name, Postfach postfach) {
         return new Anschrift(name, postfach);
@@ -166,6 +168,7 @@ public class Anschrift implements Fachwert {
      *
      * @param name    Namen einer Person oder Personengruppe
      * @param adresse eine gueltige Adresse
+     * @return Anschrift
      */
     public static Anschrift of(Adressat name, Adresse adresse) {
         return new Anschrift(name, adresse);

@@ -147,6 +147,7 @@ public class Postfach implements Fachwert {
      * </ul>
      *
      * @param postfach z.B. "Postfach 98765, 12345 Entenhausen"
+     * @return Postfach
      */
     public static Postfach of(String postfach) {
         return new Postfach(postfach);
@@ -157,6 +158,7 @@ public class Postfach implements Fachwert {
      *
      * @param nummer positive Zahl ohne fuehrende Null
      * @param ort gueltiger Ort mit PLZ
+     * @return Postfach
      */
     public static Postfach of(long nummer, Ort ort) {
         return new Postfach(nummer, ort);
@@ -167,6 +169,7 @@ public class Postfach implements Fachwert {
      *
      * @param nummer positive Zahl ohne fuehrende Null
      * @param ort gueltiger Ort mit PLZ
+     * @return Postfach
      */
     public static Postfach of(BigInteger nummer, Ort ort) {
         return new Postfach(nummer, ort);
