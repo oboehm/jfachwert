@@ -135,7 +135,7 @@ public class Telefonnummer extends AbstractFachwert<String> {
         if (vorwahl.startsWith("+")) {
             vorwahl = StringUtils.isBlank(parts[1]) ? parts[2] : parts[1];
         }
-        vorwahl = StringUtils.removeAll(vorwahl, "[ \t+-/(\\(\\))]");
+        vorwahl = RegExUtils.removeAll(vorwahl, "[ \t+-/(\\(\\))]");
         if (vorwahl.startsWith("0")) {
             return vorwahl;
         }
@@ -149,7 +149,7 @@ public class Telefonnummer extends AbstractFachwert<String> {
      * @return z.B. "32168"
      */
     public Telefonnummer getRufnummer() {
-        String inlandsnummer = StringUtils.replaceAll(this.getInlandsnummer().toString(), "[ /]+", " ");
+        String inlandsnummer = RegExUtils.replaceAll(this.getInlandsnummer().toString(), "[ /]+", " ");
         return new Telefonnummer(StringUtils.substringAfter(inlandsnummer, " ").replaceAll(" ", ""));
     }
 
@@ -187,7 +187,7 @@ public class Telefonnummer extends AbstractFachwert<String> {
      * @return z.B. "+49301234567"
      */
     public String toShortString() {
-        return StringUtils.removeAll(getCode(), "[ \t+-/]|(\\(0\\))");
+        return RegExUtils.removeAll(getCode(), "[ \t+-/]|(\\(0\\))");
     }
 
     /**

@@ -9,6 +9,7 @@ import javax.money.format.MonetaryParseException;
  * @author <a href="ob@aosd.de">oliver</a>
  * @since 1.0.1 (12.10.18)
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class LocalizedMonetaryParseException extends MonetaryParseException implements LocalizedException {
 
     private final Throwable cause;
