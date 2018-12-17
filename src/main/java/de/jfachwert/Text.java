@@ -34,7 +34,7 @@ import de.jfachwert.pruefung.NullValidator;
  */
 public class Text extends AbstractFachwert<String> {
 
-    private static final SimpleValidator<String> VALIDATOR = new NullValidator<String>();
+    private static final SimpleValidator<String> VALIDATOR = new NullValidator<>();
 
     /**
      * Erzeugt einen Text.
@@ -70,10 +70,22 @@ public class Text extends AbstractFachwert<String> {
      *
      * @param other anderer Text
      * @return Levenshtein-Distanz
-     * @since 1.1
+     * @since 1.1.1
      */
+    public int getDistanz(Text other) {
+        return getDistanz(other.getCode());
+    }
+
+    /**
+     * Berechnet die Levenshtein-Distanz.
+     *
+     * @param other anderer Text
+     * @return Levenshtein-Distanz
+     * @deprecated bitte {@link #getDistanz(Text)} verwenden
+     */
+    @Deprecated
     public int getDistance(Text other) {
-        return getDistance(other.getCode());
+        return getDistanz(other.getCode());
     }
 
     /**
@@ -82,8 +94,21 @@ public class Text extends AbstractFachwert<String> {
      *
      * @param other anderer Text
      * @return Levenshtein-Distanz
-     * @since 1.1
+     * @since 1.1.1
      */
+    public int getDistanz(String other) {
+        return distance(this.getCode(), other);
+    }
+
+    /**
+     * Berechnet die Levenshtein-Distanz. Der Algorithmus dazu stammt aus
+     * http://rosettacode.org/wiki/Levenshtein_distance#Java.
+     *
+     * @param other anderer Text
+     * @return Levenshtein-Distanz
+     * @deprecated bitte {@link #getDistanz(String)} verwenden
+     */
+    @Deprecated
     public int getDistance(String other) {
         return distance(this.getCode(), other);
     }

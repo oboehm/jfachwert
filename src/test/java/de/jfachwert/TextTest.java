@@ -45,24 +45,24 @@ public final class TextTest extends AbstractFachwertTest {
     }
 
     @Test
-    public void testGetDistanceKommuntativ() {
+    public void testgetDistanzKommuntativ() {
         Text hello = new Text("hello");
         Text hallo = new Text("hallo");
-        assertEquals(hello.getDistance(hallo), hallo.getDistance(hello));
+        assertEquals(hello.getDistanz(hallo), hallo.getDistanz(hello));
     }
 
     @Test
-    public void testGetDistanceZero() {
+    public void testgetDistanzZero() {
         Text hello = Text.of("hello");
-        assertEquals(0, hello.getDistance("hello"));
+        assertEquals(0, hello.getDistanz("hello"));
     }
 
     @Test
-    public void testGetDistance() {
+    public void testgetDistanz() {
         Text hello = new Text("hello");
         Text hallo = new Text("hallo");
         Text world = new Text("world");
-        assertThat(hello.getDistance(hallo), lessThan(hello.getDistance(world)));
+        assertThat(hello.getDistanz(hallo), lessThan(hello.getDistanz(world)));
     }
 
 }

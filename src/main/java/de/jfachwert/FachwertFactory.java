@@ -286,7 +286,7 @@ public class FachwertFactory {
     }
 
     private static int distance(String a, String b) {
-        return new Text(a).getDistance(b);
+        return new Text(a).getDistanz(b);
     }
 
 }
