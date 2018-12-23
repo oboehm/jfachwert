@@ -37,7 +37,7 @@ public final class PrimzahlTest extends AbstractFachwertTest {
      */
     @Override
     protected Primzahl createFachwert() {
-        return Primzahl.ZWEI;
+        return Primzahl.DREI.next();
     }
 
     /**
