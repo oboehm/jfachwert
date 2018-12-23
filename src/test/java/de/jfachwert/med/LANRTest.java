@@ -21,6 +21,7 @@ import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Unit-Tests fuer {@link LANR}-Klasse.
@@ -59,6 +60,11 @@ public class LANRTest extends AbstractFachwertTest {
     @Test
     public void testGetPruefziffer() {
         assertEquals(7, LANR.of(123456789).getPruefziffer());
+    }
+
+    @Test
+    public void testIsValid() {
+        assertFalse(LANR.of(345678975).isValid());
     }
 
     @Test

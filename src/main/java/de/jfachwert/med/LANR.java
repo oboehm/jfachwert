@@ -19,6 +19,7 @@ package de.jfachwert.med;
 
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.pruefung.LengthValidator;
+import de.jfachwert.pruefung.Mod10Verfahren;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 
 import javax.validation.ValidationException;
@@ -118,6 +119,21 @@ public class LANR extends AbstractFachwert<Integer> {
      */
     public int getPruefziffer() {
         return this.getCode() / 100 % 10;
+    }
+
+
+    /**
+     * Hier wird die 7-stellige Arztnummer ueberprueft, ob die Pruefziffer
+     * gueltig ist. Diese wird nach dem Modulo10-Verfahren mit der Gewichtung
+     * 4 und 9 ueberprueft. Allerdings wird die Pruefung von den
+     * verschiedenen Instituten teilweise unterschiedlich interpretiert,
+     * so dass das Ergebnis mit Vorsicht zu geniessen ist.
+     *
+     * @return true, wenn Pruefziffer uebereinstimmt
+     */
+    public boolean isValid() {
+        Mod10Verfahren mod10Verfahren = new Mod10Verfahren(4, 9);
+        return mod10Verfahren.isValid(Integer.toString(getArztnummer()));
     }
 
     /**
