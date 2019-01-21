@@ -53,7 +53,33 @@
         </configuration>
       </plugin>
 
-      <!-- JUnit Testing -->
+        <!-- avoid lib conflicts -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-enforcer-plugin</artifactId>
+            <version>3.0.0-M2</version>
+            <executions>
+                <execution>
+                    <id>enforce</id>
+                    <goals>
+                        <goal>enforce</goal>
+                    </goals>
+                    <configuration>
+                        <rules>
+                            <requireMavenVersion>
+                                <version>3.2.4</version>
+                            </requireMavenVersion>
+                            <requireJavaVersion>
+                                <version>${java.version}</version>
+                            </requireJavaVersion>
+                            <dependencyConvergence/>
+                        </rules>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+
+        <!-- JUnit Testing -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -260,7 +286,7 @@
       <dependency>
         <groupId>org.patterntesting</groupId>
         <artifactId>patterntesting-rt</artifactId>
-        <version>1.7.2</version>
+          <version>1.8.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -318,11 +344,31 @@
       <groupId>org.patterntesting</groupId>
       <artifactId>patterntesting-rt</artifactId>
       <scope>test</scope>
+        <exclusions>
+            <exclusion>
+                <groupId>org.javamoney</groupId>
+                <artifactId>javamoney-tck</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+            </exclusion>
+        </exclusions>
     </dependency>
     <dependency>
       <groupId>org.javamoney</groupId>
       <artifactId>javamoney-tck</artifactId>
       <scope>test</scope>
+        <exclusions>
+            <exclusion>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-core</artifactId>
+            </exclusion>
+        </exclusions>
     </dependency>
 
   </dependencies>
