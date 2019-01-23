@@ -18,6 +18,9 @@
 package de.jfachwert;
 
 import de.jfachwert.pruefung.NullValidator;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
+
+import javax.validation.ValidationException;
 
 /**
  * Die Klasse Text ist der einfachste Fachwerte, der eigentlich nur ein
@@ -42,7 +45,7 @@ public class Text extends AbstractFachwert<String> {
      * @param text darf nicht null sein 
      */
     public Text(String text) {
-        super(validate(text));
+        super(verify(text).intern());
     }
 
     /**
@@ -63,6 +66,14 @@ public class Text extends AbstractFachwert<String> {
      */
     public static String validate(String text) {
         return VALIDATOR.validate(text);
+    }
+
+    private static String verify(String text) {
+        try {
+            return validate(text);
+        } catch (ValidationException ex) {
+            throw new LocalizedIllegalArgumentException(ex);
+        }
     }
 
     /**

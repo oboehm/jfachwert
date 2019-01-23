@@ -1,4 +1,4 @@
-package de.jfachwert;/*
+/*
  * Copyright (c) 2018 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,14 +15,12 @@ package de.jfachwert;/*
  *
  * (c)reated 17.01.2018 by oboehm (ob@oasd.de)
  */
+package de.jfachwert;
 
 import org.junit.Test;
 
-import javax.validation.ValidationException;
-
 import static org.hamcrest.Matchers.lessThan;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * Unit-Tests fuer {@link Text}-Klasse.
@@ -39,7 +37,7 @@ public final class TextTest extends AbstractFachwertTest {
     /**
      * Es sollte nicht moeglich sein, einen Null-Text anzulegen.
      */
-    @Test(expected = ValidationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testCtorNull() {
         new Text(null);
     }
@@ -58,11 +56,18 @@ public final class TextTest extends AbstractFachwertTest {
     }
 
     @Test
-    public void testgetDistanz() {
+    public void testGetDistanz() {
         Text hello = new Text("hello");
         Text hallo = new Text("hallo");
         Text world = new Text("world");
         assertThat(hello.getDistanz(hallo), lessThan(hello.getDistanz(world)));
+    }
+
+    @Test
+    public void testNoStringDuplicate() {
+        Text a = new Text("aber hallo");
+        Text b = new Text("ABER HALLO".toLowerCase());
+        assertSame(a.getCode(), b.getCode());
     }
 
 }

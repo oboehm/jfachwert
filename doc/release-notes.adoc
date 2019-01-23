@@ -2,6 +2,12 @@
 
 
 
+== 1.1.1 (SNAPSHOT)
+
+* Speicherbedarf weiter reduziert durch Vermeidung von String-Duplikaten
+
+
+
 == 1.1.0 (16-Dez-2018)
 
 * med-Package für Klassen aus dem Krankenkassen-Bereich eingeführt
@@ -12,7 +18,7 @@
 
 
 
-== 1.0.0 (22-Sep-2018)
+== 1.0 (22-Sep-2018)
 
 * #_neu_#: Unterstützung von http://javamoney.github.io/api.html[JSR-354] (Money und Currency API) durch eine Geldbetrag- und Waehrung-Klasse.
   Ziel ist es, den schwierigen Umgang mit Geldbeträgen zu vereinfachen.
