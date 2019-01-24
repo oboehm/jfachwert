@@ -48,7 +48,7 @@ import java.util.*;
  * @author oboehm
  * @since 0.5 (04.09.2017)
  */
-public class Telefonnummer extends AbstractFachwert<String> {
+public class Telefonnummer extends Text {
 
     private static final TelefonnummerValidator DEFAULT_VALIDATOR = new TelefonnummerValidator();
 

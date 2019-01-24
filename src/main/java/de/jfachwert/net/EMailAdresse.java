@@ -41,7 +41,7 @@ import org.apache.commons.lang3.*;
  * @author oboehm
  * @since 0.3 (23.06.2017)
  */
-public class EMailAdresse extends AbstractFachwert<String> {
+public class EMailAdresse extends Text {
 
     private static final EMailValidator DEFAULT_VALIDATOR = new EMailValidator();
 

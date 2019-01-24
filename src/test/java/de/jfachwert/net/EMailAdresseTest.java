@@ -16,7 +16,7 @@ package de.jfachwert.net;/*
  * (c)reated 23.06.2017 by oboehm (ob@oasd.de)
  */
 
-import de.jfachwert.FachwertTest;
+import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -26,18 +26,29 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public final class EMailAdresseTest extends FachwertTest {
+public final class EMailAdresseTest extends AbstractFachwertTest<String> {
 
-    private final EMailAdresse testAdresse = createFachwert();
+    private final EMailAdresse testAdresse = new EMailAdresse("test@jfachwert.de");
 
     /**
      * Zum Testen generieren wir eine gueltige Email-Adresse.
      *
+     * @param code gueltie Email-Adresse
      * @return eine Test-Email-Adresse
      */
     @Override
-    protected EMailAdresse createFachwert() {
-        return new EMailAdresse("test@jfachwert.de");
+    protected EMailAdresse createFachwert(String code) {
+        return new EMailAdresse(code);
+    }
+
+    /**
+     * Liefert eine gueltige Email-Adresse.
+     *
+     * @return "test@jfachwert.de"
+     */
+    @Override
+    protected String getCode() {
+        return "test@jfachwert.de";
     }
 
     /**

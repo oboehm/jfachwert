@@ -17,7 +17,7 @@
  */
 package de.jfachwert.net;
 
-import de.jfachwert.AbstractFachwert;
+import de.jfachwert.Text;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.Range;
@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
  * @author oboehm
  * @since 0.4 (08.08.2017)
  */
-public class Domainname extends AbstractFachwert<String> {
+public class Domainname extends Text {
 
     private static final Pattern VALID_PATTERN = Pattern.compile("^(?=.{1,253}\\.?$)(?:(?!-|[^.]+_)[A-Za-z0-9-_]{1,63}(?<!-)(?:\\.|$))+$");
 

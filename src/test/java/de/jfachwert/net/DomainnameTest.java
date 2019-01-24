@@ -17,7 +17,7 @@
  */
 package de.jfachwert.net;
 
-import de.jfachwert.FachwertTest;
+import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
 import javax.validation.ValidationException;
@@ -29,18 +29,29 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public class DomainnameTest extends FachwertTest {
+public class DomainnameTest extends AbstractFachwertTest<String> {
 
     private final Domainname domainName = new Domainname("www.jfachwert.de");
 
     /**
      * Als Test-Objekt verwenden wir einen gueltigen Domainnamen.
      *
+     * @param name Domainname
      * @return Test-Objekt zum Testen
      */
     @Override
-    protected Domainname createFachwert() {
-        return new Domainname("jfachwert.de");
+    protected Domainname createFachwert(String name) {
+        return new Domainname(name);
+    }
+
+    /**
+     * Erzeugt einen Code fuer einen gueltigen Domainnamen.
+     *
+     * @return "jfachwert.de"
+     */
+    @Override
+    protected String getCode() {
+        return "jfachwert.de";
     }
 
     /**

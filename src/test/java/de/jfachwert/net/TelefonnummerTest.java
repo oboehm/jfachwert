@@ -17,7 +17,7 @@
  */
 package de.jfachwert.net;
 
-import de.jfachwert.FachwertTest;
+import de.jfachwert.AbstractFachwertTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +39,7 @@ import static org.junit.Assert.assertThat;
  * @author oboehm
  */
 @RunWith(Parameterized.class)
-public final class TelefonnummerTest extends FachwertTest {
+public final class TelefonnummerTest extends AbstractFachwertTest<String> {
 
     /** Telefonnumer aus Spider Murphy's "Skandal im Sperrbezirik". */
     private final Telefonnummer rosi = new Telefonnummer("+49 (0)811 32 16 8");
@@ -69,17 +69,28 @@ public final class TelefonnummerTest extends FachwertTest {
 
     @Before
     public void setUpTelefonnummer() {
-        this.rosisNummer = createFachwert();
+        this.rosisNummer = createFachwert(this.nummer);
     }
 
     /**
      * Zum Testen nehmen wir eine fiktive Telefonnummer (aus Wikipedia).
      *
+     * @param nr fiktive Telefonnummer
      * @return "+49 30 12345-67"
      */
     @Override
-    protected Telefonnummer createFachwert() {
+    protected Telefonnummer createFachwert(String nr) {
         return new Telefonnummer(this.nummer);
+    }
+
+    /**
+     * Liefert eine gueltige Telefonnummer.
+     *
+     * @return z.B. "+49(0)811/3216-8"
+     */
+    @Override
+    protected String getCode() {
+        return this.nummer;
     }
 
     /**
