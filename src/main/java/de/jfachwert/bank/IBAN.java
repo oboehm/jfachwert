@@ -17,8 +17,8 @@
  */
 package de.jfachwert.bank;
 
-import de.jfachwert.AbstractFachwert;
 import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.Text;
 import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.Mod97Verfahren;
 import de.jfachwert.pruefung.exception.InvalidLengthException;
@@ -36,7 +36,7 @@ import java.util.Locale;
  *
  * @author oboehm
  */
-public class IBAN extends AbstractFachwert<String> {
+public class IBAN extends Text {
 
     private static final PruefzifferVerfahren<String> MOD97 = Mod97Verfahren.getInstance();
 
