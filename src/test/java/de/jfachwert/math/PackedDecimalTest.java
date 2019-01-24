@@ -17,7 +17,7 @@
  */
 package de.jfachwert.math;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
  *
  * @author oboehm
  */
-public final class PackedDecimalTest extends AbstractFachwertTest {
+public final class PackedDecimalTest extends FachwertTest {
 
     /**
      * Zum Testen nehmen wir eine Zahl mit fuehrender Null.

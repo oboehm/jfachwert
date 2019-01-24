@@ -17,34 +17,46 @@
  */
 package de.jfachwert;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.*;
-import patterntesting.runtime.junit.*;
+import org.junit.Test;
 
-import java.io.*;
-import java.lang.reflect.*;
+import java.io.Serializable;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
 
 /**
  * In der Klasse AbstractFachwertTest sind die Tests zusammengefasst, die fuer
- * alle Fachwert-Klassen gelten. Dies sind:
- * <ul>
- *     <li>Fachwerte sind unveraenderlich (immutable),</li>
- *     <li>Fachwerte sind serialisierbar,</li>
- *     <li>haben eine ueberschriebene toString-Methode</li>
- *     <li>und weitere, die mit Tests ueberprueft werden.</li>
- * </ul>
+ * alle Fachwert-Klassen gelten, die von AbstractFachwert abgeleietet sind.
+ * <p>
+ * Anmerkung: vor 1.2 waren hier alle gemeinsamen Tests fuer alle Fachwert-
+ * Implementierungen versammelt, was aber zur Verwirrung gefuehrt hat.
+ * Jetzt ist AbstractFachwertTest fuer die Fachwert-Klassen vorgesehen,
+ * die von AbstractFachwert abgeleitet sind.
+ * </p>
  *
+ * @param <T> the type parameter
  * @author <a href="ob@aosd.de">oliver</a>
  */
-public abstract class AbstractFachwertTest {
+public abstract class AbstractFachwertTest<T extends Serializable> extends FachwertTest {
 
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    private Fachwert fachwert;
+    /**
+     * Zum Testen erstellen wir hierueber ein Test-Objekt.
+     *
+     * @param code den Code zum Erstellen des Test-Objekts
+     * @return Test -Objekt zum Testen
+     */
+    protected abstract AbstractFachwert<T> createFachwert(String code);
+
+    /**
+     * Erzeugt eine Code, der zum Erstellen eines Test-Objekts verwendet wird.
+     * Er sollte von abgeleiteten Klassen ueberschrieben werden, wenn damit
+     * kein gueltiges Test-Objekt erstellt werden kann.
+     *
+     * @return "3.14"
+     */
+    protected String getCode() {
+        return Double.toString(3.14);
+    }
 
     /**
      * Zum Testen brauchen wir ein Test-Objekt. Dies muss hierueber von den
@@ -54,111 +66,19 @@ public abstract class AbstractFachwertTest {
      *
      * @return Test-Objekt zum Testen
      */
-    protected abstract Fachwert createFachwert();
-
-    /**
-     * Wir setzen den Fachwert nicht waehrend der Initialisierungsphase auf,
-     * damit die abgeleiteten Test-Klassen die Chance haben, erst sauber ihre
-     * Attribute zu initialiseren, ehe die getFachwert-Methode aufgerufen wird.
-     */
-    @Before
-    public void setUpFachwert() {
-        this.fachwert = this.createFachwert();
+    @Override
+    protected Fachwert createFachwert() {
+        return createFachwert(getCode());
     }
 
-    /**
-     * Hiermit stellen wir sicher, dass Fachwerte unveraenderlich sind.
-     */
     @Test
-    public void testImmutable() {
-        ImmutableTester.assertImmutable(fachwert.getClass());
-    }
-
-    /**
-     * Hiermit pruefen wir die Serialisierbarkeit.
-     *
-     * @throws NotSerializableException the not serializable exception
-     */
-    @Test
-    public void testSerializable() throws NotSerializableException {
-        assertThat(fachwert, instanceOf(Serializable.class));
-        SerializableTester.assertSerialization(fachwert);
-    }
-
-    /**
-     * Hier ueberpruefen wir, ob die toString-Implementierung ueberschrieben
-     * ist.
-     */
-    @Test
-    public void testToString() {
-        String s = fachwert.toString();
-        assertThat("looks like default implementation", s, not(containsString(fachwert.getClass().getName() + "@")));
-    }
-
-    /**
-     * Alle Fachwerte sollten ableitbar sein, damit sie auch fuer eigene Zwecke
-     * ueberschrieben werden koennen. Dazu duerfen die Klassen nicht final sein.
-     */
-    @Test
-    public void testNotFinal() {
-        Class<? extends Fachwert> clazz = fachwert.getClass();
-        assertFalse(clazz + " should be not final", Modifier.isFinal(clazz.getModifiers()));
-    }
-
-    /**
-     * Falls die equals- und hashCode-Methode von {@link AbstractFachwert}
-     * ueberschrieben werden, wird die Korrektheit hier zur Sicherheit
-     * ueberprueft.
-     */
-    @Test
-    public void testEquals() {
-        Fachwert one = this.createFachwert();
-        Fachwert anotherOne = this.createFachwert();
-        ObjectTester.assertEquals(one, anotherOne);
-    }
-
-    /**
-     * Hier testen wir, ob die Serialisierung nach und von JSON funktioniert.
-     */
-    @Test
-    public void testJsonSerialization() {
-        String json = marshal(fachwert);
-        Fachwert deserialized = unmarshal(json, fachwert.getClass());
-        assertEquals(json, fachwert, deserialized);
-    }
-
-    /**
-     * Wandelt ein Klassen-Objekt in einen JSON-String.
-     *
-     * @param <T> the generic type
-     * @param obj the obj
-     * @return the string
-     */
-    protected static <T> String marshal(final T obj) {
-        try {
-            StringWriter writer = new StringWriter();
-            OBJECT_MAPPER.writeValue( writer, obj );
-            writer.close();
-            return writer.toString();
-        } catch (IOException ex) {
-            throw new IllegalArgumentException("could not marshal " + obj + " to JSON string", ex);
-        }
-    }
-
-    /**
-     * Wandelt den uebergebenen JSON-String in ein gewuenschtes Klassen-Objekt.
-     *
-     * @param <T> the generic type
-     * @param json the json
-     * @param clazz the clazz
-     * @return the t
-     */
-    protected static <T> T unmarshal(final String json, final Class<T> clazz) {
-        try {
-            return OBJECT_MAPPER.readValue(json, clazz);
-        } catch (IOException ex) {
-            throw new IllegalArgumentException("could not unmarshall '" + json + "' to " + clazz, ex);
-        }
+    public void testNoStringDuplicate() {
+        String s1 = getCode();
+        String s2 = new StringBuilder(getCode()).toString();
+        assertNotSame(s1, s2);
+        AbstractFachwert f1 = createFachwert(s1);
+        AbstractFachwert f2 = createFachwert(s2);
+        assertSame(f1.getCode().toString(), f2.getCode().toString());
     }
 
 }

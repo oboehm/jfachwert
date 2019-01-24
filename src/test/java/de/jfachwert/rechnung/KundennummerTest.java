@@ -16,7 +16,7 @@ package de.jfachwert.rechnung;/*
  * (c)reated 10.07.2017 by oboehm (ob@oasd.de)
  */
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import de.jfachwert.Fachwert;
 import org.junit.Test;
 
@@ -25,7 +25,7 @@ import org.junit.Test;
  *
  * @author oboehm
  */
-public class KundennummerTest extends AbstractFachwertTest {
+public class KundennummerTest extends FachwertTest {
 
     /**
      * Die Test-Kundennummer stammmt aus

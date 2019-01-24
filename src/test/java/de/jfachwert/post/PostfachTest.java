@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
  *
  * @author oboehm
  */
-public final class PostfachTest extends AbstractFachwertTest {
+public final class PostfachTest extends FachwertTest {
 
     /**
      * Zum Testen generieren wir ein normales Postfach mit Nummer und PLZ.

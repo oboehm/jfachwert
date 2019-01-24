@@ -16,7 +16,7 @@ package de.jfachwert.post;/*
  * (c)reated 21.02.2017 by oboehm (ob@oasd.de)
  */
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
  * @author oboehm
  * @since 0.2 (03.05.2017)
  */
-public final class AdresseTest extends AbstractFachwertTest {
+public final class AdresseTest extends FachwertTest {
 
     private final Ort entenhausen = new Ort(new PLZ("12345"), "Entenhausen");
     private final Adresse adresse = new Adresse(entenhausen,"Duckgasse", "1a");

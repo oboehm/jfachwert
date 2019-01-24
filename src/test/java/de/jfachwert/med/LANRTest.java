@@ -17,7 +17,7 @@
  */
 package de.jfachwert.med;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -28,7 +28,7 @@ import static org.junit.Assert.assertFalse;
  *
  * @author oboehm
  */
-public class LANRTest extends AbstractFachwertTest {
+public class LANRTest extends FachwertTest {
 
     /**
      * Zum Testen verwenden wir die Pseudo-Nummer fuer Bundeswehraerzte,

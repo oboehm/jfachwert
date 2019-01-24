@@ -18,7 +18,7 @@
 
 package de.jfachwert.math;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public final class PrimzahlTest extends AbstractFachwertTest {
+public final class PrimzahlTest extends FachwertTest {
 
     /**
      * Zum Testen nehmen wir die erste Primzahl.

@@ -17,7 +17,7 @@
  */
 package de.jfachwert.post;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import de.jfachwert.Fachwert;
 import org.junit.Test;
 
@@ -30,7 +30,7 @@ import static org.junit.Assert.assertThat;
  *
  * @author oboehm
  */
-public class OrtTest extends AbstractFachwertTest {
+public class OrtTest extends FachwertTest {
 
     /**
      * Hier nehmen wir zum Testen die kleinste Stadt Deutschlands mit

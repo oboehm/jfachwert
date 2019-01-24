@@ -17,7 +17,7 @@
  */
 package de.jfachwert.post;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.containsString;
@@ -30,7 +30,7 @@ import static org.junit.Assert.assertThat;
  * @author oboehm
  * @since 0.2 (12.05.2017)
  */
-public final class AnschriftTest extends AbstractFachwertTest {
+public final class AnschriftTest extends FachwertTest {
 
     /**
      * Zum Testen genererien wir eine einfache Anschrift.

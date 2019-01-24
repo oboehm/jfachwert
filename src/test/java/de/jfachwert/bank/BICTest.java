@@ -17,6 +17,7 @@
  */
 package de.jfachwert.bank;
 
+import de.jfachwert.AbstractFachwert;
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
@@ -27,17 +28,29 @@ import static org.junit.Assert.assertEquals;
 /**
  * Unit-Tests fuer die {@link BIC}-Klasse.
  */
-public final class BICTest extends AbstractFachwertTest {
+public final class BICTest extends AbstractFachwertTest<String> {
 
     private final BIC bic = new BIC("GENODEF1JEV");
 
     /**
      * Hierueber stellen wir fuer die Oberklasse eine Test-BIC zur Verfuegung.
      *
-     * @return Test-BIC
+     * @param code den Code zum Erstellen des Test-Objekts
+     * @return Test -Objekt zum Testen
      */
-    protected BIC createFachwert() {
-        return new BIC("GENODEF1JEV");
+    @Override
+    protected AbstractFachwert<String> createFachwert(String code) {
+        return new BIC(code);
+    }
+
+    /**
+     * Zum Testen verwenden wir eine Volksbank.
+     *
+     * @return "GENODEF1JEV"
+     */
+    @Override
+    protected String getCode() {
+        return "GENODEF1JEV";
     }
 
     /**

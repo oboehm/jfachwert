@@ -17,7 +17,7 @@
  */
 package de.jfachwert.bank;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import org.junit.Test;
 
 import javax.validation.ValidationException;
@@ -30,7 +30,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public final class IBANTest extends AbstractFachwertTest {
+public final class IBANTest extends FachwertTest {
 
     private final IBAN iban = new IBAN("DE41300606010006605605");
 

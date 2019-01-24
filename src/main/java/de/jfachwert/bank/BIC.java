@@ -17,7 +17,7 @@
  */
 package de.jfachwert.bank;
 
-import de.jfachwert.AbstractFachwert;
+import de.jfachwert.Text;
 import de.jfachwert.pruefung.exception.InvalidLengthException;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.StringUtils;
@@ -53,7 +53,7 @@ import java.util.List;
  *
  * @author <a href="ob@aosd.de">oliver</a>
  */
-public class BIC extends AbstractFachwert<String> {
+public class BIC extends Text {
 
     /**
      * Hierueber wird eine neue BIC angelegt.

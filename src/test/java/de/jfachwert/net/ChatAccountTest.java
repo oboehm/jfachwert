@@ -16,7 +16,7 @@ package de.jfachwert.net;/*
  * (c)reated 19.08.17 by oliver (ob@oasd.de)
  */
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -26,7 +26,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oliver (ob@jfachwert.de)
  */
-public final class ChatAccountTest extends AbstractFachwertTest {
+public final class ChatAccountTest extends FachwertTest {
 
     /**
      * Zum Testen brauchen wir ein Test-Objekt. Dies muss hierueber von den

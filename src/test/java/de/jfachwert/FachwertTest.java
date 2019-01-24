@@ -17,30 +17,159 @@
  */
 package de.jfachwert;
 
-import de.jfachwert.bank.*;
-import de.jfachwert.steuer.*;
-import org.junit.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Before;
+import org.junit.Test;
+import patterntesting.runtime.junit.ImmutableTester;
+import patterntesting.runtime.junit.ObjectTester;
+import patterntesting.runtime.junit.SerializableTester;
 
-import static org.hamcrest.Matchers.*;
+import java.io.IOException;
+import java.io.NotSerializableException;
+import java.io.Serializable;
+import java.io.StringWriter;
+import java.lang.reflect.Modifier;
+
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.*;
 
 /**
- * Hier sind einige Tests versammelt, um allgemeine Dinge fuer die
- * Fachwert-Klassen zu pruefen.
+ * In der Klasse FachwertTest sind die Tests zusammengefasst, die fuer alle
+ * Fachwert-Klassen gelten. Dies sind:
+ * <ul>
+ *     <li>Fachwerte sind unveraenderlich (immutable),</li>
+ *     <li>Fachwerte sind serialisierbar,</li>
+ *     <li>haben eine ueberschriebene toString-Methode</li>
+ *     <li>und weitere, die mit Tests ueberprueft werden.</li>
+ * </ul>
+ * <p>
+ * Anmerkung: vor 1.2 waren diese Tests in AbstractFachwertTest versammelt,
+ * was aber zur Verwirrung gefuehrt hat. Jetzt ist AbstractFachwertTest fuer
+ * die Fachwert-Klassen vorgesehen, die von AbstractFachwert abgeleitet sind.
+ * </p>
  *
  * @author oboehm
  */
-public final class FachwertTest {
+public abstract class FachwertTest {
+
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private Fachwert fachwert;
 
     /**
-     * Auch wenn zwei unterschiedliche Typen zufaellig den gleichen Wert haben,
-     * sind sind sie nicht gleich.
+     * Zum Testen brauchen wir ein Test-Objekt. Dies muss hierueber von den
+     * abgeleiteten Unit-Tests bereitgestellt werden. Und zwar muss jedesmal
+     * der gleiche Fachwert erzeugt werden, weil sonst der equals-Test nicht
+     * funktioniert.
+     *
+     * @return Test-Objekt zum Testen
+     */
+    protected abstract Fachwert createFachwert();
+
+    /**
+     * Wir setzen den Fachwert nicht waehrend der Initialisierungsphase auf,
+     * damit die abgeleiteten Test-Klassen die Chance haben, erst sauber ihre
+     * Attribute zu initialiseren, ehe die getFachwert-Methode aufgerufen wird.
+     */
+    @Before
+    public void setUpFachwert() {
+        this.fachwert = this.createFachwert();
+    }
+
+    /**
+     * Hiermit stellen wir sicher, dass Fachwerte unveraenderlich sind.
      */
     @Test
-    public void testEqualWithDifferentTypes() {
-        Fachwert bic = new BIC("12345678900");
-        Fachwert stnr = new Steuernummer("12345678903");
-        assertThat(bic, not(stnr));
+    public void testImmutable() {
+        ImmutableTester.assertImmutable(fachwert.getClass());
+    }
+
+    /**
+     * Hiermit pruefen wir die Serialisierbarkeit.
+     *
+     * @throws NotSerializableException the not serializable exception
+     */
+    @Test
+    public void testSerializable() throws NotSerializableException {
+        assertThat(fachwert, instanceOf(Serializable.class));
+        SerializableTester.assertSerialization(fachwert);
+    }
+
+    /**
+     * Hier ueberpruefen wir, ob die toString-Implementierung ueberschrieben
+     * ist.
+     */
+    @Test
+    public void testToString() {
+        String s = fachwert.toString();
+        assertThat("looks like default implementation", s, not(containsString(fachwert.getClass().getName() + "@")));
+    }
+
+    /**
+     * Alle Fachwerte sollten ableitbar sein, damit sie auch fuer eigene Zwecke
+     * ueberschrieben werden koennen. Dazu duerfen die Klassen nicht final sein.
+     */
+    @Test
+    public void testNotFinal() {
+        Class<? extends Fachwert> clazz = fachwert.getClass();
+        assertFalse(clazz + " should be not final", Modifier.isFinal(clazz.getModifiers()));
+    }
+
+    /**
+     * Falls die equals- und hashCode-Methode von {@link Fachwert}
+     * ueberschrieben werden, wird die Korrektheit hier zur Sicherheit
+     * ueberprueft.
+     */
+    @Test
+    public void testEquals() {
+        Fachwert one = this.createFachwert();
+        Fachwert anotherOne = this.createFachwert();
+        ObjectTester.assertEquals(one, anotherOne);
+    }
+
+    /**
+     * Hier testen wir, ob die Serialisierung nach und von JSON funktioniert.
+     */
+    @Test
+    public void testJsonSerialization() {
+        String json = marshal(fachwert);
+        Fachwert deserialized = unmarshal(json, fachwert.getClass());
+        assertEquals(json, fachwert, deserialized);
+    }
+
+    /**
+     * Wandelt ein Klassen-Objekt in einen JSON-String.
+     *
+     * @param <T> the generic type
+     * @param obj the obj
+     * @return the string
+     */
+    protected static <T> String marshal(final T obj) {
+        try {
+            StringWriter writer = new StringWriter();
+            OBJECT_MAPPER.writeValue(writer, obj);
+            writer.close();
+            return writer.toString();
+        } catch (IOException ex) {
+            throw new IllegalArgumentException("could not marshal " + obj + " to JSON string", ex);
+        }
+    }
+
+    /**
+     * Wandelt den uebergebenen JSON-String in ein gewuenschtes Klassen-Objekt.
+     *
+     * @param <T>   the generic type
+     * @param json  the json
+     * @param clazz the clazz
+     * @return the t
+     */
+    protected static <T> T unmarshal(final String json, final Class<T> clazz) {
+        try {
+            return OBJECT_MAPPER.readValue(json, clazz);
+        } catch (IOException ex) {
+            throw new IllegalArgumentException("could not unmarshall '" + json + "' to " + clazz, ex);
+        }
     }
 
 }

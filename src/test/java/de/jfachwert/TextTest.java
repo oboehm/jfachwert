@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
  *
  * @author oboehm
  */
-public final class TextTest extends AbstractFachwertTest {
+public final class TextTest extends FachwertTest {
 
     @Override
     protected Text createFachwert() {

@@ -17,7 +17,7 @@
  */
 package de.jfachwert.rechnung;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import de.jfachwert.Fachwert;
 import org.junit.Test;
 
@@ -33,7 +33,7 @@ import static org.junit.Assert.*;
  *
  * @author oboehm
  */
-public final class RechnungsmonatTest extends AbstractFachwertTest {
+public final class RechnungsmonatTest extends FachwertTest {
 
     private static final Rechnungsmonat JAN_2016 = new Rechnungsmonat("1/2016");
     private static final Rechnungsmonat DEZ_2016 = new Rechnungsmonat("12/2016");

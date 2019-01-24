@@ -17,7 +17,7 @@
  */
 package de.jfachwert.bank;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import de.jfachwert.Fachwert;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
 /**
  * Unit-Tests fuer {@link Bankverbindung}-Klasse.
  */
-public final class BankverbindungTest extends AbstractFachwertTest {
+public final class BankverbindungTest extends FachwertTest {
 
     @Override
     protected Fachwert createFachwert() {

@@ -17,7 +17,7 @@
  */
 package de.jfachwert.math;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import org.junit.Test;
 import patterntesting.runtime.util.Converter;
 
@@ -34,7 +34,7 @@ import static org.junit.Assert.assertThat;
  *
  * @author oboehm
  */
-public final class NummerTest extends AbstractFachwertTest {
+public final class NummerTest extends FachwertTest {
 
     @Override
     protected Nummer createFachwert() {

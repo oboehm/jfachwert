@@ -17,7 +17,7 @@
  */
 package de.jfachwert.steuer;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.NoopVerfahren;
 import org.junit.Test;
@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Unit-Tests fuer die {@link Steuernummer}-Klasse.
  */
-public class SteuernummerTest extends AbstractFachwertTest {
+public class SteuernummerTest extends FachwertTest {
 
     /**
      * Die Steuernummer aus diesem Beispiel stammt aus Wikipedia.

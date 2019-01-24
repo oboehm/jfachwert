@@ -16,7 +16,7 @@ package de.jfachwert.util;/*
  * (c)reated 11.12.2017 by oboehm (ob@oasd.de)
  */
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import org.junit.Test;
 
 import javax.validation.ValidationException;
@@ -32,7 +32,7 @@ import static org.junit.Assert.assertThat;
  *
  * @author oboehm
  */
-public final class TinyUUIDTest extends AbstractFachwertTest {
+public final class TinyUUIDTest extends FachwertTest {
 
     private final TinyUUID tinyUUID = TinyUUID.randomUUID();
 

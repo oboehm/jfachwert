@@ -17,7 +17,7 @@
  */
 package de.jfachwert.bank;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
@@ -26,7 +26,7 @@ import javax.money.CurrencyUnit;
 /**
  * Unit-Tests fuer {@link Waehrung}-Klasse.
  */
-public final class WaehrungTest extends AbstractFachwertTest {
+public final class WaehrungTest extends FachwertTest {
 
     /**
      * Zum Testen nehmen wir die Euro-Waehrung.

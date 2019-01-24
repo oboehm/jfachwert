@@ -18,7 +18,7 @@ package de.jfachwert.bank;
  * (c)reated 16.03.2017 by oboehm (ob@jfachwert.de)
  */
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public final class KontonummerTest extends AbstractFachwertTest {
+public final class KontonummerTest extends FachwertTest {
 
     /**
      * Die Kontonummer stammt aus dem IBANTest.

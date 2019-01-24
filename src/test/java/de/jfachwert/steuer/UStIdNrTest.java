@@ -17,7 +17,7 @@
  */
 package de.jfachwert.steuer;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import de.jfachwert.Fachwert;
 import org.junit.Test;
 
@@ -30,7 +30,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public final class UStIdNrTest extends AbstractFachwertTest {
+public final class UStIdNrTest extends FachwertTest {
 
     /**
      * Zum Testen wird hier eine deutsche Umsatzsteuer-IdNr mit gueltiger

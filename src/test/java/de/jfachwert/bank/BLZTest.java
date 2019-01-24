@@ -17,7 +17,7 @@
  */
 package de.jfachwert.bank;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public final class BLZTest extends AbstractFachwertTest {
+public final class BLZTest extends FachwertTest {
 
     /**
      * Zum Testen verwenden wir die Volksbank Reutlingen, die auch in

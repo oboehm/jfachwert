@@ -17,7 +17,7 @@
  */
 package de.jfachwert.med;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import org.junit.Test;
 
 import javax.validation.ValidationException;
@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Unit-Tests fuer {@link IK}-Klasse.
  */
-public final class IKTest extends AbstractFachwertTest {
+public final class IKTest extends FachwertTest {
 
     private final IK ik = createFachwert();
 

@@ -17,7 +17,7 @@
  */
 package de.jfachwert.bank;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
@@ -47,7 +47,7 @@ import static org.junit.Assert.*;
  *
  * @author oboehm
  */
-public final class GeldbetragTest extends AbstractFachwertTest {
+public final class GeldbetragTest extends FachwertTest {
     
     private static final Logger LOG = Logger.getLogger(Geldbetrag.class.getName());
     private static final GeldbetragFactory FACTORY = new GeldbetragFactory();

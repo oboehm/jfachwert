@@ -17,7 +17,7 @@
  */
 package de.jfachwert.math;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import de.jfachwert.Fachwert;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
@@ -37,7 +37,7 @@ import static org.junit.Assert.fail;
  *
  * @author oliver (ob@jfachwert.de)
  */
-public final class BruchTest extends AbstractFachwertTest {
+public final class BruchTest extends FachwertTest {
 
     /**
      * Zum Testen wird ein einfacher Bruch (1/2) verwendet.

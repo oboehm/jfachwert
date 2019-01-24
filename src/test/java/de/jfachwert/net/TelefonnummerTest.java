@@ -17,7 +17,7 @@
  */
 package de.jfachwert.net;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +39,7 @@ import static org.junit.Assert.assertThat;
  * @author oboehm
  */
 @RunWith(Parameterized.class)
-public final class TelefonnummerTest extends AbstractFachwertTest {
+public final class TelefonnummerTest extends FachwertTest {
 
     /** Telefonnumer aus Spider Murphy's "Skandal im Sperrbezirik". */
     private final Telefonnummer rosi = new Telefonnummer("+49 (0)811 32 16 8");

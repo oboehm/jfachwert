@@ -17,7 +17,7 @@
  */
 package de.jfachwert.med;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import org.junit.Test;
 
 import static org.testng.AssertJUnit.assertEquals;
@@ -25,7 +25,7 @@ import static org.testng.AssertJUnit.assertEquals;
 /**
  * Unit-Tests fuer {@link BSNR}-Klasse.
  */
-public class BSNRTest extends AbstractFachwertTest {
+public class BSNRTest extends FachwertTest {
 
     /**
      * Das Beispiel dazu stammt aus

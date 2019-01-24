@@ -17,7 +17,7 @@
  */
 package de.jfachwert.net;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.FachwertTest;
 import org.junit.Test;
 
 import javax.validation.ValidationException;
@@ -29,7 +29,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public class DomainnameTest extends AbstractFachwertTest {
+public class DomainnameTest extends FachwertTest {
 
     private final Domainname domainName = new Domainname("www.jfachwert.de");
 
