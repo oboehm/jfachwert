@@ -17,12 +17,12 @@
  */
 package de.jfachwert.steuer;
 
-import de.jfachwert.AbstractFachwert;
 import de.jfachwert.PruefzifferVerfahren;
-import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.Text;
 import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.Mod11Verfahren;
 import de.jfachwert.pruefung.NoopVerfahren;
+import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
@@ -37,7 +37,7 @@ import java.util.Map;
  * @author oboehm
  * @since 0.1.0
  */
-public class UStIdNr extends AbstractFachwert<String> {
+public class UStIdNr extends Text {
 
     private static final Map<String, PruefzifferVerfahren<String>> PRUEFZIFFER_VERFAHREN = new HashMap<>();
 

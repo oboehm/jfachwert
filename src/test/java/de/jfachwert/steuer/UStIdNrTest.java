@@ -17,8 +17,7 @@
  */
 package de.jfachwert.steuer;
 
-import de.jfachwert.FachwertTest;
-import de.jfachwert.Fachwert;
+import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
 import java.util.Locale;
@@ -30,17 +29,29 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public final class UStIdNrTest extends FachwertTest {
+public final class UStIdNrTest extends AbstractFachwertTest<String> {
 
     /**
      * Zum Testen wird hier eine deutsche Umsatzsteuer-IdNr mit gueltiger
      * Pruefziffer verwendet.
      *
+     * @param nr gueltige Umsatzsteuer-IdNr
      * @return Test-Objekt zum Testen
      */
     @Override
-    protected Fachwert createFachwert() {
-        return new UStIdNr("DE 136 695 976");
+    protected UStIdNr createFachwert(String nr) {
+        return new UStIdNr(nr);
+    }
+
+    /**
+     * Zum Testen wird hier eine deutsche Umsatzsteuer-IdNr mit gueltiger
+     * Pruefziffer zurueckgegeben.
+     *
+     * @return "DE 136 695 976"
+     */
+    @Override
+    protected String getCode() {
+        return "DE 136 695 976";
     }
 
     /**
