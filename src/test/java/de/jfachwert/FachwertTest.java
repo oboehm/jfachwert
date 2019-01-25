@@ -52,7 +52,7 @@ import static org.junit.Assert.*;
  *
  * @author oboehm
  */
-public abstract class FachwertTest {
+public class FachwertTest {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private Fachwert fachwert;
@@ -62,10 +62,18 @@ public abstract class FachwertTest {
      * abgeleiteten Unit-Tests bereitgestellt werden. Und zwar muss jedesmal
      * der gleiche Fachwert erzeugt werden, weil sonst der equals-Test nicht
      * funktioniert.
+     * <p>
+     * Da die Default-Konfiguration von Maven diese Klasse nicht ausblendet,
+     * ist diese Klasse nicht mehr 'abstract', obwohl sie eigentlich als
+     * abstrakte Oberklasse fuer alle Fachwert-Tests gedacht war. Daher
+     * wird jetzt zum Testen ein Fachwert generiert.
+     * </p>
      *
      * @return Test-Objekt zum Testen
      */
-    protected abstract Fachwert createFachwert();
+    protected Fachwert createFachwert() {
+        return FachwertFactory.getInstance().getFachwert("Name", "Oli B.");
+    }
 
     /**
      * Wir setzen den Fachwert nicht waehrend der Initialisierungsphase auf,
