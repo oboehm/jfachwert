@@ -16,8 +16,7 @@ package de.jfachwert.rechnung;/*
  * (c)reated 10.07.2017 by oboehm (ob@oasd.de)
  */
 
-import de.jfachwert.FachwertTest;
-import de.jfachwert.Fachwert;
+import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
 /**
@@ -25,18 +24,17 @@ import org.junit.Test;
  *
  * @author oboehm
  */
-public class RechnungsnummerTest extends FachwertTest {
+public class RechnungsnummerTest extends AbstractFachwertTest<String> {
 
     /**
-     * Die Test-Kundennummer stammmt aus
-     * https://www.stadtwerke-schwabach.de/Fuer-Kunden/Musterrechnung/Musterrechnung/Musterrechnung-2015-2-.pdf
-     * .
+     * Erzeugt eine Test-Rechnungsnummer.
      *
+     * @param nr z.B. "000002835042" (aus einer Musterrechnung)
      * @return Test-Rechnungsnummer
      */
     @Override
-    protected Fachwert createFachwert() {
-        return new Rechnungsnummer("000002835042");
+    protected Rechnungsnummer createFachwert(String nr) {
+        return new Rechnungsnummer(nr);
     }
 
     /**

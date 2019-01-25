@@ -27,7 +27,7 @@ import de.jfachwert.pruefung.*;
  * @author oboehm
  * @since 0.3 (10.07.2017)
  */
-public class Bestellnummer extends AbstractFachwert<String> {
+public class Bestellnummer extends Text {
 
     /**
      * Erzeugt eine Bestellnummer.

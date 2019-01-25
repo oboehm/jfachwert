@@ -27,7 +27,7 @@ import de.jfachwert.pruefung.*;
  * @author oboehm
  * @since 0.3 (10.07.2017)
  */
-public class Rechnungsnummer extends AbstractFachwert<String> {
+public class Rechnungsnummer extends Text {
 
     /**
      * Erzeugt eine Rechnungsnummer.

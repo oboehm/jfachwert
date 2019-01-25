@@ -27,7 +27,7 @@ import de.jfachwert.pruefung.*;
  * @author oboehm
  * @since 0.3 (10.07.2017)
  */
-public class Artikelnummer extends AbstractFachwert<String> {
+public class Artikelnummer extends Text {
 
     /**
      * Erzeugt eine Artikelnummer.

@@ -16,8 +16,7 @@ package de.jfachwert.rechnung;/*
  * (c)reated 10.07.2017 by oboehm (ob@oasd.de)
  */
 
-import de.jfachwert.FachwertTest;
-import de.jfachwert.Fachwert;
+import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
 /**
@@ -25,16 +24,17 @@ import org.junit.Test;
  *
  * @author oboehm
  */
-public class ArtikelnummerTest extends FachwertTest {
+public class ArtikelnummerTest extends AbstractFachwertTest<String> {
 
     /**
      * Die Test-Artikelnummer ist fiktiv und dient nur zum Testen.
      *
+     * @param nr Artikelnummer zum Testen
      * @return Test-Artikelnummer
      */
     @Override
-    protected Fachwert createFachwert() {
-        return new Artikelnummer("123.456.789");
+    protected Artikelnummer createFachwert(String nr) {
+        return new Artikelnummer(nr);
     }
 
     /**

@@ -27,7 +27,7 @@ import de.jfachwert.pruefung.*;
  * @author oboehm
  * @since 0.3 (09.07.2017)
  */
-public class Kundennummer extends AbstractFachwert<String> {
+public class Kundennummer extends Text {
 
     /**
      * Erzeugt eine Kundennummer.
