@@ -45,7 +45,18 @@ public class Text extends AbstractFachwert<String> {
      * @param text darf nicht null sein 
      */
     public Text(String text) {
-        super(verify(text).intern());
+        this(text, VALIDATOR);
+    }
+
+    /**
+     * Erzeugt einen Text, der mit dem uebergebenen Validator vor ueberprueft
+     * wird.
+     *
+     * @param text      Text
+     * @param validator Validator fuer die Ueberpruefung
+     */
+    public Text(String text, SimpleValidator<String> validator) {
+        super(verify(text).intern(), validator);
     }
 
     /**

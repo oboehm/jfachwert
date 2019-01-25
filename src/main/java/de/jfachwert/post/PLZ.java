@@ -35,7 +35,7 @@ import java.util.*;
  * @author oboehm
  * @since 0.2.0 (10.04.2017)
  */
-public class PLZ extends AbstractFachwert<String> {
+public class PLZ extends Text {
 
     /**
      * Hierueber wird eine Postleitzahl angelegt.

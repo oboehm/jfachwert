@@ -71,6 +71,11 @@ public abstract class AbstractFachwertTest<T extends Serializable> extends Fachw
         return createFachwert(getCode());
     }
 
+    /**
+     * Zum Testen erzeugen wir hier zwei gleiche, aber nicht diesselben
+     * Strings. Daraus sollten zwei gleiche Fachwerte mit demselben internen
+     * Code erzeugt werden.
+     */
     @Test
     public void testNoStringDuplicate() {
         String s1 = getCode();
@@ -78,7 +83,7 @@ public abstract class AbstractFachwertTest<T extends Serializable> extends Fachw
         assertNotSame(s1, s2);
         AbstractFachwert f1 = createFachwert(s1);
         AbstractFachwert f2 = createFachwert(s2);
-        assertSame(f1.getCode().toString(), f2.getCode().toString());
+        assertSame(f1.getCode(), f2.getCode());
     }
 
 }

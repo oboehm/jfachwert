@@ -17,6 +17,8 @@
  */
 package de.jfachwert.post;
 
+import de.jfachwert.AbstractFachwert;
+import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -26,9 +28,20 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public final class AdressatTest {
+public final class AdressatTest extends AbstractFachwertTest<String> {
 
     private final Adressat mustermann = new Adressat("Mustermann, Max");
+
+    /**
+     * Zum Testen erstellen wir hierueber ein Test-Adressat.
+     *
+     * @param code den Code zum Erstellen des Test-Objekts
+     * @return Test-Objekt zum Testen
+     */
+    @Override
+    protected AbstractFachwert<String> createFachwert(String code) {
+        return new Adressat(code);
+    }
 
     /**
      * Null-Adressat soll nicht erzeugt werden koennen.

@@ -17,7 +17,7 @@
  */
 package de.jfachwert.post;
 
-import de.jfachwert.AbstractFachwert;
+import de.jfachwert.Text;
 import de.jfachwert.pruefung.LengthValidator;
 import org.apache.commons.lang3.StringUtils;
 
@@ -30,7 +30,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author oboehm
  * @since 0.5 (18.01.2018)
  */
-public class Adressat extends AbstractFachwert<String> {
+public class Adressat extends Text {
 
     /**
      * Erzeugt eine Adressat mit dem angegebenen Namen. Dabei kann es sich um

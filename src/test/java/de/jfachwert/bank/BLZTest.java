@@ -17,8 +17,7 @@
  */
 package de.jfachwert.bank;
 
-import de.jfachwert.AbstractFachwertTest;
-import de.jfachwert.math.PackedDecimal;
+import de.jfachwert.FachwertTest;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -28,29 +27,17 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public final class BLZTest extends AbstractFachwertTest<PackedDecimal> {
+public final class BLZTest extends FachwertTest {
 
     /**
      * Zum Testen verwenden wir die Volksbank Reutlingen, die auch in
      * Wikipedia erwaehnt ist.
      *
-     * @param code die BLZ zum Erstellen des Test-Objekts
      * @return BLZ
      */
     @Override
-    protected BLZ createFachwert(String code) {
-        return new BLZ(code);
-    }
-
-    /**
-     * Zum Testen verwenden wir die Volksbank Reutlingen, die auch in
-     * Wikipedia erwaehnt ist.
-     *
-     * @return "64090100"
-     */
-    @Override
-    protected String getCode() {
-        return "64090100";
+    protected BLZ createFachwert() {
+        return new BLZ("64090100");
     }
 
     /**

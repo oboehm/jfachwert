@@ -16,8 +16,7 @@ package de.jfachwert.post;/*
  * (c)reated 21.02.2017 by oboehm (ob@oasd.de)
  */
 
-import de.jfachwert.FachwertTest;
-import de.jfachwert.Fachwert;
+import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
 import java.util.Locale;
@@ -29,16 +28,27 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public class PLZTest extends FachwertTest {
+public class PLZTest extends AbstractFachwertTest<String> {
 
     /**
      * Zum Testen brauchen wird die Postleitzahl von Gerlingen verwendet.
      *
+     * @param plz PLZ gueltige PLZ
      * @return PLZ von Gerlingen
      */
     @Override
-    protected Fachwert createFachwert() {
-        return new PLZ("D-70839");
+    protected PLZ createFachwert(String plz) {
+        return new PLZ(plz);
+    }
+
+    /**
+     * Zum Testen brauchen wird die Postleitzahl von Gerlingen verwendet.
+     *
+     * @return "D-70839"
+     */
+    @Override
+    protected String getCode() {
+        return super.getCode();
     }
 
     /**
