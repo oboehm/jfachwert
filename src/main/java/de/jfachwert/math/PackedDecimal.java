@@ -25,8 +25,10 @@ import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.WeakHashMap;
 import java.util.logging.Logger;
 
 /**
@@ -107,7 +109,8 @@ public class PackedDecimal extends AbstractNumber implements Fachwert, Comparabl
 
     private static final Logger LOG = Logger.getLogger(PackedDecimal.class.getName());
     private static final NullValidator VALIDATOR = new NullValidator();
-    private static final PackedDecimal[] CACHE = new PackedDecimal[11];
+    private static final PackedDecimal[] CACHE = new PackedDecimal[10];
+    private static final WeakHashMap<String, PackedDecimal> WEAK_CACHE = new WeakHashMap<>();
     private final byte[] code;
 
     static {
@@ -126,7 +129,7 @@ public class PackedDecimal extends AbstractNumber implements Fachwert, Comparabl
     public static final PackedDecimal ONE = CACHE[1];
 
     /** Die Zahl 10. */
-    public static final PackedDecimal TEN = CACHE[10];
+    public static final PackedDecimal TEN = PackedDecimal.of(10);
 
     /**
      * Instanziiert ein PackedDecimal.
@@ -190,9 +193,21 @@ public class PackedDecimal extends AbstractNumber implements Fachwert, Comparabl
     }
 
     /**
-     * Liefert den uebergebenen String als {@link PackedDecimal} zurueck.
+     * Da alle anderen Klassen auch eine of-Methode vorweisen, hat auch diese
+     * Klasse eine of-Methode. Ansonsten entspricht dies der valueOf-Methode.
      *
      * @param zahl beliebige long-Zahl
+     * @return Zahl als {@link PackedDecimal}
+     * @since 1.2
+     */
+    public static PackedDecimal of(long zahl) {
+        return PackedDecimal.valueOf(zahl);
+    }
+
+    /**
+     * Liefert den uebergebenen String als {@link PackedDecimal} zurueck.
+     *
+     * @param zahl beliebige Zahl
      * @return Zahl als {@link PackedDecimal}
      */
     public static PackedDecimal valueOf(double zahl) {
@@ -200,15 +215,39 @@ public class PackedDecimal extends AbstractNumber implements Fachwert, Comparabl
     }
 
     /**
+     * Da alle anderen Klassen auch eine of-Methode vorweisen, hat auch diese
+     * Klasse eine of-Methode. Ansonsten entspricht dies der valueOf-Methode.
+     *
+     * @param zahl beliebige Zahl
+     * @return Zahl als {@link PackedDecimal}
+     * @since 1.2
+     */
+    public static PackedDecimal of(double zahl) {
+        return PackedDecimal.valueOf(zahl);
+    }
+
+    /**
      * Liefert den uebergebenen String als {@link PackedDecimal} zurueck.
      * Diese Methode ist dem Konstruktor vorzuziehen, da fuer gaengige Zahlen
      * wie "0" oder "1" immer das gleiche Objekt zurueckgegeben wird.
      *
-     * @param zahl beliebige long-Zahl
+     * @param zahl beliebige Zahl
      * @return Zahl als {@link PackedDecimal}
      */
     public static PackedDecimal valueOf(BigDecimal zahl) {
         return valueOf(zahl.toString());
+    }
+
+    /**
+     * Da alle anderen Klassen auch eine of-Methode vorweisen, hat auch diese
+     * Klasse eine of-Methode. Ansonsten entspricht dies der valueOf-Methode.
+     *
+     * @param zahl beliebige Zahl
+     * @return Zahl als {@link PackedDecimal}
+     * @since 1.2
+     */
+    public static PackedDecimal of(BigDecimal zahl) {
+        return PackedDecimal.valueOf(zahl);
     }
 
     /**
@@ -222,12 +261,30 @@ public class PackedDecimal extends AbstractNumber implements Fachwert, Comparabl
     }
 
     /**
+     * Da alle anderen Klassen auch eine of-Methode vorweisen, hat auch diese
+     * Klasse eine of-Methode. Ansonsten entspricht dies der valueOf-Methode.
+     *
+     * @param zahl beliebige Zahl
+     * @return Zahl als {@link PackedDecimal}
+     * @since 1.2
+     */
+    public static PackedDecimal of(AbstractNumber zahl) {
+        return PackedDecimal.valueOf(zahl);
+    }
+    
+    /**
      * Liefert den uebergebenen String als {@link PackedDecimal} zurueck.
      * Diese Methode ist dem Konstruktor vorzuziehen, da fuer gaengige Zahlen
      * wie "0" oder "1" immer das gleiche Objekt zurueckgegeben wird.
      * <p>
      * Im Gegensatz zum String-Konstruktor darf man hier auch 'null' als Wert
      * uebergeben. In diesem Fall wird dies in {@link #EMPTY} uebersetzt.
+     * </p>
+     * <p>
+     * Die erzeugten PackedDecimals werden intern in einem "weak" Cache
+     * abgelegt, damit bei gleichen Zahlen auch die gleichen PackedDecimals
+     * zurueckgegeben werden. Dies dient vor allem zur Reduktion des
+     * Speicherverbrauchs.
      * </p>
      *
      * @param zahl String aus Zahlen
@@ -241,8 +298,20 @@ public class PackedDecimal extends AbstractNumber implements Fachwert, Comparabl
         if ((trimmed.length() == 1 && Character.isDigit(trimmed.charAt(0)))) {
             return CACHE[Character.getNumericValue(trimmed.charAt(0))];
         } else {
-            return new PackedDecimal(zahl);
+            return WEAK_CACHE.computeIfAbsent(zahl, PackedDecimal::new);
         }
+    }
+
+    /**
+     * Da alle anderen Klassen auch eine of-Methode vorweisen, hat auch diese
+     * Klasse eine of-Methode. Ansonsten entspricht dies der valueOf-Methode.
+     *
+     * @param zahl beliebige Zahl
+     * @return Zahl als {@link PackedDecimal}
+     * @since 1.2
+     */
+    public static PackedDecimal of(String zahl) {
+        return PackedDecimal.valueOf(zahl);
     }
 
     /**
@@ -591,7 +660,7 @@ public class PackedDecimal extends AbstractNumber implements Fachwert, Comparabl
      * positive Zahl.
      */
     @Override
-    public int compareTo(PackedDecimal other) {
+    public int compareTo(@NotNull PackedDecimal other) {
         return this.toBruch().compareTo(other.toBruch());
     }
 

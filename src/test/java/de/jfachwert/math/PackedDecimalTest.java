@@ -287,4 +287,16 @@ public final class PackedDecimalTest extends FachwertTest {
         assertEquals(expected.doubleValue(), half.doubleValue(), 0.001);
     }
 
+    /**
+     * Da PackedDecimal fuer eine speicherschonended Ablage von Zahlen
+     * vorgesehen ist, sollte ueber die of-Methoden keine ueberfluessigen
+     * Duplikate angelegt werden.
+     */
+    @Test
+    public void testOf() {
+        PackedDecimal a = PackedDecimal.of(1234);
+        PackedDecimal b = PackedDecimal.of("1234");
+        assertSame(a, b);
+    }
+
 }
