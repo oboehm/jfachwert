@@ -109,24 +109,17 @@ public class PackedDecimal extends AbstractNumber implements Fachwert, Comparabl
 
     private static final Logger LOG = Logger.getLogger(PackedDecimal.class.getName());
     private static final NullValidator VALIDATOR = new NullValidator();
-    private static final PackedDecimal[] CACHE = new PackedDecimal[10];
     private static final WeakHashMap<String, PackedDecimal> WEAK_CACHE = new WeakHashMap<>();
     private final byte[] code;
-
-    static {
-        for (int i = 0; i < CACHE.length; i++) {
-            CACHE[i] = new PackedDecimal(i);
-        }
-    }
 
     /** Leere PackedDecimal. */
     public static final PackedDecimal EMPTY = new PackedDecimal("");
 
     /** Die Zahl 0. */
-    public static final PackedDecimal ZERO = CACHE[0];
+    public static final PackedDecimal ZERO = PackedDecimal.of(0);
 
     /** Die Zahl 1. */
-    public static final PackedDecimal ONE = CACHE[1];
+    public static final PackedDecimal ONE = PackedDecimal.of(1);
 
     /** Die Zahl 10. */
     public static final PackedDecimal TEN = PackedDecimal.of(10);
@@ -295,11 +288,7 @@ public class PackedDecimal extends AbstractNumber implements Fachwert, Comparabl
         if (StringUtils.isEmpty(trimmed)) {
             return EMPTY;
         }
-        if ((trimmed.length() == 1 && Character.isDigit(trimmed.charAt(0)))) {
-            return CACHE[Character.getNumericValue(trimmed.charAt(0))];
-        } else {
-            return WEAK_CACHE.computeIfAbsent(zahl, PackedDecimal::new);
-        }
+        return WEAK_CACHE.computeIfAbsent(zahl, PackedDecimal::new);
     }
 
     /**
