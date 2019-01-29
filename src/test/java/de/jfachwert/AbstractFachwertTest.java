@@ -77,7 +77,7 @@ public abstract class AbstractFachwertTest<T extends Serializable> extends Fachw
      * Code erzeugt werden.
      */
     @Test
-    public void testNoStringDuplicate() {
+    public void testNoDuplicate() {
         String s1 = getCode();
         String s2 = new StringBuilder(getCode()).toString();
         assertNotSame(s1, s2);

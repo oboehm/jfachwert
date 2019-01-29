@@ -17,7 +17,7 @@
  */
 package de.jfachwert.med;
 
-import de.jfachwert.FachwertTest;
+import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -28,17 +28,28 @@ import static org.junit.Assert.assertFalse;
  *
  * @author oboehm
  */
-public class LANRTest extends FachwertTest {
+public class LANRTest extends AbstractFachwertTest<Integer> {
 
     /**
      * Zum Testen verwenden wir die Pseudo-Nummer fuer Bundeswehraerzte,
      * Zahnaerzte und Hebammen.
      *
+     * @param nr LA-Nummer
      * @return Test-Objekt zum Testen
      */
     @Override
-    protected LANR createFachwert() {
-        return LANR.PSEUDO_NUMMER;
+    protected LANR createFachwert(String nr) {
+        return LANR.of(nr);
+    }
+
+    /**
+     * Erzeugt eine Code, der zum Erstellen eines Test-Objekts verwendet wird.
+     *
+     * @return "999999900"
+     */
+    @Override
+    protected String getCode() {
+        return LANR.PSEUDO_NUMMER.toString();
     }
 
     @Test

@@ -23,6 +23,7 @@ import de.jfachwert.pruefung.Mod10Verfahren;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 
 import javax.validation.ValidationException;
+import java.util.WeakHashMap;
 
 /**
  * Die LANR ist die lebenslange Arztnummer. Sie ist eine neunstellige Nummer,
@@ -36,9 +37,10 @@ import javax.validation.ValidationException;
 public class LANR extends AbstractFachwert<Integer> {
 
     private static final LengthValidator<Integer> VALIDATOR = new LengthValidator<>(4, 9);
+    private static final WeakHashMap<Integer, LANR> WEAK_CACHE = new WeakHashMap<>();
 
     /** Pseudonummer fuer Bundeswehraerzte, Zahnaerzte und Hebammen. */
-    public static final LANR PSEUDO_NUMMER = new LANR(999999900);
+    public static final LANR PSEUDO_NUMMER = LANR.of(999999900);
 
     /**
      * Erzeugt ein neues LANR-Objekt.
@@ -65,7 +67,7 @@ public class LANR extends AbstractFachwert<Integer> {
      * @return die LANR
      */
     public static LANR of(int code) {
-        return new LANR(code);
+        return WEAK_CACHE.computeIfAbsent(code, LANR::new);
     }
 
     /**
@@ -75,7 +77,7 @@ public class LANR extends AbstractFachwert<Integer> {
      * @return die LANR
      */
     public static LANR of(String code) {
-        return new LANR(code);
+        return of(Integer.parseInt(code));
     }
 
     /**
