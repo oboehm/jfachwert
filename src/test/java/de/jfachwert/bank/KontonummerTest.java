@@ -18,7 +18,7 @@ package de.jfachwert.bank;
  * (c)reated 16.03.2017 by oboehm (ob@jfachwert.de)
  */
 
-import de.jfachwert.FachwertTest;
+import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -28,16 +28,28 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public final class KontonummerTest extends FachwertTest {
+public final class KontonummerTest extends AbstractFachwertTest<Long> {
 
     /**
-     * Die Kontonummer stammt aus dem IBANTest.
+     * Ereugt eine Kontonummer.
      *
+     * @param nr Kontonummer
      * @return "0006605605" als Kontonummer
      */
     @Override
-    protected Kontonummer createFachwert() {
-        return new Kontonummer("0006605605");
+    protected Kontonummer createFachwert(String nr) {
+        return Kontonummer.of(nr);
+    }
+
+    /**
+     * Erzeugt einen Code, der zum Erstellen eines Test-Objekts verwendet wird.
+     * Die Kontonummer stammt aus dem IBANTest.
+     *
+     * @return "0006605605"
+     */
+    @Override
+    protected String getCode() {
+        return "0006605605";
     }
 
     /**
@@ -45,7 +57,7 @@ public final class KontonummerTest extends FachwertTest {
      */
     @Test
     public void testEqualsWithLeadingZeros() {
-        assertEquals(new Kontonummer("6605605"), new Kontonummer("0006605605"));
+        assertEquals(Kontonummer.of("6605605"), Kontonummer.of("0006605605"));
     }
 
     /**
@@ -54,7 +66,7 @@ public final class KontonummerTest extends FachwertTest {
     @Override
     @Test
     public void testToString() {
-        assertEquals("0006605605", new Kontonummer("6605605").toString());
+        assertEquals("0006605605", Kontonummer.of("6605605").toString());
     }
 
     /**

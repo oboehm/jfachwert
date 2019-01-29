@@ -24,6 +24,7 @@ import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ValidationException;
+import java.util.WeakHashMap;
 
 /**
  * Eigentlich ist die Kontonummer Bestandteil der IBAN. Trotzdem wird sie
@@ -33,6 +34,8 @@ import javax.validation.ValidationException;
  * @since 0.1.0
  */
 public class Kontonummer extends AbstractFachwert<Long> {
+
+    private static final WeakHashMap<Long, Kontonummer> WEAK_CACHE = new WeakHashMap<>();
 
     /**
      * Hierueber wird eine neue Kontonummer angelegt.
@@ -99,6 +102,26 @@ public class Kontonummer extends AbstractFachwert<Long> {
         } catch (ValidationException ex) {
             throw new LocalizedIllegalArgumentException(ex);
         }
+    }
+
+    /**
+     * Liefert eine Kontonummer zurueck.
+     *
+     * @param nr Kontonummer
+     * @return die Kontonummer
+     */
+    public static Kontonummer of(long nr) {
+        return WEAK_CACHE.computeIfAbsent(nr, Kontonummer::new);
+    }
+
+    /**
+     * Liefert eine Kontonummer zurueck.
+     *
+     * @param nr Kontonummer
+     * @return die Kontonummer
+     */
+    public static Kontonummer of(String code) {
+        return of(Long.parseLong(code));
     }
 
     /**
