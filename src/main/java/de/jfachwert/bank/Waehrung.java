@@ -71,7 +71,8 @@ public class Waehrung extends AbstractFachwert<Currency> implements Comparable<C
 
     /**
      * Gibt die entsprechende Currency als Waehrung zurueck. Da die Anzahl der
-     * Waehrungen ueberschaubar ist
+     * Waehrungen ueberschaubar ist, werden sie in einem dauerhaften Cache 
+     * vorgehalten.
      * 
      * @param currency Currency
      * @return Waehrung

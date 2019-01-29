@@ -17,27 +17,39 @@
  */
 package de.jfachwert.bank;
 
-import de.jfachwert.FachwertTest;
+import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
 import javax.money.CurrencyUnit;
+import java.util.Currency;
 
 /**
  * Unit-Tests fuer {@link Waehrung}-Klasse.
  */
-public final class WaehrungTest extends FachwertTest {
+public final class WaehrungTest extends AbstractFachwertTest<Currency> {
+
+    /**
+     * Zum Testen nehmen wir die uebergebene Waehrung.
+     *
+     * @param code gueltige Waehrung
+     * @return Test-Objekt zum Testen
+     */
+    @Override
+    protected Waehrung createFachwert(String code) {
+        return Waehrung.of(code);
+    }
 
     /**
      * Zum Testen nehmen wir die Euro-Waehrung.
      *
-     * @return Test-Objekt zum Testen
+     * @return "EUR"
      */
     @Override
-    protected Waehrung createFachwert() {
-        return new Waehrung("EUR");
+    protected String getCode() {
+        return "EUR";
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void testWaehrungInvalid() {
         new Waehrung("Taler");
