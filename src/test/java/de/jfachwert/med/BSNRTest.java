@@ -17,7 +17,7 @@
  */
 package de.jfachwert.med;
 
-import de.jfachwert.FachwertTest;
+import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
 import static org.testng.AssertJUnit.assertEquals;
@@ -25,17 +25,28 @@ import static org.testng.AssertJUnit.assertEquals;
 /**
  * Unit-Tests fuer {@link BSNR}-Klasse.
  */
-public class BSNRTest extends FachwertTest {
+public class BSNRTest extends AbstractFachwertTest<Integer> {
+
+    /**
+     * Erzeugt eine BSNR zum Testen.
+     *
+     * @param nr BS-Nummer
+     * @return Test-Objekt zum Testen
+     */
+    @Override
+    protected BSNR createFachwert(String nr) {
+        return BSNR.of(nr);
+    }
 
     /**
      * Das Beispiel dazu stammt aus
      * http://media.dav-medien.de/sample/100006566_p__v1.pdf.
      *
-     * @return Test-Objekt zum Testen
+     * @return "345678975"
      */
     @Override
-    protected BSNR createFachwert() {
-        return BSNR.of("345678975");
+    protected String getCode() {
+        return "345678975";
     }
 
     @Test

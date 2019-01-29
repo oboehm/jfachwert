@@ -22,6 +22,7 @@ import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 
 import javax.validation.ValidationException;
+import java.util.WeakHashMap;
 
 /**
  * Die Betriebstaettennummer (BSNR) ist eine neunstellige Nummer, die im Rahmen
@@ -35,6 +36,7 @@ import javax.validation.ValidationException;
 public class BSNR extends AbstractFachwert<Integer> {
 
     private static final LengthValidator<Integer> VALIDATOR = new LengthValidator<>(8, 9);
+    private static final WeakHashMap<Integer, BSNR> WEAK_CACHE = new WeakHashMap<>();
 
     /**
      * Erzeugt ein neues BSNR-Objekt.
@@ -61,7 +63,7 @@ public class BSNR extends AbstractFachwert<Integer> {
      * @return die BSNR
      */
     public static BSNR of(int code) {
-        return new BSNR(code);
+        return WEAK_CACHE.computeIfAbsent(code, BSNR::new);
     }
 
     /**
@@ -71,7 +73,7 @@ public class BSNR extends AbstractFachwert<Integer> {
      * @return die BSNR
      */
     public static BSNR of(String code) {
-        return new BSNR(code);
+        return of(Integer.parseInt(code));
     }
 
     /**
