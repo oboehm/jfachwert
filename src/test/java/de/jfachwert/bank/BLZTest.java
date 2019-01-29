@@ -17,7 +17,8 @@
  */
 package de.jfachwert.bank;
 
-import de.jfachwert.FachwertTest;
+import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.math.PackedDecimal;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -27,17 +28,28 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public final class BLZTest extends FachwertTest {
+public final class BLZTest extends AbstractFachwertTest<PackedDecimal> {
+
+    /**
+     * Erzeugt eine BLZ mit dem uebergebenen Code.
+     *
+     * @param code zum Testen
+     * @return BLZ
+     */
+    @Override
+    protected BLZ createFachwert(String code) {
+        return BLZ.of(code);
+    }
 
     /**
      * Zum Testen verwenden wir die Volksbank Reutlingen, die auch in
      * Wikipedia erwaehnt ist.
      *
-     * @return BLZ
+     * @return "64090100"
      */
     @Override
-    protected BLZ createFachwert() {
-        return new BLZ("64090100");
+    protected String getCode() {
+        return "64090100";
     }
 
     /**
@@ -54,7 +66,7 @@ public final class BLZTest extends FachwertTest {
      */
     @Test
     public void testEqualsFormatted() {
-        assertEquals(new BLZ("64090100"), new BLZ("640 901 00"));
+        assertEquals(BLZ.of("64090100"), BLZ.of("640 901 00"));
     }
 
     /**
@@ -63,7 +75,7 @@ public final class BLZTest extends FachwertTest {
      */
     @Test
     public void testGetFormatted() {
-        BLZ blz = new BLZ(64090100);
+        BLZ blz = BLZ.of(64090100);
         assertEquals("64090100", blz.getUnformatted());
         assertEquals("640 901 00", blz.getFormatted());
     }

@@ -24,6 +24,7 @@ import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.RegExUtils;
 
 import javax.validation.ValidationException;
+import java.util.WeakHashMap;
 
 /**
  * Die BLZ (Bankleitzahl) ist eine eindeutige Kennziffer, die in Deutschland
@@ -41,6 +42,7 @@ import javax.validation.ValidationException;
 public class BLZ extends AbstractFachwert<PackedDecimal> {
 
     private static final NumberValidator NUMBER_VALIDATOR = new NumberValidator(100, 99_999_999);
+    private static final WeakHashMap<String, BLZ> WEAK_CACHE = new WeakHashMap<>();
 
     /**
      * Hierueber wird eine neue BLZ angelegt.
@@ -88,6 +90,26 @@ public class BLZ extends AbstractFachwert<PackedDecimal> {
     public static String validate(String blz) {
         String normalized = RegExUtils.replaceAll(blz, "\\s", "");
         return NUMBER_VALIDATOR.validate(normalized);
+    }
+
+    /**
+     * Liefert eine BLZ zurueck.
+     *
+     * @param code maximal 8-stellige Nummer
+     * @return die BLZ
+     */
+    public static BLZ of(int code) {
+        return of(Integer.toString(code));
+    }
+
+    /**
+     * Liefert eine BLZ zurueck.
+     *
+     * @param code maximal 8-stellige Nummer
+     * @return die BLZ
+     */
+    public static BLZ of(String code) {
+        return WEAK_CACHE.computeIfAbsent(code, BLZ::new);
     }
 
     /**
