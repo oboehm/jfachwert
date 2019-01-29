@@ -24,6 +24,7 @@ import de.jfachwert.pruefung.LuhnVerfahren;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 
 import javax.validation.ValidationException;
+import java.util.WeakHashMap;
 
 /**
  * Die Klasse IK repraesentiert das neunstellige Instituionskennzeichen, das
@@ -47,6 +48,7 @@ public class IK extends AbstractFachwert<Integer> {
 
     private static final PruefzifferVerfahren<String> MOD10 = new LuhnVerfahren();
     private static final LengthValidator<Integer> VALIDATOR = new LengthValidator<>(9, 9);
+    private static final WeakHashMap<Integer, IK> WEAK_CACHE = new WeakHashMap<>();
 
     /**
      * Erzeugt ein neues IK-Objekt.
@@ -73,7 +75,7 @@ public class IK extends AbstractFachwert<Integer> {
      * @return eine gueltige IK
      */
     public static IK of(int ik) {
-        return new IK(ik);
+        return WEAK_CACHE.computeIfAbsent(ik, IK::new);
     }
 
     /**
@@ -83,7 +85,7 @@ public class IK extends AbstractFachwert<Integer> {
      * @return eine gueltige IK
      */
     public static IK of(String ik) {
-        return new IK(ik);
+        return of(Integer.parseInt(ik));
     }
 
     /**

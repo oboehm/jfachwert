@@ -17,7 +17,7 @@
  */
 package de.jfachwert.med;
 
-import de.jfachwert.FachwertTest;
+import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
 import javax.validation.ValidationException;
@@ -27,18 +27,29 @@ import static org.junit.Assert.assertEquals;
 /**
  * Unit-Tests fuer {@link IK}-Klasse.
  */
-public final class IKTest extends FachwertTest {
+public final class IKTest extends AbstractFachwertTest<Integer> {
 
-    private final IK ik = createFachwert();
+    private final IK ik = IK.of("260326822");
 
     /**
      * Zum Testen verwenden die IK, die auch in Wikipedia erwaehnt wird.
      *
+     * @param nr IK-Nummer
      * @return Test-Objekt zum Testen
      */
     @Override
-    protected IK createFachwert() {
-        return IK.of("260326822");
+    protected IK createFachwert(String nr) {
+        return IK.of(nr);
+    }
+
+    /**
+     * Zum Testen verwenden die IK, die auch in Wikipedia erwaehnt wird.
+     *
+     * @return "260326822"
+     */
+    @Override
+    protected String getCode() {
+        return "260326822";
     }
 
     @Test(expected = IllegalArgumentException.class)
