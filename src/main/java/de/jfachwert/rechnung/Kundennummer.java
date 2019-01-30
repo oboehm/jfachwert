@@ -17,8 +17,11 @@
  */
 package de.jfachwert.rechnung;
 
-import de.jfachwert.*;
-import de.jfachwert.pruefung.*;
+import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.Text;
+import de.jfachwert.pruefung.LengthValidator;
+
+import java.util.WeakHashMap;
 
 /**
  * Eine Kundennummer ist meistens eine vielstellige Zahl oder Zeichenfolge,
@@ -28,6 +31,8 @@ import de.jfachwert.pruefung.*;
  * @since 0.3 (09.07.2017)
  */
 public class Kundennummer extends Text {
+
+    private static final WeakHashMap<String, Kundennummer> WEAK_CACHE = new WeakHashMap<>();
 
     /**
      * Erzeugt eine Kundennummer.
@@ -59,7 +64,7 @@ public class Kundennummer extends Text {
      * @return Kundennummer
      */
     public static Kundennummer of(String nummer) {
-        return new Kundennummer(nummer);
+        return WEAK_CACHE.computeIfAbsent(nummer, Kundennummer::new);
     }
 
 }

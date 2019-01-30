@@ -17,8 +17,11 @@
  */
 package de.jfachwert.rechnung;
 
-import de.jfachwert.*;
-import de.jfachwert.pruefung.*;
+import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.Text;
+import de.jfachwert.pruefung.LengthValidator;
+
+import java.util.WeakHashMap;
 
 /**
  * Auf vielen Rechnungen findet man eine Rechnungsnummer wie "000002835042",
@@ -28,6 +31,8 @@ import de.jfachwert.pruefung.*;
  * @since 0.3 (10.07.2017)
  */
 public class Rechnungsnummer extends Text {
+
+    private static final WeakHashMap<String, Rechnungsnummer> WEAK_CACHE = new WeakHashMap<>();
 
     /**
      * Erzeugt eine Rechnungsnummer.
@@ -58,7 +63,7 @@ public class Rechnungsnummer extends Text {
      * @return Rechnungsnummer
      */
     public static Rechnungsnummer of(String nummer) {
-        return new Rechnungsnummer(nummer);
+        return WEAK_CACHE.computeIfAbsent(nummer, Rechnungsnummer::new);
     }
 
 }

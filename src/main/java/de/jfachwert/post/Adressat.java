@@ -21,6 +21,8 @@ import de.jfachwert.Text;
 import de.jfachwert.pruefung.LengthValidator;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.WeakHashMap;
+
 /**
  * Ein Adressat (oder auch Postempfaenger) ist diejenige Person, die in der
  * Adresse benannt ist und für die damit eine Postsendung bestimmt ist. 
@@ -31,6 +33,8 @@ import org.apache.commons.lang3.StringUtils;
  * @since 0.5 (18.01.2018)
  */
 public class Adressat extends Text {
+
+    private static final WeakHashMap<String, Adressat> WEAK_CACHE = new WeakHashMap<>();
 
     /**
      * Erzeugt eine Adressat mit dem angegebenen Namen. Dabei kann es sich um
@@ -54,7 +58,7 @@ public class Adressat extends Text {
      * @return Addressat mit dem angegebenen Namen
      */
     public static Adressat of(String name) {
-        return new Adressat(name);
+        return WEAK_CACHE.computeIfAbsent(name, Adressat::new);
     }
 
     /**

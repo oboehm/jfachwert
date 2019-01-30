@@ -17,7 +17,6 @@
  */
 package de.jfachwert.post;
 
-import de.jfachwert.AbstractFachwert;
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
@@ -39,8 +38,8 @@ public final class AdressatTest extends AbstractFachwertTest<String> {
      * @return Test-Objekt zum Testen
      */
     @Override
-    protected AbstractFachwert<String> createFachwert(String code) {
-        return new Adressat(code);
+    protected Adressat createFachwert(String code) {
+        return Adressat.of(code);
     }
 
     /**

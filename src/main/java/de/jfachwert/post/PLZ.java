@@ -17,15 +17,17 @@
  */
 package de.jfachwert.post;
 
-import de.jfachwert.*;
-import de.jfachwert.pruefung.*;
+import de.jfachwert.Text;
+import de.jfachwert.pruefung.LengthValidator;
+import de.jfachwert.pruefung.NumberValidator;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
-import org.apache.commons.lang3.*;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ValidationException;
-import java.math.*;
-import java.util.*;
+import java.math.BigDecimal;
+import java.util.Locale;
+import java.util.WeakHashMap;
 
 /**
  * Eine Postleitzahl (PLZ) kennzeichnet den Zustellort auf Briefen, Paketten
@@ -36,6 +38,8 @@ import java.util.*;
  * @since 0.2.0 (10.04.2017)
  */
 public class PLZ extends Text {
+
+    private static final WeakHashMap<String, PLZ> WEAK_CACHE = new WeakHashMap<>();
 
     /**
      * Hierueber wird eine Postleitzahl angelegt.
@@ -138,7 +142,7 @@ public class PLZ extends Text {
      * @return PLZ
      */
     public static PLZ of(String plz) {
-        return new PLZ(plz);
+        return WEAK_CACHE.computeIfAbsent(plz, PLZ::new);
     }
 
     /**

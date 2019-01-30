@@ -17,8 +17,11 @@
  */
 package de.jfachwert.rechnung;
 
-import de.jfachwert.*;
-import de.jfachwert.pruefung.*;
+import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.Text;
+import de.jfachwert.pruefung.LengthValidator;
+
+import java.util.WeakHashMap;
 
 /**
  * Oftmals findet sich auf Rechnungen auch eine Bestellnummer, die man bei
@@ -28,6 +31,8 @@ import de.jfachwert.pruefung.*;
  * @since 0.3 (10.07.2017)
  */
 public class Bestellnummer extends Text {
+
+    private static final WeakHashMap<String, Bestellnummer> WEAK_CACHE = new WeakHashMap<>();
 
     /**
      * Erzeugt eine Bestellnummer.
@@ -58,7 +63,7 @@ public class Bestellnummer extends Text {
      * @return Bestellnummer
      */
     public static Bestellnummer of(String nummer) {
-        return new Bestellnummer(nummer);
+        return WEAK_CACHE.computeIfAbsent(nummer, Bestellnummer::new);
     }
 
 }

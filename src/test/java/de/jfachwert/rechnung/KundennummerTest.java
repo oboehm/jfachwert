@@ -34,7 +34,7 @@ public class KundennummerTest extends AbstractFachwertTest<String> {
      */
     @Override
     protected Kundennummer createFachwert(String nr) {
-        return new Kundennummer(nr);
+        return Kundennummer.of(nr);
     }
 
     /**

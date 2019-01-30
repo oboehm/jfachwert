@@ -17,12 +17,14 @@
  */
 package de.jfachwert.net;
 
-import de.jfachwert.*;
-import de.jfachwert.pruefung.*;
-import org.apache.commons.lang3.*;
+import de.jfachwert.Text;
+import de.jfachwert.pruefung.TelefonnummerValidator;
+import org.apache.commons.lang3.RegExUtils;
+import org.apache.commons.lang3.StringUtils;
 
-import java.net.*;
-import java.util.*;
+import java.net.URI;
+import java.util.Optional;
+import java.util.WeakHashMap;
 
 /**
  * Die Klasse Telefonnummer steht fuer alle Arten von Rufnummern im
@@ -51,6 +53,7 @@ import java.util.*;
 public class Telefonnummer extends Text {
 
     private static final TelefonnummerValidator DEFAULT_VALIDATOR = new TelefonnummerValidator();
+    private static final WeakHashMap<String, Telefonnummer> WEAK_CACHE = new WeakHashMap<>();
 
     /**
      * Legt eine neue Instanz einer Telefonnummer an, sofern die uebergebene
@@ -83,6 +86,16 @@ public class Telefonnummer extends Text {
      */
     public Telefonnummer(String nummer, TelefonnummerValidator validator) {
         super(normalize(validator.verify(nummer)));
+    }
+
+    /**
+     * Liefert eine Telefonnummer zurueck.
+     *
+     * @param nummer eine gueltige Telefonnummer, z.B. "+49 30 12345-67"
+     * @return Telefonnummer
+     */
+    public static Telefonnummer of(String nummer) {
+        return WEAK_CACHE.computeIfAbsent(nummer, Telefonnummer::new);
     }
 
     /**

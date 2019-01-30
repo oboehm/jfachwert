@@ -84,6 +84,7 @@ public abstract class AbstractFachwertTest<T extends Serializable> extends Fachw
         AbstractFachwert f1 = createFachwert(s1);
         AbstractFachwert f2 = createFachwert(s2);
         assertSame(f1.getCode(), f2.getCode());
+        assertSame(f1, f2);
     }
 
 }

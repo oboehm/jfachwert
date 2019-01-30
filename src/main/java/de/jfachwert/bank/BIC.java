@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.WeakHashMap;
 
 /**
  * BIC steht fuer Bank (oder auch Businiess) Identifier Code und kennzeichnet
@@ -54,6 +55,8 @@ import java.util.List;
  * @author <a href="ob@aosd.de">oliver</a>
  */
 public class BIC extends Text {
+
+    private static final WeakHashMap<String, BIC> WEAK_CACHE = new WeakHashMap<>();
 
     /**
      * Hierueber wird eine neue BIC angelegt.
@@ -86,6 +89,16 @@ public class BIC extends Text {
             throw new InvalidLengthException(normalized, allowedLengths);
         }
         return normalized;
+    }
+
+    /**
+     * Liefert eine BIC zurueck.
+     *
+     * @param code eine 11- oder 14-stellige BIC
+     * @return Text
+     */
+    public static BIC of(String code) {
+        return WEAK_CACHE.computeIfAbsent(code, BIC::new);
     }
 
 }

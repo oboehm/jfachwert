@@ -24,6 +24,7 @@ import org.apache.commons.lang3.Range;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ValidationException;
+import java.util.WeakHashMap;
 import java.util.regex.Pattern;
 
 /**
@@ -41,6 +42,7 @@ import java.util.regex.Pattern;
 public class Domainname extends Text {
 
     private static final Pattern VALID_PATTERN = Pattern.compile("^(?=.{1,253}\\.?$)(?:(?!-|[^.]+_)[A-Za-z0-9-_]{1,63}(?<!-)(?:\\.|$))+$");
+    private static final WeakHashMap<String, Domainname> WEAK_CACHE = new WeakHashMap<>();
 
     /**
      * Legt eine Instanz an.
@@ -72,6 +74,16 @@ public class Domainname extends Text {
             return name;
         }
         throw new InvalidValueException(name, "name");
+    }
+
+    /**
+     * Liefert einen Domainnamen.
+     *
+     * @param name gueltiger Domainname
+     * @return Domainname
+     */
+    public static Domainname of(String name) {
+        return WEAK_CACHE.computeIfAbsent(name, Domainname::new);
     }
 
     /**

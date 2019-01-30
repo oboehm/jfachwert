@@ -17,9 +17,11 @@
  */
 package de.jfachwert.net;
 
-import de.jfachwert.*;
-import de.jfachwert.pruefung.*;
-import org.apache.commons.lang3.*;
+import de.jfachwert.Text;
+import de.jfachwert.pruefung.EMailValidator;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.WeakHashMap;
 
 /**
  * Eine E-Mail-Adresse ist die eindeutige Absender- und Empfaengeradresse im
@@ -44,6 +46,7 @@ import org.apache.commons.lang3.*;
 public class EMailAdresse extends Text {
 
     private static final EMailValidator DEFAULT_VALIDATOR = new EMailValidator();
+    private static final WeakHashMap<String, EMailAdresse> WEAK_CACHE = new WeakHashMap<>();
 
     /**
      * Legt eine Instanz einer EMailAdresse an.
@@ -65,6 +68,16 @@ public class EMailAdresse extends Text {
      */
     public EMailAdresse(String emailAdresse, EMailValidator validator) {
         super(validator.verify(emailAdresse));
+    }
+
+    /**
+     * Liefert einen EmailAdresse.
+     *
+     * @param name gueltige Email-Adresse
+     * @return EMailAdresse
+     */
+    public static EMailAdresse of(String name) {
+        return WEAK_CACHE.computeIfAbsent(name, EMailAdresse::new);
     }
 
     /**

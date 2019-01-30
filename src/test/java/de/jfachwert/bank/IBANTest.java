@@ -41,7 +41,7 @@ public final class IBANTest extends AbstractFachwertTest<String> {
      * @return Test-IBAN
      */
     protected IBAN createFachwert(String code) {
-        return new IBAN(code);
+        return IBAN.of(code);
     }
 
     /**

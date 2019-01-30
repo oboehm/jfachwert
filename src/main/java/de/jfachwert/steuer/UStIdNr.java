@@ -28,6 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * Die Umsatzsteuer-Identifikationsnummer (USt-IdNr) ist eine eindeutige
@@ -40,6 +41,7 @@ import java.util.Map;
 public class UStIdNr extends Text {
 
     private static final Map<String, PruefzifferVerfahren<String>> PRUEFZIFFER_VERFAHREN = new HashMap<>();
+    private static final WeakHashMap<String, UStIdNr> WEAK_CACHE = new WeakHashMap<>();
 
     static {
         PRUEFZIFFER_VERFAHREN.put("DE", new Mod11Verfahren(8));
@@ -78,7 +80,7 @@ public class UStIdNr extends Text {
      * @return UstIdNr
      */
     public static UStIdNr of(String nr) {
-        return new UStIdNr(nr);
+        return WEAK_CACHE.computeIfAbsent(nr, UStIdNr::new);
     }
 
     private static PruefzifferVerfahren<String> selectPruefzifferVerfahrenFor(String nr) {

@@ -40,7 +40,7 @@ public final class UStIdNrTest extends AbstractFachwertTest<String> {
      */
     @Override
     protected UStIdNr createFachwert(String nr) {
-        return new UStIdNr(nr);
+        return UStIdNr.of(nr);
     }
 
     /**

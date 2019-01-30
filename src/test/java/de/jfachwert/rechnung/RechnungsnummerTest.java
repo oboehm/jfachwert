@@ -34,7 +34,7 @@ public class RechnungsnummerTest extends AbstractFachwertTest<String> {
      */
     @Override
     protected Rechnungsnummer createFachwert(String nr) {
-        return new Rechnungsnummer(nr);
+        return Rechnungsnummer.of(nr);
     }
 
     /**

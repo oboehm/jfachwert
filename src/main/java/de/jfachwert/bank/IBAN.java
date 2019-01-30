@@ -27,6 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ValidationException;
 import java.util.Locale;
+import java.util.WeakHashMap;
 
 
 /**
@@ -39,6 +40,7 @@ import java.util.Locale;
 public class IBAN extends Text {
 
     private static final PruefzifferVerfahren<String> MOD97 = Mod97Verfahren.getInstance();
+    private static final WeakHashMap<String, IBAN> WEAK_CACHE = new WeakHashMap<>();
 
     /** Konstante fuer unbekannte IBAN (aus Wikipedia, aber mit korrigierter Pruefziffer). */
     public static final IBAN UNBEKANNT = new IBAN("DE07123412341234123412");
@@ -103,6 +105,16 @@ public class IBAN extends Text {
         } catch (ValidationException ex) {
             throw new LocalizedIllegalArgumentException(ex);
         }
+    }
+
+    /**
+     * Liefert eine IBAN.
+     *
+     * @param code gueltige IBAN-Nummer
+     * @return IBAN
+     */
+    public static IBAN of(String code) {
+        return WEAK_CACHE.computeIfAbsent(code, IBAN::new);
     }
 
     /**

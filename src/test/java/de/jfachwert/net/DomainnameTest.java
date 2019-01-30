@@ -41,7 +41,7 @@ public class DomainnameTest extends AbstractFachwertTest<String> {
      */
     @Override
     protected Domainname createFachwert(String name) {
-        return new Domainname(name);
+        return Domainname.of(name);
     }
 
     /**

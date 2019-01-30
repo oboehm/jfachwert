@@ -17,8 +17,11 @@
  */
 package de.jfachwert.rechnung;
 
-import de.jfachwert.*;
-import de.jfachwert.pruefung.*;
+import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.Text;
+import de.jfachwert.pruefung.LengthValidator;
+
+import java.util.WeakHashMap;
 
 /**
  * Auf Rechnunungen (und auch im geschaeftlichen Schriftverkehr) gibt es
@@ -28,6 +31,8 @@ import de.jfachwert.pruefung.*;
  * @since 0.3 (10.07.2017)
  */
 public class Referenznummer extends Text {
+
+    private static final WeakHashMap<String, Referenznummer> WEAK_CACHE = new WeakHashMap<>();
 
     /**
      * Erzeugt eine Referenznummer.
@@ -58,7 +63,7 @@ public class Referenznummer extends Text {
      * @return Referenznummer
      */
     public static Referenznummer of(String nummer) {
-        return new Referenznummer(nummer);
+        return WEAK_CACHE.computeIfAbsent(nummer, Referenznummer::new);
     }
     
 }

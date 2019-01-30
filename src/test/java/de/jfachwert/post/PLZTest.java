@@ -38,7 +38,7 @@ public class PLZTest extends AbstractFachwertTest<String> {
      */
     @Override
     protected PLZ createFachwert(String plz) {
-        return new PLZ(plz);
+        return PLZ.of(plz);
     }
 
     /**

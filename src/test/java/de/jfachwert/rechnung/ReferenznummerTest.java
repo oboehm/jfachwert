@@ -34,7 +34,7 @@ public class ReferenznummerTest extends AbstractFachwertTest<String> {
      */
     @Override
     protected Referenznummer createFachwert(String nr) {
-        return new Referenznummer(nr);
+        return Referenznummer.of(nr);
     }
 
     /**

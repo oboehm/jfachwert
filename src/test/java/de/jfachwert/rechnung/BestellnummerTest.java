@@ -34,7 +34,7 @@ public class BestellnummerTest extends AbstractFachwertTest<String> {
      */
     @Override
     protected Bestellnummer createFachwert(String nr) {
-        return new Bestellnummer(nr);
+        return Bestellnummer.of(nr);
     }
 
     /**

@@ -17,7 +17,6 @@
  */
 package de.jfachwert.bank;
 
-import de.jfachwert.AbstractFachwert;
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
@@ -39,8 +38,8 @@ public final class BICTest extends AbstractFachwertTest<String> {
      * @return Test -Objekt zum Testen
      */
     @Override
-    protected AbstractFachwert<String> createFachwert(String code) {
-        return new BIC(code);
+    protected BIC createFachwert(String code) {
+        return BIC.of(code);
     }
 
     /**

@@ -80,7 +80,7 @@ public final class TelefonnummerTest extends AbstractFachwertTest<String> {
      */
     @Override
     protected Telefonnummer createFachwert(String nr) {
-        return new Telefonnummer(this.nummer);
+        return Telefonnummer.of(this.nummer);
     }
 
     /**

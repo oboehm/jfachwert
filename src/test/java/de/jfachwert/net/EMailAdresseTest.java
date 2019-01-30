@@ -38,7 +38,7 @@ public final class EMailAdresseTest extends AbstractFachwertTest<String> {
      */
     @Override
     protected EMailAdresse createFachwert(String code) {
-        return new EMailAdresse(code);
+        return EMailAdresse.of(code);
     }
 
     /**
