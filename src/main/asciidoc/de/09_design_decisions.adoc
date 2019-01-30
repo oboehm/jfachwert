@@ -59,11 +59,20 @@ Mit der Einführung des math-Package in v0.6 wurde of bei einigen Klassen eine s
 
 Dies lohnt sich vor allem für Objekte, die immer den gleichen Werte oder nur einige Werte haben (z.B. Rechnungsmonat).
 Dies kann bei sehr vielen Objekten einen spürbaren Rückgang des Speicherverbraucs bedeuten.
-Bei vielen unterschiedlichen Objekten (z.B. IBAN) sollte man dagegen eher auf den Konstruktor verwenden, weil intern ein Cache für die die Ablage bereits erzeugter Objekte verwendet wird.
-Der interne Verwaltungs-Overhead ist umso größer, je mehr unterschiedliche Objekte erzeugt werden.
 
 Bei Klassen, die Ähnlichkeiten zur Number-Klasse haben (wie z.B. Geldbetrag), wird zusätzlich zur of-Methode eine valueOf-Methode bereitgestellt, analog zur valueOf-Methode der Number-Klasse.
 
+
+
+=== Caching
+
+Mit v1.2 wurde für alle wichtigen Klassen in interner Cache eingeführt, in dem erzeugte Objekte abgelegt werden.
+Dies dient vor allem zur Reduktion des Speicherbedarfs.
+Dies wird über die of-Methode gesteuert.
+
+Damit die Cache-Verwaltung selber nicht zu Speicherproblemen führt, wurde dazu eine `WeakHashMap` verwendet.
+Von daher werden Duplikate zwar reduziert, können aber auch nicht ganz ausgeschlossen werden.
+ 
 
 
 === Gleichheit

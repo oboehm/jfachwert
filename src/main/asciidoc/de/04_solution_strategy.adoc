@@ -28,8 +28,8 @@ Builder-Pattern bieten sich eher dann dafür an, wenn die Erzeugung eines Objekt
 Da Fachwerte aber tendenziell einfach aufgebaut sind und oft nur mit einem Argument für den Konstruktor auskommen, wird nur der Konstruktor für die Erzeugung eines Objekts angeboten.
 
 Die Erzeugung über eine statische of(..)-Methode hat den Vorteil, dass Objekte, die oft benötigt werden, in einem Cache vorgehalten werden können.
-Dies reduziert den Speicherverbrauch.
-Daher ist diese Art der Erzeugung zu bevorzugen.
+Dies beschleunigt die Erzeugung von Objekten, vor allem aber reduziert es den Speicherverbrauch.
+Deswegen werden ab v1.2 bereits erzeugte Objekte in einen Cache gelegt, um Duplikate zu vermeiden.
 
 
 
