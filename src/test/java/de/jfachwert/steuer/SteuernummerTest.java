@@ -17,8 +17,8 @@
  */
 package de.jfachwert.steuer;
 
-import de.jfachwert.FachwertTest;
-import de.jfachwert.Fachwert;
+import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.math.PackedDecimal;
 import de.jfachwert.pruefung.NoopVerfahren;
 import org.junit.Test;
 
@@ -27,15 +27,25 @@ import static org.junit.Assert.assertEquals;
 /**
  * Unit-Tests fuer die {@link Steuernummer}-Klasse.
  */
-public class SteuernummerTest extends FachwertTest {
+public class SteuernummerTest extends AbstractFachwertTest<PackedDecimal> {
+
+    /**
+     * Erzeugt eine Steuernummer zum Testen.
+     *
+     * @return eine Steuernummer
+     */
+    protected Steuernummer createFachwert(String nr) {
+        return Steuernummer.of(nr);
+    }
 
     /**
      * Die Steuernummer aus diesem Beispiel stammt aus Wikipedia.
      *
-     * @return eine Steuernummer aus Baden Wuerttemberg
+     * @return "2893081508152" (Steuernummer aus Baden Wuerttemberg)
      */
-    protected Fachwert createFachwert() {
-        return new Steuernummer("2893081508152");
+    @Override
+    protected String getCode() {
+        return "2893081508152";
     }
 
     /**
@@ -57,7 +67,7 @@ public class SteuernummerTest extends FachwertTest {
      */
     @Test
     public void testGetPruefziffer() {
-        Steuernummer nr = new Steuernummer("1121081508150");
+        Steuernummer nr = Steuernummer.of("1121081508150");
         assertEquals(0, nr.getPruefziffer());
     }
 

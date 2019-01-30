@@ -24,6 +24,8 @@ import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.Mod11Verfahren;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 
+import java.util.WeakHashMap;
+
 /**
  * Die Steuernummer oder Steuer-Identnummer ist eine eindeutige Nummer, die vom
  * Finanzamt vergeben wird. Die Nummer ist eindeutig einem Steuerpflichtigen
@@ -47,6 +49,7 @@ import de.jfachwert.pruefung.exception.InvalidValueException;
 public class Steuernummer extends AbstractFachwert<PackedDecimal> {
 
     private static final PruefzifferVerfahren<String> MOD11 = new Mod11Verfahren(10);
+    private static final WeakHashMap<String, Steuernummer> WEAK_CACHE = new WeakHashMap<>();
 
     /**
      * Hierueber wird eine neue Steuernummer angelegt.
@@ -77,7 +80,7 @@ public class Steuernummer extends AbstractFachwert<PackedDecimal> {
      * @return Steuernummer
      */
     public static Steuernummer of(String nr) {
-        return new Steuernummer(nr);
+        return WEAK_CACHE.computeIfAbsent(nr, Steuernummer::new);
     }
 
     /**
