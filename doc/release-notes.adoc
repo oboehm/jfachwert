@@ -2,13 +2,15 @@
 
 
 
-== 1.2.0 (SNAPSHOT)
+== 2.0 (SNAPSHOT)
 
-* weitere Reduktion des Speicherbedarfs durch Vermeidung von String-Duplikaten
+* Fachwerte mit String-Attributen wurden überarbeitet, um den Speicherbedarf zu reduzieren (Vermeidung von String-Duplikaten)
+* beim Aufruf der of()-Methode werden Duplikate ebenfalls vermieden
+* Methoden, die als @deprecated gekennzeichnet sind, wurden entfernt.
 
 
 
-== 1.1.0 (16-Dez-2018)
+== 1.1 (16-Dez-2018)
 
 * med-Package für Klassen aus dem Krankenkassen-Bereich eingeführt
 * Text-Klasse kann jetzt auch die http://rosettacode.org/wiki/Levenshtein_distance[Levenshtein-Distanz] berechnen

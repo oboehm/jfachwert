@@ -42,7 +42,11 @@ Jetzt kann man die Argumente nicht mehr verwechseln, weil sonst der Compiler mec
 
 ## Aktueller Stand
 
-Mit 1.0 ist jetzt ein stabiler Stand erreicht, den man produktiv in eigenen Projekten einsetzen kann.
+Mit 2.0 wurde der Speicherverbrauch dadurch reduziert, dass Duplikate vermieden werden, wenn man die of()-Methode benutzt.
+Dies betrifft vor allem einfache Fachwerte, die nicht aus mehrerer Attribute zusammengesetzt sind.
+Auch bei internen String-Attributen wurden Duplikate durch die Aufruf der String.inter()-Methode vermieden.
+
+Mit 1.0 wurde ein stabiler Stand erreicht, den man produktiv in eigenen Projekten einsetzen kann.
 Man profitiert dabei von sprechenderen Methoden-Parametern, die nicht
 mehr verwechselt werden koennen. Wer Ideen fuer weitere Fachwerte hat, darf gerne mitmachen - sei es durch Code,
 sei es durch Dokumentation oder einem schoenen Icon, oder sei es durch Anregungen und konstruktive Kritik.
