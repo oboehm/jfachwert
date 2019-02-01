@@ -63,11 +63,12 @@ public final class TextTest extends FachwertTest {
         assertThat(hello.getDistanz(hallo), lessThan(hello.getDistanz(world)));
     }
 
+    /**
+     * Die statische to-Methode sollte keine Dupliakte zurueckliefern.
+     */
     @Test
-    public void testNoStringDuplicate() {
-        Text a = new Text("aber hallo");
-        Text b = new Text("ABER HALLO".toLowerCase());
-        assertSame(a.getCode(), b.getCode());
+    public void testTo() {
+        assertSame(Text.of("hello"), Text.of("hello"));
     }
 
 }

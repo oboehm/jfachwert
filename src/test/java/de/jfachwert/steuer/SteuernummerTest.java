@@ -34,6 +34,7 @@ public class SteuernummerTest extends AbstractFachwertTest<PackedDecimal> {
      *
      * @return eine Steuernummer
      */
+    @Override
     protected Steuernummer createFachwert(String nr) {
         return Steuernummer.of(nr);
     }

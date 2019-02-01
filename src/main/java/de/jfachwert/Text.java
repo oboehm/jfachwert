@@ -21,6 +21,7 @@ import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 
 import javax.validation.ValidationException;
+import java.util.WeakHashMap;
 
 /**
  * Die Klasse Text ist der einfachste Fachwerte, der eigentlich nur ein
@@ -38,6 +39,7 @@ import javax.validation.ValidationException;
 public class Text extends AbstractFachwert<String> {
 
     private static final SimpleValidator<String> VALIDATOR = new NullValidator<>();
+    private static final WeakHashMap<String, Text> WEAK_CACHE = new WeakHashMap<>();
 
     /**
      * Erzeugt einen Text.
@@ -66,7 +68,7 @@ public class Text extends AbstractFachwert<String> {
      * @return Text
      */
     public static Text of(String text) {
-        return new Text(text);
+        return WEAK_CACHE.computeIfAbsent(text, Text::new);
     }
 
     /**
@@ -99,18 +101,6 @@ public class Text extends AbstractFachwert<String> {
     }
 
     /**
-     * Berechnet die Levenshtein-Distanz.
-     *
-     * @param other anderer Text
-     * @return Levenshtein-Distanz
-     * @deprecated bitte {@link #getDistanz(Text)} verwenden
-     */
-    @Deprecated
-    public int getDistance(Text other) {
-        return getDistanz(other.getCode());
-    }
-
-    /**
      * Berechnet die Levenshtein-Distanz. Der Algorithmus dazu stammt aus
      * http://rosettacode.org/wiki/Levenshtein_distance#Java.
      *
@@ -119,19 +109,6 @@ public class Text extends AbstractFachwert<String> {
      * @since 1.1.1
      */
     public int getDistanz(String other) {
-        return distance(this.getCode(), other);
-    }
-
-    /**
-     * Berechnet die Levenshtein-Distanz. Der Algorithmus dazu stammt aus
-     * http://rosettacode.org/wiki/Levenshtein_distance#Java.
-     *
-     * @param other anderer Text
-     * @return Levenshtein-Distanz
-     * @deprecated bitte {@link #getDistanz(String)} verwenden
-     */
-    @Deprecated
-    public int getDistance(String other) {
         return distance(this.getCode(), other);
     }
 

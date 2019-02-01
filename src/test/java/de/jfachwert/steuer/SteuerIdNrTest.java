@@ -17,7 +17,6 @@
  */
 package de.jfachwert.steuer;
 
-import de.jfachwert.Fachwert;
 import org.junit.Test;
 
 /**
@@ -31,10 +30,21 @@ public final class SteuerIdNrTest extends SteuernummerTest {
     /**
      * Die Steuernummer aus diesem Beispiel stammt aus Wikipedia.
      *
+     * @param nr z.B. "12365489753"
      * @return eine Steuer-IdNr
      */
-    protected Fachwert createFachwert() {
-        return new SteuerIdNr("12365489753");
+    protected SteuerIdNr createFachwert(String nr) {
+        return SteuerIdNr.of(nr);
+    }
+
+    /**
+     * Die Steuernummer aus diesem Beispiel stammt aus Wikipedia.
+     *
+     * @return "12365489753" 11-stellige Nummer
+     */
+    @Override
+    protected String getCode() {
+        return "12365489753";
     }
 
     /**

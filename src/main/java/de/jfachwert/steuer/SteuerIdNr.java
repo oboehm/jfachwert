@@ -21,6 +21,7 @@ import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 
 import javax.validation.ValidationException;
+import java.util.WeakHashMap;
 
 /**
  * Die steuerliche Identifikationsnummer (SteuerIdNr) ist eine
@@ -33,6 +34,8 @@ import javax.validation.ValidationException;
  * @since 0.1.0
  */
 public class SteuerIdNr extends Steuernummer {
+
+    private static final WeakHashMap<String, SteuerIdNr> WEAK_CACHE = new WeakHashMap<>();
 
     /**
      * Die SteuerIdNr ist eine 11-stellige Zahl mit einer Pruefziffer.
@@ -50,7 +53,7 @@ public class SteuerIdNr extends Steuernummer {
      * @return SteuerIdNr
      */
     public static SteuerIdNr of(String idNr) {
-        return new SteuerIdNr(idNr);
+        return WEAK_CACHE.computeIfAbsent(idNr, SteuerIdNr::new);
     }
 
     /**
