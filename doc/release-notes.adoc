@@ -6,6 +6,7 @@
 
 * Fachwerte mit String-Attributen wurden überarbeitet, um den Speicherbedarf zu reduzieren (Vermeidung von String-Duplikaten)
 * beim Aufruf der of()-Methode werden Duplikate ebenfalls vermieden
+* #_neu_#: formular-Package
 * Methoden, die als @deprecated gekennzeichnet sind, wurden entfernt.
 
 

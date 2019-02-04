@@ -23,6 +23,8 @@ import de.jfachwert.pruefung.AccessValidator;
  * Die Liste fuer die Anrede orientiert sich am Handbuch des Gesamtverbands der
  * Deutschen Versicherungswirtschaft (GDV). Deswegen taucht auch "Fraeulein" in
  * der Auswahl auf, obwohl es schon lange nicht mehr zeitgemaess ist.
+ *
+ * @since 2.0
  */
 public enum Anrede {
 

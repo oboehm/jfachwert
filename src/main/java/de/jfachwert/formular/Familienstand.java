@@ -42,7 +42,7 @@ import org.apache.commons.lang3.StringUtils;
  * Stand: 1. Mai 2015, Blatt 1401
  * </p>
  *
- * @since 0.5
+ * @since 2.0
  */
 public enum Familienstand {
 

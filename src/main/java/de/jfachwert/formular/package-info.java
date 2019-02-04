@@ -23,6 +23,6 @@
  * und Vertraege anzufinden sind,
  *
  * @author <a href="ob@aosd.de">oliver</a>
- * @since 0.5+
+ * @since 2.0
  */
 package de.jfachwert.formular;
