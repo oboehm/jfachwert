@@ -22,10 +22,11 @@ import de.jfachwert.pruefung.AccessValidator;
 /**
  * Die Werte fuer das Geschlecht orientieren sich am Handbuch des
  * Gesamtverbands der Deutschen Versicherungswirtschaft (GDV). Auch
- * Reihenfolge entspricht diesem Hanbuch. Zusaetzlich wurde noch
- * {@link Geschlecht#UNBEKANNT} als Wert mit aufgenommen.
+ * Reihenfolge entspricht diesem Handbuch. Zusaetzlich wurde noch
+ * {@link Geschlecht#DIVERS} und {@link Geschlecht#UNBEKANNT} als Wert mit
+ * aufgenommen.
  *
- * @since 0.5
+ * @since 2.0
  */
 public enum Geschlecht {
 
@@ -37,6 +38,9 @@ public enum Geschlecht {
 
     /** Weibliches Geschlecht. */
     WEIBLICH("weiblich"),
+
+    /** Divers. */
+    DIVERS("divers"),
 
     /** Unbekanntes Geschlecht. */
     UNBEKANNT("?");
