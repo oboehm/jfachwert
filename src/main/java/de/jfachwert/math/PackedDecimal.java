@@ -198,7 +198,7 @@ public class PackedDecimal extends AbstractNumber implements Fachwert, Comparabl
      *
      * @param zahl beliebige long-Zahl
      * @return Zahl als {@link PackedDecimal}
-     * @since 1.2
+     * @since 2.0
      */
     public static PackedDecimal of(long zahl) {
         return PackedDecimal.valueOf(zahl);
@@ -220,7 +220,7 @@ public class PackedDecimal extends AbstractNumber implements Fachwert, Comparabl
      *
      * @param zahl beliebige Zahl
      * @return Zahl als {@link PackedDecimal}
-     * @since 1.2
+     * @since 2.0
      */
     public static PackedDecimal of(double zahl) {
         return PackedDecimal.valueOf(zahl);
@@ -244,7 +244,7 @@ public class PackedDecimal extends AbstractNumber implements Fachwert, Comparabl
      *
      * @param zahl beliebige Zahl
      * @return Zahl als {@link PackedDecimal}
-     * @since 1.2
+     * @since 2.0
      */
     public static PackedDecimal of(BigDecimal zahl) {
         return PackedDecimal.valueOf(zahl);
@@ -266,7 +266,7 @@ public class PackedDecimal extends AbstractNumber implements Fachwert, Comparabl
      *
      * @param zahl beliebige Zahl
      * @return Zahl als {@link PackedDecimal}
-     * @since 1.2
+     * @since 2.0
      */
     public static PackedDecimal of(AbstractNumber zahl) {
         return PackedDecimal.valueOf(zahl);
@@ -308,7 +308,7 @@ public class PackedDecimal extends AbstractNumber implements Fachwert, Comparabl
      *
      * @param zahl beliebige Zahl
      * @return Zahl als {@link PackedDecimal}
-     * @since 1.2
+     * @since 2.0
      */
     public static PackedDecimal of(String zahl) {
         return PackedDecimal.valueOf(zahl);

@@ -94,7 +94,7 @@ public class Text extends AbstractFachwert<String> {
      *
      * @param other anderer Text
      * @return Levenshtein-Distanz
-     * @since 1.1.1
+     * @since 2.0
      */
     public int getDistanz(Text other) {
         return getDistanz(other.getCode());
@@ -106,7 +106,7 @@ public class Text extends AbstractFachwert<String> {
      *
      * @param other anderer Text
      * @return Levenshtein-Distanz
-     * @since 1.1.1
+     * @since 2.0
      */
     public int getDistanz(String other) {
         return distance(this.getCode(), other);
