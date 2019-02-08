@@ -103,6 +103,7 @@ public class Adresse implements Fachwert {
      * </ul>
      *
      * @param adresse z.B. "12345 Entenhausen, Gansstr. 23"
+     * @return Adresse
      */
     public static Adresse of(String adresse) {
         return new Adresse(adresse);

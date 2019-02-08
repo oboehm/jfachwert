@@ -117,7 +117,7 @@ public class Kontonummer extends AbstractFachwert<Long> {
     /**
      * Liefert eine Kontonummer zurueck.
      *
-     * @param nr Kontonummer
+     * @param code Kontonummer
      * @return die Kontonummer
      */
     public static Kontonummer of(String code) {
