@@ -18,11 +18,14 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwertTest;
+import org.javamoney.tck.tests.internal.TestCurrencyUnit;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
 import javax.money.CurrencyUnit;
 import java.util.Currency;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Unit-Tests fuer {@link Waehrung}-Klasse.
@@ -65,6 +68,19 @@ public final class WaehrungTest extends AbstractFachwertTest<Currency> {
         ObjectTester.assertEquals(one, anotherOne);
         Waehrung two = Waehrung.of("EUR");
         ObjectTester.assertNotEquals(one, two);
+    }
+
+    @Test
+    public void testOf() {
+        CurrencyUnit cu = new TestCurrencyUnit("AUD");
+        Waehrung aud = Waehrung.of(cu);
+        assertEquals(0, aud.compareTo(cu));
+    }
+
+    @Test
+    public void testToCurrency() {
+        Currency eur = Currency.getInstance("EUR");
+        assertEquals(eur, Waehrung.toCurrency(eur.getSymbol()));
     }
 
 }
