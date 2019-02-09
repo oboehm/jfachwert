@@ -123,12 +123,20 @@ public class Waehrung extends AbstractFachwert<Currency> implements Comparable<C
                     }
                 }
             }
-            throw new IllegalArgumentException("cannot get currency for '" + name + "'", iae);
+            return toFallbackCurrency(name, iae);
         }
     }
 
     private static boolean matchesCurrency(String name, Currency c) {
         return name.equalsIgnoreCase(c.getCurrencyCode()) || name.equalsIgnoreCase(c.getSymbol());
+    }
+
+    private static Currency toFallbackCurrency(String name, IllegalArgumentException iae) {
+        if (name.equals("\u20ac")) {
+            return Currency.getInstance("EUR");
+        } else {
+            throw new IllegalArgumentException("cannot get currency for '" + name + "'", iae);
+        }
     }
 
     /**

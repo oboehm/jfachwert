@@ -544,4 +544,9 @@ public final class GeldbetragTest extends FachwertTest {
         }
     }
 
+    @Test
+    public void testValueOf() {
+        assertEquals(Geldbetrag.of("11 EUR"), Geldbetrag.of("11\u20ac"));
+    }
+
 }

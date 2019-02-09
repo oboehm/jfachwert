@@ -45,6 +45,11 @@ public final class GeldbetragFormatterTest {
     }
 
     @Test
+    public void testParseEurozeichen() {
+        assertEquals(formatter.parse("11 EUR"), formatter.parse("11\u20ac"));
+    }
+
+    @Test
     public void testParseCurrencyNumber() {
         Geldbetrag parsed = formatter.parse("BRL 123.45");
         assertEquals(Geldbetrag.of(new BigDecimal("123.45"), "BRL"), parsed);
