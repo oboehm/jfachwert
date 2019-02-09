@@ -2,7 +2,7 @@
 
 
 
-== 2.0 (Feb-2019)
+== 2.0 (9-Feb-2019)
 
 * Fachwerte mit String-Attributen wurden überarbeitet, um den Speicherbedarf zu reduzieren (Vermeidung von String-Duplikaten)
 * beim Aufruf der of()-Methode werden Duplikate ebenfalls vermieden
