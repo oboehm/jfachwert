@@ -79,8 +79,14 @@ public final class WaehrungTest extends AbstractFachwertTest<Currency> {
 
     @Test
     public void testToCurrency() {
-        Currency eur = Currency.getInstance("EUR");
+        Currency eur = Currency.getInstance("GBP");
         assertEquals(eur, Waehrung.toCurrency(eur.getSymbol()));
+    }
+
+    @Test
+    public void testToCurrencyEurozeichen() {
+        Currency eur = Currency.getInstance("EUR");
+        assertEquals(eur, Waehrung.toCurrency("\u20ac"));
     }
 
 }
