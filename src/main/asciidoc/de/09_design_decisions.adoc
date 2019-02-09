@@ -112,7 +112,7 @@ Resultat des TCKs war u.a. die `GeldbetragFactory`-Klasse, aber auch andere Klas
 Aufgerufen wird das TCK über den Integrationstest `GeldbetragIT`.
 
 Aktuell schlägt ein Test mit dem TCK fehl.
-Dies betrifft den Vergleich zweier Geldbeträge mit unterschiedlichen Wöhrungen mithilfe der compareTo-Methode.
+Dies betrifft den Vergleich zweier Geldbeträge mit unterschiedlichen Währungen mithilfe der compareTo-Methode.
 Dazu gibt es unter https://github.com/JavaMoney/jsr354-tck/issues/18//[Issue #18] ein Bug-Report, da die verwendete omparable-Implementierung (s.u.) durch JSR 354 abgedeckt ist.
 
 
@@ -132,11 +132,11 @@ Da dies den Wert eines Geldbetrags nicht ändert, wird hier die Währung ignorie
 Die Comparable-Implementierung zweier Geldbeträge B1 und B2 richtet sich nach folgendem Schema:
 
 * gleiche Währung, B1 > B2: compareTo liefert Wert > 0
-* ungleiche Wöhrung, B1 = 0, B2 > 0: compareTo liefert Wert < 0
+* ungleiche Währung, B1 = 0, B2 > 0: compareTo liefert Wert < 0
 * ungleiche Währung, B1 != 0, B2 != 0: MonetaryException wird geworfen.
 
 Wenn einer der Operatoren 0 ist, spielt die Währung für den Vergleich keine Rolle.
-Ansonsten muss die Wöhrung übereinstimmen.
+Ansonsten muss die Währung übereinstimmen.
 
 Dies gilt auch für die Implementierung der equals-Methode:
 zwei 0-Beträge werden als gleich angesehen, auch wenn sie unterschiedliche Währungseinheiten besitzen.
