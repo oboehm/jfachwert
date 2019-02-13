@@ -20,15 +20,16 @@ package de.jfachwert.post;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.jfachwert.Fachwert;
+import de.jfachwert.pruefung.exception.InvalidValueException;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import de.jfachwert.util.ToFachwertSerializer;
-import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ValidationException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 /**
  * Bei einer Adresse kann es sich um eine Wohnungsadresse oder Gebaeudeadresse
@@ -42,6 +43,7 @@ import java.util.logging.Logger;
 public class Adresse implements Fachwert {
 
     private static final Logger LOG = Logger.getLogger(Adresse.class.getName());
+    private static final Pattern PATTERN_STRASSE = Pattern.compile(".*(?i)tra(ss|[\u00dfe])e$");
 
     private final Ort ort;
     private final String strasse;
@@ -119,6 +121,19 @@ public class Adresse implements Fachwert {
      */
     public static Adresse of(Ort ort, String strasse, String hausnummer) {
         return new Adresse(ort, strasse, hausnummer);
+    }
+
+    /**
+     * Liefert eine Adresse mit den uebergebenen Parametern.
+     *
+     * @param ort        the ort
+     * @param strasse    the strasse
+     * @param hausnummer the hausnummer
+     * @return Adresse
+     * @since 2.1
+     */
+    public static Adresse of(Ort ort, String strasse, int hausnummer) {
+        return of(ort, strasse, Integer.toString(hausnummer));
     }
 
     /**
@@ -238,6 +253,19 @@ public class Adresse implements Fachwert {
     }
 
     /**
+     * Liefert die Strasse in einer abgekuerzten Schreibweise.
+     *
+     * @return z.B. "Badstr."
+     */
+    public String getStrasseKurz() {
+        if (PATTERN_STRASSE.matcher(strasse).matches()) {
+            return strasse.substring(0, StringUtils.lastIndexOfIgnoreCase(strasse, "stra") + 3) + '.';
+        } else {
+            return strasse;
+        }
+    }
+
+    /**
      * Liefert die Strasse.
      *
      * @return Hausnummer, z.B. "10a"
@@ -259,8 +287,8 @@ public class Adresse implements Fachwert {
             return false;
         }
         Adresse other = (Adresse) obj;
-        return this.ort.equals(other.ort) && (this.strasse.equalsIgnoreCase(other.strasse))
-                && this.hausnummer.equalsIgnoreCase(other.hausnummer);
+        return this.ort.equals(other.ort) && (this.getStrasseKurz().equalsIgnoreCase(other.getStrasseKurz())) &&
+                this.hausnummer.equalsIgnoreCase(other.hausnummer);
     }
 
     /**
@@ -271,17 +299,26 @@ public class Adresse implements Fachwert {
      */
     @Override
     public int hashCode() {
-        return ort.hashCode() + strasse.hashCode() + hausnummer.hashCode();
+        return ort.hashCode() + hausnummer.hashCode();
     }
 
     /**
      * Hierueber wird die Adresse, beginnend mit dem Ort, ausgegeben.
      *
-     * @return z.B. "12345 Entenhausen, Gansstr. 23"
+     * @return z.B. "12345 Entenhausen, Gansstrasse 23"
      */
     @Override
     public String toString() {
         return this.getOrt() + ", " + this.getStrasse() + " " + this.getHausnummer();
+    }
+
+    /**
+     * Hierueber wird die Adresse, beginnend mit dem Ort, in Kurzform ausgegeben.
+     *
+     * @return z.B. "12345 Entenhausen, Gansstr. 23"
+     */
+    public String toShortString() {
+        return this.getOrt() + ", " + this.getStrasseKurz() + " " + this.getHausnummer();
     }
 
     /**

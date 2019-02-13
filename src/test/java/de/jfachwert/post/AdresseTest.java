@@ -18,7 +18,10 @@ package de.jfachwert.post;/*
 
 import de.jfachwert.FachwertTest;
 import org.junit.Test;
+import patterntesting.runtime.junit.ObjectTester;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -95,6 +98,34 @@ public final class AdresseTest extends FachwertTest {
         assertEquals("Alter Weg", adresse.getStrasse());
         assertEquals("110 a", adresse.getHausnummer());
         assertEquals(adresse, Adresse.of(adresse.getOrt(), adresse.getStrasse(), adresse.getHausnummer()));
+    }
+
+    @Test
+    public void testGetStrasseKurz() {
+        Adresse hauptstrasse = Adresse.of(entenhausen, "Hauptstrasse", 1);
+        assertEquals("Hauptstr.", hauptstrasse.getStrasseKurz());
+    }
+
+    /**
+     * Fuer den Vergleich sollte es keine Rolle spielen, ob die Strasse
+     * ausgeschrieben ("Badstrasse") oder abgekuerzt ("Badstr.") wird.
+     */
+    @Test
+    public void testEqualsStrasse() {
+        Ort ort = Ort.of("12345 Monopoly");
+        Adresse badstr = Adresse.of(ort, "Badstr.", 1);
+        Adresse badstrasse = Adresse.of(ort, "Badstrasse", 1);
+        Adresse badstrasze = Adresse.of(ort, "Badstra\u00dfe", 1);
+        ObjectTester.assertEquals(badstr, badstrasse);
+        ObjectTester.assertEquals(badstr, badstrasze);
+        ObjectTester.assertEquals(badstrasse, badstrasze);
+    }
+
+    @Test
+    public void testToShortString() {
+        Adresse adresse = Adresse.of(entenhausen, "Hauptstrasse", 1);
+        String shortString = adresse.toShortString();
+        assertThat(shortString, shortString.length(), lessThan(adresse.toString().length()));
     }
     
 }
