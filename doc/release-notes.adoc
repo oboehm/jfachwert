@@ -2,6 +2,13 @@
 
 
 
+== 2.1 (SNAPSHOT9
+
+* toleranterer Ortsvergleich: für den Vergleich wird jetzt die PLZ herangezogen.
+  Fehlt diese, wird der Ortsnamen verglichen.
+  (_Achtung_: bis 2.0 wurden Ort mit und ohne PLZ als unterschiedlich angesehen)
+
+
 == 2.0 (9-Feb-2019)
 
 * Fachwerte mit String-Attributen wurden überarbeitet, um den Speicherbedarf zu reduzieren (Vermeidung von String-Duplikaten)

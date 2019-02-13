@@ -20,7 +20,9 @@ package de.jfachwert.post;
 import de.jfachwert.FachwertTest;
 import de.jfachwert.Fachwert;
 import org.junit.Test;
+import patterntesting.runtime.junit.ObjectTester;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -66,16 +68,31 @@ public class OrtTest extends FachwertTest {
     }
 
     /**
+     * Ort in unterschiedlicher Schreibweise sollen als gleich angesehen
+     * werden. Entscheidend hierbei sit die PLZ.
+     */
+    @Test
+    public void testEqualsPLZ() {
+        PLZ plz = PLZ.of("73730");
+        Ort esslingen = Ort.of(plz, "Esslingen");
+        Ort esslingenAmNeckar = Ort.of(plz, "Esslingen am Neckar");
+        ObjectTester.assertEquals(esslingen, esslingenAmNeckar);
+    }
+
+    /**
      * Wenn zwei Ort gleich heissen, aber nur zu einem Ort eine PLZ angegeben
      * wurde, kann man nicht 100% sicher sein, ob das auch der gewuenschte
      * Ort ist. Sollte fuer diesen Fall vielleicht besser eine Exception
      * geschmissen werden?
+     * <p>
+     * Ab 2.1 werden solche Orte jetzt als gleich angesehen.
+     * </p>
      */
     @Test
-    public void testEqualsNotSatisfiable() {
+    public void testEqualsOrt() {
         Ort neustadtHarz = new Ort(new PLZ("99762"), "Neustadt");
         Ort neustadt = new Ort("Neustadt");
-        assertThat(neustadt, not(neustadtHarz));
+        assertThat(neustadt, equalTo(neustadtHarz));
     }
 
     /**

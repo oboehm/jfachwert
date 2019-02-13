@@ -169,12 +169,16 @@ public class Ort implements Fachwert {
             return false;
         }
         Ort other = (Ort) obj;
-        return Objects.equals(this.plz, other.plz) && this.name.equalsIgnoreCase(other.name);
+        if ((this.plz == null) || (other.plz == null)) {
+            return this.name.equalsIgnoreCase(other.name);
+        } else {
+            return this.plz.equals(other.plz);
+        }
     }
 
     @Override
     public int hashCode() {
-        return name.toLowerCase().hashCode();
+        return Objects.hashCode(plz);
     }
 
     /**
