@@ -299,6 +299,7 @@ public class Adresse implements Fachwert {
      *
      * @param other die andere Adresse
      * @return true oder false
+     * @since 2.1
      */
     public boolean equalsExact(Adresse other) {
         return this.ort.equalsExact(other.ort) && (this.strasse.equals(other.strasse)) &&

@@ -71,4 +71,10 @@ public final class TextTest extends FachwertTest {
         assertSame(Text.of("hello"), Text.of("hello"));
     }
 
+    @Test
+    public void testReplaceUmlaute() {
+        Text gruesse = Text.of("Gr\u00fc\u00dfe").replaceUmlaute();
+        assertEquals(Text.of("Gruesse"), gruesse);
+    }
+
 }

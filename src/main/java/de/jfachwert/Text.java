@@ -134,4 +134,19 @@ public class Text extends AbstractFachwert<String> {
         return costs[b.length()];
     }
 
+    /**
+     * Ersetzt Umlaute und scharfes 'S'.
+     *
+     * @return Text ohne Umlaut und scharfem 's'
+     * @since 2.1
+     */
+    public Text replaceUmlaute() {
+        String s = getCode().replace("\u00fc", "ue").replace("\u00f6", "oe").replace("\u00e4", "ae")
+                            .replace("\u00df", "ss").replaceAll("\u00dc(?=[a-z\u00e4\u00f6\u00fc\u00df ])", "Ue")
+                            .replaceAll("\u00d6(?=[a-z\u00e4\u00f6\u00fc\u00df ])", "Oe")
+                            .replaceAll("\u00c4(?=[a-z\u00e4\u00f6\u00fc\u00df ])", "Ae").replace("\u00dc", "UE")
+                            .replace("\u00d6", "OE").replace("\u00c4", "AE");
+        return Text.of(s);
+    }
+    
 }

@@ -185,6 +185,7 @@ public class Ort implements Fachwert {
      *
      * @param other der andere Ort
      * @return true bei exakter Gleichheit
+     * @since 2.1
      */
     public boolean equalsExact(Ort other) {
         return Objects.equals(this.plz, other.plz) && this.name.equals(other.name);
