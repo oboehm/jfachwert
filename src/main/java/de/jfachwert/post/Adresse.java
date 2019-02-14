@@ -275,8 +275,10 @@ public class Adresse implements Fachwert {
     }
 
     /**
-     * Beim Vergleich wird zwischen Gross- und Kleinschreibung nicht
-     * unterschieden.
+     * Hier wird eine logischer Vergleich mit der anderen Adresse
+     * durchgefuehrt. So wird nicht zwischen Gross- und Kleinschreibung
+     * unterschieden und z.B. "Badstrasse" und "Badstr." werden als
+     * die gleiche Strasse angesehen.
      *
      * @param obj die andere Adresse
      * @return true oder false
@@ -288,6 +290,18 @@ public class Adresse implements Fachwert {
         }
         Adresse other = (Adresse) obj;
         return this.ort.equals(other.ort) && (this.getStrasseKurz().equalsIgnoreCase(other.getStrasseKurz())) &&
+                this.hausnummer.equalsIgnoreCase(other.hausnummer);
+    }
+
+    /**
+     * Im Gegensatz zur {@link #equals(Object)}-Methode muss hier die andere
+     * Adresse exakt einstimmen, also auch in Gross- und Kleinschreibung.
+     *
+     * @param other die andere Adresse
+     * @return true oder false
+     */
+    public boolean equalsExact(Adresse other) {
+        return this.ort.equalsExact(other.ort) && (this.strasse.equals(other.strasse)) &&
                 this.hausnummer.equalsIgnoreCase(other.hausnummer);
     }
 

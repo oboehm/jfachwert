@@ -157,8 +157,11 @@ public class Ort implements Fachwert {
     }
 
     /**
-     * Beim Vergleich wird nicht zwischen Gross- und Kleinschreibung
-     * unterschieden.
+     * Hier wird ein logischer Vergleich vorgenommen, ob der andere Ort
+     * der gleiche Ort ist. Kennzeichnend dafuer ist die PLZ. Solange die
+     * PLZ die gleiche ist, darf der Ort unterschiedlich geschrieben sein
+     * (Bsp. "73730 Esslingen" und "73730 Esslingen am Necker" werden als
+     * gleich angesehen.
      *
      * @param obj der andere Ort
      * @return true, falls es der gleiche Ort ist
@@ -174,6 +177,17 @@ public class Ort implements Fachwert {
         } else {
             return this.plz.equals(other.plz);
         }
+    }
+
+    /**
+     * Im Gegensatz zur {@link #equals(Object)}-Methode muss hier der andere
+     * Ort exakt uebereinstimmen. D.h. Sowohl in der PLZ als auch im Namen.
+     *
+     * @param other der andere Ort
+     * @return true bei exakter Gleichheit
+     */
+    public boolean equalsExact(Ort other) {
+        return Objects.equals(this.plz, other.plz) && this.name.equals(other.name);
     }
 
     @Override
