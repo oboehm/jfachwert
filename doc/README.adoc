@@ -7,25 +7,23 @@ sie nicht bereits im obersten link:../README.md[README] enthalten sind.
 
 == CI-Build
 
-.Build-Server
+.Builds
 |===
-|Server|master |develop |Konfiguration
+|Branch |https://travis-ci.org/oboehm/jfachwert/branches[Travis-CI.org] |https://sonarcloud.io/projects[sonarcloud.io]|https://coveralls.io/github/oboehm/jfachwert[CoverAlls.io] |https://codecov.io/gh/oboehm/jfachwert[codecov.io]
 
-|https://travis-ci.org/oboehm/jfachwert/branches[Travis-CI.org]
+|master
 |https://travis-ci.org/oboehm/jfachwert/branches[image:https://travis-ci.org/oboehm/jfachwert.svg?branch=master[Build Status]]
-|https://travis-ci.org/oboehm/jfachwert/branches[image:https://travis-ci.org/oboehm/jfachwert.svg?branch=develop[Build Status]]
-|s. link:../.travis.yml[.travis.yml]
-
-|https://sonarcloud.io/projects[sonarcloud.io]
 |https://sonarcloud.io/dashboard?id=de.jfachwert%3Ajfachwert[image:https://sonarcloud.io/api/project_badges/measure?metric=alert_status&project=de.jfachwert:jfachwert[Quality Gate]]
-|https://sonarcloud.io/dashboard?id=de.jfachwert%3Ajfachwert%3Adevelop[image:https://sonarcloud.io/api/project_badges/measure?metric=alert_status&project=de.jfachwert:jfachwert:develop[Quality Gate]]
-|`sonar:sonar`
+|https://coveralls.io/github/oboehm/jfachwert?branch=master[image:https://coveralls.io/repos/github/oboehm/jfachwert/badge.svg?branch=master[coveralls]]
+|https://codecov.io/gh/oboehm/jfachwert/branch/master[image:https://codecov.io/gh/oboehm/jfachwert/branch/master/graph/badge.svg[codecov]]
 
-|https://coveralls.io/github/oboehm/jfachwert[CoverAlls.io]
-|https://coveralls.io/github/oboehm/jfachwert?branch=master[image:https://coveralls.io/repos/github/oboehm/jfachwert/badge.svg?branch=master[Coverage Status]]
-|https://coveralls.io/github/oboehm/jfachwert?branch=develop[image:https://coveralls.io/repos/github/oboehm/jfachwert/badge.svg?branch=develop[Coverage Status]]
-|`coveralls:report`
+|develop
+|https://travis-ci.org/oboehm/jfachwert/branches[image:https://travis-ci.org/oboehm/jfachwert.svg?branch=develop[Build Status]]
+|https://sonarcloud.io/dashboard?id=de.jfachwert%3Ajfachwert%3Adevelop[image:https://sonarcloud.io/api/project_badges/measure?metric=alert_status&project=de.jfachwert:jfachwert:develop[Quality Gate]]
+|https://coveralls.io/github/oboehm/jfachwert?branch=develop[image:https://coveralls.io/repos/github/oboehm/jfachwert/badge.svg?branch=develop[coveralls]]
+|https://codecov.io/gh/oboehm/jfachwert/branch/develop[image:https://codecov.io/gh/oboehm/jfachwert/branch/develop/graph/badge.svg[codecov]]
 |===
+
 
 Der CI-Build (CI: Continuous Integration) läuft nach einem Commit und einem Push
 auf GitHub an.
