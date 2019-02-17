@@ -77,4 +77,19 @@ public final class TextTest extends FachwertTest {
         assertEquals(Text.of("Gruesse"), gruesse);
     }
 
+    @Test
+    public void testReplaceLazlo() {
+        assertEquals(Text.of("Lazlo"), Text.of("L\u00e1zl\u00f3").replaceUmlaute());
+    }
+
+    @Test
+    public void testReplaceRene() {
+        assertEquals(Text.of("Rene"), Text.of("R\u00e9n\u00e9").replaceUmlaute());
+    }
+
+    @Test
+    public void testReplaceCitroen() {
+        assertEquals(Text.of("Citroen"), Text.of("Citro\u00ebn").replaceUmlaute());
+    }
+
 }
