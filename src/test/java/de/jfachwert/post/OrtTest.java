@@ -17,15 +17,13 @@
  */
 package de.jfachwert.post;
 
-import de.jfachwert.FachwertTest;
 import de.jfachwert.Fachwert;
+import de.jfachwert.FachwertTest;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * Unit-Tests fuer die Ort-Klasse.
@@ -92,7 +90,8 @@ public class OrtTest extends FachwertTest {
     public void testEqualsOrt() {
         Ort neustadtHarz = new Ort(new PLZ("99762"), "Neustadt");
         Ort neustadt = new Ort("Neustadt");
-        assertThat(neustadt, equalTo(neustadtHarz));
+        ObjectTester.assertEquals(neustadt, neustadtHarz);
+        assertFalse(neustadt.equalsExact(neustadtHarz));
     }
 
     /**

@@ -196,9 +196,19 @@ public class Ort implements Fachwert {
         return Objects.equals(this.plz, other.plz) && this.name.equals(other.name);
     }
 
+    /**
+     * Da die PLZ optional ist, kann die PLZ nicht fuer den Hashcode
+     * herangezogen werden. Und auch beim Ort wird es schwierig, da er
+     * unterschiedlich geschrieben werden kann (mit Umlaute oder ohne
+     * Umlaute). Fuer den Hashcode wird daher ausgegangen, dass der
+     * erste Buchstabe auch bei unterschiedlicher Schreibweise immer
+     * gleich ist.
+     *
+     * @return hashcode
+     */
     @Override
     public int hashCode() {
-        return Objects.hashCode(plz);
+        return Character.toUpperCase(normalize(this.name).charAt(0));
     }
 
     /**
