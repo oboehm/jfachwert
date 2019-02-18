@@ -141,7 +141,7 @@ public class Text extends AbstractFachwert<String> {
      * @return Text ohne Umlaut und scharfem 's'
      * @since 2.1
      */
-    public Text replaceUmlaute() {
+    public final Text replaceUmlaute() {
         String s = getCode().replace("\u00fc", "ue").replace("\u00f6", "oe").replace("\u00e4", "ae")
                             .replace("\u00df", "ss").replaceAll("\u00dc(?=[a-z\u00e4\u00f6\u00fc\u00df ])", "Ue")
                             .replaceAll("\u00d6(?=[a-z\u00e4\u00f6\u00fc\u00df ])", "Oe")

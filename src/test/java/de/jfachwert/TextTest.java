@@ -92,4 +92,9 @@ public final class TextTest extends FachwertTest {
         assertEquals(Text.of("Citroen"), Text.of("Citro\u00ebn").replaceUmlaute());
     }
 
+    @Test
+    public void testReplaceUebung() {
+        assertEquals(Text.of("Uebung"), Text.of("\u00dcbung").replaceUmlaute());
+    }
+
 }
