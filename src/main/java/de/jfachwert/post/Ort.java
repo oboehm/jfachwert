@@ -20,6 +20,7 @@ package de.jfachwert.post;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import de.jfachwert.Fachwert;
+import de.jfachwert.Text;
 import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.StringUtils;
@@ -173,10 +174,14 @@ public class Ort implements Fachwert {
         }
         Ort other = (Ort) obj;
         if ((this.plz == null) || (other.plz == null)) {
-            return this.name.equalsIgnoreCase(other.name);
+            return normalize(this.name).equalsIgnoreCase(normalize(other.name));
         } else {
             return this.plz.equals(other.plz);
         }
+    }
+
+    private static String normalize(String ortsname) {
+        return Text.of(ortsname).replaceUmlaute().toString();
     }
 
     /**

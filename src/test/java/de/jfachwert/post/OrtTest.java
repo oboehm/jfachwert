@@ -96,6 +96,17 @@ public class OrtTest extends FachwertTest {
     }
 
     /**
+     * Beim Vergleich sollten Umlaute und Gross- und Kleinschreibung keine
+     * Rolle spielen.
+     */
+    @Test
+    public void testEqualsMuenchen() {
+        Ort mitUmlaut = Ort.of("M\u00fcnchen");
+        Ort ohneUmlaut = Ort.of("MUENCHEN");
+        ObjectTester.assertEquals(ohneUmlaut, mitUmlaut);
+    }
+
+    /**
      * Wenn zwei Ort unterschiedlich sind, brauchen wir die PLZ nicht mehr, um
      * eine Ungleichheit festzustellen.
      */
