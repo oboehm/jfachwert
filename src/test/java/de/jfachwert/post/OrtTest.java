@@ -22,6 +22,7 @@ import de.jfachwert.FachwertTest;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
 
@@ -67,7 +68,7 @@ public class OrtTest extends FachwertTest {
 
     /**
      * Ort in unterschiedlicher Schreibweise sollen als gleich angesehen
-     * werden. Entscheidend hierbei sit die PLZ.
+     * werden. Entscheidend hierbei ist die PLZ.
      */
     @Test
     public void testEqualsPLZ() {
@@ -75,6 +76,16 @@ public class OrtTest extends FachwertTest {
         Ort esslingen = Ort.of(plz, "Esslingen");
         Ort esslingenAmNeckar = Ort.of(plz, "Esslingen am Neckar");
         ObjectTester.assertEquals(esslingen, esslingenAmNeckar);
+    }
+
+    /**
+     * Zwei Ort mit gleicher PLZ aber komplett unterschiedlichem Namen sind
+     * nicht gleich.
+     */
+    @Test
+    public void testEqualsPLZbutDifferentOrt() {
+        PLZ plz = PLZ.of("12345");
+        assertThat(Ort.of(plz, "Monopoloy"), not(equalTo(Ort.of(plz, "Carcassone"))));
     }
 
     /**

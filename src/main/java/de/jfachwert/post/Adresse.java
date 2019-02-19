@@ -20,6 +20,7 @@ package de.jfachwert.post;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.jfachwert.Fachwert;
+import de.jfachwert.Text;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import de.jfachwert.util.ToFachwertSerializer;
@@ -289,8 +290,12 @@ public class Adresse implements Fachwert {
             return false;
         }
         Adresse other = (Adresse) obj;
-        return this.ort.equals(other.ort) && (this.getStrasseKurz().equalsIgnoreCase(other.getStrasseKurz())) &&
+        return this.ort.equals(other.ort) && equalsStrasse(other) &&
                 this.hausnummer.equalsIgnoreCase(other.hausnummer);
+    }
+
+    private boolean equalsStrasse(Adresse other) {
+        return Text.replaceUmlaute(this.getStrasseKurz()).equalsIgnoreCase(Text.replaceUmlaute(other.getStrasseKurz()));
     }
 
     /**

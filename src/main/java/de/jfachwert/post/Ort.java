@@ -173,15 +173,14 @@ public class Ort implements Fachwert {
             return false;
         }
         Ort other = (Ort) obj;
+        String thisName = Text.replaceUmlaute(this.name);
+        String otherName = Text.replaceUmlaute(other.name);
         if ((this.plz == null) || (other.plz == null)) {
-            return normalize(this.name).equalsIgnoreCase(normalize(other.name));
+            return thisName.equalsIgnoreCase(otherName);
         } else {
-            return this.plz.equals(other.plz);
+            return this.plz.equals(other.plz) &&
+                    (Character.toLowerCase(thisName.charAt(0)) == Character.toLowerCase(otherName.charAt(0)));
         }
-    }
-
-    private static String normalize(String ortsname) {
-        return Text.of(ortsname).replaceUmlaute().toString();
     }
 
     /**
@@ -208,7 +207,7 @@ public class Ort implements Fachwert {
      */
     @Override
     public int hashCode() {
-        return Character.toUpperCase(normalize(this.name).charAt(0));
+        return Character.toUpperCase(Text.replaceUmlaute(this.name).charAt(0));
     }
 
     /**

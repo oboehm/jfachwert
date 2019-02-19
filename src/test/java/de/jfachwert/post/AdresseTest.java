@@ -122,6 +122,13 @@ public final class AdresseTest extends FachwertTest {
     }
 
     @Test
+    public void testEqualsUmlaute() {
+        Adresse mitUmlaute = Adresse.of(entenhausen, "H\u00fchnerg\u00e4\u00dfle", 2);
+        Adresse ohneUmlaute = Adresse.of(entenhausen, "huehnergaessle", 2);
+        ObjectTester.assertEquals(ohneUmlaute, mitUmlaute);
+    }
+
+    @Test
     public void testToShortString() {
         Adresse adresse = Adresse.of(entenhausen, "Hauptstrasse", 1);
         String shortString = adresse.toShortString();

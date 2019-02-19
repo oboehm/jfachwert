@@ -142,16 +142,27 @@ public class Text extends AbstractFachwert<String> {
      * @since 2.1
      */
     public final Text replaceUmlaute() {
-        String s = getCode().replace("\u00fc", "ue").replace("\u00f6", "oe").replace("\u00e4", "ae")
+        return Text.of(replaceUmlaute(getCode()));
+    }
+
+    /**
+     * Ersetzt Umlaute und scharfes 'S'. Diese Methode wurde als statische
+     * Methode herausgezogen, da sie an anderen Stellen benoetigt werden.
+     *
+     * @param text Text (mit Umlaute)
+     * @return Text ohne Umlaut und scharfem 's'
+     * @since 2.1
+     */
+    public static String replaceUmlaute(String text) {
+        String s = text.replace("\u00fc", "ue").replace("\u00f6", "oe").replace("\u00e4", "ae")
                             .replace("\u00df", "ss").replaceAll("\u00dc(?=[a-z\u00e4\u00f6\u00fc\u00df ])", "Ue")
                             .replaceAll("\u00d6(?=[a-z\u00e4\u00f6\u00fc\u00df ])", "Oe")
                             .replaceAll("\u00c4(?=[a-z\u00e4\u00f6\u00fc\u00df ])", "Ae").replace("\u00dc", "UE")
                             .replace("\u00d6", "OE").replace("\u00c4", "AE");
-        s = StringUtils.replaceChars(s,
-                "\u00e1\u00e0\u00e2\u00e9\u00e8\u00ea\u00eb\u00f3\u00f2\u00f4\u00fa\u00f9\u00fb" +
+        return StringUtils
+                .replaceChars(s, "\u00e1\u00e0\u00e2\u00e9\u00e8\u00ea\u00eb\u00f3\u00f2\u00f4\u00fa\u00f9\u00fb" +
                         "\u00c1\u00c0\u00c2\u00c9\u00c8\u00ca\u00d3\u00d2\u00d4\u00da\u00d9\u00db",
                 "aaaeeeeooouuuAAAEEEOOOUUU");
-        return Text.of(s);
     }
-    
+
 }
