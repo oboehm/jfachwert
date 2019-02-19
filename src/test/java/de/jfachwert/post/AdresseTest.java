@@ -23,6 +23,7 @@ import patterntesting.runtime.junit.ObjectTester;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * Unit-Teests fuer de.jfachwert.post.Adresse.
@@ -133,6 +134,34 @@ public final class AdresseTest extends FachwertTest {
         Adresse adresse = Adresse.of(entenhausen, "Hauptstrasse", 1);
         String shortString = adresse.toShortString();
         assertThat(shortString, shortString.length(), lessThan(adresse.toString().length()));
+    }
+
+    /**
+     * Leerzeichen sollten beim Vergleich der Hausnummern keine Rolle spielen.
+     */
+    @Test
+    public void testEqualsHausnummer() {
+        Adresse duckstr = Adresse.of(entenhausen, "Duckstr.", "2 - 4");
+        Adresse einsa = Adresse.of(entenhausen, "Duckstr.", "2-4");
+        ObjectTester.assertEquals(duckstr, einsa);
+    }
+
+    /**
+     * Hausnummern mit oder ohne zusaetzliche Angaben sollen als gleich
+     * angesehen werden.
+     */
+    @Test
+    public void testEqualsHausnummerEinsA() {
+        Adresse duckstr = Adresse.of(entenhausen, "Duckstr.", 1);
+        Adresse einsa = Adresse.of(entenhausen, "Duckstr.", "1a");
+        ObjectTester.assertEquals(duckstr, einsa);
+    }
+
+    @Test
+    public void testDifferentHausnummern() {
+        Adresse eins = Adresse.of(entenhausen, "Duckstr.", 1);
+        Adresse zwei = Adresse.of(entenhausen, "Duckstr.", 2);
+        assertNotEquals(eins, zwei);
     }
     
 }

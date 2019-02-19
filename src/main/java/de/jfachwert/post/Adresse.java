@@ -276,6 +276,15 @@ public class Adresse implements Fachwert {
     }
 
     /**
+     * Liefert die Hausnummer in Kurzform (ohne Leerzeichen).
+     *
+     * @return z.B. "1-3"
+     */
+    public String getHausnummerKurz() {
+        return StringUtils.deleteWhitespace(hausnummer);
+    }
+
+    /**
      * Hier wird eine logischer Vergleich mit der anderen Adresse
      * durchgefuehrt. So wird nicht zwischen Gross- und Kleinschreibung
      * unterschieden und z.B. "Badstrasse" und "Badstr." werden als
@@ -290,12 +299,21 @@ public class Adresse implements Fachwert {
             return false;
         }
         Adresse other = (Adresse) obj;
-        return this.ort.equals(other.ort) && equalsStrasse(other) &&
-                this.hausnummer.equalsIgnoreCase(other.hausnummer);
+        return this.ort.equals(other.ort) && equalsStrasse(other) && equalsHausnummer(other);
     }
 
     private boolean equalsStrasse(Adresse other) {
         return Text.replaceUmlaute(this.getStrasseKurz()).equalsIgnoreCase(Text.replaceUmlaute(other.getStrasseKurz()));
+    }
+
+    private boolean equalsHausnummer(Adresse other) {
+        String thisNr = normalizeHausnummer(this.getHausnummer());
+        String otherNr = normalizeHausnummer(other.getHausnummer());
+        return thisNr.equals(otherNr);
+    }
+
+    private static String normalizeHausnummer(String nr) {
+        return nr.replaceAll("[^\\d]", "");
     }
 
     /**
@@ -319,7 +337,7 @@ public class Adresse implements Fachwert {
      */
     @Override
     public int hashCode() {
-        return ort.hashCode() + hausnummer.hashCode();
+        return ort.hashCode() + normalizeHausnummer(hausnummer).hashCode();
     }
 
     /**
@@ -338,7 +356,7 @@ public class Adresse implements Fachwert {
      * @return z.B. "12345 Entenhausen, Gansstr. 23"
      */
     public String toShortString() {
-        return this.getOrt() + ", " + this.getStrasseKurz() + " " + this.getHausnummer();
+        return this.getOrt() + ", " + this.getStrasseKurz() + " " + this.getHausnummerKurz();
     }
 
     /**
