@@ -98,7 +98,7 @@ public class Name extends Text {
 
     @Override
     public int hashCode() {
-        return this.replaceUmlaute().toLowerCase().hashCode();
+        return normalize(this).toLowerCase().hashCode();
     }
 
     /**
@@ -115,7 +115,11 @@ public class Name extends Text {
             return false;
         }
         Name other = (Name) obj;
-        return this.replaceUmlaute().equalsIgnoreCase(other.replaceUmlaute());
+        return normalize(this).equalsIgnoreCase(normalize(other));
+    }
+
+    private static String normalize(Name name) {
+        return StringUtils.deleteWhitespace(name.replaceUmlaute().toString());
     }
 
     /**

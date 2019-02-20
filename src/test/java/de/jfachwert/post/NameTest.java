@@ -67,6 +67,11 @@ public final class NameTest extends AbstractFachwertTest<String> {
     }
 
     @Test
+    public void testEqualsWithWhitespaces() {
+        ObjectTester.assertEquals(Name.of("Duck,  Tick "), Name.of(" Duck ,Tick"));
+    }
+
+    @Test
     public void testEqualsExact() {
         Name a = new Name("hugo");
         Name b = new Name("Hugo");
