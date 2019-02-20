@@ -227,4 +227,10 @@ public final class RechnungsmonatTest extends FachwertTest {
         assertSame(m3, m4);
     }
 
+    @Test
+    public void testAsMonate() {
+        assertEquals(1, Rechnungsmonat.of(1, 0).asMonate());
+        assertEquals(2000 * 12, Rechnungsmonat.of(12, 1999).asMonate());
+    }
+
 }

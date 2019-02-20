@@ -260,6 +260,16 @@ public class Rechnungsmonat implements Fachwert {
     }
 
     /**
+     * Liefert den Abrechnungsmonat als Anzahl Monate zurueck.
+     *
+     * @return Anzahl Monate seit Christi Geburt
+     * @since 2.1
+     */
+    public int asMonate() {
+        return this.monate + 1;
+    }
+
+    /**
      * Liefert den Monat zurueck.
      *
      * @return Zahl zwischen 1 und 12

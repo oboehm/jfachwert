@@ -21,8 +21,7 @@ import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 /**
  * Unit-Tests fuer {@link Name}-Klasse.
@@ -65,6 +64,15 @@ public final class NameTest extends AbstractFachwertTest<String> {
         Name mitUmlaute = Name.of("G\u00f6the, G\u00fcnther");
         Name ohneUmlaute = Name.of("goethe, guenther");
         ObjectTester.assertEquals(ohneUmlaute, mitUmlaute);
+    }
+
+    @Test
+    public void testEqualsExact() {
+        Name a = new Name("hugo");
+        Name b = new Name("Hugo");
+        Name c = new Name("Hugo");
+        assertFalse(a.equalsExact(b));
+        assertTrue(b.equalsExact(c));
     }
 
 }

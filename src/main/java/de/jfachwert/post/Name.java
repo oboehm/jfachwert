@@ -118,4 +118,16 @@ public class Name extends Text {
         return this.replaceUmlaute().equalsIgnoreCase(other.replaceUmlaute());
     }
 
+    /**
+     * Im Gegensatz zur {@link #equals(Object)}-Methode muss hier der andere
+     * Name exakt einstimmen, also auch in Gross- und Kleinschreibung.
+     *
+     * @param other der andere Name
+     * @return true oder false
+     * @since 2.1
+     */
+    public boolean equalsExact(Name other) {
+        return super.equals(other);
+    }
+
 }
