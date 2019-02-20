@@ -20,6 +20,9 @@ package de.jfachwert.post;
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 /**
  * Unit-Tests fuer {@link Name}-Klasse.
  *
@@ -35,6 +38,21 @@ public final class NameTest extends AbstractFachwertTest<String> {
     @Override
     protected String getCode() {
         return "Duck, Donald";
+    }
+
+    @Test
+    public void testGetNachname() {
+        assertEquals("Duck", Name.of("Duck, Donald").getNachname());
+    }
+
+    @Test
+    public void testGetVorname() {
+        assertEquals("Donald", Name.of("Duck, Donald").getVorname());
+    }
+
+    @Test
+    public void testHasVorname() {
+        assertFalse(Name.of("Duck").hasVorname());
     }
 
 }

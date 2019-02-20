@@ -20,6 +20,7 @@ package de.jfachwert.post;
 import de.jfachwert.SimpleValidator;
 import de.jfachwert.Text;
 import de.jfachwert.pruefung.LengthValidator;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.WeakHashMap;
 
@@ -66,6 +67,34 @@ public class Name extends Text {
      */
     public static Name of(String name) {
         return WEAK_CACHE.computeIfAbsent(name, Name::new);
+    }
+
+    /**
+     * Liefert den Nachnamen.
+     *
+     * @return z.B. "Duck"
+     */
+    public String getNachname() {
+        return StringUtils.substringBefore(getCode(), ",");
+    }
+
+    /**
+     * Liefert den oder die Nachnamen.
+     *
+     * @return z.B. "Donald"
+     */
+    public String getVorname() {
+        return StringUtils.substringAfter(getCode(), ",").trim();
+    }
+
+    /**
+     * Liefert 'true' zurueck, falls ein Vorname im abgespeicherten Namen
+     * enthalten ist.
+     *
+     * @return true, false
+     */
+    public boolean hasVorname() {
+        return getCode().contains(",");
     }
 
 }
