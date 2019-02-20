@@ -17,7 +17,6 @@
  */
 package de.jfachwert.post;
 
-import de.jfachwert.Text;
 import de.jfachwert.pruefung.LengthValidator;
 import org.apache.commons.lang3.StringUtils;
 
@@ -32,7 +31,7 @@ import java.util.WeakHashMap;
  * @author oboehm
  * @since 0.5 (18.01.2018)
  */
-public class Adressat extends Text {
+public class Adressat extends Name {
 
     private static final WeakHashMap<String, Adressat> WEAK_CACHE = new WeakHashMap<>();
 
@@ -77,22 +76,13 @@ public class Adressat extends Text {
      * 
      * @return z.B. "Max"
      */
+    @Override
     public String getVorname() {
         if (hasVorname()) {
-            return StringUtils.substringAfter(this.getCode(), ",").trim();
+            return super.getVorname();
         } else {
             throw new IllegalStateException("keine nat\u00fcrliche Person: " + this.getCode());
         }
-    }
-
-    /**
-     * Bei natuerlichen Personen wird Nachname vom Vorname durch ein Komma
-     * getrennt. Dies wird hier fuer die Pruefung herangezogen.
-     * 
-     * @return true bei natuerlichen Personen mit Vornamen
-     */
-    public boolean hasVorname() {
-        return this.getCode().contains(",");
     }
 
 }
