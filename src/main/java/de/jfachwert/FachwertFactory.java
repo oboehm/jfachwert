@@ -113,6 +113,7 @@ public class FachwertFactory {
         INSTANCE.register(IK.class);
         INSTANCE.register(LANR.class);
         INSTANCE.register(BSNR.class);
+        INSTANCE.register(Name.class);
     }
 
     private FachwertFactory() {
