@@ -2,13 +2,13 @@
 
 
 
-== 2.1 (SNAPSHOT9
+== 2.1 (20-Feb-2019)
 
 * Logischer Vergleich bei Klassen im post-Package:
   Beim Vergleich von Adresse Ort und Strasse müssen sie nicht mehr exakt uebereinstimmen.
   So werden "73730 Esslingen, Badstr. 5" und "73730 Esslingen/N, Badstrasse 5" als die gleiche Adresse angesehen.
   _Achtung_: dieses Verhalte ist bis Version 2.0 anders - hier muss die Adresse exakt übereinstimmen.
-* Will man den Vergleich exakt, gibt es dazu die diesen Klassen eine "equalsExact"-Methode.
+* Will man den Vergleich exakt, gibt es dazu in diesen Klassen eine "equalsExact"-Methode.
 
 
 == 2.0 (9-Feb-2019)
