@@ -33,7 +33,6 @@ import java.util.WeakHashMap;
  */
 public class Name extends Text {
 
-    private static final SimpleValidator<String> VALIDATOR = new LengthValidator<>(1);
     private static final WeakHashMap<String, Name> WEAK_CACHE = new WeakHashMap<>();
 
     /**
@@ -43,7 +42,7 @@ public class Name extends Text {
      * @param name, z.B. "Duck, Donald"
      */
     public Name(String name) {
-        this(name, VALIDATOR);
+        this(name, LengthValidator.NOT_EMPTY_VALIDATOR);
     }
 
     /**
@@ -95,6 +94,28 @@ public class Name extends Text {
      */
     public boolean hasVorname() {
         return getCode().contains(",");
+    }
+
+    @Override
+    public int hashCode() {
+        return this.replaceUmlaute().toLowerCase().hashCode();
+    }
+
+    /**
+     * Hier werden Namen logisch verglichen. So werden Namen auch als gleich
+     * angesehen, wenn sie mit oder ohne Umlaute geschrieben werden.
+     *
+     * @param obj zu vergleichender Name
+     * @return true bei Gleichheit
+     * @see Object#equals(Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Name) || (!this.getClass().isAssignableFrom(obj.getClass()))) {
+            return false;
+        }
+        Name other = (Name) obj;
+        return this.replaceUmlaute().equalsIgnoreCase(other.replaceUmlaute());
     }
 
 }

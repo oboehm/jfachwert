@@ -19,6 +19,7 @@ package de.jfachwert.post;
 
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
+import patterntesting.runtime.junit.ObjectTester;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -53,6 +54,17 @@ public final class NameTest extends AbstractFachwertTest<String> {
     @Test
     public void testHasVorname() {
         assertFalse(Name.of("Duck").hasVorname());
+    }
+
+    /**
+     * Umlaute sollten beim Vergleich keine Rolle spielen. Ebenso Gross- und
+     * Kleinschreibung.
+     */
+    @Test
+    public void testEquals() {
+        Name mitUmlaute = Name.of("G\u00f6the, G\u00fcnther");
+        Name ohneUmlaute = Name.of("goethe, guenther");
+        ObjectTester.assertEquals(ohneUmlaute, mitUmlaute);
     }
 
 }

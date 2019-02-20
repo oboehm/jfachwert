@@ -18,7 +18,6 @@
 package de.jfachwert.post;
 
 import de.jfachwert.pruefung.LengthValidator;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.WeakHashMap;
 
@@ -67,7 +66,7 @@ public class Adressat extends Name {
      * @return z.B. "Mustermann"
      */
     public String getName() {
-        return StringUtils.substringBefore(this.getCode(), ",").trim();
+        return getNachname();
     }
 
     /**

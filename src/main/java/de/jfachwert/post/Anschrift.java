@@ -220,7 +220,9 @@ public class Anschrift implements Fachwert {
 
     /**
      * Liefert den Namen. Ein Name kann eine Person oder eine Personengruppe
-     * (zum Beispiel Unternehmen, Vereine und Aehnliches) sein.
+     * (zum Beispiel Unternehmen, Vereine und Aehnliches) sein. Will man den
+     * kompletten Namen (mit Vor- und Nachname), nimmt man die
+     * {@link #getAdressat()}-Methode.
      *
      * @return z.B. "Mustermann"
      */

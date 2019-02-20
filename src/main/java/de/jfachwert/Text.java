@@ -165,4 +165,35 @@ public class Text extends AbstractFachwert<String> {
                 "aaaeeeeooouuuAAAEEEOOOUUU");
     }
 
+    /**
+     * Liefert einen Text mit Kleinbuchstaben.
+     *
+     * @return Text mit Kleinbuchstaben
+     * @since 2.1
+     */
+    public Text toLowerCase() {
+        return Text.of(getCode().toLowerCase());
+    }
+
+    /**
+     * Liefert einen Text mit Grossbuchstaben.
+     *
+     * @return Text mit Grossbuchstaben
+     * @since 2.1
+     */
+    public Text toUpperCase() {
+        return Text.of(getCode().toUpperCase());
+    }
+
+    /**
+     * Ignoriert beim Vergleich Gross- und Kleinschreibung.
+     *
+     * @param other der anderer Text
+     * @return true bei Gleichheit
+     * @since 2.1
+     */
+    public boolean equalsIgnoreCase(Text other) {
+        return this.getCode().equalsIgnoreCase(other.getCode());
+    }
+
 }
