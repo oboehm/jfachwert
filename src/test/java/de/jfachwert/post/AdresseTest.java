@@ -20,10 +20,10 @@ import de.jfachwert.FachwertTest;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThan;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
 /**
  * Unit-Teests fuer de.jfachwert.post.Adresse.
@@ -127,6 +127,17 @@ public final class AdresseTest extends FachwertTest {
         Adresse mitUmlaute = Adresse.of(entenhausen, "H\u00fchnerg\u00e4\u00dfle", 2);
         Adresse ohneUmlaute = Adresse.of(entenhausen, "huehnergaessle", 2);
         ObjectTester.assertEquals(ohneUmlaute, mitUmlaute);
+    }
+
+    @Test
+    public void testEqualsExact() {
+        Adresse a = Adresse.of("12345 Monopoly, Badstrasse 1");
+        Adresse b = Adresse.of("12345 Monopoly, Badstrasse 1");
+        Adresse kurz = Adresse.of("12345 M., Badstr. 1");
+        assertEquals(a, b);
+        assertEquals(a, kurz);
+        assertTrue(a.equalsExact(b));
+        assertFalse(a.equalsExact(kurz));
     }
 
     @Test
