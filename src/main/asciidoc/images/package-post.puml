@@ -8,7 +8,10 @@ package "post" {
     class Ort
     class PLZ
     class Postfach
+    class Name
 
 }
+
+Name <|-- Adressat
 
 @enduml

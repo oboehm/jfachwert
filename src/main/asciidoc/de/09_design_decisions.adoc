@@ -68,7 +68,7 @@ Bei Klassen, die Ähnlichkeiten zur Number-Klasse haben (wie z.B. Geldbetrag), w
 
 Mit v1.2 wurde für alle wichtigen Klassen in interner Cache eingeführt, in dem erzeugte Objekte abgelegt werden.
 Dies dient vor allem zur Reduktion des Speicherbedarfs.
-Dies wird über die of-Methode gesteuert.
+Dies wird über die `of(..)`-Methode gesteuert.
 
 Damit die Cache-Verwaltung selber nicht zu Speicherproblemen führt, wurde dazu eine `WeakHashMap` verwendet.
 Von daher werden Duplikate zwar reduziert, können aber auch nicht ganz ausgeschlossen werden.
@@ -79,6 +79,10 @@ Von daher werden Duplikate zwar reduziert, können aber auch nicht ganz ausgesch
 
 Die equals- und hashCode-Methode wurden jeweils überschrieben.
 Zwei Fachwerte sind gleich, wenn sie jeweils die gleichen Werte besitzen.
+
+Bei Klassen im post-Paket findet ein fachlicher Vergleich statt (ab v2.1).
+So werden bei der Adresse "Göthestraße", "Goethestrasse" und "Göthestr." jeweils als die gleiche Straße angesehen.
+Möchte man es exakt, gibt es in diesen Klasse eine `equalsExact(..)`-Methode.
 
 
 === toString
