@@ -97,4 +97,29 @@ public final class TextTest extends FachwertTest {
         assertEquals(Text.of("Uebung"), Text.of("\u00dcbung").replaceUmlaute());
     }
 
+    @Test
+    public void testEqualsIgnoreCase() {
+        assertTrue(Text.of("hello").equalsIgnoreCase(Text.of("Hello")));
+    }
+
+    @Test
+    public void testEqualsIgnoreUmlaute() {
+        assertTrue(Text.of("Gruesse").equalsIgnoreUmlaute(Text.of("Gr\u00fc\u00dfe")));
+    }
+
+    @Test
+    public void testEqualsIgnoreCaseAndUmlaute() {
+        assertTrue(Text.of("GRUESSE").equalsIgnoreCaseAndUmlaute(Text.of("Gr\u00fc\u00dfe")));
+    }
+
+    @Test
+    public void testToLowerCase() {
+        assertEquals(Text.of("world"), Text.of("World").toLowerCase());
+    }
+
+    @Test
+    public void testToUpperCase() {
+        assertEquals(Text.of("WORLD"), Text.of("World").toUpperCase());
+    }
+    
 }

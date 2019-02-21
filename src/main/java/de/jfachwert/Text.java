@@ -196,4 +196,26 @@ public class Text extends AbstractFachwert<String> {
         return this.getCode().equalsIgnoreCase(other.getCode());
     }
 
+    /**
+     * Ignoriert beim Vergleich die Umlaute.
+     *
+     * @param other der anderer Text
+     * @return true bei Gleichheit
+     * @since 2.2
+     */
+    public boolean equalsIgnoreUmlaute(Text other) {
+        return this.replaceUmlaute().equals(other.replaceUmlaute());
+    }
+
+    /**
+     * Ignoriert beim Vergleich die Umlaute sowie Gross- und Kleinschreibung.
+     *
+     * @param other der anderer Text
+     * @return true bei Gleichheit
+     * @since 2.2
+     */
+    public boolean equalsIgnoreCaseAndUmlaute(Text other) {
+        return this.replaceUmlaute().equalsIgnoreCase(other.replaceUmlaute());
+    }
+
 }
