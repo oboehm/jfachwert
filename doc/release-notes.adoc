@@ -2,6 +2,11 @@
 
 
 
+== 2.1 (geplant)
+
+* NULL-Objekte für die Initialisierung von Variablen
+
+
 == 2.1.1 (SNAPSHOT)
 
 * Architektur-Dokumentation aktualisert

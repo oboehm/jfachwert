@@ -101,6 +101,22 @@ public final class AdresseTest extends FachwertTest {
         assertEquals(adresse, Adresse.of(adresse.getOrt(), adresse.getStrasse(), adresse.getHausnummer()));
     }
 
+    /**
+     * Es soll auch Adressen ohne Hausnummer geben.
+     */
+    @Test
+    public void testAdresseOhneHausnummer() {
+        Adresse adr = Adresse.of("12345 Nirwana, am Ende der Welt");
+        assertEquals("am Ende der Welt", adr.getStrasse());
+    }
+
+    @Test
+    public void testAdresseKurz() {
+        Adresse adresse = Adresse.of("11111 K., Str.2-4");
+        assertEquals("Str.", adresse.getStrasse());
+        assertEquals("2-4", adresse.getHausnummer());
+    }
+
     @Test
     public void testGetStrasseKurz() {
         Adresse hauptstrasse = Adresse.of(entenhausen, "Hauptstrasse", 1);
@@ -173,6 +189,15 @@ public final class AdresseTest extends FachwertTest {
         Adresse eins = Adresse.of(entenhausen, "Duckstr.", 1);
         Adresse zwei = Adresse.of(entenhausen, "Duckstr.", 2);
         assertNotEquals(eins, zwei);
+    }
+
+    @Test
+    public void testOf() {
+        Ort ort = Ort.of("23456 Monopoly");
+        Adresse adresse = Adresse.of(ort, "Badstr.2");
+        assertEquals(ort, adresse.getOrt());
+        assertEquals("Badstr.", adresse.getStrasse());
+        assertEquals("2", adresse.getHausnummer());
     }
     
 }

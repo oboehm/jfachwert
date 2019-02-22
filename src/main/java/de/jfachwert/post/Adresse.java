@@ -115,6 +115,18 @@ public class Adresse implements Fachwert {
     /**
      * Liefert eine Adresse mit den uebergebenen Parametern.
      *
+     * @param ort     Ort
+     * @param strasse Strasse mit oder ohne Hausnummer
+     * @return Adresse
+     */
+    public static Adresse of(Ort ort, String strasse) {
+        List<String> splitted = toStrasseHausnummer(strasse);
+        return of(ort, splitted.get(0), splitted.get(1));
+    }
+
+    /**
+     * Liefert eine Adresse mit den uebergebenen Parametern.
+     *
      * @param ort        the ort
      * @param strasse    the strasse
      * @param hausnummer the hausnummer
@@ -150,9 +162,6 @@ public class Adresse implements Fachwert {
         }
         if (StringUtils.isBlank(strasse)) {
             throw new InvalidValueException(strasse, "street");
-        }
-        if (StringUtils.isBlank(hausnummer)) {
-            throw new InvalidValueException(hausnummer, "house_number");
         }
         if (Character.isDigit(strasse.trim().charAt(0)) && (Character.isLetter(hausnummer.trim().charAt(0)))
                 && (strasse.length() < hausnummer.length())) {
@@ -204,15 +213,12 @@ public class Adresse implements Fachwert {
     }
 
     private static List<String> toStrasseHausnummer(String line) {
-        String[] splitted = line.trim().split("\\s+");
-        if (splitted.length != 2) {
-            splitted = line.split("\\s+[0-9]", 2);
-            splitted[1] = line.substring(splitted[0].length()).trim();
+        int indexNr = StringUtils.indexOfAny(line, "0123456789");
+        if (indexNr <= 0) {
+            return Arrays.asList(line.trim(), "");
+        } else {
+            return Arrays.asList(line.substring(0, indexNr).trim(), line.substring(indexNr).trim());
         }
-        if (splitted.length != 2) {
-            throw new InvalidValueException(line, "street_or_house_number");
-        }
-        return Arrays.asList(splitted);
     }
 
     /**
