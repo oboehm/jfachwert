@@ -19,9 +19,10 @@ package de.jfachwert.med;
 
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.SimpleValidator;
 import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.LuhnVerfahren;
-import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
+import de.jfachwert.pruefung.NullValidator;
 
 import javax.validation.ValidationException;
 import java.util.WeakHashMap;
@@ -46,9 +47,11 @@ import java.util.WeakHashMap;
  */
 public class IK extends AbstractFachwert<Integer> {
 
-    private static final PruefzifferVerfahren<String> MOD10 = new LuhnVerfahren();
-    private static final LengthValidator<Integer> VALIDATOR = new LengthValidator<>(9, 9);
+    private static final SimpleValidator<Integer> VALIDATOR = new Validator();
     private static final WeakHashMap<Integer, IK> WEAK_CACHE = new WeakHashMap<>();
+
+    /** Null-Konstante fuer Initialisierungen. */
+    public static final IK NULL = new IK(0, new NullValidator<>());
 
     /**
      * Erzeugt ein neues IK-Objekt.
@@ -58,14 +61,24 @@ public class IK extends AbstractFachwert<Integer> {
     public IK(String code) {
         this(Integer.parseInt(code));
     }
-    
+
     /**
      * Erzeugt ein neues IK-Objekt.
      *
      * @param code Institutionskennzeichen (mit Pruefziffer), z.B. 260326822
      */
     public IK(int code) {
-        super(verify(code));
+        this(code, VALIDATOR);
+    }
+
+    /**
+     * Erzeugt ein neues IK-Objekt.
+     *
+     * @param code      Institutionskennzeichen (mit Pruefziffer), z.B. 260326822
+     * @param validator Validator zur Pruefung der Zahl
+     */
+    public IK(int code, SimpleValidator<Integer> validator) {
+        super(code, validator);
     }
 
     /**
@@ -94,19 +107,11 @@ public class IK extends AbstractFachwert<Integer> {
      *
      * @param nummer 9-stellige Nummer
      * @return die Nummer selbst zur Weiterverarbeitung
+     * @deprecated bitte {@link Validator#validate(Integer)} verwenden
      */
+    @Deprecated
     public static int validate(int nummer) {
-        int n = VALIDATOR.validate(nummer);
-        MOD10.validate(Integer.toString(n));
-        return n;
-    }
-
-    private static int verify(int nummer) {
-        try {
-            return validate(nummer);
-        } catch (ValidationException ex) {
-            throw new LocalizedIllegalArgumentException(ex);
-        }
+        return VALIDATOR.validate(nummer);
     }
 
     /**
@@ -145,6 +150,36 @@ public class IK extends AbstractFachwert<Integer> {
      */
     public int getPruefziffer() {
         return getCode() / 100_000_000;
+    }
+
+
+    /**
+     * Dieser Validator ist auf IK abgestimmt. Er kombiniert den
+     * MOD10-Validator mit dem LengthValidator.
+     *
+     * @since 2.1
+     */
+    public static class Validator implements SimpleValidator<Integer> {
+
+        private static final PruefzifferVerfahren<String> MOD10 = new LuhnVerfahren();
+        private static final LengthValidator<Integer> VALIDATOR9 = new LengthValidator<>(9, 9);
+
+        /**
+         * Wenn der uebergebene Wert gueltig ist, soll er unveraendert
+         * zurueckgegeben werden, damit er anschliessend von der aufrufenden
+         * Methode weiterverarbeitet werden kann. Ist der Wert nicht gueltig,
+         * soll eine {@link ValidationException} geworfen
+         * werden.
+         *
+         * @param nummer Wert, der validiert werden soll
+         * @return Wert selber, wenn er gueltig ist
+         */
+        @Override
+        public Integer validate(Integer nummer) {
+            int n = VALIDATOR9.validate(nummer);
+            MOD10.validate(Integer.toString(n));
+            return n;
+        }
     }
     
 }

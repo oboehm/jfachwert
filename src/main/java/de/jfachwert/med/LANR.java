@@ -18,11 +18,11 @@
 package de.jfachwert.med;
 
 import de.jfachwert.AbstractFachwert;
+import de.jfachwert.SimpleValidator;
 import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.Mod10Verfahren;
-import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
+import de.jfachwert.pruefung.NullValidator;
 
-import javax.validation.ValidationException;
 import java.util.WeakHashMap;
 
 /**
@@ -38,6 +38,9 @@ public class LANR extends AbstractFachwert<Integer> {
 
     private static final LengthValidator<Integer> VALIDATOR = new LengthValidator<>(4, 9);
     private static final WeakHashMap<Integer, LANR> WEAK_CACHE = new WeakHashMap<>();
+
+    /** Null-Konstante fuer Initialisierungen. */
+    public static final LANR NULL = new LANR(0, new NullValidator<>());
 
     /** Pseudonummer fuer Bundeswehraerzte, Zahnaerzte und Hebammen. */
     public static final LANR PSEUDO_NUMMER = LANR.of(999999900);
@@ -57,7 +60,17 @@ public class LANR extends AbstractFachwert<Integer> {
      * @param code neunstellige Zahl
      */
     public LANR(int code) {
-        super(verify(code));
+        this(code, VALIDATOR);
+    }
+
+    /**
+     * Erzeugt ein neues LANR-Objekt.
+     *
+     * @param code      neunstellige Zahl
+     * @param validator Validator zur Pruefung der Zahl
+     */
+    public LANR(int code, SimpleValidator<Integer> validator) {
+        super(code, validator);
     }
 
     /**
@@ -90,14 +103,6 @@ public class LANR extends AbstractFachwert<Integer> {
      */
     public static int validate(int nummer) {
         return VALIDATOR.validate(nummer);
-    }
-
-    private static int verify(int nummer) {
-        try {
-            return validate(nummer);
-        } catch (ValidationException ex) {
-            throw new LocalizedIllegalArgumentException(ex);
-        }
     }
 
     /**

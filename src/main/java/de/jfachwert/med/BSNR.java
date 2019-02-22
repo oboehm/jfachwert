@@ -38,7 +38,7 @@ public class BSNR extends AbstractFachwert<Integer> {
     private static final LengthValidator<Integer> VALIDATOR = new LengthValidator<>(2, 9);
     private static final WeakHashMap<Integer, BSNR> WEAK_CACHE = new WeakHashMap<>();
 
-    /** Null-Wert fuer Initialisierung. */
+    /** Null-Konstante fuer Initialisierungen. */
     public static final BSNR NULL = new BSNR(0, new NullValidator<>());
 
     /**
@@ -63,6 +63,7 @@ public class BSNR extends AbstractFachwert<Integer> {
      * Erzeugt ein neues BSNR-Objekt.
      *
      * @param code neunstellige Zahl
+     * @param validator Validator zur Pruefung der Zahl
      */
     public BSNR(int code, SimpleValidator<Integer> validator) {
         super(code, validator);

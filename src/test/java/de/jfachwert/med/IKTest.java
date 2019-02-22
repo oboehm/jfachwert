@@ -64,7 +64,7 @@ public final class IKTest extends AbstractFachwertTest<Integer> {
 
     @Test(expected = ValidationException.class)
     public void testValidate() {
-        IK.validate(123456789);
+        new IK.Validator().validate(123456789);
     }
 
     @Test(expected = IllegalArgumentException.class)
