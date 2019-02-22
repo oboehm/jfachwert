@@ -17,7 +17,9 @@
  */
 package de.jfachwert.post;
 
+import de.jfachwert.SimpleValidator;
 import de.jfachwert.pruefung.LengthValidator;
+import de.jfachwert.pruefung.NullValidator;
 
 import java.util.WeakHashMap;
 
@@ -34,6 +36,9 @@ public class Adressat extends Name {
 
     private static final WeakHashMap<String, Adressat> WEAK_CACHE = new WeakHashMap<>();
 
+    /** Null-Konstante fuer Initialisierungen. */
+    public static final Adressat NULL = new Adressat("", new NullValidator<>());
+
     /**
      * Erzeugt eine Adressat mit dem angegebenen Namen. Dabei kann es sich um
      * eine natuerliche Person (z.B. "Mustermann, Max") oder eine juristische
@@ -42,11 +47,27 @@ public class Adressat extends Name {
      * Das Format des Adressat ist so, wie er auf dem Brief angegeben wird:
      * "Nachname, Vorname" bei Personen bzw. Name bei juristischen Personen.
      * </p>
-     * 
+     *
      * @param name z.B. "Mustermann, Max"
      */
     public Adressat(String name) {
-        super(name, LengthValidator.NOT_EMPTY_VALIDATOR);
+        this(name, LengthValidator.NOT_EMPTY_VALIDATOR);
+    }
+
+    /**
+     * Erzeugt eine Adressat mit dem angegebenen Namen. Dabei kann es sich um
+     * eine natuerliche Person (z.B. "Mustermann, Max") oder eine juristische
+     * Person (z.B. "Ich AG") handeln.
+     * <p>
+     * Das Format des Adressat ist so, wie er auf dem Brief angegeben wird:
+     * "Nachname, Vorname" bei Personen bzw. Name bei juristischen Personen.
+     * </p>
+     *
+     * @param name      z.B. "Mustermann, Max"
+     * @param validator Validator fuer die Ueberpruefung des Namens
+     */
+    public Adressat(String name, SimpleValidator<String> validator) {
+        super(name, validator);
     }
 
     /**

@@ -42,7 +42,10 @@ import java.util.logging.Logger;
 public class Anschrift implements Fachwert {
 
     private static final Logger LOG = Logger.getLogger(Anschrift.class.getName());
-    public static final String ADDRESS = "address";
+    private static final String ADDRESS = "address";
+
+    /** Null-Wert fuer Initialisierung. */
+    public static final Anschrift NULL = new Anschrift(Adressat.NULL, Adresse.NULL);
 
     private final Adressat adressat;
     private final Adresse adresse;

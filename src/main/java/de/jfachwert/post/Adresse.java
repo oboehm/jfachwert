@@ -50,7 +50,7 @@ public class Adresse implements Fachwert {
     private static final Logger LOG = Logger.getLogger(Adresse.class.getName());
     private static final Pattern PATTERN_STRASSE = Pattern.compile(".*(?i)tra(ss|[\u00dfe])e$");
 
-    /** Null-Wert. */
+    /** Null-Konstante. */
     public static final Adresse NULL = new Adresse(Ort.NULL, "", "", new NullValidator<>());
 
     private final Ort ort;

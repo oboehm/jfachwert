@@ -23,6 +23,7 @@ import de.jfachwert.Fachwert;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import de.jfachwert.util.ToFachwertSerializer;
+import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ValidationException;
@@ -47,6 +48,9 @@ public class Postfach implements Fachwert {
 
     private final BigInteger nummer;
     private final Ort ort;
+
+    /** Null-Konstante fuer Initialisierungen. */
+    public static final Postfach NULL = new Postfach(Ort.NULL);
 
     /**
      * Zerlegt den uebergebenen String in seine Einzelteile und validiert sie.
@@ -209,7 +213,7 @@ public class Postfach implements Fachwert {
         if (StringUtils.isBlank(number)) {
             return Optional.empty();
         }
-        String unformatted = StringUtils.replaceAll(number, "Postfach|\\s+", "");
+        String unformatted = RegExUtils.replaceAll(number, "Postfach|\\s+", "");
         try {
             return Optional.of(new BigInteger(unformatted));
         } catch (NumberFormatException nfe) {
