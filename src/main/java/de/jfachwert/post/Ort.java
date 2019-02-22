@@ -20,8 +20,10 @@ package de.jfachwert.post;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import de.jfachwert.Fachwert;
+import de.jfachwert.SimpleValidator;
 import de.jfachwert.Text;
 import de.jfachwert.pruefung.LengthValidator;
+import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.StringUtils;
 
@@ -46,7 +48,11 @@ import java.util.logging.Logger;
 @JsonSerialize(using = ToStringSerializer.class)
 public class Ort implements Fachwert {
 
+    private static final SimpleValidator<String> VALIDATOR = new LengthValidator<>(1);
     private static final Logger LOG = Logger.getLogger(Ort.class.getName());
+
+    /** Null-Wert fuer Initialisierung. */
+    public static final Ort NULL = new Ort(PLZ.NULL, "", new NullValidator<>());
 
     private final String name;
     private final PLZ plz;
@@ -63,7 +69,7 @@ public class Ort implements Fachwert {
     private Ort(String[] values) {
         this(values[0].isEmpty() ? null : new PLZ(values[0]), values[1]);
     }
-    
+
     /**
      * Hierueber kann ein Ort mit PLZ angelegt werden.
      *
@@ -71,8 +77,19 @@ public class Ort implements Fachwert {
      * @param name Name des Ortes
      */
     public Ort(PLZ plz, String name) {
+        this(plz, name, VALIDATOR);
+    }
+
+    /**
+     * Hierueber kann ein Ort mit PLZ angelegt werden.
+     *
+     * @param plz       Postleitzahl des Ortes
+     * @param name      Name des Ortes
+     * @param validator Validator fuer die Ueberpruefung der Strasse
+     */
+    public Ort(PLZ plz, String name, SimpleValidator<String> validator) {
         this.plz = plz;
-        this.name = verify(name);
+        this.name = verify(name, validator);
     }
 
     /**
@@ -105,15 +122,19 @@ public class Ort implements Fachwert {
      * @return der validierte Ortsname zur Weiterverabeitung
      */
     public static String validate(String name) {
+        return validate(name, VALIDATOR);
+    }
+
+    private static String validate(String name, SimpleValidator<String> validator) {
         String[] splitted = split(name);
         String ortsname = splitted[1];
-        LengthValidator.validate(ortsname, 1, Integer.MAX_VALUE);
+        validator.validate(ortsname);
         return name;
     }
 
-    private static String verify(String name) {
+    private static String verify(String name, SimpleValidator<String> validator) {
         try {
-            return validate(name);
+            return validate(name, validator);
         } catch (ValidationException ex) {
             throw new LocalizedIllegalArgumentException(ex);
         }

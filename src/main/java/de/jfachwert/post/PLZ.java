@@ -41,6 +41,9 @@ public class PLZ extends Text {
 
     private static final WeakHashMap<String, PLZ> WEAK_CACHE = new WeakHashMap<>();
 
+    /** Null-Wert fuer Initialisierung. */
+    public static final PLZ NULL = PLZ.of("00000");
+
     /**
      * Hierueber wird eine Postleitzahl angelegt.
      *

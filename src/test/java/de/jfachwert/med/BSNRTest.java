@@ -60,4 +60,13 @@ public class BSNRTest extends AbstractFachwertTest<Integer> {
         BSNR.of(1234567890);
     }
 
+    /**
+     * Betriebsnummern koennen fuehrende Nullen enthalten.
+     */
+    @Test
+    public void testOf() {
+        BSNR nr = BSNR.of("000002091");
+        assertEquals("000002091", nr.toString());
+    }
+
 }
