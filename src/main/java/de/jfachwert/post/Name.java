@@ -20,6 +20,7 @@ package de.jfachwert.post;
 import de.jfachwert.SimpleValidator;
 import de.jfachwert.Text;
 import de.jfachwert.pruefung.LengthValidator;
+import de.jfachwert.pruefung.NullValidator;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.WeakHashMap;
@@ -34,6 +35,9 @@ import java.util.WeakHashMap;
 public class Name extends Text {
 
     private static final WeakHashMap<String, Name> WEAK_CACHE = new WeakHashMap<>();
+
+    /** Null-Wert fuer Initialisierung. */
+    public static final Name NULL = new Name("", new NullValidator<>());
 
     /**
      * Erzeugt einen Namen. Erwartet wird ein einzelner Name, oder

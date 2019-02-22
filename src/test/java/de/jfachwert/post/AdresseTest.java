@@ -88,6 +88,11 @@ public final class AdresseTest extends FachwertTest {
         Adresse.validate(adresse);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidAdresse() {
+        Adresse.of(entenhausen, "", "");
+    }
+
     /**
      * Hier testen wir, ob der Konstruktor die uebergebene Adresse richtig
      * zerlegt.

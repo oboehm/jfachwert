@@ -85,7 +85,7 @@ public class Ort implements Fachwert {
      *
      * @param plz       Postleitzahl des Ortes
      * @param name      Name des Ortes
-     * @param validator Validator fuer die Ueberpruefung der Strasse
+     * @param validator Validator fuer die Ueberpruefung des Ortes
      */
     public Ort(PLZ plz, String name, SimpleValidator<String> validator) {
         this.plz = plz;

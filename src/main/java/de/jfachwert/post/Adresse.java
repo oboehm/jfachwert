@@ -20,7 +20,10 @@ package de.jfachwert.post;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.jfachwert.Fachwert;
+import de.jfachwert.SimpleValidator;
 import de.jfachwert.Text;
+import de.jfachwert.pruefung.LengthValidator;
+import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import de.jfachwert.util.ToFachwertSerializer;
@@ -43,8 +46,12 @@ import java.util.regex.Pattern;
 @JsonSerialize(using = ToFachwertSerializer.class)
 public class Adresse implements Fachwert {
 
+    private static final SimpleValidator<String> VALIDATOR = new LengthValidator<>(1);
     private static final Logger LOG = Logger.getLogger(Adresse.class.getName());
     private static final Pattern PATTERN_STRASSE = Pattern.compile(".*(?i)tra(ss|[\u00dfe])e$");
+
+    /** Null-Wert. */
+    public static final Adresse NULL = new Adresse(Ort.NULL, "", "", new NullValidator<>());
 
     private final Ort ort;
     private final String strasse;
@@ -69,7 +76,7 @@ public class Adresse implements Fachwert {
     private Adresse(String[] adresse) {
         this(new Ort(adresse[0]), adresse[1], adresse[2]);
     }
-    
+
     /**
      * Erzeugt eine neue Adresse.
      *
@@ -78,10 +85,22 @@ public class Adresse implements Fachwert {
      * @param hausnummer the hausnummer
      */
     public Adresse(Ort ort, String strasse, String hausnummer) {
+        this(ort, strasse, hausnummer, VALIDATOR);
+    }
+
+    /**
+     * Erzeugt eine neue Adresse.
+     *
+     * @param ort        the ort
+     * @param strasse    the strasse
+     * @param hausnummer the hausnummer
+     * @param validator  Validator fuer die Ueberpruefung der Strasse
+     */
+    public Adresse(Ort ort, String strasse, String hausnummer, SimpleValidator<String> validator) {
         this.ort = ort;
         this.strasse = strasse;
         this.hausnummer = hausnummer;
-        validate(ort, strasse, hausnummer);
+        verify(ort, strasse, hausnummer, validator);
     }
 
     /**
@@ -149,6 +168,14 @@ public class Adresse implements Fachwert {
         return of(ort, strasse, Integer.toString(hausnummer));
     }
 
+    private static void verify(Ort ort, String strasse, String hausnummer, SimpleValidator<String> validator) {
+        try {
+            validate(ort, strasse, hausnummer, validator);
+        } catch (ValidationException ex) {
+            throw new LocalizedIllegalArgumentException(ex);
+        }
+    }
+
     /**
      * Validiert die uebergebene Adresse auf moegliche Fehler.
      *
@@ -157,14 +184,20 @@ public class Adresse implements Fachwert {
      * @param hausnummer die Hausnummer
      */
     public static void validate(Ort ort, String strasse, String hausnummer) {
-        if (!ort.getPLZ().isPresent()) {
-            throw new InvalidValueException(ort, "postal_code");
-        }
         if (StringUtils.isBlank(strasse)) {
             throw new InvalidValueException(strasse, "street");
         }
-        if (Character.isDigit(strasse.trim().charAt(0)) && (Character.isLetter(hausnummer.trim().charAt(0)))
-                && (strasse.length() < hausnummer.length())) {
+        validate(ort, strasse, hausnummer, VALIDATOR);
+    }
+
+    private static void validate(Ort ort, String strasse, String hausnummer, SimpleValidator<String> validator) {
+        if (!ort.getPLZ().isPresent()) {
+            throw new InvalidValueException(ort, "postal_code");
+        }
+        validator.validate(strasse);
+        if (StringUtils.isNotBlank(strasse) && StringUtils.isNotBlank(hausnummer) &&
+                Character.isDigit(strasse.trim().charAt(0)) && (Character.isLetter(hausnummer.trim().charAt(0))) &&
+                (strasse.length() < hausnummer.length())) {
             throw new InvalidValueException(strasse + " " + hausnummer, "values_exchanged");
         }
     }
