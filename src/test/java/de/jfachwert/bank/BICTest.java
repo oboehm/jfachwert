@@ -73,7 +73,7 @@ public final class BICTest extends AbstractFachwertTest<String> {
      */
     @Test(expected = ValidationException.class)
     public void testValidate() {
-        BIC.validate("GENODEF1J  ");
+        BIC.VALIDATOR.validate("GENODEF1J  ");
     }
 
     /**

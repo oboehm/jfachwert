@@ -17,9 +17,10 @@
  */
 package de.jfachwert.bank;
 
+import de.jfachwert.SimpleValidator;
 import de.jfachwert.Text;
+import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.exception.InvalidLengthException;
-import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
@@ -58,21 +59,29 @@ public class BIC extends Text {
 
     private static final WeakHashMap<String, BIC> WEAK_CACHE = new WeakHashMap<>();
 
+    /** BIC-Validator. */
+    public static final SimpleValidator<String> VALIDATOR = new Validator();
+
+    /** Null-Konstante fuer Initialisierungen. */
+    public static final BIC NULL = new BIC("", new NullValidator<>());
+
     /**
      * Hierueber wird eine neue BIC angelegt.
      *
      * @param code eine 11- oder 14-stellige BIC
      */
     public BIC(String code) {
-        super(verify(code));
+        this(code, VALIDATOR);
     }
 
-    private static String verify(String bic) {
-        try {
-            return validate(bic);
-        } catch (InvalidLengthException ex) {
-            throw new LocalizedIllegalArgumentException(ex);
-        }
+    /**
+     * Hierueber wird eine neue BIC angelegt.
+     *
+     * @param code      eine 11- oder 14-stellige BIC
+     * @param validator zum Pruefen der BIC
+     */
+    public BIC(String code, SimpleValidator<String> validator) {
+        super(code, validator);
     }
 
     /**
@@ -81,14 +90,11 @@ public class BIC extends Text {
      *
      * @param bic die BIC (11- oder 14-stellig)
      * @return die validierte BIC (zur Weiterverarbeitung)
+     * @deprecated bitte {@link Validator#validate(String)} verwenden
      */
+    @Deprecated
     public static String validate(String bic) {
-        String normalized = StringUtils.trim(bic);
-        List<Integer> allowedLengths = Arrays.asList(8, 11, 14);
-        if (!allowedLengths.contains(normalized.length()))  {
-            throw new InvalidLengthException(normalized, allowedLengths);
-        }
-        return normalized;
+        return VALIDATOR.validate(bic);
     }
 
     /**
@@ -101,4 +107,30 @@ public class BIC extends Text {
         return WEAK_CACHE.computeIfAbsent(code, BIC::new);
     }
 
+
+    /**
+     * Dieser Validator ist fuer die Ueberpruefung von BICs vorgesehen.
+     *
+     * @since 2.2
+     */
+    public static class Validator implements SimpleValidator<String> {
+
+        /**
+         * Hierueber kann man eine BIC validieren.
+         *
+         * @param bic die BIC (11- oder 14-stellig)
+         * @return die validierte BIC (zur Weiterverarbeitung)
+         */
+        @Override
+        public String validate(String bic) {
+            String normalized = StringUtils.trim(bic);
+            List<Integer> allowedLengths = Arrays.asList(8, 11, 14);
+            if (!allowedLengths.contains(normalized.length())) {
+                throw new InvalidLengthException(normalized, allowedLengths);
+            }
+            return normalized;
+        }
+
+    }
+    
 }
