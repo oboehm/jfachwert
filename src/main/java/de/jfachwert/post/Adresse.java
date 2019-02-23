@@ -351,13 +351,19 @@ public class Adresse implements Fachwert {
     }
 
     private boolean equalsHausnummer(Adresse other) {
-        String thisNr = normalizeHausnummer(this.getHausnummer());
-        String otherNr = normalizeHausnummer(other.getHausnummer());
-        return thisNr.equals(otherNr);
+        String[] thisNr = normalizeHausnummer(this.getHausnummer());
+        String[] otherNr = normalizeHausnummer(other.getHausnummer());
+        return thisNr[0].equals(otherNr[0]) || thisNr[1].equals(otherNr[0]) || thisNr[0].equals(otherNr[1]) ||
+                thisNr[1].equals(otherNr[1]);
     }
 
-    private static String normalizeHausnummer(String nr) {
-        return nr.replaceAll("[^\\d]", "");
+    private static String[] normalizeHausnummer(String nr) {
+        String vonBis = nr.replaceAll("[^\\d\\-]", "");
+        if (vonBis.contains("-")) {
+            return vonBis.split("-");
+        } else {
+            return new String[]{vonBis, vonBis};
+        }
     }
 
     /**
@@ -381,7 +387,7 @@ public class Adresse implements Fachwert {
      */
     @Override
     public int hashCode() {
-        return ort.hashCode() + normalizeHausnummer(hausnummer).hashCode();
+        return normalizeStrasse(this).toLowerCase().hashCode();
     }
 
     /**

@@ -178,16 +178,6 @@ public final class AdresseTest extends FachwertTest {
         assertThat(shortString, shortString.length(), lessThan(adresse.toString().length()));
     }
 
-    /**
-     * Leerzeichen sollten beim Vergleich der Hausnummern keine Rolle spielen.
-     */
-    @Test
-    public void testEqualsHausnummer() {
-        Adresse duckstr = Adresse.of(entenhausen, "Duckstr.", "2 - 4");
-        Adresse einsa = Adresse.of(entenhausen, "Duckstr.", "2-4");
-        ObjectTester.assertEquals(duckstr, einsa);
-    }
-
     @Test
     public void testNotEquals() {
         Adresse eins = Adresse.of(entenhausen, "Duckstr.", 1);
@@ -196,13 +186,35 @@ public final class AdresseTest extends FachwertTest {
     }
 
     /**
+     * Leerzeichen sollten beim Vergleich der Hausnummern keine Rolle spielen.
+     */
+    @Test
+    public void testEqualsHausnummer() {
+        compareHausnummer("2 - 4", "2-4");
+    }
+
+    /**
      * Hausnummern mit oder ohne zusaetzliche Angaben sollen als gleich
      * angesehen werden.
      */
     @Test
     public void testEqualsHausnummerEinsA() {
-        Adresse duckstr = Adresse.of(entenhausen, "Duckstr.", 1);
-        Adresse einsa = Adresse.of(entenhausen, "Duckstr.", "1a");
+        compareHausnummer("1", "1a");
+    }
+
+    @Test
+    public void testEqualsHausnummerVon() {
+        compareHausnummer("7-9", "7");
+    }
+
+    @Test
+    public void testEqualsHausnummerBis() {
+        compareHausnummer("7-9", "9");
+    }
+
+    private void compareHausnummer(String n1, String n2) {
+        Adresse duckstr = Adresse.of(entenhausen, "Duckstr.", n1);
+        Adresse einsa = Adresse.of(entenhausen, "Duckstr.", n2);
         ObjectTester.assertEquals(duckstr, einsa);
     }
 
