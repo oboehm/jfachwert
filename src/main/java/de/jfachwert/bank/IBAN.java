@@ -18,14 +18,14 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.SimpleValidator;
 import de.jfachwert.Text;
 import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.Mod97Verfahren;
+import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.exception.InvalidLengthException;
-import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.validation.ValidationException;
 import java.util.Locale;
 import java.util.WeakHashMap;
 
@@ -42,8 +42,14 @@ public class IBAN extends Text {
     private static final PruefzifferVerfahren<String> MOD97 = Mod97Verfahren.getInstance();
     private static final WeakHashMap<String, IBAN> WEAK_CACHE = new WeakHashMap<>();
 
+    /** IBAN-Validator. */
+    public static final SimpleValidator<String> VALIDATOR = new Validator();
+
     /** Konstante fuer unbekannte IBAN (aus Wikipedia, aber mit korrigierter Pruefziffer). */
     public static final IBAN UNBEKANNT = new IBAN("DE07123412341234123412");
+
+    /** Null-Konstante. */
+    public static final IBAN NULL = new IBAN("", new NullValidator<String>());
 
     /**
      * Instantiiert eine neue IBAN.
@@ -51,7 +57,7 @@ public class IBAN extends Text {
      * @param iban im unformattierten Format
      */
     public IBAN(String iban) {
-        this(iban, MOD97);
+        this(iban, VALIDATOR);
     }
 
     /**
@@ -63,8 +69,8 @@ public class IBAN extends Text {
      * @param iban        die IBAN
      * @param pzVerfahren das verwendete PruefzifferVerfahren
      */
-    public IBAN(String iban, PruefzifferVerfahren<String> pzVerfahren) {
-        super(verify(iban, pzVerfahren));
+    public IBAN(String iban, SimpleValidator<String> pzVerfahren) {
+        super(iban, pzVerfahren);
     }
 
     /**
@@ -76,35 +82,11 @@ public class IBAN extends Text {
      *
      * @param iban die 22-stellige IBAN
      * @return die IBAN in normalisierter Form (ohne Leerzeichen)
+     * @deprecated use {@link Validator#validate(String)}
      */
+    @Deprecated
     public static String validate(String iban) {
-        return validate(iban, MOD97);
-    }
-
-    @SuppressWarnings("squid:SwitchLastCaseIsDefaultCheck")
-    private static String validate(String iban, PruefzifferVerfahren<String> pzVerfahren) {
-        String normalized = StringUtils.remove(iban, ' ').toUpperCase();
-        LengthValidator.validate(normalized, 16, 34);
-        switch (normalized.substring(0,1)) {
-            case "AT":
-                LengthValidator.validate(iban, 20);
-                break;
-            case "CH":
-                LengthValidator.validate(iban, 21);
-                break;
-            case "DE":
-                LengthValidator.validate(iban, 22);
-                break;
-        }
-        return pzVerfahren.validate(normalized);
-    }
-
-    private static String verify(String iban, PruefzifferVerfahren<String> pzVerfahren) {
-        try {
-            return validate(iban, pzVerfahren);
-        } catch (ValidationException ex) {
-            throw new LocalizedIllegalArgumentException(ex);
-        }
+        return VALIDATOR.validate(iban);
     }
 
     /**
@@ -195,6 +177,44 @@ public class IBAN extends Text {
     public Kontonummer getKontonummer() {
         String iban = this.getUnformatted();
         return new Kontonummer(iban.substring(12));
+    }
+
+
+    /**
+     * Dieser Validator ist fuer die Ueberpruefung von IBANS vorgesehen.
+     *
+     * @since 2.2
+     */
+    public static class Validator implements SimpleValidator<String> {
+
+        /**
+         * Mit dieser Methode kann man eine IBAN validieren, ohne dass man erst
+         * den Konstruktor aufrufen muss. Falls die Pruefziffer nicht stimmt,
+         * wird eine {@link javax.validation.ValidationException} geworfen, wenn
+         * die Laenge nicht uebereinstimmt eine {@link InvalidLengthException}.
+         * Die Laenge liegt zwischen 16 (Belgien) und 34 Zeichen.
+         *
+         * @param iban die 22-stellige IBAN
+         * @return die IBAN in normalisierter Form (ohne Leerzeichen)
+         */
+        @Override
+        @SuppressWarnings("squid:SwitchLastCaseIsDefaultCheck")
+        public String validate(String iban) {
+            String normalized = StringUtils.remove(iban, ' ').toUpperCase();
+            LengthValidator.validate(normalized, 16, 34);
+            switch (normalized.substring(0,1)) {
+                case "AT":
+                    LengthValidator.validate(iban, 20);
+                    break;
+                case "CH":
+                    LengthValidator.validate(iban, 21);
+                    break;
+                case "DE":
+                    LengthValidator.validate(iban, 22);
+                    break;
+            }
+            return MOD97.validate(normalized);
+        }
     }
 
 }

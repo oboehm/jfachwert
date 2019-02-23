@@ -67,7 +67,7 @@ public final class IBANTest extends AbstractFachwertTest<String> {
      */
     @Test(expected = ValidationException.class)
     public void testValidate() {
-        IBAN.validate("                                  ");
+        IBAN.VALIDATOR.validate("                                  ");
     }
 
     /**

@@ -157,7 +157,7 @@ public class IK extends AbstractFachwert<Integer> {
      * Dieser Validator ist auf IK abgestimmt. Er kombiniert den
      * MOD10-Validator mit dem LengthValidator.
      *
-     * @since 2.1
+     * @since 2.2
      */
     public static class Validator implements SimpleValidator<Integer> {
 
