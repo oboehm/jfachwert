@@ -85,7 +85,7 @@ public final class BLZTest extends AbstractFachwertTest<PackedDecimal> {
      */
     @Test
     public void testValidate() {
-        BLZ.validate(64090100);
+        BLZ.VALIDATOR.validate(64090100);
     }
 
 }

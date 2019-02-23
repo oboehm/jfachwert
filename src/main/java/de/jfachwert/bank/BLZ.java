@@ -18,12 +18,12 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwert;
+import de.jfachwert.SimpleValidator;
 import de.jfachwert.math.PackedDecimal;
+import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.NumberValidator;
-import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.RegExUtils;
 
-import javax.validation.ValidationException;
 import java.util.WeakHashMap;
 
 /**
@@ -41,8 +41,13 @@ import java.util.WeakHashMap;
  */
 public class BLZ extends AbstractFachwert<PackedDecimal> {
 
-    private static final NumberValidator NUMBER_VALIDATOR = new NumberValidator(100, 99_999_999);
     private static final WeakHashMap<String, BLZ> WEAK_CACHE = new WeakHashMap<>();
+
+    /** BLZ-Validator. */
+    public static final Validator VALIDATOR = new Validator();
+
+    /** Null-Konstante fuer Initialisierungen. */
+    public static final BLZ NULL = new BLZ("", new NullValidator<>());
 
     /**
      * Hierueber wird eine neue BLZ angelegt.
@@ -50,7 +55,17 @@ public class BLZ extends AbstractFachwert<PackedDecimal> {
      * @param code eine 5- oder 8-stellige Zahl
      */
     public BLZ(String code) {
-        super(PackedDecimal.valueOf(verify(code)));
+        this(code, VALIDATOR);
+    }
+
+    /**
+     * Hierueber wird eine neue BLZ angelegt.
+     *
+     * @param code      eine 5- oder 8-stellige Zahl
+     * @param validator fuer die Ueberpruefung
+     */
+    public BLZ(String code, SimpleValidator<PackedDecimal> validator) {
+        super(PackedDecimal.valueOf(code), validator);
     }
 
     /**
@@ -67,29 +82,24 @@ public class BLZ extends AbstractFachwert<PackedDecimal> {
      *
      * @param blz die Bankleitzahl
      * @return die Bankleitzahl zur Weitervarabeitung
+     * @deprecated bitte {@link Validator#validate(String)} verwenden
      */
+    @Deprecated
     public static int validate(int blz) {
-        verify(Integer.toString(blz));
+        VALIDATOR.validate(PackedDecimal.of(blz));
         return blz;
-    }
-
-    private static String verify(String s) {
-        try {
-            return validate(s);
-        } catch (ValidationException ex) {
-            throw new LocalizedIllegalArgumentException(ex);
-        }
     }
 
     /**
      * Eine BLZ darf maximal 8-stellig sein.
      *
      * @param blz die Bankleitzahl
-     * @return die Bankleitzahl zur Weitervarabeitung
+     * @return die Bankleitzahl zur Weiterverabeitung
+     * @deprecated bitte {@link Validator#validate(String)} verwenden
      */
+    @Deprecated
     public static String validate(String blz) {
-        String normalized = RegExUtils.replaceAll(blz, "\\s", "");
-        return NUMBER_VALIDATOR.validate(normalized);
+        return VALIDATOR.validate(PackedDecimal.of(blz)).toString();
     }
 
     /**
@@ -135,5 +145,51 @@ public class BLZ extends AbstractFachwert<PackedDecimal> {
         }
         return buf.toString().trim();
     }
-    
+
+
+    /**
+     * Dieser Validator ist fuer die Ueberpruefung von BLZs vorgesehen.
+     *
+     * @since 2.2
+     */
+    public static class Validator implements SimpleValidator<PackedDecimal> {
+
+        private static final NumberValidator NUMBER_VALIDATOR = new NumberValidator(100, 99_999_999);
+
+        /**
+         * Eine BLZ darf maximal 8-stellig sein.
+         *
+         * @param blz die Bankleitzahl
+         * @return die Bankleitzahl zur Weiterverabeitung
+         */
+        @Override
+        public PackedDecimal validate(PackedDecimal blz) {
+            String normalized = validate(blz.toString());
+            return PackedDecimal.of(normalized);
+        }
+
+        /**
+         * Eine BLZ darf maximal 8-stellig sein.
+         *
+         * @param blz die Bankleitzahl
+         * @return die Bankleitzahl zur Weiterverabeitung
+         */
+        public String validate(String blz) {
+            String normalized = RegExUtils.replaceAll(blz, "\\s", "");
+            return NUMBER_VALIDATOR.validate(normalized);
+        }
+
+        /**
+         * Eine BLZ darf maximal 8-stellig sein.
+         *
+         * @param blz die Bankleitzahl
+         * @return die Bankleitzahl zur Weiterverabeitung
+         */
+        public int validate(int blz) {
+            validate(Integer.toString(blz));
+            return blz;
+        }
+
+    }
+
 }
