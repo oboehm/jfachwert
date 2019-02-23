@@ -123,7 +123,7 @@ public class Name extends Text {
     }
 
     private static String normalize(Name name) {
-        return StringUtils.deleteWhitespace(name.replaceUmlaute().toString());
+        return StringUtils.deleteWhitespace(name.replaceUmlaute().toString().replace("-", ""));
     }
 
     /**

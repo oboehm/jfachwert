@@ -67,6 +67,13 @@ public final class NameTest extends AbstractFachwertTest<String> {
     }
 
     @Test
+    public void testNotEquals() {
+        Name tick = Name.of("Duck, Tick");
+        Name trick = Name.of("Duck, Trick");
+        assertNotEquals(tick, trick);
+    }
+
+    @Test
     public void testEqualsWithWhitespaces() {
         ObjectTester.assertEquals(Name.of("Duck,  Tick "), Name.of(" Duck ,Tick"));
     }
@@ -78,6 +85,16 @@ public final class NameTest extends AbstractFachwertTest<String> {
         Name c = new Name("Hugo");
         assertFalse(a.equalsExact(b));
         assertTrue(b.equalsExact(c));
+    }
+
+    @Test
+    public void testEqualsKarlHeinz() {
+        Name a = Name.of("Ott, Karl Heinz");
+        Name b = Name.of("Ott, Karl-Heinz");
+        Name c = Name.of("Ott, Karlheinz");
+        ObjectTester.assertEquals(a, b);
+        ObjectTester.assertEquals(a, c);
+        ObjectTester.assertEquals(b, c);
     }
 
 }
