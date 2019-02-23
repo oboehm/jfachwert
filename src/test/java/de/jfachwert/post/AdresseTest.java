@@ -1,4 +1,4 @@
-package de.jfachwert.post;/*
+/*
  * Copyright (c) 2017 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,13 +15,12 @@ package de.jfachwert.post;/*
  *
  * (c)reated 21.02.2017 by oboehm (ob@oasd.de)
  */
+package de.jfachwert.post;
 
 import de.jfachwert.FachwertTest;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
-import static junit.framework.TestCase.assertTrue;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.*;
 
@@ -143,6 +142,17 @@ public final class AdresseTest extends FachwertTest {
         ObjectTester.assertEquals(badstrasse, badstrasze);
     }
 
+    /**
+     * Beim Vergleich sollen unterschiedliche Schreibweisen (mit oder ohne)
+     * Bindestrich ignoriert werden.
+     */
+    @Test
+    public void testEqualsStrasseMitBindestrich() {
+        Adresse mitBindestrich = Adresse.of(entenhausen, "Nord-West-Str.", 7);
+        Adresse ohneBindestrich = Adresse.of(entenhausen, "Nordwest Str.", 7);
+        ObjectTester.assertEquals(mitBindestrich, ohneBindestrich);
+    }
+
     @Test
     public void testEqualsUmlaute() {
         Adresse mitUmlaute = Adresse.of(entenhausen, "H\u00fchnerg\u00e4\u00dfle", 2);
@@ -176,6 +186,13 @@ public final class AdresseTest extends FachwertTest {
         Adresse duckstr = Adresse.of(entenhausen, "Duckstr.", "2 - 4");
         Adresse einsa = Adresse.of(entenhausen, "Duckstr.", "2-4");
         ObjectTester.assertEquals(duckstr, einsa);
+    }
+
+    @Test
+    public void testNotEquals() {
+        Adresse eins = Adresse.of(entenhausen, "Duckstr.", 1);
+        Adresse zwei = Adresse.of(entenhausen, "Druckstr.", 1);
+        assertNotEquals(eins, zwei);
     }
 
     /**

@@ -27,6 +27,7 @@ import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import de.jfachwert.util.ToFachwertSerializer;
+import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ValidationException;
@@ -342,7 +343,11 @@ public class Adresse implements Fachwert {
     }
 
     private boolean equalsStrasse(Adresse other) {
-        return Text.replaceUmlaute(this.getStrasseKurz()).equalsIgnoreCase(Text.replaceUmlaute(other.getStrasseKurz()));
+        return normalizeStrasse(this).equalsIgnoreCase(normalizeStrasse(other));
+    }
+
+    private static String normalizeStrasse(Adresse adr) {
+        return Text.replaceUmlaute(RegExUtils.removeAll(adr.getStrasseKurz(), "[\\s\\p{Punct}]"));
     }
 
     private boolean equalsHausnummer(Adresse other) {
