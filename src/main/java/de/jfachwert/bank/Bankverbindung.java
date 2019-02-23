@@ -44,6 +44,9 @@ public class Bankverbindung implements Fachwert {
     private final IBAN iban;
     private final BIC bic;
 
+    /** Null-Konstante fuer Initialisierungen. */
+    public static final Bankverbindung NULL = new Bankverbindung("", IBAN.NULL, BIC.NULL);
+
     /**
      * Zerlegt den uebergebenen String in Name, IBAN und (optional) BIC.
      * Folgende Heuristiken werden fuer die Zerlegung angewendet:
