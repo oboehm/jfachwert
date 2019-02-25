@@ -43,6 +43,9 @@ public class Bruch extends AbstractNumber implements Fachwert, Comparable<Bruch>
     private final BigInteger zaehler;
     private final BigInteger nenner;
 
+    /** Null-Konstante fuer Initialisierungen. */
+    public static final Bruch NULL = new Bruch(0, 1);
+
     /**
      * Legt einen Bruch mit dem angegeben Zaehler und Nenner an. Brueche
      * koennen dabei mit Bruchstrich ("1/2") oder als Dezimalzahl ("0.5")

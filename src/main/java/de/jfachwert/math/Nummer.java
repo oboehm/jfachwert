@@ -46,6 +46,9 @@ public class Nummer extends AbstractNumber implements Fachwert {
     private static final Nummer[] CACHE = new Nummer[11];
     private final PackedDecimal code;
 
+    /** Null-Konstante fuer Initialisierungen. */
+    public static final Nummer NULL = new Nummer("");
+
     static {
         for (int i = 0; i < CACHE.length; i++) {
             CACHE[i] = new Nummer(i);
@@ -166,6 +169,7 @@ public class Nummer extends AbstractNumber implements Fachwert {
      *
      * @return z.B. 42
      */
+    @Override
     public int intValue() {
         return code.intValue();
     }
@@ -175,6 +179,7 @@ public class Nummer extends AbstractNumber implements Fachwert {
      *
      * @return z.B. 42L
      */
+    @Override
     public long longValue() {
         return code.longValue();
     }

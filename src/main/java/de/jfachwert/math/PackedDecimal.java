@@ -108,10 +108,13 @@ import java.util.logging.Logger;
 public class PackedDecimal extends AbstractNumber implements Fachwert, Comparable<PackedDecimal> {
 
     private static final Logger LOG = Logger.getLogger(PackedDecimal.class.getName());
-    private static final NullValidator VALIDATOR = new NullValidator();
+    private static final NullValidator<String> VALIDATOR = new NullValidator();
     private static final PackedDecimal[] CACHE = new PackedDecimal[10];
     private static final WeakHashMap<String, PackedDecimal> WEAK_CACHE = new WeakHashMap<>();
     private final byte[] code;
+
+    /** Null-Konstante fuer Initialisierungen. */
+    public static final PackedDecimal NULL = new PackedDecimal("");
 
     static {
         for (int i = 0; i < CACHE.length; i++) {
