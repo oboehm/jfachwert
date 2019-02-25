@@ -42,6 +42,9 @@ public class Text extends AbstractFachwert<String> {
     private static final SimpleValidator<String> VALIDATOR = new NullValidator<>();
     private static final WeakHashMap<String, Text> WEAK_CACHE = new WeakHashMap<>();
 
+    /** Null-Konstante fuer Initialisierungen . */
+    public static final Text NULL = new Text("");
+
     /**
      * Erzeugt einen Text.
      * 
