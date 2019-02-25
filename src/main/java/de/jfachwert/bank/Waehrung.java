@@ -51,6 +51,9 @@ public class Waehrung extends AbstractFachwert<Currency> implements Comparable<C
     /** Die Euro-Waehrung als Konstante. */
     public static final Waehrung EUR = Waehrung.of("EUR");
 
+    /** Null-Konstante fuer Initialiserung. */
+    public static final Waehrung NULL = new Waehrung("XXX");
+
     /**
      * Darueber kann eine Waehrung angelegt werden.
      *
