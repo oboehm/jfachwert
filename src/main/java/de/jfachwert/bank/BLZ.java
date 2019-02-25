@@ -42,9 +42,7 @@ import java.util.WeakHashMap;
 public class BLZ extends AbstractFachwert<PackedDecimal> {
 
     private static final WeakHashMap<String, BLZ> WEAK_CACHE = new WeakHashMap<>();
-
-    /** BLZ-Validator. */
-    public static final Validator VALIDATOR = new Validator();
+    private static final Validator VALIDATOR = new Validator();
 
     /** Null-Konstante fuer Initialisierungen. */
     public static final BLZ NULL = new BLZ("", new NullValidator<>());

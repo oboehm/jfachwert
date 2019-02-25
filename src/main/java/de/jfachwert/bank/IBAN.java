@@ -41,15 +41,13 @@ public class IBAN extends Text {
 
     private static final PruefzifferVerfahren<String> MOD97 = Mod97Verfahren.getInstance();
     private static final WeakHashMap<String, IBAN> WEAK_CACHE = new WeakHashMap<>();
-
-    /** IBAN-Validator. */
-    public static final SimpleValidator<String> VALIDATOR = new Validator();
+    private static final SimpleValidator<String> VALIDATOR = new Validator();
 
     /** Konstante fuer unbekannte IBAN (aus Wikipedia, aber mit korrigierter Pruefziffer). */
     public static final IBAN UNBEKANNT = new IBAN("DE07123412341234123412");
 
     /** Null-Konstante. */
-    public static final IBAN NULL = new IBAN("", new NullValidator<String>());
+    public static final IBAN NULL = new IBAN("", new NullValidator<>());
 
     /**
      * Instantiiert eine neue IBAN.

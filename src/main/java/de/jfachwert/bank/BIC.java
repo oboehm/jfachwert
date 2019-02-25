@@ -58,9 +58,7 @@ import java.util.WeakHashMap;
 public class BIC extends Text {
 
     private static final WeakHashMap<String, BIC> WEAK_CACHE = new WeakHashMap<>();
-
-    /** BIC-Validator. */
-    public static final SimpleValidator<String> VALIDATOR = new Validator();
+    private static final SimpleValidator<String> VALIDATOR = new Validator();
 
     /** Null-Konstante fuer Initialisierungen. */
     public static final BIC NULL = new BIC("", new NullValidator<>());
