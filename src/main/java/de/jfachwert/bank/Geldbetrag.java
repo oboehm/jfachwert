@@ -70,6 +70,9 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     /** Der maximale Betrag, den wir unterstuetzen. */
     public static final Geldbetrag MAX_VALUE = new Geldbetrag(BigDecimal.valueOf(Long.MAX_VALUE));
 
+    /** Null-Konstante fuer Initialisierungen. */
+    public static final Geldbetrag NULL = ZERO;
+
     private final BigDecimal betrag;
     private final MonetaryContext context;
 

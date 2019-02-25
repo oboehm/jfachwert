@@ -18,12 +18,11 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwert;
+import de.jfachwert.SimpleValidator;
 import de.jfachwert.pruefung.exception.InvalidLengthException;
 import de.jfachwert.pruefung.exception.InvalidValueException;
-import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.validation.ValidationException;
 import java.util.WeakHashMap;
 
 /**
@@ -36,6 +35,7 @@ import java.util.WeakHashMap;
 public class Kontonummer extends AbstractFachwert<Long> {
 
     private static final WeakHashMap<Long, Kontonummer> WEAK_CACHE = new WeakHashMap<>();
+    private static final Validator VALIDATOR = new Validator();
 
     /**
      * Hierueber wird eine neue Kontonummer angelegt.
@@ -43,7 +43,7 @@ public class Kontonummer extends AbstractFachwert<Long> {
      * @param nr eine maximal 10-stellige Zahl
      */
     public Kontonummer(String nr) {
-        this(Long.valueOf(verify(nr)));
+        this(Long.valueOf(nr));
     }
 
     /**
@@ -53,7 +53,18 @@ public class Kontonummer extends AbstractFachwert<Long> {
      * @param nr the nr
      */
     public Kontonummer(long nr) {
-        super(verify(nr));
+        this(nr, VALIDATOR);
+    }
+
+    /**
+     * Hier gehen wir davon aus, dass eine Kontonummer immer eine Zahl ist und
+     * fuehrende Nullen keine Rollen spielen.
+     *
+     * @param nr        the nr
+     * @param validator fuer die Pruefung
+     */
+    public Kontonummer(long nr, SimpleValidator<Long> validator) {
+        super(nr, validator);
     }
 
     /**
@@ -61,47 +72,23 @@ public class Kontonummer extends AbstractFachwert<Long> {
      *
      * @param kontonr die Kontonummer
      * @return die validierte Kontonummer zur Weiterverabeitung
+     * @deprecated bitte {@link Validator#validate(Long)} verwenden
      */
+    @Deprecated
     public static String validate(String kontonr) {
-        String normalized = StringUtils.trimToEmpty(kontonr);
-        try {
-            validate(Long.valueOf(normalized));
-        } catch (NumberFormatException nfe) {
-            throw new InvalidValueException(kontonr, "account_number", nfe);
-        }
-        return normalized;
+        return VALIDATOR.validate(kontonr);
     }
     
-    private static String verify(String kontonr) {
-        try {
-            return validate(kontonr);
-        } catch (ValidationException ex) {
-            throw new LocalizedIllegalArgumentException(ex);
-        }
-    }
-
     /**
      * Eine gueltige Kontonummer beginnt bei 1 und hat maximal 10 Stellen.
      *
      * @param kontonr die Kontonummer
      * @return die validierte Kontonummer zur Weiterverabeitung
+     * @deprecated bitte {@link Validator#validate(Long)} verwenden
      */
+    @Deprecated
     public static long validate(long kontonr) {
-        if (kontonr < 1) {
-            throw new InvalidValueException(kontonr, "account_number");
-        }
-        if (kontonr > 9_999_999_999L) {
-            throw new InvalidLengthException(Long.toString(kontonr), 1, 10);
-        }
-        return kontonr;
-    }
-
-    private static long verify(long kontonr) {
-        try {
-            return validate(kontonr);
-        } catch (ValidationException ex) {
-            throw new LocalizedIllegalArgumentException(ex);
-        }
+        return VALIDATOR.validate(kontonr);
     }
 
     /**
@@ -134,6 +121,48 @@ public class Kontonummer extends AbstractFachwert<Long> {
     @Override
     public String toString() {
         return String.format("%010d", this.getCode());
+    }
+
+
+    /**
+     * Dieser Validator ist fuer die Ueberpruefung von Kontonummern vorgesehen.
+     *
+     * @since 2.2
+     */
+    public static class Validator implements SimpleValidator<Long> {
+
+        /**
+         * Eine gueltige Kontonummer beginnt bei 1 und hat maximal 10 Stellen.
+         *
+         * @param kontonr die Kontonummer
+         * @return die validierte Kontonummer zur Weiterverabeitung
+         */
+        public Long validate(Long kontonr) {
+            if (kontonr < 1) {
+                throw new InvalidValueException(kontonr, "account_number");
+            }
+            if (kontonr > 9_999_999_999L) {
+                throw new InvalidLengthException(Long.toString(kontonr), 1, 10);
+            }
+            return kontonr;
+        }
+
+        /**
+         * Eine gueltige Kontonummer beginnt bei 1 und hat maximal 10 Stellen.
+         *
+         * @param kontonr die Kontonummer
+         * @return die validierte Kontonummer zur Weiterverabeitung
+         */
+        public String validate(String kontonr) {
+            String normalized = StringUtils.trimToEmpty(kontonr);
+            try {
+                validate(Long.valueOf(normalized));
+            } catch (NumberFormatException nfe) {
+                throw new InvalidValueException(kontonr, "account_number", nfe);
+            }
+            return normalized;
+        }
+
     }
 
 }
