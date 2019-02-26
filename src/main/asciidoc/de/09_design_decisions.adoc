@@ -13,6 +13,12 @@ Auch bei Parametern ist `null` kein zulässiges Argument, sondern wird als Fehle
 Optionale Parameter können beim Aufruf einfach weggelassen werden
 
 
+=== NULL-Konstanten
+
+Mit v2.2 wurden NULL-Konstanten eingeführt.
+Damit können Variablen mit diesem Wert vorbelegt werden.
+
+
 === Kein Logging / Minimale Abhängigkeiten
 
 Um nicht von einem bestimmten Log-Framework abhängig zu sein, wurde auf Logging weitgehend verzichtet.

@@ -2,15 +2,11 @@
 
 
 
-== 2.1 (geplant)
+== 2.2 (27-Feb-2019)
 
 * NULL-Objekte für die Initialisierung von Variablen
-
-
-== 2.1.1 (SNAPSHOT)
-
 * Architektur-Dokumentation aktualisert
-* Text-Klasse um `equalsIgnore`...`Umlaute(..)` ergänzt
+* Text-Klasse um `equalsIgnore`...`Umlaute(..)` ergänzt 
 
 
 == 2.1 (20-Feb-2019)
