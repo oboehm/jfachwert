@@ -128,9 +128,9 @@ public class Steuernummer extends AbstractFachwert<PackedDecimal> {
          * @return die validierte Steuernummer zur Weiterverarbeitung
          */
         @Override
-        public PackedDecimal validate(PackedDecimal value) {
-            validate(value.toString());
-            return value;
+        public PackedDecimal validate(PackedDecimal nr) {
+            validate(nr.toString());
+            return nr;
         }
 
         public String validate(String nr) {
