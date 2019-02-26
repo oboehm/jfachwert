@@ -15,17 +15,20 @@
  *
  * (c)reated 27.06.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.pruefung;
+package de.jfachwert.net;
 
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import de.jfachwert.SimpleValidator;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-import javax.validation.*;
-import java.util.*;
+import javax.validation.ValidationException;
+import java.util.ArrayList;
+import java.util.Collection;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Unit-Tests fuer de.jfachwert.pruefung.EMailValidator.
@@ -33,11 +36,11 @@ import static org.junit.Assert.*;
  * @author oboehm
  */
 @RunWith(Parameterized.class)
-public class EMailValidatorTest {
+public class EMailAdresseValidatorTest {
 
     private final String emailAdresse;
     private final boolean valid;
-    private final EMailValidator validator = new EMailValidator();
+    private final SimpleValidator<String> validator = new EMailAdresse.Validator();
 
     /**
      * Hierueber werden die Test-Werte per Konstruktor "injected".
@@ -45,7 +48,7 @@ public class EMailValidatorTest {
      * @param adresse gueltige oder ungueltige E-Mail-Adresse
      * @param valid kennzeichnet die E-Mail-Adresse als gueltig oder ungueltgi
      */
-    public EMailValidatorTest(String adresse, boolean valid) {
+    public EMailAdresseValidatorTest(String adresse, boolean valid) {
         this.emailAdresse = adresse;
         this.valid = valid;
     }
@@ -91,7 +94,7 @@ public class EMailValidatorTest {
     @Test
     public void validateAdresse() {
         try {
-            String validated = validator.validateAdresse(emailAdresse);
+            String validated = validator.validate(emailAdresse);
             assertEquals(emailAdresse, validated);
             assertThat(emailAdresse, valid, is(true));
         } catch (ValidationException expected) {

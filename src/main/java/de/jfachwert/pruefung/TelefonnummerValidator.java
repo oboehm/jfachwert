@@ -17,23 +17,22 @@
  */
 package de.jfachwert.pruefung;
 
-import de.jfachwert.*;
-import de.jfachwert.pruefung.exception.InvalidValueException;
-import org.apache.commons.lang3.*;
+import de.jfachwert.net.Telefonnummer;
 
-import java.util.regex.*;
+import java.util.regex.Pattern;
 
 /**
  * Die Klasse TelefonnummerValidator validiert die Schreibweise von
- * Telefonnummern.
+ * Telefonnummern. Mit v2.2 wurde dieser Validator (analog zu den
+ * anderen Validatoren) in die {@link de.jfachwert.net.Telefonnummer}-
+ * Klasse verschoben.
  *
  * @author oboehm
  * @since 0.5 (05.09.2017)
+ * @deprecated bitte Validator in {@link de.jfachwert.net.Telefonnummer} verwenden
  */
-public class TelefonnummerValidator implements SimpleValidator<String> {
-
-    private final Pattern pattern;
-    private final LengthValidator<String> lengthValidator = new LengthValidator<>(3, 15);
+@Deprecated
+public class TelefonnummerValidator extends Telefonnummer.Validator {
 
     /**
      * Hier wird der E-Mail-SimpleValidator mit einerm Pattern von
@@ -41,7 +40,7 @@ public class TelefonnummerValidator implements SimpleValidator<String> {
      * aufgesetzt.
      */
     public TelefonnummerValidator() {
-        this(Pattern.compile("[0-9-+/ ()]+"));
+        super();
     }
 
     /**
@@ -51,25 +50,7 @@ public class TelefonnummerValidator implements SimpleValidator<String> {
      * @param pattern Pattern fuer die Adress-Validerung
      */
     protected TelefonnummerValidator(Pattern pattern) {
-        this.pattern = pattern;
-    }
-
-    /**
-     * Ueberprueft die Telefonnummer, ob sie nur erlaubte Nummern (und
-     * Sonderzeichen) enthaelt.
-     *
-     * @param nummer zu pruefende Telefonnummer
-     * @return Wert selber, wenn er gueltig ist
-     */
-    @Override
-    public String validate(String nummer) {
-        Matcher matcher = pattern.matcher(nummer);
-        if (matcher.matches()) {
-            String normalized = StringUtils.removeAll(nummer, "[ \t+-/]|(\\(0\\))");
-            lengthValidator.validate(normalized);
-            return nummer;
-        }
-        throw new InvalidValueException(nummer, "phone_number");
+        super(pattern);
     }
 
 }

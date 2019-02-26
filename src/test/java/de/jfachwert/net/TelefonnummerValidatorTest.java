@@ -15,20 +15,23 @@
  *
  * (c)reated 27.06.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.pruefung;
+package de.jfachwert.net;
 
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import de.jfachwert.SimpleValidator;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-import javax.validation.*;
-import java.util.*;
+import javax.validation.ValidationException;
+import java.util.ArrayList;
+import java.util.Collection;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
- * Unit-Tests fuer {@link TelefonnummerValidator}-Klasse.
+ * Unit-Tests fuer {@link Telefonnummer.Validator}-Klasse.
  *
  * @author oboehm
  */
@@ -37,7 +40,7 @@ public class TelefonnummerValidatorTest {
 
     private final String telefonnummer;
     private final boolean valid;
-    private final TelefonnummerValidator validator = new TelefonnummerValidator();
+    private final SimpleValidator<String> validator = new Telefonnummer.Validator();
 
     /**
      * Hierueber werden die Test-Werte per Konstruktor "injected".

@@ -43,7 +43,7 @@ public enum ChatDienst {
     ICQ("ICQ", new NumberValidator(BigDecimal.valueOf(10000), NumberValidator.INFINITE)),
 
     /** Jabber Instant Messanger, baut auf XMPP auf. */
-    JABBER("Jabber", new EMailValidator()),
+    JABBER("Jabber", new EMailAdresse.Validator()),
 
     /** Skype. */
     SKYPE("Skype"),

@@ -17,11 +17,15 @@
  */
 package de.jfachwert.net;
 
+import de.jfachwert.SimpleValidator;
 import de.jfachwert.Text;
-import de.jfachwert.pruefung.EMailValidator;
+import de.jfachwert.pruefung.NullValidator;
+import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.WeakHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Eine E-Mail-Adresse ist die eindeutige Absender- und Empfaengeradresse im
@@ -45,8 +49,11 @@ import java.util.WeakHashMap;
  */
 public class EMailAdresse extends Text {
 
-    private static final EMailValidator DEFAULT_VALIDATOR = new EMailValidator();
+    private static final SimpleValidator<String> VALIDATOR = new Validator();
     private static final WeakHashMap<String, EMailAdresse> WEAK_CACHE = new WeakHashMap<>();
+
+    /** Null-Konstante fuer Initialisierungen. */
+    public static final EMailAdresse NULL = new EMailAdresse("", new NullValidator<>());
 
     /**
      * Legt eine Instanz einer EMailAdresse an.
@@ -54,7 +61,7 @@ public class EMailAdresse extends Text {
      * @param emailAdresse eine gueltige Adresse, z.B. "max@mustermann.de"
      */
     public EMailAdresse(String emailAdresse) {
-        this(emailAdresse, DEFAULT_VALIDATOR);
+        this(emailAdresse, VALIDATOR);
     }
 
     /**
@@ -66,7 +73,7 @@ public class EMailAdresse extends Text {
      * @param emailAdresse eine gueltige Adresse, z.B. "max@mustermann.de"
      * @param validator    SimpleValidator zur Adressen-Validierung
      */
-    public EMailAdresse(String emailAdresse, EMailValidator validator) {
+    public EMailAdresse(String emailAdresse, SimpleValidator<String> validator) {
         super(validator.verify(emailAdresse));
     }
 
@@ -102,6 +109,59 @@ public class EMailAdresse extends Text {
      */
     public Domainname getDomainPart() {
         return new Domainname(StringUtils.substringAfterLast(this.getCode(), "@"));
+    }
+
+
+    /**
+     * Die Klasse EMailValidator validiert vornehmlich E-Mail-Adressen.
+     * Urspruenglich war er eine separate Klasse, mit v2.2 wurde er anolog
+     * zu den anderen Validatoren zur entsprechenden Klasse als innere Klasse
+     * verschoben.
+     *
+     * @author oboehm
+     * @since 0.3 (27.06.2017)
+     */
+    public static class Validator implements SimpleValidator<String> {
+
+        private final Pattern addressPattern;
+
+        /**
+         * Hier wird der E-Mail-SimpleValidator mit einerm Pattern von
+         * https://www.mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
+         * aufgesetzt.
+         */
+        public Validator() {
+            this(Pattern
+                    .compile("^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"));
+        }
+
+        /**
+         * Dieser Konstruktor ist fuer abgeleitete Klassen gedacht, die das Pattern
+         * fuer die Adress-Validierung ueberschreiben moechten.
+         *
+         * @param pattern Pattern fuer die Adress-Validerung
+         */
+        protected Validator(Pattern pattern) {
+            this.addressPattern = pattern;
+        }
+
+        /**
+         * Fuehrt ein Pattern-basierte Pruefung der uebegebenen E-Mail-Adresse
+         * durch. Schlaegt die Pruefung fehl, wird eine
+         * {@link javax.validation.ValidationException} geworfen.
+         *
+         * @param emailAdresse zu pruefende E-Mail-Adresse
+         * @return die validierte E-Mail-Adresse (zur Weiterverarbeitung)
+         */
+        @Override
+        public String validate(String emailAdresse) {
+            Matcher matcher = addressPattern.matcher(emailAdresse);
+            if (matcher.matches()) {
+                return emailAdresse;
+            }
+            throw new InvalidValueException(emailAdresse, "email_address");
+        }
+
     }
 
 }

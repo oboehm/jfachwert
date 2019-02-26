@@ -17,21 +17,21 @@
  */
 package de.jfachwert.pruefung;
 
-import de.jfachwert.SimpleValidator;
-import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.net.EMailAdresse;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * Die Klasse EMailValidator validiert vornehmlich E-Mail-Adressen.
+ * Mit v2.2 wurde dieser Validator in die
+ * {@link de.jfachwert.net.EMailAdresse}-Klasse verschoben.
  *
  * @author oboehm
  * @since 0.3 (27.06.2017)
+ * @deprecated bitte Validator aus {@link de.jfachwert.net.EMailAdresse} verwenden
  */
-public class EMailValidator implements SimpleValidator<String> {
-
-    private final Pattern addressPattern;
+@Deprecated
+public class EMailValidator extends EMailAdresse.Validator {
 
     /**
      * Hier wird der E-Mail-SimpleValidator mit einerm Pattern von
@@ -39,7 +39,7 @@ public class EMailValidator implements SimpleValidator<String> {
      * aufgesetzt.
      */
     public EMailValidator() {
-        this(Pattern.compile("^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"));
+        super();
     }
 
     /**
@@ -49,7 +49,7 @@ public class EMailValidator implements SimpleValidator<String> {
      * @param pattern Pattern fuer die Adress-Validerung
      */
     protected EMailValidator(Pattern pattern) {
-        this.addressPattern = pattern;
+        super(pattern);
     }
 
     /**
@@ -61,22 +61,7 @@ public class EMailValidator implements SimpleValidator<String> {
      * @return die validierte E-Mail-Adresse (zur Weiterverarbeitung)
      */
     public String validateAdresse(String emailAdresse) {
-        Matcher matcher = addressPattern.matcher(emailAdresse);
-        if (matcher.matches()) {
-            return emailAdresse;
-        }
-        throw new InvalidValueException(emailAdresse, "email_address");
-    }
-
-    /**
-     * Ruft zur Pruefung die {@link #validateAdresse(String)}-Methode auf.
-     *
-     * @param account zu pruefende Adresse
-     * @return Wert selber, wenn er gueltig ist
-     */
-    @Override
-    public String validate(String account) {
-        return validateAdresse(account);
+        return validate(emailAdresse);
     }
 
 }

@@ -41,6 +41,9 @@ public class ChatAccount implements Fachwert {
     private final String dienstName;
     private final String account;
 
+    /** Null-Konstante fuer Initialisierungen. */
+    public static final ChatAccount NULL = new ChatAccount(ChatDienst.SONSTIGER, "", "");
+
     /**
      * Zerlegt den uebergebenen String in seine Einzelteile, um damit den
      * ChatAccount zu instanziieren. Bei der Zerlegung wird folgeden Heuristik

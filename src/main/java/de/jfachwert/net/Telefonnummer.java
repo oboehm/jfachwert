@@ -17,14 +17,19 @@
  */
 package de.jfachwert.net;
 
+import de.jfachwert.SimpleValidator;
 import de.jfachwert.Text;
-import de.jfachwert.pruefung.TelefonnummerValidator;
+import de.jfachwert.pruefung.LengthValidator;
+import de.jfachwert.pruefung.NullValidator;
+import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.net.URI;
 import java.util.Optional;
 import java.util.WeakHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Die Klasse Telefonnummer steht fuer alle Arten von Rufnummern im
@@ -52,8 +57,11 @@ import java.util.WeakHashMap;
  */
 public class Telefonnummer extends Text {
 
-    private static final TelefonnummerValidator DEFAULT_VALIDATOR = new TelefonnummerValidator();
+    private static final SimpleValidator<String> VALIDATOR = new Validator();
     private static final WeakHashMap<String, Telefonnummer> WEAK_CACHE = new WeakHashMap<>();
+
+    /** Null-Konstante fuer Initialisierungen. */
+    public static final Telefonnummer NULL = new Telefonnummer("", new NullValidator<>());
 
     /**
      * Legt eine neue Instanz einer Telefonnummer an, sofern die uebergebene
@@ -62,7 +70,7 @@ public class Telefonnummer extends Text {
      * @param nummer z.B. "+49 (0)30 12345-67"
      */
     public Telefonnummer(String nummer) {
-        this(nummer, DEFAULT_VALIDATOR);
+        this(nummer, VALIDATOR);
     }
 
     /**
@@ -84,8 +92,8 @@ public class Telefonnummer extends Text {
      * @param nummer    eine gueltige Telefonnummer, z.B. "+49 30 12345-67"
      * @param validator SimpleValidator zur Adressen-Validierung
      */
-    public Telefonnummer(String nummer, TelefonnummerValidator validator) {
-        super(normalize(validator.verify(nummer)));
+    public Telefonnummer(String nummer, SimpleValidator<String> validator) {
+        super(normalize(nummer), validator);
     }
 
     /**
@@ -249,4 +257,58 @@ public class Telefonnummer extends Text {
         return normalized;
     }
 
+
+    /**
+     * Die Klasse Validator validiert die Schreibweise von Telefonnummern.
+     * Urspruenglich war dieser Validator in einer eigenen Klasse
+     * ('TelefonnummerValidator' ausgegegliedert. Mit v2.2 wurde der
+     * Validator analog zu den anderen Validatoren zur betroffenen
+     * Klasse als innere Klasse dazugesteckt.
+     *
+     * @author oboehm
+     * @since 0.5 (05.09.2017)
+     */
+    public static class Validator implements SimpleValidator<String> {
+
+        private final Pattern pattern;
+        private final LengthValidator<String> lengthValidator = new LengthValidator<>(3, 15);
+
+        /**
+         * Hier wird der E-Mail-SimpleValidator mit einerm Pattern von
+         * https://www.mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
+         * aufgesetzt.
+         */
+        public Validator() {
+            this(Pattern.compile("[0-9-+/ ()]+"));
+        }
+
+        /**
+         * Dieser Konstruktor ist fuer abgeleitete Klassen gedacht, die das Pattern
+         * fuer die Adress-Validierung ueberschreiben moechten.
+         *
+         * @param pattern Pattern fuer die Adress-Validerung
+         */
+        protected Validator(Pattern pattern) {
+            this.pattern = pattern;
+        }
+
+        /**
+         * Ueberprueft die Telefonnummer, ob sie nur erlaubte Nummern (und
+         * Sonderzeichen) enthaelt.
+         *
+         * @param nummer zu pruefende Telefonnummer
+         * @return Wert selber, wenn er gueltig ist
+         */
+        @Override
+        public String validate(String nummer) {
+            Matcher matcher = pattern.matcher(nummer);
+            if (matcher.matches()) {
+                String normalized = RegExUtils.removeAll(nummer, "[ \t+-/]|(\\(0\\))");
+                lengthValidator.validate(normalized);
+                return nummer;
+            }
+            throw new InvalidValueException(nummer, "phone_number");
+        }
+
+    }
 }

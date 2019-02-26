@@ -17,13 +17,13 @@
  */
 package de.jfachwert.net;
 
+import de.jfachwert.SimpleValidator;
 import de.jfachwert.Text;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.Range;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.validation.ValidationException;
 import java.util.WeakHashMap;
 import java.util.regex.Pattern;
 
@@ -41,8 +41,8 @@ import java.util.regex.Pattern;
  */
 public class Domainname extends Text {
 
-    private static final Pattern VALID_PATTERN = Pattern.compile("^(?=.{1,253}\\.?$)(?:(?!-|[^.]+_)[A-Za-z0-9-_]{1,63}(?<!-)(?:\\.|$))+$");
     private static final WeakHashMap<String, Domainname> WEAK_CACHE = new WeakHashMap<>();
+    private static final SimpleValidator<String> VALIDATOR = new Validator();
 
     /**
      * Legt eine Instanz an.
@@ -50,15 +50,17 @@ public class Domainname extends Text {
      * @param name gueltiger Domain-Name
      */
     public Domainname(String name) {
-        super(verify(name));
+        this(name, VALIDATOR);
     }
 
-    private static String verify(String name) {
-        try {
-            return validate(name.trim().toLowerCase());
-        } catch (ValidationException ex) {
-            throw new LocalizedIllegalArgumentException(ex);
-        }
+    /**
+     * Legt eine Instanz an.
+     *
+     * @param name      gueltiger Domain-Name
+     * @param validator zur Pruefung
+     */
+    public Domainname(String name, SimpleValidator<String> validator) {
+        super(name.trim().toLowerCase(), validator);
     }
 
     /**
@@ -68,12 +70,11 @@ public class Domainname extends Text {
      *
      * @param name Domain-Name
      * @return validierter Domain-Name zur Weiterverarbeitung
+     * @deprecated bitte {@link Validator#validate(String)} benuzten
      */
+    @Deprecated
     public static String validate(String name) {
-        if (VALID_PATTERN.matcher(name).matches()) {
-            return name;
-        }
-        throw new InvalidValueException(name, "name");
+        return VALIDATOR.validate(name);
     }
 
     /**
@@ -115,6 +116,34 @@ public class Domainname extends Text {
             name.append(parts[i]);
         }
         return new Domainname(name.toString());
+    }
+
+
+    /**
+     * Dieser Validator ist fuer die Ueberpruefung von Domainnamen vorgesehen.
+     *
+     * @since 2.2
+     */
+    public static class Validator implements SimpleValidator<String> {
+
+        private static final Pattern VALID_PATTERN =
+                Pattern.compile("^(?=.{1,253}\\.?$)(?:(?!-|[^.]+_)[A-Za-z0-9-_]{1,63}(?<!-)(?:\\.|$))+$");
+
+        /**
+         * Hie valideren wir den Namen auf Richtigkeit. Das Pattern dazu stammt aus
+         * https://regex101.com/r/d5Yd6j/1/tests . Allerdings akzeptieren wir auch
+         * die TLD wie "de" als gueltigen Domainnamen.
+         *
+         * @param name Domain-Name
+         * @return validierter Domain-Name zur Weiterverarbeitung
+         */
+        public String validate(String name) {
+            if (VALID_PATTERN.matcher(name).matches()) {
+                return name;
+            }
+            throw new InvalidValueException(name, "name");
+        }
+
     }
 
 }
