@@ -19,10 +19,11 @@ package de.jfachwert.steuer;
 
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.SimpleValidator;
 import de.jfachwert.math.PackedDecimal;
 import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.Mod11Verfahren;
-import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.pruefung.NullValidator;
 
 import java.util.WeakHashMap;
 
@@ -48,8 +49,11 @@ import java.util.WeakHashMap;
  */
 public class Steuernummer extends AbstractFachwert<PackedDecimal> {
 
-    private static final PruefzifferVerfahren<String> MOD11 = new Mod11Verfahren(10);
+    private static final Validator VALIDATOR = new Validator();
     private static final WeakHashMap<String, Steuernummer> WEAK_CACHE = new WeakHashMap<>();
+
+    /** Null-Konstante fuer Initialisierungen. */
+    public static final Steuernummer NULL = new Steuernummer("", new NullValidator<>());
 
     /**
      * Hierueber wird eine neue Steuernummer angelegt.
@@ -57,7 +61,7 @@ public class Steuernummer extends AbstractFachwert<PackedDecimal> {
      * @param nr eine 10- bis 13-stellige Steuernummer.
      */
     public Steuernummer(String nr) {
-        this(nr, MOD11);
+        this(nr, VALIDATOR);
     }
 
     /**
@@ -69,8 +73,8 @@ public class Steuernummer extends AbstractFachwert<PackedDecimal> {
      * @param nr          die Steuernummer
      * @param pzVerfahren das verwendete PruefzifferVerfahren
      */
-    public Steuernummer(String nr, PruefzifferVerfahren<String> pzVerfahren) {
-        super(PackedDecimal.valueOf(verify(nr, pzVerfahren)));
+    public Steuernummer(String nr, SimpleValidator<PackedDecimal> pzVerfahren) {
+        super(PackedDecimal.of(nr), pzVerfahren);
     }
 
     /**
@@ -89,21 +93,11 @@ public class Steuernummer extends AbstractFachwert<PackedDecimal> {
      *
      * @param nr die Steuernummer
      * @return die validierte Steuernummer zur Weiterverarbeitung
+     * @deprecated bitte {@link Validator#validate(PackedDecimal)} verwenden
      */
+    @Deprecated
     public static String validate(String nr) {
-        try {
-            return verify(nr, MOD11);
-        } catch (IllegalArgumentException ex) {
-            throw new InvalidValueException(nr, "tax number", ex);
-        }
-    }
-
-    private static String verify(String nr, PruefzifferVerfahren<String> pzVerfahren) {
-        LengthValidator.verify(nr, 10, 13);
-        if (nr.length() == 11) {
-            return pzVerfahren.verify(nr);
-        }
-        return nr;
+        return VALIDATOR.validate(nr);
     }
 
     /**
@@ -113,7 +107,51 @@ public class Steuernummer extends AbstractFachwert<PackedDecimal> {
      * @return Wert zwischen 0 und 9
      */
     public int getPruefziffer() {
-        return Integer.valueOf(MOD11.getPruefziffer(this.getCode().toString()));
+        return VALIDATOR.getPruefziffer(this.getCode());
     }
 
+
+    /**
+     * Eigener Validator fuer die Steuernummern-Validierung.
+     *
+     * @since 2.2
+     */
+    public static class Validator implements SimpleValidator<PackedDecimal> {
+
+        private static final PruefzifferVerfahren<String> MOD11 = new Mod11Verfahren(10);
+
+        /**
+         * Die Steuernummer muss zwischen 10 und 13 Stellen lang sein und die
+         * Pruefziffer muss stimmen (falls sie bekannt ist).
+         *
+         * @param nr die Steuernummer
+         * @return die validierte Steuernummer zur Weiterverarbeitung
+         */
+        @Override
+        public PackedDecimal validate(PackedDecimal value) {
+            validate(value.toString());
+            return value;
+        }
+
+        public String validate(String nr) {
+            LengthValidator.validate(nr, 10, 13);
+            if (nr.length() == 11) {
+                return MOD11.verify(nr);
+            }
+            return nr;
+        }
+
+        /**
+         * Die letzte Ziffer ist die Pruefziffer, die hierueber abgefragt werden
+         * kann.
+         *
+         * @param nr Steuernummer
+         * @return Wert zwischen 0 und 9
+         */
+        public int getPruefziffer(PackedDecimal nr) {
+            return Integer.valueOf(MOD11.getPruefziffer(nr.toString()));
+        }
+
+    }
+    
 }

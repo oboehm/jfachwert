@@ -17,10 +17,11 @@
  */
 package de.jfachwert.steuer;
 
+import de.jfachwert.SimpleValidator;
+import de.jfachwert.math.PackedDecimal;
 import de.jfachwert.pruefung.LengthValidator;
-import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
+import de.jfachwert.pruefung.NullValidator;
 
-import javax.validation.ValidationException;
 import java.util.WeakHashMap;
 
 /**
@@ -35,7 +36,11 @@ import java.util.WeakHashMap;
  */
 public class SteuerIdNr extends Steuernummer {
 
+    private static final Validator VALIDATOR = new Validator();
     private static final WeakHashMap<String, SteuerIdNr> WEAK_CACHE = new WeakHashMap<>();
+
+    /** Null-Konstante fuer Initialisierungen. */
+    public static final SteuerIdNr NULL = new SteuerIdNr("", new NullValidator<>());
 
     /**
      * Die SteuerIdNr ist eine 11-stellige Zahl mit einer Pruefziffer.
@@ -43,7 +48,17 @@ public class SteuerIdNr extends Steuernummer {
      * @param idNr 11-stellige Zahl
      */
     public SteuerIdNr(String idNr) {
-        super(verify(idNr));
+        this(idNr, VALIDATOR);
+    }
+
+    /**
+     * Die SteuerIdNr ist eine 11-stellige Zahl mit einer Pruefziffer.
+     *
+     * @param idNr      11-stellige Zahl
+     * @param validator zur Pruefung
+     */
+    public SteuerIdNr(String idNr, SimpleValidator<PackedDecimal> validator) {
+        super(idNr, validator);
     }
 
     /**
@@ -61,18 +76,27 @@ public class SteuerIdNr extends Steuernummer {
      *
      * @param nr the nr
      * @return the string
+     * @deprecated bitte {@link Validator#validate(String)} verwenden
      */
+    @Deprecated
     public static String validate(String nr) {
-        LengthValidator.validate(nr, 11);
-        return Steuernummer.validate(nr);
+        return VALIDATOR.validate(nr);
     }
 
-    private static String verify(String nr) {
-        try {
-            return validate(nr);
-        } catch (ValidationException ex) {
-            throw new LocalizedIllegalArgumentException(ex);
+
+    /**
+     * Eigener Validator fuer die SteuerIdNr-Validierung.
+     *
+     * @since 2.2
+     */
+    public static class Validator extends Steuernummer.Validator {
+
+        @Override
+        public String validate(String nr) {
+            LengthValidator.validate(nr, 11);
+            return super.validate(nr);
         }
+
     }
 
 }
