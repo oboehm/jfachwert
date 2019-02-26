@@ -63,6 +63,9 @@ public class Rechnungsmonat implements Fachwert {
     private static final String YEAR = "year";
     private final short monate;
 
+    /** Null-Monat fuer Initialisierungen. */
+    public static final Rechnungsmonat NULL = new Rechnungsmonat(0);
+
     /**
      * Der Default-Konstruktor legt einen Rechnungsmonat vom aktuellen Monat
      * an.

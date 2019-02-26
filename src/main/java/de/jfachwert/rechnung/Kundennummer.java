@@ -18,8 +18,10 @@
 package de.jfachwert.rechnung;
 
 import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.SimpleValidator;
 import de.jfachwert.Text;
 import de.jfachwert.pruefung.LengthValidator;
+import de.jfachwert.pruefung.NullValidator;
 
 import java.util.WeakHashMap;
 
@@ -33,6 +35,9 @@ import java.util.WeakHashMap;
 public class Kundennummer extends Text {
 
     private static final WeakHashMap<String, Kundennummer> WEAK_CACHE = new WeakHashMap<>();
+
+    /** Null-Konstante fuer Initialisierungen. */
+    public static final Kundennummer NULL = new Kundennummer("", new NullValidator<>());
 
     /**
      * Erzeugt eine Kundennummer.
@@ -53,8 +58,8 @@ public class Kundennummer extends Text {
      * @param kundennummer die Kundennummer
      * @param pruefung     Pruefverfahren
      */
-    public Kundennummer(String kundennummer, PruefzifferVerfahren<String> pruefung) {
-        super(pruefung.verify(kundennummer));
+    public Kundennummer(String kundennummer, SimpleValidator<String> pruefung) {
+        super(kundennummer, pruefung);
     }
 
     /**

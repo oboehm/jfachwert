@@ -18,8 +18,10 @@
 package de.jfachwert.rechnung;
 
 import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.SimpleValidator;
 import de.jfachwert.Text;
 import de.jfachwert.pruefung.LengthValidator;
+import de.jfachwert.pruefung.NullValidator;
 
 import java.util.WeakHashMap;
 
@@ -33,6 +35,9 @@ import java.util.WeakHashMap;
 public class Referenznummer extends Text {
 
     private static final WeakHashMap<String, Referenznummer> WEAK_CACHE = new WeakHashMap<>();
+
+    /** Null-Konstante fuer Initialisierungen. */
+    public static final Referenznummer NULL = new Referenznummer("", new NullValidator<>());
 
     /**
      * Erzeugt eine Referenznummer.
@@ -52,8 +57,8 @@ public class Referenznummer extends Text {
      * @param nummer   z.B. "000002835042"
      * @param pruefung Pruefverfahren
      */
-    public Referenznummer(String nummer, PruefzifferVerfahren<String> pruefung) {
-        super(pruefung.verify(nummer));
+    public Referenznummer(String nummer, SimpleValidator<String> pruefung) {
+        super(nummer, pruefung);
     }
 
     /**
