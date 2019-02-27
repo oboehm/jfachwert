@@ -26,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * Die Klasse ChatAccount steht fuer einen Account bei einem der uebleichen
@@ -37,12 +38,14 @@ import java.util.Map;
 @JsonSerialize(using = ToFachwertSerializer.class)
 public class ChatAccount implements Fachwert {
 
-    private final ChatDienst chatDienst;
-    private final String dienstName;
-    private final String account;
+    private static final WeakHashMap<String, ChatAccount> WEAK_CACHE = new WeakHashMap<>();
 
     /** Null-Konstante fuer Initialisierungen. */
     public static final ChatAccount NULL = new ChatAccount(ChatDienst.SONSTIGER, "", "");
+
+    private final ChatDienst chatDienst;
+    private final String dienstName;
+    private final String account;
 
     /**
      * Zerlegt den uebergebenen String in seine Einzelteile, um damit den
@@ -116,6 +119,16 @@ public class ChatAccount implements Fachwert {
     }
 
     /**
+     * Liefert einen Chat-Account.
+     *
+     * @param name z.B. "Twitter: oboehm"
+     * @return Chat-Account
+     */
+    public static ChatAccount of(String name) {
+        return WEAK_CACHE.computeIfAbsent(name, ChatAccount::new);
+    }
+    
+    /**
      * Liefert den Dienst zum Account zurueck.
      *
      * @return z.B. JABBER
@@ -161,7 +174,8 @@ public class ChatAccount implements Fachwert {
             return false;
         }
         ChatAccount other = (ChatAccount) obj;
-        return this.dienstName.equalsIgnoreCase(other.dienstName) && this.account.equalsIgnoreCase(other.account);
+        return this.getDienstName().equalsIgnoreCase(other.getDienstName()) &&
+                this.account.equalsIgnoreCase(other.account);
     }
 
     /**

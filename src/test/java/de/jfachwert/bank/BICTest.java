@@ -23,6 +23,7 @@ import org.junit.Test;
 import javax.validation.ValidationException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Unit-Tests fuer die {@link BIC}-Klasse.
@@ -57,7 +58,8 @@ public final class BICTest extends AbstractFachwertTest<String> {
      */
     @Test
     public void testBICvalid() {
-        new BIC("GENODEF1JEVxxx");
+        BIC bic = BIC.of("GENODEF1JEVxxx");
+        assertNotNull(bic);
     }
 
     /**

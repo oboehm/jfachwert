@@ -64,8 +64,15 @@ public final class ChatAccountTest extends FachwertTest {
      */
     @Test
     public void testToStringJabber() {
-        ChatAccount threema = new ChatAccount(ChatDienst.JABBER, "bob@example.com");
-        assertEquals("Jabber: bob@example.com", threema.toString());
+        ChatAccount jabber = new ChatAccount(ChatDienst.JABBER, "bob@example.com");
+        assertEquals("Jabber: bob@example.com", jabber.toString());
+        assertEquals(jabber, ChatAccount.of(jabber.toString()));
+    }
+
+    @Test
+    public void testOf() {
+        ChatAccount jabber = ChatAccount.of("Jabber: bob@example.com");
+        assertEquals(ChatDienst.JABBER, jabber.getChatDienst());
     }
 
     /**
@@ -82,7 +89,8 @@ public final class ChatAccountTest extends FachwertTest {
      */
     @Test
     public void testChatAccountJabber() {
-        new ChatAccount(ChatDienst.JABBER, "+4917234567890@aspsms.swissjabber.ch");
+        ChatAccount jabber = new ChatAccount(ChatDienst.JABBER, "+4917234567890@aspsms.swissjabber.ch");
+        assertEquals(ChatDienst.JABBER, jabber.getChatDienst());
     }
 
     /**

@@ -23,8 +23,7 @@ import org.junit.Test;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 /**
@@ -72,9 +71,7 @@ public final class PackedDecimalTest extends FachwertTest {
             new PackedDecimal("hello world");
         } catch (IllegalArgumentException expected) {
             String msg = expected.getMessage();
-            if (!msg.contains("hello world")) {
-                throw new IllegalStateException(msg + " does not contain 'hello world'", expected);
-            }
+            assertThat(msg, containsString("hello world"));
         }
     }
 
