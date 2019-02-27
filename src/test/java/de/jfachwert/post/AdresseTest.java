@@ -226,6 +226,13 @@ public final class AdresseTest extends FachwertTest {
     }
 
     @Test
+    public void testEqualsHausnummerNaN() {
+        Adresse eins = Adresse.of(entenhausen, "Chaussee", "5");
+        Adresse zwei = Adresse.of(entenhausen, "Chaussee", "8-b");
+        assertNotEquals(eins, zwei);
+    }
+
+    @Test
     public void testOf() {
         Ort ort = Ort.of("23456 Monopoly");
         Adresse adresse = Adresse.of(ort, "Badstr.2");
