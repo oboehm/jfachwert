@@ -23,6 +23,9 @@ import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.NullValidator;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.WeakHashMap;
 
 /**
@@ -78,16 +81,30 @@ public class Name extends Text {
      * @return z.B. "Duck"
      */
     public String getNachname() {
-        return StringUtils.substringBefore(getCode(), ",");
+        return StringUtils.substringBefore(getCode(), ",").trim();
     }
 
     /**
-     * Liefert den oder die Nachnamen.
+     * Liefert den oder die Vornamen als ein String.
      *
      * @return z.B. "Donald"
      */
     public String getVorname() {
         return StringUtils.substringAfter(getCode(), ",").trim();
+    }
+
+    /**
+     * Falls mehr als ein Vornamen exisitiert, kann dies hierueber als Liste
+     * von Vornamen angefragt werden.
+     *
+     * @return Liste mit Vornamen (kann auch leer sein)
+     */
+    public List<String> getVornamenListe() {
+        if (hasVorname()) {
+            return Arrays.asList(getVorname().split("\\s"));
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     /**
@@ -102,7 +119,7 @@ public class Name extends Text {
 
     @Override
     public int hashCode() {
-        return normalize(this).toLowerCase().hashCode();
+        return Text.replaceUmlaute(this.getNachname()).toLowerCase().hashCode();
     }
 
     /**
@@ -119,11 +136,31 @@ public class Name extends Text {
             return false;
         }
         Name other = (Name) obj;
-        return normalize(this).equalsIgnoreCase(normalize(other));
+        return isEquals(normalize(this), normalize(other));
     }
 
-    private static String normalize(Name name) {
-        return StringUtils.deleteWhitespace(name.replaceUmlaute().toString().replace("-", ""));
+    private static Name normalize(Name name) {
+        return Name.of(name.replaceUmlaute().toString().replace("-", " ").trim());
+    }
+
+    private static boolean isEquals(Name a, Name b) {
+        return a.getNachname().equalsIgnoreCase(b.getNachname()) &&
+                (shortenVorname(a).equalsIgnoreCase(shortenVorname(b)) ||
+                        equalsVornamen(a.getVornamenListe(), b.getVornamenListe()));
+    }
+
+    private static String shortenVorname(Name x) {
+        return StringUtils.deleteWhitespace(x.getVorname().replace("-", ""));
+    }
+
+    private static boolean equalsVornamen(List<String> a, List<String> b) {
+        int n = Math.min(a.size(), b.size());
+        for (int i = 0; i < n; i++) {
+            if (!a.get(i).equalsIgnoreCase(b.get(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

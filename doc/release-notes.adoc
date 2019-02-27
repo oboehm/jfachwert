@@ -5,6 +5,7 @@
 == 2.2.1 (SNAPSHOT)
 
 * Adressvergleich kommt jetzt mit mehr Sonderfällen klar
+* Namensvergleich funktioniert jetzt auch mit unterschiedlicher Anzahl von Vornamen besser
 
 
 == 2.2 (27-Feb-2019)

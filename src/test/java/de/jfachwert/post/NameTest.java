@@ -21,6 +21,9 @@ import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
+import java.util.List;
+
+import static org.hamcrest.Matchers.empty;
 import static org.junit.Assert.*;
 
 /**
@@ -53,6 +56,20 @@ public final class NameTest extends AbstractFachwertTest<String> {
     @Test
     public void testHasVorname() {
         assertFalse(Name.of("Duck").hasVorname());
+    }
+
+    @Test
+    public void testGetVornamenListe() {
+        List<String> vornamen = Name.of("Was, Karl Otto").getVornamenListe();
+        assertEquals(2, vornamen.size());
+        assertEquals("Karl", vornamen.get(0));
+        assertEquals("Otto", vornamen.get(1));
+    }
+
+    @Test
+    public void testGetLeereVornamenListe() {
+        List<String> vornamen = Name.of("Nobody").getVornamenListe();
+        assertThat(vornamen, empty());
     }
 
     /**
@@ -95,6 +112,13 @@ public final class NameTest extends AbstractFachwertTest<String> {
         ObjectTester.assertEquals(a, b);
         ObjectTester.assertEquals(a, c);
         ObjectTester.assertEquals(b, c);
+    }
+
+    @Test
+    public void testEquals2Vornamen() {
+        Name karl = Name.of("Otto, Karl");
+        Name karlheinz = Name.of("Otto, Karl Heinz");
+        ObjectTester.assertEquals(karl, karlheinz);
     }
 
 }
