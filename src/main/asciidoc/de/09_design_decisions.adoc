@@ -54,7 +54,24 @@ Damit ist sichergestellt, dass
 
 
 
-=== of-Methode (valueOf)
+=== Minimaler Footprint
+
+Mit v2.0 wurde mit einer Reihen von Massnahmen der Speicherverbrauch reduziert:
+
+* Minimierung der Anzahl interner Attribute
+* Verwendung nativer Datentypen (soweit sinnvoll und möglich)
+* Verwendung von PackedDecimal (soweit sinnvoll und möglich)
+* Reduzierung von Duplikaten durch Einführung einer of-Methode zusammen mit Caching (s.u.).
+
+Der minimale Footprint wird teilweise durch eine aufwendigere Objekt-Erzeugung oder/und Methoden-Zugriff erkauft.
+Dies kann evtl. bei Massenverarbeitung zum Flaschenhals werden.
+Hier kann man aber durch parallele Zugriffe entgegensteuern.
+
+Damit sind Fachwerte auch für große Datenmengen geeignet, die im Hauptspeicher gehalten und parallel verarbeitet werden sollen.
+
+
+
+==== of-Methode (valueOf)
 
 Ursprünglich wurde auf eine statische `of`-Methode, wie sie seit Java 8 bei vielen Klassen aus dem JDK üblich ist (Beispiel: `LocalDate.of(jahr, monat, tag)`), bis v0.6 verzichtet,
 weil statische Methoden von abgeleiteten Klassen nicht überschrieben werden können.
@@ -70,7 +87,7 @@ Bei Klassen, die Ähnlichkeiten zur Number-Klasse haben (wie z.B. Geldbetrag), w
 
 
 
-=== Caching
+==== Caching
 
 Mit v1.2 wurde für alle wichtigen Klassen in interner Cache eingeführt, in dem erzeugte Objekte abgelegt werden.
 Dies dient vor allem zur Reduktion des Speicherbedarfs.
