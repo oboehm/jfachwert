@@ -2,13 +2,13 @@
 
 
 
-== 2.2.1 (SNAPSHOT)
+== 2.2.1 (28-Feb-2019)
 
 * Adressvergleich kommt jetzt mit mehr Sonderfällen klar
 * Namensvergleich funktioniert jetzt auch mit unterschiedlicher Anzahl von Vornamen besser
 
 
-== 2.2 (27-Feb-2019)
+== 2.2.0 (26-Feb-2019)
 
 * NULL-Objekte für die Initialisierung von Variablen
 * Architektur-Dokumentation aktualisert
