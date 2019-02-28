@@ -2,6 +2,11 @@
 
 
 
+== 2.2.2 (SNAPSHOT9
+
+* _fixed_: ArrayIndexOutOfBoundException im Adressvergleich behoben.
+
+
 == 2.2.1 (28-Feb-2019)
 
 * Adressvergleich kommt jetzt mit mehr Sonderfällen klar

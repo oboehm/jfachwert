@@ -212,6 +212,11 @@ public final class AdresseTest extends FachwertTest {
         compareHausnummer("7-9", "9");
     }
 
+    @Test
+    public void testEqualsHausnummerBisNix() {
+        compareHausnummer("9-", "9-");
+    }
+
     private void compareHausnummer(String n1, String n2) {
         Adresse duckstr = Adresse.of(entenhausen, "Duckstr.", n1);
         Adresse einsa = Adresse.of(entenhausen, "Duckstr.", n2);
@@ -220,16 +225,23 @@ public final class AdresseTest extends FachwertTest {
 
     @Test
     public void testDifferentHausnummern() {
-        Adresse eins = Adresse.of(entenhausen, "Duckstr.", 1);
-        Adresse zwei = Adresse.of(entenhausen, "Duckstr.", 2);
-        assertNotEquals(eins, zwei);
+        compareDifferentHausnummer("1", "2");
+    }
+
+    @Test
+    public void testDifferentHausnummernBisNix() {
+        compareDifferentHausnummer("1-", "2-");
     }
 
     @Test
     public void testEqualsHausnummerNaN() {
-        Adresse eins = Adresse.of(entenhausen, "Chaussee", "5");
-        Adresse zwei = Adresse.of(entenhausen, "Chaussee", "8-b");
-        assertNotEquals(eins, zwei);
+        compareDifferentHausnummer("5", "8-b");
+    }
+
+    private void compareDifferentHausnummer(String n1, String n2) {
+        Adresse a = Adresse.of(entenhausen, "Duckstr.", n1);
+        Adresse b = Adresse.of(entenhausen, "Duckstr.", n2);
+        assertNotEquals(a, b);
     }
 
     @Test

@@ -358,13 +358,15 @@ public class Adresse implements Fachwert {
     }
 
     private static String[] normalizeHausnummer(String nr) {
-        String vonBis = nr.replaceAll("[^\\d\\-]", " ");
-        if (vonBis.contains("-")) {
-            String[] splitted = vonBis.split("-");
-            return new String[]{splitted[0].trim(), splitted[1].trim()};
-        } else {
-            String trimmed = vonBis.trim();
-            return new String[]{trimmed, trimmed};
+        String vonBis = nr.replaceAll("[^\\d\\-]", "");
+        String[] splitted = vonBis.split("-");
+        switch (splitted.length) {
+            case 0:
+                return new String[]{vonBis, vonBis};
+            case 1:
+                return new String[]{splitted[0], splitted[0]};
+            default:
+                return splitted;
         }
     }
 
