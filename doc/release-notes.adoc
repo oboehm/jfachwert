@@ -5,6 +5,7 @@
 == 2.2.2 (SNAPSHOT9
 
 * _fixed_: ArrayIndexOutOfBoundException im Adressvergleich behoben.
+* Text.replaceUmlaute() ist jetzt um Faktor 4 schneller
 
 
 == 2.2.1 (28-Feb-2019)

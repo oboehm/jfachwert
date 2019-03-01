@@ -19,6 +19,13 @@ package de.jfachwert;
 
 import org.junit.Test;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import java.util.logging.Logger;
+
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.*;
 
@@ -28,6 +35,8 @@ import static org.junit.Assert.*;
  * @author oboehm
  */
 public final class TextTest extends FachwertTest {
+
+    private static final Logger LOG = Logger.getLogger(TextTest.class.getName());
 
     @Override
     protected Text createFachwert() {
@@ -95,6 +104,34 @@ public final class TextTest extends FachwertTest {
     @Test
     public void testReplaceUebung() {
         assertEquals(Text.of("Uebung"), Text.of("\u00dcbung").replaceUmlaute());
+    }
+
+    /**
+     * Beim Adressvergleich von 300.000 wurde festgestellt, dass viel Zeit in
+     * {@link Text#replaceUmlaute)()} verbraucht wurde. Dies ist zwar kein
+     * echter Performance-Test, er gibt aber zumindestens Anhaltspunkte, ob
+     * die Performance sich verbessert hat.
+     * 
+     * So dauert dieser Test auf einem Entwickler-Notebook von 2015 zwischen
+     * 0,8 und 1,3 ms fuer die urspruengliche Implementierung. Nach der
+     * Optimierung der Methode braucht sie jetzt zwischen 0,2 und 0,3 ms
+     * (auf dem gleichen Rechner).
+     *
+     * @throws IOException the io exception
+     */
+    @Test
+    public void testReplaceUmlautePerformance() throws IOException {
+        Properties props = new Properties();
+        try (InputStream istream = getClass().getResourceAsStream("/de/jfachwert/messages_de.properties")) {
+            props.load(istream);
+        }
+        String s = props.toString();
+        LOG.info("replaceUmlaute started");
+        long t0 = System.nanoTime();
+        String r = Text.replaceUmlaute(s);
+        long t1 = System.nanoTime();
+        LOG.info("replaceUmlaute started ended after " + (t1 - t0) / 1000000.0 + " ms");
+        assertThat (r, not(containsString("W\u00e4hrung")));
     }
 
     @Test
