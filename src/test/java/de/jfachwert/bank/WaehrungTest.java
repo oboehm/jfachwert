@@ -89,4 +89,16 @@ public final class WaehrungTest extends AbstractFachwertTest<Currency> {
         assertEquals(eur, Waehrung.toCurrency("\u20ac"));
     }
 
+    @Test
+    public void testValidate() {
+        String validated = Waehrung.validate("EUR");
+        assertEquals("EUR", validated);
+    }
+
+    @Test
+    public void testGetCurrency() {
+        Waehrung euro = Waehrung.of("EUR");
+        assertEquals(euro.getCurrencyCode(), euro.getCurrency().getCurrencyCode());
+    }
+
 }
