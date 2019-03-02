@@ -56,7 +56,7 @@ import java.util.WeakHashMap;
 @JsonSerialize(using = ToStringSerializer.class)
 public class Rechnungsmonat implements Fachwert {
 
-    private static final Map<Short, Rechnungsmonat> CACHE = new WeakHashMap<>();
+    private static final Map<Short, Rechnungsmonat> WEAK_CACHE = new WeakHashMap<>();
     private static final Range<Integer> VALID_MONTH_RANGE = Range.between(1, 12);
     private static final Range<Integer> VALID_YEAR_RANGE = Range.between(0, 9999);
     private static final String MONTH = "month";
@@ -148,7 +148,7 @@ public class Rechnungsmonat implements Fachwert {
      * @return einen Rechnungsmonat
      */
     public static Rechnungsmonat of(LocalDate date) {
-        return of(new Rechnungsmonat(date));
+        return of(new Rechnungsmonat(date).monate);
     }
 
     /**
@@ -162,7 +162,7 @@ public class Rechnungsmonat implements Fachwert {
      * @return einen Rechnungsmonat
      */
     public static Rechnungsmonat of(String datum) {
-        return of(new Rechnungsmonat(datum));
+        return of(new Rechnungsmonat(datum).monate);
     }
 
     /**
@@ -177,7 +177,7 @@ public class Rechnungsmonat implements Fachwert {
      * @return einen Rechnungsmonat
      */
     public static Rechnungsmonat of(int monat, int jahr) {
-        return of(new Rechnungsmonat(monat, jahr));
+        return of(asMonate(monat, jahr));
     }
 
     /**
@@ -192,7 +192,7 @@ public class Rechnungsmonat implements Fachwert {
      * @return einen Rechnungsmonat
      */
     public static Rechnungsmonat of(Month monat, int jahr) {
-        return of(new Rechnungsmonat(monat, jahr));
+        return of(monat.getValue(), jahr);
     }
 
     /**
@@ -209,15 +209,26 @@ public class Rechnungsmonat implements Fachwert {
      *
      * @param other anderer Rechnungsmonat
      * @return einen (bereits instanziierten) Rechnungsmonat
+     * @deprecated bitte {@link #of(int)} mit other.monate als Argument verwenden
      */
+    @Deprecated
     public static Rechnungsmonat of(Rechnungsmonat other) {
-        Short key = other.monate;
-        Rechnungsmonat alreadyCreated = CACHE.get(key);
-        if (alreadyCreated == null) {
-            alreadyCreated = other;
-            CACHE.put(key, other);
-        }
-        return alreadyCreated;
+        return of(other.monate);
+    }
+
+    /**
+     * Die of-Methode liefert fuer denselben Rechnungsmonata auch dasselbe
+     * Objekt zurueck. D.h. zwei gleiche Rechnungsmonate werden nur einmal
+     * angelegt, wenn sie ueber diese Methode angelegt werden. Das lohnt sich
+     * vor allem dann, wenn man viele gleiche Rechnungsmonate hat und sich den
+     * Overhead eines Objekts sparen will.
+     *
+     * @param monate Anzahl Monate seit Christi Geburt
+     * @return einen Rechnungsmonat
+     * @since 2.2.2
+     */
+    public static Rechnungsmonat of(int monate) {
+        return WEAK_CACHE.computeIfAbsent((short) monate, Rechnungsmonat::new);
     }
 
     private static LocalDate toLocalDate(String monat) {
@@ -226,7 +237,7 @@ public class Rechnungsmonat implements Fachwert {
         if (parts.length == 2) {
             normalized = "1-" + normalized;
         } else if (parts.length != 3) {
-            throw new InvalidValueException(monat, MONTH);
+            throw new LocalizedIllegalArgumentException(monat, MONTH);
         }
         try {
             return LocalDate.parse(normalized);

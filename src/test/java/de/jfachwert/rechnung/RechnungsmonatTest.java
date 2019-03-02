@@ -79,6 +79,11 @@ public final class RechnungsmonatTest extends FachwertTest {
         assertEquals(FEB_2017, new Rechnungsmonat("2017-02-14"));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testRechnungsmonatInvalid() {
+        Rechnungsmonat.of("1-2-3-4");
+    }
+
     /**
      * Hier testen wir den Konstruktur mit Month und Jahr.
      */
