@@ -5,4 +5,5 @@ Als Format wird AsciiDoc verwendet, weil es mit jedem x-beliebigen Editor (und d
 Damit kann es wie normaler Source-Code behandelt und zusammen mit dem Source-Code abgelegt und versioniert werden.
 
 Ein weiterer Vorteil von AsciiDoc ist, dass es auch von GitHub unterstützt wird.
-Damit kann man die einzelnen Kapitel oder den Einstieg über link:de/index.adoc[index.adoc] über GitHub direkt anschauen, ohne dass man sich auf die Suche nach dem generierte Gesamt-Dokument machen muss.
+Damit kann man die einzelnen Kapitel oder den Einstieg über link:de/index.adoc[index.adoc] über GitHub direkt anschauen,
+ohne dass man sich auf die Suche nach dem http://jfachwert.de/generated-docs/de/index.html[generierten Gesamt-Dokument] machen muss.

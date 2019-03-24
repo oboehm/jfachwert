@@ -17,7 +17,7 @@
  */
 package de.jfachwert.pruefung.exception;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.RegExUtils;
 
 import java.text.MessageFormat;
 import java.util.MissingResourceException;
@@ -45,7 +45,7 @@ public interface LocalizedException {
      * @return Meldung als Key (z.B. "missing_values")
      */
     default String getMessageKey(String message) {
-        return StringUtils.replaceAll(message, " ", "_");
+        return RegExUtils.replaceAll(message, " ", "_");
     }
 
     /**

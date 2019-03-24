@@ -8,7 +8,7 @@
 jFachwert ist die Java-Implementierung des [Fachwert](https://de.wikipedia.org/wiki/Werkzeug-_und_Materialansatz#Fachwerte)-Konzepts
 aus dem [Werkzeug- und Material](https://de.wikipedia.org/wiki/Werkzeug-_und_Materialansatz)-Ansatzes (WAM).
 jFachwert erweitert die primitive Datentypen von Java um einige weitere Datentypen wie IBAN oder BIC, die in
-vielen Business-Programmen zwar gebraucht werden, aber immer wieder neu implementiert werden (muessen).
+vielen Business-Programmen zwar gebraucht werden, aber immer wieder neu implementiert werden (müssen).
 
 Fachwerte sind sehr eng mit den [Value Objecs](https://de.wikipedia.org/wiki/Value_Object) aus Domain Driven Design (DDD)
 verwandt und besitzen folgende Eigenschaften:
@@ -33,8 +33,8 @@ der createBankverbindung-Methode schauen, aber mal ehrlich - wer macht das schon
 Verwendung von Fachwerten:
 
 ```java
-Bankverbindung neu = createBankverbindung(new IBAN("DE41300606010006605605"), 
-                                          new BIC("GENODEF1JEV"), "Jever Volksbank");
+Bankverbindung neu = createBankverbindung(IBAN.of("DE41300606010006605605"), 
+                                          BIC.of("GENODEF1JEV"), "Jever Volksbank");
 ```
 
 Jetzt kann man die Argumente nicht mehr verwechseln, weil sonst der Compiler meckert.
@@ -44,14 +44,14 @@ Jetzt kann man die Argumente nicht mehr verwechseln, weil sonst der Compiler mec
 
 Mit 2.0 wurde der Speicherverbrauch dadurch reduziert, dass Duplikate vermieden werden, wenn man die of()-Methode benutzt.
 Dies betrifft vor allem einfache Fachwerte, die nicht aus mehrerer Attribute zusammengesetzt sind.
-Auch bei internen String-Attributen wurden Duplikate durch die Aufruf der String.inter()-Methode vermieden.
+Auch bei internen String-Attributen wurden Duplikate durch die Aufruf der `String.intern()`-Methode vermieden.
 
 Mit 1.0 wurde ein stabiler Stand erreicht, den man produktiv in eigenen Projekten einsetzen kann.
 Man profitiert dabei von sprechenderen Methoden-Parametern, die nicht
 mehr verwechselt werden koennen. Wer Ideen fuer weitere Fachwerte hat, darf gerne mitmachen - sei es durch Code,
 sei es durch Dokumentation oder einem schoenen Icon, oder sei es durch Anregungen und konstruktive Kritik.
 
-So gab es bereits in Version 0.0.2 gab es einer einfache [IBAN](http://jfachwert.de/apidocs/de/jfachwert/bank/IBAN.html)- und 
+So gab es bereits in Version 0.0.2 eine einfache [IBAN](http://jfachwert.de/apidocs/de/jfachwert/bank/IBAN.html)- und 
 [BIC](http://jfachwert.de/apidocs/de/jfachwert/bank/BIC.html)-Klasse, die im 
 [Maven-Repository](http://search.maven.org/#search%7Cga%7C1%7Cjfachwert)
 unter folgenden Koordinaten zu finden ist:
@@ -66,7 +66,7 @@ sowie Packages fuer steuerliche oder postalische Klassen hinzu.
 Mit 0.5 kam die FachwertFactory hinzu, mit der nicht nur beiliebige Fachwert-Klassen erzeugt werden koennen,
 sondern die auch zur Validierung eingesetzt werden kann.
 Und auch die Architektur wurde nach [arc42](src/main/asciidoc/README.adoc) dokumentiert.
-Die weitere Geschichte ist in den [Release Notes](http://jfachwert.de/changes-report.html) nachzulesen.
+Die weitere Geschichte ist in den [Release Notes](doc/release-notes.adoc) nachzulesen.
 
 
 # Ziele
