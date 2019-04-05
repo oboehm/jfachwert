@@ -2,6 +2,11 @@
 
 
 
+== 2.2.3 (SNAPSHOT)
+
+* _fixed_ https://github.com/oboehm/jfachwert/issues/7[#7]#: Validierung für Rechnungsmonat vervollständigt
+
+
 == 2.2.2 (2-Mär-2019)
 
 * _fixed_: ArrayIndexOutOfBoundException im Adressvergleich behoben.
