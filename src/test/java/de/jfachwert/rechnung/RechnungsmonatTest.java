@@ -238,4 +238,9 @@ public final class RechnungsmonatTest extends FachwertTest {
         assertEquals(2000 * 12, Rechnungsmonat.of(12, 1999).asMonate());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testIssue7() {
+        Rechnungsmonat.of(13, 2019);
+    }
+
 }

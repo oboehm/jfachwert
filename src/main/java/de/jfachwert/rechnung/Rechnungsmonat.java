@@ -110,6 +110,8 @@ public class Rechnungsmonat implements Fachwert {
     }
     
     private static short asMonate(int monat, int jahr) {
+        verify(MONTH, monat, VALID_MONTH_RANGE);
+        verify(YEAR, jahr, VALID_YEAR_RANGE);
         return (short) (jahr * 12 + monat - 1);
     }
     
@@ -124,7 +126,7 @@ public class Rechnungsmonat implements Fachwert {
      * @param jahr vierstellige Zahl zwischen -2730 und +2730
      */
     public Rechnungsmonat(int monat, int jahr) {
-        this(monat + "/" + jahr);
+        this(asMonate(monat, jahr));
     }
 
     /**
@@ -263,8 +265,12 @@ public class Rechnungsmonat implements Fachwert {
 
     private static int verify(String context, String value, Range<Integer> range) {
         int number = Integer.parseInt(value);
+        return verify(context, number, range);
+    }
+
+    private static int verify(String context, int number, Range<Integer> range) {
         if (!range.contains(number)) {
-            throw new LocalizedIllegalArgumentException(value, context, range);
+            throw new LocalizedIllegalArgumentException(number, context, range);
         }
         return number;
     }
