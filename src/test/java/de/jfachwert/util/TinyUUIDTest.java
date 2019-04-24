@@ -1,4 +1,4 @@
-package de.jfachwert.util;/*
+/*
  * Copyright (c) 2017 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,8 +15,10 @@ package de.jfachwert.util;/*
  *
  * (c)reated 11.12.2017 by oboehm (ob@oasd.de)
  */
+package de.jfachwert.util;
 
 import de.jfachwert.FachwertTest;
+import org.junit.Before;
 import org.junit.Test;
 
 import javax.validation.ValidationException;
@@ -32,9 +34,14 @@ import static org.junit.Assert.assertThat;
  *
  * @author oboehm
  */
-public final class TinyUUIDTest extends FachwertTest {
+public class TinyUUIDTest extends FachwertTest {
 
-    private final TinyUUID tinyUUID = TinyUUID.randomUUID();
+    private TinyUUID tinyUUID;
+
+    @Before
+    public void setUpTinyUUID() {
+        tinyUUID = createFachwert();
+    }
 
     /**
      * Erzeugt eine Test-UUID zum Testen.
@@ -43,7 +50,17 @@ public final class TinyUUIDTest extends FachwertTest {
      */
     @Override
     protected TinyUUID createFachwert() {
-        return new TinyUUID("12345678-9abc-def0-0fed-cba987654321");
+        return createTinyUUID("12345678-9abc-def0-0fed-cba987654321");
+    }
+
+    /**
+     * Erzeugt eine TinyUUID zum Testen.
+     *
+     * @param uuid UUID
+     * @return eine TinyUUID
+     */
+    protected TinyUUID createTinyUUID(String uuid) {
+        return new TinyUUID(uuid);
     }
 
     /**
@@ -53,10 +70,10 @@ public final class TinyUUIDTest extends FachwertTest {
     @Test
     public void testTinyUUIDString() {
         String tiny = tinyUUID.toShortString();
-        TinyUUID id = new TinyUUID(tiny);
+        TinyUUID id = createTinyUUID(tiny);
         assertEquals(tinyUUID, id);
     }
-            
+
     /**
      * Test-Methode fuer {@link TinyUUID#toNumber()}.
      */
@@ -198,13 +215,17 @@ public final class TinyUUIDTest extends FachwertTest {
         checkToShortString(TinyUUID.MAX);
     }
 
-    private void checkToShortString(TinyUUID id) {
+    protected void checkToShortString(TinyUUID id) {
+        checkToShortString(id, 22);
+    }
+
+    protected void checkToShortString(TinyUUID id, int expectedLength) {
         String s = id.toShortString();
-        assertThat(s.length(), is(lessThan(id.toLongString().length())));
-        assertThat(s, s.length(), is(22));
+        assertThat(s, s.length(), is(lessThan(id.toLongString().length())));
+        assertThat(s, s.length(), equalTo(expectedLength));
         assertThat(s, not(containsString("/")));
         assertThat(s, not(containsString("+")));
-        assertEquals(id, TinyUUID.fromString(s));
+        assertEquals(id, createTinyUUID(s));
     }
 
     /**
