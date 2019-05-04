@@ -31,18 +31,7 @@
       </subsection>
       <subsection name="Erfahrungswerte">
         <p>
-          Als ich 2000 in den genossenschaftlichen Bankbereich gewechselt bin,
-          war man gerade dabei, den GEBOS-Bankarbeitsplatz von C++ nach Java zu portieren.
-          GEBOS war eine Client-Server-Anwendung mit einem graphischer Client unter OS/2,
-          dessen Beliebtheit u.a. darauf beruhte, das er Metaphern aus dem Bank-Bereich
-          wie Ordner, Formulare oder Kopien (f&#252;r Offline-Verarbeitung) verwendete,
-          die nach dem WAM-Ansatz (Werkzeuge, Automat, Material) gestaltet wurde.
-        </p>
-        <p>
-          Fachwerte sind Teil des WAM-Ansatzes und waren Basis des jGEBOS-Frameworks, mit dem
-          der C++-Client abgel&#246;st wurde. Es tauchte auch die Idee auf,
-          den Fachwert-Teil des Frameworks als OpenSource auszugliedern, was aber
-          aufgrund diverser Fusionen wieder in Vergessenheit geriet.
+          s. <a href="https://github.com/oboehm/jfachwert/blob/master/doc/history.adoc">Geschichtliches</a>
         </p>
       </subsection>
     </section>

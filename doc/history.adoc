@@ -1,0 +1,16 @@
+= Geschichtliches
+
+Als ich 2000 in den genossenschaftlichen Bankbereich gewechselt bin,
+war man gerade dabei, den GEBOS-Bankarbeitsplatz von C++ nach Java zu portieren.
+GEBOS war eine Client-Server-Anwendung mit einem graphischer Client unter OS/2,
+dessen Beliebtheit u.a. darauf beruhte, das er Metaphern aus dem Bank-Bereich
+wie Ordner, Formulare oder Kopien (für Offline-Verarbeitung) verwendete,
+die nach dem WAM-Ansatz (Werkzeuge, Automat, Material) gestaltet wurde.
+
+Fachwerte sind Teil des WAM-Ansatzes und waren Basis des jGEBOS-Frameworks, mit dem
+der C++-Client abgelöst wurde. Es tauchte auch die Idee auf,
+den Fachwert-Teil des Frameworks als OpenSource auszugliedern, was aber
+aufgrund diverser Fusionen wieder in Vergessenheit geriet.
+
+Anfang 2017 wurde die Idee wieder aufgegriffen und in Anlehnung an die damalige Implementierung mit dem bank-Package begonnen.
+Die allererste Version (0.0.2) bestand im Wesentlichen aus einer IBAN- und BIC-Klasse, der schnell weitere Klassen und Packages folgten.
