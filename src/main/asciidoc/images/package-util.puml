@@ -4,6 +4,7 @@ package "util" {
 
     class ToFachwertSerializer
     class TinyUUID
+    class SmallUUID
 
 }
 

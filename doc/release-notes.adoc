@@ -2,7 +2,7 @@
 
 
 
-== 2.2.3 (SNAPSHOT)
+== 2.2.3 (5-Mai-2019)
 
 * _fixed_ https://github.com/oboehm/jfachwert/issues/7[#7]#: Validierung für Rechnungsmonat vervollständigt
 * SmallUUID als Alternative zu TinyUUID hinzugefügt
