@@ -34,6 +34,7 @@ import de.jfachwert.rechnung.*;
 import de.jfachwert.steuer.SteuerIdNr;
 import de.jfachwert.steuer.Steuernummer;
 import de.jfachwert.steuer.UStIdNr;
+import de.jfachwert.util.SmallUUID;
 import de.jfachwert.util.TinyUUID;
 
 import javax.validation.ValidationException;
@@ -108,6 +109,7 @@ public class FachwertFactory {
         INSTANCE.register(PackedDecimal.class);
         INSTANCE.register(Bruch.class);
         INSTANCE.register(TinyUUID.class);
+        INSTANCE.register(SmallUUID.class);
         INSTANCE.register(Geldbetrag.class);
         INSTANCE.register(Waehrung.class);
         INSTANCE.register(IK.class);
