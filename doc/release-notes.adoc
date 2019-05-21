@@ -2,6 +2,11 @@
 
 
 
+== 2.2.4 (SNAPSHOT)
+
+* EMailAdresse um getName() erweitert
+
+
 == 2.2.3 (5-Mai-2019)
 
 * _fixed_ https://github.com/oboehm/jfachwert/issues/7[#7]#: Validierung für Rechnungsmonat vervollständigt

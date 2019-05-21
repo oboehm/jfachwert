@@ -19,9 +19,11 @@ package de.jfachwert.net;
 
 import de.jfachwert.SimpleValidator;
 import de.jfachwert.Text;
+import de.jfachwert.post.Name;
 import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.WordUtils;
 
 import java.util.WeakHashMap;
 import java.util.regex.Matcher;
@@ -110,6 +112,19 @@ public class EMailAdresse extends Text {
     public Domainname getDomainPart() {
         return new Domainname(StringUtils.substringAfterLast(this.getCode(), "@"));
     }
+
+    /**
+     * Liefert den Namensanteil der Email-Adresse als {@link Name} zurueck.
+     * Kann dann eingesetzt werden, wenn die Email-Adresse nach dem Schema
+     * "vorname.nachname@firma.de" aufgebaut ist.
+     *
+     * @return z.B. "O. Boehm" als Name
+     */
+    public Name getName() {
+        String name = WordUtils.capitalize(getLocalPart(), '.');
+        return Name.of(name);
+    }
+
 
 
     /**

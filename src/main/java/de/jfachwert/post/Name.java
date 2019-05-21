@@ -81,7 +81,14 @@ public class Name extends Text {
      * @return z.B. "Duck"
      */
     public String getNachname() {
-        return StringUtils.substringBefore(getCode(), ",").trim();
+        String nachname = getCode();
+        if (nachname.contains(",")) {
+            nachname = StringUtils.substringBefore(getCode(), ",").trim();
+        } else {
+            List<String> namensliste = getNamensListe();
+            nachname = namensliste.get(namensliste.size() - 1);
+        }
+        return nachname;
     }
 
     /**
@@ -90,7 +97,23 @@ public class Name extends Text {
      * @return z.B. "Donald"
      */
     public String getVorname() {
-        return StringUtils.substringAfter(getCode(), ",").trim();
+        String vorname = getCode();
+        if (vorname.contains(",")) {
+            vorname = StringUtils.substringAfter(getCode(), ",").trim();
+        } else {
+            vorname = getNamensListe().get(0);
+        }
+        return vorname;
+    }
+
+    /**
+     * Liste die einzelnen Vornamen und Namen als Liste auf.
+     *
+     * @return Liste mit Namen (mit mind. 1 Namen)
+     */
+    public List<String> getNamensListe() {
+        String namen = getCode().replaceAll("\\.", ". ");
+        return Arrays.asList(namen.split("[\\s,]"));
     }
 
     /**

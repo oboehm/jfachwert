@@ -23,6 +23,7 @@ import patterntesting.runtime.junit.ObjectTester;
 
 import java.util.List;
 
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.junit.Assert.*;
 
@@ -119,6 +120,26 @@ public final class NameTest extends AbstractFachwertTest<String> {
         Name karl = Name.of("Otto, Karl");
         Name karlheinz = Name.of("Otto, Karl Heinz");
         ObjectTester.assertEquals(karl, karlheinz);
+    }
+
+    @Test
+    public void testMMustermann() {
+        Name mustermann = Name.of("M. Mustermann");
+        assertEquals("Mustermann", mustermann.getNachname());
+        assertEquals("M.", mustermann.getVorname());
+    }
+
+    @Test
+    public void testDonaldDuck() {
+        Name donald = Name.of("Donald Duck");
+        assertEquals("Duck", donald.getNachname());
+        assertEquals("Donald", donald.getVorname());
+    }
+
+    @Test
+    public void testGetNamensListe() {
+        Name ewing = Name.of("J.R.Ewing");
+        assertThat(ewing.getNamensListe(), contains("J.", "R.", "Ewing"));
     }
 
 }

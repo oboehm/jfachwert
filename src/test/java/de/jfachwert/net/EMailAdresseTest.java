@@ -17,6 +17,7 @@ package de.jfachwert.net;/*
  */
 
 import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.post.Name;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -73,6 +74,11 @@ public final class EMailAdresseTest extends AbstractFachwertTest<String> {
     @Test
     public void testGetDomainPart() {
         assertEquals(new Domainname("jfachwert.de"), testAdresse.getDomainPart());
+    }
+
+    @Test
+    public void testGetName() {
+        assertEquals(Name.of("O. Boehm"), EMailAdresse.of("o.boehm@optica.de").getName());
     }
 
 }
