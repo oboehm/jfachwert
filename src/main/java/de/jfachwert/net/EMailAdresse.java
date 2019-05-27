@@ -119,6 +119,7 @@ public class EMailAdresse extends Text {
      * "vorname.nachname@firma.de" aufgebaut ist.
      *
      * @return z.B. "O. Boehm" als Name
+     * @since 2.3
      */
     public Name getName() {
         String name = WordUtils.capitalize(getLocalPart(), '.');

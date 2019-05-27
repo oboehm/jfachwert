@@ -2,32 +2,21 @@
 
 
 
-== 2.2.4 (SNAPSHOT)
+== 2.3.0 (SNAPSHOT)
 
-* EMailAdresse um getName() erweitert
-
-
-== 2.2.3 (5-Mai-2019)
-
-* _fixed_ https://github.com/oboehm/jfachwert/issues/7[#7]#: Validierung für Rechnungsmonat vervollständigt
-* SmallUUID als Alternative zu TinyUUID hinzugefügt
+* #_neu_#: LANR und BSNR um isPseudoNummer() erweitert
+* #_neu_#: EMailAdresse um getName() erweitert
 
 
-== 2.2.2 (2-Mär-2019)
+== 2.2 (26-Feb-2019)
 
-* _fixed_: ArrayIndexOutOfBoundException im Adressvergleich behoben.
-* Text.replaceUmlaute() ist jetzt um Faktor 4 schneller
-
-
-== 2.2.1 (28-Feb-2019)
-
-* Adressvergleich kommt jetzt mit mehr Sonderfällen klar
-* Namensvergleich funktioniert jetzt auch mit unterschiedlicher Anzahl von Vornamen besser
-
-
-== 2.2.0 (26-Feb-2019)
-
-* NULL-Objekte für die Initialisierung von Variablen
+* *v2.2.3* _fixed_ https://github.com/oboehm/jfachwert/issues/7[#7]#: Validierung für Rechnungsmonat vervollständigt
+* *v2.2.3*: SmallUUID als Alternative zu TinyUUID hinzugefügt
+* *v2.2.2* _fixed_: ArrayIndexOutOfBoundException im Adressvergleich behoben.
+* *v2.2.2*: Text.replaceUmlaute() ist jetzt um Faktor 4 schneller
+* *v2.2.1*: Adressvergleich kommt jetzt mit mehr Sonderfällen klar
+* *v2.2.1*: Namensvergleich funktioniert jetzt auch mit unterschiedlicher Anzahl von Vornamen besser
+* #_neu_#: NULL-Objekte für die Initialisierung von Variablen
 * Architektur-Dokumentation aktualisert
 * Text-Klasse um `equalsIgnore`...`Umlaute(..)` ergänzt 
 
