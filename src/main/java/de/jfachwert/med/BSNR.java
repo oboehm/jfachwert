@@ -41,6 +41,9 @@ public class BSNR extends AbstractFachwert<Integer> {
     /** Null-Konstante fuer Initialisierungen. */
     public static final BSNR NULL = new BSNR(0, new NullValidator<>());
 
+    /** Pseudonummer. */
+    public static final BSNR PSEUDO_NUMMER = BSNR.of(179999900);
+
     /**
      * Erzeugt ein neues BSNR-Objekt.
      *
@@ -99,6 +102,17 @@ public class BSNR extends AbstractFachwert<Integer> {
      */
     public static int validate(int nummer) {
         return VALIDATOR.validate(nummer);
+    }
+
+    /**
+     * Laut Wikipedia ist "179999900" eine Pseudo-Nummer. In diesem Fall gibt
+     * diese Methode "true" zurueck.
+     *
+     * @return true oder false
+     * @since 2.3
+     */
+    public boolean isPseudoNummer() {
+        return getCode() == 179999900;
     }
 
     /**

@@ -20,6 +20,8 @@ package de.jfachwert.med;
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 
 /**
@@ -67,6 +69,16 @@ public class BSNRTest extends AbstractFachwertTest<Integer> {
     public void testOf() {
         BSNR nr = BSNR.of("000002091");
         assertEquals("000002091", nr.toString());
+    }
+
+    @Test
+    public void testIsPseudoNummer() {
+        assertTrue(BSNR.PSEUDO_NUMMER.isPseudoNummer());
+    }
+
+    @Test
+    public void testIsNotPseudoNummer() {
+        assertFalse(BSNR.of("012345678").isPseudoNummer());
     }
 
 }
