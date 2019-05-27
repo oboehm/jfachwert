@@ -20,8 +20,7 @@ package de.jfachwert.med;
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 /**
  * Unit-Tests fuer {@link LANR}-Klasse.
@@ -88,5 +87,35 @@ public class LANRTest extends AbstractFachwertTest<Integer> {
         String nr = "000456789";
         assertEquals(nr, LANR.of(nr).toString());
     }
-    
+
+    @Test
+    public void testIsPseudoNummer() {
+        assertTrue(LANR.PSEUDO_NUMMER.isPseudoNummer());
+    }
+
+    @Test
+    public void testIsNotPseudoNummer() {
+        assertFalse(LANR.of(345678975).isPseudoNummer());
+    }
+
+    @Test
+    public void testIsPseudoNummer999999999() {
+        assertTrue(LANR.of("999999999").isPseudoNummer());
+    }
+
+    @Test
+    public void testIsPseudoNummer3333333() {
+        assertTrue(LANR.of("333333321").isPseudoNummer());
+    }
+
+    @Test
+    public void testIsPseudoNummer4444444() {
+        assertTrue(LANR.of("444444401").isPseudoNummer());
+    }
+
+    @Test
+    public void testIsPseudoNummer555555() {
+        assertTrue(LANR.of("555555102").isPseudoNummer());
+    }
+
 }

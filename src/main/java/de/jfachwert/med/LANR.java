@@ -153,6 +153,29 @@ public class LANR extends AbstractFachwert<Integer> {
     }
 
     /**
+     * Neben "999999900" als Pseudo-Arztnummer gibt es noch weitere Nummern,
+     * die als Pseudo-Nummer angesehen werden. So ist nach
+     * https://www.aok-gesundheitspartner.de/imperia/md/gpp/nordost/heilberufe/datenaustausch/lieferbedingungen.pdf
+     * die "3333333xx" und "4444444xx" eine Pseudo-Nummer, und nach
+     * https://www.gkv-datenaustausch.de/media/dokumente/leistungserbringer_1/krankenhaeuser/fortschreibungen_1/20170522_14_fs.pdf
+     * die "555555..." solch eine Pseudo-Nummer.
+     *
+     * @return true oder false
+     * @since 2.3
+     */
+    public boolean isPseudoNummer() {
+        int arztNr = getArztnummer();
+        switch (arztNr) {
+            case 3333333:
+            case 4444444:
+            case 9999999:
+                return true;
+            default:
+                return (arztNr / 10) == 555555;
+        }
+    }
+
+    /**
      * Die LANR ist 9-stellig und wird auch neunstellig ausgegeben.
      *
      * @return 9-stellige Zeichenkette, evtl. mit fuehrenden Nullen
