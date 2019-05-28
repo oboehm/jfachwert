@@ -76,7 +76,7 @@ import java.util.logging.Logger;
  * | 0xA | / | Trennzeichen fuer Brueche                        |
  * | 0xB |   | Leerzeichen (Blank)                              |
  * | 0xC | + | positives Vorzeichen                             |
- * | 0xD | - | Leerzeichen (Blank)                              |
+ * | 0xD | - | negatives Vorzeichen                             |
  * | 0xE | . | Formatzeichen Tausenderstelle (im Deutschen)     |
  * | 0xF | , | Trennung Vorkomma/Nachkommastelle (im Deutschen) |
  * +-----+---+--------------------------------------------------+
