@@ -106,12 +106,13 @@ public final class ChatAccountTest extends FachwertTest {
      */
     @Test
     public void testChatAccountIcq() {
-        new ChatAccount(ChatDienst.ICQ, "123456");
+        ChatAccount icq = new ChatAccount(ChatDienst.ICQ, "123456");
+        assertEquals(ChatDienst.ICQ, icq.getChatDienst());
     }
 
     /**
      * Test eines ungueltigen ICQ-Accounts (ICQ-Nummber sind mindestens
-     * 5-stelling).
+     * 5-stellig).
      */
     @Test(expected = IllegalArgumentException.class)
     public void testChatAccountIcqInvalid() {

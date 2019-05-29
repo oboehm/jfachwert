@@ -60,6 +60,7 @@ public class SteuernummerTest extends AbstractFachwertTest<PackedDecimal> {
     @Test
     public void testSteuernummerWithoutValidation() {
         Steuernummer stnr = new Steuernummer("12345678001", new NoopVerfahren<>());
+        assertEquals("12345678001", stnr.toString());
     }
 
     /**
