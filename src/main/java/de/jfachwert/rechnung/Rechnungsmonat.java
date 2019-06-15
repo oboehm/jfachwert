@@ -64,7 +64,7 @@ public class Rechnungsmonat implements Fachwert {
     private final short monate;
 
     /** Null-Monat fuer Initialisierungen. */
-    public static final Rechnungsmonat NULL = new Rechnungsmonat(0);
+    public static final Rechnungsmonat NULL = Rechnungsmonat.of(0);
 
     /**
      * Der Default-Konstruktor legt einen Rechnungsmonat vom aktuellen Monat
@@ -313,7 +313,7 @@ public class Rechnungsmonat implements Fachwert {
      * @return Vormonat
      */
     public Rechnungsmonat getVormonat() {
-        return new Rechnungsmonat(monate - 1);
+        return Rechnungsmonat.of(monate - 1);
     }
 
     /**
@@ -322,7 +322,7 @@ public class Rechnungsmonat implements Fachwert {
      * @return Folgemonat
      */
     public Rechnungsmonat getFolgemonat() {
-        return new Rechnungsmonat(monate + 1);
+        return Rechnungsmonat.of(monate + 1);
     }
 
     /**
@@ -331,7 +331,7 @@ public class Rechnungsmonat implements Fachwert {
      * @return Monat im Vorjahr
      */
     public Rechnungsmonat getVorjahr() {
-        return new Rechnungsmonat(monate - 12);
+        return Rechnungsmonat.of(monate - 12);
     }
 
     /**
@@ -340,7 +340,7 @@ public class Rechnungsmonat implements Fachwert {
      * @return Monat im Folgejahr
      */
     public Rechnungsmonat getFolgejahr() {
-        return new Rechnungsmonat(monate + 12);
+        return Rechnungsmonat.of(monate + 12);
     }
 
     /**
@@ -478,7 +478,7 @@ public class Rechnungsmonat implements Fachwert {
         if (monthsToAdd == 0) {
             return this;
         } else {
-            return new Rechnungsmonat(monate + monthsToAdd);
+            return Rechnungsmonat.of(monate + monthsToAdd);
         }
     }
 
