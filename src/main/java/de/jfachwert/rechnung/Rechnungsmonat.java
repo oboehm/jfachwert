@@ -54,7 +54,7 @@ import java.util.WeakHashMap;
  * @since 0.3.1 (12.07.2017)
  */
 @JsonSerialize(using = ToStringSerializer.class)
-public class Rechnungsmonat implements Fachwert {
+public class Rechnungsmonat implements Fachwert, Comparable<Rechnungsmonat> {
 
     private static final Map<Short, Rechnungsmonat> WEAK_CACHE = new WeakHashMap<>();
     private static final Range<Integer> VALID_MONTH_RANGE = Range.between(1, 12);
@@ -574,6 +574,17 @@ public class Rechnungsmonat implements Fachwert {
     @Override
     public String toString() {
         return this.getMonat() + "/" + this.getJahr();
+    }
+
+    /**
+     * Vergleicht zwei Rechnungsmonate.
+     *
+     * @param other der andere Rechnnugsmonat
+     * @return kleiner 0, wenn der andere Rechnungsmonat davor liegt
+     */
+    @Override
+    public int compareTo(Rechnungsmonat other) {
+        return this.monate - other.monate;
     }
 
 }

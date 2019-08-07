@@ -25,7 +25,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 /**
@@ -241,6 +241,15 @@ public final class RechnungsmonatTest extends FachwertTest {
     @Test(expected = IllegalArgumentException.class)
     public void testIssue7() {
         Rechnungsmonat.of(13, 2019);
+    }
+
+    @Test
+    public void testCompareTo() {
+        Rechnungsmonat jan2019 = new Rechnungsmonat(1, 2019);
+        Rechnungsmonat feb2019 = new Rechnungsmonat(2, 2019);
+        assertEquals(0, jan2019.compareTo(jan2019));
+        assertThat(jan2019.compareTo(feb2019), lessThan(0));
+        assertThat(feb2019.compareTo(jan2019), greaterThan(0));
     }
 
 }
