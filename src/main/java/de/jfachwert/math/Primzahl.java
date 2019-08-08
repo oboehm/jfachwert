@@ -42,7 +42,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author oboehm
  * @since 0.6.1 (04.04.2018)
  */
-public class Primzahl extends Number implements Fachwert {
+public class Primzahl extends Number implements Fachwert, Comparable<Primzahl> {
 
     /** Zwei ist die kleinste Primzahl. */
     public static final Primzahl ZWEI = new Primzahl(2);
@@ -191,6 +191,18 @@ public class Primzahl extends Number implements Fachwert {
             refPrimzahlen = new SoftReference<>(primzahlen);
         }
         return primzahlen;
+    }
+
+    /**
+     * Dient zum Vergleich zweier Primzahlen.
+     *
+     * @param other die andere Primzahl
+     * @return Abstand zur anderen Primzahl
+     * @since 2.4
+     */
+    @Override
+    public int compareTo(Primzahl other) {
+        return this.value - other.value;
     }
 
     @Override

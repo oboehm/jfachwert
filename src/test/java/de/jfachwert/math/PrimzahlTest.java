@@ -21,7 +21,10 @@ package de.jfachwert.math;
 import de.jfachwert.FachwertTest;
 import org.junit.Test;
 
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Unit-Tests fuer {@link Primzahl}-Klasse.
@@ -78,6 +81,12 @@ public final class PrimzahlTest extends FachwertTest {
         assertEquals(2L, Primzahl.ZWEI.longValue());
         assertEquals(2.0F, Primzahl.ZWEI.floatValue(), 0.001);
         assertEquals(2.0, Primzahl.ZWEI.doubleValue(), 0.001);
+    }
+
+    @Test
+    public void testCompareTo() {
+        assertThat(Primzahl.ZWEI.compareTo(Primzahl.DREI), lessThan(0));
+        assertThat(Primzahl.DREI.compareTo(Primzahl.ZWEI), greaterThan(0));
     }
 
 }

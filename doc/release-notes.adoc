@@ -2,7 +2,12 @@
 
 
 
-== 2.3.0 (28-Mai-2019)
+== 2.4 (SNAPSHOT)
+
+* viele Fachklassen sind jetzt Comparable
+
+
+== 2.3 (28-Mai-2019)
 
 * #_neu_#: LANR und BSNR um isPseudoNummer() erweitert
 * #_neu_#: EMailAdresse um getName() erweitert

@@ -38,7 +38,7 @@ import java.math.BigInteger;
  * @author <a href="ob@aosd.de">oliver</a>
  * @since 0.6
  */
-public class Bruch extends AbstractNumber implements Fachwert, Comparable<Bruch> {
+public class Bruch extends AbstractNumber implements Fachwert {
 
     private final BigInteger zaehler;
     private final BigInteger nenner;
@@ -305,13 +305,28 @@ public class Bruch extends AbstractNumber implements Fachwert, Comparable<Bruch>
     }
 
     /**
+     * Vergleicht eine andere Zahl mit dem aktuellen Bruch.
+     *
+     * @param other Zahl, mit der verglichen wird
+     * @return negtive Zahl, falls this &lt; other, 0 bei Gleichheit, ansonsten
+     * positive Zahl.
+     */
+    @Override
+    public int compareTo(AbstractNumber other) {
+        if (other instanceof Bruch) {
+            return compareTo((Bruch) other);
+        } else {
+            return super.compareTo(other);
+        }
+    }
+
+    /**
      * Vergleicht den anderen Bruch mit dem aktuellen Bruch.
      *
      * @param other der andere Bruch, der verglichen wird.
      * @return negtive Zahl, falls this &lt; other, 0 bei Gleichheit, ansonsten
      * positive Zahl.
      */
-    @Override
     public int compareTo(Bruch other) {
         BigInteger thisZaehlerErweitert = this.zaehler.multiply(other.nenner);
         BigInteger otherZaehlerErweitert = other.zaehler.multiply(this.nenner);

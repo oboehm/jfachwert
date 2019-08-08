@@ -31,7 +31,7 @@ import java.math.BigDecimal;
  * @since 0.7
  */
 @JsonSerialize(using = ToNumberSerializer.class)
-public abstract class AbstractNumber extends Number {
+public abstract class AbstractNumber extends Number implements Comparable<AbstractNumber> {
 
     /**
      * Diese Methode liefert die Zahl als BigDecimal zurueck und wird fuer
@@ -83,6 +83,18 @@ public abstract class AbstractNumber extends Number {
     @Override
     public double doubleValue() {
         return toBigDecimal().doubleValue();
+    }
+
+    /**
+     * Dient zum Vergleich zweier Zahlen.
+     *
+     * @param other die andere Zahl
+     * @return Abstand zur anderen Zahl
+     * @since 2.4
+     */
+    @Override
+    public int compareTo(AbstractNumber other) {
+        return this.toBigDecimal().compareTo(other.toBigDecimal());
     }
 
 }

@@ -24,7 +24,7 @@ import patterntesting.runtime.util.Converter;
 import java.io.NotSerializableException;
 import java.math.BigInteger;
 
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
@@ -86,6 +86,14 @@ public final class NummerTest extends FachwertTest {
         Nummer n3 = Nummer.of(BigInteger.ONE);
         assertSame(n1, n2);
         assertSame(n2, n3);
+    }
+
+    @Test
+    public void testCompareTo() {
+        Nummer eins = Nummer.of(1);
+        Nummer zwei = Nummer.of(2);
+        assertThat(eins.compareTo(zwei), lessThan(0));
+        assertThat(zwei.compareTo(eins), greaterThan(0));
     }
 
 }

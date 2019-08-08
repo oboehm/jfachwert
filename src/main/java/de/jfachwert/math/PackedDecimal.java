@@ -105,7 +105,7 @@ import java.util.logging.Logger;
  * @since 0.6 (29.03.2018)
  */
 @JsonSerialize(using = ToStringSerializer.class)
-public class PackedDecimal extends AbstractNumber implements Fachwert, Comparable<PackedDecimal> {
+public class PackedDecimal extends AbstractNumber implements Fachwert {
 
     private static final Logger LOG = Logger.getLogger(PackedDecimal.class.getName());
     private static final NullValidator<String> VALIDATOR = new NullValidator();
@@ -658,11 +658,26 @@ public class PackedDecimal extends AbstractNumber implements Fachwert, Comparabl
     /**
      * Vergleicht die andere Zahl mit der aktuellen Zahl.
      *
-     * @param other die andere {@link PackedDecimal}, die verglichen wird.
+     * @param other die andere Zahl, die verglichen wird
      * @return negtive Zahl, falls this &lt; other, 0 bei Gleichheit, ansonsten
      * positive Zahl.
      */
     @Override
+    public int compareTo(AbstractNumber other) {
+        if (other instanceof PackedDecimal) {
+            return compareTo((PackedDecimal) other);
+        } else {
+            return super.compareTo(other);
+        }
+    }
+
+    /**
+     * Vergleicht die andere Zahl mit der aktuellen Zahl.
+     *
+     * @param other die andere {@link PackedDecimal}, die verglichen wird.
+     * @return negtive Zahl, falls this &lt; other, 0 bei Gleichheit, ansonsten
+     * positive Zahl.
+     */
     public int compareTo(@NotNull PackedDecimal other) {
         return this.toBruch().compareTo(other.toBruch());
     }
