@@ -25,8 +25,7 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 /**
@@ -157,6 +156,14 @@ public final class TextTest extends FachwertTest {
     @Test
     public void testToUpperCase() {
         assertEquals(Text.of("WORLD"), Text.of("World").toUpperCase());
+    }
+
+    @Test
+    public void testCompareTo() {
+        Text abc = Text.of("abc");
+        Text def = Text.of("def");
+        assertThat(abc.compareTo(def), lessThan(0));
+        assertThat(def.compareTo(abc), greaterThan(0));
     }
     
 }

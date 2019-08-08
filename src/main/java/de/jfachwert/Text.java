@@ -37,7 +37,7 @@ import java.util.WeakHashMap;
  * @author oboehm
  * @since 0.5 (17.01.2018)
  */
-public class Text extends AbstractFachwert<String> {
+public class Text extends AbstractFachwert<String> implements Comparable<Text> {
 
     private static final SimpleValidator<String> VALIDATOR = new NullValidator<>();
     private static final WeakHashMap<String, Text> WEAK_CACHE = new WeakHashMap<>();
@@ -289,6 +289,19 @@ public class Text extends AbstractFachwert<String> {
      */
     public boolean equalsIgnoreCaseAndUmlaute(Text other) {
         return this.replaceUmlaute().equalsIgnoreCase(other.replaceUmlaute());
+    }
+
+    /**
+     * Dient zum (alphabetischen) Vergleich zweier Texte.
+     *
+     * @param other der andere Text
+     * @return negtive Zahl, falls this &lt; other, 0 bei Gleichheit, ansonsten
+     * positive Zahl.
+     * @since 2.4
+     */
+    @Override
+    public int compareTo(Text other) {
+        return this.getCode().compareTo(other.getCode());
     }
 
 }
