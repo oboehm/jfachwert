@@ -45,7 +45,7 @@ import java.util.WeakHashMap;
  * @author oboehm
  * @since 1.1 (10.12.2018)
  */
-public class IK extends AbstractFachwert<Integer> {
+public class IK extends AbstractFachwert<Integer, IK> {
 
     private static final SimpleValidator<Integer> VALIDATOR = new Validator();
     private static final WeakHashMap<Integer, IK> WEAK_CACHE = new WeakHashMap<>();

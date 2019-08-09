@@ -17,7 +17,9 @@
  */
 package de.jfachwert.post;
 
+import de.jfachwert.AbstractFachwert;
 import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.Text;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -27,7 +29,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public final class AdressatTest extends AbstractFachwertTest<String> {
+public final class AdressatTest extends AbstractFachwertTest<String, Text> {
 
     private final Adressat mustermann = new Adressat("Mustermann, Max");
 

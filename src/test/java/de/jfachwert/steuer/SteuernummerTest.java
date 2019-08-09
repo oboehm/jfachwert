@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Unit-Tests fuer die {@link Steuernummer}-Klasse.
  */
-public class SteuernummerTest extends AbstractFachwertTest<PackedDecimal> {
+public class SteuernummerTest extends AbstractFachwertTest<PackedDecimal, Steuernummer> {
 
     /**
      * Erzeugt eine Steuernummer zum Testen.

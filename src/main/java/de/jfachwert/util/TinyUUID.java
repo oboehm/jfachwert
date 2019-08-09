@@ -43,7 +43,7 @@ import java.util.UUID;
  * @author oboehm
  * @since 0.6+ (11.12.2017)
  */
-public class TinyUUID extends AbstractFachwert<UUID> {
+public class TinyUUID extends AbstractFachwert<UUID, TinyUUID> {
 
     /** Minimale UUID. */
     public static final TinyUUID MIN = new TinyUUID("00000000-0000-0000-0000-000000000000");

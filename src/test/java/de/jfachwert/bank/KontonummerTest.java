@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public final class KontonummerTest extends AbstractFachwertTest<Long> {
+public final class KontonummerTest extends AbstractFachwertTest<Long, Kontonummer> {
 
     /**
      * Ereugt eine Kontonummer.

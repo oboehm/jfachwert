@@ -18,6 +18,7 @@
 package de.jfachwert.net;
 
 import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.Text;
 import org.junit.Test;
 
 import javax.validation.ValidationException;
@@ -29,7 +30,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public class DomainnameTest extends AbstractFachwertTest<String> {
+public class DomainnameTest extends AbstractFachwertTest<String, Text> {
 
     private final Domainname domainName = new Domainname("www.jfachwert.de");
 
@@ -98,14 +99,6 @@ public class DomainnameTest extends AbstractFachwertTest<String> {
     @Test(expected =  IllegalArgumentException.class)
     public void testGetFourthLevelDomain() {
         domainName.getLevelDomain(4);
-    }
-
-    /**
-     * Ein fuehrendes Minus-Zeichen sollte abgewiesen werden.
-     */
-    @Test(expected = ValidationException.class)
-    public void testValidate() {
-        Domainname.validate("-a.com");
     }
 
 }

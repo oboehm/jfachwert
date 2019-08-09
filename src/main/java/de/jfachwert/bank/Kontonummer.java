@@ -32,7 +32,7 @@ import java.util.WeakHashMap;
  * @author oboehm
  * @since 0.1.0
  */
-public class Kontonummer extends AbstractFachwert<Long> {
+public class Kontonummer extends AbstractFachwert<Long, Kontonummer> {
 
     private static final WeakHashMap<Long, Kontonummer> WEAK_CACHE = new WeakHashMap<>();
     private static final Validator VALIDATOR = new Validator();
@@ -43,7 +43,7 @@ public class Kontonummer extends AbstractFachwert<Long> {
      * @param nr eine maximal 10-stellige Zahl
      */
     public Kontonummer(String nr) {
-        this(Long.valueOf(nr));
+        this(Long.parseLong(nr));
     }
 
     /**

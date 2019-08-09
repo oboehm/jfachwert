@@ -18,6 +18,7 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.Text;
 import org.junit.Test;
 
 import javax.validation.ValidationException;
@@ -28,7 +29,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Unit-Tests fuer die {@link BIC}-Klasse.
  */
-public final class BICTest extends AbstractFachwertTest<String> {
+public final class BICTest extends AbstractFachwertTest<String, Text> {
 
     private final BIC bic = new BIC("GENODEF1JEV");
 

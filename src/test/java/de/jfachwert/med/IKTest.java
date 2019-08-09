@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Unit-Tests fuer {@link IK}-Klasse.
  */
-public final class IKTest extends AbstractFachwertTest<Integer> {
+public final class IKTest extends AbstractFachwertTest<Integer, IK> {
 
     private final IK ik = IK.of("260326822");
 

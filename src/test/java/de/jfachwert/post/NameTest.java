@@ -18,6 +18,7 @@
 package de.jfachwert.post;
 
 import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.Text;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
@@ -32,7 +33,7 @@ import static org.junit.Assert.*;
  *
  * @author oboehm
  */
-public final class NameTest extends AbstractFachwertTest<String> {
+public final class NameTest extends AbstractFachwertTest<String, Text> {
 
     @Override
     protected Name createFachwert(String name) {

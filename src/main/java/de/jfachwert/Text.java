@@ -37,7 +37,7 @@ import java.util.WeakHashMap;
  * @author oboehm
  * @since 0.5 (17.01.2018)
  */
-public class Text extends AbstractFachwert<String> implements Comparable<Text> {
+public class Text extends AbstractFachwert<String, Text> implements Comparable<Text> {
 
     private static final SimpleValidator<String> VALIDATOR = new NullValidator<>();
     private static final WeakHashMap<String, Text> WEAK_CACHE = new WeakHashMap<>();

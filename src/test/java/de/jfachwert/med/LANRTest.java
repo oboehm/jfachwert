@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
  *
  * @author oboehm
  */
-public class LANRTest extends AbstractFachwertTest<Integer> {
+public class LANRTest extends AbstractFachwertTest<Integer, LANR> {
 
     /**
      * Zum Testen verwenden wir die Pseudo-Nummer fuer Bundeswehraerzte,

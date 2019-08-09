@@ -17,6 +17,7 @@ package de.jfachwert.net;/*
  */
 
 import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.Text;
 import de.jfachwert.post.Name;
 import org.junit.Test;
 
@@ -27,7 +28,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public final class EMailAdresseTest extends AbstractFachwertTest<String> {
+public final class EMailAdresseTest extends AbstractFachwertTest<String, Text> {
 
     private final EMailAdresse testAdresse = new EMailAdresse("test@jfachwert.de");
 

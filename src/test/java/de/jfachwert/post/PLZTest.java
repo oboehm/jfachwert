@@ -17,6 +17,7 @@ package de.jfachwert.post;/*
  */
 
 import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.Text;
 import org.junit.Test;
 
 import java.util.Locale;
@@ -28,7 +29,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public class PLZTest extends AbstractFachwertTest<String> {
+public class PLZTest extends AbstractFachwertTest<String, Text> {
 
     /**
      * Zum Testen brauchen wird die Postleitzahl von Gerlingen verwendet.

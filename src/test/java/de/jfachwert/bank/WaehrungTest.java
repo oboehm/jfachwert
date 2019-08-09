@@ -17,7 +17,10 @@
  */
 package de.jfachwert.bank;
 
+import de.jfachwert.AbstractFachwert;
 import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.Fachwert;
+import de.jfachwert.FachwertTest;
 import org.javamoney.tck.tests.internal.TestCurrencyUnit;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
@@ -25,32 +28,25 @@ import patterntesting.runtime.junit.ObjectTester;
 import javax.money.CurrencyUnit;
 import java.util.Currency;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertSame;
 
 /**
  * Unit-Tests fuer {@link Waehrung}-Klasse.
  */
-public final class WaehrungTest extends AbstractFachwertTest<Currency> {
+public final class WaehrungTest extends FachwertTest {
 
     /**
-     * Zum Testen nehmen wir die uebergebene Waehrung.
+     * Zum Testen brauchen wir ein Test-Objekt. Dies muss hierueber von den
+     * abgeleiteten Unit-Tests bereitgestellt werden. Und zwar muss jedesmal
+     * der gleiche Fachwert erzeugt werden, weil sonst der equals-Test nicht
+     * funktioniert.
      *
-     * @param code gueltige Waehrung
      * @return Test-Objekt zum Testen
      */
     @Override
-    protected Waehrung createFachwert(String code) {
-        return Waehrung.of(code);
-    }
-
-    /**
-     * Zum Testen nehmen wir die Euro-Waehrung.
-     *
-     * @return "EUR"
-     */
-    @Override
-    protected String getCode() {
-        return "EUR";
+    protected Waehrung createFachwert() {
+        return Waehrung.of("EUR");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -99,6 +95,19 @@ public final class WaehrungTest extends AbstractFachwertTest<Currency> {
     public void testGetCurrency() {
         Waehrung euro = Waehrung.of("EUR");
         assertEquals(euro.getCurrencyCode(), euro.getCurrency().getCurrencyCode());
+    }
+
+    /**
+     * Zum Testen erzeugen wir hier zwei gleiche, aber nicht diesselben
+     * Strings. Daraus sollten zwei gleiche Fachwerte mit demselben internen
+     * Code erzeugt werden.
+     */
+    @Test
+    public void testNoDuplicate() {
+        Waehrung w1 = Waehrung.of("EUR");
+        Waehrung w2 = Waehrung.of("EUR");
+        assertSame(w1.getCode(), w2.getCode());
+        assertSame(w1, w2);
     }
 
 }

@@ -33,7 +33,7 @@ import java.util.WeakHashMap;
  * @author oboehm
  * @since 1.1 (16.12.2018)
  */
-public class BSNR extends AbstractFachwert<Integer> {
+public class BSNR extends AbstractFachwert<Integer, BSNR> {
 
     private static final LengthValidator<Integer> VALIDATOR = new LengthValidator<>(2, 9);
     private static final WeakHashMap<Integer, BSNR> WEAK_CACHE = new WeakHashMap<>();

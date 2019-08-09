@@ -17,6 +17,7 @@ package de.jfachwert.rechnung;/*
  */
 
 import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.Text;
 import org.junit.Test;
 
 /**
@@ -24,7 +25,7 @@ import org.junit.Test;
  *
  * @author oboehm
  */
-public class BestellnummerTest extends AbstractFachwertTest<String> {
+public class BestellnummerTest extends AbstractFachwertTest<String, Text> {
 
     /**
      * Die Test-Bestellnummer ist fiktiv und dient nur zum Testen.

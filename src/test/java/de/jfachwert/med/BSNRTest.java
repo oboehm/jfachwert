@@ -27,7 +27,7 @@ import static org.testng.AssertJUnit.assertEquals;
 /**
  * Unit-Tests fuer {@link BSNR}-Klasse.
  */
-public class BSNRTest extends AbstractFachwertTest<Integer> {
+public class BSNRTest extends AbstractFachwertTest<Integer, BSNR> {
 
     /**
      * Erzeugt eine BSNR zum Testen.

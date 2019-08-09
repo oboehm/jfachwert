@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author oboehm
  */
-public final class BLZTest extends AbstractFachwertTest<PackedDecimal> {
+public final class BLZTest extends AbstractFachwertTest<PackedDecimal, BLZ> {
 
     /**
      * Erzeugt eine BLZ mit dem uebergebenen Code.
@@ -78,14 +78,6 @@ public final class BLZTest extends AbstractFachwertTest<PackedDecimal> {
         BLZ blz = BLZ.of(64090100);
         assertEquals("64090100", blz.getUnformatted());
         assertEquals("640 901 00", blz.getFormatted());
-    }
-
-    /**
-     * Test-Methode fuer {@link BLZ#validate(int)}.
-     */
-    @Test
-    public void testValidate() {
-        new BLZ.Validator().validate(64090100);
     }
 
 }

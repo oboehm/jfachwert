@@ -47,7 +47,7 @@ import java.util.WeakHashMap;
  * @author oboehm
  * @since 0.0.2
  */
-public class Steuernummer extends AbstractFachwert<PackedDecimal> {
+public class Steuernummer extends AbstractFachwert<PackedDecimal, Steuernummer> {
 
     private static final Validator VALIDATOR = new Validator();
     private static final WeakHashMap<String, Steuernummer> WEAK_CACHE = new WeakHashMap<>();
@@ -149,7 +149,7 @@ public class Steuernummer extends AbstractFachwert<PackedDecimal> {
          * @return Wert zwischen 0 und 9
          */
         public int getPruefziffer(PackedDecimal nr) {
-            return Integer.valueOf(MOD11.getPruefziffer(nr.toString()));
+            return Integer.parseInt(MOD11.getPruefziffer(nr.toString()));
         }
 
     }

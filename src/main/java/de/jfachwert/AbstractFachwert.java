@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import de.jfachwert.pruefung.NullValidator;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +36,7 @@ import java.util.Objects;
  * @since 0.0.2
  */
 @JsonSerialize(using = ToStringSerializer.class)
-public abstract class AbstractFachwert<T extends Serializable> implements Fachwert {
+public abstract class AbstractFachwert<T extends Serializable, S extends AbstractFachwert> implements Fachwert, Comparable<S> {
 
     private final T code;
 
@@ -106,6 +107,29 @@ public abstract class AbstractFachwert<T extends Serializable> implements Fachwe
         Map<String, Object> map = new HashMap<>();
         map.put(this.getClass().getSimpleName().toLowerCase(), toString());
         return map;
+    }
+
+    /**
+     * Dient zum Vergleich und Sortierung zweier Fachwerte.
+     *
+     * @param other der andere Fachwert
+     * @return negtive Zahl, falls this &lt; other, 0 bei Gleichheit, ansonsten
+     * positive Zahl.
+     * @since 2.4
+     */
+    @Override
+    public int compareTo(@NotNull S other) {
+        if (this.equals(other)) {
+            return 0;
+        }
+        Serializable otherCode = other.getCode();
+        if (otherCode instanceof Comparable) {
+            Comparable thisValue = (Comparable) this.getCode();
+            Comparable otherValue = (Comparable) otherCode;
+            return thisValue.compareTo(otherValue);
+        } else {
+            throw new UnsupportedOperationException("not implemented for " + this.getClass());
+        }
     }
 
 }

@@ -34,7 +34,7 @@ import java.util.WeakHashMap;
  * @author oboehm
  * @since 1.1 (12.12.2018)
  */
-public class LANR extends AbstractFachwert<Integer> {
+public class LANR extends AbstractFachwert<Integer, LANR> {
 
     private static final LengthValidator<Integer> VALIDATOR = new LengthValidator<>(4, 9);
     private static final WeakHashMap<Integer, LANR> WEAK_CACHE = new WeakHashMap<>();

@@ -17,12 +17,19 @@
  */
 package de.jfachwert.bank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import de.jfachwert.AbstractFachwert;
+import de.jfachwert.Fachwert;
+import de.jfachwert.SimpleValidator;
+import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 import org.apache.commons.collections4.map.ReferenceMap;
 
 import javax.money.CurrencyContext;
 import javax.money.CurrencyUnit;
+import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +40,8 @@ import java.util.logging.Logger;
  * @author <a href="ob@aosd.de">oliver</a>
  * @since 1.0
  */
-public class Waehrung extends AbstractFachwert<Currency> implements Comparable<CurrencyUnit>, CurrencyUnit {
+@JsonSerialize(using = ToStringSerializer.class)
+public class Waehrung implements Fachwert, Comparable<CurrencyUnit>, CurrencyUnit {
 
     private static final Logger LOG = Logger.getLogger(Waehrung.class.getName());
     private static final Map<String, Waehrung> CACHE = new ReferenceMap<>();
@@ -54,6 +62,8 @@ public class Waehrung extends AbstractFachwert<Currency> implements Comparable<C
     /** Null-Konstante fuer Initialiserung. */
     public static final Waehrung NULL = new Waehrung("XXX");
 
+    private final Currency code;
+
     /**
      * Darueber kann eine Waehrung angelegt werden.
      *
@@ -69,7 +79,20 @@ public class Waehrung extends AbstractFachwert<Currency> implements Comparable<C
      * @param code Waehrung
      */
     public Waehrung(Currency code) {
-        super(code);
+        this(code, new NullValidator<>());
+    }
+
+    protected Waehrung(Currency code, SimpleValidator<Currency> validator) {
+        this.code = validator.verify(code);
+    }
+
+    /**
+     * Liefert die Waehrung als Currency zurueck.
+     *
+     * @return Waehrung als Currency
+     */
+    public Currency getCode() {
+        return code;
     }
 
     /**
@@ -236,6 +259,30 @@ public class Waehrung extends AbstractFachwert<Currency> implements Comparable<C
     @Override
     public int compareTo(CurrencyUnit other) {
         return getCurrencyCode().compareTo(other.getCurrencyCode());
+    }
+
+    /**
+     * Zwei Waehrungen sind nur dann gleich, wenn sie vom gleichen Typ sind .
+     *
+     * @param obj zu vergleichender Waehrung
+     * @return true bei Gleichheit
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Waehrung)) {
+            return false;
+        }
+        Waehrung other = (Waehrung) obj;
+        return this.getCode().equals(other.getCode());
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return this.getCode().hashCode();
     }
 
     /**
