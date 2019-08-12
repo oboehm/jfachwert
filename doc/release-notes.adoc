@@ -5,6 +5,7 @@
 == 2.4 (SNAPSHOT)
 
 * viele Fachklassen sind jetzt Comparable
+* Unterstützung für Java 8 _und_ 11
 
 
 == 2.3 (28-Mai-2019)

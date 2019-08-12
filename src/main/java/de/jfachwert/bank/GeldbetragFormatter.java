@@ -27,6 +27,7 @@ import javax.money.MonetaryAmount;
 import javax.money.format.AmountFormatContext;
 import javax.money.format.MonetaryAmountFormat;
 import javax.money.format.MonetaryParseException;
+import javax.validation.ValidationException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Currency;
@@ -89,13 +90,13 @@ public class GeldbetragFormatter implements MonetaryAmountFormat {
         Currency cry = Waehrung.DEFAULT_CURRENCY;
         String currencyString = findCurrencyString(parts);
         try {
+            trimmed = StringUtils.remove(trimmed, currencyString).trim();
+            BigDecimal n = new BigDecimal(new NumberValidator().validate(trimmed));
             if (StringUtils.isNotEmpty(currencyString)) {
                 cry = Waehrung.toCurrency(currencyString);
-                trimmed = StringUtils.remove(trimmed, currencyString).trim();
             }
-            BigDecimal n = new BigDecimal(new NumberValidator().validate(trimmed));
             return Geldbetrag.of(n, cry);
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException | ValidationException ex) {
             throw new LocalizedMonetaryParseException(text, ex);
         }
     }

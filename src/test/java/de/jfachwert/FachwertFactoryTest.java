@@ -23,6 +23,7 @@ import de.jfachwert.math.Primzahl;
 import org.junit.Test;
 import patterntesting.runtime.monitor.ClasspathMonitor;
 
+import javax.money.UnknownCurrencyException;
 import javax.validation.ValidationException;
 import java.lang.reflect.Modifier;
 import java.util.Collection;

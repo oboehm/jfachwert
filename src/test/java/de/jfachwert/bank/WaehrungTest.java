@@ -21,11 +21,14 @@ import de.jfachwert.AbstractFachwert;
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Fachwert;
 import de.jfachwert.FachwertTest;
+import org.javamoney.tck.TestUtils;
 import org.javamoney.tck.tests.internal.TestCurrencyUnit;
 import org.junit.Test;
+import patterntesting.runtime.junit.ImmutableTester;
 import patterntesting.runtime.junit.ObjectTester;
 
 import javax.money.CurrencyUnit;
+import javax.money.UnknownCurrencyException;
 import java.util.Currency;
 
 import static org.junit.Assert.*;
@@ -49,7 +52,7 @@ public final class WaehrungTest extends FachwertTest {
         return Waehrung.of("EUR");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = UnknownCurrencyException.class)
     public void testWaehrungInvalid() {
         new Waehrung("Taler");
     }
@@ -71,6 +74,17 @@ public final class WaehrungTest extends FachwertTest {
         CurrencyUnit cu = new TestCurrencyUnit("AUD");
         Waehrung aud = Waehrung.of(cu);
         assertEquals(0, aud.compareTo(cu));
+    }
+
+    @Test
+    public void testOfEuroMitBetrag() {
+        Waehrung euro = Waehrung.of("EUR10.50");
+        assertEquals(Waehrung.EUR, euro);
+    }
+
+    @Test(expected = UnknownCurrencyException.class)
+    public void testOfUnknownCurrency() {
+        Waehrung.of("shj");
     }
 
     @Test
@@ -108,6 +122,18 @@ public final class WaehrungTest extends FachwertTest {
         Waehrung w2 = Waehrung.of("EUR");
         assertSame(w1.getCode(), w2.getCode());
         assertSame(w1, w2);
+    }
+
+    /**
+     * Hier verwenden wir das TCK zum Testen, ob Waehrung Immutable ist.
+     * Dieser Test fuehrte (im Gegensatz zum ImmutableTester) zu einem
+     * Fehler. Dies lag aber an der verwendeten MutabilityDetector-Lib,
+     * deren Version inzwischen angehoben wurde. Damit trat dieser
+     * Fehler nicht mehr auf.
+     */
+    @Test
+    public void testImmutableWithTck() {
+        TestUtils.testImmutable("4.2.1", Waehrung.class);
     }
 
 }

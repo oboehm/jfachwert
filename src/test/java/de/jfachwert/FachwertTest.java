@@ -18,6 +18,7 @@
 package de.jfachwert;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.javamoney.tck.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import patterntesting.runtime.junit.ImmutableTester;

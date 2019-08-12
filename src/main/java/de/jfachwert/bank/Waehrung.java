@@ -25,10 +25,12 @@ import de.jfachwert.Fachwert;
 import de.jfachwert.SimpleValidator;
 import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.exception.InvalidValueException;
+import de.jfachwert.pruefung.exception.LocalizedUnknownCurrencyException;
 import org.apache.commons.collections4.map.ReferenceMap;
 
 import javax.money.CurrencyContext;
 import javax.money.CurrencyUnit;
+import javax.money.UnknownCurrencyException;
 import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Level;
@@ -148,8 +150,14 @@ public class Waehrung implements Fachwert, Comparable<CurrencyUnit>, CurrencyUni
                         return c;
                     }
                 }
+                return toFallbackCurrency(name, iae);
+            } else {
+                try {
+                    return toCurrency(name.substring(0, 3));
+                } catch (LocalizedUnknownCurrencyException ex) {
+                    throw new LocalizedUnknownCurrencyException(name, ex);
+                }
             }
-            return toFallbackCurrency(name, iae);
         }
     }
 
@@ -161,7 +169,7 @@ public class Waehrung implements Fachwert, Comparable<CurrencyUnit>, CurrencyUni
         if (name.equals("\u20ac")) {
             return Currency.getInstance("EUR");
         } else {
-            throw new IllegalArgumentException("cannot get currency for '" + name + "'", iae);
+            throw new LocalizedUnknownCurrencyException(name);
         }
     }
 
@@ -174,7 +182,7 @@ public class Waehrung implements Fachwert, Comparable<CurrencyUnit>, CurrencyUni
     public static String validate(String code) {
         try {
             toCurrency(code);
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException | UnknownCurrencyException ex) {
             throw new InvalidValueException(code, "currency");
         }
         return code;
