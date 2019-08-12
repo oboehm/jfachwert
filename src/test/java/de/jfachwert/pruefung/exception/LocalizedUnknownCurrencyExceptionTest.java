@@ -43,7 +43,7 @@ public final class LocalizedUnknownCurrencyExceptionTest {
         if ("DE".equals(Locale.getDefault().getCountry())) {
             assertEquals("unbekannte W\u00e4hrung: Taler", msg);
         } else {
-            assertEquals(exception.getMessage().toLowerCase(), msg);
+            assertEquals(exception.getMessage().toLowerCase(), msg.toLowerCase());
         }
     }
 
