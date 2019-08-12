@@ -279,7 +279,7 @@
       </dependency>
       <dependency>
         <groupId>org.javamoney</groupId>
-        <artifactId>moneta</artifactId>
+        <artifactId>moneta-bp</artifactId>
         <version>1.3</version>
       </dependency>
       <dependency>
@@ -347,7 +347,7 @@
     <!-- Workaround, s. https://github.com/JavaMoney/jsr354-ri/issues/158 -->
     <dependency>
       <groupId>org.javamoney</groupId>
-      <artifactId>moneta</artifactId>
+      <artifactId>moneta-bp</artifactId>
     </dependency>
     
     <!-- Serialisierung (optional) -->
