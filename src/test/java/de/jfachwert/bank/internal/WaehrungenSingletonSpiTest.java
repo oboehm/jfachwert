@@ -58,4 +58,11 @@ public final class WaehrungenSingletonSpiTest {
         assertThat(currencies, not(empty()));
     }
 
+    @Test
+    public void getCurrenciesUnknown() {
+        CurrencyQuery query = CurrencyQueryBuilder.of().setCurrencyCodes("SDR").build();
+        Set<CurrencyUnit> currencies = singletonSpi.getCurrencies(query);
+        assertThat(currencies, empty());
+    }
+
 }

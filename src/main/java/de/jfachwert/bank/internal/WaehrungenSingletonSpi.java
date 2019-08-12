@@ -22,6 +22,7 @@ import de.jfachwert.bank.Waehrung;
 import javax.money.CurrencyQuery;
 import javax.money.CurrencyQueryBuilder;
 import javax.money.CurrencyUnit;
+import javax.money.UnknownCurrencyException;
 import javax.money.spi.Bootstrap;
 import javax.money.spi.CurrencyProviderSpi;
 import javax.money.spi.MonetaryCurrenciesSingletonSpi;
@@ -51,8 +52,7 @@ public final class WaehrungenSingletonSpi implements MonetaryCurrenciesSingleton
      */
     @Override
     public List<String> getDefaultProviderChain() {
-        List<String> list = new ArrayList<>(getProviderNames());
-        return list;
+        return new ArrayList<>(getProviderNames());
     }
 
     /**
@@ -83,14 +83,14 @@ public final class WaehrungenSingletonSpi implements MonetaryCurrenciesSingleton
         for (Locale locale : query.getCountries()) {
             try {
                 result.add(Waehrung.of(Currency.getInstance(locale)));
-            } catch (IllegalArgumentException ex) {
+            } catch (IllegalArgumentException | UnknownCurrencyException ex) {
                 LOG.log(Level.WARNING, "Cannot get currency for locale '" + locale + "':", ex);
             }
         }
         for (String currencyCode : query.getCurrencyCodes()) {
             try {
                 result.add(Waehrung.of(currencyCode));
-            } catch (IllegalArgumentException ex) {
+            } catch (IllegalArgumentException | UnknownCurrencyException ex) {
                 LOG.log(Level.WARNING, "Cannot get currency '" + currencyCode + "':", ex);
             }
         }
