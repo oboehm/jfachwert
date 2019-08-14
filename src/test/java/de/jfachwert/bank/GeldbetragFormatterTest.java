@@ -19,13 +19,13 @@ package de.jfachwert.bank;
 
 import org.junit.Test;
 
+import javax.money.format.AmountFormatContext;
 import javax.money.format.MonetaryParseException;
 import java.io.IOException;
 import java.math.BigDecimal;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * Unit-Tests fuer @link{de.jfachwert.bank.GeldbetragFormatter}.
@@ -71,6 +71,13 @@ public final class GeldbetragFormatterTest {
         Appendable appendable = new StringBuilder();
         formatter.print(appendable, Geldbetrag.of(100, "GBP"));
         assertThat(appendable.toString(), containsString("GBP"));
+    }
+
+    @Test
+    public void testGetContext() {
+        AmountFormatContext context = formatter.getContext();
+        assertNotNull(context);
+        assertNotNull(context.getLocale());
     }
 
 }

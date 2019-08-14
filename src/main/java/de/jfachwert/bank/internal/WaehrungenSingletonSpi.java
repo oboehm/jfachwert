@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Die Klasse WaehrungenSingletonSpi wird benoetigt, umn die entsprechende
+ * Die Klasse WaehrungenSingletonSpi wird benoetigt, um die entsprechende
  * Waehrung zu erzeugen und das TCK zu bestehen.
  *
  * @author oboehm

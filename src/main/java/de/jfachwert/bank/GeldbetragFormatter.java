@@ -25,12 +25,14 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.money.MonetaryAmount;
 import javax.money.format.AmountFormatContext;
+import javax.money.format.AmountFormatContextBuilder;
 import javax.money.format.MonetaryAmountFormat;
 import javax.money.format.MonetaryParseException;
 import javax.validation.ValidationException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Currency;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -51,7 +53,9 @@ public class GeldbetragFormatter implements MonetaryAmountFormat {
      */
     @Override
     public AmountFormatContext getContext() {
-        throw new UnsupportedOperationException("not yet implemented");
+        AmountFormatContextBuilder builder = AmountFormatContextBuilder.of("default");
+        builder.setLocale(Locale.getDefault());
+        return builder.build();
     }
 
     /**
