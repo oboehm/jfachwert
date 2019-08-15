@@ -17,12 +17,15 @@
  */
 package de.jfachwert.bank;
 
+import org.javamoney.moneta.Money;
 import org.junit.Test;
 
+import javax.money.MonetaryAmount;
 import javax.money.format.AmountFormatContext;
 import javax.money.format.MonetaryParseException;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Currency;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.*;
@@ -78,6 +81,14 @@ public final class GeldbetragFormatterTest {
         AmountFormatContext context = formatter.getContext();
         assertNotNull(context);
         assertNotNull(context.getLocale());
+    }
+
+    @Test
+    public void testFormat() {
+        Number einsfuffzig = BigDecimal.valueOf(1.5);
+        MonetaryAmount betrag = Geldbetrag.of(einsfuffzig, "EUR");
+        MonetaryAmount money = Money.of(einsfuffzig, "EUR");
+        assertEquals(formatter.format(betrag), formatter.format(money));
     }
 
 }

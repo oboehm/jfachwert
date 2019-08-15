@@ -23,6 +23,7 @@ import de.jfachwert.pruefung.exception.InvalidValueException;
 import de.jfachwert.pruefung.exception.LocalizedMonetaryParseException;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.money.CurrencyUnit;
 import javax.money.MonetaryAmount;
 import javax.money.format.AmountFormatContext;
 import javax.money.format.AmountFormatContextBuilder;
@@ -31,6 +32,8 @@ import javax.money.format.MonetaryParseException;
 import javax.validation.ValidationException;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.Locale;
 import java.util.Objects;
@@ -44,12 +47,22 @@ import java.util.Objects;
  */
 public class GeldbetragFormatter implements MonetaryAmountFormat {
 
+    private final NumberFormat formatter;
+
+    public GeldbetragFormatter() {
+        this(DecimalFormat.getNumberInstance());
+    }
+
+    public GeldbetragFormatter(NumberFormat formatter) {
+        this.formatter = formatter;
+    }
+
     /**
      * Der {@link AmountFormatContext}, der normalerweise fuer die
      * Formattierung verwendet wird. Wird aber von dieser Klasse
-     * nicht unterstuetzt.
+     * (noch) nicht intern verwendet.
      *
-     * @return {@link AmountFormatContext}
+     * @return Default-Context
      */
     @Override
     public AmountFormatContext getContext() {
@@ -70,7 +83,12 @@ public class GeldbetragFormatter implements MonetaryAmountFormat {
      */
     @Override
     public void print(Appendable appendable, MonetaryAmount amount) throws IOException {
-        appendable.append(queryFrom(amount));
+        CurrencyUnit currency = amount.getCurrency();
+        int fractionDigits = currency.getDefaultFractionDigits();
+        formatter.setMinimumFractionDigits(fractionDigits);
+        formatter.setMinimumFractionDigits(fractionDigits);
+        String s = formatter.format(amount.getNumber()) + " " + currency;
+        appendable.append(s);
     }
 
     /**

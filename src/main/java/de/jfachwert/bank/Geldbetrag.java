@@ -1303,11 +1303,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      */
     @Override
     public String toString() {
-        DecimalFormat formatter = (DecimalFormat) DecimalFormat.getNumberInstance();
-        int fractionDigits = getCurrency().getDefaultFractionDigits();
-        formatter.setMinimumFractionDigits(fractionDigits);
-        formatter.setMinimumFractionDigits(fractionDigits);
-        return formatter.format(this.betrag) + " " + currency;
+        return DEFAULT_FORMATTER.format(this);
     }
 
     /**
