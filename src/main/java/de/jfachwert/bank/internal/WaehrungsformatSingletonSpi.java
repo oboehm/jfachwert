@@ -60,10 +60,10 @@ public class WaehrungsformatSingletonSpi implements MonetaryFormatsSingletonSpi 
     @Override
     public Collection<MonetaryAmountFormat> getAmountFormats(AmountFormatQuery formatQuery) {
         Collection<MonetaryAmountFormat> result = new ArrayList<>();
-        result.add(new GeldbetragFormatter());
-//        for (MonetaryAmountFormatProviderSpi spi : Bootstrap.getServices(MonetaryAmountFormatProviderSpi.class)) {
-//            result.addAll(spi.getAmountFormats(formatQuery));
-//        }
+        result.add(new GeldbetragFormatter(formatQuery.getLocale()));
+        for (MonetaryAmountFormatProviderSpi spi : Bootstrap.getServices(MonetaryAmountFormatProviderSpi.class)) {
+            result.addAll(spi.getAmountFormats(formatQuery));
+        }
         return result;
     }
 

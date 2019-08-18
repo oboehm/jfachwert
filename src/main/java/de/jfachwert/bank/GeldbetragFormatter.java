@@ -48,13 +48,20 @@ import java.util.Objects;
 public class GeldbetragFormatter implements MonetaryAmountFormat {
 
     private final NumberFormat formatter;
+    private final AmountFormatContext context;
 
     public GeldbetragFormatter() {
-        this(DecimalFormat.getNumberInstance());
+        this(Locale.getDefault());
     }
 
-    public GeldbetragFormatter(NumberFormat formatter) {
+    public GeldbetragFormatter(Locale locale) {
+        this(DecimalFormat.getNumberInstance(locale),
+                AmountFormatContextBuilder.of("default").setLocale(locale).build());
+    }
+
+    public GeldbetragFormatter(NumberFormat formatter, AmountFormatContext context) {
         this.formatter = formatter;
+        this.context = context;
     }
 
     /**
@@ -62,13 +69,11 @@ public class GeldbetragFormatter implements MonetaryAmountFormat {
      * Formattierung verwendet wird. Wird aber von dieser Klasse
      * (noch) nicht intern verwendet.
      *
-     * @return Default-Context
+     * @return Context
      */
     @Override
     public AmountFormatContext getContext() {
-        AmountFormatContextBuilder builder = AmountFormatContextBuilder.of("default");
-        builder.setLocale(Locale.getDefault());
-        return builder.build();
+        return context;
     }
 
     /**
