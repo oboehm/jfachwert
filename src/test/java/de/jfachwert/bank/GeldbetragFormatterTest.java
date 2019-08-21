@@ -17,16 +17,20 @@
  */
 package de.jfachwert.bank;
 
+import de.jfachwert.bank.internal.GeldbetragSingletonSpi;
 import org.javamoney.moneta.Money;
 import org.junit.Test;
 
 import javax.money.MonetaryAmount;
+import javax.money.MonetaryAmountFactory;
 import javax.money.format.AmountFormatContext;
 import javax.money.format.MonetaryAmountFormat;
 import javax.money.format.MonetaryFormats;
 import javax.money.format.MonetaryParseException;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.Locale;
 
@@ -95,8 +99,23 @@ public final class GeldbetragFormatterTest {
     }
 
     @Test
+    public void testFormatWithLocale() {
+        Geldbetrag zehnfuffzig = Geldbetrag.of(BigDecimal.valueOf(10.5), "EUR");
+        GeldbetragFormatter format = GeldbetragFormatter.of(new Locale("de_DE"));
+        assertEquals("10,50 EUR", format.format(zehnfuffzig));
+    }
+
+    @Test
     public void testLocale() {
-        Locale locale = Locale.ENGLISH;
+        checkLocale(Locale.ENGLISH);
+    }
+
+    @Test
+    public void testLocaleCH() {
+        checkLocale(new Locale("de-CH"));
+    }
+
+    private static void checkLocale(Locale locale) {
         MonetaryAmountFormat amountFormat = MonetaryFormats.getAmountFormat(locale);
         assertEquals(locale, amountFormat.getContext().getLocale());
     }

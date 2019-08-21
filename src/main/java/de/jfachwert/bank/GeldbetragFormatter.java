@@ -34,9 +34,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Currency;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Der GeldbetragFormatter ist fuer die Formattierung und Parsen von
@@ -54,7 +52,7 @@ public class GeldbetragFormatter implements MonetaryAmountFormat {
         this(Locale.getDefault());
     }
 
-    public GeldbetragFormatter(Locale locale) {
+    private GeldbetragFormatter(Locale locale) {
         this(DecimalFormat.getNumberInstance(locale),
                 AmountFormatContextBuilder.of("default").setLocale(locale).build());
     }
@@ -62,6 +60,20 @@ public class GeldbetragFormatter implements MonetaryAmountFormat {
     public GeldbetragFormatter(NumberFormat formatter, AmountFormatContext context) {
         this.formatter = formatter;
         this.context = context;
+    }
+
+    public static GeldbetragFormatter of(Locale locale) {
+        Locale normalized = normalize(locale);
+        return new GeldbetragFormatter(DecimalFormat.getNumberInstance(normalized),
+                AmountFormatContextBuilder.of("default").setLocale(locale).build());
+    }
+
+    private static Locale normalize(Locale locale) {
+        String lang = locale.toString().replace('_', '-');
+        if (lang.contains("_")) {
+            lang = lang.replace('_', '-');
+        }
+        return Locale.forLanguageTag(lang);
     }
 
     /**

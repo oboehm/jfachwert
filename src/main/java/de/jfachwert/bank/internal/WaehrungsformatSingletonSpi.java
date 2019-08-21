@@ -46,7 +46,8 @@ public class WaehrungsformatSingletonSpi implements MonetaryFormatsSingletonSpi 
      */
     @Override
     public Set<Locale> getAvailableLocales(String... providers) {
-        Set<Locale>  availableLocales = new HashSet<>();
+        Set<Locale> availableLocales = new HashSet<>();
+        availableLocales.add(Locale.GERMANY);
         availableLocales.addAll(Arrays.asList(DecimalFormat.getAvailableLocales()));
         return availableLocales;
     }
@@ -60,7 +61,7 @@ public class WaehrungsformatSingletonSpi implements MonetaryFormatsSingletonSpi 
     @Override
     public Collection<MonetaryAmountFormat> getAmountFormats(AmountFormatQuery formatQuery) {
         Collection<MonetaryAmountFormat> result = new ArrayList<>();
-        result.add(new GeldbetragFormatter(formatQuery.getLocale()));
+        result.add(GeldbetragFormatter.of(formatQuery.getLocale()));
         for (MonetaryAmountFormatProviderSpi spi : Bootstrap.getServices(MonetaryAmountFormatProviderSpi.class)) {
             result.addAll(spi.getAmountFormats(formatQuery));
         }
