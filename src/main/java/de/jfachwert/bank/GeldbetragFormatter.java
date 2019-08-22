@@ -32,7 +32,6 @@ import javax.money.format.MonetaryParseException;
 import javax.validation.ValidationException;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.*;
 
@@ -45,35 +44,28 @@ import java.util.*;
  */
 public class GeldbetragFormatter implements MonetaryAmountFormat {
 
-    private final NumberFormat formatter;
     private final AmountFormatContext context;
+    private static Map<Locale, Locale> MAPPED_LOCALES = new HashMap<>();
+
+    static {
+        MAPPED_LOCALES.put(new Locale("de_DE"), Locale.GERMANY);
+    }
 
     public GeldbetragFormatter() {
         this(Locale.getDefault());
     }
 
     private GeldbetragFormatter(Locale locale) {
-        this(DecimalFormat.getNumberInstance(locale),
-                AmountFormatContextBuilder.of("default").setLocale(locale).build());
+        this(AmountFormatContextBuilder.of("default").setLocale(locale).build());
     }
 
-    public GeldbetragFormatter(NumberFormat formatter, AmountFormatContext context) {
-        this.formatter = formatter;
+    private GeldbetragFormatter(AmountFormatContext context) {
         this.context = context;
     }
 
     public static GeldbetragFormatter of(Locale locale) {
-        Locale normalized = normalize(locale);
-        return new GeldbetragFormatter(DecimalFormat.getNumberInstance(normalized),
-                AmountFormatContextBuilder.of("default").setLocale(locale).build());
-    }
-
-    private static Locale normalize(Locale locale) {
-        String lang = locale.toString().replace('_', '-');
-        if (lang.contains("_")) {
-            lang = lang.replace('_', '-');
-        }
-        return Locale.forLanguageTag(lang);
+        Locale mapped = MAPPED_LOCALES.getOrDefault(locale, locale);
+        return new GeldbetragFormatter(AmountFormatContextBuilder.of("default").setLocale(mapped).build());
     }
 
     /**
@@ -102,10 +94,22 @@ public class GeldbetragFormatter implements MonetaryAmountFormat {
     public void print(Appendable appendable, MonetaryAmount amount) throws IOException {
         CurrencyUnit currency = amount.getCurrency();
         int fractionDigits = currency.getDefaultFractionDigits();
-        formatter.setMinimumFractionDigits(fractionDigits);
-        formatter.setMinimumFractionDigits(fractionDigits);
-        String s = formatter.format(amount.getNumber()) + " " + currency;
-        appendable.append(s);
+        NumberFormat formatter = getFormatter(this.context.getLocale());
+        synchronized (formatter) {
+            formatter.setMinimumFractionDigits(fractionDigits);
+            formatter.setMaximumIntegerDigits(fractionDigits);
+            String s = formatter.format(amount.getNumber()) + " " + currency;
+            appendable.append(s);
+        }
+    }
+
+    private NumberFormat getFormatter(Locale locale) {
+        NumberFormat formatter =  NumberFormat.getInstance(locale);
+        String s = formatter.format(0);
+        if (!"0".equals(s)) {
+            formatter = NumberFormat.getInstance();
+        }
+        return formatter;
     }
 
     /**

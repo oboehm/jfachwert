@@ -17,21 +17,16 @@
  */
 package de.jfachwert.bank;
 
-import de.jfachwert.bank.internal.GeldbetragSingletonSpi;
 import org.javamoney.moneta.Money;
 import org.junit.Test;
 
 import javax.money.MonetaryAmount;
-import javax.money.MonetaryAmountFactory;
 import javax.money.format.AmountFormatContext;
 import javax.money.format.MonetaryAmountFormat;
 import javax.money.format.MonetaryFormats;
 import javax.money.format.MonetaryParseException;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Currency;
 import java.util.Locale;
 
 import static org.hamcrest.Matchers.containsString;
@@ -113,6 +108,11 @@ public final class GeldbetragFormatterTest {
     @Test
     public void testLocaleCH() {
         checkLocale(new Locale("de-CH"));
+    }
+
+    @Test
+    public void testStrangeLocale() {
+        checkLocale(Locale.forLanguageTag("ar_JO"));
     }
 
     private static void checkLocale(Locale locale) {
