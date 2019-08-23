@@ -94,8 +94,8 @@ public class GeldbetragFormatter implements MonetaryAmountFormat {
     public void print(Appendable appendable, MonetaryAmount amount) throws IOException {
         CurrencyUnit currency = amount.getCurrency();
         int fractionDigits = currency.getDefaultFractionDigits();
-        NumberFormat formatter = getFormatter(this.context.getLocale());
-        synchronized (formatter) {
+        synchronized (this.context) {
+            NumberFormat formatter = getFormatter(this.context.getLocale());
             formatter.setMinimumFractionDigits(fractionDigits);
             formatter.setMaximumIntegerDigits(fractionDigits);
             String s = formatter.format(amount.getNumber()) + " " + currency;
@@ -166,4 +166,8 @@ public class GeldbetragFormatter implements MonetaryAmountFormat {
         return Objects.toString(amount);
     }
 
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + "(" + context.getLocale() + ")";
+    }
 }

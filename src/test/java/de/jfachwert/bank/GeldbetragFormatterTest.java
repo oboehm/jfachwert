@@ -30,6 +30,7 @@ import java.math.BigDecimal;
 import java.util.Locale;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
 
 /**
@@ -118,6 +119,12 @@ public final class GeldbetragFormatterTest {
     private static void checkLocale(Locale locale) {
         MonetaryAmountFormat amountFormat = MonetaryFormats.getAmountFormat(locale);
         assertEquals(locale, amountFormat.getContext().getLocale());
+    }
+
+    @Test
+    public void testToString() {
+        String s = formatter.toString();
+        assertThat("looks like default implementation", s, not(containsString("@")));
     }
 
 }
