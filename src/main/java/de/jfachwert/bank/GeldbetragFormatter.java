@@ -97,7 +97,7 @@ public class GeldbetragFormatter implements MonetaryAmountFormat {
         synchronized (this.context) {
             NumberFormat formatter = getFormatter(this.context.getLocale());
             formatter.setMinimumFractionDigits(fractionDigits);
-            formatter.setMaximumIntegerDigits(fractionDigits);
+            formatter.setMaximumFractionDigits(fractionDigits);
             String s = formatter.format(amount.getNumber()) + " " + currency;
             appendable.append(s);
         }
