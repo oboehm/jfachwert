@@ -17,9 +17,10 @@
  */
 package de.jfachwert.bank.internal;
 
+import de.jfachwert.bank.GeldbetragFactory;
 import de.jfachwert.bank.GeldbetragFormatter;
-import de.jfachwert.math.PackedDecimal;
 
+import javax.money.MonetaryAmountFactory;
 import javax.money.format.AmountFormatQuery;
 import javax.money.format.MonetaryAmountFormat;
 import javax.money.spi.Bootstrap;
@@ -27,7 +28,6 @@ import javax.money.spi.MonetaryAmountFormatProviderSpi;
 import javax.money.spi.MonetaryFormatsSingletonSpi;
 import java.text.DecimalFormat;
 import java.util.*;
-import java.util.logging.Logger;
 
 /**
  * Die Klasse WaehrungsformatSingletonSpi wird benoetigt, um die entsprechenden
@@ -61,7 +61,14 @@ public class WaehrungsformatSingletonSpi implements MonetaryFormatsSingletonSpi 
     @Override
     public Collection<MonetaryAmountFormat> getAmountFormats(AmountFormatQuery formatQuery) {
         Collection<MonetaryAmountFormat> result = new ArrayList<>();
-        result.add(GeldbetragFormatter.of(formatQuery.getLocale()));
+        MonetaryAmountFactory factory = formatQuery.getMonetaryAmountFactory();
+        Locale locale = formatQuery.getLocale();
+        if ((factory != null) && factory instanceof GeldbetragFactory) {
+            result.add(GeldbetragFormatter.of(locale == null ? Locale.getDefault() : locale));
+        }
+        if (locale == null) {
+            return result;
+        }
         for (MonetaryAmountFormatProviderSpi spi : Bootstrap.getServices(MonetaryAmountFormatProviderSpi.class)) {
             result.addAll(spi.getAmountFormats(formatQuery));
         }

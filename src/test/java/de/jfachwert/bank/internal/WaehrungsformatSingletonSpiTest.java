@@ -17,10 +17,11 @@
  */
 package de.jfachwert.bank.internal;
 
+import org.javamoney.moneta.internal.FastMoneyAmountFactory;
 import org.junit.Test;
-import patterntesting.runtime.junit.CollectionTester;
 
 import javax.money.format.AmountFormatQuery;
+import javax.money.format.AmountFormatQueryBuilder;
 import javax.money.format.MonetaryAmountFormat;
 import java.text.DecimalFormat;
 import java.util.Collection;
@@ -28,7 +29,8 @@ import java.util.Locale;
 import java.util.Set;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Unit-Test fuer {@link WaehrungsformatSingletonSpi}-Klasse.
@@ -50,6 +52,27 @@ public final class WaehrungsformatSingletonSpiTest {
     public void testGetAmountFormats() {
         Collection<MonetaryAmountFormat> amountFormats = singletonSpi
                 .getAmountFormats(AmountFormatQuery.of(Locale.GERMAN));
+        assertThat(amountFormats, not(empty()));
+    }
+
+    /**
+     * Bei gegebener MonetaryAmountFactory sollte auch nur die entsprechenden
+     * Formate für diese Factory generiert werden.
+     */
+    @Test
+    public void testGetAmountFormatsQuery() {
+        AmountFormatQueryBuilder builder = AmountFormatQueryBuilder.of("default").setLocale(Locale.GERMAN);
+        builder.setMonetaryAmountFactory(new FastMoneyAmountFactory());
+        AmountFormatQuery query = builder.build();
+        Collection<MonetaryAmountFormat> amountFormats = singletonSpi.getAmountFormats(query);
+        assertEquals(1, amountFormats.size());
+    }
+
+    @Test
+    public void testGetAmountFormatsWithoutLocale() {
+        AmountFormatQueryBuilder builder = AmountFormatQueryBuilder.of("default");
+        Collection<MonetaryAmountFormat> amountFormats = singletonSpi.getAmountFormats(builder.build());
+        assertEquals(1, amountFormats.size());
         assertThat(amountFormats, not(empty()));
     }
 
