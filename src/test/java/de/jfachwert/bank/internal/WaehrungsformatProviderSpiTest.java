@@ -27,9 +27,9 @@ import javax.money.format.AmountFormatQueryBuilder;
 import javax.money.format.MonetaryAmountFormat;
 import java.util.Collection;
 import java.util.Locale;
+import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Unit-Test fuer {@link WaehrungsformatProviderSpi}-Klasse.
@@ -57,6 +57,24 @@ public final class WaehrungsformatProviderSpiTest {
         builder.setMonetaryAmountFactory(factory);
         AmountFormatQuery query = builder.build();
         return providerSpi.getAmountFormats(query);
+    }
+
+    @Test
+    public void testGetProviderName() {
+        String name = providerSpi.getProviderName();
+        assertNotNull(name);
+    }
+
+    @Test
+    public void testGetAvailableLocales() {
+        Set<Locale> availableLocales = providerSpi.getAvailableLocales();
+        assertNotNull(availableLocales);
+    }
+
+    @Test
+    public void testGetAvailableFormatNames() {
+        Set<String> availableFormatNames = providerSpi.getAvailableFormatNames();
+        assertNotNull(availableFormatNames);
     }
 
 }

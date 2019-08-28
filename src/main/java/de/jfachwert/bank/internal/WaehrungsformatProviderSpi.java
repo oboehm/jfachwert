@@ -24,16 +24,13 @@ import javax.money.format.AmountFormatContext;
 import javax.money.format.AmountFormatQuery;
 import javax.money.format.MonetaryAmountFormat;
 import javax.money.spi.MonetaryAmountFormatProviderSpi;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Klasse WaehrungsformatProviderSpi.
  *
  * @author oboehm
- * @since x.x (27.08.2019)
+ * @since 3.0 (27.08.2019)
  */
 public class WaehrungsformatProviderSpi implements MonetaryAmountFormatProviderSpi  {
 
@@ -62,22 +59,23 @@ public class WaehrungsformatProviderSpi implements MonetaryAmountFormatProviderS
     }
 
     /**
-     * Gets a list with available locales for this format provider.
+     * Liefert eine Liste der unterstuetzten Locales.
      *
-     * @return list of available locales, never null.
+     * @return verfuegbare Locales, nie {@code null}.
      */
     @Override
     public Set<Locale> getAvailableLocales() {
-        return null;
+        return new WaehrungsformatSingletonSpi().getAvailableLocales();
     }
 
     /**
-     * Gets a list with available format names for this format provider.
+     * Als Formatname wird lediglich "default" zurueckgegeben.
      *
-     * @return list of available formats, never null.
+     * @return Set mit "default"
      */
     @Override
     public Set<String> getAvailableFormatNames() {
-        return null;
+        return Collections.singleton("default");
     }
+
 }
