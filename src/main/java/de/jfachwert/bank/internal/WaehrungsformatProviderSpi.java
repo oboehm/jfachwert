@@ -24,6 +24,7 @@ import javax.money.format.AmountFormatContext;
 import javax.money.format.AmountFormatQuery;
 import javax.money.format.MonetaryAmountFormat;
 import javax.money.spi.MonetaryAmountFormatProviderSpi;
+import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -34,8 +35,17 @@ import java.util.*;
  */
 public class WaehrungsformatProviderSpi implements MonetaryAmountFormatProviderSpi  {
 
-    private final Set<Locale> availableLocales = WaehrungsformatSingletonSpi.INSTANCE.getAvailableLocales();
+    static final WaehrungsformatProviderSpi INSTANCE = new WaehrungsformatProviderSpi();
+
+    private final Set<Locale> availableLocales;
     private final Set<String> availableFormatNames = Collections.unmodifiableSet(Collections.singleton("default"));
+
+    public WaehrungsformatProviderSpi() {
+        Set<Locale> locales = new HashSet<>();
+        locales.add(Locale.GERMANY);
+        locales.addAll(Arrays.asList(DecimalFormat.getAvailableLocales()));
+        availableLocales = Collections.unmodifiableSet(locales);
+    }
 
     /**
      * Liefert eine Liste mit dem {@link GeldbetragFormatter} zurueck.

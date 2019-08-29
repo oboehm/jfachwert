@@ -26,7 +26,6 @@ import javax.money.format.MonetaryAmountFormat;
 import javax.money.spi.Bootstrap;
 import javax.money.spi.MonetaryAmountFormatProviderSpi;
 import javax.money.spi.MonetaryFormatsSingletonSpi;
-import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -38,7 +37,15 @@ import java.util.*;
  */
 public class WaehrungsformatSingletonSpi implements MonetaryFormatsSingletonSpi {
 
-    static WaehrungsformatSingletonSpi INSTANCE = new WaehrungsformatSingletonSpi();
+    private static final Collection<MonetaryFormatsSingletonSpi> MONETARY_FORMATS_SINGLETON_SPIS = new ArrayList<>();
+
+    static {
+        for (MonetaryFormatsSingletonSpi spi : Bootstrap.getServices(MonetaryFormatsSingletonSpi.class)) {
+            if (!(spi instanceof WaehrungsformatSingletonSpi)) {
+                MONETARY_FORMATS_SINGLETON_SPIS.add(spi);
+            }
+        }
+    }
 
     /**
      * Ermittelt alle verfuegbaren Loacales.
@@ -48,10 +55,7 @@ public class WaehrungsformatSingletonSpi implements MonetaryFormatsSingletonSpi 
      */
     @Override
     public Set<Locale> getAvailableLocales(String... providers) {
-        Set<Locale> availableLocales = new HashSet<>();
-        availableLocales.add(Locale.GERMANY);
-        availableLocales.addAll(Arrays.asList(DecimalFormat.getAvailableLocales()));
-        return Collections.unmodifiableSet(availableLocales);
+        return WaehrungsformatProviderSpi.INSTANCE.getAvailableLocales();
     }
 
     /**
@@ -64,27 +68,29 @@ public class WaehrungsformatSingletonSpi implements MonetaryFormatsSingletonSpi 
     public Collection<MonetaryAmountFormat> getAmountFormats(AmountFormatQuery formatQuery) {
         Collection<MonetaryAmountFormat> result = new ArrayList<>();
         MonetaryAmountFactory factory = formatQuery.getMonetaryAmountFactory();
-        Locale locale = formatQuery.getLocale();
         if (factory instanceof GeldbetragFactory) {
+            Locale locale = formatQuery.getLocale();
             result.add(GeldbetragFormatter.of(locale == null ? Locale.getDefault() : locale));
-        }
-        if (locale == null) {
-            return result;
-        }
-        for (MonetaryAmountFormatProviderSpi spi : Bootstrap.getServices(MonetaryAmountFormatProviderSpi.class)) {
-            result.addAll(spi.getAmountFormats(formatQuery));
+        } else {
+            for (MonetaryAmountFormatProviderSpi spi : Bootstrap.getServices(MonetaryAmountFormatProviderSpi.class)) {
+                result.addAll(spi.getAmountFormats(formatQuery));
+            }
         }
         return result;
     }
 
     /**
-     * Get the names of the currently registered format providers.
+     * Ermittelt die Namen der aktuell registrierten Format-Provider.
      *
-     * @return the provider names, never null.
+     * @return Providernamen
      */
     @Override
     public Set<String> getProviderNames() {
-        throw new UnsupportedOperationException("not yet implemented");
+        Set<String> providerNames = new HashSet<>();
+        for (MonetaryFormatsSingletonSpi spi : MONETARY_FORMATS_SINGLETON_SPIS) {
+            providerNames.addAll(spi.getProviderNames());
+        }
+        return providerNames;
     }
 
     /**
@@ -94,6 +100,11 @@ public class WaehrungsformatSingletonSpi implements MonetaryFormatsSingletonSpi 
      */
     @Override
     public List<String> getDefaultProviderChain() {
-        throw new UnsupportedOperationException("not yet implemented");
+        List<String> defaultProviderChain = new ArrayList<>();
+        for (MonetaryFormatsSingletonSpi spi : MONETARY_FORMATS_SINGLETON_SPIS) {
+            defaultProviderChain.addAll(spi.getDefaultProviderChain());
+        }
+        return defaultProviderChain;
     }
+
 }

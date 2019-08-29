@@ -25,12 +25,12 @@ import javax.money.format.AmountFormatQueryBuilder;
 import javax.money.format.MonetaryAmountFormat;
 import java.text.DecimalFormat;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * Unit-Test fuer {@link WaehrungsformatSingletonSpi}-Klasse.
@@ -74,6 +74,18 @@ public final class WaehrungsformatSingletonSpiTest {
         Collection<MonetaryAmountFormat> amountFormats = singletonSpi.getAmountFormats(builder.build());
         assertEquals(1, amountFormats.size());
         assertThat(amountFormats, not(empty()));
+    }
+
+    @Test
+    public void testGetProviderNames() {
+        Set<String> providerNames = singletonSpi.getProviderNames();
+        assertNotNull(providerNames);
+    }
+
+    @Test
+    public void testGetProviderChains() {
+        List<String> defaultProviderChain = singletonSpi.getDefaultProviderChain();
+        assertNotNull(defaultProviderChain);
     }
 
 }
