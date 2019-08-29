@@ -38,6 +38,8 @@ import java.util.*;
  */
 public class WaehrungsformatSingletonSpi implements MonetaryFormatsSingletonSpi {
 
+    static WaehrungsformatSingletonSpi INSTANCE = new WaehrungsformatSingletonSpi();
+
     /**
      * Ermittelt alle verfuegbaren Loacales.
      *
@@ -49,7 +51,7 @@ public class WaehrungsformatSingletonSpi implements MonetaryFormatsSingletonSpi 
         Set<Locale> availableLocales = new HashSet<>();
         availableLocales.add(Locale.GERMANY);
         availableLocales.addAll(Arrays.asList(DecimalFormat.getAvailableLocales()));
-        return availableLocales;
+        return Collections.unmodifiableSet(availableLocales);
     }
 
     /**
@@ -63,7 +65,7 @@ public class WaehrungsformatSingletonSpi implements MonetaryFormatsSingletonSpi 
         Collection<MonetaryAmountFormat> result = new ArrayList<>();
         MonetaryAmountFactory factory = formatQuery.getMonetaryAmountFactory();
         Locale locale = formatQuery.getLocale();
-        if ((factory != null) && factory instanceof GeldbetragFactory) {
+        if (factory instanceof GeldbetragFactory) {
             result.add(GeldbetragFormatter.of(locale == null ? Locale.getDefault() : locale));
         }
         if (locale == null) {

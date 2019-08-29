@@ -34,6 +34,9 @@ import java.util.*;
  */
 public class WaehrungsformatProviderSpi implements MonetaryAmountFormatProviderSpi  {
 
+    private final Set<Locale> availableLocales = WaehrungsformatSingletonSpi.INSTANCE.getAvailableLocales();
+    private final Set<String> availableFormatNames = Collections.unmodifiableSet(Collections.singleton("default"));
+
     /**
      * Liefert eine Liste mit dem {@link GeldbetragFormatter} zurueck.
      *
@@ -65,7 +68,7 @@ public class WaehrungsformatProviderSpi implements MonetaryAmountFormatProviderS
      */
     @Override
     public Set<Locale> getAvailableLocales() {
-        return new WaehrungsformatSingletonSpi().getAvailableLocales();
+        return this.availableLocales;
     }
 
     /**
@@ -75,7 +78,7 @@ public class WaehrungsformatProviderSpi implements MonetaryAmountFormatProviderS
      */
     @Override
     public Set<String> getAvailableFormatNames() {
-        return Collections.singleton("default");
+        return this.availableFormatNames;
     }
 
 }
