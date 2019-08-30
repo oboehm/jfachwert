@@ -21,6 +21,7 @@ import de.jfachwert.bank.GeldbetragFactory;
 import de.jfachwert.bank.GeldbetragFormatter;
 
 import javax.money.format.AmountFormatContext;
+import javax.money.format.AmountFormatContextBuilder;
 import javax.money.format.AmountFormatQuery;
 import javax.money.format.MonetaryAmountFormat;
 import javax.money.spi.MonetaryAmountFormatProviderSpi;
@@ -38,7 +39,7 @@ public class WaehrungsformatProviderSpi implements MonetaryAmountFormatProviderS
     static final WaehrungsformatProviderSpi INSTANCE = new WaehrungsformatProviderSpi();
 
     private final Set<Locale> availableLocales;
-    private final Set<String> availableFormatNames = Collections.unmodifiableSet(Collections.singleton("default"));
+    private final Set<String> availableFormatNames = Collections.unmodifiableSet(Collections.singleton("jfachwert"));
 
     public WaehrungsformatProviderSpi() {
         Set<Locale> locales = new HashSet<>();
@@ -57,16 +58,14 @@ public class WaehrungsformatProviderSpi implements MonetaryAmountFormatProviderS
     @Override
     public Collection<MonetaryAmountFormat> getAmountFormats(AmountFormatQuery formatQuery) {
         Collection<MonetaryAmountFormat> amountFormats = new ArrayList<>();
-        if (!formatQuery.getProviderNames().isEmpty() &&
-                !formatQuery.getProviderNames().contains(getProviderName())) {
-            return amountFormats;
-        }
-        if (!(formatQuery.getFormatName() == null || "default".equals(formatQuery.getFormatName()))) {
-            return amountFormats;
-        }
-        if (formatQuery.getMonetaryAmountFactory() instanceof GeldbetragFactory) {
+        if (formatQuery.getProviderNames().contains(getProviderName()) || (formatQuery
+                .getMonetaryAmountFactory() instanceof GeldbetragFactory)) {
             Locale locale = formatQuery.getLocale();
-            amountFormats.add(GeldbetragFormatter.of(locale));
+            AmountFormatContextBuilder builder = AmountFormatContextBuilder.of("jfachwert");
+            builder.setLocale(locale);
+            builder.importContext(formatQuery, false);
+            builder.setMonetaryAmountFactory(formatQuery.getMonetaryAmountFactory());
+            amountFormats.add(GeldbetragFormatter.of(builder.build()));
         }
         return amountFormats;
     }
@@ -82,13 +81,23 @@ public class WaehrungsformatProviderSpi implements MonetaryAmountFormatProviderS
     }
 
     /**
-     * Als Formatname wird lediglich "default" zurueckgegeben.
+     * Als Formatname wird lediglich "jfachwert" zurueckgegeben.
      *
-     * @return Set mit "default"
+     * @return Set mit "jfachwert"
      */
     @Override
     public Set<String> getAvailableFormatNames() {
         return this.availableFormatNames;
+    }
+
+    /**
+     * Access the provider's name.
+     *
+     * @return this provider's name, not null.
+     */
+    @Override
+    public String getProviderName() {
+        return "jfachwert";
     }
 
 }

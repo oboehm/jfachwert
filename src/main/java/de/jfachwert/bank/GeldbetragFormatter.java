@@ -25,10 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.money.CurrencyUnit;
 import javax.money.MonetaryAmount;
-import javax.money.format.AmountFormatContext;
-import javax.money.format.AmountFormatContextBuilder;
-import javax.money.format.MonetaryAmountFormat;
-import javax.money.format.MonetaryParseException;
+import javax.money.format.*;
 import javax.validation.ValidationException;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -56,7 +53,7 @@ public class GeldbetragFormatter implements MonetaryAmountFormat {
     }
 
     private GeldbetragFormatter(Locale locale) {
-        this(AmountFormatContextBuilder.of("default").setLocale(locale).build());
+        this(AmountFormatContextBuilder.of("jfachwert").setLocale(locale).build());
     }
 
     private GeldbetragFormatter(AmountFormatContext context) {
@@ -65,7 +62,11 @@ public class GeldbetragFormatter implements MonetaryAmountFormat {
 
     public static GeldbetragFormatter of(Locale locale) {
         Locale mapped = MAPPED_LOCALES.getOrDefault(locale, locale);
-        return new GeldbetragFormatter(AmountFormatContextBuilder.of("default").setLocale(mapped).build());
+        return new GeldbetragFormatter(AmountFormatContextBuilder.of("jfachwert").setLocale(mapped).build());
+    }
+
+    public static GeldbetragFormatter of(AmountFormatContext context) {
+        return new GeldbetragFormatter(context);
     }
 
     /**

@@ -22,6 +22,7 @@ import org.javamoney.moneta.internal.FastMoneyAmountFactory;
 import org.junit.Test;
 
 import javax.money.MonetaryAmountFactory;
+import javax.money.format.AmountFormatContext;
 import javax.money.format.AmountFormatQuery;
 import javax.money.format.AmountFormatQueryBuilder;
 import javax.money.format.MonetaryAmountFormat;
@@ -29,6 +30,8 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Set;
 
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
 
 /**
@@ -53,10 +56,25 @@ public final class WaehrungsformatProviderSpiTest {
     }
 
     private Collection<MonetaryAmountFormat> getMonetaryAmountFormats(MonetaryAmountFactory factory) {
-        AmountFormatQueryBuilder builder = AmountFormatQueryBuilder.of("default").setLocale(Locale.GERMAN);
+        AmountFormatQueryBuilder builder = AmountFormatQueryBuilder.of("jachwert").setLocale(Locale.GERMAN);
         builder.setMonetaryAmountFactory(factory);
         AmountFormatQuery query = builder.build();
         return providerSpi.getAmountFormats(query);
+    }
+
+    @Test
+    public void testGetAmountFormatsContext() {
+        AmountFormatQueryBuilder builder = AmountFormatQueryBuilder.of("jachwert").setLocale(Locale.GERMAN);
+        builder.setMonetaryAmountFactory(new GeldbetragFactory());
+        builder.set("hello", "world");
+        AmountFormatQuery query = builder.build();
+        Collection<MonetaryAmountFormat> amountFormats = providerSpi.getAmountFormats(query);
+        assertThat(amountFormats, not(empty()));
+        for (MonetaryAmountFormat format : amountFormats) {
+            AmountFormatContext context = format.getContext();
+            String hello = context.get("hello", String.class);
+            assertEquals("world", hello);
+        }
     }
 
     @Test
