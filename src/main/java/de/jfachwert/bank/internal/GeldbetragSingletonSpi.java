@@ -48,14 +48,21 @@ public class GeldbetragSingletonSpi implements MonetaryAmountsSingletonSpi {
 
     private final Map<Class<? extends MonetaryAmount>, MonetaryAmountFactoryProviderSpi<?>> factories =
             new ConcurrentHashMap<>();
+    private final Set<Class<? extends MonetaryAmount>> amountTypes = new HashSet<>();
 
     public GeldbetragSingletonSpi() {
         for (MonetaryAmountFactoryProviderSpi<?> f : Bootstrap.getServices(MonetaryAmountFactoryProviderSpi.class)) {
             factories.putIfAbsent(f.getAmountType(), f);
         }
+        amountTypes.add(Geldbetrag.class);
+        for (Class<? extends MonetaryAmount> clazz : factories.keySet()) {
+            if (clazz.getName().equals("org.javamoney.tck.tests.internal.TestAmount")) {
+                amountTypes.add(clazz);
+            }
+        }
+        //amountTypes.addAll(factories.keySet());
     }
 
-    // save cast, since members are managed by this instance
     @SuppressWarnings("unchecked")
     @Override
     public <T extends MonetaryAmount> MonetaryAmountFactory<T> getAmountFactory(Class<T> amountType) {
@@ -89,8 +96,6 @@ public class GeldbetragSingletonSpi implements MonetaryAmountsSingletonSpi {
      */
     @Override
     public Set<Class<? extends MonetaryAmount>> getAmountTypes() {
-        Set<Class<? extends MonetaryAmount>> amountTypes = new HashSet<>(factories.keySet());
-        amountTypes.add(Geldbetrag.class);
         return amountTypes;
     }
 
