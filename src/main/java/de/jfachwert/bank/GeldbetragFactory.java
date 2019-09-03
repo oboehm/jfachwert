@@ -32,7 +32,7 @@ import java.math.RoundingMode;
  */
 public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
 
-    private static final MonetaryContext MAX_CONTEXT =
+    public static final MonetaryContext MAX_CONTEXT =
             MonetaryContextBuilder.of(Geldbetrag.class).setAmountType(Geldbetrag.class).setPrecision(0).setMaxScale(-1)
                                   .set(RoundingMode.HALF_UP).build();
     private Number number = BigDecimal.ZERO;
