@@ -27,7 +27,6 @@ import javax.money.MonetaryException;
 import javax.money.spi.Bootstrap;
 import javax.money.spi.MonetaryAmountFactoryProviderSpi;
 import javax.money.spi.MonetaryAmountsSingletonSpi;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -44,23 +43,16 @@ import java.util.concurrent.ConcurrentHashMap;
  * GeldbetragIT aufgerufen wird, zu bestehen.
  * </p>
  */
-public class GeldbetragSingletonSpi implements MonetaryAmountsSingletonSpi {
+public class GeldbetragSingleton implements MonetaryAmountsSingletonSpi {
 
     private final Map<Class<? extends MonetaryAmount>, MonetaryAmountFactoryProviderSpi<?>> factories =
             new ConcurrentHashMap<>();
-    private final Set<Class<? extends MonetaryAmount>> amountTypes = new HashSet<>();
 
-    public GeldbetragSingletonSpi() {
+    public GeldbetragSingleton() {
         for (MonetaryAmountFactoryProviderSpi<?> f : Bootstrap.getServices(MonetaryAmountFactoryProviderSpi.class)) {
             factories.putIfAbsent(f.getAmountType(), f);
         }
-        amountTypes.add(Geldbetrag.class);
-        for (Class<? extends MonetaryAmount> clazz : factories.keySet()) {
-            if (clazz.getName().equals("org.javamoney.tck.tests.internal.TestAmount")) {
-                amountTypes.add(clazz);
-            }
-        }
-        //amountTypes.addAll(factories.keySet());
+        factories.put(Geldbetrag.class, new GeldbetragFactoryProvider());
     }
 
     @SuppressWarnings("unchecked")
@@ -69,7 +61,7 @@ public class GeldbetragSingletonSpi implements MonetaryAmountsSingletonSpi {
         if (Geldbetrag.class.equals(amountType)) {
             return (MonetaryAmountFactory<T>) new GeldbetragFactory();
         }
-        MonetaryAmountFactoryProviderSpi<T> f = MonetaryAmountFactoryProviderSpi.class.cast(factories.get(amountType));
+        MonetaryAmountFactoryProviderSpi<T> f = (MonetaryAmountFactoryProviderSpi<T>) factories.get(amountType);
         if (Objects.nonNull(f)) {
             return f.createMonetaryAmountFactory();
         }
@@ -96,7 +88,7 @@ public class GeldbetragSingletonSpi implements MonetaryAmountsSingletonSpi {
      */
     @Override
     public Set<Class<? extends MonetaryAmount>> getAmountTypes() {
-        return amountTypes;
+        return factories.keySet();
     }
 
 }

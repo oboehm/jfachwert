@@ -31,13 +31,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 /**
- * Unit-Tests fuer {@link GeldbetragSingletonSpi}-Klasse.
+ * Unit-Tests fuer {@link GeldbetragSingleton}-Klasse.
  *
  * @author oboehm
  */
-public final class GeldbetragSingletonSpiTest {
+public final class GeldbetragSingletonTest {
     
-    private final GeldbetragSingletonSpi singletonSpi = new GeldbetragSingletonSpi();
+    private final GeldbetragSingleton singletonSpi = new GeldbetragSingleton();
 
     @Test
     public void testGetAmountTypes() {
