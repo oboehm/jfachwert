@@ -37,9 +37,9 @@ import java.util.logging.Logger;
  * @author oboehm
  * @since 1.0 (07.08.2018)
  */
-public final class WaehrungenSingletonSpi implements MonetaryCurrenciesSingletonSpi {
+public final class WaehrungenSingleton implements MonetaryCurrenciesSingletonSpi {
 
-    private static final Logger LOG = Logger.getLogger(WaehrungenSingletonSpi.class.getName());
+    private static final Logger LOG = Logger.getLogger(WaehrungenSingleton.class.getName());
 
     /**
      * Access a list of the currently registered default providers. The default providers are used, when

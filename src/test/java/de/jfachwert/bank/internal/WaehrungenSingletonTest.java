@@ -31,37 +31,37 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
 
 /**
- * Unit-Tests fuer {@link WaehrungenSingletonSpi}-Klasse.
+ * Unit-Tests fuer {@link WaehrungenSingleton}-Klasse.
  *
  * @author oboehm
  */
-public final class WaehrungenSingletonSpiTest {
+public final class WaehrungenSingletonTest {
     
-    private final WaehrungenSingletonSpi singletonSpi = new WaehrungenSingletonSpi();
+    private final WaehrungenSingleton singleton = new WaehrungenSingleton();
 
     @Test
     public void testGetDefaultProviderChain() {
-        List<String> providerChain = singletonSpi.getDefaultProviderChain();
+        List<String> providerChain = singleton.getDefaultProviderChain();
         assertThat(providerChain, not(empty()));
     }
 
     @Test
     public void getProviderNames() {
-        Set<String> providerNames = singletonSpi.getProviderNames();
+        Set<String> providerNames = singleton.getProviderNames();
         assertThat(providerNames, not(empty()));
     }
 
     @Test
     public void getCurrencies() {
         CurrencyQuery query = CurrencyQueryBuilder.of().setCountries(Locale.GERMANY).build();
-        Set<CurrencyUnit> currencies = singletonSpi.getCurrencies(query);
+        Set<CurrencyUnit> currencies = singleton.getCurrencies(query);
         assertThat(currencies, not(empty()));
     }
 
     @Test
     public void getCurrenciesUnknown() {
         CurrencyQuery query = CurrencyQueryBuilder.of().setCurrencyCodes("SDR").build();
-        Set<CurrencyUnit> currencies = singletonSpi.getCurrencies(query);
+        Set<CurrencyUnit> currencies = singleton.getCurrencies(query);
         assertThat(currencies, empty());
     }
 
