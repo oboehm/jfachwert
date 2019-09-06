@@ -61,7 +61,7 @@ public class GeldbetragIT implements JSR354TestConfiguration {
      * @throws IOException falls Resultat nicht gelesen werden kann
      */
     @Test
-    //@Ignore // bis org.javamoney.moneta 1.4 draussen ist und Java 11 unterstuetzt
+    @Ignore // bis org.javamoney.moneta 1.4 draussen ist und Java 11 unterstuetzt
     public void runTCK() throws IOException {
         ServiceLoader.load(GeldbetragIT.class);
         TCKRunner.main();
@@ -114,8 +114,8 @@ public class GeldbetragIT implements JSR354TestConfiguration {
     /**
      * Hier besteht noch Klaerungsbedarf wegen der compareTo-Methode. Nach
      * meinem Verstaendnis ist "CHF 1 > GBP 0", unabhaengig von der
-     * eingestellten Waehrung. Zumindest ist eine valide Implementierung, die
-     * vom TCK als "falsch" bewertet wird.
+     * eingestellten Waehrung. Zumindest ist es eine valide Implementierung,
+     * die vom TCK als "falsch" bewertet wird.
      */
     @Test
     public void testCompareToGeldbetrag() {

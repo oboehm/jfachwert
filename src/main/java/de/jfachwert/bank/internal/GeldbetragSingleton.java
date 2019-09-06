@@ -28,7 +28,6 @@ import javax.money.spi.Bootstrap;
 import javax.money.spi.MonetaryAmountFactoryProviderSpi;
 import javax.money.spi.MonetaryAmountsSingletonSpi;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -62,8 +61,10 @@ public class GeldbetragSingleton implements MonetaryAmountsSingletonSpi {
             return (MonetaryAmountFactory<T>) new GeldbetragFactory();
         }
         MonetaryAmountFactoryProviderSpi<T> f = (MonetaryAmountFactoryProviderSpi<T>) factories.get(amountType);
-        if (Objects.nonNull(f)) {
-            return f.createMonetaryAmountFactory();
+        if (f != null) {
+            MonetaryAmountFactory<T> monetaryAmountFactory = f.createMonetaryAmountFactory();
+            monetaryAmountFactory.setContext(monetaryAmountFactory.getMaximalMonetaryContext());
+            return monetaryAmountFactory;
         }
         throw new MonetaryException("no MonetaryAmountFactory found for " + amountType);
     }
