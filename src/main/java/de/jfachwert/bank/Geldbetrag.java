@@ -20,6 +20,7 @@ package de.jfachwert.bank;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import de.jfachwert.Fachwert;
+import de.jfachwert.bank.internal.GeldbetragFormatter;
 import de.jfachwert.pruefung.NumberValidator;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 import de.jfachwert.pruefung.exception.LocalizedArithmeticException;

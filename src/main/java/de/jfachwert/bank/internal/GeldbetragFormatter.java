@@ -15,8 +15,10 @@
  *
  * (c)reated 12.10.18 by oliver (ob@oasd.de)
  */
-package de.jfachwert.bank;
+package de.jfachwert.bank.internal;
 
+import de.jfachwert.bank.Geldbetrag;
+import de.jfachwert.bank.Waehrung;
 import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.NumberValidator;
 import de.jfachwert.pruefung.exception.InvalidValueException;
@@ -184,4 +186,5 @@ public class GeldbetragFormatter implements MonetaryAmountFormat {
     public String toString() {
         return this.getClass().getSimpleName() + "(" + context.getLocale() + ")";
     }
+
 }

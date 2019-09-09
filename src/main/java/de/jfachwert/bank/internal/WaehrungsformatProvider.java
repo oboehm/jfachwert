@@ -18,7 +18,6 @@
 package de.jfachwert.bank.internal;
 
 import de.jfachwert.bank.GeldbetragFactory;
-import de.jfachwert.bank.GeldbetragFormatter;
 
 import javax.money.format.AmountFormatContext;
 import javax.money.format.AmountFormatContextBuilder;

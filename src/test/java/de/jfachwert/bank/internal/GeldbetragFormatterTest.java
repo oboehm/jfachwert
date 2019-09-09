@@ -15,10 +15,12 @@
  *
  * (c)reated 12.10.18 by oliver (ob@oasd.de)
  */
-package de.jfachwert.bank;
+package de.jfachwert.bank.internal;
 
+import de.jfachwert.bank.Geldbetrag;
 import org.javamoney.moneta.Money;
 import org.javamoney.moneta.internal.RoundedMoneyAmountFactory;
+import org.junit.Assert;
 import org.junit.Test;
 
 import javax.money.MonetaryAmount;
@@ -33,7 +35,7 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
 
 /**
- * Unit-Tests fuer @link{de.jfachwert.bank.GeldbetragFormatter}.
+ * Unit-Tests fuer @link{de.jfachwert.bank.internal.GeldbetragFormatter}.
  * {@link GeldbetragFormatter}
  *
  * @author <a href="ob@aosd.de">oliver</a>
@@ -46,7 +48,7 @@ public final class GeldbetragFormatterTest {
     @Test
     public void testParse() {
         MonetaryAmount parsed = formatter.parse("100 CHF");
-        assertEquals(Geldbetrag.of(100, "CHF"), parsed);
+        Assert.assertEquals(Geldbetrag.of(100, "CHF"), parsed);
     }
 
     @Test
