@@ -65,14 +65,13 @@ public final class WaehrungsformatSingletonSpiTest {
         builder.setMonetaryAmountFactory(new FastMoneyAmountFactory());
         AmountFormatQuery query = builder.build();
         Collection<MonetaryAmountFormat> amountFormats = singletonSpi.getAmountFormats(query);
-        assertEquals(1, amountFormats.size());
+        assertThat(amountFormats.size(), greaterThan(0));
     }
 
     @Test
     public void testGetAmountFormatsWithoutLocale() {
-        AmountFormatQueryBuilder builder = AmountFormatQueryBuilder.of("default");
+        AmountFormatQueryBuilder builder = AmountFormatQueryBuilder.of("jfachwert");
         Collection<MonetaryAmountFormat> amountFormats = singletonSpi.getAmountFormats(builder.build());
-        assertEquals(1, amountFormats.size());
         assertThat(amountFormats, not(empty()));
     }
 

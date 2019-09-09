@@ -25,7 +25,11 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.money.CurrencyUnit;
 import javax.money.MonetaryAmount;
-import javax.money.format.*;
+import javax.money.MonetaryAmountFactory;
+import javax.money.format.AmountFormatContext;
+import javax.money.format.AmountFormatContextBuilder;
+import javax.money.format.MonetaryAmountFormat;
+import javax.money.format.MonetaryParseException;
 import javax.validation.ValidationException;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -121,11 +125,11 @@ public class GeldbetragFormatter implements MonetaryAmountFormat {
      * @throws MonetaryParseException falls der Text kein Geldbetrag darstellt
      */
     @Override
-    public Geldbetrag parse(CharSequence text) throws MonetaryParseException {
+    public MonetaryAmount parse(CharSequence text) throws MonetaryParseException {
         return parse(Objects.toString(text));
     }
 
-    private Geldbetrag parse(String text) throws MonetaryParseException {
+    private MonetaryAmount parse(String text) throws MonetaryParseException {
         String trimmed = new NullValidator<String>().validate(text).trim();
         String[] parts = StringUtils.splitByCharacterType(StringUtils.upperCase(trimmed));
         if (parts.length == 0) {
@@ -139,9 +143,18 @@ public class GeldbetragFormatter implements MonetaryAmountFormat {
             if (StringUtils.isNotEmpty(currencyString)) {
                 cry = Waehrung.toCurrency(currencyString);
             }
-            return Geldbetrag.of(n, cry);
+            return getMonetaryAmount(cry, n);
         } catch (IllegalArgumentException | ValidationException ex) {
             throw new LocalizedMonetaryParseException(text, ex);
+        }
+    }
+
+    private MonetaryAmount getMonetaryAmount(Currency cry, BigDecimal n) {
+        MonetaryAmountFactory amountFactory = this.context.get(MonetaryAmountFactory.class);
+        if (amountFactory == null) {
+            return Geldbetrag.of(n, cry);
+        } else {
+            return amountFactory.setNumber(n).setCurrency(cry.toString()).create();
         }
     }
 

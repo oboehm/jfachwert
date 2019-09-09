@@ -237,7 +237,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      */
     public static Geldbetrag valueOf(String other) {
         try {
-            return DEFAULT_FORMATTER.parse(other);
+            return (Geldbetrag) DEFAULT_FORMATTER.parse(other);
         } catch (MonetaryParseException ex) {
             throw new IllegalArgumentException(other, ex);
         }

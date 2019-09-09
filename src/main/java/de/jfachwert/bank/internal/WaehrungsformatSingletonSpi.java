@@ -17,10 +17,11 @@
  */
 package de.jfachwert.bank.internal;
 
-import de.jfachwert.bank.GeldbetragFactory;
 import de.jfachwert.bank.GeldbetragFormatter;
 
 import javax.money.MonetaryAmountFactory;
+import javax.money.format.AmountFormatContext;
+import javax.money.format.AmountFormatContextBuilder;
 import javax.money.format.AmountFormatQuery;
 import javax.money.format.MonetaryAmountFormat;
 import javax.money.spi.Bootstrap;
@@ -67,14 +68,16 @@ public class WaehrungsformatSingletonSpi implements MonetaryFormatsSingletonSpi 
     @Override
     public Collection<MonetaryAmountFormat> getAmountFormats(AmountFormatQuery formatQuery) {
         Collection<MonetaryAmountFormat> result = new ArrayList<>();
-        MonetaryAmountFactory factory = formatQuery.getMonetaryAmountFactory();
-        if (factory instanceof GeldbetragFactory) {
-            Locale locale = formatQuery.getLocale();
-            result.add(GeldbetragFormatter.of(locale == null ? Locale.getDefault() : locale));
-        } else {
-            for (MonetaryAmountFormatProviderSpi spi : Bootstrap.getServices(MonetaryAmountFormatProviderSpi.class)) {
-                result.addAll(spi.getAmountFormats(formatQuery));
-            }
+        Locale locale = formatQuery.getLocale();
+        MonetaryAmountFactory amountFactory = formatQuery.getMonetaryAmountFactory();
+        String formatName = formatQuery.getFormatName();
+        AmountFormatContext context = AmountFormatContextBuilder.of(formatName)
+                .setMonetaryAmountFactory(amountFactory)
+                .setLocale(locale == null ? Locale.getDefault() : locale)
+                .build();
+        result.add(GeldbetragFormatter.of(context));
+        for (MonetaryAmountFormatProviderSpi spi : Bootstrap.getServices(MonetaryAmountFormatProviderSpi.class)) {
+            result.addAll(spi.getAmountFormats(formatQuery));
         }
         return result;
     }
@@ -94,9 +97,9 @@ public class WaehrungsformatSingletonSpi implements MonetaryFormatsSingletonSpi 
     }
 
     /**
-     * Get the default provider chain, identified by the unique provider names in order as evaluated and used.
+     * Liefert die Default-Provider-Kette
      *
-     * @return the default provider chain, never null.
+     * @return Default-Provider-Kette.
      */
     @Override
     public List<String> getDefaultProviderChain() {

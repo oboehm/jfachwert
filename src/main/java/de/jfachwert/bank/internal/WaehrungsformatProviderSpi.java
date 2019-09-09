@@ -24,6 +24,7 @@ import javax.money.format.AmountFormatContext;
 import javax.money.format.AmountFormatContextBuilder;
 import javax.money.format.AmountFormatQuery;
 import javax.money.format.MonetaryAmountFormat;
+import javax.money.spi.Bootstrap;
 import javax.money.spi.MonetaryAmountFormatProviderSpi;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -62,10 +63,16 @@ public class WaehrungsformatProviderSpi implements MonetaryAmountFormatProviderS
                 .getMonetaryAmountFactory() instanceof GeldbetragFactory)) {
             Locale locale = formatQuery.getLocale();
             AmountFormatContextBuilder builder = AmountFormatContextBuilder.of("jfachwert");
-            builder.setLocale(locale);
+            builder.setLocale(locale == null ? Locale.getDefault() : locale);
             builder.importContext(formatQuery, false);
             builder.setMonetaryAmountFactory(formatQuery.getMonetaryAmountFactory());
             amountFormats.add(GeldbetragFormatter.of(builder.build()));
+        } else {
+            for (MonetaryAmountFormatProviderSpi spi : Bootstrap.getServices(MonetaryAmountFormatProviderSpi.class)) {
+                if (!(spi instanceof WaehrungsformatProviderSpi)) {
+                    amountFormats.addAll(spi.getAmountFormats(formatQuery));
+                }
+            }
         }
         return amountFormats;
     }
@@ -81,7 +88,7 @@ public class WaehrungsformatProviderSpi implements MonetaryAmountFormatProviderS
     }
 
     /**
-     * Als Formatname wird lediglich "jfachwert" zurueckgegeben.
+     * Als Formatname wird lediglich eine Liste mit "jfachwert" zurueckgegeben.
      *
      * @return Set mit "jfachwert"
      */

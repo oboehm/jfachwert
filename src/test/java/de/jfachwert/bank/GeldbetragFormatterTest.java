@@ -18,13 +18,12 @@
 package de.jfachwert.bank;
 
 import org.javamoney.moneta.Money;
+import org.javamoney.moneta.internal.RoundedMoneyAmountFactory;
 import org.junit.Test;
 
 import javax.money.MonetaryAmount;
-import javax.money.format.AmountFormatContext;
-import javax.money.format.MonetaryAmountFormat;
-import javax.money.format.MonetaryFormats;
-import javax.money.format.MonetaryParseException;
+import javax.money.MonetaryAmountFactory;
+import javax.money.format.*;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Locale;
@@ -46,7 +45,7 @@ public final class GeldbetragFormatterTest {
 
     @Test
     public void testParse() {
-        Geldbetrag parsed = formatter.parse("100 CHF");
+        MonetaryAmount parsed = formatter.parse("100 CHF");
         assertEquals(Geldbetrag.of(100, "CHF"), parsed);
     }
 
@@ -57,8 +56,19 @@ public final class GeldbetragFormatterTest {
 
     @Test
     public void testParseCurrencyNumber() {
-        Geldbetrag parsed = formatter.parse("BRL 123.45");
+        MonetaryAmount parsed = formatter.parse("BRL 123.45");
         assertEquals(Geldbetrag.of(new BigDecimal("123.45"), "BRL"), parsed);
+    }
+
+    @Test
+    public void testParseMoney() {
+        MonetaryAmountFactory amountFactory = new RoundedMoneyAmountFactory();
+        MonetaryAmount created = amountFactory.setNumber(50).setCurrency("EUR").create();
+        AmountFormatContext context = AmountFormatContextBuilder.of("default").setMonetaryAmountFactory(amountFactory).build();
+        GeldbetragFormatter gf = GeldbetragFormatter.of(context);
+        MonetaryAmount parsed = gf.parse("50 EUR");
+        assertEquals(created.getClass(), parsed.getClass());
+        assertEquals(created, parsed);
     }
 
     @Test(expected = MonetaryParseException.class)
