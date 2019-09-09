@@ -33,13 +33,13 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 /**
- * Unit-Test fuer {@link WaehrungsformatSingletonSpi}-Klasse.
+ * Unit-Test fuer {@link WaehrungsformatSingleton}-Klasse.
  *
  * @author oboehm
  */
-public final class WaehrungsformatSingletonSpiTest {
+public final class WaehrungsformatSingletonTest {
 
-    private final WaehrungsformatSingletonSpi singletonSpi = new WaehrungsformatSingletonSpi();
+    private final WaehrungsformatSingleton singletonSpi = new WaehrungsformatSingleton();
 
     @Test
     public void getAvailableLocales() {

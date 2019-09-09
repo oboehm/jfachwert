@@ -35,13 +35,13 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
 
 /**
- * Unit-Test fuer {@link WaehrungsformatProviderSpi}-Klasse.
+ * Unit-Test fuer {@link WaehrungsformatProvider}-Klasse.
  *
  * @author oboehm
  */
-public final class WaehrungsformatProviderSpiTest {
+public final class WaehrungsformatProviderTest {
 
-    private final WaehrungsformatProviderSpi providerSpi = new WaehrungsformatProviderSpi();
+    private final WaehrungsformatProvider providerSpi = new WaehrungsformatProvider();
 
     @Test
     public void testGetAmountFormatsGeldbetrag() {

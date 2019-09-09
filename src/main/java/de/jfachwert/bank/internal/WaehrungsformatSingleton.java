@@ -36,13 +36,13 @@ import java.util.*;
  * @author oboehm
  * @since 2.4 (13.08.2019)
  */
-public class WaehrungsformatSingletonSpi implements MonetaryFormatsSingletonSpi {
+public class WaehrungsformatSingleton implements MonetaryFormatsSingletonSpi {
 
     private static final Collection<MonetaryFormatsSingletonSpi> MONETARY_FORMATS_SINGLETON_SPIS = new ArrayList<>();
 
     static {
         for (MonetaryFormatsSingletonSpi spi : Bootstrap.getServices(MonetaryFormatsSingletonSpi.class)) {
-            if (!(spi instanceof WaehrungsformatSingletonSpi)) {
+            if (!(spi instanceof WaehrungsformatSingleton)) {
                 MONETARY_FORMATS_SINGLETON_SPIS.add(spi);
             }
         }
@@ -56,7 +56,7 @@ public class WaehrungsformatSingletonSpi implements MonetaryFormatsSingletonSpi 
      */
     @Override
     public Set<Locale> getAvailableLocales(String... providers) {
-        return WaehrungsformatProviderSpi.INSTANCE.getAvailableLocales();
+        return WaehrungsformatProvider.INSTANCE.getAvailableLocales();
     }
 
     /**

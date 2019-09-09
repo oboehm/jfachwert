@@ -35,14 +35,14 @@ import java.util.*;
  * @author oboehm
  * @since 3.0 (27.08.2019)
  */
-public class WaehrungsformatProviderSpi implements MonetaryAmountFormatProviderSpi  {
+public class WaehrungsformatProvider implements MonetaryAmountFormatProviderSpi  {
 
-    static final WaehrungsformatProviderSpi INSTANCE = new WaehrungsformatProviderSpi();
+    static final WaehrungsformatProvider INSTANCE = new WaehrungsformatProvider();
 
     private final Set<Locale> availableLocales;
     private final Set<String> availableFormatNames = Collections.unmodifiableSet(Collections.singleton("jfachwert"));
 
-    public WaehrungsformatProviderSpi() {
+    public WaehrungsformatProvider() {
         Set<Locale> locales = new HashSet<>();
         locales.add(Locale.GERMANY);
         locales.addAll(Arrays.asList(DecimalFormat.getAvailableLocales()));
@@ -69,7 +69,7 @@ public class WaehrungsformatProviderSpi implements MonetaryAmountFormatProviderS
             amountFormats.add(GeldbetragFormatter.of(builder.build()));
         } else {
             for (MonetaryAmountFormatProviderSpi spi : Bootstrap.getServices(MonetaryAmountFormatProviderSpi.class)) {
-                if (!(spi instanceof WaehrungsformatProviderSpi)) {
+                if (!(spi instanceof WaehrungsformatProvider)) {
                     amountFormats.addAll(spi.getAmountFormats(formatQuery));
                 }
             }
