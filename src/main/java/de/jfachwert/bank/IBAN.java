@@ -72,22 +72,6 @@ public class IBAN extends Text {
     }
 
     /**
-     * Mit dieser Methode kann man eine IBAN validieren, ohne dass man erst
-     * den Konstruktor aufrufen muss. Falls die Pruefziffer nicht stimmt,
-     * wird eine {@link javax.validation.ValidationException} geworfen, wenn
-     * die Laenge nicht uebereinstimmt eine {@link InvalidLengthException}.
-     * Die Laenge liegt zwischen 16 (Belgien) und 34 Zeichen.
-     *
-     * @param iban die 22-stellige IBAN
-     * @return die IBAN in normalisierter Form (ohne Leerzeichen)
-     * @deprecated use {@link Validator#validate(String)}
-     */
-    @Deprecated
-    public static String validate(String iban) {
-        return VALIDATOR.validate(iban);
-    }
-
-    /**
      * Liefert eine IBAN.
      *
      * @param code gueltige IBAN-Nummer

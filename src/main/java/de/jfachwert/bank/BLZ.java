@@ -79,19 +79,6 @@ public class BLZ extends AbstractFachwert<PackedDecimal, BLZ> {
      * Eine BLZ darf maximal 8-stellig sein.
      *
      * @param blz die Bankleitzahl
-     * @return die Bankleitzahl zur Weitervarabeitung
-     * @deprecated bitte {@link Validator#validate(String)} verwenden
-     */
-    @Deprecated
-    public static int validate(int blz) {
-        VALIDATOR.validate(PackedDecimal.of(blz));
-        return blz;
-    }
-
-    /**
-     * Eine BLZ darf maximal 8-stellig sein.
-     *
-     * @param blz die Bankleitzahl
      * @return die Bankleitzahl zur Weiterverabeitung
      * @deprecated bitte {@link Validator#validate(String)} verwenden
      */

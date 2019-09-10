@@ -68,30 +68,6 @@ public class Kontonummer extends AbstractFachwert<Long, Kontonummer> {
     }
 
     /**
-     * Eine gueltige Kontonummer beginnt bei 1 und hat maximal 10 Stellen.
-     *
-     * @param kontonr die Kontonummer
-     * @return die validierte Kontonummer zur Weiterverabeitung
-     * @deprecated bitte {@link Validator#validate(Long)} verwenden
-     */
-    @Deprecated
-    public static String validate(String kontonr) {
-        return VALIDATOR.validate(kontonr);
-    }
-    
-    /**
-     * Eine gueltige Kontonummer beginnt bei 1 und hat maximal 10 Stellen.
-     *
-     * @param kontonr die Kontonummer
-     * @return die validierte Kontonummer zur Weiterverabeitung
-     * @deprecated bitte {@link Validator#validate(Long)} verwenden
-     */
-    @Deprecated
-    public static long validate(long kontonr) {
-        return VALIDATOR.validate(kontonr);
-    }
-
-    /**
      * Liefert eine Kontonummer zurueck.
      *
      * @param nr Kontonummer

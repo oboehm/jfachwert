@@ -88,19 +88,6 @@ public class Steuernummer extends AbstractFachwert<PackedDecimal, Steuernummer> 
     }
 
     /**
-     * Die Steuernummer muss zwischen 10 und 13 Stellen lang sein und die
-     * Pruefziffer muss stimmen (falls sie bekannt ist).
-     *
-     * @param nr die Steuernummer
-     * @return die validierte Steuernummer zur Weiterverarbeitung
-     * @deprecated bitte {@link Validator#validate(PackedDecimal)} verwenden
-     */
-    @Deprecated
-    public static String validate(String nr) {
-        return VALIDATOR.validate(nr);
-    }
-
-    /**
      * Die letzte Ziffer ist die Pruefziffer, die hierueber abgefragt werden
      * kann.
      *

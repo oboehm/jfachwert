@@ -102,19 +102,6 @@ public class IK extends AbstractFachwert<Integer, IK> {
     }
 
     /**
-     * Ueberprueft die uebergebenen Nummer, ob sie 9-stellig und eine
-     * korrekte IK darstellt.
-     *
-     * @param nummer 9-stellige Nummer
-     * @return die Nummer selbst zur Weiterverarbeitung
-     * @deprecated bitte {@link Validator#validate(Integer)} verwenden
-     */
-    @Deprecated
-    public static int validate(int nummer) {
-        return VALIDATOR.validate(nummer);
-    }
-
-    /**
      * Die ersten beiden Ziffern bilden die Klassifikation, die hierueber
      * zurueckgegeben werden kann.
      *

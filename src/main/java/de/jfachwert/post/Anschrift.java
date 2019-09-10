@@ -81,18 +81,6 @@ public class Anschrift implements Fachwert {
     }
 
     /**
-     * Erzeugt aus dem Namen und Adresse eine Anschrift.
-     *
-     * @param name    Namen einer Person oder Personengruppe
-     * @param adresse eine gueltige Adresse
-     * @deprecated bitte {@link Anschrift#Anschrift(Adressat, Adresse)} verwenden
-     */
-    @Deprecated
-    public Anschrift(String name, Adresse adresse) {
-        this(new Adressat(name), adresse);
-    }
-
-    /**
      * Erzeugt aus dem Adressaten und Adresse eine Anschrift.
      *
      * @param name    Namen einer Person oder Personengruppe
@@ -100,18 +88,6 @@ public class Anschrift implements Fachwert {
      */
     public Anschrift(Adressat name, Adresse adresse) {
         this(name, adresse, null);
-    }
-
-    /**
-     * Erzeugt aus dem Namen und einem Postfach eine Anschrift.
-     *
-     * @param name     Namen einer Person oder Personengruppe
-     * @param postfach ein gueltiges Postfach
-     * @deprecated bitte {@link Anschrift#Anschrift(Adressat, Postfach)} verwenden
-     */
-    @Deprecated
-    public Anschrift(String name, Postfach postfach) {
-        this(new Adressat(name), postfach);
     }
 
     /**

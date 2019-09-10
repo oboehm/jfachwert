@@ -64,20 +64,6 @@ public class Domainname extends Text {
     }
 
     /**
-     * Hie valideren wir den Namen auf Richtigkeit. Das Pattern dazu stammt aus
-     * https://regex101.com/r/d5Yd6j/1/tests . Allerdings akzeptieren wir auch
-     * die TLD wie "de" als gueltigen Domainnamen.
-     *
-     * @param name Domain-Name
-     * @return validierter Domain-Name zur Weiterverarbeitung
-     * @deprecated bitte {@link Validator#validate(String)} benuzten
-     */
-    @Deprecated
-    public static String validate(String name) {
-        return VALIDATOR.validate(name);
-    }
-
-    /**
      * Liefert einen Domainnamen.
      *
      * @param name gueltiger Domainname

@@ -83,19 +83,6 @@ public class BIC extends Text {
     }
 
     /**
-     * Hierueber kann man eine BIC ohne den Umweg ueber den Konstruktor
-     * validieren.
-     *
-     * @param bic die BIC (11- oder 14-stellig)
-     * @return die validierte BIC (zur Weiterverarbeitung)
-     * @deprecated bitte {@link Validator#validate(String)} verwenden
-     */
-    @Deprecated
-    public static String validate(String bic) {
-        return VALIDATOR.validate(bic);
-    }
-
-    /**
      * Liefert eine BIC zurueck.
      *
      * @param code eine 11- oder 14-stellige BIC
