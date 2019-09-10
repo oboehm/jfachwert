@@ -42,6 +42,12 @@ Jetzt kann man die Argumente nicht mehr verwechseln, weil sonst der Compiler mec
 
 ## Aktueller Stand
 
+Version 3 unterstützt nach wie vor Java 8, wurde aber auch mit Java 11 getestet.
+Dies kam vor allem der (internen) Bereinigung in Zusammenhang der Geldbetrag-Klasse (die das Money-API implementiert) zu Gute.
+Ferner wurden die Methodennamen sprechender und eindeutiger benannt.
+So hat die Name-Klasse jetzt eine eigene egualsSemantic(..)-Methode für den semantischen Vergleich, der verschiedene Schreibweise von Namen als gleich behandelt.
+Methoden und Klassen, die in 2.x als @Deprecated gekennzeichnet waren, wurden entfernt.
+
 Mit 2.0 wurde der Speicherverbrauch dadurch reduziert, dass Duplikate vermieden werden, wenn man die of()-Methode benutzt.
 Dies betrifft vor allem einfache Fachwerte, die nicht aus mehrerer Attribute zusammengesetzt sind.
 Auch bei internen String-Attributen wurden Duplikate durch die Aufruf der `String.intern()`-Methode vermieden.

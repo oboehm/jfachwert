@@ -7,6 +7,7 @@
 * viele Fachklassen sind jetzt Comparable
 * Unterstützung für Java 8 _und_ 11
 * GeldbetragFormatter ist jetzt nur noch für internen Gebrauch gedacht
+* Name-Klasse um _equalsSemantic(..)_ ergänzt
 
 
 == 2.3 (28-Mai-2019)

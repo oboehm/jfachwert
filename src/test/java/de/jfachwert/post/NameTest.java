@@ -94,7 +94,7 @@ public final class NameTest extends AbstractFachwertTest<String, Text> {
 
     @Test
     public void testEqualsWithWhitespaces() {
-        ObjectTester.assertEquals(Name.of("Duck,  Tick "), Name.of(" Duck ,Tick"));
+        assertTrue(Name.of("Duck,  Tick ").equalsSemantic(Name.of(" Duck ,Tick")));
     }
 
     @Test
@@ -104,16 +104,20 @@ public final class NameTest extends AbstractFachwertTest<String, Text> {
         Name c = new Name("Hugo");
         assertFalse(a.equalsExact(b));
         assertTrue(b.equalsExact(c));
+        ObjectTester.assertEquals(a, b);
     }
 
     @Test
-    public void testEqualsKarlHeinz() {
+    public void testEqualsSemanticKarlHeinz() {
         Name a = Name.of("Ott, Karl Heinz");
         Name b = Name.of("Ott, Karl-Heinz");
         Name c = Name.of("Ott, Karlheinz");
-        ObjectTester.assertEquals(a, b);
-        ObjectTester.assertEquals(a, c);
-        ObjectTester.assertEquals(b, c);
+        assertTrue(a.equalsSemantic(b));
+        assertTrue(a.equalsSemantic(c));
+        assertTrue(b.equalsSemantic(c));
+        assertTrue(b.equalsSemantic(a));
+        assertTrue(c.equalsSemantic(a));
+        assertTrue(c.equalsSemantic(b));
     }
 
     @Test

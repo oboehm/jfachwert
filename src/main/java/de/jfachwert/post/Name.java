@@ -146,8 +146,12 @@ public class Name extends Text {
     }
 
     /**
-     * Hier werden Namen logisch verglichen. So werden Namen auch als gleich
-     * angesehen, wenn sie mit oder ohne Umlaute geschrieben werden.
+     * Hier werden Namen verglichen. Aktuell werden sie semantisch verglichen,
+     * aber darauf sollte man sich nicht verlassen. Man sollte entweder
+     * {@link #equalsSemantic(Name)} fuer den semantischen Vergleich und
+     * {@link #equalsExact(Name)} fuer den exakten Vergleich verwenden, da
+     * es sein kann, dass diese Implementierung kuenftig auf den exakten
+     * Vergleich aufbaut.
      *
      * @param obj zu vergleichender Name
      * @return true bei Gleichheit
@@ -159,6 +163,19 @@ public class Name extends Text {
             return false;
         }
         Name other = (Name) obj;
+        return equalsSemantic(other);
+    }
+
+    /**
+     * Hier werden Namen logisch (semantisch) verglichen. So werden Namen auch
+     * als gleich angesehen, wenn sie mit oder ohne Umlaute geschrieben werden.
+     *
+     * @param other der zu vergleichende Name
+     * @return true bei Gleichheit
+     * @see Object#equals(Object)
+     * @since 3.0
+     */
+    public boolean equalsSemantic(Name other) {
         return isEquals(normalize(this), normalize(other));
     }
 
