@@ -18,9 +18,7 @@
 package de.jfachwert;
 
 import de.jfachwert.pruefung.NullValidator;
-import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 
-import javax.validation.ValidationException;
 import java.nio.CharBuffer;
 import java.util.WeakHashMap;
 
@@ -62,7 +60,7 @@ public class Text extends AbstractFachwert<String, Text> implements Comparable<T
      * @param validator Validator fuer die Ueberpruefung
      */
     public Text(String text, SimpleValidator<String> validator) {
-        super(verify(text).intern(), validator);
+        super(VALIDATOR.verify(text).intern(), validator);
     }
 
     /**
@@ -83,14 +81,6 @@ public class Text extends AbstractFachwert<String, Text> implements Comparable<T
      */
     public static String validate(String text) {
         return VALIDATOR.validate(text);
-    }
-
-    private static String verify(String text) {
-        try {
-            return validate(text);
-        } catch (ValidationException ex) {
-            throw new LocalizedIllegalArgumentException(ex);
-        }
     }
 
     /**

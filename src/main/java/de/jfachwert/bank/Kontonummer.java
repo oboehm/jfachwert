@@ -43,7 +43,7 @@ public class Kontonummer extends AbstractFachwert<Long, Kontonummer> {
      * @param nr eine maximal 10-stellige Zahl
      */
     public Kontonummer(String nr) {
-        this(Long.parseLong(nr));
+        this(Long.parseLong(nr.trim()));
     }
 
     /**

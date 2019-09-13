@@ -35,6 +35,7 @@ import java.util.WeakHashMap;
 public class Kundennummer extends Text {
 
     private static final WeakHashMap<String, Kundennummer> WEAK_CACHE = new WeakHashMap<>();
+    private static final SimpleValidator VALIDATOR = LengthValidator.NOT_EMPTY_VALIDATOR;
 
     /** Null-Konstante fuer Initialisierungen. */
     public static final Kundennummer NULL = new Kundennummer("", new NullValidator<>());
@@ -45,7 +46,7 @@ public class Kundennummer extends Text {
      * @param nummer z.B. "100.059"
      */
     public Kundennummer(String nummer) {
-        this(nummer, LengthValidator.NOT_EMPTY_VALIDATOR);
+        this(nummer, VALIDATOR);
     }
 
     /**

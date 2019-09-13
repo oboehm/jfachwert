@@ -18,9 +18,12 @@
 package de.jfachwert;
 
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
+import de.jfachwert.pruefung.exception.NullValueException;
 
 import javax.validation.ValidationException;
-import java.io.*;
+import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Um die verschiedenen Validatoren als allgemeines Attribut verwendenen
@@ -33,6 +36,8 @@ import java.io.*;
  */
 public interface SimpleValidator<T extends Serializable> extends Serializable {
 
+    static final Logger logger = Logger.getLogger(SimpleValidator.class.getName());
+
     /**
      * Wenn der uebergebene Wert gueltig ist, soll er unveraendert
      * zurueckgegeben werden, damit er anschliessend von der aufrufenden
@@ -44,6 +49,18 @@ public interface SimpleValidator<T extends Serializable> extends Serializable {
      * @return Wert selber, wenn er gueltig ist
      */
     T validate(T value);
+
+    default Object validateObject(Object value) {
+        try {
+            return validate((T) value);
+        } catch (ClassCastException ex) {
+            logger.log(Level.FINE, "cannot cast " + value, ex);
+        }
+        if (value == null) {
+            throw new NullValueException();
+        }
+        return value;
+    }
 
     /**
      * Im Unterschied zur {@link #validate(Serializable)}-Methode wird hier

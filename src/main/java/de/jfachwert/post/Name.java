@@ -38,6 +38,7 @@ import java.util.WeakHashMap;
 public class Name extends Text {
 
     private static final WeakHashMap<String, Name> WEAK_CACHE = new WeakHashMap<>();
+    private static final SimpleValidator<String> VALIDATOR = LengthValidator.NOT_EMPTY_VALIDATOR;
 
     /** Null-Wert fuer Initialisierung. */
     public static final Name NULL = new Name("", new NullValidator<>());
@@ -49,7 +50,7 @@ public class Name extends Text {
      * @param name, z.B. "Duck, Donald"
      */
     public Name(String name) {
-        this(name, LengthValidator.NOT_EMPTY_VALIDATOR);
+        this(name, VALIDATOR);
     }
 
     /**

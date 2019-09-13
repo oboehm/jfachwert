@@ -17,21 +17,18 @@
  */
 package de.jfachwert.bank;
 
-import de.jfachwert.AbstractFachwert;
-import de.jfachwert.AbstractFachwertTest;
-import de.jfachwert.Fachwert;
 import de.jfachwert.FachwertTest;
+import de.jfachwert.SimpleValidator;
 import org.javamoney.tck.TestUtils;
 import org.javamoney.tck.tests.internal.TestCurrencyUnit;
 import org.junit.Test;
-import patterntesting.runtime.junit.ImmutableTester;
 import patterntesting.runtime.junit.ObjectTester;
 
 import javax.money.CurrencyUnit;
 import javax.money.UnknownCurrencyException;
 import java.util.Currency;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
 /**
@@ -101,7 +98,8 @@ public final class WaehrungTest extends FachwertTest {
 
     @Test
     public void testValidate() {
-        String validated = Waehrung.validate("EUR");
+        SimpleValidator<String> validator = new Waehrung.Validator();
+        Object validated = validator.validateObject("EUR");
         assertEquals("EUR", validated);
     }
 

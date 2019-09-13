@@ -18,6 +18,7 @@
 package de.jfachwert.math;
 
 import de.jfachwert.Fachwert;
+import de.jfachwert.SimpleValidator;
 import de.jfachwert.pruefung.exception.InvalidValueException;
 
 import java.math.BigDecimal;
@@ -44,6 +45,7 @@ import java.util.Objects;
 public class Nummer extends AbstractNumber implements Fachwert {
 
     private static final Nummer[] CACHE = new Nummer[11];
+    private static final SimpleValidator<String> VALIDATOR = new Validator();
     private final PackedDecimal code;
 
     /** Null-Konstante fuer Initialisierungen. */
@@ -146,11 +148,7 @@ public class Nummer extends AbstractNumber implements Fachwert {
      * @return validierter String zur Weiterverarbeitung
      */
     public static String validate(String nummer) {
-        try {
-            return new BigInteger(nummer).toString();
-        } catch (NumberFormatException nfe) {
-            throw new InvalidValueException(nummer, "number");
-        }
+        return VALIDATOR.validate(nummer);
     }
 
     /**
@@ -217,6 +215,35 @@ public class Nummer extends AbstractNumber implements Fachwert {
     @Override
     public String toString() {
         return this.code.toString();
+    }
+
+
+
+    /**
+     * Dieser Validator ist fuer die Ueberpruefung von Zahlen vorgesehen.
+     *
+     * @since 3.0
+     */
+    public static class Validator implements SimpleValidator<String> {
+
+        /**
+         * Wenn die uebergebene Waehrungsstring gueltig ist, wird sie
+         * unveraendert zurueckgegeben, damit sie anschliessend von der
+         * aufrufenden Methode weiterverarbeitet werden kann. Ist der Wert
+         * nicht gueltig, wird eine {@link InvalidValueException} geworfen.
+         *
+         * @param nummer Zahl, die validiert wird
+         * @return Zahl selber, wenn sie gueltig ist
+         */
+        @Override
+        public String validate(String nummer) {
+            try {
+                return new BigInteger(nummer).toString();
+            } catch (NumberFormatException nfe) {
+                throw new InvalidValueException(nummer, "number");
+            }
+        }
+
     }
 
 }

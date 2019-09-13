@@ -20,6 +20,7 @@ package de.jfachwert.bank;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import de.jfachwert.Fachwert;
+import de.jfachwert.SimpleValidator;
 import de.jfachwert.bank.internal.GeldbetragFormatter;
 import de.jfachwert.pruefung.NumberValidator;
 import de.jfachwert.pruefung.exception.InvalidValueException;
@@ -61,6 +62,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     private static final GeldbetragFactory FACTORY = new GeldbetragFactory();
     private static final GeldbetragFormatter DEFAULT_FORMATTER = new GeldbetragFormatter();
     private static final NumberValidator NUMBER_VALIDATOR = new NumberValidator();
+    private static final SimpleValidator<String> VALIDATOR = new Validator();
 
     /** Da 0-Betraege relativ haeufig vorkommen, spendieren wir dafuer eine eigene Konstante. */
     public static final Geldbetrag ZERO = new Geldbetrag(BigDecimal.ZERO);
@@ -552,11 +554,7 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
      * @return die Zahl zur Weitervarabeitung
      */
     public static String validate(String zahl) {
-        try {
-            return Geldbetrag.valueOf(zahl).toString();
-        } catch (IllegalArgumentException ex) {
-            throw new InvalidValueException(zahl, "money_amount", ex);
-        }
+        return VALIDATOR.validate(zahl);
     }
 
     /**
@@ -1317,6 +1315,32 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
         formatter.setMinimumFractionDigits(context.getMaxScale());
         formatter.setMinimumFractionDigits(context.getMaxScale());
         return formatter.format(betrag) + " " + currency;
+    }
+
+
+
+    /**
+     * Dieser Validator ist fuer die Ueberpruefung von Geldbetraegen vorgesehen.
+     *
+     * @since 3.0
+     */
+    public static class Validator implements SimpleValidator<String> {
+
+        /**
+         * Validiert die uebergebene Zahl, ob sie sich als Geldbetrag eignet.
+         *
+         * @param zahl als String
+         * @return die Zahl zur Weitervarabeitung
+         */
+        @Override
+        public String validate(String zahl) {
+            try {
+                return Geldbetrag.valueOf(zahl).toString();
+            } catch (IllegalArgumentException ex) {
+                throw new InvalidValueException(zahl, "money_amount", ex);
+            }
+        }
+
     }
 
 }

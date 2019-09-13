@@ -38,12 +38,12 @@ import de.jfachwert.util.SmallUUID;
 import de.jfachwert.util.TinyUUID;
 
 import javax.validation.ValidationException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.io.Serializable;
+import java.lang.reflect.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -214,7 +214,7 @@ public class FachwertFactory {
      * @param name Namen der Fachwert-Klasse, z.B. "IBAN"
      * @param args Argument(e), die validiert werden
      */
-    public void validate(String name, Object... args) {
+    public void validate(String name, Serializable... args) {
         Class<? extends Fachwert> fachwertClass = getClassFor(name);
         validate(fachwertClass, args);
     }
@@ -235,9 +235,33 @@ public class FachwertFactory {
      * @param clazz Fachwert-Klasse
      * @param args Argument(e), die validiert werden
      */
-    public void validate(Class<? extends Fachwert> clazz, Object... args) {
-        Class[] argTypes = toTypes(args);
+    public void validate(Class<? extends Fachwert> clazz, Serializable... args) {
+        Optional<SimpleValidator> validator = getValidator(clazz);
+        if (validator.isPresent()) {
+            validator.get().validateObject(args[0]);
+        } else {
+            callValidate(clazz, args);
+        }
+    }
+
+    private static Optional<SimpleValidator> getValidator(Class<? extends Fachwert> clazz) {
         try {
+            Field validatorField = clazz.getDeclaredField("VALIDATOR");
+            AnnotatedType type = validatorField.getAnnotatedType();
+            validatorField.setAccessible(true);
+            Object obj = validatorField.get(null);
+            if (obj instanceof SimpleValidator) {
+                return Optional.of((SimpleValidator) obj);
+            }
+        } catch (NoSuchFieldException | IllegalAccessException ex) {
+            LOG.log(Level.FINE, "Cannot find/access validator in " + clazz, ex);
+        }
+        return Optional.empty();
+    }
+
+    private static void callValidate(Class<? extends Fachwert> clazz, Serializable[] args) {
+        try {
+            Class[] argTypes = toTypes(args);
             Method method = clazz.getMethod("validate", argTypes);
             method.invoke(null, args);
         } catch (InvocationTargetException ex) {
@@ -245,10 +269,8 @@ public class FachwertFactory {
             if (ex.getTargetException() instanceof ValidationException) {
                 throw (ValidationException) ex.getTargetException();
             }
-            getFachwert(clazz, args);
         } catch (ReflectiveOperationException ex) {
             LOG.log(Level.FINE, "Cannot call validate method of " + clazz, ex);
-            getFachwert(clazz, args);
         }
     }
 

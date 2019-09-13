@@ -17,10 +17,8 @@
  */
 package de.jfachwert.bank;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import de.jfachwert.AbstractFachwert;
 import de.jfachwert.Fachwert;
 import de.jfachwert.SimpleValidator;
 import de.jfachwert.pruefung.NullValidator;
@@ -31,8 +29,10 @@ import org.apache.commons.collections4.map.ReferenceMap;
 import javax.money.CurrencyContext;
 import javax.money.CurrencyUnit;
 import javax.money.UnknownCurrencyException;
-import java.io.Serializable;
-import java.util.*;
+import javax.validation.ValidationException;
+import java.util.Currency;
+import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,10 +47,11 @@ public class Waehrung implements Fachwert, Comparable<CurrencyUnit>, CurrencyUni
 
     private static final Logger LOG = Logger.getLogger(Waehrung.class.getName());
     private static final Map<String, Waehrung> CACHE = new ReferenceMap<>();
+    private static final SimpleValidator<String> VALIDATOR = new Validator();
 
     /** Default-Waehrung, die durch die Landeseinstellung (Locale) vorgegeben wird. */
     public static final Currency DEFAULT_CURRENCY = getDefaultCurrency();
-    
+
     /** Default-Waehrung, die durch die Landeseinstellung (Locale) vorgegeben wird. */
     public static final Waehrung DEFAULT = new Waehrung(DEFAULT_CURRENCY);
 
@@ -99,9 +100,9 @@ public class Waehrung implements Fachwert, Comparable<CurrencyUnit>, CurrencyUni
 
     /**
      * Gibt die entsprechende Currency als Waehrung zurueck. Da die Anzahl der
-     * Waehrungen ueberschaubar ist, werden sie in einem dauerhaften Cache 
+     * Waehrungen ueberschaubar ist, werden sie in einem dauerhaften Cache
      * vorgehalten.
-     * 
+     *
      * @param currency Currency
      * @return Waehrung
      */
@@ -123,6 +124,7 @@ public class Waehrung implements Fachwert, Comparable<CurrencyUnit>, CurrencyUni
             return of(currencyUnit.getCurrencyCode());
         }
     }
+
     /**
      * Gibt die entsprechende Currency als Waehrung zurueck.
      *
@@ -180,17 +182,12 @@ public class Waehrung implements Fachwert, Comparable<CurrencyUnit>, CurrencyUni
      * @return Waehrungscode zur Weiterverarbeitung
      */
     public static String validate(String code) {
-        try {
-            toCurrency(code);
-        } catch (IllegalArgumentException | UnknownCurrencyException ex) {
-            throw new InvalidValueException(code, "currency");
-        }
-        return code;
+        return VALIDATOR.validate(code);
     }
 
     /**
      * Liefert die Currency zurueck.
-     * 
+     *
      * @return die Currency aus java.util.
      */
     public Currency getCurrency() {
@@ -234,7 +231,7 @@ public class Waehrung implements Fachwert, Comparable<CurrencyUnit>, CurrencyUni
 
     /**
      * Liefert das Waehrungssymbol.
-     * 
+     *
      * @return z.B. "$"
      */
     public String getSymbol() {
@@ -243,7 +240,7 @@ public class Waehrung implements Fachwert, Comparable<CurrencyUnit>, CurrencyUni
 
     /**
      * Lieft das Waehrungssymbol der uebergebenen Waehrungseinheit.
-     * 
+     *
      * @param cu Waehrungseinheit
      * @return z.B. das Euro-Zeichen
      */
@@ -320,7 +317,7 @@ public class Waehrung implements Fachwert, Comparable<CurrencyUnit>, CurrencyUni
      * @return normalerweise die deutsche Currency
      */
     private static Currency getDefaultCurrency() {
-        Locale[] locales = { Locale.getDefault(), Locale.GERMANY, Locale.GERMAN };
+        Locale[] locales = {Locale.getDefault(), Locale.GERMANY, Locale.GERMAN};
         for (Locale loc : locales) {
             try {
                 return Currency.getInstance(loc);
@@ -330,6 +327,35 @@ public class Waehrung implements Fachwert, Comparable<CurrencyUnit>, CurrencyUni
             }
         }
         return Currency.getAvailableCurrencies().iterator().next();
+    }
+
+
+    /**
+     * Dieser Validator ist fuer die Ueberpruefung von Waehrungen vorgesehen.
+     *
+     * @since 3.0
+     */
+    public static class Validator implements SimpleValidator<String> {
+
+        /**
+         * Wenn der uebergebene Waehrungsstring gueltig ist, wird er
+         * unveraendert zurueckgegeben, damit er anschliessend von der
+         * aufrufenden Methode weiterverarbeitet werden kann. Ist der Wert
+         * nicht gueltig, wird eine {@link ValidationException} geworfen.
+         *
+         * @param code Waehrungs-String, der validiert wird
+         * @return Wert selber, wenn er gueltig ist
+         */
+        @Override
+        public String validate(String code) {
+            try {
+                toCurrency(code);
+            } catch (IllegalArgumentException | UnknownCurrencyException ex) {
+                throw new InvalidValueException(code, "currency");
+            }
+            return code;
+        }
+
     }
 
 }
