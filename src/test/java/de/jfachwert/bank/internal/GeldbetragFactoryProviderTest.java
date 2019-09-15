@@ -23,6 +23,9 @@ import org.junit.Test;
 import javax.money.MonetaryAmountFactory;
 import javax.money.MonetaryContext;
 
+import java.util.Currency;
+import java.util.Locale;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -50,7 +53,8 @@ public final class GeldbetragFactoryProviderTest {
     @Test
     public void testCreateMonetaryAmountFactory() {
         MonetaryAmountFactory<Geldbetrag> factory = provider.createMonetaryAmountFactory();
-        assertEquals(Geldbetrag.ZERO, factory.setCurrency("EUR").create());
+        String concurrency = Currency.getInstance(Locale.getDefault()).getSymbol();
+        assertEquals(Geldbetrag.ZERO, factory.setCurrency(concurrency).create());
     }
 
     @Test

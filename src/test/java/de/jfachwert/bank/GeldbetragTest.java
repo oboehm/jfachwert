@@ -18,7 +18,6 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.FachwertTest;
-import de.jfachwert.SimpleValidator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
@@ -537,9 +536,8 @@ public final class GeldbetragTest extends FachwertTest {
      */
     @Test
     public void testValidate() {
-        SimpleValidator<String> validator = new Geldbetrag.Validator();
         try {
-            validator.validate("TEST");
+            Geldbetrag.validate("TEST");
             fail("ValidationException expected.");
         } catch (ValidationException expected) {
             assertThat(expected.getMessage(), containsString("TEST"));
