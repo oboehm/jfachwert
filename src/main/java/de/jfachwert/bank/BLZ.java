@@ -80,9 +80,7 @@ public class BLZ extends AbstractFachwert<PackedDecimal, BLZ> {
      *
      * @param blz die Bankleitzahl
      * @return die Bankleitzahl zur Weiterverabeitung
-     * @deprecated bitte {@link Validator#validate(String)} verwenden
      */
-    @Deprecated
     public static String validate(String blz) {
         return VALIDATOR.validate(PackedDecimal.of(blz)).toString();
     }

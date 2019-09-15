@@ -92,6 +92,18 @@ public class BIC extends Text {
         return WEAK_CACHE.computeIfAbsent(code, BIC::new);
     }
 
+    /**
+     * Hierueber kann man eine BIC ohne den Umweg ueber den Konstruktor
+     * validieren.
+     *
+     * @param bic die BIC (11- oder 14-stellig)
+     * @return die validierte BIC (zur Weiterverarbeitung)
+     */
+    public static String validate(String bic) {
+        return VALIDATOR.validate(bic);
+    }
+
+
 
     /**
      * Dieser Validator ist fuer die Ueberpruefung von BICs vorgesehen.

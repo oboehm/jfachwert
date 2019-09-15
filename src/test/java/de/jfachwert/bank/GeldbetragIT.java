@@ -61,7 +61,6 @@ public class GeldbetragIT implements JSR354TestConfiguration {
      * @throws IOException falls Resultat nicht gelesen werden kann
      */
     @Test
-    @Ignore // bis org.javamoney.moneta 1.4 draussen ist und Java 11 unterstuetzt
     public void runTCK() throws IOException {
         ServiceLoader.load(GeldbetragIT.class);
         TCKRunner.main();

@@ -88,6 +88,26 @@ public class Kontonummer extends AbstractFachwert<Long, Kontonummer> {
     }
 
     /**
+     * Eine gueltige Kontonummer beginnt bei 1 und hat maximal 10 Stellen.
+     *
+     * @param kontonr die Kontonummer
+     * @return die validierte Kontonummer zur Weiterverabeitung
+     */
+    public static String validate(String kontonr) {
+        return VALIDATOR.validate(kontonr);
+    }
+
+    /**
+     * Eine gueltige Kontonummer beginnt bei 1 und hat maximal 10 Stellen.
+     *
+     * @param kontonr die Kontonummer
+     * @return die validierte Kontonummer zur Weiterverabeitung
+     */
+    public static long validate(long kontonr) {
+        return VALIDATOR.validate(kontonr);
+    }
+
+    /**
      * Um ein einheitliches Format der Kontonummer zu bekommen, geben wir
      * sie immer 10-stellig aus und fuellen sie notfalls mit fuehrenden
      * Nullen auf.
@@ -98,6 +118,7 @@ public class Kontonummer extends AbstractFachwert<Long, Kontonummer> {
     public String toString() {
         return String.format("%010d", this.getCode());
     }
+
 
 
     /**

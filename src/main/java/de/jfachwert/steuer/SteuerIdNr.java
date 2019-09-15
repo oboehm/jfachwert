@@ -72,6 +72,18 @@ public class SteuerIdNr extends Steuernummer {
     }
 
     /**
+     * Eine SteuerId muss genau 11 Stellen besitzen.
+     *
+     * @param nr the nr
+     * @return the string
+     */
+    public static String validate(String nr) {
+        return VALIDATOR.validate(nr);
+    }
+
+
+
+    /**
      * Eigener Validator fuer die SteuerIdNr-Validierung.
      *
      * @since 2.2

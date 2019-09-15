@@ -82,6 +82,20 @@ public class IBAN extends Text {
     }
 
     /**
+     * Mit dieser Methode kann man eine IBAN validieren, ohne dass man erst
+     * den Konstruktor aufrufen muss. Falls die Pruefziffer nicht stimmt,
+     * wird eine {@link javax.validation.ValidationException} geworfen, wenn
+     * die Laenge nicht uebereinstimmt eine {@link InvalidLengthException}.
+     * Die Laenge liegt zwischen 16 (Belgien) und 34 Zeichen.
+     *
+     * @param iban die 22-stellige IBAN
+     * @return die IBAN in normalisierter Form (ohne Leerzeichen)
+     */
+    public static String validate(String iban) {
+        return VALIDATOR.validate(iban);
+    }
+
+    /**
      * Liefert die IBAN formattiert in der DIN-Form. Dies ist die uebliche
      * Papierform, in der die IBAN in 4er-Bloecke formattiert wird, jeweils
      * durch Leerzeichen getrennt.
