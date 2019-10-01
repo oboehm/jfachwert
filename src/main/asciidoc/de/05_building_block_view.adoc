@@ -83,6 +83,12 @@ include::../images/package-post.puml[]
 Das post-Package ist das dritte fachliche Package, das mit v0.2 hinzugekommen ist.
 Neben der `PLZ` oder `Ort` finden sich auch hier zusammengesetzte Fachwerte wie `Adresse` oder `Anschrift`.
 
+Mit v2.1 ist die Klasse `Name` hinzugekommmen, die eine _equalsSemantic_-Version für den semantischen Vergleich besitzt.
+Damit werden Namen, die unterschiedlich geschrieben werden, aber für denselben Namen stehen, als gleich angesehen (z.B. "Karlheinz" und "Karl-Heinz").
+Will man den exakten Vergleich, so gibt es die _equalsExact_-Methode.
+Die _equals_-Methode stützt sich in v3 auf die _equalsSemantic_-Version.
+Darauf sollte man sich aber nicht verlassen, da sich das in künftigen Versionen ändern kann.
+
 
 ==== rechnung
 

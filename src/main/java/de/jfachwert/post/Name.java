@@ -170,6 +170,12 @@ public class Name extends Text {
     /**
      * Hier werden Namen logisch (semantisch) verglichen. So werden Namen auch
      * als gleich angesehen, wenn sie mit oder ohne Umlaute geschrieben werden.
+     * <p>
+     * Braucht man einen noch "toleranteren" Vergleich, kann man auch auf
+     * die {@link #getDistanz(Text)}-Methode aus der Oberklasse zurueckgreifen
+     * und anhand der Distanz entscheiden, ob zwei Namen noch als gleich
+     * angesehen werden sollen.
+     * </p>
      *
      * @param other der zu vergleichende Name
      * @return true bei Gleichheit

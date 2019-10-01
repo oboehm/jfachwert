@@ -4,7 +4,13 @@
 
 [jfachwert.jar] ..> [validation-api.jar]
 
+[jfachwert.jar] ..> [jsr305.jar]
+
+[jfachwert.jar] ..> [money-api.jar]
+
 [commons-lang3.jar] #White
 [validation-api.jar] #White
+[jsr305.jar] #White
+[money-api.jar] #Lightgrey
 
 @enduml
