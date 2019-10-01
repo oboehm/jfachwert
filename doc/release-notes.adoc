@@ -7,6 +7,7 @@
 * viele Fachklassen sind jetzt Comparable
 * Unterstützung für Java 8 _und_ 11
 * GeldbetragFormatter ist jetzt nur noch für internen Gebrauch gedacht
+* Prozent-Klasse im math-Paket hinzugefügt
 * Name-Klasse um _equalsSemantic(..)_ ergänzt
 
 NOTE: Die _equals_-Methode in Name verwendet intern _equalsSemantic(..)_.
