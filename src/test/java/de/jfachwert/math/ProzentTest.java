@@ -18,8 +18,12 @@
 package de.jfachwert.math;
 
 import de.jfachwert.FachwertTest;
+import org.junit.Test;
 
 import java.math.BigDecimal;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 /**
  * Unit-Test fuer {@link Prozent}-Klasse.
@@ -36,6 +40,19 @@ public final class ProzentTest extends FachwertTest {
     @Override
     protected Prozent createFachwert() {
         return new Prozent(BigDecimal.TEN);
+    }
+
+    @Test
+    public void testOf() {
+        Prozent mwst = Prozent.of("19%");
+        assertEquals(Prozent.of(BigDecimal.valueOf(19)), mwst);
+    }
+
+    @Test
+    public void testNoDuplicate() {
+        Prozent one = Prozent.of("1");
+        Prozent sameOne = Prozent.of("1 %");
+        assertSame(one, sameOne);
     }
 
 }

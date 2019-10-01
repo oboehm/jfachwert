@@ -21,6 +21,7 @@ import de.jfachwert.Fachwert;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.WeakHashMap;
 
 /**
  * Die Klasse Prozent steht fuer den Hundersten Teil einer Zahl.
@@ -32,6 +33,17 @@ import java.util.Objects;
  */
 public class Prozent extends AbstractNumber implements Fachwert {
 
+    private static final WeakHashMap<BigDecimal, Prozent> WEAK_CACHE = new WeakHashMap<>();
+
+    /** Konstante fuer "0%". */
+    public static final Prozent ZERO = Prozent.of(BigDecimal.ZERO);
+
+    /** Konstante fuer "1%". */
+    public static final Prozent ONE = Prozent.of(BigDecimal.ONE);
+
+    /** Konstante fuer "10%". */
+    public static final Prozent TEN = Prozent.of(BigDecimal.TEN);
+
     private final BigDecimal wert;
 
     /**
@@ -40,7 +52,12 @@ public class Prozent extends AbstractNumber implements Fachwert {
      * @param wert Prozentwert, z.B. "10" fuer 10 %
      */
     public Prozent(String wert) {
-        this(new BigDecimal(wert));
+        this(toNumber(wert));
+    }
+
+    private static BigDecimal toNumber(String wert) {
+        String number = wert.split("%")[0].trim();
+        return new BigDecimal(number);
     }
 
     /**
@@ -59,6 +76,30 @@ public class Prozent extends AbstractNumber implements Fachwert {
      */
     public Prozent(BigDecimal wert) {
         this.wert = wert;
+    }
+
+    /**
+     * Die of-Methode liefert fuer dieselbe Zahl immer dasselbe Objekt zurueck.
+     * Diese Methode lohnt sich daher, wenn man immer denselben Prozent-Wert
+     * erzeugen will, um die Anzahl der Objekte gering zu halten.
+     *
+     * @param wert z.B. "19%"
+     * @return "19%" als Prozent-Objekt
+     */
+    public static Prozent of(String wert) {
+        return Prozent.of(toNumber(wert));
+    }
+
+    /**
+     * Die of-Methode liefert fuer dieselbe Zahl immer dasselbe Objekt zurueck.
+     * Diese Methode lohnt sich daher, wenn man immer denselben Prozent-Wert
+     * erzeugen will, um die Anzahl der Objekte gering zu halten.
+     *
+     * @param wert z.B. 19
+     * @return "19%" als Prozent-Objekt
+     */
+    public static Prozent of(BigDecimal wert) {
+        return WEAK_CACHE.computeIfAbsent(wert, Prozent::new);
     }
 
     /**
