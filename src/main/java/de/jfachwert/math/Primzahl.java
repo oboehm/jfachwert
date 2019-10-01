@@ -198,7 +198,7 @@ public class Primzahl extends Number implements Fachwert, Comparable<Primzahl> {
      *
      * @param other die andere Primzahl
      * @return Abstand zur anderen Primzahl
-     * @since 2.4
+     * @since 3.0
      */
     @Override
     public int compareTo(Primzahl other) {

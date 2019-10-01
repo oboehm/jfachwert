@@ -287,7 +287,7 @@ public class Text extends AbstractFachwert<String, Text> implements Comparable<T
      * @param other der andere Text
      * @return negtive Zahl, falls this &lt; other, 0 bei Gleichheit, ansonsten
      * positive Zahl.
-     * @since 2.4
+     * @since 3.0
      */
     @Override
     public int compareTo(Text other) {

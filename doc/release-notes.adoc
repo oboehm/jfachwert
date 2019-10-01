@@ -2,7 +2,7 @@
 
 
 
-== 2.4 (SNAPSHOT)
+== 3.0 (SNAPSHOT)
 
 * viele Fachklassen sind jetzt Comparable
 * Unterstützung für Java 8 _und_ 11

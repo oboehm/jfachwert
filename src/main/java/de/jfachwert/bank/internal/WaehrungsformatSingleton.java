@@ -32,7 +32,7 @@ import java.util.*;
  * Waehrungsformate zu erzeugen und das TCK unter Java 11 zu bestehen.
  *
  * @author oboehm
- * @since 2.4 (13.08.2019)
+ * @since 3.0 (13.08.2019)
  */
 public class WaehrungsformatSingleton implements MonetaryFormatsSingletonSpi {
 

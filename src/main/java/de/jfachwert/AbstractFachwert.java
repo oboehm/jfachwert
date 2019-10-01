@@ -115,7 +115,7 @@ public abstract class AbstractFachwert<T extends Serializable, S extends Abstrac
      * @param other der andere Fachwert
      * @return negtive Zahl, falls this &lt; other, 0 bei Gleichheit, ansonsten
      * positive Zahl.
-     * @since 2.4
+     * @since 3.0
      */
     @Override
     public int compareTo(@NotNull S other) {

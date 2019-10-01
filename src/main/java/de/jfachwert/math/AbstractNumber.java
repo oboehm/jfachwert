@@ -90,7 +90,7 @@ public abstract class AbstractNumber extends Number implements Comparable<Abstra
      *
      * @param other die andere Zahl
      * @return Abstand zur anderen Zahl
-     * @since 2.4
+     * @since 3.0
      */
     @Override
     public int compareTo(AbstractNumber other) {
