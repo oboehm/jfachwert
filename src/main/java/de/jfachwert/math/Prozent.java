@@ -29,6 +29,12 @@ import java.util.WeakHashMap;
  * Die Klasse Prozent steht fuer den Hundersten Teil einer Zahl.
  * Sie kann wie jede andere Zahl fuer Berechnungen eingesetzt werden,
  * weswegen sie auch von {@link java.lang.Number} abgeleitet ist.
+ * <p>
+ * Soweit moeglich und sinnvoll wurden die mathematischen Operationen
+ * von BigDecimal uebernommen. So gibt es fuer die Multiplikation eine
+ * {@link #multiply(BigDecimal)}-Methode. Auch gibt es Konstanten
+ * ZERO, ONE und TEN.
+ * </p>
  *
  * @author oboehm
  * @since 3.0 (01.10.2019)
@@ -118,8 +124,8 @@ public class Prozent extends AbstractNumber implements Fachwert {
     }
 
     /**
-     * Diese Methode liefert den Prozentwert als BigDecimal zurueck, mit dem
-     * dann weitergerechnet werden kann. D.h. 19% wird dann als '0.19'
+     * Diese Methode liefert den mathematischen Wert als BigDecimal zurueck,
+     * mit dem dann weitergerechnet werden kann. D.h. 19% wird dann als '0.19'
      * zurueckgegeben.
      *
      * @return die Zahl als {@link BigDecimal}
@@ -127,6 +133,26 @@ public class Prozent extends AbstractNumber implements Fachwert {
     @Override
     public BigDecimal toBigDecimal() {
         return this.wert.divide(BigDecimal.valueOf(100));
+    }
+
+    /**
+     * Fuehrt eine einfache Prozent-Rechnung aus. D.h. '10% * 42 = 4.2'.
+     *
+     * @param x Multiplikant
+     * @return x * Prozentwert / 100
+     */
+    public BigDecimal multiply(BigDecimal x) {
+        return x.multiply(toBigDecimal());
+    }
+
+    /**
+     * Fuehrt eine einfache Prozent-Rechnung aus. D.h. '10% * 42 = 4.2'.
+     *
+     * @param x Multiplikant
+     * @return x * Prozentwert / 100
+     */
+    public BigDecimal multiply(long x) {
+        return multiply(BigDecimal.valueOf(x));
     }
 
     @Override

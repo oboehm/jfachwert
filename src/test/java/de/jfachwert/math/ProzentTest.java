@@ -75,4 +75,10 @@ public final class ProzentTest extends FachwertTest {
         assertEquals(0.1, Prozent.TEN.doubleValue(), 0.001);
     }
 
+    @Test
+    public void testMultiply() {
+        Prozent mwst = Prozent.of("19%");
+        assertEquals(BigDecimal.valueOf(0.38), mwst.multiply(2));
+    }
+
 }
