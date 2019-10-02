@@ -55,4 +55,24 @@ public final class ProzentTest extends FachwertTest {
         assertSame(one, sameOne);
     }
 
+    @Test
+    public void testToBigDecimal() {
+        assertEquals(BigDecimal.ONE, Prozent.of(100).toBigDecimal());
+    }
+
+    @Test
+    public void testIntValue() {
+        assertEquals(2, Prozent.of("200%").intValue());
+    }
+
+    @Test
+    public void testLongValue() {
+        assertEquals(3L, Prozent.of("300%").longValue());
+    }
+
+    @Test
+    public void testDoubleValue() {
+        assertEquals(0.1, Prozent.TEN.doubleValue(), 0.001);
+    }
+
 }

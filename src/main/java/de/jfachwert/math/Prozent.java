@@ -17,6 +17,8 @@
  */
 package de.jfachwert.math;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import de.jfachwert.Fachwert;
 
 import java.math.BigDecimal;
@@ -31,6 +33,7 @@ import java.util.WeakHashMap;
  * @author oboehm
  * @since 3.0 (01.10.2019)
  */
+@JsonSerialize(using = ToStringSerializer.class)
 public class Prozent extends AbstractNumber implements Fachwert {
 
     private static final WeakHashMap<BigDecimal, Prozent> WEAK_CACHE = new WeakHashMap<>();
@@ -95,6 +98,18 @@ public class Prozent extends AbstractNumber implements Fachwert {
      * Diese Methode lohnt sich daher, wenn man immer denselben Prozent-Wert
      * erzeugen will, um die Anzahl der Objekte gering zu halten.
      *
+     * @param wert z.B. "19%"
+     * @return "19%" als Prozent-Objekt
+     */
+    public static Prozent of(long wert) {
+        return Prozent.of(BigDecimal.valueOf(wert));
+    }
+
+    /**
+     * Die of-Methode liefert fuer dieselbe Zahl immer dasselbe Objekt zurueck.
+     * Diese Methode lohnt sich daher, wenn man immer denselben Prozent-Wert
+     * erzeugen will, um die Anzahl der Objekte gering zu halten.
+     *
      * @param wert z.B. 19
      * @return "19%" als Prozent-Objekt
      */
@@ -103,13 +118,15 @@ public class Prozent extends AbstractNumber implements Fachwert {
     }
 
     /**
-     * Diese Methode liefert den Prozentwert als BigDecimal zurueck.
+     * Diese Methode liefert den Prozentwert als BigDecimal zurueck, mit dem
+     * dann weitergerechnet werden kann. D.h. 19% wird dann als '0.19'
+     * zurueckgegeben.
      *
      * @return die Zahl als {@link BigDecimal}
      */
     @Override
     public BigDecimal toBigDecimal() {
-        return this.wert;
+        return this.wert.divide(BigDecimal.valueOf(100));
     }
 
     @Override
