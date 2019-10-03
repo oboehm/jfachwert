@@ -171,4 +171,10 @@ public final class BruchTest extends FachwertTest {
         assertEquals(expected.doubleValue(), half.doubleValue(), 0.001);
     }
 
+    @Test
+    public void testToStringUngekuerzt() {
+        String achtZehntel = "8/10";
+        assertEquals(achtZehntel, Bruch.of(achtZehntel).toString());
+    }
+
 }
