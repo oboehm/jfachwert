@@ -1,18 +1,8 @@
 = Release-Notes
 
+Mit v3.0 wurden die Release-Notes nach file://../CHANGELOG.md[CHANGELOG] verschoben.
+Aus Bequemlichkeitsgründen sind hier _noch_ die Release-Notes von 2.x und älter aufgeführt.
 
-
-== 3.0 (SNAPSHOT)
-
-* viele Fachklassen sind jetzt Comparable
-* Unterstützung für Java 8 _und_ 11
-* GeldbetragFormatter ist jetzt nur noch für internen Gebrauch gedacht
-* Prozent-Klasse im math-Paket hinzugefügt
-* Name-Klasse um _equalsSemantic(..)_ ergänzt
-
-NOTE: Die _equals_-Methode in Name verwendet intern _equalsSemantic(..)_.
-Dies kann sich in künftigen Versionen ändern.
-Von daher sollte man statt _equals_(..) besser _equalsSemantic(..)_ oder _equalsExact(..)_ verwenden, je nachdem, welche Variante gewünscht ist.
 
 
 == 2.3 (28-Mai-2019)

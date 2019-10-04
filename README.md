@@ -85,7 +85,7 @@ koennen - deswegen sind die Klassen auch nicht 'final', sondern koennen erweiter
 
 # Weitere Infos
 
-* [Release Notes](doc/release-notes.adoc)
+* [Release Notes](CHANGELOG.md)
 * Projekt-Seite: http://www.jfachwert.de/
 * Architektur-Dokumentation: http://www.jfachwert.de/generated-docs/de/index.html
 * Entwickler-Dokumentation: [doc](doc/README.adoc)
