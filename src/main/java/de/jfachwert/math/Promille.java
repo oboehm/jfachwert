@@ -17,6 +17,8 @@
  */
 package de.jfachwert.math;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.math.BigDecimal;
 import java.util.WeakHashMap;
 
@@ -31,6 +33,7 @@ import java.util.WeakHashMap;
 public class Promille extends Prozent {
 
     private static final WeakHashMap<BigDecimal, Promille> WEAK_CACHE = new WeakHashMap<>();
+    private static final char PROMILLE_ZEICHEN = '\u2030';
 
     /** Konstante fuer "0 Promille". */
     public static final Promille ZERO = Promille.of(BigDecimal.ZERO);
@@ -47,7 +50,7 @@ public class Promille extends Prozent {
      * @param wert Promille-Wert, z.B. "10" fuer 10 °/oo
      */
     public Promille(String wert) {
-        super(wert);
+        this(toNumber(wert));
     }
 
     /**
@@ -80,8 +83,8 @@ public class Promille extends Prozent {
         return Promille.of(toNumber(wert));
     }
 
-    private static BigDecimal toNumber(String wert) {
-        String number = wert.split(" ")[0].trim();
+    private static BigDecimal toNumber(String s) {
+        String number = StringUtils.replaceChars(s, "°/o" + PROMILLE_ZEICHEN, "").trim();
         return new BigDecimal(number);
     }
 
@@ -107,6 +110,23 @@ public class Promille extends Prozent {
      */
     public static Promille of(BigDecimal wert) {
         return WEAK_CACHE.computeIfAbsent(wert, Promille::new);
+    }
+
+    /**
+     * Diese Methode liefert den mathematischen Wert als BigDecimal zurueck,
+     * mit dem dann weitergerechnet werden kann. D.h. 1 Promille wird dann als
+     * '0.001' zurueckgegeben.
+     *
+     * @return die Zahl als {@link BigDecimal}
+     */
+    @Override
+    public BigDecimal toBigDecimal() {
+        return getWert().divide(BigDecimal.valueOf(1000));
+    }
+
+    @Override
+    public String toString() {
+        return this.getWert() + Character.toString(PROMILLE_ZEICHEN);
     }
 
 }

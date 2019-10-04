@@ -18,10 +18,7 @@
 package de.jfachwert;
 
 import de.jfachwert.bank.*;
-import de.jfachwert.math.Bruch;
-import de.jfachwert.math.Nummer;
-import de.jfachwert.math.PackedDecimal;
-import de.jfachwert.math.Prozent;
+import de.jfachwert.math.*;
 import de.jfachwert.med.BSNR;
 import de.jfachwert.med.IK;
 import de.jfachwert.med.LANR;
@@ -118,6 +115,7 @@ public class FachwertFactory {
         INSTANCE.register(BSNR.class);
         INSTANCE.register(Name.class);
         INSTANCE.register(Prozent.class);
+        INSTANCE.register(Promille.class);
     }
 
     private FachwertFactory() {

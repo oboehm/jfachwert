@@ -44,41 +44,41 @@ public final class PromilleTest extends FachwertTest {
 
     @Test
     public void testOf() {
-        Prozent mwst = Prozent.of("19%");
-        assertEquals(Prozent.of(BigDecimal.valueOf(19)), mwst);
+        Promille p = Promille.of("2 °/oo");
+        assertEquals(Promille.of(BigDecimal.valueOf(2)), p);
     }
 
     @Test
     public void testNoDuplicate() {
-        Prozent one = Prozent.of("1");
-        Prozent sameOne = Prozent.of("1 %");
+        Promille one = Promille.of("1");
+        Promille sameOne = Promille.of("1 °/oo");
         assertSame(one, sameOne);
     }
 
     @Test
     public void testToBigDecimal() {
-        assertEquals(BigDecimal.ONE, Prozent.of(100).toBigDecimal());
+        assertEquals(BigDecimal.ONE, Promille.of(1000).toBigDecimal());
     }
 
     @Test
     public void testIntValue() {
-        assertEquals(2, Prozent.of("200%").intValue());
+        assertEquals(2, Promille.of("2000 °/oo").intValue());
     }
 
     @Test
     public void testLongValue() {
-        assertEquals(3L, Prozent.of("300%").longValue());
+        assertEquals(3L, Promille.of("3000 \u2030").longValue());
     }
 
     @Test
     public void testDoubleValue() {
-        assertEquals(0.1, Prozent.TEN.doubleValue(), 0.001);
+        assertEquals(0.01, Promille.TEN.doubleValue(), 0.0001);
     }
 
     @Test
     public void testMultiply() {
-        Prozent mwst = Prozent.of("19%");
-        assertEquals(BigDecimal.valueOf(0.38), mwst.multiply(2));
+        Promille p = Promille.of(2);
+        assertEquals(BigDecimal.valueOf(0.006), p.multiply(3));
     }
 
 }

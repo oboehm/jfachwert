@@ -124,6 +124,15 @@ public class Prozent extends AbstractNumber implements Fachwert {
     }
 
     /**
+     * Liefert den eigentlichen Prozentwert, der vor dem Prozentzeichen steht.
+     *
+     * @return z.B. 19 fuer 19% MwSt.
+     */
+    public BigDecimal getWert() {
+        return this.wert;
+    }
+
+    /**
      * Diese Methode liefert den mathematischen Wert als BigDecimal zurueck,
      * mit dem dann weitergerechnet werden kann. D.h. 19% wird dann als '0.19'
      * zurueckgegeben.
