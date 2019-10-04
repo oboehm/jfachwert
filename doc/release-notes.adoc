@@ -1,9 +1,9 @@
 = Release-Notes
 
-Mit v3.0 wurden die Release-Notes nach file://../CHANGELOG.md[CHANGELOG] verschoben.
+Mit v3.0 wurden die Release-Notes nach link:../CHANGELOG.md[CHANGELOG] verschoben.
 Aus Bequemlichkeitsgründen sind hier _noch_ die Release-Notes von 2.x und älter aufgeführt.
 
-
+---
 
 == 2.3 (28-Mai-2019)
 
