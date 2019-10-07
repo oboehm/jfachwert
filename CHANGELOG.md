@@ -15,7 +15,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Name-Klasse um _equalsSemantic(..)_ ergänzt
 
 ### Changed
-- Die _equals_-Methode in Name verwendet intern _equalsSemantic(..)_.
+- Die _equals_-Methode in _Name_ verwendet intern _equalsSemantic(..)_.
   Dies kann sich in künftigen Versionen ändern.
   Von daher sollte man statt _equals_(..) besser _equalsSemantic(..)_ oder _equalsExact(..)_ verwenden, je nachdem, welche Variante gewünscht ist.
 

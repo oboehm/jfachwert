@@ -1,0 +1,25 @@
+@startuml
+
+package "math" {
+
+    class AbstractNumber
+    class Nummer
+    class PackedDecimal
+    class Bruch
+    class Primzahl
+    class Promille
+    class Prozent
+
+}
+
+interface javax.lang.Number #white
+
+javax.lang.Number <|-- AbstractNumber
+javax.lang.Number <|-- Primzahl
+AbstractNumber <|-- Nummer
+AbstractNumber <|-- PackedDecimal
+AbstractNumber <|-- Bruch
+AbstractNumber <|-- Prozent
+Prozent <|-- Promille
+
+@enduml

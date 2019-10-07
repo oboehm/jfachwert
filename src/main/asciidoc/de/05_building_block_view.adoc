@@ -112,6 +112,17 @@ Das net-Package ist mit v0.4 hinzugekommen.
 Hier befinden sich Begriffe aus dem Internet (z.B. `EMailAdresse`), aber auch Klassen, die im weitesten Sinn unter Vernetzung (z.B. `Telefonnummer`) eingeordnet werden können.
 
 
+==== math
+
+["plantuml", "package-math", "svg"]
+------------------------------------------------
+include::../images/package-math.puml[]
+------------------------------------------------
+
+Mit v0.6 kam das math-Package hinzu.
+Es enthält einige Klassen zum Rechnen, die vorwiegend von `java.lang.Number` abgeleitet sind.
+
+
 ==== util
 
 ["plantuml", "package-util", "svg"]
