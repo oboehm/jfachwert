@@ -22,8 +22,9 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.endsWith;
+import static org.junit.Assert.*;
 
 /**
  * Unit-Test fuer {@link Prozent}-Klasse.
@@ -48,6 +49,11 @@ public final class ProzentTest extends FachwertTest {
         assertEquals(Prozent.of(BigDecimal.valueOf(19)), mwst);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testOfInvalid() {
+        Prozent.of("x");
+    }
+
     @Test
     public void testNoDuplicate() {
         Prozent one = Prozent.of("1");
@@ -62,7 +68,7 @@ public final class ProzentTest extends FachwertTest {
 
     @Test
     public void testIntValue() {
-        assertEquals(2, Prozent.of("200%").intValue());
+        assertEquals(2, new Prozent(200).intValue());
     }
 
     @Test
@@ -79,6 +85,13 @@ public final class ProzentTest extends FachwertTest {
     public void testMultiply() {
         Prozent mwst = Prozent.of("19%");
         assertEquals(BigDecimal.valueOf(0.38), mwst.multiply(2));
+    }
+
+    @Test
+    public void testToString() {
+        String s = Prozent.of("30 %").toString();
+        assertThat(s, containsString("30"));
+        assertThat(s, endsWith("%"));
     }
 
 }

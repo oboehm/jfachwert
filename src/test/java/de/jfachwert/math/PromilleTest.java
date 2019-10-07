@@ -48,6 +48,11 @@ public final class PromilleTest extends FachwertTest {
         assertEquals(Promille.of(BigDecimal.valueOf(2)), p);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testOfInvalid() {
+        Prozent.of("1.2.3");
+    }
+
     @Test
     public void testNoDuplicate() {
         Promille one = Promille.of("1");
@@ -57,7 +62,7 @@ public final class PromilleTest extends FachwertTest {
 
     @Test
     public void testToBigDecimal() {
-        assertEquals(BigDecimal.ONE, Promille.of(1000).toBigDecimal());
+        assertEquals(BigDecimal.ONE, new Promille(1000).toBigDecimal());
     }
 
     @Test
