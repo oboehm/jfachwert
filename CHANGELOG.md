@@ -6,7 +6,7 @@ Es ersetzt die **Release Notes** aus den Anfangstagen von jFachwert und orientie
 genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
-## [Unreleased]
+## [3.0] - 2019-10-09
 ### Added
 - viele Fachklassen sind jetzt Comparable
 - Unterstützung für Java 8 _und_ 11
