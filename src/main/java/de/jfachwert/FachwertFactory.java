@@ -29,6 +29,7 @@ import de.jfachwert.net.Telefonnummer;
 import de.jfachwert.post.*;
 import de.jfachwert.pruefung.exception.LocalizedValidationException;
 import de.jfachwert.rechnung.*;
+import de.jfachwert.steuer.Mehrwertsteuer;
 import de.jfachwert.steuer.SteuerIdNr;
 import de.jfachwert.steuer.Steuernummer;
 import de.jfachwert.steuer.UStIdNr;
@@ -116,6 +117,7 @@ public class FachwertFactory {
         INSTANCE.register(Name.class);
         INSTANCE.register(Prozent.class);
         INSTANCE.register(Promille.class);
+        INSTANCE.register(Mehrwertsteuer.class);
     }
 
     private FachwertFactory() {
