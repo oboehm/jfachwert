@@ -21,6 +21,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
 import de.jfachwert.Fachwert
 import de.jfachwert.math.Prozent
+import java.util.*
+import java.util.function.Function
 
 /**
  * Die Mehrwertsteuer wird auf den normalen (Netto-)Preis aufgeschlagen.
@@ -31,6 +33,17 @@ import de.jfachwert.math.Prozent
 open class Mehrwertsteuer (val prozent: Prozent) : Fachwert {
 
     constructor(satz: String) : this(Prozent.of(satz))
+
+    companion object {
+
+        private val WEAK_CACHE = WeakHashMap<Prozent, Mehrwertsteuer>()
+
+        @JvmStatic
+        fun of(satz: Prozent): Mehrwertsteuer {
+            return WEAK_CACHE.computeIfAbsent(satz, Function(::Mehrwertsteuer))
+        }
+
+    }
 
     override fun toString(): String {
         return prozent.toString()

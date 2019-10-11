@@ -22,6 +22,7 @@ import de.jfachwert.math.Prozent;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 /**
  * Unit-Test fuer [Zins]-Klasse.
@@ -51,6 +52,15 @@ public final class MehrwertsteuerTest extends FachwertTest {
     public void testToString() {
         Prozent p = Prozent.of("7%");
         assertEquals(p.toString(), new Mehrwertsteuer(p).toString());
+    }
+
+    /**
+     * Die statische of-Methode sollte keine Dupliakte zurueckliefern.
+     */
+    @Test
+    public void testOf() {
+        Prozent p = Prozent.of("19%");
+        assertSame(Mehrwertsteuer.of(p), Mehrwertsteuer.of(p));
     }
 
 }

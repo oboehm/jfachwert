@@ -72,10 +72,10 @@ public final class TextTest extends FachwertTest {
     }
 
     /**
-     * Die statische to-Methode sollte keine Dupliakte zurueckliefern.
+     * Die statische of-Methode sollte keine Dupliakte zurueckliefern.
      */
     @Test
-    public void testTo() {
+    public void testOf() {
         assertSame(Text.of("hello"), Text.of("hello"));
     }
 
