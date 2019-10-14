@@ -32,7 +32,7 @@ import static org.junit.Assert.assertSame;
  */
 public final class MehrwertsteuerTest extends FachwertTest {
 
-    private final Mehrwertsteuer mehrwertsteuer = Mehrwertsteuer.of(Prozent.of("19%"));
+    private final Mehrwertsteuer mehrwertsteuer = Mehrwertsteuer.of("19%");
 
     /**
      * Zum Testen nehmen wir den deutschen Mehrwertsteuersatz von 19%.

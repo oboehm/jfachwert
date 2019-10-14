@@ -40,6 +40,28 @@ open class Mehrwertsteuer (val prozent: Prozent) : Fachwert {
 
         private val WEAK_CACHE = WeakHashMap<Prozent, Mehrwertsteuer>()
 
+
+        /**
+         * Die of-Methode liefert fuer denselben Prozentwert immer dasselbe
+         * Objekt zurueck. Bevorzugt sollte man diese Methode verwenden, um
+         * die Anzahl der Objekte gering zu halten.
+         *
+         * @param satz z.B. "19%"
+         * @return "19%" als Mehrwertsteuer-Objekt
+         */
+        @JvmStatic
+        fun of(satz: String): Mehrwertsteuer {
+            return of(Prozent.of(satz))
+        }
+
+        /**
+         * Die of-Methode liefert fuer denselben Prozentwert immer dasselbe
+         * Objekt zurueck. Bevorzugt sollte man diese Methode verwenden, um
+         * die Anzahl der Objekte gering zu halten.
+         *
+         * @param satz als Prozentwert, z.B. "19%"
+         * @return "19%" als Mehrwertsteuer-Objekt
+         */
         @JvmStatic
         fun of(satz: Prozent): Mehrwertsteuer {
             return WEAK_CACHE.computeIfAbsent(satz, Function(::Mehrwertsteuer))
