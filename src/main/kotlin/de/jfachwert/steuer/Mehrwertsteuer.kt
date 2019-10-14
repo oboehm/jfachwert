@@ -21,8 +21,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
 import de.jfachwert.Fachwert
 import de.jfachwert.math.Prozent
+import java.math.BigDecimal
 import java.util.*
 import java.util.function.Function
+import javax.money.MonetaryAmount
 
 /**
  * Die Mehrwertsteuer wird auf den normalen (Netto-)Preis aufgeschlagen.
@@ -43,6 +45,44 @@ open class Mehrwertsteuer (val prozent: Prozent) : Fachwert {
             return WEAK_CACHE.computeIfAbsent(satz, Function(::Mehrwertsteuer))
         }
 
+    }
+
+    /**
+     * Hier wird die Mehrwertsteuer auf den Netto-Betrag aufgeschlagen.
+     *
+     * @return Brutto-Betrag
+     */
+    fun nettoZuBrutto(netto: MonetaryAmount): MonetaryAmount {
+        return netto.add(betragVonNetto(netto))
+    }
+
+    /**
+     * Hier wird die Mehrwertsteuer vom Brutto-Betrag abgezogen.
+     *
+     * @return Netto-Betrag
+     */
+    fun bruttoZuNetto(brutto: MonetaryAmount): MonetaryAmount {
+        return brutto.divide(BigDecimal.ONE.add(prozent.toBigDecimal()))
+    }
+
+    /**
+     * Errechnet aus dem Brutto-Betrag den entsprechenden
+     * Mehrwertsteuer-Betrag.
+     *
+     * @return Mehrwertsteuer-Betrag
+     */
+    fun betragVonBrutto(brutto: MonetaryAmount): MonetaryAmount {
+        return brutto.subtract(bruttoZuNetto(brutto))
+    }
+
+    /**
+     * Errechnet aus dem Netto-Betrag den entsprechenden
+     * Mehrwertsteuer-Betrag.
+     *
+     * @return Mehrwertsteuer-Betrag
+     */
+    fun betragVonNetto(netto: MonetaryAmount): MonetaryAmount {
+         return netto.multiply(prozent)
     }
 
     override fun toString(): String {

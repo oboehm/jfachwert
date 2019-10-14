@@ -18,6 +18,7 @@
 package de.jfachwert.steuer;
 
 import de.jfachwert.FachwertTest;
+import de.jfachwert.bank.Geldbetrag;
 import de.jfachwert.math.Prozent;
 import org.junit.Test;
 
@@ -30,6 +31,8 @@ import static org.junit.Assert.assertSame;
  * @author oboehm
  */
 public final class MehrwertsteuerTest extends FachwertTest {
+
+    private final Mehrwertsteuer mehrwertsteuer = Mehrwertsteuer.of(Prozent.of("19%"));
 
     /**
      * Zum Testen nehmen wir den deutschen Mehrwertsteuersatz von 19%.
@@ -61,6 +64,30 @@ public final class MehrwertsteuerTest extends FachwertTest {
     public void testOf() {
         Prozent p = Prozent.of("19%");
         assertSame(Mehrwertsteuer.of(p), Mehrwertsteuer.of(p));
+    }
+
+    @Test
+    public void testNettoZuBrutto() {
+        Geldbetrag netto = Geldbetrag.of(10);
+        assertEquals(Geldbetrag.of(11.90), mehrwertsteuer.nettoZuBrutto(netto));
+    }
+
+    @Test
+    public void testBruttoZuNetto() {
+        Geldbetrag brutto = Geldbetrag.of(11.90);
+        assertEquals(Geldbetrag.of(10), mehrwertsteuer.bruttoZuNetto(brutto));
+    }
+
+    @Test
+    public void testBetragVonNetto() {
+        Geldbetrag netto = Geldbetrag.of(10);
+        assertEquals(Geldbetrag.of(1.90), mehrwertsteuer.betragVonNetto(netto));
+    }
+
+    @Test
+    public void testBetragVonBrutto() {
+        Geldbetrag brutto = Geldbetrag.of(11.90);
+        assertEquals(Geldbetrag.of(1.90), mehrwertsteuer.betragVonBrutto(brutto));
     }
 
 }
