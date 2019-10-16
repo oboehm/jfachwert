@@ -24,6 +24,8 @@ import de.jfachwert.Fachwert;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.WeakHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Die Klasse Prozent steht fuer den Hundersten Teil einer Zahl.
@@ -42,6 +44,7 @@ import java.util.WeakHashMap;
 @JsonSerialize(using = ToStringSerializer.class)
 public class Prozent extends AbstractNumber implements Fachwert {
 
+    private static final Logger LOG = Logger.getLogger(Prozent.class.getName());
     private static final WeakHashMap<BigDecimal, Prozent> WEAK_CACHE = new WeakHashMap<>();
 
     /** Konstante fuer "0%". */
@@ -66,7 +69,12 @@ public class Prozent extends AbstractNumber implements Fachwert {
 
     private static BigDecimal toNumber(String wert) {
         String number = wert.split("%")[0].trim();
-        return new BigDecimal(number);
+        try {
+            return new BigDecimal(number);
+        } catch (NumberFormatException ex) {
+            LOG.log(Level.FINE, number + " is not a normal number", ex);
+            return new BigDecimal(number.replace(',', '.'));
+        }
     }
 
     /**

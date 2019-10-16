@@ -22,17 +22,18 @@ import de.jfachwert.bank.Geldbetrag;
 import de.jfachwert.math.Prozent;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.lessThan;
+import static org.junit.Assert.*;
 
 /**
- * Unit-Test fuer [Zins]-Klasse.
+ * Unit-Test fuer [Mehrwertsteuer]-Klasse.
  *
  * @author oboehm
  */
 public final class MehrwertsteuerTest extends FachwertTest {
 
-    private final Mehrwertsteuer mehrwertsteuer = Mehrwertsteuer.of("19%");
+    private final Mehrwertsteuer mehrwertsteuer = Mehrwertsteuer.DE_NORMAL;
 
     /**
      * Zum Testen nehmen wir den deutschen Mehrwertsteuersatz von 19%.
@@ -88,6 +89,12 @@ public final class MehrwertsteuerTest extends FachwertTest {
     public void testBetragVonBrutto() {
         Geldbetrag brutto = Geldbetrag.of(11.90);
         assertEquals(Geldbetrag.of(1.90), mehrwertsteuer.betragVonBrutto(brutto));
+    }
+
+    @Test
+    public void testCompareTo() {
+        assertThat(Mehrwertsteuer.CH_NORMAL.compareTo(Mehrwertsteuer.CH_REDUZIERT), greaterThan(0));
+        assertThat(Mehrwertsteuer.CH_SONDER.compareTo(Mehrwertsteuer.CH_NORMAL), lessThan(0));
     }
 
 }

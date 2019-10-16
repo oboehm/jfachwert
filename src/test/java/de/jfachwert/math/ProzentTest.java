@@ -94,4 +94,9 @@ public final class ProzentTest extends FachwertTest {
         assertThat(s, endsWith("%"));
     }
 
+    @Test
+    public void testToNumber() {
+        assertEquals(Prozent.of("1.2%"), Prozent.of("1,2%"));
+    }
+
 }

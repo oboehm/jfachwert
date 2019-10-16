@@ -32,7 +32,7 @@ import javax.money.MonetaryAmount
  * den ermaessigten Steuersatz von 7%.
  */
 @JsonSerialize(using = ToStringSerializer::class)
-open class Mehrwertsteuer (val prozent: Prozent) : Fachwert {
+open class Mehrwertsteuer (val prozent: Prozent) : Fachwert, Comparable<Mehrwertsteuer> {
 
     constructor(satz: String) : this(Prozent.of(satz))
 
@@ -40,6 +40,25 @@ open class Mehrwertsteuer (val prozent: Prozent) : Fachwert {
 
         private val WEAK_CACHE = WeakHashMap<Prozent, Mehrwertsteuer>()
 
+        /** Standard-Mehrwertsteuersatz in Deutschland. */
+        @JvmField
+        val DE_NORMAL = of("19%")
+
+        /** Ermaessigter Mehrwertsteuersatz in Deutschland. */
+        @JvmField
+        val DE_REDUZIERT = of("7%")
+
+        /** Standard-Mehrwertsteuersatz in der Schweiz. */
+        @JvmField
+        val CH_NORMAL = of("7.7%")
+
+        /** Ermaessigter Mehrwertsteuersatz in der Schweiz. */
+        @JvmField
+        val CH_REDUZIERT = of("2.5%")
+
+        /** Sonder-Mehrwertsteuersatz in der Schweiz (fuer Beherbergungsdienstleistungen). */
+        @JvmField
+        val CH_SONDER = of("3.7%")
 
         /**
          * Die of-Methode liefert fuer denselben Prozentwert immer dasselbe
@@ -105,6 +124,15 @@ open class Mehrwertsteuer (val prozent: Prozent) : Fachwert {
      */
     fun betragVonNetto(netto: MonetaryAmount): MonetaryAmount {
          return netto.multiply(prozent)
+    }
+
+    /**
+     * Vergleicht zwei Mehrwertsteuersaetze. Wenn [other] ein kleinerer
+     * Mehrwertsteuersatz ist, wird eine positive Zahl zurueckgegeben.
+     * Bei Gleichheit wird 0 zurueckgegeben, ansonsten eine negative Zahl.
+     */
+    override fun compareTo(other: Mehrwertsteuer): Int {
+        return prozent.compareTo(other.prozent)
     }
 
     override fun toString(): String {
