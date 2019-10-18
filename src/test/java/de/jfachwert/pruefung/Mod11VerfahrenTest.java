@@ -78,4 +78,13 @@ public final class Mod11VerfahrenTest extends AbstractPruefzifferVerfahrenTest<S
         MOD11.validate("12345678001");
     }
 
+    /**
+     * Auch bei Zahlen, die nicht 11 Stellen lang sind, soll eine
+     * {@link ValidationException} kommen.
+     */
+    @Test(expected = ValidationException.class)
+    public void testValidateTooShort() {
+        MOD11.validate("4711");
+    }
+
 }

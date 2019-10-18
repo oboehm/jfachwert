@@ -18,6 +18,8 @@
 package de.jfachwert.pruefung;
 
 import de.jfachwert.PruefzifferVerfahren;
+import de.jfachwert.pruefung.exception.LocalizedValidationException;
+import de.jfachwert.pruefung.exception.PruefzifferException;
 
 /**
  * Das Modulo-11-Verfahren wird fuer die 11-stellige Steuer-Identifikationsnummer
@@ -93,6 +95,26 @@ public class Mod11Verfahren implements PruefzifferVerfahren<String> {
             pruefziffer = 0;
         }
         return Integer.toString(pruefziffer);
+    }
+
+    /**
+     * Validiert den uebergebenen Wert. Falls dieser nicht stimmt, wird eine
+     * {@link javax.validation.ValidationException} geworfen, auch bei Werten,
+     * die zu kurz oder zu lang sind.
+     *
+     * @param wert zu ueberpruefender Wert
+     * @return den ueberprueften Wert (zur Weiterverarbeitung)
+     */
+    @Override
+    public String validate(String wert) {
+        try {
+            if (!isValid(wert)) {
+                throw new PruefzifferException(wert, berechnePruefziffer(wert), getPruefziffer(wert));
+            }
+            return wert;
+        } catch (IllegalArgumentException ex) {
+            throw new LocalizedValidationException(ex.getMessage(), ex);
+        }
     }
 
 }

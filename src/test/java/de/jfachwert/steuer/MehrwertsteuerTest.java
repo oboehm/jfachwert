@@ -67,6 +67,12 @@ public final class MehrwertsteuerTest extends FachwertTest {
         assertSame(Mehrwertsteuer.of(p), Mehrwertsteuer.of(p));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testMehrwertsteuerNull() {
+        Prozent nullProzent = null;
+        new Mehrwertsteuer(nullProzent);
+    }
+
     @Test
     public void testNettoZuBrutto() {
         Geldbetrag netto = Geldbetrag.of(10);
