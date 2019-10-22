@@ -20,6 +20,7 @@ package de.jfachwert;
 import de.jfachwert.bank.BIC;
 import de.jfachwert.bank.IBAN;
 import de.jfachwert.math.Primzahl;
+import de.jfachwert.steuer.UStIdNr;
 import org.junit.Test;
 import patterntesting.runtime.monitor.ClasspathMonitor;
 
@@ -72,7 +73,7 @@ public class FachwertFactoryTest {
     }
 
     /**
-     * Test-Methode fuer {@link FachwertFactory#validate(Class, Object...)}.
+     * Test-Methode fuer {@link FachwertFactory#validate(Class, java.io.Serializable...)}.
      * Die Test-BIC stammt von der Raiffeisenbank Kitzbuehel.
      */
     @Test
@@ -81,7 +82,17 @@ public class FachwertFactoryTest {
     }
 
     /**
-     * Test-Methode fuer {@link FachwertFactory#validate(String, Object...)}.
+     * Mit Umstellung auf Kotlin ist die validate-Methode der einzelnen
+     * Klassen in das Companion-Objekt gewandert. UStIdNr war dabei die
+     * erste Klasse, die von Java auf Kotlin umgestellt wurde.
+     */
+    @Test(expected = ValidationException.class)
+    public void testValidateCompanion() {
+        FACTORY.validate(UStIdNr.class, "DE136695970");
+    }
+
+    /**
+     * Test-Methode fuer {@link FachwertFactory#validate(String, java.io.Serializable...)}.
      */
     @Test
     public void testValidateString() {
@@ -99,7 +110,7 @@ public class FachwertFactoryTest {
     }
     
     /**
-     * Test-Methode fuer {@link FachwertFactory#validate(Class, Object...)}.
+     * Test-Methode fuer {@link FachwertFactory#validate(Class, java.io.Serializable...)}.
      */
     @Test(expected = ValidationException.class)
     public void testValidateWithFailure() {

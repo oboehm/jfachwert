@@ -263,17 +263,34 @@ public class FachwertFactory {
 
     private static void callValidate(Class<? extends Fachwert> clazz, Serializable[] args) {
         try {
+            Object companion = getCompanionOf(clazz);
+            callValidate(companion, args, companion.getClass());
+        } catch (ReflectiveOperationException ex) {
+            LOG.log(Level.FINE, "Cannot use companion of " + clazz, ex);
+            try {
+                callValidate(null, args, clazz);
+            } catch (ReflectiveOperationException rex) {
+                LOG.log(Level.FINE, "Cannot call validate method of " + clazz, rex);
+            }
+        }
+    }
+
+    private static void callValidate(Object obj, Serializable[] args, Class<?> clazz) throws ReflectiveOperationException{
+        try {
             Class[] argTypes = toTypes(args);
             Method method = clazz.getMethod("validate", argTypes);
-            method.invoke(null, args);
+            method.invoke(obj, args);
         } catch (InvocationTargetException ex) {
             LOG.log(Level.FINE, "Call of validate method of " + clazz + "failed:", ex);
             if (ex.getTargetException() instanceof ValidationException) {
                 throw (ValidationException) ex.getTargetException();
             }
-        } catch (ReflectiveOperationException ex) {
-            LOG.log(Level.FINE, "Cannot call validate method of " + clazz, ex);
         }
+    }
+
+    private static Object getCompanionOf(Class<? extends Fachwert> clazz) throws ReflectiveOperationException {
+        Field companionField = clazz.getField("Companion");
+        return companionField.get(null);
     }
 
     private Class<? extends Fachwert> getClassFor(String name) {

@@ -21,6 +21,7 @@ import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
 import org.junit.Test;
 
+import javax.validation.ValidationException;
 import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
@@ -62,6 +63,15 @@ public final class UStIdNrTest extends AbstractFachwertTest<String, Text> {
     @Test(expected = IllegalArgumentException.class)
     public void testUStIdNrInvalid() {
         UStIdNr.of("DE136695970");
+    }
+
+    /**
+     * Aehnlicher Test wie vorhin, nur wird hier direkt die validate-Methode
+     * aufgerufen.
+     */
+    @Test(expected = ValidationException.class)
+    public void testValidate() {
+        UStIdNr.Companion.validate("DE136695970");
     }
 
     /**
