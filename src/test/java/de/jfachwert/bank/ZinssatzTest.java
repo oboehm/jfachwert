@@ -21,7 +21,9 @@ import de.jfachwert.FachwertTest;
 import de.jfachwert.math.Prozent;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.lessThan;
+import static org.junit.Assert.*;
 
 /**
  * Unit-Test fuer {@link Zinssatz}-Klasse.
@@ -54,6 +56,20 @@ public final class ZinssatzTest extends FachwertTest {
     public void testToString() {
         Prozent p = Prozent.TEN;
         assertEquals(p.toString(), new Zinssatz(p).toString());
+    }
+
+    /**
+     * Die statische of-Methode sollte keine Duplikate zurueckliefern.
+     */
+    @Test
+    public void testOf() {
+        assertSame(Zinssatz.of(Prozent.ZERO), Zinssatz.of(Prozent.ZERO));
+    }
+
+    @Test
+    public void testCompareTo() {
+        assertThat(Zinssatz.TEN.compareTo(Zinssatz.ONE), greaterThan(0));
+        assertThat(Zinssatz.ONE.compareTo(Zinssatz.TEN), lessThan(0));
     }
 
 }

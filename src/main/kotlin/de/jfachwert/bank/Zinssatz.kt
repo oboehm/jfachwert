@@ -21,6 +21,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
 import de.jfachwert.Fachwert
 import de.jfachwert.math.Prozent
+import java.util.*
+import java.util.function.Function
 
 /**
  * Der Zinssatz (auch: Zinsfuss) wird in Prozent ausgedrueckt, mit dem der Zins
@@ -30,9 +32,62 @@ import de.jfachwert.math.Prozent
  * @since 4.0
  */
 @JsonSerialize(using = ToStringSerializer::class)
-open class Zinssatz(val prozent: Prozent) : Fachwert {
+open class Zinssatz(val prozent: Prozent) : Fachwert, Comparable<Zinssatz> {
 
     constructor(satz: String) : this(Prozent.of(satz))
+
+    companion object {
+
+        private val WEAK_CACHE = WeakHashMap<Prozent, Zinssatz>()
+
+        /** Zinssatz von 0%. */
+        @JvmField
+        val ZERO = of(Prozent.ZERO)
+
+        /** Zinssatz von 1%. */
+        @JvmField
+        val ONE = of(Prozent.ONE)
+
+        /** Zinssatz von 10%. */
+        @JvmField
+        val TEN = of(Prozent.TEN)
+
+        /**
+         * Die of-Methode liefert fuer denselben Prozentwert immer dasselbe
+         * Objekt zurueck. Bevorzugt sollte man diese Methode verwenden, um
+         * die Anzahl der Objekte gering zu halten.
+         *
+         * @param satz z.B. "5%"
+         * @return 5%" als Zinssatz-Objekt
+         */
+        @JvmStatic
+        fun of(satz: String): Zinssatz {
+            return of(Prozent.of(satz))
+        }
+
+        /**
+         * Die of-Methode liefert fuer denselben Prozentwert immer dasselbe
+         * Objekt zurueck. Bevorzugt sollte man diese Methode verwenden, um
+         * die Anzahl der Objekte gering zu halten.
+         *
+         * @param satz als Prozentwert, z.B. "5%"
+         * @return "5%" als Zinssatz-Objekt
+         */
+        @JvmStatic
+        fun of(satz: Prozent): Zinssatz {
+            return WEAK_CACHE.computeIfAbsent(satz, Function(::Zinssatz))
+        }
+
+    }
+
+    /**
+     * Vergleicht zwei Zinssaetze. Wenn [other] ein kleinerer Zinssatz ist,
+     * wird eine positive Zahl zurueckgegeben.
+     * Bei Gleichheit wird 0 zurueckgegeben, ansonsten eine negative Zahl.
+     */
+    override fun compareTo(other: Zinssatz): Int {
+        return prozent.compareTo(other.prozent)
+    }
 
     override fun toString(): String {
         return prozent.toString()
