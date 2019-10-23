@@ -118,6 +118,7 @@ public class FachwertFactory {
         INSTANCE.register(Prozent.class);
         INSTANCE.register(Promille.class);
         INSTANCE.register(Mehrwertsteuer.class);
+        INSTANCE.register(Zinssatz.class);
     }
 
     private FachwertFactory() {

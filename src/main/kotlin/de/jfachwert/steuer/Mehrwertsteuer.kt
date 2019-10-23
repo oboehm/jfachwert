@@ -140,14 +140,13 @@ open class Mehrwertsteuer (val prozent: Prozent) : Fachwert, Comparable<Mehrwert
     }
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-        other as Mehrwertsteuer
-        return (prozent == other.prozent)
+        if (other !is Mehrwertsteuer) return false
+        return prozent == other.prozent
     }
 
     override fun hashCode(): Int {
         return prozent.hashCode()
     }
+
 
 }
