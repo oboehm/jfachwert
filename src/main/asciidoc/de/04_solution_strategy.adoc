@@ -41,6 +41,10 @@ Um den Konstruktor übersichtlich zu halten, werden die Prüfung in eigene Valid
 Auch sind Prüfziffer-Verfahren, die zur Erkennung fehlerhafter Fachwerte dienen, eine Art der Validierung.
 Deswegen befinden sich Validatoren und Prüfziffer-Verfahren im selben Package.
 
+Viele Klassen bieten auch eine statische validate-Methode an, um auch ohne Kreierung von Fachwerten eine Überprüfung der Parameter durchführen zu können.
+Mit Umstellung auf Kotlin in v4.0 ist die validate-Methode in ein Companion-Objekt gewandert.
+Druch ändert sich der Aufruf von `UStdIdNr.validate("DE136695970")` in `UStIdNr.Companion.validate("DE136695970")`.
+
 IMPORTANT: Ab jFachwert 1.0 wird jetzt eine IllegalArgumentException (und nicht mehr eine ValidationException) geworfen, wenn die Validierung im Konstruktor fehlschlägt.
 Damit verhält sich jFachwert jetzt so, wie man es von anderen Konstruktoren gewohnt ist.
 

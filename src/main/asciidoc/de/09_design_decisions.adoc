@@ -10,7 +10,7 @@ Dementsprechend wird bei Rückgabewerte, die optional sind, auch http://docs.ora
 `null` als Rückgabewert wird nicht verwendet.
 
 Auch bei Parametern ist `null` kein zulässiges Argument, sondern wird als Fehler betrachtet und mit einer ValidationException bestraft.
-Optionale Parameter können beim Aufruf einfach weggelassen werden
+Optionale Parameter können beim Aufruf einfach weggelassen werden.
 
 
 === NULL-Konstanten

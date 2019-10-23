@@ -4,9 +4,9 @@
 
 === Technische Randbedingungen
 
-Nachdem Java 7 bereits sein End-of-Life erreicht hat, wird jFachwert auf Java 8 aufsetzen.
-Einschränkungen für das Modul-System in Java 9 sind keine zu erwarten, da Reflection (außer in der FachwertFactory) nicht verwendet wird.
-Damit sollte jFachwert auch uneingeschränkt sowohl mit Java 8 als auch Java 9 laufen.
+Ursprünglich setzte jFachwert auf Java 8 auf, wurde aber ab Oktober 2019 auf Kotlin umgstellt.
+Dennoch sollte jFachwert sowohl mit Java 8 und Java 11 laufen.
+Dies wird durch JUnit-Tests sichergestellt, die in Java verblieben sind und die mit Java 8 und Java 11 ausgeführt werden.
 
 Die Abhängigkeiten zu anderen Bibliotheken werden auf ein Minimum reduziert.
 Dies erleichtert den Einsatz von jFachwert für andere Projekte.

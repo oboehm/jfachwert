@@ -34,6 +34,7 @@ Diese Bibliothek greift die Idee von damals (s.o.) wieder auf, ist aber nicht au
 
 Im März 2017 wurde jfachwert im Maven-Repository aufgenommen (https://issues.sonatype.org/browse/OSSRH-28810[OSSRH-29910]).
 Die Bibliothek setzt auf Java 8 auf.
+Ab Oktober 2019 wurde die die Bibliothek auf Kotlin umgestellt, während die JUnit-Tests in Java verblieben (um die Kompatibilität mit Java sicherzustellen).
 
 
 === Qualitätsziele

@@ -22,3 +22,7 @@ Damit kann die `FachwertFactory` auch zur Validierung von Fachwerten eingesetzt 
 ------------------------------------------------
 include::../images/sequence-factory.puml[]
 ------------------------------------------------
+
+Dies ist vor allem für die automatisierte Validierung gedacht, wenn der Fachwert erst zur Laufzeit bekannt ist.
+Damit lassen sich dann Anforderungen wie "validierte das Eingabefeld 'Bankverbindung'".
+In https://github.com/oboehm/gdv.xport/[gdv.xport] wird dies z.B. zur Validierung von importierten Datensätze verwendet.
