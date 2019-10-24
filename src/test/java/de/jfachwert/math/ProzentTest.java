@@ -18,6 +18,7 @@
 package de.jfachwert.math;
 
 import de.jfachwert.FachwertTest;
+import de.jfachwert.bank.Geldbetrag;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -85,6 +86,12 @@ public final class ProzentTest extends FachwertTest {
     public void testMultiply() {
         Prozent mwst = Prozent.of("19%");
         assertEquals(BigDecimal.valueOf(0.38), mwst.multiply(2));
+    }
+
+    @Test
+    public void testMultiplyGeldbetrag() {
+        Geldbetrag kapital = Geldbetrag.of("1000 CHF");
+        assertEquals(Geldbetrag.of("100 CHF"), Prozent.TEN.multiply(kapital));
     }
 
     @Test

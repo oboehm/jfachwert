@@ -72,4 +72,11 @@ public final class ZinssatzTest extends FachwertTest {
         assertThat(Zinssatz.ONE.compareTo(Zinssatz.TEN), lessThan(0));
     }
 
+    @Test
+    public void testGetZins() {
+        Zinssatz zinssatz = Zinssatz.of("3%");
+        Geldbetrag kapital = Geldbetrag.of(2000);
+        assertEquals(Geldbetrag.of(60), zinssatz.getZinsen(kapital, 12));
+    }
+
 }

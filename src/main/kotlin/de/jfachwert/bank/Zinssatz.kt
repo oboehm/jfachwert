@@ -23,6 +23,7 @@ import de.jfachwert.Fachwert
 import de.jfachwert.math.Prozent
 import java.util.*
 import java.util.function.Function
+import javax.money.MonetaryAmount
 
 /**
  * Der Zinssatz (auch: Zinsfuss) wird in Prozent ausgedrueckt, mit dem der Zins
@@ -78,6 +79,17 @@ open class Zinssatz(val prozent: Prozent) : Fachwert, Comparable<Zinssatz> {
             return WEAK_CACHE.computeIfAbsent(satz, Function(::Zinssatz))
         }
 
+    }
+
+    /**
+     * Berechnet die anfallende Zinsen des eingesetzten Kapitals.
+     *
+     * @param kapital eingesetzte Kapital
+     * @param monate  Monate
+     * @return Zinsbetrag
+     */
+    fun getZinsen(kapital: MonetaryAmount, monate: Int): MonetaryAmount {
+        return prozent.multiply(kapital).multiply(monate).divide(12)
     }
 
     /**

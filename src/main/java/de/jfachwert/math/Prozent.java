@@ -20,7 +20,9 @@ package de.jfachwert.math;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import de.jfachwert.Fachwert;
+import de.jfachwert.bank.Geldbetrag;
 
+import javax.money.MonetaryAmount;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.WeakHashMap;
@@ -160,6 +162,19 @@ public class Prozent extends AbstractNumber implements Fachwert {
      */
     public BigDecimal multiply(BigDecimal x) {
         return x.multiply(toBigDecimal());
+    }
+
+    /**
+     * Fuehrt eine einfache Prozent-Rechnung aus. Dieses Mal aber mit
+     * Geldbetraegen.
+     *
+     * @param geldbetrag z.B. "10 EUR"
+     * @return Prozentwert des Geldbetrags
+     * @since 4.0
+     */
+    public MonetaryAmount multiply(MonetaryAmount geldbetrag) {
+        BigDecimal zins = this.multiply(geldbetrag.getNumber().numberValue(BigDecimal.class));
+        return Geldbetrag.of(zins, geldbetrag.getCurrency());
     }
 
     /**
