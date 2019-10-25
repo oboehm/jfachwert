@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
 import de.jfachwert.Fachwert
 import de.jfachwert.math.Prozent
+import java.math.BigDecimal
 import java.util.*
 import java.util.function.Function
 import javax.money.MonetaryAmount
@@ -77,6 +78,19 @@ open class Zinssatz(val prozent: Prozent) : Fachwert, Comparable<Zinssatz> {
         @JvmStatic
         fun of(satz: Prozent): Zinssatz {
             return WEAK_CACHE.computeIfAbsent(satz, Function(::Zinssatz))
+        }
+
+        /**
+         * Ermittelt aus dem eingesetzten Kapital und Zins den Zinssatz.
+         *
+         * @param kapital
+         */
+        @JvmStatic
+        fun of(kapital: MonetaryAmount, zins: MonetaryAmount, monate: Long): Zinssatz {
+            val k: BigDecimal = kapital.number.numberValue<BigDecimal>(BigDecimal::class.java)
+            val z: BigDecimal = zins.number.numberValue<BigDecimal>(BigDecimal::class.java)
+            val p: BigDecimal = z.divide(k).multiply(BigDecimal.valueOf(1200).divide(BigDecimal.valueOf(monate)))
+            return of(Prozent.of(p))
         }
 
     }

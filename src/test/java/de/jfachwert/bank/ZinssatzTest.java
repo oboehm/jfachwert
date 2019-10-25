@@ -79,4 +79,10 @@ public final class ZinssatzTest extends FachwertTest {
         assertEquals(Geldbetrag.of(60), zinssatz.getZinsen(kapital, 12));
     }
 
+    @Test
+    public void testOfZinssatz() {
+        Zinssatz zinssatz = Zinssatz.of(Geldbetrag.of(2000), Geldbetrag.of(60), 12);
+        assertEquals(Zinssatz.of("3.00%"), zinssatz);
+    }
+
 }
