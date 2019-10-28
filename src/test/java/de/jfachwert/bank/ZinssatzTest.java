@@ -21,6 +21,8 @@ import de.jfachwert.FachwertTest;
 import de.jfachwert.math.Prozent;
 import org.junit.Test;
 
+import java.time.Period;
+
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.*;
@@ -73,10 +75,23 @@ public final class ZinssatzTest extends FachwertTest {
     }
 
     @Test
-    public void testGetZins() {
-        Zinssatz zinssatz = Zinssatz.of("3%");
-        Geldbetrag kapital = Geldbetrag.of(2000);
-        assertEquals(Geldbetrag.of(60), zinssatz.getZinsen(kapital, 12));
+    public void testGetJahrezins() {
+        assertEquals(Geldbetrag.of(60), Zinssatz.of("3%").getJahresszins(Geldbetrag.of(2000)));
+    }
+
+    @Test
+    public void testGetMonatzins() {
+        assertEquals(Geldbetrag.of(5), Zinssatz.of("3%").getMonatszins(Geldbetrag.of(2000)));
+    }
+
+    @Test
+    public void testGetTageszins() {
+        assertEquals(Geldbetrag.of(0.1), Zinssatz.of("2%").getTageszins(Geldbetrag.of(1800)));
+    }
+
+    @Test
+    public void testGetZinsPeriod() {
+        assertEquals(Geldbetrag.of(60), Zinssatz.of("3%").getMonatszins(Geldbetrag.of(2000), Period.ofMonths(12)));
     }
 
     @Test

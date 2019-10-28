@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
 import de.jfachwert.Fachwert
 import de.jfachwert.math.Prozent
 import java.math.BigDecimal
+import java.time.Period
 import java.util.*
 import java.util.function.Function
 import javax.money.MonetaryAmount
@@ -96,14 +97,48 @@ open class Zinssatz(val prozent: Prozent) : Fachwert, Comparable<Zinssatz> {
     }
 
     /**
+     * Berechnet die anfallende Zinsen des eingesetzten Kapitals fuer ein
+     * Jahr (Jahreszins).
+     *
+     * @param kapital eingesetztes Kapital
+     * @return Zinsbetrag
+     */
+    fun getJahresszins(kapital: MonetaryAmount): MonetaryAmount {
+        return prozent.multiply(kapital)
+    }
+
+    /**
+     * Berechnet die anfallende Zinsen des eingesetzten Kapitals fuer einen
+     * Monat (Monatzins).
+     *
+     * @param kapital eingesetztes Kapital
+     * @return Zinsbetrag
+     */
+    fun getMonatszins(kapital: MonetaryAmount): MonetaryAmount {
+        return prozent.multiply(kapital).divide(12)
+    }
+
+    /**
+     * Berechnet den Tageszins auf das eingesetzte Kapital. Zur Berechnung
+     * wird das Bankjahr herangezogen, das 360 Tage hat.
+     *
+     * @param kapital eingesetztes Kapital
+     * @return Zinsbetrag
+     */
+    fun getTageszins(kapital: MonetaryAmount): MonetaryAmount {
+        return prozent.multiply(kapital).divide(360)
+    }
+
+    /**
      * Berechnet die anfallende Zinsen des eingesetzten Kapitals.
      *
      * @param kapital eingesetzte Kapital
-     * @param monate  Monate
+     * @param dauer   Periode in Tagen, Monate oder Jahren,
+     *                z.B. Period.ofMonths(12)
      * @return Zinsbetrag
      */
-    fun getZinsen(kapital: MonetaryAmount, monate: Int): MonetaryAmount {
-        return prozent.multiply(kapital).multiply(monate).divide(12)
+    fun getMonatszins(kapital: MonetaryAmount, dauer: Period): MonetaryAmount {
+        return prozent.multiply(kapital).multiply(dauer.normalized().years)
     }
 
     /**
