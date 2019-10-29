@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
 import de.jfachwert.Fachwert
 import de.jfachwert.math.Prozent
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.time.Period
 import java.util.*
 import java.util.function.Function
@@ -130,15 +131,38 @@ open class Zinssatz(val prozent: Prozent) : Fachwert, Comparable<Zinssatz> {
     }
 
     /**
-     * Berechnet die anfallende Zinsen des eingesetzten Kapitals.
+     * Berechnet die anfallende Zinsen des eingesetzten Kapitals inklusiv
+     * Zinseszinsen. Zur Berechnung der Zinsen wird dabei die Formel
+     * Kn = K0 × (1 + p/100)^n herangezogen. Dabei ist Kn das verzinste
+     * Endkapital, K0 das Ausgangskapital, p der Zinssatz und n Steht die
+     * Laufzeit in Jahren.
      *
-     * @param kapital eingesetzte Kapital
+     * @param kapital Ausgangskapital K0
      * @param dauer   Periode in Tagen, Monate oder Jahren,
      *                z.B. Period.ofMonths(12)
      * @return Zinsbetrag
      */
-    fun getMonatszins(kapital: MonetaryAmount, dauer: Period): MonetaryAmount {
-        return prozent.multiply(kapital).multiply(dauer.normalized().years)
+    fun getZinsen(kapital: MonetaryAmount, dauer: Period): MonetaryAmount {
+        return getEndkapital(kapital, dauer).subtract(kapital)
+    }
+
+    /**
+     * Berechnet das Endkapital inklusive Zinseszins. Zur Berechnung des
+     * Endkapitals wird datei die Formel
+     * <pre>Kn = K0 × (1 + p/100)^n</pre>
+     * herangezogen. Dabei ist Kn das verzinste Endkapital, K0 das
+     * Ausgangskapital, p der Zinssatz und n steht die Laufzeit in Jahren.
+     *
+     * @param startKapital Ausgangskapital K0
+     * @param dauer        Periode in Tagen, Monate oder Jahren,
+     *                     z.B. Period.ofMonths(12)
+     * @return Endkapital
+     */
+    fun getEndkapital(startKapital: MonetaryAmount, dauer: Period): MonetaryAmount {
+        val normalized = dauer.normalized()
+        val faktor = prozent.toBigDecimal().add(BigDecimal.ONE)
+        val endKapital = startKapital.multiply(faktor.pow(normalized.years).setScale(startKapital.context.maxScale, RoundingMode.HALF_UP))
+        return endKapital.add(getMonatszins(endKapital).multiply(normalized.months))
     }
 
     /**

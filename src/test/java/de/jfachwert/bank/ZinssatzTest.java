@@ -90,8 +90,17 @@ public final class ZinssatzTest extends FachwertTest {
     }
 
     @Test
-    public void testGetZinsPeriod() {
-        assertEquals(Geldbetrag.of(60), Zinssatz.of("3%").getMonatszins(Geldbetrag.of(2000), Period.ofMonths(12)));
+    public void testGetZinsenSimple() {
+        assertEquals(Geldbetrag.of(30), Zinssatz.of("3%").getZinsen(Geldbetrag.of(2000), Period.ofMonths(6)));
+    }
+
+    /**
+     * Der Testfall stammt aus
+     * https://www.postbank.de/themenwelten/artikel_zinsen-und-zinsberechnung-ein-ueberblick.html.
+     */
+    @Test
+    public void testGetZinsesZinsen() {
+        assertEquals(Geldbetrag.of(219), Zinssatz.of("2%").getZinsen(Geldbetrag.of(1000), Period.ofYears(10)));
     }
 
     @Test
