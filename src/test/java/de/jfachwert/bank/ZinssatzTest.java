@@ -90,8 +90,13 @@ public final class ZinssatzTest extends FachwertTest {
     }
 
     @Test
-    public void testGetZinsenSimple() {
+    public void testGetZinsenMonate() {
         assertEquals(Geldbetrag.of(30), Zinssatz.of("3%").getZinsen(Geldbetrag.of(2000), Period.ofMonths(6)));
+    }
+
+    @Test
+    public void testGetZinsenTage() {
+        assertEquals(Geldbetrag.of(2.5), Zinssatz.of("3%").getZinsen(Geldbetrag.of(2000), Period.ofDays(15)));
     }
 
     /**

@@ -143,6 +143,21 @@ public final class GeldbetragTest extends FachwertTest {
     }
 
     /**
+     * Geldbetraege, die gleich auf dem Ausdruck erscheinen, sollen auch als
+     * gleich angesehen werden, ohne Beruecksichtigung von Rundingsdifferenzen.
+     * Wenn man es exakt will, kann man auf
+     * {@link Geldbetrag#isEqualTo(MonetaryAmount)}
+     * zurueckgreifen.
+     */
+    @Test
+    public void testEquals() {
+        Geldbetrag b1 = Geldbetrag.of(3.33);
+        Geldbetrag b2 = Geldbetrag.of(10).divide(3);
+        assertFalse(b1.isEqualTo(b2));
+        assertEquals(b1, b2);
+    }
+
+    /**
      * Die Addition von 0 sollte wieder den Betrag selber ergeben.
      * Dieser Test entstand vor der Implementierung auf dem Hackergarden
      * Stuttgart am 19. Juli 2018. 

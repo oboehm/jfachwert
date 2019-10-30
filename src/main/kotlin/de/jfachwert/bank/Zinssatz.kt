@@ -163,6 +163,7 @@ open class Zinssatz(val prozent: Prozent) : Fachwert, Comparable<Zinssatz> {
         val faktor = prozent.toBigDecimal().add(BigDecimal.ONE)
         val endKapital = startKapital.multiply(faktor.pow(normalized.years).setScale(startKapital.context.maxScale, RoundingMode.HALF_UP))
         return endKapital.add(getMonatszins(endKapital).multiply(normalized.months))
+                .add(getTageszins(endKapital).multiply(normalized.days))
     }
 
     /**

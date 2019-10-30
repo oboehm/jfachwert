@@ -698,7 +698,8 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
 
     /**
      * Zwei Geldbetraege sind nur dann gleich, wenn sie die gleiche Waehrung
-     * und den gleichen Betrag haben.
+     * und den gleichen Betrag haben. Im Unterschied zu {@link #equals(Object)}
+     * muessen die Betraege exakt gleich sein.
      *
      * @param other der andere Geldbetrag oder MonetaryAmount
      * @return true, falls Waehrung und Betrag gleich ist
@@ -1222,10 +1223,13 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
     }
 
     /**
-     * Zwei Betraege sind gleich, wenn Betrag und Waehrung gleich sind.
+     * Zwei Betraege sind gleich, wenn Betrag und Waehrung gleich sind. Im
+     * Unterschied zu {@link #isEqualTo(MonetaryAmount)} wird hier nur der
+     * sichtbare Teil fuer den Vergleich herangezogen, d.h. Rundungsdifferenzen
+     * spielen beim Vergleich keine Rolle.
      *
-     * @param obj the obj
-     * @return true, falls gleich
+     * @param obj der Geldbetrag, mit dem verglichen wird
+     * @return true, falls (optisch) gleich
      */
     @Override
     public boolean equals(Object obj) {
@@ -1233,8 +1237,10 @@ public class Geldbetrag implements MonetaryAmount, Comparable<MonetaryAmount>, F
             return false;
         }
         Geldbetrag other = (Geldbetrag) obj;
-        if (!hasSameCurrency(other)) return false;
-        return this.isEqualTo(other);
+        if (!hasSameCurrency(other)) {
+            return false;
+        }
+        return this.toString().equals(other.toString());
     }
 
     private boolean hasSameCurrency(MonetaryAmount other) {
