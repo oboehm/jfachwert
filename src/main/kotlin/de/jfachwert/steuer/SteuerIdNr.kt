@@ -54,7 +54,7 @@ open class SteuerIdNr
      *
      * @since 2.2
      */
-    class Validator : Steuernummer.Validator() {
+    open class Validator : Steuernummer.Validator() {
 
         override fun validate(nr: String): String {
             LengthValidator.validate(nr, 11)
@@ -78,7 +78,7 @@ open class SteuerIdNr
          * @return SteuerIdNr
          */
         @JvmStatic
-        fun of(idNr: String): SteuerIdNr = WEAK_CACHE.computeIfAbsent(idNr) { idNr -> SteuerIdNr(idNr) }
+        fun of(idNr: String): SteuerIdNr = WEAK_CACHE.computeIfAbsent(idNr) { nr -> SteuerIdNr(nr) }
 
         /**
          * Eine SteuerId muss genau 11 Stellen besitzen.
