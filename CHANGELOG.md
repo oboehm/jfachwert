@@ -9,6 +9,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Unreleased]
 ### Added
 - Mehrwertsteuer-Klasse im steuer-Paket
+- Zinssatz-Klasse im bank-Paket
 
 ### Changed
 - Beginn Umstellung auf Kotlin
