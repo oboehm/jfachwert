@@ -255,7 +255,7 @@ public final class RechnungsmonatTest extends FachwertTest {
     @Test
     public void testDefaultCtor() {
         Rechnungsmonat aktuell = new Rechnungsmonat();
-        assertEquals(Rechnungsmonat.of(LocalDate.now()), aktuell);
+        assertEquals(Rechnungsmonat.now(), aktuell);
     }
 
 }

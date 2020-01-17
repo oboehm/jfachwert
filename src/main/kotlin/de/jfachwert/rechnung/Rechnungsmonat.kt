@@ -405,6 +405,17 @@ open class Rechnungsmonat : Fachwert, Comparable<Rechnungsmonat> {
         }
 
         /**
+         * Liefert den aktuellen Rechnungsmonat.
+         *
+         * @return den aktuellen Rechnungsmonat
+         * @since 3.1
+         */
+        @JvmStatic
+        fun now() : Rechnungsmonat {
+            return of(LocalDate.now())
+        }
+
+        /**
          * Die of-Methode liefert fuer denselben Rechnungsmonata auch dasselbe
          * Objekt zurueck. D.h. zwei gleiche Rechnungsmonate werden nur einmal
          * angelegt, wenn sie ueber diese Methode angelegt werden. Das lohnt sich
