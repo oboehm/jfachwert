@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,13 @@
  *
  * (c)reated 10.07.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.rechnung;
+package de.jfachwert.rechnung
 
-import de.jfachwert.PruefzifferVerfahren;
-import de.jfachwert.SimpleValidator;
-import de.jfachwert.Text;
-import de.jfachwert.pruefung.LengthValidator;
-import de.jfachwert.pruefung.NullValidator;
-
-import java.util.WeakHashMap;
+import de.jfachwert.SimpleValidator
+import de.jfachwert.Text
+import de.jfachwert.pruefung.LengthValidator
+import de.jfachwert.pruefung.NullValidator
+import java.util.*
 
 /**
  * Auf Rechnunungen (und auch im geschaeftlichen Schriftverkehr) gibt es
@@ -32,43 +30,36 @@ import java.util.WeakHashMap;
  * @author oboehm
  * @since 0.3 (10.07.2017)
  */
-public class Referenznummer extends Text {
+open class Referenznummer
 
-    private static final WeakHashMap<String, Referenznummer> WEAK_CACHE = new WeakHashMap<>();
+/**
+ * Dieser Konstruktor ist hauptsaechlich fuer abgeleitete Klassen gedacht,
+ * damit diese den [SimpleValidator] ueberschreiben koennen.
+ * Man kann es auch verwenden, um einen eigenen [SimpleValidator]
+ * einsetzen zu koennen.
+ *
+ * @param nummer   z.B. "000002835042"
+ * @param pruefung Pruefverfahren
+ */
+@JvmOverloads constructor(nummer: String?, pruefung: SimpleValidator<String?>? = LengthValidator.NOT_EMPTY_VALIDATOR) : Text(nummer, pruefung) {
 
-    /** Null-Konstante fuer Initialisierungen. */
-    public static final Referenznummer NULL = new Referenznummer("", new NullValidator<>());
+    companion object {
 
-    /**
-     * Erzeugt eine Referenznummer.
-     *
-     * @param nummer z.B. "000002835042"
-     */
-    public Referenznummer(String nummer) {
-        this(nummer, LengthValidator.NOT_EMPTY_VALIDATOR);
+        private val WEAK_CACHE = WeakHashMap<String, Referenznummer>()
+
+        /** Null-Konstante fuer Initialisierungen.  */
+        val NULL = Referenznummer("", NullValidator())
+
+        /**
+         * Erzeugt eine Referenznummer.
+         *
+         * @param nummer z.B. "000002835042"
+         * @return Referenznummer
+         */
+        @JvmStatic
+        fun of(nummer: String): Referenznummer {
+            return WEAK_CACHE.computeIfAbsent(nummer) { n: String? -> Referenznummer(n) }
+        }
     }
 
-    /**
-     * Dieser Konstruktor ist hauptsaechlich fuer abgeleitete Klassen gedacht,
-     * damit diese das {@link PruefzifferVerfahren} ueberschreiben koennen.
-     * Man kann es auch verwenden, um ein eigenes {@link PruefzifferVerfahren}
-     * einsetzen zu koennen.
-     *
-     * @param nummer   z.B. "000002835042"
-     * @param pruefung Pruefverfahren
-     */
-    public Referenznummer(String nummer, SimpleValidator<String> pruefung) {
-        super(nummer, pruefung);
-    }
-
-    /**
-     * Erzeugt eine Referenznummer.
-     *
-     * @param nummer z.B. "000002835042"
-     * @return Referenznummer
-     */
-    public static Referenznummer of(String nummer) {
-        return WEAK_CACHE.computeIfAbsent(nummer, Referenznummer::new);
-    }
-    
 }

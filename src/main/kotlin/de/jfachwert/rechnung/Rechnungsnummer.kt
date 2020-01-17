@@ -35,7 +35,7 @@ open class Rechnungsnummer
 /**
  * Dieser Konstruktor ist hauptsaechlich fuer abgeleitete Klassen gedacht,
  * damit diese den [SimpleValidator] ueberschreiben koennen.
- * Man kann es auch verwenden, um ein eigenes [SimpleValidator]
+ * Man kann es auch verwenden, um einen eigenen [SimpleValidator]
  * einsetzen zu koennen.
  *
  * @param nummer   z.B. "000002835042"
