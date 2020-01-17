@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,13 @@
  *
  * (c)reated 10.07.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.rechnung;
+package de.jfachwert.rechnung
 
-import de.jfachwert.PruefzifferVerfahren;
-import de.jfachwert.SimpleValidator;
-import de.jfachwert.Text;
-import de.jfachwert.pruefung.LengthValidator;
-import de.jfachwert.pruefung.NullValidator;
-
-import java.util.WeakHashMap;
+import de.jfachwert.SimpleValidator
+import de.jfachwert.Text
+import de.jfachwert.pruefung.LengthValidator
+import de.jfachwert.pruefung.NullValidator
+import java.util.*
 
 /**
  * Oftmals findet sich auf Rechnungen auch eine Bestellnummer, die man bei
@@ -32,43 +30,35 @@ import java.util.WeakHashMap;
  * @author oboehm
  * @since 0.3 (10.07.2017)
  */
-public class Bestellnummer extends Text {
+open class Bestellnummer
+/**
+ * Dieser Konstruktor ist hauptsaechlich fuer abgeleitete Klassen gedacht,
+ * damit diese den [SimpleValidator] ueberschreiben koennen.
+ * Man kann es auch verwenden, um einen eigenen [SimpleValidator]
+ * einsetzen zu koennen.
+ *
+ * @param nummer   z.B. "000002835042"
+ * @param pruefung Pruefverfahren
+ */
+@JvmOverloads constructor(nummer: String?, pruefung: SimpleValidator<String?>? = LengthValidator.NOT_EMPTY_VALIDATOR) : Text(nummer, pruefung) {
 
-    private static final WeakHashMap<String, Bestellnummer> WEAK_CACHE = new WeakHashMap<>();
+    companion object {
 
-    /** Null-Konstante fuer Initialisierungen. */
-    public static final Bestellnummer NULL = new Bestellnummer("", new NullValidator<>());
+        private val WEAK_CACHE = WeakHashMap<String, Bestellnummer>()
 
-    /**
-     * Erzeugt eine Bestellnummer.
-     *
-     * @param nummer z.B. "000002835042"
-     */
-    public Bestellnummer(String nummer) {
-        this(nummer, LengthValidator.NOT_EMPTY_VALIDATOR);
-    }
+        /** Null-Konstante fuer Initialisierungen.  */
+        val NULL = Bestellnummer("", NullValidator())
 
-    /**
-     * Dieser Konstruktor ist hauptsaechlich fuer abgeleitete Klassen gedacht,
-     * damit diese das {@link PruefzifferVerfahren} ueberschreiben koennen.
-     * Man kann es auch verwenden, um ein eigenes {@link PruefzifferVerfahren}
-     * einsetzen zu koennen.
-     *
-     * @param nummer   z.B. "000002835042"
-     * @param pruefung Pruefverfahren
-     */
-    public Bestellnummer(String nummer, SimpleValidator<String> pruefung) {
-        super(nummer, pruefung);
-    }
-
-    /**
-     * Erzeugt eine Bestellnummer.
-     *
-     * @param nummer z.B. "000002835042"
-     * @return Bestellnummer
-     */
-    public static Bestellnummer of(String nummer) {
-        return WEAK_CACHE.computeIfAbsent(nummer, Bestellnummer::new);
+        /**
+         * Erzeugt eine Bestellnummer.
+         *
+         * @param nummer z.B. "000002835042"
+         * @return Bestellnummer
+         */
+        @JvmStatic
+        fun of(nummer: String): Bestellnummer {
+            return WEAK_CACHE.computeIfAbsent(nummer) { n: String? -> Bestellnummer(n) }
+        }
     }
 
 }
