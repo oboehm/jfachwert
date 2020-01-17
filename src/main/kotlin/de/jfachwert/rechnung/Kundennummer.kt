@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,13 @@
  *
  * (c)reated 09.07.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.rechnung;
+package de.jfachwert.rechnung
 
-import de.jfachwert.PruefzifferVerfahren;
-import de.jfachwert.SimpleValidator;
-import de.jfachwert.Text;
-import de.jfachwert.pruefung.LengthValidator;
-import de.jfachwert.pruefung.NullValidator;
-
-import java.util.WeakHashMap;
+import de.jfachwert.SimpleValidator
+import de.jfachwert.Text
+import de.jfachwert.pruefung.LengthValidator
+import de.jfachwert.pruefung.NullValidator
+import java.util.*
 
 /**
  * Eine Kundennummer ist meistens eine vielstellige Zahl oder Zeichenfolge,
@@ -32,45 +30,36 @@ import java.util.WeakHashMap;
  * @author oboehm
  * @since 0.3 (09.07.2017)
  */
-public class Kundennummer extends Text {
+open class Kundennummer
+/**
+ * Dieser Konstruktor ist hauptsaechlich fuer abgeleitete Klassen gedacht,
+ * damit diese den [SimpleValidator] ueberschreiben koennen.
+ * Man kann es auch verwenden, um einen eigenen [SimpleValidator]
+ * einsetzen zu koennen. Standardmaessig wird hier ansonsten nur ueberprueft,
+ * ob die Kundennummer nicht leer ist.
+ *
+ * @param kundennummer die Kundennummer, z.B. "100.059"
+ * @param pruefung     Pruefverfahren
+ */
+@JvmOverloads constructor(kundennummer: String?, pruefung: SimpleValidator<String?>? = LengthValidator.NOT_EMPTY_VALIDATOR) : Text(kundennummer, pruefung) {
 
-    private static final WeakHashMap<String, Kundennummer> WEAK_CACHE = new WeakHashMap<>();
-    private static final SimpleValidator VALIDATOR = LengthValidator.NOT_EMPTY_VALIDATOR;
+    companion object {
 
-    /** Null-Konstante fuer Initialisierungen. */
-    public static final Kundennummer NULL = new Kundennummer("", new NullValidator<>());
+        private val WEAK_CACHE = WeakHashMap<String, Kundennummer>()
 
-    /**
-     * Erzeugt eine Kundennummer.
-     *
-     * @param nummer z.B. "100.059"
-     */
-    public Kundennummer(String nummer) {
-        this(nummer, VALIDATOR);
-    }
+        /** Null-Konstante fuer Initialisierungen.  */
+        val NULL = Kundennummer("", NullValidator())
 
-    /**
-     * Dieser Konstruktor ist hauptsaechlich fuer abgeleitete Klassen gedacht,
-     * damit diese das {@link PruefzifferVerfahren} ueberschreiben koennen.
-     * Man kann es auch verwenden, um ein eigenes {@link PruefzifferVerfahren}
-     * einsetzen zu koennen. Standardmaessig wird hier ansonsten nur ueberprueft,
-     * ob die Kundennummer nicht leer ist.
-     *
-     * @param kundennummer die Kundennummer
-     * @param pruefung     Pruefverfahren
-     */
-    public Kundennummer(String kundennummer, SimpleValidator<String> pruefung) {
-        super(kundennummer, pruefung);
-    }
-
-    /**
-     * Erzeugt eine Kundennummer.
-     *
-     * @param nummer z.B. "100.059"
-     * @return Kundennummer
-     */
-    public static Kundennummer of(String nummer) {
-        return WEAK_CACHE.computeIfAbsent(nummer, Kundennummer::new);
+        /**
+         * Erzeugt eine Kundennummer.
+         *
+         * @param nummer z.B. "100.059"
+         * @return Kundennummer
+         */
+        @JvmStatic
+        fun of(nummer: String): Kundennummer {
+            return WEAK_CACHE.computeIfAbsent(nummer) { n: String? -> Kundennummer(n) }
+        }
     }
 
 }
