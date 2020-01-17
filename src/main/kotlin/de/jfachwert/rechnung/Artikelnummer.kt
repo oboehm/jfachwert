@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,13 @@
  *
  * (c)reated 10.07.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.rechnung;
+package de.jfachwert.rechnung
 
-import de.jfachwert.PruefzifferVerfahren;
-import de.jfachwert.SimpleValidator;
-import de.jfachwert.Text;
-import de.jfachwert.pruefung.LengthValidator;
-import de.jfachwert.pruefung.NullValidator;
-
-import java.util.WeakHashMap;
+import de.jfachwert.SimpleValidator
+import de.jfachwert.Text
+import de.jfachwert.pruefung.LengthValidator
+import de.jfachwert.pruefung.NullValidator
+import java.util.*
 
 /**
  * Die Artikelnummer ist meistens eine Nummer, die den Artiekel beim
@@ -32,43 +30,35 @@ import java.util.WeakHashMap;
  * @author oboehm
  * @since 0.3 (10.07.2017)
  */
-public class Artikelnummer extends Text {
+open class Artikelnummer
+/**
+ * Dieser Konstruktor ist hauptsaechlich fuer abgeleitete Klassen gedacht,
+ * damit diese den [SimpleValidator] ueberschreiben koennen.
+ * Man kann es auch verwenden, um einen eigenen [SimpleValidator]
+ * einsetzen zu koennen.
+ *
+ * @param nummer   z.B. "000002835042"
+ * @param pruefung Pruefverfahren
+ */
+@JvmOverloads constructor(nummer: String?, pruefung: SimpleValidator<String?>? = LengthValidator.NOT_EMPTY_VALIDATOR) : Text(nummer, pruefung) {
 
-    private static final WeakHashMap<String, Artikelnummer> WEAK_CACHE = new WeakHashMap<>();
+    companion object {
 
-    /** Null-Konstante fuer Initialisierungen. */
-    public static final Artikelnummer NULL = new Artikelnummer("", new NullValidator<>());
+        private val WEAK_CACHE = WeakHashMap<String, Artikelnummer>()
 
-    /**
-     * Erzeugt eine Artikelnummer.
-     *
-     * @param nummer z.B. "000002835042"
-     */
-    public Artikelnummer(String nummer) {
-        this(nummer, LengthValidator.NOT_EMPTY_VALIDATOR);
-    }
+        /** Null-Konstante fuer Initialisierungen.  */
+        val NULL = Artikelnummer("", NullValidator())
 
-    /**
-     * Dieser Konstruktor ist hauptsaechlich fuer abgeleitete Klassen gedacht,
-     * damit diese das {@link PruefzifferVerfahren} ueberschreiben koennen.
-     * Man kann es auch verwenden, um ein eigenes {@link PruefzifferVerfahren}
-     * einsetzen zu koennen.
-     *
-     * @param nummer   z.B. "000002835042"
-     * @param pruefung Pruefverfahren
-     */
-    public Artikelnummer(String nummer, SimpleValidator<String> pruefung) {
-        super(nummer, pruefung);
-    }
-
-    /**
-     * Erzeugt eine Artikelnummer.
-     *
-     * @param nummer z.B. "000002835042"
-     * @return Artikelnummer
-     */
-    public static Artikelnummer of(String nummer) {
-        return WEAK_CACHE.computeIfAbsent(nummer, Artikelnummer::new);
+        /**
+         * Erzeugt eine Artikelnummer.
+         *
+         * @param nummer z.B. "000002835042"
+         * @return Artikelnummer
+         */
+        @JvmStatic
+        fun of(nummer: String): Artikelnummer {
+            return WEAK_CACHE.computeIfAbsent(nummer) { n: String? -> Artikelnummer(n) }
+        }
     }
 
 }
