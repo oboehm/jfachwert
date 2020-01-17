@@ -252,4 +252,10 @@ public final class RechnungsmonatTest extends FachwertTest {
         assertThat(feb2019.compareTo(jan2019), greaterThan(0));
     }
 
+    @Test
+    public void testDefaultCtor() {
+        Rechnungsmonat aktuell = new Rechnungsmonat();
+        assertEquals(Rechnungsmonat.of(LocalDate.now()), aktuell);
+    }
+
 }
