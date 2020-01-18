@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,174 +15,95 @@
  *
  * (c)reated 06.07.17 by oliver (ob@oasd.de)
  */
-package de.jfachwert.bank;
+package de.jfachwert.bank
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import de.jfachwert.Fachwert;
-import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
-import de.jfachwert.util.ToFachwertSerializer;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import de.jfachwert.Fachwert
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
+import de.jfachwert.util.ToFachwertSerializer
+import org.apache.commons.lang3.StringUtils
+import java.util.*
 
 /**
  * Eine Bankverbindung besteht aus dem Zahlungsempfaenger oder Kontoinhaber,
  * einer IBAN und einer BIC. Bei Inlandsverbindungen kann die BIC entfallen,
  * weswegen sie hier auch optional ist.
  *
- * @author <a href="ob@aosd.de">oliver</a>
+ * @author oliver (ob@aosd.de)
  * @since 0.3.0
  */
-@JsonSerialize(using = ToFachwertSerializer.class)
-public class Bankverbindung implements Fachwert {
+@JsonSerialize(using = ToFachwertSerializer::class)
+open class Bankverbindung
 
-    private final String kontoinhaber;
-    private final IBAN iban;
-    private final BIC bic;
+@JvmOverloads constructor(val kontoinhaber: String, iban: IBAN, bic: BIC? = null) : Fachwert {
 
-    /** Null-Konstante fuer Initialisierungen. */
-    public static final Bankverbindung NULL = new Bankverbindung("", IBAN.NULL, BIC.NULL);
+    val iban: IBAN
+    private val bic: BIC?
 
     /**
      * Zerlegt den uebergebenen String in Name, IBAN und (optional) BIC.
      * Folgende Heuristiken werden fuer die Zerlegung angewendet:
-     * <ul>
-     *     <li>
-     *         Reihenfolge ist Name, IBAN und BIC, evtl. durch Kommata 
-     *         getrennt
-     *     </li>
-     *     <li>IBAN wird durch "IBAN" (grossgeschrieben) eingeleitet</li>
-     *     <li>
-     *         BIC wird durch "BIC" (grossgeschrieben) eingeleitet,
-     *         ist aber optional.
-     *     </li>
-     * </ul>
-     * 
+     *  * Reihenfolge ist Name, IBAN und BIC, evtl. durch Kommata
+     *    getrennt
+     *  * IBAN wird durch "IBAN" (grossgeschrieben) eingeleitet
+     *  * BIC wird durch "BIC" (grossgeschrieben) eingeleitet,
+     *    ist aber optional.
+     *
      * @param bankverbindung z.B. "Max Muster, IBAN DE41300606010006605605"
      */
-    public Bankverbindung(String bankverbindung) {
-        this(split(bankverbindung));
-    }
-    
-    private Bankverbindung(Object[] bankverbindung) {
-        this(bankverbindung[0].toString(), (IBAN) bankverbindung[1], (BIC) bankverbindung[2]);
-    }
-    
+    constructor(bankverbindung: String) : this(split(bankverbindung)) {}
+
+    private constructor(bankverbindung: Array<Any?>) :
+            this(bankverbindung[0].toString(), bankverbindung[1] as IBAN, bankverbindung[2] as BIC?) {}
+
     /**
      * Erzeugt eine neue Bankverbindung aus der uebergebenen Map.
      *
      * @param map mit den einzelnen Elementen fuer "kontoinhaber", "iban" und
-     *            "bic".
+     * "bic".
      */
     @JsonCreator
-    public Bankverbindung(Map<String, String> map) {
-        this(map.get("kontoinhaber"), new IBAN(map.get("iban")), new BIC(map.get("bic")));
-    }
-    
-    /**
-     * Erzeugt eine neue Bankverbindung.
-     *
-     * @param name Name des Zahlungsempfaengers
-     * @param iban die IBAN
-     */
-    public Bankverbindung(String name, IBAN iban) {
-        this(name, iban, null);
-    }
-
-    /**
-     * Erzeugt eine neue Bankverbindung.
-     *
-     * @param name Name des Zahlungsempfaengers
-     * @param iban die IBAN
-     * @param bic die BIC
-     */
-    public Bankverbindung(String name, IBAN iban, BIC bic) {
-        this.kontoinhaber = name;
-        this.iban = iban;
-        this.bic = bic;
-    }
-    
-    private static Object[] split(String bankverbindung) {
-        String[] splitted = new String[3];
-        splitted[0] = stripSeparator(StringUtils.substringBefore(bankverbindung, "IBAN"));
-        splitted[1] = stripSeparator(StringUtils.substringAfter(bankverbindung, "IBAN"));
-        if (StringUtils.isBlank(splitted[1])) {
-            throw new LocalizedIllegalArgumentException(bankverbindung, "bank_account");
-        }
-        if (splitted[1].contains("BIC")) {
-            splitted[2] = stripSeparator(StringUtils.substringAfter(splitted[1], "BIC"));
-            splitted[1] = stripSeparator(StringUtils.substringBefore(splitted[1], "BIC"));
-        } else {
-            splitted[2] = "";
-        }
-        Object[] values = new Object[3];
-        values[0] = splitted[0];
-        values[1] = new IBAN(splitted[1]);
-        values[2] = splitted[2].isEmpty() ? null : new BIC(splitted[2]);
-        return values;
-    }
-    
-    private static String stripSeparator(String raw) {
-        String value = raw.trim();
-        if (value.endsWith(",")) {
-            value = value.substring(0, value.length()-1);
-        }
-        return value;
-    }
-
-    public String getKontoinhaber() {
-        return kontoinhaber;
-    }
-
-    public IBAN getIban() {
-        return iban;
+    constructor(map: Map<String, String>) :
+            this(Objects.toString(map["kontoinhaber"], ""), IBAN(map["iban"]), BIC(map["bic"])) {
     }
 
     /**
      * Da die BIC bei Inlands-Ueberweisungen optional ist, wird sie hier als
-     * {@link Optional} zurueckgegeben.
+     * [Optional] zurueckgegeben.
      *
      * @return BIC
      */
-    public Optional<BIC> getBic() {
-        return (bic == null) ? Optional.empty() : Optional.of(bic);
+    fun getBic(): Optional<BIC> {
+        return if (bic == null) Optional.empty() else Optional.of(bic)
     }
 
-    @Override
-    public int hashCode() {
-        return iban.hashCode();
+    override fun hashCode(): Int {
+        return iban.hashCode()
     }
 
     /**
      * Zwei Bankverbindungen sind gleich, wenn IBAN und BIC uebereinstimmen.
      *
-     * @param obj die andere Bankverbindung
+     * @param other die andere Bankverbindung
      * @return true bei Gleichheit
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Bankverbindung)) {
-            return false;
+    override fun equals(other: Any?): Boolean {
+        if (other !is Bankverbindung) {
+            return false
         }
-        Bankverbindung other = (Bankverbindung) obj;
-        return this.iban.equals(other.iban) && Objects.equals(this.bic, other.bic);
+        return iban == other.iban && bic == other.bic
     }
 
-    @Override
-    @SuppressWarnings("squid:S3655")
-    public String toString() {
-        StringBuilder buf = new StringBuilder(getKontoinhaber());
-        buf.append(", IBAN ");
-        buf.append(getIban());
-        if (getBic().isPresent()) {
-            buf.append(", BIC ");
-            buf.append(getBic().get());
+    override fun toString(): String {
+        val buf = StringBuilder(kontoinhaber)
+        buf.append(", IBAN ")
+        buf.append(iban)
+        if (getBic().isPresent) {
+            buf.append(", BIC ")
+            buf.append(getBic().get())
         }
-        return buf.toString();
+        return buf.toString()
     }
 
     /**
@@ -190,13 +111,51 @@ public class Bankverbindung implements Fachwert {
      *
      * @return Attribute als Map
      */
-    @Override
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("kontoinhaber", getKontoinhaber());
-        map.put("iban", getIban());
-        getBic().ifPresent(b -> map.put("bic", b));
-        return map;
+    override fun toMap(): Map<String, Any> {
+        val map: MutableMap<String, Any> = HashMap()
+        map["kontoinhaber"] = kontoinhaber
+        map["iban"] = iban
+        getBic().ifPresent { b: BIC -> map["bic"] = b }
+        return map
+    }
+
+    companion object {
+
+        /** Null-Konstante fuer Initialisierungen.  */
+        val NULL = Bankverbindung("", IBAN.NULL, BIC.NULL)
+
+        private fun split(bankverbindung: String): Array<Any?> {
+            val splitted = arrayOfNulls<String>(3)
+            splitted[0] = stripSeparator(StringUtils.substringBefore(bankverbindung, "IBAN"))
+            splitted[1] = stripSeparator(StringUtils.substringAfter(bankverbindung, "IBAN"))
+            if (StringUtils.isBlank(splitted[1])) {
+                throw LocalizedIllegalArgumentException(bankverbindung, "bank_account")
+            }
+            if (splitted[1]!!.contains("BIC")) {
+                splitted[2] = stripSeparator(StringUtils.substringAfter(splitted[1], "BIC"))
+                splitted[1] = stripSeparator(StringUtils.substringBefore(splitted[1], "BIC"))
+            } else {
+                splitted[2] = ""
+            }
+            val values = arrayOfNulls<Any>(3)
+            values[0] = splitted[0]
+            values[1] = IBAN(splitted[1])
+            values[2] = if (splitted[2]!!.isEmpty()) null else BIC(splitted[2])
+            return values
+        }
+
+        private fun stripSeparator(raw: String): String {
+            var value = raw.trim { it <= ' ' }
+            if (value.endsWith(",")) {
+                value = value.substring(0, value.length - 1)
+            }
+            return value
+        }
+    }
+
+    init {
+        this.iban = iban
+        this.bic = bic
     }
 
 }
