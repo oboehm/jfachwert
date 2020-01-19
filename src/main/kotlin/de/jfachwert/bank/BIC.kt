@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,119 +15,93 @@
  *
  * (c)reated 11.03.17 by oliver (ob@oasd.de)
  */
-package de.jfachwert.bank;
+package de.jfachwert.bank
 
-import de.jfachwert.SimpleValidator;
-import de.jfachwert.Text;
-import de.jfachwert.pruefung.NullValidator;
-import de.jfachwert.pruefung.exception.InvalidLengthException;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.WeakHashMap;
+import de.jfachwert.SimpleValidator
+import de.jfachwert.Text
+import de.jfachwert.pruefung.NullValidator
+import de.jfachwert.pruefung.exception.InvalidLengthException
+import org.apache.commons.lang3.StringUtils
+import java.util.*
 
 /**
  * BIC steht fuer Bank (oder auch Businiess) Identifier Code und kennzeichnet
  * weltweit Kreditinstitute, Broker oder aehnliche Unternehmen. Im Allegemeinen
  * wird die BIC im Zahlungsverkehr zusammen mit der IBAN verwendet.
- * <p>
- *     Der BIC hat eine Laenge von 11 oder 14 alphanumerischen Zeichen mit
- *     folgendem Aufbau: BBBBCCLLbbb
- * </p>
- * <ul>
- *     <li>
- *         BBBB: 4-stelliger Bankcode, vom Geldinstitut frei waehlbar
- *         (nur Buchstaben)
- *     </li>
- *     <li>
- *         CC: 2-stelliger Laendercode nach ISO 3166-1 (nur Buchstaben)
- *     </li>
- *     <li>
- *         LL: 2-stellige Codierung des Ortes (Buchstaben/Ziffern)
- *     </li>
- *     <li>
- *         bbb: 3-stellige Kennzeichnung (Branche-Code) der Filiale oder
- *         Abteilung. Kann um "XXX" auf 6-stellig ergaenzt werden
- *         (Buchstaben/Ziffern)
- *     </li>
- * </ul>
  *
- * @author <a href="ob@aosd.de">oliver</a>
+ * Der BIC hat eine Laenge von 11 oder 14 alphanumerischen Zeichen mit
+ * folgendem Aufbau: BBBBCCLLbbb
+ *
+ *  * BBBB: 4-stelliger Bankcode, vom Geldinstitut frei waehlbar
+ *    (nur Buchstaben)
+ *  * CC: 2-stelliger Laendercode nach ISO 3166-1 (nur Buchstaben)
+ *  * LL: 2-stellige Codierung des Ortes (Buchstaben/Ziffern)
+ *  * bbb: 3-stellige Kennzeichnung (Branche-Code) der Filiale oder
+ *    Abteilung. Kann um "XXX" auf 6-stellig ergaenzt werden
+ *    (Buchstaben/Ziffern)
+ *
+ * @author oliver (ob@aosd.de)
  */
-public class BIC extends Text {
-
-    private static final WeakHashMap<String, BIC> WEAK_CACHE = new WeakHashMap<>();
-    private static final SimpleValidator<String> VALIDATOR = new Validator();
-
-    /** Null-Konstante fuer Initialisierungen. */
-    public static final BIC NULL = new BIC("", new NullValidator<>());
-
-    /**
-     * Hierueber wird eine neue BIC angelegt.
-     *
-     * @param code eine 11- oder 14-stellige BIC
-     */
-    public BIC(String code) {
-        this(code, VALIDATOR);
-    }
-
-    /**
-     * Hierueber wird eine neue BIC angelegt.
-     *
-     * @param code      eine 11- oder 14-stellige BIC
-     * @param validator zum Pruefen der BIC
-     */
-    public BIC(String code, SimpleValidator<String> validator) {
-        super(code, validator);
-    }
-
-    /**
-     * Liefert eine BIC zurueck.
-     *
-     * @param code eine 11- oder 14-stellige BIC
-     * @return Text
-     */
-    public static BIC of(String code) {
-        return WEAK_CACHE.computeIfAbsent(code, BIC::new);
-    }
-
-    /**
-     * Hierueber kann man eine BIC ohne den Umweg ueber den Konstruktor
-     * validieren.
-     *
-     * @param bic die BIC (11- oder 14-stellig)
-     * @return die validierte BIC (zur Weiterverarbeitung)
-     */
-    public static String validate(String bic) {
-        return VALIDATOR.validate(bic);
-    }
-
-
+open class BIC
+/**
+ * Hierueber wird eine neue BIC angelegt.
+ *
+ * @param code      eine 11- oder 14-stellige BIC
+ * @param validator zum Pruefen der BIC (optional)
+ */
+@JvmOverloads constructor(code: String, validator: SimpleValidator<String>? = VALIDATOR) : Text(code, validator) {
 
     /**
      * Dieser Validator ist fuer die Ueberpruefung von BICs vorgesehen.
      *
      * @since 2.2
      */
-    public static class Validator implements SimpleValidator<String> {
-
+    class Validator : SimpleValidator<String> {
         /**
          * Hierueber kann man eine BIC validieren.
          *
          * @param bic die BIC (11- oder 14-stellig)
          * @return die validierte BIC (zur Weiterverarbeitung)
          */
-        @Override
-        public String validate(String bic) {
-            String normalized = StringUtils.trim(bic);
-            List<Integer> allowedLengths = Arrays.asList(8, 11, 14);
-            if (!allowedLengths.contains(normalized.length())) {
-                throw new InvalidLengthException(normalized, allowedLengths);
+        override fun validate(bic: String): String {
+            val normalized = StringUtils.trim(bic)
+            val allowedLengths = Arrays.asList(8, 11, 14)
+            if (!allowedLengths.contains(normalized.length)) {
+                throw InvalidLengthException(normalized, allowedLengths)
             }
-            return normalized;
+            return normalized
+        }
+    }
+
+    companion object {
+
+        private val WEAK_CACHE = WeakHashMap<String, BIC>()
+        private val VALIDATOR: SimpleValidator<String> = Validator()
+
+        /** Null-Konstante fuer Initialisierungen.  */
+        val NULL = BIC("", NullValidator())
+
+        /**
+         * Liefert eine BIC zurueck.
+         *
+         * @param code eine 11- oder 14-stellige BIC
+         * @return Text
+         */
+        @JvmStatic
+        fun of(code: String): BIC {
+            return WEAK_CACHE.computeIfAbsent(code) { n: String -> BIC(n) }
         }
 
+        /**
+         * Hierueber kann man eine BIC ohne den Umweg ueber den Konstruktor
+         * validieren.
+         *
+         * @param bic die BIC (11- oder 14-stellig)
+         * @return die validierte BIC (zur Weiterverarbeitung)
+         */
+        fun validate(bic: String?): String? {
+            return VALIDATOR.validate(bic)
+        }
     }
-    
+
 }

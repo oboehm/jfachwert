@@ -65,7 +65,7 @@ open class Bankverbindung
      */
     @JsonCreator
     constructor(map: Map<String, String>) :
-            this(Objects.toString(map["kontoinhaber"], ""), IBAN(map["iban"]), BIC(map["bic"])) {
+            this(Objects.toString(map["kontoinhaber"], ""), IBAN(map["iban"]), BIC(map["bic"]!!)) {
     }
 
     /**
@@ -140,7 +140,7 @@ open class Bankverbindung
             val values = arrayOfNulls<Any>(3)
             values[0] = splitted[0]
             values[1] = IBAN(splitted[1])
-            values[2] = if (splitted[2]!!.isEmpty()) null else BIC(splitted[2])
+            values[2] = if (splitted[2]!!.isEmpty()) null else BIC(splitted[2]!!)
             return values
         }
 
