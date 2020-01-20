@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,14 @@
  *
  * (c)reated 16.03.2017 by oboehm (ob@jfachwert.de)
  */
-package de.jfachwert.bank;
+package de.jfachwert.bank
 
-import de.jfachwert.AbstractFachwert;
-import de.jfachwert.SimpleValidator;
-import de.jfachwert.pruefung.exception.InvalidLengthException;
-import de.jfachwert.pruefung.exception.InvalidValueException;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.WeakHashMap;
+import de.jfachwert.AbstractFachwert
+import de.jfachwert.SimpleValidator
+import de.jfachwert.pruefung.exception.InvalidLengthException
+import de.jfachwert.pruefung.exception.InvalidValueException
+import org.apache.commons.lang3.StringUtils
+import java.util.*
 
 /**
  * Eigentlich ist die Kontonummer Bestandteil der IBAN. Trotzdem wird sie
@@ -32,80 +31,22 @@ import java.util.WeakHashMap;
  * @author oboehm
  * @since 0.1.0
  */
-public class Kontonummer extends AbstractFachwert<Long, Kontonummer> {
-
-    private static final WeakHashMap<Long, Kontonummer> WEAK_CACHE = new WeakHashMap<>();
-    private static final Validator VALIDATOR = new Validator();
+open class Kontonummer
+/**
+ * Hier gehen wir davon aus, dass eine Kontonummer immer eine Zahl ist und
+ * fuehrende Nullen keine Rollen spielen.
+ *
+ * @param nr        Kontnummer als Zahl
+ * @param validator fuer die Pruefung
+ */
+@JvmOverloads constructor(nr: Long, validator: SimpleValidator<Long>? = VALIDATOR) : AbstractFachwert<Long, Kontonummer>(nr, validator) {
 
     /**
      * Hierueber wird eine neue Kontonummer angelegt.
      *
      * @param nr eine maximal 10-stellige Zahl
      */
-    public Kontonummer(String nr) {
-        this(Long.parseLong(nr.trim()));
-    }
-
-    /**
-     * Hier gehen wir davon aus, dass eine Kontonummer immer eine Zahl ist und
-     * fuehrende Nullen keine Rollen spielen.
-     *
-     * @param nr the nr
-     */
-    public Kontonummer(long nr) {
-        this(nr, VALIDATOR);
-    }
-
-    /**
-     * Hier gehen wir davon aus, dass eine Kontonummer immer eine Zahl ist und
-     * fuehrende Nullen keine Rollen spielen.
-     *
-     * @param nr        the nr
-     * @param validator fuer die Pruefung
-     */
-    public Kontonummer(long nr, SimpleValidator<Long> validator) {
-        super(nr, validator);
-    }
-
-    /**
-     * Liefert eine Kontonummer zurueck.
-     *
-     * @param nr Kontonummer
-     * @return die Kontonummer
-     */
-    public static Kontonummer of(long nr) {
-        return WEAK_CACHE.computeIfAbsent(nr, Kontonummer::new);
-    }
-
-    /**
-     * Liefert eine Kontonummer zurueck.
-     *
-     * @param code Kontonummer
-     * @return die Kontonummer
-     */
-    public static Kontonummer of(String code) {
-        return of(Long.parseLong(code));
-    }
-
-    /**
-     * Eine gueltige Kontonummer beginnt bei 1 und hat maximal 10 Stellen.
-     *
-     * @param kontonr die Kontonummer
-     * @return die validierte Kontonummer zur Weiterverabeitung
-     */
-    public static String validate(String kontonr) {
-        return VALIDATOR.validate(kontonr);
-    }
-
-    /**
-     * Eine gueltige Kontonummer beginnt bei 1 und hat maximal 10 Stellen.
-     *
-     * @param kontonr die Kontonummer
-     * @return die validierte Kontonummer zur Weiterverabeitung
-     */
-    public static long validate(long kontonr) {
-        return VALIDATOR.validate(kontonr);
-    }
+    constructor(nr: String) : this(nr.trim { it <= ' ' }.toLong()) {}
 
     /**
      * Um ein einheitliches Format der Kontonummer zu bekommen, geben wir
@@ -114,34 +55,30 @@ public class Kontonummer extends AbstractFachwert<Long, Kontonummer> {
      *
      * @return a string representation of the object.
      */
-    @Override
-    public String toString() {
-        return String.format("%010d", this.getCode());
+    override fun toString(): String {
+        return String.format("%010d", code)
     }
-
-
 
     /**
      * Dieser Validator ist fuer die Ueberpruefung von Kontonummern vorgesehen.
      *
      * @since 2.2
      */
-    public static class Validator implements SimpleValidator<Long> {
-
+    class Validator : SimpleValidator<Long> {
         /**
          * Eine gueltige Kontonummer beginnt bei 1 und hat maximal 10 Stellen.
          *
          * @param kontonr die Kontonummer
          * @return die validierte Kontonummer zur Weiterverabeitung
          */
-        public Long validate(Long kontonr) {
+        override fun validate(kontonr: Long): Long {
             if (kontonr < 1) {
-                throw new InvalidValueException(kontonr, "account_number");
+                throw InvalidValueException(kontonr, "account_number")
             }
-            if (kontonr > 9_999_999_999L) {
-                throw new InvalidLengthException(Long.toString(kontonr), 1, 10);
+            if (kontonr > 9999999999L) {
+                throw InvalidLengthException(java.lang.Long.toString(kontonr), 1, 10)
             }
-            return kontonr;
+            return kontonr
         }
 
         /**
@@ -150,16 +87,60 @@ public class Kontonummer extends AbstractFachwert<Long, Kontonummer> {
          * @param kontonr die Kontonummer
          * @return die validierte Kontonummer zur Weiterverabeitung
          */
-        public String validate(String kontonr) {
-            String normalized = StringUtils.trimToEmpty(kontonr);
+        fun validate(kontonr: String?): String {
+            val normalized = StringUtils.trimToEmpty(kontonr)
             try {
-                validate(Long.valueOf(normalized));
-            } catch (NumberFormatException nfe) {
-                throw new InvalidValueException(kontonr, "account_number", nfe);
+                validate(java.lang.Long.valueOf(normalized))
+            } catch (nfe: NumberFormatException) {
+                throw InvalidValueException(kontonr, "account_number", nfe)
             }
-            return normalized;
+            return normalized
+        }
+    }
+
+    companion object {
+        private val WEAK_CACHE = WeakHashMap<Long, Kontonummer>()
+        private val VALIDATOR = Validator()
+        /**
+         * Liefert eine Kontonummer zurueck.
+         *
+         * @param nr Kontonummer
+         * @return die Kontonummer
+         */
+        fun of(nr: Long): Kontonummer {
+            return WEAK_CACHE.computeIfAbsent(nr) { n: Long -> Kontonummer(n) }
         }
 
+        /**
+         * Liefert eine Kontonummer zurueck.
+         *
+         * @param code Kontonummer
+         * @return die Kontonummer
+         */
+        @JvmStatic
+        fun of(code: String): Kontonummer {
+            return of(code.toLong())
+        }
+
+        /**
+         * Eine gueltige Kontonummer beginnt bei 1 und hat maximal 10 Stellen.
+         *
+         * @param kontonr die Kontonummer
+         * @return die validierte Kontonummer zur Weiterverabeitung
+         */
+        fun validate(kontonr: String?): String {
+            return VALIDATOR.validate(kontonr)
+        }
+
+        /**
+         * Eine gueltige Kontonummer beginnt bei 1 und hat maximal 10 Stellen.
+         *
+         * @param kontonr die Kontonummer
+         * @return die validierte Kontonummer zur Weiterverabeitung
+         */
+        fun validate(kontonr: Long): Long {
+            return VALIDATOR.validate(kontonr)
+        }
     }
 
 }
