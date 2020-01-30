@@ -144,4 +144,21 @@ public class PLZTest extends AbstractFachwertTest<String, Text> {
         assertEquals(new Locale("de", "AT"), weyer.getLand());
     }
 
+    /**
+     * Fuenfstelligen Postleitzahlen kommen aus Deutschland. Dort duerfen
+     * Postleitzahlen nicht mit '00...' anfangen.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testFuenfstellig() {
+        PLZ.of("00123");
+    }
+
+    /**
+     * Postleitzahlen duerfen in Deutschland nicht mit '00...' anfangen.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testFuenfstelligDE() {
+        PLZ.of("D-00999");
+    }
+
 }

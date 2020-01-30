@@ -20,8 +20,10 @@ package de.jfachwert.post;
 import de.jfachwert.SimpleValidator;
 import de.jfachwert.Text;
 import de.jfachwert.pruefung.LengthValidator;
+import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.NumberValidator;
 import de.jfachwert.pruefung.exception.InvalidValueException;
+import org.apache.commons.lang3.Range;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
@@ -42,7 +44,7 @@ public class PLZ extends Text {
     private static final WeakHashMap<String, PLZ> WEAK_CACHE = new WeakHashMap<>();
 
     /** Null-Wert fuer Initialisierung. */
-    public static final PLZ NULL = PLZ.of("00000");
+    public static final PLZ NULL = new PLZ("00000", new NullValidator<>());
 
     /**
      * Hierueber wird eine Postleitzahl angelegt.
@@ -243,6 +245,9 @@ public class PLZ extends Text {
                 validateNumberOf(plz);
             } else {
                 plz = LengthValidator.validate(plz, 3, 10);
+                if (plz.length() == 5) {
+                    validateNumberFuenfstellig(plz);
+                }
             }
             return plz;
         }
@@ -251,8 +256,9 @@ public class PLZ extends Text {
             String kennung = getLandeskennung(plz);
             String zahl = getPostleitZahl(plz);
             switch (kennung) {
-                case "CH":
                 case "D":
+                    validateNumberFuenfstellig(zahl);
+                case "CH":
                     validateNumberWith(plz, 6, zahl);
                     break;
                 case "A":
@@ -267,6 +273,13 @@ public class PLZ extends Text {
         private static void validateNumberWith(String plz, int length, String zahl) {
             LengthValidator.validate(plz, length);
             new NumberValidator(BigDecimal.ZERO, BigDecimal.TEN.pow(length)).validate(zahl);
+        }
+
+        private static void validateNumberFuenfstellig(String plz) {
+            int n = Integer.parseInt(plz);
+            if (n < 1000) {
+                throw new InvalidValueException(plz, "postal_code", Range.between("01000", "99999"));
+            }
         }
 
         private static String normalize(String plz) {
