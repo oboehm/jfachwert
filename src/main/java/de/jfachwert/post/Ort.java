@@ -145,7 +145,7 @@ public class Ort implements Fachwert {
         String[] splitted = new String[]{"", input};
         if (input.contains(" ")) {
             try {
-                String plz = PLZ.validate(StringUtils.substringBefore(input, " "));
+                String plz = new PLZ.Validator().validate(StringUtils.substringBefore(input, " "));
                 splitted[0] = plz;
                 splitted[1] = StringUtils.substringAfter(input, " ").trim();
             } catch (ValidationException ex) {

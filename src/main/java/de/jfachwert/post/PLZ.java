@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,14 +17,13 @@
  */
 package de.jfachwert.post;
 
+import de.jfachwert.SimpleValidator;
 import de.jfachwert.Text;
 import de.jfachwert.pruefung.LengthValidator;
 import de.jfachwert.pruefung.NumberValidator;
 import de.jfachwert.pruefung.exception.InvalidValueException;
-import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.validation.ValidationException;
 import java.math.BigDecimal;
 import java.util.Locale;
 import java.util.WeakHashMap;
@@ -39,6 +38,7 @@ import java.util.WeakHashMap;
  */
 public class PLZ extends Text {
 
+    private static final SimpleValidator<String> VALIDATOR = new Validator();
     private static final WeakHashMap<String, PLZ> WEAK_CACHE = new WeakHashMap<>();
 
     /** Null-Wert fuer Initialisierung. */
@@ -50,7 +50,17 @@ public class PLZ extends Text {
      * @param plz z.B. "70839" oder "D-70839"
      */
     public PLZ(String plz) {
-        super(verify(plz));
+        super(plz, VALIDATOR);
+    }
+
+    /**
+     * Hierueber wird eine Postleitzahl angelegt.
+     *
+     * @param plz z.B. "70839" oder "D-70839"
+     * @param validator fuer die Ueberpruefung
+     */
+    public PLZ(String plz, SimpleValidator<String> validator) {
+        super(plz, validator);
     }
 
     /**
@@ -84,58 +94,6 @@ public class PLZ extends Text {
             default:
                 return country;
         }
-    }
-
-    /**
-     * Eine Postleitahl muss zwischen 3 und 10 Ziffern lang sein. Eventuell
-     * kann noch die Laenderkennung vorangestellt werden. Dies wird hier
-     * ueberprueft.
-     *
-     * @param code die PLZ
-     * @return die validierte PLZ (zur Weiterverarbeitung)
-     */
-    public static String validate(String code) {
-        String plz = normalize(code);
-        if (hasLandeskennung(plz)) {
-            validateNumberOf(plz);
-        } else {
-            plz = LengthValidator.validate(plz, 3, 10);
-        }
-        return plz;
-    }
-
-    private static String verify(String code) {
-        try {
-            return validate(code);
-        } catch (ValidationException ex) {
-            throw new LocalizedIllegalArgumentException(ex);
-        }
-    }
-
-    private static void validateNumberOf(String plz) {
-        String kennung = getLandeskennung(plz);
-        String zahl = getPostleitZahl(plz);
-        switch (kennung) {
-            case "CH":
-            case "D":
-                validateNumberWith(plz, 6, zahl);
-                break;
-            case "A":
-                validateNumberWith(plz, 5, zahl);
-                break;
-            default:
-                LengthValidator.validate(zahl, 3, 10);
-                break;
-        }
-    }
-
-    private static void validateNumberWith(String plz, int length, String zahl) {
-        LengthValidator.validate(plz, length);
-        new NumberValidator(BigDecimal.ZERO, BigDecimal.TEN.pow(length)).validate(zahl);
-    }
-
-    private static String normalize(String plz) {
-        return StringUtils.replaceChars(plz, " -", "").toUpperCase();
     }
 
     /**
@@ -252,6 +210,69 @@ public class PLZ extends Text {
     @Override
     public String toString() {
         return this.toLongString();
+    }
+
+
+
+    /**
+     * In dieser Klasse sind die Validierungsregeln der diversen
+     * PLZ-Validierungen zusammengefasst. Fuer Deutschland gilt z.B.:
+     * <ul>
+     * <li>Eine PLZ besteht aus 5 Ziffern.</li>
+     * <li>Steht an erster Stelle eine 0, folgt darauf eine Zahl zwischen
+     * 1 und 9.</li>
+     * <li>Steht an erster Stelle eine Zahl zwischen 1 und 9, folgt darauf
+     * eine Zahl zwischen 0 und 9.</li>
+     * <li>An den letzten drei Stellen steht eine Zahl zwischen 0 und 9.</li>
+     * </ul>
+     */
+    public static class Validator implements SimpleValidator<String> {
+
+        /**
+         * Eine Postleitahl muss zwischen 3 und 10 Ziffern lang sein. Eventuell
+         * kann noch die Laenderkennung vorangestellt werden. Dies wird hier
+         * ueberprueft.
+         *
+         * @param code die PLZ
+         * @return die validierte PLZ (zur Weiterverarbeitung)
+         */
+        @Override
+        public String validate(String code) {
+            String plz = normalize(code);
+            if (hasLandeskennung(plz)) {
+                validateNumberOf(plz);
+            } else {
+                plz = LengthValidator.validate(plz, 3, 10);
+            }
+            return plz;
+        }
+
+        private static void validateNumberOf(String plz) {
+            String kennung = getLandeskennung(plz);
+            String zahl = getPostleitZahl(plz);
+            switch (kennung) {
+                case "CH":
+                case "D":
+                    validateNumberWith(plz, 6, zahl);
+                    break;
+                case "A":
+                    validateNumberWith(plz, 5, zahl);
+                    break;
+                default:
+                    LengthValidator.validate(zahl, 3, 10);
+                    break;
+            }
+        }
+
+        private static void validateNumberWith(String plz, int length, String zahl) {
+            LengthValidator.validate(plz, length);
+            new NumberValidator(BigDecimal.ZERO, BigDecimal.TEN.pow(length)).validate(zahl);
+        }
+
+        private static String normalize(String plz) {
+            return StringUtils.replaceChars(plz, " -", "").toUpperCase();
+        }
+
     }
 
 }
