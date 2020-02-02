@@ -83,7 +83,7 @@ public class PLZTest extends AbstractFachwertTest<String, Text> {
      */
     @Test
     public void testGetLandeskennung() {
-        PLZ dresden = new PLZ("D-01001");
+        PLZ dresden = new PLZ("D-99998");
         assertEquals("D", dresden.getLandeskennung());
     }
 
@@ -93,8 +93,8 @@ public class PLZTest extends AbstractFachwertTest<String, Text> {
      */
     @Test
     public void testEqualsForDE() {
-        PLZ one = new PLZ("D01001");
-        PLZ anotherOne = new PLZ("d-01001");
+        PLZ one = new PLZ("D01067");
+        PLZ anotherOne = new PLZ("d-01067");
         assertEquals(one, anotherOne);
     }
 
@@ -104,8 +104,8 @@ public class PLZTest extends AbstractFachwertTest<String, Text> {
      */
     @Test
     public void testToString() {
-        PLZ dresden = new PLZ("D01001");
-        assertEquals("D-01001", dresden.toString());
+        PLZ dresden = new PLZ("D01069");
+        assertEquals("D-01069", dresden.toString());
     }
 
     /**
@@ -159,6 +159,15 @@ public class PLZTest extends AbstractFachwertTest<String, Text> {
     @Test(expected = IllegalArgumentException.class)
     public void testFuenfstelligDE() {
         PLZ.of("D-00999");
+    }
+
+    /**
+     * Nach <a href="http://api.zippopotam.us/">Zippotam</a> ist 99999 keine
+     * gueltige PLZ in Deutschland.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testD99999() {
+        PLZ.of("D-99999");
     }
 
 }

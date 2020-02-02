@@ -227,6 +227,10 @@ public class PLZ extends Text {
      * eine Zahl zwischen 0 und 9.</li>
      * <li>An den letzten drei Stellen steht eine Zahl zwischen 0 und 9.</li>
      * </ul>
+     * <p>
+     * Will man eine PLZ online fuer verschiedene Laender validieren, kann man
+     * auf <a href="http://api.zippopotam.us/">Zippotam</a> zurueckgreifen.
+     * </p>
      */
     public static class Validator implements SimpleValidator<String> {
 
@@ -277,8 +281,8 @@ public class PLZ extends Text {
 
         private static void validateNumberFuenfstellig(String plz) {
             int n = Integer.parseInt(plz);
-            if (n < 1000) {
-                throw new InvalidValueException(plz, "postal_code", Range.between("01000", "99999"));
+            if ((n < 1067) || (n > 99998)) {
+                throw new InvalidValueException(plz, "postal_code", Range.between("01067", "99998"));
             }
         }
 

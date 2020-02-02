@@ -139,13 +139,13 @@ public class OrtTest extends FachwertTest {
     }
 
     /**
-     * Die Erkennung von "D-01001 Dresden" ist etwas anspruchsvoller, da die
+     * Die Erkennung von "D-01099 Dresden" ist etwas anspruchsvoller, da die
      * PLZ nicht mit einer Ziffer beginnt.
      */
     @Test
     public void testCtorDresden() {
-        Ort dresden = new Ort("D-01001 Dresden");
-        assertEquals(new PLZ("D-01001"), dresden.getPLZ().get());
+        Ort dresden = new Ort("D-01099 Dresden");
+        assertEquals(new PLZ("D-01099"), dresden.getPLZ().get());
         assertEquals("Dresden", dresden.getName());
     }
 
