@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,78 +15,195 @@
  *
  * (c)reated 04.08.18 by oliver (ob@oasd.de)
  */
-package de.jfachwert.bank;
+package de.jfachwert.bank
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import de.jfachwert.Fachwert;
-import de.jfachwert.SimpleValidator;
-import de.jfachwert.pruefung.NullValidator;
-import de.jfachwert.pruefung.exception.InvalidValueException;
-import de.jfachwert.pruefung.exception.LocalizedUnknownCurrencyException;
-import org.apache.commons.collections4.map.ReferenceMap;
-
-import javax.money.CurrencyContext;
-import javax.money.CurrencyUnit;
-import javax.money.UnknownCurrencyException;
-import javax.validation.ValidationException;
-import java.util.Currency;
-import java.util.Locale;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
+import de.jfachwert.Fachwert
+import de.jfachwert.SimpleValidator
+import de.jfachwert.pruefung.NullValidator
+import de.jfachwert.pruefung.exception.InvalidValueException
+import de.jfachwert.pruefung.exception.LocalizedUnknownCurrencyException
+import org.apache.commons.collections4.map.ReferenceMap
+import java.util.*
+import java.util.logging.Level
+import java.util.logging.Logger
+import javax.money.CurrencyContext
+import javax.money.CurrencyUnit
+import javax.money.UnknownCurrencyException
 
 /**
- * Class Waehrung.
+ * Die Klasse Waehrung wurde fuer die Implementierung fuer [Geldbetrag]
+ * eingefuehrt und implementiert die [CurrencyUnit]. Diese ist
+ * Bestandteil der Money-API.
  *
- * @author <a href="ob@aosd.de">oliver</a>
+ * @author oliver (ob@aosd.de)
  * @since 1.0
  */
-@JsonSerialize(using = ToStringSerializer.class)
-public class Waehrung implements Fachwert, Comparable<CurrencyUnit>, CurrencyUnit {
+@JsonSerialize(using = ToStringSerializer::class)
+open class Waehrung protected constructor(code: Currency, validator: SimpleValidator<Currency>) : Fachwert, Comparable<CurrencyUnit>, CurrencyUnit {
 
-    private static final Logger LOG = Logger.getLogger(Waehrung.class.getName());
-    private static final Map<String, Waehrung> CACHE = new ReferenceMap<>();
-    private static final SimpleValidator<String> VALIDATOR = new Validator();
+    companion object {
 
-    /** Default-Waehrung, die durch die Landeseinstellung (Locale) vorgegeben wird. */
-    public static final Currency DEFAULT_CURRENCY = getDefaultCurrency();
+        private val LOG = Logger.getLogger(Waehrung::class.java.name)
+        private val CACHE: MutableMap<String, Waehrung> = ReferenceMap()
+        private val VALIDATOR: SimpleValidator<String> = Validator()
 
-    /** Default-Waehrung, die durch die Landeseinstellung (Locale) vorgegeben wird. */
-    public static final Waehrung DEFAULT = new Waehrung(DEFAULT_CURRENCY);
+        /** Default-Waehrung, die durch die Landeseinstellung (Locale) vorgegeben wird.  */
+        @JvmField
+        val DEFAULT_CURRENCY = defaultCurrency
 
-    static {
-        CACHE.put(DEFAULT_CURRENCY.getCurrencyCode(), DEFAULT);
-    }
+        /** Default-Waehrung, die durch die Landeseinstellung (Locale) vorgegeben wird.  */
+        @JvmField
+        val DEFAULT = Waehrung(DEFAULT_CURRENCY)
 
-    /** Die Euro-Waehrung als Konstante. */
-    public static final Waehrung EUR = Waehrung.of("EUR");
+        /** Die Euro-Waehrung als Konstante.  */
+        @JvmField
+        val EUR = of("EUR")
 
-    /** Null-Konstante fuer Initialiserung. */
-    public static final Waehrung NULL = new Waehrung("XXX");
+        /** Null-Konstante fuer Initialiserung.  */
+        val NULL = Waehrung("XXX")
 
-    private final Currency code;
+        /**
+         * Gibt die entsprechende Currency als Waehrung zurueck. Da die Anzahl der
+         * Waehrungen ueberschaubar ist, werden sie in einem dauerhaften Cache
+         * vorgehalten.
+         *
+         * @param currency Currency
+         * @return Waehrung
+         */
+        @JvmStatic
+        fun of(currency: Currency): Waehrung {
+            val key = currency.currencyCode
+            return CACHE.computeIfAbsent(key) { t: String? -> Waehrung(currency) }
+        }
 
-    /**
-     * Darueber kann eine Waehrung angelegt werden.
-     *
-     * @param code z.B. "EUR"
-     */
-    public Waehrung(String code) {
-        this(toCurrency(code));
-    }
+        /**
+         * Gibt die entsprechende Currency als Waehrung zurueck.
+         *
+         * @param currencyUnit CurrencyUnit
+         * @return Waehrung
+         */
+        @JvmStatic
+        fun of(currencyUnit: CurrencyUnit): Waehrung {
+            return if (currencyUnit is Waehrung) {
+                currencyUnit
+            } else {
+                of(currencyUnit.currencyCode)
+            }
+        }
 
-    /**
-     * Darueber kann eine Waehrung angelegt werden.
-     *
-     * @param code Waehrung
-     */
-    public Waehrung(Currency code) {
-        this(code, new NullValidator<>());
-    }
+        /**
+         * Gibt die entsprechende Currency als Waehrung zurueck.
+         *
+         * @param currency Waehrung, z.B. "EUR"
+         * @return Waehrung
+         */
+        @JvmStatic
+        fun of(currency: String): Waehrung {
+            return of(toCurrency(currency))
+        }
 
-    protected Waehrung(Currency code, SimpleValidator<Currency> validator) {
-        this.code = validator.verify(code);
+        /**
+         * Ermittelt aus dem uebergebenen String die entsprechende
+         * [Currency].
+         *
+         * @param name z.B. "EUR" oder auch ein einzelnes Symbol
+         * @return die entsprechende Waehrung
+         */
+        @JvmStatic
+        fun toCurrency(name: String): Currency {
+            return try {
+                Currency.getInstance(name)
+            } catch (iae: IllegalArgumentException) {
+                if (name.length <= 3) {
+                    for (c in Currency.getAvailableCurrencies()) {
+                        if (matchesCurrency(name, c)) {
+                            return c
+                        }
+                    }
+                    toFallbackCurrency(name, iae)
+                } else {
+                    try {
+                        toCurrency(name.substring(0, 3))
+                    } catch (ex: LocalizedUnknownCurrencyException) {
+                        throw LocalizedUnknownCurrencyException(name, ex)
+                    }
+                }
+            }
+        }
+
+        private fun matchesCurrency(name: String, c: Currency): Boolean {
+            return name.equals(c.currencyCode, ignoreCase = true) || name.equals(c.symbol, ignoreCase = true)
+        }
+
+        private fun toFallbackCurrency(name: String, iae: IllegalArgumentException): Currency {
+            return if (name == "\u20ac") {
+                Currency.getInstance("EUR")
+            } else {
+                throw LocalizedUnknownCurrencyException(name, iae)
+            }
+        }
+
+        /**
+         * Validiert den uebergebenen Waehrungscode.
+         *
+         * @param code Waehrungscode als String
+         * @return Waehrungscode zur Weiterverarbeitung
+         */
+        fun validate(code: String): String {
+            return VALIDATOR.validate(code)
+        }
+
+        /**
+         * Lieft das Waehrungssymbol der uebergebenen Waehrungseinheit.
+         *
+         * @param cu Waehrungseinheit
+         * @return z.B. das Euro-Zeichen
+         */
+        @JvmStatic
+        fun getSymbol(cu: CurrencyUnit): String {
+            return try {
+                of(cu).symbol
+            } catch (ex: IllegalArgumentException) {
+                LOG.log(Level.WARNING, "Cannot get symbol for '$cu':", ex)
+                cu.currencyCode
+            }
+        }
+
+        /**
+         * Ermittelt die Waehrung. Urspruenglich wurde die Default-Currency ueber
+         * <pre>
+         * Currency.getInstance(Locale.getDefault())
+         * </pre>
+         * ermittelt. Dies fuehrte aber auf der Sun zu Problemen, da dort
+         * die Currency fuer die Default-Locale folgende Exception hervorrief:
+         * <pre>
+         * java.lang.IllegalArgumentException
+         * at java.util.Currency.getInstance(Currency.java:384)
+         * at de.jfachwert.bank.Geldbetrag.&lt;clinit&gt;
+         * ...
+         * </pre>
+         *
+         * @return normalerweise die deutsche Currency
+         */
+        private val defaultCurrency: Currency
+            get() {
+                val locales = arrayOf(Locale.getDefault(), Locale.GERMANY, Locale.GERMAN)
+                for (loc in locales) {
+                    try {
+                        return Currency.getInstance(loc)
+                    } catch (iae: IllegalArgumentException) {
+                        LOG.log(Level.INFO,
+                                "No currency for locale '$loc' available on this machine - will try next one.", iae)
+                    }
+                }
+                return Currency.getAvailableCurrencies().iterator().next()
+            }
+
+        init {
+            CACHE[DEFAULT_CURRENCY.currencyCode] = DEFAULT
+        }
     }
 
     /**
@@ -94,114 +211,37 @@ public class Waehrung implements Fachwert, Comparable<CurrencyUnit>, CurrencyUni
      *
      * @return Waehrung als Currency
      */
-    public Currency getCode() {
-        return code;
-    }
+    val code: Currency
 
     /**
-     * Gibt die entsprechende Currency als Waehrung zurueck. Da die Anzahl der
-     * Waehrungen ueberschaubar ist, werden sie in einem dauerhaften Cache
-     * vorgehalten.
+     * Darueber kann eine Waehrung angelegt werden.
      *
-     * @param currency Currency
-     * @return Waehrung
+     * @param code z.B. "EUR"
      */
-    public static Waehrung of(Currency currency) {
-        String key = currency.getCurrencyCode();
-        return CACHE.computeIfAbsent(key, t -> new Waehrung(currency));
-    }
+    constructor(code: String) : this(toCurrency(code)) {}
 
     /**
-     * Gibt die entsprechende Currency als Waehrung zurueck.
+     * Darueber kann eine Waehrung angelegt werden.
      *
-     * @param currencyUnit CurrencyUnit
-     * @return Waehrung
+     * @param code Waehrung
      */
-    public static Waehrung of(CurrencyUnit currencyUnit) {
-        if (currencyUnit instanceof Waehrung) {
-            return (Waehrung) currencyUnit;
-        } else {
-            return of(currencyUnit.getCurrencyCode());
-        }
-    }
-
-    /**
-     * Gibt die entsprechende Currency als Waehrung zurueck.
-     *
-     * @param currency Waehrung, z.B. "EUR"
-     * @return Waehrung
-     */
-    public static Waehrung of(String currency) {
-        return of(toCurrency(currency));
-    }
-
-    /**
-     * Ermittelt aus dem uebergebenen String die entsprechende
-     * {@link Currency}.
-     *
-     * @param name z.B. "EUR" oder auch ein einzelnes Symbol
-     * @return die entsprechende Waehrung
-     */
-    public static Currency toCurrency(String name) {
-        try {
-            return Currency.getInstance(name);
-        } catch (IllegalArgumentException iae) {
-            if (name.length() <= 3) {
-                for (Currency c : Currency.getAvailableCurrencies()) {
-                    if (matchesCurrency(name, c)) {
-                        return c;
-                    }
-                }
-                return toFallbackCurrency(name, iae);
-            } else {
-                try {
-                    return toCurrency(name.substring(0, 3));
-                } catch (LocalizedUnknownCurrencyException ex) {
-                    throw new LocalizedUnknownCurrencyException(name, ex);
-                }
-            }
-        }
-    }
-
-    private static boolean matchesCurrency(String name, Currency c) {
-        return name.equalsIgnoreCase(c.getCurrencyCode()) || name.equalsIgnoreCase(c.getSymbol());
-    }
-
-    private static Currency toFallbackCurrency(String name, IllegalArgumentException iae) {
-        if (name.equals("\u20ac")) {
-            return Currency.getInstance("EUR");
-        } else {
-            throw new LocalizedUnknownCurrencyException(name);
-        }
-    }
-
-    /**
-     * Validiert den uebergebenen Waehrungscode.
-     *
-     * @param code Waehrungscode als String
-     * @return Waehrungscode zur Weiterverarbeitung
-     */
-    public static String validate(String code) {
-        return VALIDATOR.validate(code);
-    }
+    constructor(code: Currency) : this(code, NullValidator<Currency>()) {}
 
     /**
      * Liefert die Currency zurueck.
      *
      * @return die Currency aus java.util.
      */
-    public Currency getCurrency() {
-        return getCode();
-    }
+    val currency: Currency
+        get() = code
 
     /**
      * Liefert den Waehrungscode.
      *
      * @return z.B. "EUR"
      */
-    @Override
-    public String getCurrencyCode() {
-        return getCode().getCurrencyCode();
+    override fun getCurrencyCode(): String {
+        return code.currencyCode
     }
 
     /**
@@ -209,9 +249,8 @@ public class Waehrung implements Fachwert, Comparable<CurrencyUnit>, CurrencyUni
      *
      * @return z.B. 978 fuer EUro
      */
-    @Override
-    public int getNumericCode() {
-        return getCode().getNumericCode();
+    override fun getNumericCode(): Int {
+        return code.numericCode
     }
 
     /**
@@ -219,14 +258,12 @@ public class Waehrung implements Fachwert, Comparable<CurrencyUnit>, CurrencyUni
      *
      * @return meist 2, manchmal 0
      */
-    @Override
-    public int getDefaultFractionDigits() {
-        return getCode().getDefaultFractionDigits();
+    override fun getDefaultFractionDigits(): Int {
+        return code.defaultFractionDigits
     }
 
-    @Override
-    public CurrencyContext getContext() {
-        throw new UnsupportedOperationException("not yet implemented");
+    override fun getContext(): CurrencyContext {
+        throw UnsupportedOperationException("not yet implemented")
     }
 
     /**
@@ -234,24 +271,8 @@ public class Waehrung implements Fachwert, Comparable<CurrencyUnit>, CurrencyUni
      *
      * @return z.B. "$"
      */
-    public String getSymbol() {
-        return getCode().getSymbol();
-    }
-
-    /**
-     * Lieft das Waehrungssymbol der uebergebenen Waehrungseinheit.
-     *
-     * @param cu Waehrungseinheit
-     * @return z.B. das Euro-Zeichen
-     */
-    public static String getSymbol(CurrencyUnit cu) {
-        try {
-            return Waehrung.of(cu).getSymbol();
-        } catch (IllegalArgumentException ex) {
-            LOG.log(Level.WARNING, "Cannot get symbol for '" + cu + "':", ex);
-            return cu.getCurrencyCode();
-        }
-    }
+    val symbol: String
+        get() = code.symbol
 
     /**
      * Zum Vergleich wird der Waehrungscode herangezogen und alphabetisch
@@ -261,33 +282,29 @@ public class Waehrung implements Fachwert, Comparable<CurrencyUnit>, CurrencyUni
      * @return eine negative Zahl wenn die ander Waehrung alphabetisch
      * danach kommt.
      */
-    @Override
-    public int compareTo(CurrencyUnit other) {
-        return getCurrencyCode().compareTo(other.getCurrencyCode());
+    override fun compareTo(other: CurrencyUnit): Int {
+        return currencyCode.compareTo(other.currencyCode)
     }
 
     /**
      * Zwei Waehrungen sind nur dann gleich, wenn sie vom gleichen Typ sind .
      *
-     * @param obj zu vergleichender Waehrung
+     * @param other zu vergleichender Waehrung
      * @return true bei Gleichheit
-     * @see java.lang.Object#equals(java.lang.Object)
+     * @see java.lang.Object.equals
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Waehrung)) {
-            return false;
+    override fun equals(other: Any?): Boolean {
+        if (other !is Waehrung) {
+            return false
         }
-        Waehrung other = (Waehrung) obj;
-        return this.getCode().equals(other.getCode());
+        return code == other.code
     }
 
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
-    @Override
-    public int hashCode() {
-        return this.getCode().hashCode();
+    override fun hashCode(): Int {
+        return code.hashCode()
     }
 
     /**
@@ -295,39 +312,14 @@ public class Waehrung implements Fachwert, Comparable<CurrencyUnit>, CurrencyUni
      *
      * @return z.B. "EUR"
      */
-    @Override
-    public String toString() {
-        return getCurrencyCode();
+    override fun toString(): String {
+        return currencyCode
     }
 
-    /**
-     * Ermittelt die Waehrung. Urspruenglich wurde die Default-Currency ueber
-     * <pre>
-     *     Currency.getInstance(Locale.getDefault())
-     * </pre>
-     * ermittelt. Dies fuehrte aber auf der Sun zu Problemen, da dort
-     * die Currency fuer die Default-Locale folgende Exception hervorrief:
-     * <pre>
-     * java.lang.IllegalArgumentException
-     *     at java.util.Currency.getInstance(Currency.java:384)
-     *     at de.jfachwert.bank.Geldbetrag.&lt;clinit&gt;
-     *     ...
-     * </pre>
-     *
-     * @return normalerweise die deutsche Currency
-     */
-    private static Currency getDefaultCurrency() {
-        Locale[] locales = {Locale.getDefault(), Locale.GERMANY, Locale.GERMAN};
-        for (Locale loc : locales) {
-            try {
-                return Currency.getInstance(loc);
-            } catch (IllegalArgumentException iae) {
-                LOG.log(Level.INFO,
-                        "No currency for locale '" + loc + "' available on this machine - will try next one.", iae);
-            }
-        }
-        return Currency.getAvailableCurrencies().iterator().next();
+    init {
+        this.code = validator.verify(code)
     }
+
 
 
     /**
@@ -335,27 +327,28 @@ public class Waehrung implements Fachwert, Comparable<CurrencyUnit>, CurrencyUni
      *
      * @since 3.0
      */
-    public static class Validator implements SimpleValidator<String> {
+    class Validator : SimpleValidator<String> {
 
         /**
          * Wenn der uebergebene Waehrungsstring gueltig ist, wird er
          * unveraendert zurueckgegeben, damit er anschliessend von der
          * aufrufenden Methode weiterverarbeitet werden kann. Ist der Wert
-         * nicht gueltig, wird eine {@link ValidationException} geworfen.
+         * nicht gueltig, wird eine [javax.validation.ValidationException]
+         * geworfen.
          *
          * @param code Waehrungs-String, der validiert wird
          * @return Wert selber, wenn er gueltig ist
          */
-        @Override
-        public String validate(String code) {
+        override fun validate(code: String): String {
             try {
-                toCurrency(code);
-            } catch (IllegalArgumentException | UnknownCurrencyException ex) {
-                throw new InvalidValueException(code, "currency");
+                toCurrency(code)
+            } catch (ex: IllegalArgumentException) {
+                throw InvalidValueException(code, "currency")
+            } catch (ex: UnknownCurrencyException) {
+                throw InvalidValueException(code, "currency")
             }
-            return code;
+            return code
         }
-
     }
 
 }
