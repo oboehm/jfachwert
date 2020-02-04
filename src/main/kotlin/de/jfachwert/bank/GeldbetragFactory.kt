@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,183 +15,174 @@
  *
  * (c)reated 30.07.2018 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.bank;
+package de.jfachwert.bank
 
-import de.jfachwert.pruefung.exception.LocalizedMonetaryException;
-
-import javax.money.*;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import de.jfachwert.bank.Geldbetrag
+import de.jfachwert.pruefung.exception.LocalizedMonetaryException
+import java.math.BigDecimal
+import java.math.RoundingMode
+import javax.money.*
 
 /**
- * Analog zu den anderen {@link Monetary}-Datentype kann mit dieser Factory
- * ein {@link Geldbetrag} erzeugt und vorblegt werden.
+ * Analog zu den anderen [Monetary]-Datentype kann mit dieser Factory
+ * ein [Geldbetrag] erzeugt und vorblegt werden.
  *
  * @author oboehm
  * @since 1.0 (30.07.2018)
  */
-public class GeldbetragFactory implements MonetaryAmountFactory<Geldbetrag> {
+class GeldbetragFactory : MonetaryAmountFactory<Geldbetrag> {
 
-    public static final MonetaryContext MAX_CONTEXT =
-            MonetaryContextBuilder.of(Geldbetrag.class).setAmountType(Geldbetrag.class).setPrecision(0).setMaxScale(-1)
-                                  .set(RoundingMode.HALF_UP).build();
-    private Number number = BigDecimal.ZERO;
-    private CurrencyUnit currency;
-    private MonetaryContext context =
-            MonetaryContextBuilder.of(Geldbetrag.class).setAmountType(Geldbetrag.class).setPrecision(41).setMaxScale(4)
-                                  .set(RoundingMode.HALF_UP).build();
+    private var number: Number = BigDecimal.ZERO
+    private var currency: CurrencyUnit? = null
+    private var context = MonetaryContextBuilder.of(Geldbetrag::class.java).setAmountType(Geldbetrag::class.java).setPrecision(41).setMaxScale(4)
+            .set(RoundingMode.HALF_UP).build()
 
     /**
-     * Liefert den {@link MonetaryAmount} Implementierungstyp.
+     * Liefert den [MonetaryAmount] Implementierungstyp.
      *
-     * @return die Klasse {@link Geldbetrag}
+     * @return die Klasse [Geldbetrag]
      */
-    @Override
-    public Class<? extends MonetaryAmount> getAmountType() {
-        return Geldbetrag.class;
+    override fun getAmountType(): Class<out MonetaryAmount?> {
+        return Geldbetrag::class.java
     }
 
     /**
-     * Setzt die {@link CurrencyUnit}.
+     * Setzt die [CurrencyUnit].
      *
-     * @param currency {@link CurrencyUnit}, nicht {@code null}
+     * @param currency [CurrencyUnit], nicht `null`
      * @return die Factory selber
      */
-    @Override
-    public GeldbetragFactory setCurrency(CurrencyUnit currency) {
-        this.currency = currency;
-        return this;
+    override fun setCurrency(currency: CurrencyUnit): GeldbetragFactory {
+        this.currency = currency
+        return this
     }
 
     /**
      * Setzt die Nummer fuer den Geldbetrag.
      *
-     * @param number Betrag, darf nicht {@code null} sein.
+     * @param number Betrag, darf nicht `null` sein.
      * @return die Factory selber
      */
-    @Override
-    public GeldbetragFactory setNumber(double number) {
-        return this.setNumber(BigDecimal.valueOf(number));
+    override fun setNumber(number: Double): GeldbetragFactory {
+        return this.setNumber(BigDecimal.valueOf(number))
     }
 
     /**
      * Setzt die Nummer fuer den Geldbetrag.
      *
-     * @param number Betrag, darf nicht {@code null} sein.
+     * @param number Betrag, darf nicht `null` sein.
      * @return die Factory selber
      */
-    @Override
-    public GeldbetragFactory setNumber(long number) {
-        return setNumber(BigDecimal.valueOf(number));
+    override fun setNumber(number: Long): GeldbetragFactory {
+        return setNumber(BigDecimal.valueOf(number))
     }
 
     /**
      * Setzt die Nummer fuer den Geldbetrag.
      *
-     * @param number Betrag, darf nicht {@code null} sein.
+     * @param number Betrag, darf nicht `null` sein.
      * @return die Factory selber
      */
-    @Override
-    public GeldbetragFactory setNumber(Number number) {
-        this.number = number;
-        this.context = getMonetaryContextOf(number);
-        return this;
+    override fun setNumber(number: Number): GeldbetragFactory {
+        this.number = number
+        context = getMonetaryContextOf(number)
+        return this
     }
 
     /**
-     * Ermittelt den {@link MonetaryContext} der uebergebenen Nummer. Laesst er
-     * sich nicht ermitteln, wird der voreigestellte {@link MonetaryContext}
+     * Ermittelt den [MonetaryContext] der uebergebenen Nummer. Laesst er
+     * sich nicht ermitteln, wird der voreigestellte [MonetaryContext]
      * zurueckgeliefert.
      *
      * @param number eine Zahl, z.B. 8.15
      * @return den Kontext, der mit dieser Zahl verbunden ist (wie z.B.
-     *         2 Nachkommastellen, ...)
+     * 2 Nachkommastellen, ...)
      */
-    public MonetaryContext getMonetaryContextOf(Number number) {
-        if (number instanceof BigDecimal) {
-            BigDecimal value = (BigDecimal) number;
-            if (value.scale() > context.getMaxScale()) {
-                return MonetaryContextBuilder.of(Geldbetrag.class)
-                        .setAmountType(Geldbetrag.class)
-                        .setPrecision(context.getPrecision())
+    fun getMonetaryContextOf(number: Number?): MonetaryContext {
+        if (number is BigDecimal) {
+            val value = number
+            if (value.scale() > context.maxScale) {
+                return MonetaryContextBuilder.of(Geldbetrag::class.java)
+                        .setAmountType(Geldbetrag::class.java)
+                        .setPrecision(context.precision)
                         .setMaxScale(value.scale())
-                        .set(RoundingMode.HALF_UP).build();
+                        .set(RoundingMode.HALF_UP).build()
             }
         }
-        return context;
+        return context
     }
 
     /**
-     * Liefert die Maximal-Nummer, die der {@link Geldbetrag} darstellen kann.
+     * Liefert die Maximal-Nummer, die der [Geldbetrag] darstellen kann.
      *
      * @return Maximal-Betrag
      */
-    @Override
-    public NumberValue getMaxNumber() {
-        return Geldbetrag.MAX_VALUE.getNumber();
+    override fun getMaxNumber(): NumberValue {
+        return Geldbetrag.MAX_VALUE.number
     }
 
     /**
-     * Liefert die Minimal-Nummer, die der {@link Geldbetrag} darstellen kann.
+     * Liefert die Minimal-Nummer, die der [Geldbetrag] darstellen kann.
      *
      * @return Minimal-Betrag
      */
-    @Override
-    public NumberValue getMinNumber() {
-        return Geldbetrag.MIN_VALUE.getNumber();
+    override fun getMinNumber(): NumberValue {
+        return Geldbetrag.MIN_VALUE.number
     }
 
     /**
-     * Sets the {@link MonetaryContext} to be used.
+     * Sets the [MonetaryContext] to be used.
      *
-     * @param monetaryContext the {@link MonetaryContext} to be used, not {@code null}.
+     * @param monetaryContext the [MonetaryContext] to be used, not `null`.
      * @return This factory instance, for chaining.
-     * @throws MonetaryException when the {@link MonetaryContext} given exceeds the capabilities supported by this
-     *                           factory type.
-     * @see #getMaximalMonetaryContext()
+     * @throws MonetaryException when the [MonetaryContext] given exceeds the capabilities supported by this
+     * factory type.
+     * @see MonetaryAmountFactory.getMaximalMonetaryContext
      */
-    @Override
-    public GeldbetragFactory setContext(MonetaryContext monetaryContext) {
-        context = monetaryContext;
-        return this;
+    override fun setContext(monetaryContext: MonetaryContext): GeldbetragFactory {
+        context = monetaryContext
+        return this
     }
 
     /**
-     * Erzeugt einen neuen {@link Geldbetrag} anhand der eingestellten Daten.
+     * Erzeugt einen neuen [Geldbetrag] anhand der eingestellten Daten.
      *
-     * @return den entsprechenden {@link Geldbetrag}.
-     * @see #getAmountType()
+     * @return den entsprechenden [Geldbetrag].
+     * @see MonetaryAmountFactory.getAmountType
      */
-    @Override
-    public Geldbetrag create() {
+    override fun create(): Geldbetrag {
         if (currency == null) {
-            throw new LocalizedMonetaryException("currency missing", number);
+            throw LocalizedMonetaryException("currency missing", number)
         }
-        return Geldbetrag.valueOf(number, currency, context);
-    }
-    
-    /**
-     * In der Standardeinstellung liefert der {@link MonetaryContext} einen 
-     * Wertbereich fuer den Geldbetrag von {@link Geldbetrag#MIN_VALUE} bis
-     * {@link Geldbetrag#MAX_VALUE}.
-     *
-     * @return den Default-{@link MonetaryContext}.
-     * @see #getMaximalMonetaryContext()
-     */
-    @Override
-    public MonetaryContext getDefaultMonetaryContext() {
-        return context;
+        return Geldbetrag.valueOf(number, currency, context)
     }
 
     /**
-     * Der maximale {@link MonetaryContext} schraenkt den Wertebereich eines
+     * In der Standardeinstellung liefert der [MonetaryContext] einen
+     * Wertbereich fuer den Geldbetrag von [Geldbetrag.MIN_VALUE] bis
+     * [Geldbetrag.MAX_VALUE].
+     *
+     * @return den Default-[MonetaryContext].
+     * @see MonetaryAmountFactory.getMaximalMonetaryContext
+     */
+    override fun getDefaultMonetaryContext(): MonetaryContext {
+        return context
+    }
+
+    /**
+     * Der maximale [MonetaryContext] schraenkt den Wertebereich eines
      * Geldbetrags nicth ein. D.h. es gibt keine obere und untere Grenze.
      *
-     * @return maximaler {@link MonetaryContext}.
+     * @return maximaler [MonetaryContext].
      */
-    @Override
-    public MonetaryContext getMaximalMonetaryContext() {
-        return MAX_CONTEXT;
+    override fun getMaximalMonetaryContext(): MonetaryContext {
+        return MAX_CONTEXT
+    }
+
+    companion object {
+        @JvmField
+        val MAX_CONTEXT = MonetaryContextBuilder.of(Geldbetrag::class.java).setAmountType(Geldbetrag::class.java).setPrecision(0).setMaxScale(-1)
+                .set(RoundingMode.HALF_UP).build()
     }
 
 }
