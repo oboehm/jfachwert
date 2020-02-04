@@ -18,17 +18,21 @@
 package de.jfachwert.bank.internal;
 
 import org.junit.Test;
+import patterntesting.runtime.junit.CollectionTester;
 
 import javax.money.CurrencyQuery;
 import javax.money.CurrencyQueryBuilder;
 import javax.money.CurrencyUnit;
+import javax.money.spi.Bootstrap;
+import javax.money.spi.CurrencyProviderSpi;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * Unit-Tests fuer {@link WaehrungenSingleton}-Klasse.
@@ -61,8 +65,14 @@ public final class WaehrungenSingletonTest {
     @Test
     public void getCurrenciesUnknown() {
         CurrencyQuery query = CurrencyQueryBuilder.of().setCurrencyCodes("SDR").build();
+        Set<CurrencyUnit> expected = new HashSet<>();
+        for (CurrencyProviderSpi spi : Bootstrap.getServices(CurrencyProviderSpi.class)) {
+            if (!(spi instanceof WaehrungenProvider)) {
+                expected.addAll(spi.getCurrencies(query));
+            }
+        }
         Set<CurrencyUnit> currencies = singleton.getCurrencies(query);
-        assertThat(currencies, empty());
+        CollectionTester.assertEquals(expected, currencies);
     }
 
 }
