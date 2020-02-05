@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -178,6 +178,14 @@ public final class GeldbetragTest extends FachwertTest {
         Geldbetrag betrag = new Geldbetrag(47.11);
         assertSame(betrag, betrag.add(Geldbetrag.ZERO));
         assertSame(betrag, Geldbetrag.ZERO.add(betrag));
+    }
+
+    /**
+     * Laut Abschnitt "4.2.2" des TCKs wird hier eine NPE erwartet.
+     */
+    @Test(expected = NullPointerException.class)
+    public void testAddNull() {
+        Geldbetrag.ZERO.add(null);
     }
 
     @Test

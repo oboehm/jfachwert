@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 /**
  * Alles, was mit Banken zu tun hat, ist in diesem Package versammelt.
  *
- * @author <a href="ob@aosd.de">oliver</a>
+ * @author oliver (ob@aosd.de)
  * @since 0.0.1
  */
-package de.jfachwert.bank;
+package de.jfachwert.bank

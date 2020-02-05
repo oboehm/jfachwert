@@ -18,6 +18,7 @@
 package de.jfachwert.bank
 
 import de.jfachwert.bank.Geldbetrag
+import de.jfachwert.bank.Geldbetrag.Companion.valueOf
 import de.jfachwert.pruefung.exception.LocalizedMonetaryException
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -154,7 +155,7 @@ class GeldbetragFactory : MonetaryAmountFactory<Geldbetrag> {
         if (currency == null) {
             throw LocalizedMonetaryException("currency missing", number)
         }
-        return Geldbetrag.valueOf(number, currency, context)
+        return valueOf(number, currency!!, context)
     }
 
     /**
