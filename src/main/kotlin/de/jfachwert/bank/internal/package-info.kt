@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,4 +19,4 @@
 /**
  * Dieses Package ist nur fuer den internen Gebrauch gedacht.
  */
-package de.jfachwert.bank.internal;
+package de.jfachwert.bank.internal
