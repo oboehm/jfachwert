@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,79 +15,44 @@
  *
  * (c)reated 23.06.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.net;
+package de.jfachwert.net
 
-import de.jfachwert.SimpleValidator;
-import de.jfachwert.Text;
-import de.jfachwert.post.Name;
-import de.jfachwert.pruefung.NullValidator;
-import de.jfachwert.pruefung.exception.InvalidValueException;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.WordUtils;
-
-import java.util.WeakHashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import de.jfachwert.SimpleValidator
+import de.jfachwert.Text
+import de.jfachwert.post.Name
+import de.jfachwert.pruefung.NullValidator
+import de.jfachwert.pruefung.exception.InvalidValueException
+import org.apache.commons.lang3.StringUtils
+import org.apache.commons.text.WordUtils
+import java.util.*
+import java.util.regex.Pattern
 
 /**
  * Eine E-Mail-Adresse ist die eindeutige Absender- und Empfaengeradresse im
  * E-Mail-Verkehr. Sie besteht aus zwei Teilen, die durch ein @-Zeichen
  * voneinander getrennt sind:
- * <ul>
- *     <li>
- *         Der lokale Teil, im Englischen local-part genannt,
- *         steht vor dem @-Zeichen.
- *     </li>
- *     <li>
- *         Der globale Teil, im Englischen domain-part genannt,
- *         steht nach dem @-Zeichen.
- *     </li>
- * </ul>
+ *  * Der lokale Teil, im Englischen local-part genannt,
+ *    steht vor dem @-Zeichen.
+ *  * Der globale Teil, im Englischen domain-part genannt,
+ *    steht nach dem @-Zeichen.
+ *
  * Bei der E-Mail-Adresse "email@example.com" ist "email" der lokale Teil
  * und "example.com" der globale Teil.
  *
  * @author oboehm
  * @since 0.3 (23.06.2017)
  */
-public class EMailAdresse extends Text {
-
-    private static final SimpleValidator<String> VALIDATOR = new Validator();
-    private static final WeakHashMap<String, EMailAdresse> WEAK_CACHE = new WeakHashMap<>();
-
-    /** Null-Konstante fuer Initialisierungen. */
-    public static final EMailAdresse NULL = new EMailAdresse("", new NullValidator<>());
-
-    /**
-     * Legt eine Instanz einer EMailAdresse an.
-     *
-     * @param emailAdresse eine gueltige Adresse, z.B. "max@mustermann.de"
-     */
-    public EMailAdresse(String emailAdresse) {
-        this(emailAdresse, VALIDATOR);
-    }
-
-    /**
-     * Legt eine Instanz einer EMailAdresse an. Dieser Konstruktor ist
-     * hauptsaechlich fuer abgeleitete Klassen gedacht, die ihre eigene
-     * Validierung mit einbringen wollen oder aus Performance-Gruenden
-     * abschalten wollen.
-     *
-     * @param emailAdresse eine gueltige Adresse, z.B. "max@mustermann.de"
-     * @param validator    SimpleValidator zur Adressen-Validierung
-     */
-    public EMailAdresse(String emailAdresse, SimpleValidator<String> validator) {
-        super(validator.verify(emailAdresse));
-    }
-
-    /**
-     * Liefert einen EmailAdresse.
-     *
-     * @param name gueltige Email-Adresse
-     * @return EMailAdresse
-     */
-    public static EMailAdresse of(String name) {
-        return WEAK_CACHE.computeIfAbsent(name, EMailAdresse::new);
-    }
+open class EMailAdresse
+/**
+ * Legt eine Instanz einer EMailAdresse an. Der Validator ist
+ * hauptsaechlich fuer abgeleitete Klassen gedacht, die ihre eigene
+ * Validierung mit einbringen wollen oder aus Performance-Gruenden
+ * abschalten wollen.
+ *
+ * @param emailAdresse eine gueltige Adresse, z.B. "max@mustermann.de"
+ * @param validator    SimpleValidator zur Adressen-Validierung
+ */
+@JvmOverloads constructor(emailAdresse: String, validator: SimpleValidator<String> = VALIDATOR) : Text(validator.verify(emailAdresse)) {
 
     /**
      * Als Local Part wird der Teil einer E-Mail-Adresse bezeichnet, der die
@@ -97,9 +62,8 @@ public class EMailAdresse extends Text {
      *
      * @return z.B. "Max.Mustermann"
      */
-    public String getLocalPart() {
-        return StringUtils.substringBeforeLast(this.getCode(), "@");
-    }
+    val localPart: String
+        get() = StringUtils.substringBeforeLast(code, "@")
 
     /**
      * Der Domain Part, der hinter dem @-Zeichen steht und fuer den die
@@ -109,22 +73,22 @@ public class EMailAdresse extends Text {
      *
      * @return z.B. "fachwert.de"
      */
-    public Domainname getDomainPart() {
-        return new Domainname(StringUtils.substringAfterLast(this.getCode(), "@"));
-    }
+    val domainPart: Domainname
+        get() = Domainname(StringUtils.substringAfterLast(code, "@"))
 
     /**
-     * Liefert den Namensanteil der Email-Adresse als {@link Name} zurueck.
+     * Liefert den Namensanteil der Email-Adresse als [Name] zurueck.
      * Kann dann eingesetzt werden, wenn die Email-Adresse nach dem Schema
      * "vorname.nachname@firma.de" aufgebaut ist.
      *
      * @return z.B. "O. Boehm" als Name
      * @since 2.3
      */
-    public Name getName() {
-        String name = WordUtils.capitalize(getLocalPart(), '.');
-        return Name.of(name);
-    }
+    val name: Name
+        get() {
+            val name = WordUtils.capitalize(localPart, '.')
+            return Name.of(name)
+        }
 
 
 
@@ -137,47 +101,59 @@ public class EMailAdresse extends Text {
      * @author oboehm
      * @since 0.3 (27.06.2017)
      */
-    public static class Validator implements SimpleValidator<String> {
+    class Validator
 
-        private final Pattern addressPattern;
+        /**
+         * Dieser Konstruktor ist fuer abgeleitete Klassen gedacht, die das Pattern
+         * fuer die Adress-Validierung ueberschreiben moechten.
+         *
+         * @param addressPattern Pattern fuer die Adress-Validerung
+         */
+        protected constructor(private val addressPattern: Pattern) : SimpleValidator<String> {
 
         /**
          * Hier wird der E-Mail-SimpleValidator mit einerm Pattern von
          * https://www.mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
          * aufgesetzt.
          */
-        public Validator() {
-            this(Pattern
-                    .compile("^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"));
-        }
-
-        /**
-         * Dieser Konstruktor ist fuer abgeleitete Klassen gedacht, die das Pattern
-         * fuer die Adress-Validierung ueberschreiben moechten.
-         *
-         * @param pattern Pattern fuer die Adress-Validerung
-         */
-        protected Validator(Pattern pattern) {
-            this.addressPattern = pattern;
+        constructor() : this(Pattern
+                .compile("^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
         }
 
         /**
          * Fuehrt ein Pattern-basierte Pruefung der uebegebenen E-Mail-Adresse
          * durch. Schlaegt die Pruefung fehl, wird eine
-         * {@link javax.validation.ValidationException} geworfen.
+         * [javax.validation.ValidationException] geworfen.
          *
          * @param emailAdresse zu pruefende E-Mail-Adresse
          * @return die validierte E-Mail-Adresse (zur Weiterverarbeitung)
          */
-        @Override
-        public String validate(String emailAdresse) {
-            Matcher matcher = addressPattern.matcher(emailAdresse);
+        override fun validate(emailAdresse: String): String {
+            val matcher = addressPattern.matcher(emailAdresse)
             if (matcher.matches()) {
-                return emailAdresse;
+                return emailAdresse
             }
-            throw new InvalidValueException(emailAdresse, "email_address");
+            throw InvalidValueException(emailAdresse, "email_address")
         }
 
+    }
+
+    companion object {
+        private val VALIDATOR: SimpleValidator<String> = Validator()
+        private val WEAK_CACHE = WeakHashMap<String, EMailAdresse>()
+        /** Null-Konstante fuer Initialisierungen.  */
+        val NULL = EMailAdresse("", NullValidator())
+
+        /**
+         * Liefert einen EmailAdresse.
+         *
+         * @param name gueltige Email-Adresse
+         * @return EMailAdresse
+         */
+        @JvmStatic
+        fun of(name: String): EMailAdresse {
+            return WEAK_CACHE.computeIfAbsent(name) { emailAdresse: String -> EMailAdresse(emailAdresse) }
+        }
     }
 
 }
