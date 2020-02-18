@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,84 +15,44 @@
  *
  * (c)reated 08.08.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.net;
+package de.jfachwert.net
 
-import de.jfachwert.SimpleValidator;
-import de.jfachwert.Text;
-import de.jfachwert.pruefung.exception.InvalidValueException;
-import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
-import org.apache.commons.lang3.Range;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.WeakHashMap;
-import java.util.regex.Pattern;
+import de.jfachwert.SimpleValidator
+import de.jfachwert.Text
+import de.jfachwert.pruefung.exception.InvalidValueException
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
+import org.apache.commons.lang3.Range
+import org.apache.commons.lang3.StringUtils
+import java.util.*
+import java.util.regex.Pattern
 
 /**
  * Ueber den Domain-Namen wird ein Rechner im Internet adressiert. Man kann
  * ihn zwar auch ueber seine IP-Adresse ansprechen, aber kann man sich als
  * Normalsterblicher schwer merken.
- * <p>
+ *
  * Ein Domainname besteht aus mindestens aus Teilen: einem Hostnamen (z. B.
  * ein Firmenname), einem Punkt und einer Top-Level-Domain.
- * </p>
  *
  * @author oboehm
  * @since 0.4 (08.08.2017)
  */
-public class Domainname extends Text {
-
-    private static final WeakHashMap<String, Domainname> WEAK_CACHE = new WeakHashMap<>();
-    private static final SimpleValidator<String> VALIDATOR = new Validator();
-
-    /**
-     * Legt eine Instanz an.
-     *
-     * @param name gueltiger Domain-Name
-     */
-    public Domainname(String name) {
-        this(name, VALIDATOR);
-    }
-
-    /**
-     * Legt eine Instanz an.
-     *
-     * @param name      gueltiger Domain-Name
-     * @param validator zur Pruefung
-     */
-    public Domainname(String name, SimpleValidator<String> validator) {
-        super(name.trim().toLowerCase(), validator);
-    }
-
-    /**
-     * Liefert einen Domainnamen.
-     *
-     * @param name gueltiger Domainname
-     * @return Domainname
-     */
-    public static Domainname of(String name) {
-        return WEAK_CACHE.computeIfAbsent(name, Domainname::new);
-    }
-
-    /**
-     * Hie valideren wir den Namen auf Richtigkeit. Das Pattern dazu stammt aus
-     * https://regex101.com/r/d5Yd6j/1/tests . Allerdings akzeptieren wir auch
-     * die TLD wie "de" als gueltigen Domainnamen.
-     *
-     * @param name Domain-Name
-     * @return validierter Domain-Name zur Weiterverarbeitung
-     */
-    public static String validate(String name) {
-        return VALIDATOR.validate(name);
-    }
+open class Domainname
+/**
+ * Legt eine Instanz an.
+ *
+ * @param name      gueltiger Domain-Name
+ * @param validator zur Pruefung
+ */
+@JvmOverloads constructor(name: String, validator: SimpleValidator<String> = VALIDATOR) : Text(name.trim { it <= ' ' }.toLowerCase(), validator) {
 
     /**
      * Liefert die Top-Level-Domain (TLD) zurueck.
      *
      * @return z.B. "de"
      */
-    public Domainname getTLD() {
-        return new Domainname(StringUtils.substringAfterLast(this.getCode(), "."));
-    }
+    val tLD: Domainname
+        get() = Domainname(StringUtils.substringAfterLast(code, "."))
 
     /**
      * Waehrend die Top-Level-Domain die oberste Ebende wie "de" ist, ist die
@@ -102,19 +62,20 @@ public class Domainname extends Text {
      * @param level z.B. 2 fuer 2nd-Level-Domain
      * @return z.B. "jfachwert.de"
      */
-    public Domainname getLevelDomain(int level) {
-        String[] parts = this.getCode().split("\\.");
-        int firstPart = parts.length - level;
-        if ((firstPart < 0) || (level < 1)) {
-            throw new LocalizedIllegalArgumentException(level, "level", Range.between(1, parts.length));
+    fun getLevelDomain(level: Int): Domainname {
+        val parts = code.split(".").toTypedArray()
+        val firstPart = parts.size - level
+        if (firstPart < 0 || level < 1) {
+            throw LocalizedIllegalArgumentException(level, "level", Range.between(1, parts.size))
         }
-        StringBuilder name = new StringBuilder(parts[firstPart]);
-        for (int i = firstPart + 1; i < parts.length; i++) {
-            name.append('.');
-            name.append(parts[i]);
+        val name = StringBuilder(parts[firstPart])
+        for (i in firstPart + 1 until parts.size) {
+            name.append('.')
+            name.append(parts[i])
         }
-        return new Domainname(name.toString());
+        return Domainname(name.toString())
     }
+
 
 
     /**
@@ -122,10 +83,7 @@ public class Domainname extends Text {
      *
      * @since 2.2
      */
-    public static class Validator implements SimpleValidator<String> {
-
-        private static final Pattern VALID_PATTERN =
-                Pattern.compile("^(?=.{1,253}\\.?$)(?:(?!-|[^.]+_)[A-Za-z0-9-_]{1,63}(?<!-)(?:\\.|$))+$");
+    class Validator : SimpleValidator<String> {
 
         /**
          * Hie valideren wir den Namen auf Richtigkeit. Das Pattern dazu stammt aus
@@ -135,11 +93,47 @@ public class Domainname extends Text {
          * @param name Domain-Name
          * @return validierter Domain-Name zur Weiterverarbeitung
          */
-        public String validate(String name) {
+        override fun validate(name: String): String {
             if (VALID_PATTERN.matcher(name).matches()) {
-                return name;
+                return name
             }
-            throw new InvalidValueException(name, "name");
+            throw InvalidValueException(name, "name")
+        }
+
+        companion object {
+            private val VALID_PATTERN = Pattern.compile("^(?=.{1,253}\\.?$)(?:(?!-|[^.]+_)[A-Za-z0-9-_]{1,63}(?<!-)(?:\\.|$))+$")
+        }
+
+    }
+
+
+
+    companion object {
+
+        private val WEAK_CACHE = WeakHashMap<String, Domainname>()
+        private val VALIDATOR: SimpleValidator<String> = Validator()
+
+        /**
+         * Liefert einen Domainnamen.
+         *
+         * @param name gueltiger Domainname
+         * @return Domainname
+         */
+        @JvmStatic
+        fun of(name: String): Domainname {
+            return WEAK_CACHE.computeIfAbsent(name) { s: String -> Domainname(s) }
+        }
+
+        /**
+         * Hie valideren wir den Namen auf Richtigkeit. Das Pattern dazu stammt aus
+         * https://regex101.com/r/d5Yd6j/1/tests . Allerdings akzeptieren wir auch
+         * die TLD wie "de" als gueltigen Domainnamen.
+         *
+         * @param name Domain-Name
+         * @return validierter Domain-Name zur Weiterverarbeitung
+         */
+        fun validate(name: String?): String? {
+            return VALIDATOR.validate(name)
         }
 
     }
