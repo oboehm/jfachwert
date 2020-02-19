@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,66 +15,55 @@
  *
  * (c)reated 19.08.17 by oliver (ob@oasd.de)
  */
-package de.jfachwert.net;
+package de.jfachwert.net
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import de.jfachwert.Fachwert;
-import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
-import de.jfachwert.util.ToFachwertSerializer;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.WeakHashMap;
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import de.jfachwert.Fachwert
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
+import de.jfachwert.util.ToFachwertSerializer
+import org.apache.commons.lang3.StringUtils
+import java.util.*
 
 /**
  * Die Klasse ChatAccount steht fuer einen Account bei einem der uebleichen
  * Chat-Dienst wie ICQ, Skype oder Jabber.
  *
- * @author <a href="ob@aosd.de">oliver</a>
+ * @author oliver (ob@aosd.de)
  * @since 0.4 (08.08.2017)
  */
-@JsonSerialize(using = ToFachwertSerializer.class)
-public class ChatAccount implements Fachwert {
+@JsonSerialize(using = ToFachwertSerializer::class)
+open class ChatAccount(val chatDienst: ChatDienst, private val dienstName: String?, account: String) : Fachwert {
 
-    private static final WeakHashMap<String, ChatAccount> WEAK_CACHE = new WeakHashMap<>();
-
-    /** Null-Konstante fuer Initialisierungen. */
-    public static final ChatAccount NULL = new ChatAccount(ChatDienst.SONSTIGER, "", "");
-
-    private final ChatDienst chatDienst;
-    private final String dienstName;
-    private final String account;
+    /**
+     * Liefert den Account-Namen zurueck.
+     *
+     * @return z.B. "+4917234567890@aspsms.swissjabber.ch"
+     */
+    val account: String
 
     /**
      * Zerlegt den uebergebenen String in seine Einzelteile, um damit den
      * ChatAccount zu instanziieren. Bei der Zerlegung wird folgeden Heuristik
      * angwendet:
-     * <ul>
-     *     <li>zuserst kommt der Dienst, gefolgt von einem Doppelpunkt,</li>
-     *     <li>danach kommt der Name bzw. Account.</li>
-     * </ul>
-     * 
+     *
+     *  * zuserst kommt der Dienst, gefolgt von einem Doppelpunkt,
+     *  * danach kommt der Name bzw. Account.
+     *
      * @param chatAccount z.B. "Twitter: oboehm"
      */
-    public ChatAccount(String chatAccount) {
-        this(split(chatAccount));
-    }
-    
-    private ChatAccount(String[] values) {
-        this(ChatDienst.toChatDienst(values[0]), values[0], values[1]);
-    }
+    constructor(chatAccount: String) : this(split(chatAccount)) {}
+
+    private constructor(values: Array<String>) : this(ChatDienst.toChatDienst(values[0]), values[0], values[1]) {}
 
     /**
      * Erzeugt einen neuen ChatAccount aus der uebergebenen Map.
      *
      * @param map mit den einzelnen Elementen fuer "chatDienst", "dienstName"
-     *            und "account".
+     * und "account".
      */
     @JsonCreator
-    public ChatAccount(Map<String, String> map) {
-        this(ChatDienst.toChatDienst(map.get("chatDienst")), map.get("dienstName"), map.get("account"));
+    constructor(map: Map<String, String>) : this(ChatDienst.toChatDienst(map["chatDienst"]), map["dienstName"], map["account"]!!) {
     }
 
     /**
@@ -83,9 +72,7 @@ public class ChatAccount implements Fachwert {
      * @param dienst z.B. "ICQ"
      * @param account z.B. 211349835 fuer ICQ
      */
-    public ChatAccount(String dienst, String account) {
-        this(ChatDienst.toChatDienst(dienst), dienst, account);
-    }
+    constructor(dienst: String, account: String) : this(ChatDienst.toChatDienst(dienst), dienst, account) {}
 
     /**
      * Instanziiert eine Chat-Account.
@@ -93,48 +80,10 @@ public class ChatAccount implements Fachwert {
      * @param dienst z.B. "ICQ"
      * @param account z.B. 211349835 fuer ICQ
      */
-    public ChatAccount(ChatDienst dienst, String account) {
-        this(dienst, null, account);
-    }
+    constructor(dienst: ChatDienst, account: String) : this(dienst, null, account) {}
 
-    /**
-     * Instanziiert eine Chat-Account.
-     *
-     * @param chatDienst z.B. SONSTIGER
-     * @param dienstName z.B. "WhatsApp"
-     * @param account z.B. 211349835 fuer ICQ
-     */
-    public ChatAccount(ChatDienst chatDienst, String dienstName, String account) {
-        this.chatDienst = chatDienst;
-        this.dienstName = dienstName;
-        this.account = (String) chatDienst.getValidator().verify(account);
-    }
-    
-    private static String[] split(String value) {
-        String[] splitted = StringUtils.trimToEmpty(value).split(":\\s+");
-        if (splitted.length != 2) {
-            throw new LocalizedIllegalArgumentException(value, "chat_service");
-        }
-        return splitted;
-    }
-
-    /**
-     * Liefert einen Chat-Account.
-     *
-     * @param name z.B. "Twitter: oboehm"
-     * @return Chat-Account
-     */
-    public static ChatAccount of(String name) {
-        return WEAK_CACHE.computeIfAbsent(name, ChatAccount::new);
-    }
-    
-    /**
-     * Liefert den Dienst zum Account zurueck.
-     *
-     * @return z.B. JABBER
-     */
-    public ChatDienst getChatDienst() {
-        return chatDienst;
+    init {
+        this.account = chatDienst.validator.verify(account) as String
     }
 
     /**
@@ -142,21 +91,12 @@ public class ChatAccount implements Fachwert {
      *
      * @return z.B. "Jabber"
      */
-    public String getDienstName() {
-        if (this.chatDienst == ChatDienst.SONSTIGER) {
-            return dienstName;
+    fun getDienstName(): String {
+        return if (chatDienst == ChatDienst.SONSTIGER) {
+            dienstName!!
         } else {
-            return this.chatDienst.toString();
+            chatDienst.toString()
         }
-    }
-
-    /**
-     * Liefert den Account-Namen zurueck.
-     *
-     * @return z.B. "+4917234567890@aspsms.swissjabber.ch"
-     */
-    public String getAccount() {
-        return account;
     }
 
     /**
@@ -165,27 +105,24 @@ public class ChatAccount implements Fachwert {
      * Chat-Dienst bekannt, wo zwischen Gross- und Kleinschreibung
      * unterschieden wird.
      *
-     * @param obj der andere Chat-Account
+     * @param other der andere Chat-Account
      * @return true oder false
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ChatAccount)) {
-            return false;
+    override fun equals(other: Any?): Boolean {
+        if (other !is ChatAccount) {
+            return false
         }
-        ChatAccount other = (ChatAccount) obj;
-        return this.getDienstName().equalsIgnoreCase(other.getDienstName()) &&
-                this.account.equalsIgnoreCase(other.account);
+        return getDienstName().equals(other.getDienstName(), ignoreCase = true) &&
+                account.equals(other.account, ignoreCase = true)
     }
 
     /**
-     * Die Hashcode-Implementierung stuetzt sich nur auf den Accout ab.
+     * Die Hashcode-Implementierung stuetzt sich nur auf den Account ab.
      *
      * @return hashcode
      */
-    @Override
-    public int hashCode() {
-        return this.account.hashCode();
+    override fun hashCode(): Int {
+        return account.hashCode()
     }
 
     /**
@@ -193,9 +130,8 @@ public class ChatAccount implements Fachwert {
      *
      * @return z.B. "Jabber: bob@example.com"
      */
-    @Override
-    public String toString() {
-        return this.getDienstName() + ": " + this.getAccount();
+    override fun toString(): String {
+        return getDienstName() + ": " + account
     }
 
     /**
@@ -203,13 +139,42 @@ public class ChatAccount implements Fachwert {
      *
      * @return Attribute als Map
      */
-    @Override
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("chatDienst", getChatDienst());
-        map.put("dienstName", getDienstName());
-        map.put("account", getAccount());
-        return map;
+    override fun toMap(): Map<String, Any> {
+        val map: MutableMap<String, Any> = HashMap()
+        map["chatDienst"] = chatDienst
+        map["dienstName"] = getDienstName()
+        map["account"] = account
+        return map
     }
-    
+
+
+
+    companion object {
+
+        private val WEAK_CACHE = WeakHashMap<String, ChatAccount>()
+
+        /** Null-Konstante fuer Initialisierungen.  */
+        val NULL = ChatAccount(ChatDienst.SONSTIGER, "", "")
+
+        private fun split(value: String): Array<String> {
+            val splitted = StringUtils.trimToEmpty(value).split(":\\s+".toPattern()).toTypedArray()
+            if (splitted.size != 2) {
+                throw LocalizedIllegalArgumentException(value, "chat_service")
+            }
+            return splitted
+        }
+
+        /**
+         * Liefert einen Chat-Account.
+         *
+         * @param name z.B. "Twitter: oboehm"
+         * @return Chat-Account
+         */
+        @JvmStatic
+        fun of(name: String): ChatAccount {
+            return WEAK_CACHE.computeIfAbsent(name) { chatAccount: String -> ChatAccount(chatAccount) }
+        }
+
+    }
+
 }
