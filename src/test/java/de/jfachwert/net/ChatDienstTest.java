@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,19 +27,19 @@ import static org.junit.Assert.*;
 public class ChatDienstTest {
 
     /**
-     * Unit-Test fuer {@link ChatDienst#toChatDienst(String)}
+     * Unit-Test fuer {@link ChatDienst#of(String)}
      */
     @Test
     public void toChatDienst() {
-        assertEquals(ChatDienst.JABBER, ChatDienst.toChatDienst("Jabber"));
+        assertEquals(ChatDienst.JABBER, ChatDienst.of("Jabber"));
     }
 
     /**
-     * Unit-Test fuer {@link ChatDienst#toChatDienst(String)}
+     * Unit-Test fuer {@link ChatDienst#of(String)}
      */
     @Test
     public void toChatDienstSonstiger() {
-        assertEquals(ChatDienst.SONSTIGER, ChatDienst.toChatDienst("gibts net"));
+        assertEquals(ChatDienst.SONSTIGER, ChatDienst.of("gibts net"));
     }
 
 }

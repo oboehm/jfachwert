@@ -54,7 +54,7 @@ open class ChatAccount(val chatDienst: ChatDienst, private val dienstName: Strin
      */
     constructor(chatAccount: String) : this(split(chatAccount)) {}
 
-    private constructor(values: Array<String>) : this(ChatDienst.toChatDienst(values[0]), values[0], values[1]) {}
+    private constructor(values: Array<String>) : this(ChatDienst.of(values[0]), values[0], values[1]) {}
 
     /**
      * Erzeugt einen neuen ChatAccount aus der uebergebenen Map.
@@ -63,7 +63,7 @@ open class ChatAccount(val chatDienst: ChatDienst, private val dienstName: Strin
      * und "account".
      */
     @JsonCreator
-    constructor(map: Map<String, String>) : this(ChatDienst.toChatDienst(map["chatDienst"]), map["dienstName"], map["account"]!!) {
+    constructor(map: Map<String, String>) : this(ChatDienst.of(map["chatDienst"]), map["dienstName"], map["account"]!!) {
     }
 
     /**
@@ -72,7 +72,7 @@ open class ChatAccount(val chatDienst: ChatDienst, private val dienstName: Strin
      * @param dienst z.B. "ICQ"
      * @param account z.B. 211349835 fuer ICQ
      */
-    constructor(dienst: String, account: String) : this(ChatDienst.toChatDienst(dienst), dienst, account) {}
+    constructor(dienst: String, account: String) : this(ChatDienst.of(dienst), dienst, account) {}
 
     /**
      * Instanziiert eine Chat-Account.
