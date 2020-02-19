@@ -60,13 +60,14 @@ open class Adressat
      *
      * @return z.B. "Max"
      */
-    override fun getVorname(): String {
-        return if (hasVorname()) {
-            super.getVorname()
-        } else {
-            throw IllegalStateException("keine nat\u00fcrliche Person: " + code)
+    override val vorname: String
+        get() {
+            if (hasVorname()) {
+                return super.vorname
+            } else {
+                throw IllegalStateException("keine nat\u00fcrliche Person: " + code)
+            }
         }
-    }
 
 
 

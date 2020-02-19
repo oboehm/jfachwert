@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 by Oliver Boehm
+ * Copyright (c) 2019, 2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +15,14 @@
  *
  * (c)reated 19.02.2019 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.post;
+package de.jfachwert.post
 
-import de.jfachwert.SimpleValidator;
-import de.jfachwert.Text;
-import de.jfachwert.pruefung.LengthValidator;
-import de.jfachwert.pruefung.NullValidator;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.WeakHashMap;
+import de.jfachwert.SimpleValidator
+import de.jfachwert.Text
+import de.jfachwert.pruefung.LengthValidator
+import de.jfachwert.pruefung.NullValidator
+import org.apache.commons.lang3.StringUtils
+import java.util.*
 
 /**
  * Die Klasse Name steht fuer einen normalen Namen mit Vorname und Nachnamen,
@@ -35,87 +31,59 @@ import java.util.WeakHashMap;
  * @author oboehm
  * @since 2.1 (19.02.2019)
  */
-public class Name extends Text {
-
-    private static final WeakHashMap<String, Name> WEAK_CACHE = new WeakHashMap<>();
-    private static final SimpleValidator<String> VALIDATOR = LengthValidator.NOT_EMPTY_VALIDATOR;
-
-    /** Null-Wert fuer Initialisierung. */
-    public static final Name NULL = new Name("", new NullValidator<>());
-
-    /**
-     * Erzeugt einen Namen. Erwartet wird ein einzelner Name, oder
-     * "Nachname, Vorname".
-     *
-     * @param name, z.B. "Duck, Donald"
-     */
-    public Name(String name) {
-        this(name, VALIDATOR);
-    }
-
-    /**
-     * Erzeugt einen Namen. Erwartet wird ein einzelner Name, oder
-     * "Nachname, Vorname".
-     *
-     * @param name,     z.B. "Duck, Donald"
-     * @param validator Validator fuer die Ueberpruefung
-     */
-    public Name(String name, SimpleValidator<String> validator) {
-        super(name, validator);
-    }
-
-    /**
-     * Erzeugt einen neuen Namen, falls er noch nicht existiert. Falls er
-     * bereits existiert, wird dieser zurueckgegeben, um Duplikate zu
-     * vermeiden.
-     *
-     * @param name, z.B. "Duck, Donald"
-     * @return Name
-     */
-    public static Name of(String name) {
-        return WEAK_CACHE.computeIfAbsent(name, Name::new);
-    }
+open class Name
+/**
+ * Erzeugt einen Namen. Erwartet wird ein einzelner Name, oder
+ * "Nachname, Vorname".
+ *
+ * @param name,     z.B. "Duck, Donald"
+ * @param validator Validator fuer die Ueberpruefung
+ */
+@JvmOverloads constructor(name: String?, validator: SimpleValidator<String?>? = VALIDATOR) : Text(name, validator) {
 
     /**
      * Liefert den Nachnamen.
      *
      * @return z.B. "Duck"
      */
-    public String getNachname() {
-        String nachname = getCode();
-        if (nachname.contains(",")) {
-            nachname = StringUtils.substringBefore(getCode(), ",").trim();
-        } else {
-            List<String> namensliste = getNamensListe();
-            nachname = namensliste.get(namensliste.size() - 1);
+    val nachname: String
+        get() {
+            var nachname = code
+            nachname = if (nachname.contains(",")) {
+                StringUtils.substringBefore(code, ",").trim { it <= ' ' }
+            } else {
+                val namensliste = namensListe
+                namensliste[namensliste.size - 1]
+            }
+            return nachname
         }
-        return nachname;
-    }
 
     /**
      * Liefert den oder die Vornamen als ein String.
      *
      * @return z.B. "Donald"
      */
-    public String getVorname() {
-        String vorname = getCode();
-        if (vorname.contains(",")) {
-            vorname = StringUtils.substringAfter(getCode(), ",").trim();
-        } else {
-            vorname = getNamensListe().get(0);
+    open val vorname: String
+        get() {
+            var vorname = code
+            vorname = if (vorname.contains(",")) {
+                StringUtils.substringAfter(code, ",").trim { it <= ' ' }
+            } else {
+                namensListe[0]
+            }
+            return vorname
         }
-        return vorname;
-    }
 
     /**
      * Liste die einzelnen Vornamen und Namen als Liste auf.
      *
      * @return Liste mit Namen (mit mind. 1 Namen)
      */
-    public List<String> getNamensListe() {
-        String namen = getCode().replaceAll("\\.", ". ");
-        return Arrays.asList(namen.split("[\\s,]"));
-    }
+    val namensListe: List<String>
+        get() {
+            val namen = code.replace(".", ". ")
+            return Arrays.asList(*namen.split("[\\s,]".toRegex()).toTypedArray())
+        }
 
     /**
      * Falls mehr als ein Vornamen exisitiert, kann dies hierueber als Liste
@@ -123,13 +91,12 @@ public class Name extends Text {
      *
      * @return Liste mit Vornamen (kann auch leer sein)
      */
-    public List<String> getVornamenListe() {
-        if (hasVorname()) {
-            return Arrays.asList(getVorname().split("\\s"));
+    val vornamenListe: List<String>
+        get() = if (hasVorname()) {
+            Arrays.asList(*vorname.split("\\s".toRegex()).toTypedArray())
         } else {
-            return new ArrayList<>();
+            ArrayList()
         }
-    }
 
     /**
      * Liefert 'true' zurueck, falls ein Vorname im abgespeicherten Namen
@@ -137,89 +104,110 @@ public class Name extends Text {
      *
      * @return true, false
      */
-    public boolean hasVorname() {
-        return getCode().contains(",");
+    fun hasVorname(): Boolean {
+        return code.contains(",")
     }
 
-    @Override
-    public int hashCode() {
-        return Text.replaceUmlaute(this.getNachname()).toLowerCase().hashCode();
+    override fun hashCode(): Int {
+        return replaceUmlaute(nachname).toLowerCase().hashCode()
     }
 
     /**
      * Hier werden Namen verglichen. Aktuell werden sie semantisch verglichen,
      * aber darauf sollte man sich nicht verlassen. Man sollte entweder
-     * {@link #equalsSemantic(Name)} fuer den semantischen Vergleich und
-     * {@link #equalsExact(Name)} fuer den exakten Vergleich verwenden, da
+     * [.equalsSemantic] fuer den semantischen Vergleich und
+     * [.equalsExact] fuer den exakten Vergleich verwenden, da
      * es sein kann, dass diese Implementierung kuenftig auf den exakten
      * Vergleich aufbaut.
      *
-     * @param obj zu vergleichender Name
+     * @param other zu vergleichender Name
      * @return true bei Gleichheit
-     * @see Object#equals(Object)
+     * @see Object.equals
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Name) || (!this.getClass().isAssignableFrom(obj.getClass()))) {
-            return false;
+    override fun equals(other: Any?): Boolean {
+        if (other !is Name || !this.javaClass.isAssignableFrom(other.javaClass)) {
+            return false
         }
-        Name other = (Name) obj;
-        return equalsSemantic(other);
+        return equalsSemantic(other)
     }
 
     /**
      * Hier werden Namen logisch (semantisch) verglichen. So werden Namen auch
-     * als gleich angesehen, wenn sie mit oder ohne Umlaute geschrieben werden.
-     * <p>
+     * dann als gleich angesehen, wenn sie mit oder ohne Umlaute geschrieben
+     * werden.
+     *
      * Braucht man einen noch "toleranteren" Vergleich, kann man auch auf
-     * die {@link #getDistanz(Text)}-Methode aus der Oberklasse zurueckgreifen
+     * die [.getDistanz]-Methode aus der Oberklasse zurueckgreifen
      * und anhand der Distanz entscheiden, ob zwei Namen noch als gleich
      * angesehen werden sollen.
-     * </p>
      *
      * @param other der zu vergleichende Name
      * @return true bei Gleichheit
-     * @see Object#equals(Object)
+     * @see Object.equals
      * @since 3.0
      */
-    public boolean equalsSemantic(Name other) {
-        return isEquals(normalize(this), normalize(other));
-    }
-
-    private static Name normalize(Name name) {
-        return Name.of(name.replaceUmlaute().toString().replace("-", " ").trim());
-    }
-
-    private static boolean isEquals(Name a, Name b) {
-        return a.getNachname().equalsIgnoreCase(b.getNachname()) &&
-                (shortenVorname(a).equalsIgnoreCase(shortenVorname(b)) ||
-                        equalsVornamen(a.getVornamenListe(), b.getVornamenListe()));
-    }
-
-    private static String shortenVorname(Name x) {
-        return StringUtils.deleteWhitespace(x.getVorname().replace("-", ""));
-    }
-
-    private static boolean equalsVornamen(List<String> a, List<String> b) {
-        int n = Math.min(a.size(), b.size());
-        for (int i = 0; i < n; i++) {
-            if (!a.get(i).equalsIgnoreCase(b.get(i))) {
-                return false;
-            }
-        }
-        return true;
+    fun equalsSemantic(other: Name): Boolean {
+        return isEquals(normalize(this), normalize(other))
     }
 
     /**
-     * Im Gegensatz zur {@link #equals(Object)}-Methode muss hier der andere
+     * Im Gegensatz zur [.equals]-Methode muss hier der andere
      * Name exakt einstimmen, also auch in Gross- und Kleinschreibung.
      *
      * @param other der andere Name
      * @return true oder false
      * @since 2.1
      */
-    public boolean equalsExact(Name other) {
-        return super.equals(other);
+    fun equalsExact(other: Name?): Boolean {
+        return super.equals(other)
+    }
+
+
+
+    companion object {
+
+        private val WEAK_CACHE = WeakHashMap<String, Name>()
+        private val VALIDATOR: SimpleValidator<String?> = LengthValidator.NOT_EMPTY_VALIDATOR
+
+        /** Null-Wert fuer Initialisierung.  */
+        val NULL = Name("", NullValidator())
+
+        /**
+         * Erzeugt einen neuen Namen, falls er noch nicht existiert. Falls er
+         * bereits existiert, wird dieser zurueckgegeben, um Duplikate zu
+         * vermeiden.
+         *
+         * @param name, z.B. "Duck, Donald"
+         * @return Name
+         */
+        @JvmStatic
+        fun of(name: String): Name {
+            return WEAK_CACHE.computeIfAbsent(name) { s: String? -> Name(s) }
+        }
+
+        private fun normalize(name: Name): Name {
+            return of(name.replaceUmlaute().toString().replace("-", " ").trim { it <= ' ' })
+        }
+
+        private fun isEquals(a: Name, b: Name): Boolean {
+            return a.nachname.equals(b.nachname, ignoreCase = true) &&
+                    (shortenVorname(a).equals(shortenVorname(b), ignoreCase = true) ||
+                            equalsVornamen(a.vornamenListe, b.vornamenListe))
+        }
+
+        private fun shortenVorname(x: Name): String {
+            return StringUtils.deleteWhitespace(x.vorname.replace("-", ""))
+        }
+
+        private fun equalsVornamen(a: List<String>, b: List<String>): Boolean {
+            val n = Math.min(a.size, b.size)
+            for (i in 0 until n) {
+                if (!a[i].equals(b[i], ignoreCase = true)) {
+                    return false
+                }
+            }
+            return true
+        }
     }
 
 }
