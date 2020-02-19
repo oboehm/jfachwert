@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,93 +15,78 @@
  *
  * (c)reated 18.01.2018 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.post;
+package de.jfachwert.post
 
-import de.jfachwert.SimpleValidator;
-import de.jfachwert.pruefung.LengthValidator;
-import de.jfachwert.pruefung.NullValidator;
-
-import java.util.WeakHashMap;
+import de.jfachwert.SimpleValidator
+import de.jfachwert.pruefung.LengthValidator
+import de.jfachwert.pruefung.NullValidator
+import java.util.*
 
 /**
  * Ein Adressat (oder auch Postempfaenger) ist diejenige Person, die in der
- * Adresse benannt ist und für die damit eine Postsendung bestimmt ist. 
- * Hierbei kann es sich um eine natuerliche oder um eine juristische Person 
+ * Adresse benannt ist und für die damit eine Postsendung bestimmt ist.
+ * Hierbei kann es sich um eine natuerliche oder um eine juristische Person
  * handeln.
  *
  * @author oboehm
  * @since 0.5 (18.01.2018)
  */
-public class Adressat extends Name {
-
-    private static final WeakHashMap<String, Adressat> WEAK_CACHE = new WeakHashMap<>();
-
-    /** Null-Konstante fuer Initialisierungen. */
-    public static final Adressat NULL = new Adressat("", new NullValidator<>());
-
-    /**
-     * Erzeugt eine Adressat mit dem angegebenen Namen. Dabei kann es sich um
-     * eine natuerliche Person (z.B. "Mustermann, Max") oder eine juristische
-     * Person (z.B. "Ich AG") handeln.
-     * <p>
-     * Das Format des Adressat ist so, wie er auf dem Brief angegeben wird:
-     * "Nachname, Vorname" bei Personen bzw. Name bei juristischen Personen.
-     * </p>
-     *
-     * @param name z.B. "Mustermann, Max"
-     */
-    public Adressat(String name) {
-        this(name, LengthValidator.NOT_EMPTY_VALIDATOR);
-    }
-
-    /**
-     * Erzeugt eine Adressat mit dem angegebenen Namen. Dabei kann es sich um
-     * eine natuerliche Person (z.B. "Mustermann, Max") oder eine juristische
-     * Person (z.B. "Ich AG") handeln.
-     * <p>
-     * Das Format des Adressat ist so, wie er auf dem Brief angegeben wird:
-     * "Nachname, Vorname" bei Personen bzw. Name bei juristischen Personen.
-     * </p>
-     *
-     * @param name      z.B. "Mustermann, Max"
-     * @param validator Validator fuer die Ueberpruefung des Namens
-     */
-    public Adressat(String name, SimpleValidator<String> validator) {
-        super(name, validator);
-    }
-
-    /**
-     * Liefert einen Adressat mit dem angegebenen Namen.
-     * 
-     * @param name z.B. "Mustermann, Max"
-     * @return Addressat mit dem angegebenen Namen
-     */
-    public static Adressat of(String name) {
-        return WEAK_CACHE.computeIfAbsent(name, Adressat::new);
-    }
+open class Adressat
+/**
+ * Erzeugt eine Adressat mit dem angegebenen Namen. Dabei kann es sich um
+ * eine natuerliche Person (z.B. "Mustermann, Max") oder eine juristische
+ * Person (z.B. "Ich AG") handeln.
+ *
+ * Das Format des Adressat ist so, wie er auf dem Brief angegeben wird:
+ * "Nachname, Vorname" bei Personen bzw. Name bei juristischen Personen.
+ *
+ * @param name      z.B. "Mustermann, Max"
+ * @param validator Validator fuer die Ueberpruefung des Namens
+ */
+@JvmOverloads constructor(name: String?, validator: SimpleValidator<String?>? = LengthValidator.NOT_EMPTY_VALIDATOR) : Name(name, validator) {
 
     /**
      * Der Name ist der Teil vor dem Komma (bei Personen). Bei Firmen ist
      * es der komplette Name.
-     * 
+     *
      * @return z.B. "Mustermann"
      */
-    public String getName() {
-        return getNachname();
-    }
+    val name: String
+        get() = nachname
 
     /**
      * Bei natuerlichen Personen mit Vornamen kann hierueber der Vorname
      * ermittelt werden.
-     * 
+     *
      * @return z.B. "Max"
      */
-    @Override
-    public String getVorname() {
-        if (hasVorname()) {
-            return super.getVorname();
+    override fun getVorname(): String {
+        return if (hasVorname()) {
+            super.getVorname()
         } else {
-            throw new IllegalStateException("keine nat\u00fcrliche Person: " + this.getCode());
+            throw IllegalStateException("keine nat\u00fcrliche Person: " + code)
+        }
+    }
+
+
+
+    companion object {
+
+        private val WEAK_CACHE = WeakHashMap<String, Adressat>()
+
+        /** Null-Konstante fuer Initialisierungen.  */
+        @JvmField
+        val NULL = Adressat("", NullValidator())
+
+        /**
+         * Liefert einen Adressat mit dem angegebenen Namen.
+         *
+         * @param name z.B. "Mustermann, Max"
+         * @return Addressat mit dem angegebenen Namen
+         */
+        @JvmStatic
+        fun of(name: String): Adressat {
+            return WEAK_CACHE.computeIfAbsent(name) { s: String? -> Adressat(s) }
         }
     }
 
