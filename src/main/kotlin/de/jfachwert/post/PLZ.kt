@@ -15,45 +15,38 @@
  *
  * (c)reated 21.02.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.post;
+package de.jfachwert.post
 
-import de.jfachwert.SimpleValidator;
-import de.jfachwert.Text;
-import de.jfachwert.pruefung.LengthValidator;
-import de.jfachwert.pruefung.NullValidator;
-import de.jfachwert.pruefung.NumberValidator;
-import de.jfachwert.pruefung.exception.InvalidValueException;
-import org.apache.commons.lang3.Range;
-import org.apache.commons.lang3.StringUtils;
-
-import java.math.BigDecimal;
-import java.util.Locale;
-import java.util.WeakHashMap;
+import de.jfachwert.SimpleValidator
+import de.jfachwert.Text
+import de.jfachwert.pruefung.LengthValidator
+import de.jfachwert.pruefung.NullValidator
+import de.jfachwert.pruefung.NumberValidator
+import de.jfachwert.pruefung.exception.InvalidValueException
+import org.apache.commons.lang3.Range
+import org.apache.commons.lang3.StringUtils
+import java.math.BigDecimal
+import java.util.*
 
 /**
  * Eine Postleitzahl (PLZ) kennzeichnet den Zustellort auf Briefen, Paketten
  * oder Paeckchen. In Deutschland ist es eine 5-stellige Zahl, wobei auch
  * "0" als fuehrende Ziffer erlaubt ist.
  *
+ * Vor der Postleitzahl kann auch noch eine Kennung (wie 'D' fuer Deutschland)
+ * stehen. Diese wird mit abgespeichert, wenn sie angegeben ist.
+ *
  * @author oboehm
  * @since 0.2.0 (10.04.2017)
  */
-public class PLZ extends Text {
-
-    private static final SimpleValidator<String> VALIDATOR = new Validator();
-    private static final WeakHashMap<String, PLZ> WEAK_CACHE = new WeakHashMap<>();
-
-    /** Null-Wert fuer Initialisierung. */
-    public static final PLZ NULL = new PLZ("00000", new NullValidator<>());
+open class PLZ : Text {
 
     /**
      * Hierueber wird eine Postleitzahl angelegt.
      *
      * @param plz z.B. "70839" oder "D-70839"
      */
-    public PLZ(String plz) {
-        super(plz, VALIDATOR);
-    }
+    constructor(plz: String) : super(plz, VALIDATOR) {}
 
     /**
      * Hierueber wird eine Postleitzahl angelegt.
@@ -61,9 +54,7 @@ public class PLZ extends Text {
      * @param plz z.B. "70839" oder "D-70839"
      * @param validator fuer die Ueberpruefung
      */
-    public PLZ(String plz, SimpleValidator<String> validator) {
-        super(plz, validator);
-    }
+    constructor(plz: String, validator: SimpleValidator<String>) : super(plz, validator) {}
 
     /**
      * Ueber diesen Konstruktor kann die Landeskennung als extra Parameter
@@ -72,9 +63,7 @@ public class PLZ extends Text {
      * @param landeskennung z.B. "D"
      * @param plz z.B. "70839" (fuer Gerlingen)
      */
-    public PLZ(String landeskennung, String plz) {
-        this(landeskennung + plz);
-    }
+    constructor(landeskennung: String, plz: String) : this(landeskennung + plz) {}
 
     /**
      * Ueber diesen Konstruktor kann die Landeskennung als extra Parameter
@@ -83,30 +72,7 @@ public class PLZ extends Text {
      * @param land z.B. "de_DE"
      * @param plz z.B. "70839" (fuer Gerlingen)
      */
-    public PLZ(Locale land, String plz) {
-        this(toLandeskennung(land) + plz);
-    }
-
-    private static String toLandeskennung(Locale locale) {
-        String country = locale.getCountry().toUpperCase();
-        switch (country) {
-            case "AT":
-            case "DE":
-                return country.substring(0, 1);
-            default:
-                return country;
-        }
-    }
-
-    /**
-     * Liefert eine PLZ zurueck.
-     * 
-     * @param plz PLZ als String
-     * @return PLZ
-     */
-    public static PLZ of(String plz) {
-        return WEAK_CACHE.computeIfAbsent(plz, PLZ::new);
-    }
+    constructor(land: Locale, plz: String) : this(toLandeskennung(land) + plz) {}
 
     /**
      * Hierueber kann man abfragen, ob der Postleitzahl eine Landeskennung
@@ -114,13 +80,8 @@ public class PLZ extends Text {
      *
      * @return true, falls PLZ eine Kennung besitzt
      */
-    public boolean hasLandeskennung() {
-        return hasLandeskennung(this.getCode());
-    }
-
-    private static boolean hasLandeskennung(String plz) {
-        char kennung = plz.charAt(0);
-        return Character.isLetter(kennung);
+    fun hasLandeskennung(): Boolean {
+        return hasLandeskennung(code)
     }
 
     /**
@@ -129,47 +90,35 @@ public class PLZ extends Text {
      *
      * @return z.B. "D" fuer Deutschland
      */
-    public String getLandeskennung() {
-        if (!this.hasLandeskennung()) {
-            throw new IllegalStateException("keine Landeskennung angegeben");
+    val landeskennung: String
+        get() {
+            check(this.hasLandeskennung()) { "keine Landeskennung angegeben" }
+            return getLandeskennung(code)
         }
-        return getLandeskennung(this.getCode());
-    }
-
-    private static String getLandeskennung(String plz) {
-        return StringUtils.substringBefore(toLongString(plz), "-");
-    }
 
     /**
      * Liefert das Land, die der Landeskennung entspricht.
      *
      * @return z.B. "de_CH" (fuer die Schweiz)
      */
-    public Locale getLand() {
-        String kennung = this.getLandeskennung();
-        switch (kennung) {
-            case "D":   return new Locale("de", "DE");
-            case "A":   return new Locale("de", "AT");
-            case "CH":  return new Locale("de", "CH");
-            default:    throw new UnsupportedOperationException("unbekannte Landeskennung '" + kennung + "'");
+    val land: Locale
+        get() {
+            val kennung = landeskennung
+            return when (kennung) {
+                "D" -> Locale("de", "DE")
+                "A" -> Locale("de", "AT")
+                "CH" -> Locale("de", "CH")
+                else -> throw UnsupportedOperationException("unbekannte Landeskennung '$kennung'")
+            }
         }
-    }
 
     /**
      * Liefert die eigentliche Postleitzahl ohne Landeskennung.
      *
      * @return z,B. "01001"
      */
-    public String getPostleitZahl() {
-        return getPostleitZahl(this.getCode());
-    }
-
-    private static String getPostleitZahl(String plz) {
-        if (!hasLandeskennung(plz)) {
-            return plz;
-        }
-        return StringUtils.substringAfter(toLongString(plz), "-");
-    }
+    val postleitZahl: String
+        get() = getPostleitZahl(code)
 
     /**
      * Liefert die PLZ in kompakter Schreibweise (ohne Trennzeichen zwischen
@@ -177,8 +126,8 @@ public class PLZ extends Text {
      *
      * @return z.B. "D70839"
      */
-    public String toShortString() {
-        return this.getCode();
+    fun toShortString(): String {
+        return code
     }
 
     /**
@@ -187,20 +136,12 @@ public class PLZ extends Text {
      *
      * @return z.B. "D-70839"
      */
-    public String toLongString() {
-        String plz = this.getCode();
+    fun toLongString(): String {
+        var plz = code
         if (this.hasLandeskennung()) {
-            plz = toLongString(plz);
+            plz = toLongString(plz)
         }
-        return plz;
-    }
-
-    private static String toLongString(String plz) {
-        int i = StringUtils.indexOfAny(plz, "0123456789");
-        if (i < 0) {
-            throw new InvalidValueException(plz, "postal_code");
-        }
-        return plz.substring(0, i) + "-" + plz.substring(i);
+        return plz
     }
 
     /**
@@ -209,9 +150,8 @@ public class PLZ extends Text {
      *
      * @return z.B. "D-70839"
      */
-    @Override
-    public String toString() {
-        return this.toLongString();
+    override fun toString(): String {
+        return this.toLongString()
     }
 
 
@@ -219,20 +159,18 @@ public class PLZ extends Text {
     /**
      * In dieser Klasse sind die Validierungsregeln der diversen
      * PLZ-Validierungen zusammengefasst. Fuer Deutschland gilt z.B.:
-     * <ul>
-     * <li>Eine PLZ besteht aus 5 Ziffern.</li>
-     * <li>Steht an erster Stelle eine 0, folgt darauf eine Zahl zwischen
-     * 1 und 9.</li>
-     * <li>Steht an erster Stelle eine Zahl zwischen 1 und 9, folgt darauf
-     * eine Zahl zwischen 0 und 9.</li>
-     * <li>An den letzten drei Stellen steht eine Zahl zwischen 0 und 9.</li>
-     * </ul>
-     * <p>
+     *
+     *  * Eine PLZ besteht aus 5 Ziffern.
+     *  * Steht an erster Stelle eine 0, folgt darauf eine Zahl zwischen
+     *    1 und 9.
+     *  * Steht an erster Stelle eine Zahl zwischen 1 und 9, folgt darauf
+     *    eine Zahl zwischen 0 und 9.
+     *  * An den letzten drei Stellen steht eine Zahl zwischen 0 und 9.
+     *
      * Will man eine PLZ online fuer verschiedene Laender validieren, kann man
-     * auf <a href="http://api.zippopotam.us/">Zippotam</a> zurueckgreifen.
-     * </p>
+     * auf [Zippotam](http://api.zippopotam.us/) zurueckgreifen.
      */
-    public static class Validator implements SimpleValidator<String> {
+    class Validator : SimpleValidator<String> {
 
         /**
          * Eine Postleitahl muss zwischen 3 und 10 Ziffern lang sein. Eventuell
@@ -242,52 +180,104 @@ public class PLZ extends Text {
          * @param code die PLZ
          * @return die validierte PLZ (zur Weiterverarbeitung)
          */
-        @Override
-        public String validate(String code) {
-            String plz = normalize(code);
+        override fun validate(code: String): String {
+            var plz = normalize(code)
             if (hasLandeskennung(plz)) {
-                validateNumberOf(plz);
+                validateNumberOf(plz)
             } else {
-                plz = LengthValidator.validate(plz, 3, 10);
-                if (plz.length() == 5) {
-                    validateNumberFuenfstellig(plz);
+                plz = LengthValidator.validate(plz, 3, 10)
+                if (plz.length == 5) {
+                    validateNumberDE(plz)
                 }
             }
-            return plz;
+            return plz
         }
 
-        private static void validateNumberOf(String plz) {
-            String kennung = getLandeskennung(plz);
-            String zahl = getPostleitZahl(plz);
-            switch (kennung) {
-                case "D":
-                    validateNumberFuenfstellig(zahl);
-                case "CH":
-                    validateNumberWith(plz, 6, zahl);
-                    break;
-                case "A":
-                    validateNumberWith(plz, 5, zahl);
-                    break;
-                default:
-                    LengthValidator.validate(zahl, 3, 10);
-                    break;
+        companion object {
+
+            private fun validateNumberOf(plz: String) {
+                val kennung = getLandeskennung(plz)
+                val zahl = getPostleitZahl(plz)
+                when (kennung) {
+                    "D" -> {
+                        validateNumberDE(zahl)
+                        validateNumberWith(plz, 6, zahl)
+                    }
+                    "CH" -> validateNumberWith(plz, 6, zahl)
+                    "A" -> validateNumberWith(plz, 5, zahl)
+                    else -> LengthValidator.validate(zahl, 3, 10)
+                }
+            }
+
+            private fun validateNumberWith(plz: String, length: Int, zahl: String) {
+                LengthValidator.validate(plz, length)
+                NumberValidator(BigDecimal.ZERO, BigDecimal.TEN.pow(length)).validate(zahl)
+            }
+
+            private fun validateNumberDE(plz: String) {
+                val n = plz.toInt()
+                if (n < 1067 || n > 99998) {
+                    throw InvalidValueException(plz, "postal_code", Range.between("01067", "99998"))
+                }
+            }
+
+            private fun normalize(plz: String): String {
+                return StringUtils.replaceChars(plz, " -", "").toUpperCase()
+            }
+        }
+    }
+
+
+
+    companion object {
+
+        private val VALIDATOR: SimpleValidator<String> = Validator()
+        private val WEAK_CACHE = WeakHashMap<String, PLZ>()
+
+        /** Null-Wert fuer Initialisierung.  */
+        @JvmField
+        val NULL = PLZ("00000", NullValidator())
+
+        private fun toLandeskennung(locale: Locale): String {
+            val country = locale.country.toUpperCase()
+            return when (country) {
+                "AT", "DE" -> country.substring(0, 1)
+                else -> country
             }
         }
 
-        private static void validateNumberWith(String plz, int length, String zahl) {
-            LengthValidator.validate(plz, length);
-            new NumberValidator(BigDecimal.ZERO, BigDecimal.TEN.pow(length)).validate(zahl);
+        /**
+         * Liefert eine PLZ zurueck.
+         *
+         * @param plz PLZ als String
+         * @return PLZ
+         */
+        @JvmStatic
+        fun of(plz: String): PLZ {
+            return WEAK_CACHE.computeIfAbsent(plz) { s: String -> PLZ(s) }
         }
 
-        private static void validateNumberFuenfstellig(String plz) {
-            int n = Integer.parseInt(plz);
-            if ((n < 1067) || (n > 99998)) {
-                throw new InvalidValueException(plz, "postal_code", Range.between("01067", "99998"));
+        private fun hasLandeskennung(plz: String): Boolean {
+            val kennung = plz[0]
+            return Character.isLetter(kennung)
+        }
+
+        private fun getLandeskennung(plz: String): String {
+            return StringUtils.substringBefore(toLongString(plz), "-")
+        }
+
+        private fun getPostleitZahl(plz: String): String {
+            return if (!hasLandeskennung(plz)) {
+                plz
+            } else StringUtils.substringAfter(toLongString(plz), "-")
+        }
+
+        private fun toLongString(plz: String): String {
+            val i = StringUtils.indexOfAny(plz, "0123456789")
+            if (i < 0) {
+                throw InvalidValueException(plz, "postal_code")
             }
-        }
-
-        private static String normalize(String plz) {
-            return StringUtils.replaceChars(plz, " -", "").toUpperCase();
+            return plz.substring(0, i) + "-" + plz.substring(i)
         }
 
     }
