@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,26 +15,25 @@
  *
  * (c)reated 21.02.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.post;
+package de.jfachwert.post
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import de.jfachwert.Fachwert;
-import de.jfachwert.SimpleValidator;
-import de.jfachwert.Text;
-import de.jfachwert.pruefung.LengthValidator;
-import de.jfachwert.pruefung.NullValidator;
-import de.jfachwert.pruefung.exception.InvalidValueException;
-import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
-import de.jfachwert.util.ToFachwertSerializer;
-import org.apache.commons.lang3.RegExUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.validation.ValidationException;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Pattern;
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import de.jfachwert.Fachwert
+import de.jfachwert.SimpleValidator
+import de.jfachwert.Text
+import de.jfachwert.pruefung.LengthValidator
+import de.jfachwert.pruefung.NullValidator
+import de.jfachwert.pruefung.exception.InvalidValueException
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
+import de.jfachwert.util.ToFachwertSerializer
+import org.apache.commons.lang3.RegExUtils
+import org.apache.commons.lang3.StringUtils
+import java.util.*
+import java.util.logging.Level
+import java.util.logging.Logger
+import java.util.regex.Pattern
+import javax.validation.ValidationException
 
 /**
  * Bei einer Adresse kann es sich um eine Wohnungsadresse oder Gebaeudeadresse
@@ -44,253 +43,64 @@ import java.util.regex.Pattern;
  * @author oboehm
  * @since 0.2 (02.05.2017)
  */
-@JsonSerialize(using = ToFachwertSerializer.class)
-public class Adresse implements Fachwert {
-
-    private static final SimpleValidator<String> VALIDATOR = new LengthValidator<>(1);
-    private static final Logger LOG = Logger.getLogger(Adresse.class.getName());
-    private static final Pattern PATTERN_STRASSE = Pattern.compile(".*(?i)tra(ss|[\u00dfe])e$");
-
-    /** Null-Konstante. */
-    public static final Adresse NULL = new Adresse(Ort.NULL, "", "", new NullValidator<>());
-
-    private final Ort ort;
-    private final String strasse;
-    private final String hausnummer;
+@JsonSerialize(using = ToFachwertSerializer::class)
+open class Adresse
+@JvmOverloads constructor(
+        val ort: Ort, private val strasse: String, private val hausnummer: String, validator: SimpleValidator<String> = VALIDATOR) : Fachwert {
 
     /**
      * Zerlegt die uebergebene Adresse in ihre Einzelteile und baut daraus die
-     * Adresse zusammen. Folgende Heuristiken werden fuer die Zerlegung 
+     * Adresse zusammen. Folgende Heuristiken werden fuer die Zerlegung
      * herangezogen:
-     * <ul>
-     *     <li>Reihenfolge kann Ort, Strasse oder Strasse, Ort sein</li>
-     *     <li>Ort / Strasse werden durch Komma oder Zeilenvorschub getrennt</li>
-     *     <li>vor dem Ort steht die PLZ</li>
-     * </ul>
-     * 
+     *
+     *  * Reihenfolge kann Ort, Strasse oder Strasse, Ort sein;
+     *  * Ort / Strasse werden durch Komma oder Zeilenvorschub getrennt;
+     *  * vor dem Ort steht die PLZ.
+     *
      * @param adresse z.B. "12345 Entenhausen, Gansstr. 23"
      */
-    public Adresse(String adresse) {
-        this(split(adresse));
-    }
-    
-    private Adresse(String[] adresse) {
-        this(new Ort(adresse[0]), adresse[1], adresse[2]);
-    }
+    constructor(adresse: String) : this(split(adresse)) {}
 
-    /**
-     * Erzeugt eine neue Adresse.
-     *
-     * @param ort        the ort
-     * @param strasse    the strasse
-     * @param hausnummer the hausnummer
-     */
-    public Adresse(Ort ort, String strasse, String hausnummer) {
-        this(ort, strasse, hausnummer, VALIDATOR);
-    }
-
-    /**
-     * Erzeugt eine neue Adresse.
-     *
-     * @param ort        the ort
-     * @param strasse    the strasse
-     * @param hausnummer the hausnummer
-     * @param validator  Validator fuer die Ueberpruefung der Strasse
-     */
-    public Adresse(Ort ort, String strasse, String hausnummer, SimpleValidator<String> validator) {
-        this.ort = ort;
-        this.strasse = strasse;
-        this.hausnummer = hausnummer;
-        verify(ort, strasse, hausnummer, validator);
-    }
+    private constructor(adresse: Array<String>) : this(Ort(adresse[0]), adresse[1], adresse[2]) {}
 
     /**
      * Erzeugt eine neue Adresse.
      *
      * @param map mit den einzelnen Elementen fuer "plz", "ortsname",
-     *            "strasse" und "hausnummer".
+     * "strasse" und "hausnummer".
      */
     @JsonCreator
-    public Adresse(Map<String, String> map) {
-        this(new Ort(PLZ.of(map.get("plz")), map.get("ortsname")), map.get("strasse"), map.get("hausnummer"));
+    constructor(map: Map<String?, String?>) : this(Ort(PLZ.of(map["plz"]!!), map["ortsname"]!!), map["strasse"]!!, map["hausnummer"]!!) {
     }
 
-    /**
-     * Zerlegt die uebergebene Adresse in ihre Einzelteile und baut daraus die
-     * Adresse zusammen. Folgende Heuristiken werden fuer die Zerlegung 
-     * herangezogen:
-     * <ul>
-     *     <li>Reihenfolge kann Ort, Strasse oder Strasse, Ort sein</li>
-     *     <li>Ort / Strasse werden durch Komma oder Zeilenvorschub getrennt</li>
-     *     <li>vor dem Ort steht die PLZ</li>
-     * </ul>
-     *
-     * @param adresse z.B. "12345 Entenhausen, Gansstr. 23"
-     * @return Adresse
-     */
-    public static Adresse of(String adresse) {
-        return new Adresse(adresse);
-    }
-
-    /**
-     * Liefert eine Adresse mit den uebergebenen Parametern.
-     *
-     * @param ort     Ort
-     * @param strasse Strasse mit oder ohne Hausnummer
-     * @return Adresse
-     */
-    public static Adresse of(Ort ort, String strasse) {
-        List<String> splitted = toStrasseHausnummer(strasse);
-        return of(ort, splitted.get(0), splitted.get(1));
-    }
-
-    /**
-     * Liefert eine Adresse mit den uebergebenen Parametern.
-     *
-     * @param ort        the ort
-     * @param strasse    the strasse
-     * @param hausnummer the hausnummer
-     * @return Adresse
-     */
-    public static Adresse of(Ort ort, String strasse, String hausnummer) {
-        return new Adresse(ort, strasse, hausnummer);
-    }
-
-    /**
-     * Liefert eine Adresse mit den uebergebenen Parametern.
-     *
-     * @param ort        the ort
-     * @param strasse    the strasse
-     * @param hausnummer the hausnummer
-     * @return Adresse
-     * @since 2.1
-     */
-    public static Adresse of(Ort ort, String strasse, int hausnummer) {
-        return of(ort, strasse, Integer.toString(hausnummer));
-    }
-
-    private static void verify(Ort ort, String strasse, String hausnummer, SimpleValidator<String> validator) {
-        try {
-            validate(ort, strasse, hausnummer, validator);
-        } catch (ValidationException ex) {
-            throw new LocalizedIllegalArgumentException(ex);
-        }
-    }
-
-    /**
-     * Validiert die uebergebene Adresse auf moegliche Fehler.
-     *
-     * @param ort        der Ort
-     * @param strasse    die Strasse
-     * @param hausnummer die Hausnummer
-     */
-    public static void validate(Ort ort, String strasse, String hausnummer) {
-        if (StringUtils.isBlank(strasse)) {
-            throw new InvalidValueException(strasse, "street");
-        }
-        validate(ort, strasse, hausnummer, VALIDATOR);
-    }
-
-    private static void validate(Ort ort, String strasse, String hausnummer, SimpleValidator<String> validator) {
-        if (!ort.getPLZ().isPresent()) {
-            throw new InvalidValueException(ort, "postal_code");
-        }
-        validator.validate(strasse);
-        if (StringUtils.isNotBlank(strasse) && StringUtils.isNotBlank(hausnummer) &&
-                Character.isDigit(strasse.trim().charAt(0)) && (Character.isLetter(hausnummer.trim().charAt(0))) &&
-                (strasse.length() < hausnummer.length())) {
-            throw new InvalidValueException(strasse + " " + hausnummer, "values_exchanged");
-        }
-    }
-
-    /**
-     * Zerlegt die uebergebene Adresse in ihre Einzelteile und validiert sie.
-     * Folgende Heuristiken werden fuer die Zerlegung herangezogen:
-     * <ul>
-     *     <li>Reihenfolge kann Ort, Strasse oder Strasse, Ort sein</li>
-     *     <li>Ort / Strasse werden durch Komma oder Zeilenvorschub getrennt</li>
-     *     <li>vor dem Ort steht die PLZ</li>
-     * </ul>
-     * 
-     * @param adresse z.B. "12345 Entenhausen, Gansstr. 23"
-     */
-    public static void validate(String adresse) {
-        String[] splitted = split(adresse);
-        Ort ort = new Ort(splitted[0]);
-        validate(ort, splitted[1], splitted[2]);
-    }
-    
-    private static String[] split(String adresse) {
-        String[] lines = StringUtils.trimToEmpty(adresse).split("[,\\n$]");
-        if (lines.length != 2) {
-            throw new LocalizedIllegalArgumentException(adresse, "address");
-        }
-        List<String> splitted = new ArrayList<>();
-        if (hasPLZ(lines[0])) {
-            splitted.add(lines[0].trim());
-            splitted.addAll(toStrasseHausnummer(lines[1]));
-        } else {
-            splitted.add(lines[1].trim());
-            splitted.addAll(toStrasseHausnummer(lines[0]));
-        }
-        return splitted.toArray(new String[3]);
-    }
-
-    private static boolean hasPLZ(String line) {
-        try {
-            Ort ort = new Ort(line);
-            return ort.getPLZ().isPresent();
-        } catch (ValidationException ex) {
-            LOG.log(Level.FINE, "no PLZ inside '" + line + "' found:", ex);
-            return false;
-        }
-    }
-
-    private static List<String> toStrasseHausnummer(String line) {
-        int indexNr = StringUtils.indexOfAny(line, "0123456789");
-        if (indexNr <= 0) {
-            return Arrays.asList(line.trim(), "");
-        } else {
-            return Arrays.asList(line.substring(0, indexNr).trim(), line.substring(indexNr).trim());
-        }
-    }
-
-    /**
-     * Liefert den Ort.
-     *
-     * @return Ort
-     */
-    public Ort getOrt() {
-        return ort;
+    init {
+        verify(ort, strasse, hausnummer, validator)
     }
 
     /**
      * Liefert den Ortsnamen.
-     * 
+     *
      * @return Ortsname
      */
-    public String getOrtsname() {
-        return ort.getName();
-    }
+    val ortsname: String
+        get() = ort.name
 
     /**
-     * Eine PLZ <em>muss</em> fuer eine Adresse vorhanden sein, sonst laesst
+     * Eine PLZ *muss* fuer eine Adresse vorhanden sein, sonst laesst
      * sich keine Aresse Anlagen. Diese wird hierueber zurueckgegeben.
      *
      * @return z.B. "80739" fuer Gerlingen
      */
-    @SuppressWarnings("squid:S3655")
-    public PLZ getPLZ() {
-        return ort.getPLZ().get();
-    }
+    val pLZ: PLZ
+        get() = ort.pLZ.get()
 
     /**
      * Liefert die Strasse.
      *
      * @return the strasse
      */
-    public String getStrasse() {
-        return strasse;
+    fun getStrasse(): String {
+        return strasse
     }
 
     /**
@@ -298,21 +108,20 @@ public class Adresse implements Fachwert {
      *
      * @return z.B. "Badstr."
      */
-    public String getStrasseKurz() {
-        if (PATTERN_STRASSE.matcher(strasse).matches()) {
-            return strasse.substring(0, StringUtils.lastIndexOfIgnoreCase(strasse, "stra") + 3) + '.';
+    val strasseKurz: String
+        get() = if (PATTERN_STRASSE.matcher(strasse).matches()) {
+            strasse.substring(0, StringUtils.lastIndexOfIgnoreCase(strasse, "stra") + 3) + '.'
         } else {
-            return strasse;
+            strasse
         }
-    }
 
     /**
-     * Liefert die Strasse.
+     * Liefert die Hausnummer.
      *
      * @return Hausnummer, z.B. "10a"
      */
-    public String getHausnummer() {
-        return hausnummer;
+    fun getHausnummer(): String {
+        return hausnummer
     }
 
     /**
@@ -320,9 +129,8 @@ public class Adresse implements Fachwert {
      *
      * @return z.B. "1-3"
      */
-    public String getHausnummerKurz() {
-        return StringUtils.deleteWhitespace(hausnummer);
-    }
+    val hausnummerKurz: String
+        get() = StringUtils.deleteWhitespace(hausnummer)
 
     /**
      * Hier wird eine logischer Vergleich mit der anderen Adresse
@@ -330,57 +138,37 @@ public class Adresse implements Fachwert {
      * unterschieden und z.B. "Badstrasse" und "Badstr." werden als
      * die gleiche Strasse angesehen.
      *
-     * @param obj die andere Adresse
+     * @param other die andere Adresse
      * @return true oder false
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Adresse)) {
-            return false;
+    override fun equals(other: Any?): Boolean {
+        if (other !is Adresse) {
+            return false
         }
-        Adresse other = (Adresse) obj;
-        return this.ort.equals(other.ort) && equalsStrasse(other) && equalsHausnummer(other);
+        return ort.equals(other.ort) && equalsStrasse(other) && equalsHausnummer(other)
     }
 
-    private boolean equalsStrasse(Adresse other) {
-        return normalizeStrasse(this).equalsIgnoreCase(normalizeStrasse(other));
+    private fun equalsStrasse(other: Adresse): Boolean {
+        return normalizeStrasse(this).equals(normalizeStrasse(other), ignoreCase = true)
     }
 
-    private static String normalizeStrasse(Adresse adr) {
-        return Text.replaceUmlaute(RegExUtils.removeAll(adr.getStrasseKurz(), "[\\s\\p{Punct}]"));
-    }
-
-    private boolean equalsHausnummer(Adresse other) {
-        String[] thisNr = normalizeHausnummer(this.getHausnummer());
-        String[] otherNr = normalizeHausnummer(other.getHausnummer());
-        return thisNr[0].equals(otherNr[0]) || thisNr[1].equals(otherNr[0]) || thisNr[0].equals(otherNr[1]) ||
-                thisNr[1].equals(otherNr[1]);
-    }
-
-    private static String[] normalizeHausnummer(String nr) {
-        String vonBis = nr.replaceAll("[^\\d\\-]", "");
-        String[] splitted = vonBis.split("-");
-        switch (splitted.length) {
-            case 0:
-                return new String[]{vonBis, vonBis};
-            case 1:
-                return new String[]{splitted[0], splitted[0]};
-            default:
-                return splitted;
-        }
+    private fun equalsHausnummer(other: Adresse): Boolean {
+        val thisNr = normalizeHausnummer(getHausnummer())
+        val otherNr = normalizeHausnummer(other.getHausnummer())
+        return thisNr[0] == otherNr[0] || thisNr[1] == otherNr[0] || thisNr[0] == otherNr[1] || thisNr[1] == otherNr[1]
     }
 
     /**
-     * Im Gegensatz zur {@link #equals(Object)}-Methode muss hier die andere
+     * Im Gegensatz zur [.equals]-Methode muss hier die andere
      * Adresse exakt einstimmen, also auch in Gross- und Kleinschreibung.
      *
      * @param other die andere Adresse
      * @return true oder false
      * @since 2.1
      */
-    public boolean equalsExact(Adresse other) {
-        return this.ort.equalsExact(other.ort) && (this.strasse.equals(other.strasse)) &&
-                this.hausnummer.equalsIgnoreCase(other.hausnummer);
+    fun equalsExact(other: Adresse): Boolean {
+        return ort.equalsExact(other.ort) && strasse == other.strasse &&
+                hausnummer.equals(other.hausnummer, ignoreCase = true)
     }
 
     /**
@@ -389,9 +177,8 @@ public class Adresse implements Fachwert {
      *
      * @return hashCode
      */
-    @Override
-    public int hashCode() {
-        return normalizeStrasse(this).toLowerCase().hashCode();
+    override fun hashCode(): Int {
+        return normalizeStrasse(this).toLowerCase().hashCode()
     }
 
     /**
@@ -399,9 +186,8 @@ public class Adresse implements Fachwert {
      *
      * @return z.B. "12345 Entenhausen, Gansstrasse 23"
      */
-    @Override
-    public String toString() {
-        return this.getOrt() + ", " + this.getStrasse() + " " + this.getHausnummer();
+    override fun toString(): String {
+        return ort.toString() + ", " + getStrasse() + " " + getHausnummer()
     }
 
     /**
@@ -409,8 +195,8 @@ public class Adresse implements Fachwert {
      *
      * @return z.B. "12345 Entenhausen, Gansstr. 23"
      */
-    public String toShortString() {
-        return this.getOrt() + ", " + this.getStrasseKurz() + " " + this.getHausnummerKurz();
+    fun toShortString(): String {
+        return ort.toString() + ", " + strasseKurz + " " + hausnummerKurz
     }
 
     /**
@@ -418,14 +204,188 @@ public class Adresse implements Fachwert {
      *
      * @return Attribute als Map
      */
-    @Override
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("plz", getPLZ());
-        map.put("ortsname", getOrtsname());
-        map.put("strasse", getStrasse());
-        map.put("hausnummer", getHausnummer());
-        return map;
+    override fun toMap(): Map<String, Any> {
+        val map: MutableMap<String, Any> = HashMap()
+        map["plz"] = pLZ
+        map["ortsname"] = ortsname
+        map["strasse"] = getStrasse()
+        map["hausnummer"] = getHausnummer()
+        return map
+    }
+
+
+
+    companion object {
+
+        private val VALIDATOR: SimpleValidator<String> = LengthValidator(1)
+        private val LOG = Logger.getLogger(Adresse::class.java.name)
+        private val PATTERN_STRASSE = Pattern.compile(".*(?i)tra(ss|[\u00dfe])e$")
+
+        /** Null-Konstante.  */
+        @JvmField
+        val NULL = Adresse(Ort.NULL, "", "", NullValidator())
+
+        /**
+         * Zerlegt die uebergebene Adresse in ihre Einzelteile und baut daraus die
+         * Adresse zusammen. Folgende Heuristiken werden fuer die Zerlegung
+         * herangezogen:
+         *
+         *  * Reihenfolge kann Ort, Strasse oder Strasse, Ort sein
+         *  * Ort / Strasse werden durch Komma oder Zeilenvorschub getrennt
+         *  * vor dem Ort steht die PLZ
+         *
+         * @param adresse z.B. "12345 Entenhausen, Gansstr. 23"
+         * @return Adresse
+         */
+        @JvmStatic
+        fun of(adresse: String): Adresse {
+            return Adresse(adresse)
+        }
+
+        /**
+         * Liefert eine Adresse mit den uebergebenen Parametern.
+         *
+         * @param ort     Ort
+         * @param strasse Strasse mit oder ohne Hausnummer
+         * @return Adresse
+         */
+        @JvmStatic
+        fun of(ort: Ort, strasse: String): Adresse {
+            val splitted = toStrasseHausnummer(strasse)
+            return of(ort, splitted[0], splitted[1])
+        }
+
+        /**
+         * Liefert eine Adresse mit den uebergebenen Parametern.
+         *
+         * @param ort        the ort
+         * @param strasse    the strasse
+         * @param hausnummer the hausnummer
+         * @return Adresse
+         */
+        @JvmStatic
+        fun of(ort: Ort, strasse: String, hausnummer: String): Adresse {
+            return Adresse(ort, strasse, hausnummer)
+        }
+
+        /**
+         * Liefert eine Adresse mit den uebergebenen Parametern.
+         *
+         * @param ort        the ort
+         * @param strasse    the strasse
+         * @param hausnummer the hausnummer
+         * @return Adresse
+         * @since 2.1
+         */
+        @JvmStatic
+        fun of(ort: Ort, strasse: String, hausnummer: Int): Adresse {
+            return of(ort, strasse, Integer.toString(hausnummer))
+        }
+
+        private fun verify(ort: Ort, strasse: String, hausnummer: String, validator: SimpleValidator<String>) {
+            try {
+                validate(ort, strasse, hausnummer, validator)
+            } catch (ex: ValidationException) {
+                throw LocalizedIllegalArgumentException(ex)
+            }
+        }
+
+        /**
+         * Validiert die uebergebene Adresse auf moegliche Fehler.
+         *
+         * @param ort        der Ort
+         * @param strasse    die Strasse
+         * @param hausnummer die Hausnummer
+         */
+        fun validate(ort: Ort, strasse: String, hausnummer: String) {
+            if (StringUtils.isBlank(strasse)) {
+                throw InvalidValueException(strasse, "street")
+            }
+            validate(ort, strasse, hausnummer, VALIDATOR)
+        }
+
+        private fun validate(ort: Ort, strasse: String, hausnummer: String, validator: SimpleValidator<String>) {
+            if (!ort.pLZ.isPresent) {
+                throw InvalidValueException(ort, "postal_code")
+            }
+            validator.validate(strasse)
+            if (StringUtils.isNotBlank(strasse) && StringUtils.isNotBlank(hausnummer) &&
+                    Character.isDigit(strasse.trim { it <= ' ' }[0]) && Character.isLetter(hausnummer.trim { it <= ' ' }[0]) &&
+                    strasse.length < hausnummer.length) {
+                throw InvalidValueException("$strasse $hausnummer", "values_exchanged")
+            }
+        }
+
+        /**
+         * Zerlegt die uebergebene Adresse in ihre Einzelteile und validiert sie.
+         * Folgende Heuristiken werden fuer die Zerlegung herangezogen:
+         *
+         *  * Reihenfolge kann Ort, Strasse oder Strasse, Ort sein
+         *  * Ort / Strasse werden durch Komma oder Zeilenvorschub getrennt
+         *  * vor dem Ort steht die PLZ
+         *
+         * @param adresse z.B. "12345 Entenhausen, Gansstr. 23"
+         */
+        @JvmStatic
+        fun validate(adresse: String) {
+            val splitted = split(adresse)
+            val ort = Ort(splitted[0])
+            validate(ort, splitted[1], splitted[2])
+        }
+
+        private fun split(adresse: String): Array<String> {
+            val lines = StringUtils.trimToEmpty(adresse).split("[,\\n$]".toRegex()).toTypedArray()
+            if (lines.size != 2) {
+                throw LocalizedIllegalArgumentException(adresse, "address")
+            }
+            val splitted: MutableList<String> = ArrayList()
+            if (hasPLZ(lines[0])) {
+                splitted.add(lines[0].trim { it <= ' ' })
+                splitted.addAll(toStrasseHausnummer(lines[1]))
+            } else {
+                splitted.add(lines[1].trim { it <= ' ' })
+                splitted.addAll(toStrasseHausnummer(lines[0]))
+            }
+            return splitted.toTypedArray()
+        }
+
+        private fun hasPLZ(line: String): Boolean {
+            return try {
+                val ort = Ort(line)
+                ort.pLZ.isPresent
+            } catch (ex: ValidationException) {
+                LOG.log(Level.FINE, "no PLZ inside '$line' found:", ex)
+                false
+            }
+        }
+
+        private fun toStrasseHausnummer(line: String): List<String> {
+            val indexNr = StringUtils.indexOfAny(line, "0123456789")
+            return if (indexNr <= 0) {
+                Arrays.asList(line.trim { it <= ' ' }, "")
+            } else {
+                Arrays.asList(line.substring(0, indexNr).trim { it <= ' ' }, line.substring(indexNr).trim { it <= ' ' })
+            }
+        }
+
+        private fun normalizeStrasse(adr: Adresse): String {
+            return Text.replaceUmlaute(RegExUtils.removeAll(adr.strasseKurz, "[\\s\\p{Punct}]"))
+        }
+
+        private fun normalizeHausnummer(nr: String): Array<String> {
+            val vonBis = nr.replace("[^\\d\\-]".toRegex(), "")
+            val splitted = vonBis.split("-").toTypedArray()
+            return when (splitted.size) {
+                0 -> arrayOf(vonBis, vonBis)
+                1 -> arrayOf(splitted[0], splitted[0])
+                else -> {
+                    if (splitted[1].isEmpty()) {
+                        return arrayOf(splitted[0], splitted[0])
+                    }
+                    splitted
+                }
+            }
+        }
     }
 
 }

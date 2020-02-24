@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,205 +15,108 @@
  *
  * (c)reated 13.04.17 by oliver (ob@oasd.de)
  */
-package de.jfachwert.post;
+package de.jfachwert.post
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import de.jfachwert.Fachwert;
-import de.jfachwert.SimpleValidator;
-import de.jfachwert.Text;
-import de.jfachwert.pruefung.LengthValidator;
-import de.jfachwert.pruefung.NullValidator;
-import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.validation.ValidationException;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
+import de.jfachwert.Fachwert
+import de.jfachwert.SimpleValidator
+import de.jfachwert.Text
+import de.jfachwert.pruefung.LengthValidator
+import de.jfachwert.pruefung.NullValidator
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
+import org.apache.commons.lang3.StringUtils
+import java.util.*
+import java.util.logging.Level
+import java.util.logging.Logger
+import javax.validation.ValidationException
 
 /**
  * Ein Ort (oder auch Ortschaft) ist eine Stadt oder Gemeinde. Ein Ort hat
  * i.d.R. eine Postleitzahl (PLZ). Diese ist aber in dieser Klasse optional,
  * sodass man einen Ort auch ohne eine PLZ einsetzen kann.
- * <p>
- * Anmerkung: Die PLZ ist nicht als Optional realisert, da in Java Optionals
- * leider nicht serialiserbar sind :-(
- * </p>
  *
  * @author oboehm
  * @since 0.2.0 (13.04.2017)
  */
-@JsonSerialize(using = ToStringSerializer.class)
-public class Ort implements Fachwert {
-
-    private static final SimpleValidator<String> VALIDATOR = new LengthValidator<>(1);
-    private static final Logger LOG = Logger.getLogger(Ort.class.getName());
-
-    /** Null-Wert fuer Initialisierung. */
-    public static final Ort NULL = new Ort(PLZ.NULL, "", new NullValidator<>());
-
-    private final String name;
-    private final PLZ plz;
-
-    /**
-     * Hierueber kann ein Ort (mit oder ohne PLZ) angelegt werden.
-     *
-     * @param name des Ortes
-     */
-    public Ort(String name) {
-        this(split(name));
-    }
-
-    private Ort(String[] values) {
-        this(values[0].isEmpty() ? null : new PLZ(values[0]), values[1]);
-    }
-
-    /**
-     * Hierueber kann ein Ort mit PLZ angelegt werden.
-     *
-     * @param plz Postleitzahl des Ortes
-     * @param name Name des Ortes
-     */
-    public Ort(PLZ plz, String name) {
-        this(plz, name, VALIDATOR);
-    }
-
-    /**
-     * Hierueber kann ein Ort mit PLZ angelegt werden.
-     *
-     * @param plz       Postleitzahl des Ortes
-     * @param name      Name des Ortes
-     * @param validator Validator fuer die Ueberpruefung des Ortes
-     */
-    public Ort(PLZ plz, String name, SimpleValidator<String> validator) {
-        this.plz = plz;
-        this.name = verify(name, validator);
-    }
-
-    /**
-     * Hierueber kann ein Ort (mit oder ohne PLZ) angelegt werden.
-     *
-     * @param name des Ortes
-     * @return Ort
-     */
-    public static Ort of(String name) {
-        return new Ort(name);
-    }
-
-    /**
-     * Hierueber kann ein Ort mit PLZ angelegt werden.
-     *
-     * @param plz Postleitzahl des Ortes
-     * @param name Name des Ortes
-     * @return Ort
-     */
-    public static Ort of(PLZ plz, String name) {
-        return new Ort(plz, name);
-    }
-
-    /**
-     * Ein Orstname muss mindestens aus einem Zeichen bestehen. Allerdings
-     * koennte der ueberbebene Name auch die PLZ noch beinhalten. Dies wird
-     * bei der Validierung beruecksichtigt.
-     *
-     * @param name der Ortsname (mit oder ohne PLZ)
-     * @return der validierte Ortsname zur Weiterverabeitung
-     */
-    public static String validate(String name) {
-        return validate(name, VALIDATOR);
-    }
-
-    private static String validate(String name, SimpleValidator<String> validator) {
-        String[] splitted = split(name);
-        String ortsname = splitted[1];
-        validator.validate(ortsname);
-        return name;
-    }
-
-    private static String verify(String name, SimpleValidator<String> validator) {
-        try {
-            return validate(name, validator);
-        } catch (ValidationException ex) {
-            throw new LocalizedIllegalArgumentException(ex);
-        }
-    }
-
-    private static String[] split(String name) {
-        String input = StringUtils.trimToEmpty(name);
-        String[] splitted = new String[]{"", input};
-        if (input.contains(" ")) {
-            try {
-                String plz = new PLZ.Validator().validate(StringUtils.substringBefore(input, " "));
-                splitted[0] = plz;
-                splitted[1] = StringUtils.substringAfter(input, " ").trim();
-            } catch (ValidationException ex) {
-                LOG.log(Level.FINE, "no PLZ inside '" + name + "' found:", ex);
-            }
-        }
-        return splitted;
-    }
+@JsonSerialize(using = ToStringSerializer::class)
+open class Ort
+/**
+ * Hierueber kann ein Ort mit PLZ angelegt werden.
+ *
+ * @param plz       Postleitzahl des Ortes
+ * @param name      Name des Ortes
+ * @param validator Validator fuer die Ueberpruefung des Ortes
+ */
+@JvmOverloads constructor(private val plz: PLZ?, name: String, validator: SimpleValidator<String> = VALIDATOR) : Fachwert {
 
     /**
      * Liefert den Ortsnamen zurueck.
      *
      * @return den Ortsnamen
      */
-    public String getName() {
-        return this.name;
+    val name: String
+
+    /**
+     * Hierueber kann ein Ort (mit oder ohne PLZ) angelegt werden.
+     *
+     * @param name des Ortes
+     */
+    constructor(name: String) : this(split(name)) {}
+
+    private constructor(values: Array<String>) : this(if (values[0].isEmpty()) null else PLZ(values[0]), values[1]) {}
+
+    init {
+        this.name = verify(name, validator)
     }
 
     /**
-     * Da die Postleitzahl optional ist, wird sie auch als {@link Optional}
+     * Da die Postleitzahl optional ist, wird sie auch als [Optional]
      * zurueckgegeben.
      *
      * @return die PLZ
      */
-    public Optional<PLZ> getPLZ() {
-        if (this.plz == null) {
-            return Optional.empty();
+    val pLZ: Optional<PLZ>
+        get() = if (plz == null) {
+            Optional.empty()
         } else {
-            return Optional.of(this.plz);
+            Optional.of(plz)
         }
-    }
 
     /**
      * Hier wird ein logischer Vergleich vorgenommen, ob der andere Ort
      * der gleiche Ort ist. Kennzeichnend dafuer ist die PLZ. Solange die
      * PLZ die gleiche ist, darf der Ort unterschiedlich geschrieben sein
-     * (Bsp. "73730 Esslingen" und "73730 Esslingen am Necker" werden als
+     * (Bsp.: "73730 Esslingen" und "73730 Esslingen am Necker" werden als
      * gleich angesehen.
      *
-     * @param obj der andere Ort
+     * @param other der andere Ort
      * @return true, falls es der gleiche Ort ist
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Ort)) {
-            return false;
+    override fun equals(other: Any?): Boolean {
+        if (other !is Ort) {
+            return false
         }
-        Ort other = (Ort) obj;
-        String thisName = Text.replaceUmlaute(this.name);
-        String otherName = Text.replaceUmlaute(other.name);
-        if ((this.plz == null) || (other.plz == null)) {
-            return thisName.equalsIgnoreCase(otherName);
+        val thisName = Text.replaceUmlaute(name)
+        val otherName = Text.replaceUmlaute(other.name)
+        return if (plz == null || other.plz == null) {
+            thisName.equals(otherName, ignoreCase = true)
         } else {
-            return this.plz.equals(other.plz) &&
-                    (Character.toLowerCase(thisName.charAt(0)) == Character.toLowerCase(otherName.charAt(0)));
+            plz == other.plz &&
+                    Character.toLowerCase(thisName[0]) == Character.toLowerCase(otherName[0])
         }
     }
 
     /**
-     * Im Gegensatz zur {@link #equals(Object)}-Methode muss hier der andere
+     * Im Gegensatz zur [.equals]-Methode muss hier der andere
      * Ort exakt uebereinstimmen. D.h. Sowohl in der PLZ als auch im Namen.
      *
      * @param other der andere Ort
      * @return true bei exakter Gleichheit
      * @since 2.1
      */
-    public boolean equalsExact(Ort other) {
-        return Objects.equals(this.plz, other.plz) && this.name.equals(other.name);
+    fun equalsExact(other: Ort): Boolean {
+        return plz == other.plz && name == other.name
     }
 
     /**
@@ -226,9 +129,8 @@ public class Ort implements Fachwert {
      *
      * @return hashcode
      */
-    @Override
-    public int hashCode() {
-        return Character.toUpperCase(Text.replaceUmlaute(this.name).charAt(0));
+    override fun hashCode(): Int {
+        return Character.toUpperCase(Text.replaceUmlaute(name)[0]).toInt()
     }
 
     /**
@@ -236,12 +138,88 @@ public class Ort implements Fachwert {
      *
      * @return Ortsname
      */
-    @Override
-    public String toString() {
-        if (this.plz == null) {
-            return this.getName();
+    override fun toString(): String {
+        return if (plz == null) {
+            name
         } else {
-            return this.plz + " " + this.getName();
+            plz.toString() + " " + name
+        }
+    }
+
+
+
+    companion object {
+
+        private val VALIDATOR: SimpleValidator<String> = LengthValidator(1)
+        private val LOG = Logger.getLogger(Ort::class.java.name)
+
+        /** Null-Wert fuer Initialisierung.  */
+        @JvmField
+        val NULL = Ort(PLZ.NULL, "", NullValidator())
+
+        /**
+         * Hierueber kann ein Ort (mit oder ohne PLZ) angelegt werden.
+         *
+         * @param name des Ortes
+         * @return Ort
+         */
+        @JvmStatic
+        fun of(name: String): Ort {
+            return Ort(name)
+        }
+
+        /**
+         * Hierueber kann ein Ort mit PLZ angelegt werden.
+         *
+         * @param plz Postleitzahl des Ortes
+         * @param name Name des Ortes
+         * @return Ort
+         */
+        @JvmStatic
+        fun of(plz: PLZ, name: String): Ort {
+            return Ort(plz, name)
+        }
+
+        /**
+         * Ein Orstname muss mindestens aus einem Zeichen bestehen. Allerdings
+         * koennte der ueberbebene Name auch die PLZ noch beinhalten. Dies wird
+         * bei der Validierung beruecksichtigt.
+         *
+         * @param name der Ortsname (mit oder ohne PLZ)
+         * @return der validierte Ortsname zur Weiterverabeitung
+         */
+        fun validate(name: String): String {
+            return validate(name, VALIDATOR)
+        }
+
+        private fun validate(name: String, validator: SimpleValidator<String>): String {
+            val splitted = split(name)
+            val ortsname = splitted[1]
+            validator.validate(ortsname)
+            return name
+        }
+
+        private fun verify(name: String, validator: SimpleValidator<String>): String {
+            return try {
+                validate(name, validator)
+            } catch (ex: ValidationException) {
+                throw LocalizedIllegalArgumentException(ex)
+            }
+        }
+
+        private fun split(name: String): Array<String> {
+            val input = StringUtils.trimToEmpty(name)
+            val splitted = arrayOf("", input)
+            if (input.contains(" ")) {
+                try {
+                    val plz = PLZ.Validator().validate(StringUtils.substringBefore(input, " "))
+                    splitted[0] = plz
+                    splitted[1] = StringUtils.substringAfter(input, " ").trim { it <= ' ' }
+                } catch (ex: ValidationException) {
+                    LOG.log(Level.FINE, "no PLZ inside '$name' found:", ex)
+                }
+            }
+            return splitted
         }
     }
 
