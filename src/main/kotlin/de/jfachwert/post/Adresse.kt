@@ -70,7 +70,7 @@ open class Adresse
      * "strasse" und "hausnummer".
      */
     @JsonCreator
-    constructor(map: Map<String?, String?>) : this(Ort(PLZ.of(map["plz"]!!), map["ortsname"]!!), map["strasse"]!!, map["hausnummer"]!!) {
+    constructor(map: Map<String, String>) : this(Ort(PLZ.of(map["plz"]!!), map["ortsname"]!!), map["strasse"]!!, map["hausnummer"]!!) {
     }
 
     init {
