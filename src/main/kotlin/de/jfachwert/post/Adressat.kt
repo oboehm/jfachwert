@@ -43,7 +43,7 @@ open class Adressat
  * @param name      z.B. "Mustermann, Max"
  * @param validator Validator fuer die Ueberpruefung des Namens
  */
-@JvmOverloads constructor(name: String?, validator: SimpleValidator<String?>? = LengthValidator.NOT_EMPTY_VALIDATOR) : Name(name, validator) {
+@JvmOverloads constructor(name: String, validator: SimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR) : Name(name, validator) {
 
     /**
      * Der Name ist der Teil vor dem Komma (bei Personen). Bei Firmen ist
@@ -87,8 +87,9 @@ open class Adressat
          */
         @JvmStatic
         fun of(name: String): Adressat {
-            return WEAK_CACHE.computeIfAbsent(name) { s: String? -> Adressat(s) }
+            return WEAK_CACHE.computeIfAbsent(name) { s: String -> Adressat(s) }
         }
+
     }
 
 }

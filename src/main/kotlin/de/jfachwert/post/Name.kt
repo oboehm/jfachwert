@@ -39,7 +39,7 @@ open class Name
  * @param name,     z.B. "Duck, Donald"
  * @param validator Validator fuer die Ueberpruefung
  */
-@JvmOverloads constructor(name: String?, validator: SimpleValidator<String?>? = VALIDATOR) : Text(name, validator) {
+@JvmOverloads constructor(name: String, validator: SimpleValidator<String> = VALIDATOR) : Text(name, validator) {
 
     /**
      * Liefert den Nachnamen.
@@ -167,7 +167,7 @@ open class Name
     companion object {
 
         private val WEAK_CACHE = WeakHashMap<String, Name>()
-        private val VALIDATOR: SimpleValidator<String?> = LengthValidator.NOT_EMPTY_VALIDATOR
+        private val VALIDATOR: SimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR
 
         /** Null-Wert fuer Initialisierung.  */
         val NULL = Name("", NullValidator())
@@ -182,7 +182,7 @@ open class Name
          */
         @JvmStatic
         fun of(name: String): Name {
-            return WEAK_CACHE.computeIfAbsent(name) { s: String? -> Name(s) }
+            return WEAK_CACHE.computeIfAbsent(name) { s: String -> Name(s) }
         }
 
         private fun normalize(name: Name): Name {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,74 +15,33 @@
  *
  * (c)reated 17.01.2018 by oboehm (ob@oasd.de)
  */
-package de.jfachwert;
+package de.jfachwert
 
-import de.jfachwert.pruefung.NullValidator;
-
-import java.nio.CharBuffer;
-import java.util.WeakHashMap;
+import de.jfachwert.pruefung.NullValidator
+import java.nio.CharBuffer
+import java.util.*
 
 /**
  * Die Klasse Text ist der einfachste Fachwerte, der eigentlich nur ein
  * Wrapper um die String-Klasse ist. Allerdings mit dem Unterschied, dass
  * man keinen Null-Text oder leeren Text anlegen kann.
- * <p>
- * Diese Klasse wurde mit der {@link FachwertFactory} eingefuehrt. Sie dient
+ *
+ * Diese Klasse wurde mit der [FachwertFactory] eingefuehrt. Sie dient
  * dort als Fallback, wenn kein Fachwert erzeugt werden kann, auf den der
  * uebergebene Name passt.
- * </p>
  *
  * @author oboehm
  * @since 0.5 (17.01.2018)
  */
-public class Text extends AbstractFachwert<String, Text> implements Comparable<Text> {
-
-    private static final SimpleValidator<String> VALIDATOR = new NullValidator<>();
-    private static final WeakHashMap<String, Text> WEAK_CACHE = new WeakHashMap<>();
-
-    /** Null-Konstante fuer Initialisierungen . */
-    public static final Text NULL = new Text("");
-
-    /**
-     * Erzeugt einen Text.
-     * 
-     * @param text darf nicht null sein 
-     */
-    public Text(String text) {
-        this(text, VALIDATOR);
-    }
-
-    /**
-     * Erzeugt einen Text, der mit dem uebergebenen Validator vor ueberprueft
-     * wird.
-     *
-     * @param text      Text
-     * @param validator Validator fuer die Ueberpruefung
-     */
-    public Text(String text, SimpleValidator<String> validator) {
-        super(VALIDATOR.verify(text).intern(), validator);
-    }
-
-    /**
-     * Liefert einen Text zurueck.
-     *
-     * @param text darf nicht null sein
-     * @return Text
-     */
-    public static Text of(String text) {
-        return WEAK_CACHE.computeIfAbsent(text, Text::new);
-    }
-
-    /**
-     * Ueberprueft den uebergebenen Text.
-     * 
-     * @param text Text
-     * @return den validierten Text zur Weiterverabeitung
-     */
-    public static String validate(String text) {
-        return VALIDATOR.validate(text);
-    }
-
+open class Text
+/**
+ * Erzeugt einen Text, der mit dem uebergebenen Validator vor ueberprueft
+ * wird.
+ *
+ * @param text      Text
+ * @param validator Validator fuer die Ueberpruefung
+ */
+@JvmOverloads constructor(text: String, validator: SimpleValidator<String>? = VALIDATOR) : AbstractFachwert<String, Text>(VALIDATOR.verify(text).intern(), validator), Comparable<Text> {
     /**
      * Berechnet die Levenshtein-Distanz.
      *
@@ -90,8 +49,8 @@ public class Text extends AbstractFachwert<String, Text> implements Comparable<T
      * @return Levenshtein-Distanz
      * @since 2.0
      */
-    public int getDistanz(Text other) {
-        return getDistanz(other.getCode());
+    fun getDistanz(other: Text): Int {
+        return getDistanz(other.code)
     }
 
     /**
@@ -102,30 +61,8 @@ public class Text extends AbstractFachwert<String, Text> implements Comparable<T
      * @return Levenshtein-Distanz
      * @since 2.0
      */
-    public int getDistanz(String other) {
-        return distance(this.getCode(), other);
-    }
-
-    private static int distance(String a, String b) {
-        a = a.toLowerCase();
-        b = b.toLowerCase();
-        // i == 0
-        int[] costs = new int[b.length() + 1];
-        for (int j = 0; j < costs.length; j++) {
-            costs[j] = j;
-        }
-        for (int i = 1; i <= a.length(); i++) {
-            // j == 0; nw = lev(i - 1, j)
-            costs[0] = i;
-            int nw = i - 1;
-            for (int j = 1; j <= b.length(); j++) {
-                int cj = Math.min(1 + Math.min(costs[j], costs[j - 1]),
-                        a.charAt(i - 1) == b.charAt(j - 1) ? nw : nw + 1);
-                nw = costs[j];
-                costs[j] = cj;
-            }
-        }
-        return costs[b.length()];
+    fun getDistanz(other: String): Int {
+        return distance(code, other)
     }
 
     /**
@@ -134,98 +71,8 @@ public class Text extends AbstractFachwert<String, Text> implements Comparable<T
      * @return Text ohne Umlaut und scharfem 's'
      * @since 2.1
      */
-    public final Text replaceUmlaute() {
-        return Text.of(replaceUmlaute(getCode()));
-    }
-
-    /**
-     * Ersetzt Umlaute und scharfes 'S'. Diese Methode wurde als statische
-     * Methode herausgezogen, da sie an anderen Stellen benoetigt werden.
-     * <p>
-     * Mit v2.2.2 wurde die Methode optimiert, da der alte Ansatz mit
-     * {@link String#replace(CharSequence, CharSequence)} sich als Flaschenhals
-     * beim Vergleich grosser Datenmenge herausstellte. Durch die Umstellung
-     * auf zeichenweises Mapping ist diese Methode jetzt ca. 4 x schneller.
-     * </p>
-     *
-     * @param text Text (mit Umlaute)
-     * @return Text ohne Umlaut und scharfem 's'
-     * @since 2.1
-     */
-    public static String replaceUmlaute(String text) {
-        char[] zeichen = text.toCharArray();
-        CharBuffer buffer = CharBuffer.allocate(zeichen.length * 2);
-        for (char c : zeichen) {
-            switch (c) {
-                case '\u00e4':
-                    buffer.put("ae");
-                    break;
-                case '\u00f6':
-                    buffer.put("oe");
-                    break;
-                case '\u00fc':
-                    buffer.put("ue");
-                    break;
-                case '\u00df':
-                    buffer.put("ss");
-                    break;
-                case '\u00c4':
-                    buffer.put("Ae");
-                    break;
-                case '\u00d6':
-                    buffer.put("Oe");
-                    break;
-                case '\u00dc':
-                    buffer.put("Ue");
-                    break;
-                case '\u00e1':
-                case '\u00e0':
-                case '\u00e2':
-                    buffer.put('a');
-                    break;
-                case '\u00e9':
-                case '\u00e8':
-                case '\u00ea':
-                case '\u00eb':
-                    buffer.put('e');
-                    break;
-                case '\u00f3':
-                case '\u00f2':
-                case '\u00f4':
-                    buffer.put('o');
-                    break;
-                case '\u00fa':
-                case '\u00f9':
-                case '\u00fb': 
-                    buffer.put('u');
-                    break;
-                case '\u00c1':
-                case '\u00c0':
-                case '\u00c2':
-                    buffer.put('A');
-                    break;
-                case '\u00c9':
-                case '\u00c8':
-                case '\u00ca':
-                    buffer.put('E');
-                    break;
-                case '\u00d3':
-                case '\u00d2':
-                case '\u00d4':
-                    buffer.put('O');
-                    break;
-                case '\u00da':
-                case '\u00d9':
-                case '\u00db':
-                    buffer.put('U');
-                    break;
-                default:
-                    buffer.put(c);
-                    break;
-            }
-        }
-        buffer.rewind();
-        return buffer.toString().trim();
+    fun replaceUmlaute(): Text {
+        return of(replaceUmlaute(code))
     }
 
     /**
@@ -234,8 +81,8 @@ public class Text extends AbstractFachwert<String, Text> implements Comparable<T
      * @return Text mit Kleinbuchstaben
      * @since 2.1
      */
-    public Text toLowerCase() {
-        return Text.of(getCode().toLowerCase());
+    fun toLowerCase(): Text {
+        return of(code!!.toLowerCase())
     }
 
     /**
@@ -244,8 +91,8 @@ public class Text extends AbstractFachwert<String, Text> implements Comparable<T
      * @return Text mit Grossbuchstaben
      * @since 2.1
      */
-    public Text toUpperCase() {
-        return Text.of(getCode().toUpperCase());
+    fun toUpperCase(): Text {
+        return of(code!!.toUpperCase())
     }
 
     /**
@@ -255,8 +102,8 @@ public class Text extends AbstractFachwert<String, Text> implements Comparable<T
      * @return true bei Gleichheit
      * @since 2.1
      */
-    public boolean equalsIgnoreCase(Text other) {
-        return this.getCode().equalsIgnoreCase(other.getCode());
+    fun equalsIgnoreCase(other: Text): Boolean {
+        return code.equals(other.code, ignoreCase = true)
     }
 
     /**
@@ -266,8 +113,8 @@ public class Text extends AbstractFachwert<String, Text> implements Comparable<T
      * @return true bei Gleichheit
      * @since 2.2
      */
-    public boolean equalsIgnoreUmlaute(Text other) {
-        return this.replaceUmlaute().equals(other.replaceUmlaute());
+    fun equalsIgnoreUmlaute(other: Text): Boolean {
+        return this.replaceUmlaute() == other.replaceUmlaute()
     }
 
     /**
@@ -277,8 +124,8 @@ public class Text extends AbstractFachwert<String, Text> implements Comparable<T
      * @return true bei Gleichheit
      * @since 2.2
      */
-    public boolean equalsIgnoreCaseAndUmlaute(Text other) {
-        return this.replaceUmlaute().equalsIgnoreCase(other.replaceUmlaute());
+    fun equalsIgnoreCaseAndUmlaute(other: Text): Boolean {
+        return this.replaceUmlaute().equalsIgnoreCase(other.replaceUmlaute())
     }
 
     /**
@@ -289,9 +136,103 @@ public class Text extends AbstractFachwert<String, Text> implements Comparable<T
      * positive Zahl.
      * @since 3.0
      */
-    @Override
-    public int compareTo(Text other) {
-        return this.getCode().compareTo(other.getCode());
+    override fun compareTo(other: Text): Int {
+        return code!!.compareTo(other.code!!)
+    }
+
+
+
+    companion object {
+
+        private val VALIDATOR: SimpleValidator<String> = NullValidator()
+        private val WEAK_CACHE = WeakHashMap<String, Text>()
+
+        /** Null-Konstante fuer Initialisierungen .  */
+        val NULL = Text("")
+
+        /**
+         * Liefert einen Text zurueck.
+         *
+         * @param text darf nicht null sein
+         * @return Text
+         */
+        @JvmStatic
+        fun of(text: String): Text {
+            return WEAK_CACHE.computeIfAbsent(text) { s: String -> Text(s) }
+        }
+
+        /**
+         * Ueberprueft den uebergebenen Text.
+         *
+         * @param text Text
+         * @return den validierten Text zur Weiterverabeitung
+         */
+        fun validate(text: String): String {
+            return VALIDATOR.validate(text)
+        }
+
+        private fun distance(s1: String, s2: String): Int {
+            val a = s1.toLowerCase()
+            val b = s2.toLowerCase()
+            // i == 0
+            val costs = IntArray(b.length + 1)
+            for (j in costs.indices) {
+                costs[j] = j
+            }
+            for (i in 1..a.length) { // j == 0; nw = lev(i - 1, j)
+                costs[0] = i
+                var nw = i - 1
+                for (j in 1..b.length) {
+                    val cj = Math.min(1 + Math.min(costs[j], costs[j - 1]),
+                            if (a[i - 1] == b[j - 1]) nw else nw + 1)
+                    nw = costs[j]
+                    costs[j] = cj
+                }
+            }
+            return costs[b.length]
+        }
+
+        /**
+         * Ersetzt Umlaute und scharfes 'S'. Diese Methode wurde als statische
+         * Methode herausgezogen, da sie an anderen Stellen benoetigt werden.
+         *
+         * Mit v2.2.2 wurde die Methode optimiert, da der alte Ansatz mit
+         * [String.replace] sich als Flaschenhals
+         * beim Vergleich grosser Datenmenge herausstellte. Durch die Umstellung
+         * auf zeichenweises Mapping ist diese Methode jetzt ca. 4 x schneller.
+         *
+         * @param text Text (mit Umlaute)
+         * @return Text ohne Umlaut und scharfem 's'
+         * @since 2.1
+         */
+        @JvmStatic
+        fun replaceUmlaute(text: String?): String {
+            val zeichen = text!!.toCharArray()
+            val buffer = CharBuffer.allocate(zeichen.size * 2)
+            for (c in zeichen) {
+                when (c) {
+                    '\u00e4' -> buffer.put("ae")
+                    '\u00f6' -> buffer.put("oe")
+                    '\u00fc' -> buffer.put("ue")
+                    '\u00df' -> buffer.put("ss")
+                    '\u00c4' -> buffer.put("Ae")
+                    '\u00d6' -> buffer.put("Oe")
+                    '\u00dc' -> buffer.put("Ue")
+                    '\u00e1', '\u00e0', '\u00e2' -> buffer.put('a')
+                    '\u00e9', '\u00e8', '\u00ea', '\u00eb' -> buffer.put('e')
+                    '\u00f3', '\u00f2', '\u00f4' -> buffer.put('o')
+                    '\u00fa', '\u00f9', '\u00fb' -> buffer.put('u')
+                    '\u00c1', '\u00c0', '\u00c2' -> buffer.put('A')
+                    '\u00c9', '\u00c8', '\u00ca' -> buffer.put('E')
+                    '\u00d3', '\u00d2', '\u00d4' -> buffer.put('O')
+                    '\u00da', '\u00d9', '\u00db' -> buffer.put('U')
+                    else -> buffer.put(c)
+                }
+            }
+            buffer.rewind()
+            return buffer.toString().trim { it <= ' ' }
+        }
+
     }
 
 }

@@ -41,7 +41,7 @@ open class Referenznummer
  * @param nummer   z.B. "000002835042"
  * @param pruefung Pruefverfahren
  */
-@JvmOverloads constructor(nummer: String?, pruefung: SimpleValidator<String?>? = LengthValidator.NOT_EMPTY_VALIDATOR) : Text(nummer, pruefung) {
+@JvmOverloads constructor(nummer: String, pruefung: SimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR) : Text(nummer, pruefung) {
 
     companion object {
 
@@ -58,7 +58,7 @@ open class Referenznummer
          */
         @JvmStatic
         fun of(nummer: String): Referenznummer {
-            return WEAK_CACHE.computeIfAbsent(nummer) { n: String? -> Referenznummer(n) }
+            return WEAK_CACHE.computeIfAbsent(nummer) { n: String -> Referenznummer(n) }
         }
     }
 

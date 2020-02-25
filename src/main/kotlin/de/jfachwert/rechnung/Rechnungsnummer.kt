@@ -41,7 +41,7 @@ open class Rechnungsnummer
  * @param nummer   z.B. "000002835042"
  * @param pruefung Pruefverfahren (optional)
  */
-@JvmOverloads constructor(nummer: String?, pruefung: SimpleValidator<String?>? = LengthValidator.NOT_EMPTY_VALIDATOR) : Text(nummer, pruefung) {
+@JvmOverloads constructor(nummer: String, pruefung: SimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR) : Text(nummer, pruefung) {
 
     companion object {
 
@@ -58,7 +58,7 @@ open class Rechnungsnummer
          */
         @JvmStatic
         fun of(nummer: String): Rechnungsnummer {
-            return WEAK_CACHE.computeIfAbsent(nummer) { n: String? -> Rechnungsnummer(n) }
+            return WEAK_CACHE.computeIfAbsent(nummer) { n: String -> Rechnungsnummer(n) }
         }
     }
 
