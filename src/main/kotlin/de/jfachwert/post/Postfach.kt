@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,60 +15,56 @@
  *
  * (c)reated 21.02.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.post;
+package de.jfachwert.post
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import de.jfachwert.Fachwert;
-import de.jfachwert.pruefung.exception.InvalidValueException;
-import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
-import de.jfachwert.util.ToFachwertSerializer;
-import org.apache.commons.lang3.RegExUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.validation.ValidationException;
-import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import de.jfachwert.Fachwert
+import de.jfachwert.pruefung.exception.InvalidValueException
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
+import de.jfachwert.util.ToFachwertSerializer
+import org.apache.commons.lang3.RegExUtils
+import org.apache.commons.lang3.StringUtils
+import java.math.BigInteger
+import java.util.*
+import javax.validation.ValidationException
 
 /**
  * Ein Postfach besteht aus einer Nummer ohne fuehrende Nullen und einer
  * Postleitzahl mit Ortsangabe. Die Nummer selbst ist optional, wenn die
  * durch die Postleitzahl bereits das Postfach abgebildet wird.
- * <p>
+ *
+ *
  * Im Englischen wird das Postfach oft als POB (Post Office Box) bezeichnet.
- * </p>
+ *
  *
  * @author oboehm
  * @since 0.2 (19.06.2017)
  */
-@JsonSerialize(using = ToFachwertSerializer.class)
-public class Postfach implements Fachwert {
+@JsonSerialize(using = ToFachwertSerializer::class)
+open class Postfach : Fachwert {
 
-    private final BigInteger nummer;
-    private final Ort ort;
+    private val nummer: BigInteger?
 
-    /** Null-Konstante fuer Initialisierungen. */
-    public static final Postfach NULL = new Postfach(Ort.NULL);
+    /**
+     * Liefert den Ort.
+     *
+     * @return Ort
+     */
+    val ort: Ort
 
     /**
      * Zerlegt den uebergebenen String in seine Einzelteile und validiert sie.
      * Folgende Heuristiken werden fuer die Zerlegung herangezogen:
-     * <ul>
-     *     <li>Format ist "Postfach, Ort" oder nur "Ort" (mit PLZ)</li>
-     *     <li>Postfach ist vom Ort durch Komma oder Zeilenvorschub getrennt</li>
-     * </ul>
+     *
+     *  * Format ist "Postfach, Ort" oder nur "Ort" (mit PLZ)
+     *  * Postfach ist vom Ort durch Komma oder Zeilenvorschub getrennt
      *
      * @param postfach z.B. "Postfach 98765, 12345 Entenhausen"
      */
-    public Postfach(String postfach) {
-        this(split(postfach));
-    }
-    
-    private Postfach(String[] postfach) {
-        this(postfach[0], postfach[1]);
-    }
+    constructor(postfach: String) : this(split(postfach)) {}
+
+    private constructor(postfach: Array<String>) : this(postfach[0], postfach[1]) {}
 
     /**
      * Erzeugt ein Postfach ohne Postfachnummer. D.h. die PLZ des Ortes
@@ -76,32 +72,29 @@ public class Postfach implements Fachwert {
      *
      * @param ort gueltiger Ort mit PLZ
      */
-    public Postfach(Ort ort) {
-        this.ort = ort;
-        this.nummer = null;
-        validate(ort);
+    constructor(ort: Ort) {
+        this.ort = ort
+        nummer = null
+        validate(ort)
     }
 
     /**
      * Erzeugt ein Postfach mit Postfachnummer. Wenn die uebergebene Nummer
      * leer ist, wird ein Postfach ohne Postfachnummer erzeugt.
-     * 
+     *
      * @param nummer z.B. "12 34 56"
      * @param ort Ort mit Postleitzahl
      */
-    public Postfach(String nummer, String ort) {
-        this(toNumber(nummer), new Ort(ort));
-    }
+    constructor(nummer: String?, ort: String?) : this(toNumber(nummer), Ort(ort!!)) {}
 
     /**
      * Erzeugt ein neues Postfach.
      *
      * @param map mit den einzelnen Elementen fuer "plz", "ortsname" und
-     *            "nummer".
+     * "nummer".
      */
     @JsonCreator
-    public Postfach(Map<String, String> map) {
-        this(toNumber(map.get("nummer")), new Ort(PLZ.of(map.get("plz")), map.get("ortsname")));
+    constructor(map: Map<String?, String?>) : this(toNumber(map["nummer"]), Ort(PLZ.of(map["plz"]!!), map["ortsname"]!!)) {
     }
 
     /**
@@ -110,9 +103,7 @@ public class Postfach implements Fachwert {
      * @param nummer positive Zahl ohne fuehrende Null
      * @param ort gueltiger Ort mit PLZ
      */
-    public Postfach(long nummer, Ort ort) {
-        this(BigInteger.valueOf(nummer), ort);
-    }
+    constructor(nummer: Long, ort: Ort) : this(BigInteger.valueOf(nummer), ort) {}
 
     /**
      * Erzeugt ein Postfach.
@@ -120,180 +111,61 @@ public class Postfach implements Fachwert {
      * @param nummer positive Zahl ohne fuehrende Null
      * @param ort gueltiger Ort mit PLZ
      */
-    public Postfach(BigInteger nummer, Ort ort) {
-        this.nummer = nummer;
-        this.ort = ort;
-        verify(nummer, ort);
+    constructor(nummer: BigInteger, ort: Ort) {
+        this.nummer = nummer
+        this.ort = ort
+        verify(nummer, ort)
     }
 
     /**
      * Erzeugt ein Postfach.
-     * 
+     *
      * @param nummer positive Zahl oder leer
      * @param ort Ort
      */
-    public Postfach(Optional<BigInteger> nummer, Ort ort) {
-        this.nummer = nummer.orElse(null);
-        this.ort = ort;
+    constructor(nummer: Optional<BigInteger>, ort: Ort) {
+        this.nummer = nummer.orElse(null)
+        this.ort = ort
         if (this.nummer == null) {
-            verify(ort);
+            verify(ort)
         } else {
-            verify(nummer.get(), ort);
-        }
-    }
-
-    /**
-     * Zerlegt den uebergebenen String in seine Einzelteile und validiert sie.
-     * Folgende Heuristiken werden fuer die Zerlegung herangezogen:
-     * <ul>
-     *     <li>Format ist "Postfach, Ort" oder nur "Ort" (mit PLZ)</li>
-     *     <li>Postfach ist vom Ort durch Komma oder Zeilenvorschub getrennt</li>
-     * </ul>
-     *
-     * @param postfach z.B. "Postfach 98765, 12345 Entenhausen"
-     * @return Postfach
-     */
-    public static Postfach of(String postfach) {
-        return new Postfach(postfach);
-    }
-
-    /**
-     * Erzeugt ein Postfach.
-     *
-     * @param nummer positive Zahl ohne fuehrende Null
-     * @param ort gueltiger Ort mit PLZ
-     * @return Postfach
-     */
-    public static Postfach of(long nummer, Ort ort) {
-        return new Postfach(nummer, ort);
-    }
-
-    /**
-     * Erzeugt ein Postfach.
-     *
-     * @param nummer positive Zahl ohne fuehrende Null
-     * @param ort gueltiger Ort mit PLZ
-     * @return Postfach
-     */
-    public static Postfach of(BigInteger nummer, Ort ort) {
-        return new Postfach(nummer, ort);
-    }
-
-    /**
-     * Zerlegt das uebergebene Postfach in seine Einzelteile und validiert sie.
-     * Folgende Heuristiken werden fuer die Zerlegung herangezogen:
-     * <ul>
-     *     <li>Format ist "Postfach, Ort" oder nur "Ort" (mit PLZ)</li>
-     *     <li>Postfach ist vom Ort durch Komma oder Zeilenvorschub getrennt</li>
-     * </ul>
-     *
-     * @param postfach z.B. "Postfach 98765, 12345 Entenhausen"
-     */
-    public static void validate(String postfach) {
-        String[] lines = split(postfach);
-        toNumber(lines[0]);
-        Ort ort = new Ort(lines[1]);
-        if (!ort.getPLZ().isPresent()) {
-            throw new InvalidValueException(postfach, "postal_code");
-        }
-    }
-    
-    private static String[] split(String postfach) {
-        String[] lines = StringUtils.trimToEmpty(postfach).split("[,\\n$]");
-        String[] splitted = { "", lines[0]};
-        if (lines.length == 2) {
-            splitted = lines;
-        } else if (lines.length > 2) {
-            throw new InvalidValueException(postfach, "post_office_box");
-        }
-        return splitted;
-    }
-    
-    private static Optional<BigInteger> toNumber(String number) {
-        if (StringUtils.isBlank(number)) {
-            return Optional.empty();
-        }
-        String unformatted = RegExUtils.replaceAll(number, "Postfach|\\s+", "");
-        try {
-            return Optional.of(new BigInteger(unformatted));
-        } catch (NumberFormatException nfe) {
-            throw new InvalidValueException(number, "number", nfe);
-        }
-    }
-
-    /**
-     * Validiert das uebergebene Postfach auf moegliche Fehler.
-     *
-     * @param nummer    Postfach-Nummer (muss positiv sein)
-     * @param ort       Ort mit PLZ
-     */
-    public static void validate(BigInteger nummer, Ort ort) {
-        if (nummer.compareTo(BigInteger.ONE) < 0) {
-            throw new InvalidValueException(nummer, "number");
-        }
-        validate(ort);
-    }
-
-    private static void verify(BigInteger nummer, Ort ort) {
-        try {
-            validate(nummer, ort);
-        } catch (ValidationException ex) {
-            throw new LocalizedIllegalArgumentException(ex);
-        }
-    }
-
-    /**
-     * Ueberprueft, ob der uebergebene Ort tatsaechlich ein PLZ enthaelt.
-     *
-     * @param ort Ort mit PLZ
-     */
-    public static void validate(Ort ort) {
-        if (!ort.getPLZ().isPresent()) {
-            throw new InvalidValueException(ort, "postal_code");
-        }
-    }
-
-    private static void verify(Ort ort) {
-        try {
-            validate(ort);
-        } catch (ValidationException ex) {
-            throw new LocalizedIllegalArgumentException(ex);
+            verify(nummer.get(), ort)
         }
     }
 
     /**
      * Liefert die Postfach-Nummer als normale Zahl. Da die Nummer optional
-     * sein kann, wird sie als {@link Optional} zurueckgeliefert.
+     * sein kann, wird sie als [Optional] zurueckgeliefert.
      *
      * @return z.B. 815
      */
-    public Optional<BigInteger> getNummer() {
-        if (nummer == null) {
-            return Optional.empty();
+    fun getNummer(): Optional<BigInteger> {
+        return if (nummer == null) {
+            Optional.empty()
         } else {
-            return Optional.of(nummer);
+            Optional.of(nummer)
         }
     }
 
     /**
      * Liefert die Postfach-Nummer als formattierte Zahl. Dies macht natuerlich
      * nur Sinn, wenn diese Nummer gesetzt ist. Daher wird eine
-     * {@link IllegalStateException} geworfen, wenn dies nicht der Fall ist.
+     * [IllegalStateException] geworfen, wenn dies nicht der Fall ist.
      *
      * @return z.B. "8 15"
      */
-    @SuppressWarnings("squid:S3655")
-    public String getNummerFormatted() {
-        if (!this.getNummer().isPresent()) {
-            throw new IllegalStateException("no number present");
+    val nummerFormatted: String
+        get() {
+            check(getNummer().isPresent) { "no number present" }
+            val hundert = BigInteger.valueOf(100)
+            val formatted = StringBuilder()
+            var i = getNummer().get()
+            while (i.compareTo(BigInteger.ONE) > 0) {
+                formatted.insert(0, " " + i.remainder(hundert))
+                i = i.divide(hundert)
+            }
+            return formatted.toString().trim { it <= ' ' }
         }
-        BigInteger hundert = BigInteger.valueOf(100);
-        StringBuilder formatted = new StringBuilder();
-        for (BigInteger i = this.getNummer().get(); i.compareTo(BigInteger.ONE) > 0; i = i.divide(hundert)) {
-            formatted.insert(0, " " + i.remainder(hundert));
-        }
-        return formatted.toString().trim();
-    }
 
     /**
      * Liefert die Postleitzahl. Ohne gueltige Postleitzahl kann kein Postfach
@@ -301,42 +173,28 @@ public class Postfach implements Fachwert {
      *
      * @return z.B. 09876
      */
-    @SuppressWarnings("squid:S3655")
-    public PLZ getPLZ() {
-        return this.ort.getPLZ().get();
-    }
-
-    /**
-     * Liefert den Ort.
-     *
-     * @return Ort
-     */
-    public Ort getOrt() {
-        return this.ort;
-    }
+    val pLZ: PLZ
+        get() = ort.pLZ.get()
 
     /**
      * Liefert den Ortsnamen.
      *
      * @return Ortsname
      */
-    public String getOrtsname() {
-        return ort.getName();
-    }
+    val ortsname: String
+        get() = ort.name
 
     /**
      * Zwei Postfaecher sind gleich, wenn sie die gleiche Attribute haben.
      *
-     * @param obj das andere Postfach
+     * @param other das andere Postfach
      * @return true bei Gleichheit
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Postfach)) {
-            return false;
+    override fun equals(other: Any?): Boolean {
+        if (other !is Postfach) {
+            return false
         }
-        Postfach other = (Postfach) obj;
-        return this.nummer.equals(other.nummer) && this.ort.equals(other.ort);
+        return nummer == other.nummer && ort.equals(other.ort)
     }
 
     /**
@@ -345,9 +203,8 @@ public class Postfach implements Fachwert {
      *
      * @return hashCode
      */
-    @Override
-    public int hashCode() {
-        return this.getOrt().hashCode();
+    override fun hashCode(): Int {
+        return ort.hashCode()
     }
 
     /**
@@ -355,29 +212,156 @@ public class Postfach implements Fachwert {
      *
      * @return z.B. "Postfach 8 15, 09876 Nirwana"
      */
-    @Override
-    public String toString() {
-        if (this.getNummer().isPresent()) {
-            return "Postfach " + this.getNummerFormatted() + ", " + this.getOrt();
+    override fun toString(): String {
+        return if (getNummer().isPresent) {
+            "Postfach " + nummerFormatted + ", " + ort
         } else {
-            return this.getOrt().toString();
+            ort.toString()
         }
     }
-    
+
     /**
      * Liefert die einzelnen Attribute eines Postfaches als Map.
      *
      * @return Attribute als Map
      */
-    @Override
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("plz", getPLZ());
-        map.put("ortsname", getOrtsname());
+    override fun toMap(): Map<String, Any> {
+        val map: MutableMap<String, Any> = HashMap()
+        map["plz"] = pLZ
+        map["ortsname"] = ortsname
         if (nummer != null) {
-            map.put("nummer", nummer);
+            map["nummer"] = nummer
         }
-        return map;
+        return map
     }
-    
+
+
+
+    companion object {
+
+        /** Null-Konstante fuer Initialisierungen.  */
+        val NULL = Postfach(Ort.NULL)
+
+        /**
+         * Zerlegt den uebergebenen String in seine Einzelteile und validiert sie.
+         * Folgende Heuristiken werden fuer die Zerlegung herangezogen:
+         *
+         *  * Format ist "Postfach, Ort" oder nur "Ort" (mit PLZ)
+         *  * Postfach ist vom Ort durch Komma oder Zeilenvorschub getrennt
+         *
+         * @param postfach z.B. "Postfach 98765, 12345 Entenhausen"
+         * @return Postfach
+         */
+        @JvmStatic
+        fun of(postfach: String): Postfach {
+            return Postfach(postfach)
+        }
+
+        /**
+         * Erzeugt ein Postfach.
+         *
+         * @param nummer positive Zahl ohne fuehrende Null
+         * @param ort gueltiger Ort mit PLZ
+         * @return Postfach
+         */
+        @JvmStatic
+        fun of(nummer: Long, ort: Ort): Postfach {
+            return Postfach(nummer, ort)
+        }
+
+        /**
+         * Erzeugt ein Postfach.
+         *
+         * @param nummer positive Zahl ohne fuehrende Null
+         * @param ort gueltiger Ort mit PLZ
+         * @return Postfach
+         */
+        @JvmStatic
+        fun of(nummer: BigInteger, ort: Ort): Postfach {
+            return Postfach(nummer, ort)
+        }
+
+        /**
+         * Zerlegt das uebergebene Postfach in seine Einzelteile und validiert sie.
+         * Folgende Heuristiken werden fuer die Zerlegung herangezogen:
+         *
+         *  * Format ist "Postfach, Ort" oder nur "Ort" (mit PLZ)
+         *  * Postfach ist vom Ort durch Komma oder Zeilenvorschub getrennt
+         *
+         * @param postfach z.B. "Postfach 98765, 12345 Entenhausen"
+         */
+        @JvmStatic
+        fun validate(postfach: String) {
+            val lines = split(postfach)
+            toNumber(lines[0])
+            val ort = Ort(lines[1])
+            if (!ort.pLZ.isPresent) {
+                throw InvalidValueException(postfach, "postal_code")
+            }
+        }
+
+        private fun split(postfach: String): Array<String> {
+            val lines = StringUtils.trimToEmpty(postfach).split("[,\\n$]".toRegex()).toTypedArray()
+            var splitted = arrayOf("", lines[0])
+            if (lines.size == 2) {
+                splitted = lines
+            } else if (lines.size > 2) {
+                throw InvalidValueException(postfach, "post_office_box")
+            }
+            return splitted
+        }
+
+        private fun toNumber(number: String?): Optional<BigInteger> {
+            if (StringUtils.isBlank(number)) {
+                return Optional.empty()
+            }
+            val unformatted = RegExUtils.replaceAll(number, "Postfach|\\s+", "")
+            return try {
+                Optional.of(BigInteger(unformatted))
+            } catch (nfe: NumberFormatException) {
+                throw InvalidValueException(number, "number", nfe)
+            }
+        }
+
+        /**
+         * Validiert das uebergebene Postfach auf moegliche Fehler.
+         *
+         * @param nummer    Postfach-Nummer (muss positiv sein)
+         * @param ort       Ort mit PLZ
+         */
+        fun validate(nummer: BigInteger, ort: Ort) {
+            if (nummer.compareTo(BigInteger.ONE) < 0) {
+                throw InvalidValueException(nummer, "number")
+            }
+            validate(ort)
+        }
+
+        private fun verify(nummer: BigInteger, ort: Ort) {
+            try {
+                validate(nummer, ort)
+            } catch (ex: ValidationException) {
+                throw LocalizedIllegalArgumentException(ex)
+            }
+        }
+
+        /**
+         * Ueberprueft, ob der uebergebene Ort tatsaechlich ein PLZ enthaelt.
+         *
+         * @param ort Ort mit PLZ
+         */
+        fun validate(ort: Ort) {
+            if (!ort.pLZ.isPresent) {
+                throw InvalidValueException(ort, "postal_code")
+            }
+        }
+
+        private fun verify(ort: Ort) {
+            try {
+                validate(ort)
+            } catch (ex: ValidationException) {
+                throw LocalizedIllegalArgumentException(ex)
+            }
+        }
+    }
+
 }
