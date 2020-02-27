@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,14 @@
  *
  * (c)reated 12.12.2018 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.med;
+package de.jfachwert.med
 
-import de.jfachwert.AbstractFachwert;
-import de.jfachwert.SimpleValidator;
-import de.jfachwert.pruefung.LengthValidator;
-import de.jfachwert.pruefung.Mod10Verfahren;
-import de.jfachwert.pruefung.NullValidator;
-
-import java.util.WeakHashMap;
+import de.jfachwert.AbstractFachwert
+import de.jfachwert.SimpleValidator
+import de.jfachwert.pruefung.LengthValidator
+import de.jfachwert.pruefung.Mod10Verfahren
+import de.jfachwert.pruefung.NullValidator
+import java.util.*
 
 /**
  * Die LANR ist die lebenslange Arztnummer. Sie ist eine neunstellige Nummer,
@@ -34,76 +33,21 @@ import java.util.WeakHashMap;
  * @author oboehm
  * @since 1.1 (12.12.2018)
  */
-public class LANR extends AbstractFachwert<Integer, LANR> {
-
-    private static final LengthValidator<Integer> VALIDATOR = new LengthValidator<>(4, 9);
-    private static final WeakHashMap<Integer, LANR> WEAK_CACHE = new WeakHashMap<>();
-
-    /** Null-Konstante fuer Initialisierungen. */
-    public static final LANR NULL = new LANR(0, new NullValidator<>());
-
-    /** Pseudonummer fuer Bundeswehraerzte, Zahnaerzte und Hebammen. */
-    public static final LANR PSEUDO_NUMMER = LANR.of(999999900);
+open class LANR
+/**
+ * Erzeugt ein neues LANR-Objekt.
+ *
+ * @param code      neunstellige Zahl
+ * @param validator Validator zur Pruefung der Zahl
+ */
+@JvmOverloads constructor(code: Int, validator: SimpleValidator<Int> = VALIDATOR) : AbstractFachwert<Int, LANR>(code, validator) {
 
     /**
      * Erzeugt ein neues LANR-Objekt.
      *
      * @param code neunstellige Zahl
      */
-    public LANR(String code) {
-        this(Integer.parseInt(code));
-    }
-
-    /**
-     * Erzeugt ein neues LANR-Objekt.
-     *
-     * @param code neunstellige Zahl
-     */
-    public LANR(int code) {
-        this(code, VALIDATOR);
-    }
-
-    /**
-     * Erzeugt ein neues LANR-Objekt.
-     *
-     * @param code      neunstellige Zahl
-     * @param validator Validator zur Pruefung der Zahl
-     */
-    public LANR(int code, SimpleValidator<Integer> validator) {
-        super(code, validator);
-    }
-
-    /**
-     * Liefert eine LANR zurueck.
-     *
-     * @param code 9-stellige Nummer
-     * @return die LANR
-     */
-    public static LANR of(int code) {
-        return WEAK_CACHE.computeIfAbsent(code, LANR::new);
-    }
-
-    /**
-     * Liefert eine LANR zurueck.
-     *
-     * @param code 9-stellige Nummer
-     * @return die LANR
-     */
-    public static LANR of(String code) {
-        return of(Integer.parseInt(code));
-    }
-
-    /**
-     * Ueberprueft die uebergebenen Nummer, ob sie 9-stellig und eine
-     * korrekte LANR darstellt. Die Pruefziffer wird nicht ueberprueft,
-     * weil sie optional ist und nicht unbedingt stimmen muss.
-     *
-     * @param nummer 9-stellige Nummer
-     * @return die Nummer selbst zur Weiterverarbeitung
-     */
-    public static int validate(int nummer) {
-        return VALIDATOR.validate(nummer);
-    }
+    constructor(code: String) : this(code.toInt()) {}
 
     /**
      * Die ersten 7 Ziffern kennzeichnen die Arztnummer, die von der
@@ -114,9 +58,8 @@ public class LANR extends AbstractFachwert<Integer, LANR> {
      *
      * @return 7-stellige Arztnummer (inkl. Pruefziffer)
      */
-    public int getArztnummer() {
-        return this.getCode() / 100;
-    }
+    val arztnummer: Int
+        get() = code / 100
 
     /**
      * Stelle 7 ist die Pruefziffer, die aber wertlos ist, da sie nicht
@@ -124,10 +67,8 @@ public class LANR extends AbstractFachwert<Integer, LANR> {
      *
      * @return Zahl zwischen 0 und 9
      */
-    public int getPruefziffer() {
-        return this.getCode() / 100 % 10;
-    }
-
+    val pruefziffer: Int
+        get() = code / 100 % 10
 
     /**
      * Hier wird die 7-stellige Arztnummer ueberprueft, ob die Pruefziffer
@@ -138,19 +79,19 @@ public class LANR extends AbstractFachwert<Integer, LANR> {
      *
      * @return true, wenn Pruefziffer uebereinstimmt
      */
-    public boolean isValid() {
-        Mod10Verfahren mod10Verfahren = new Mod10Verfahren(4, 9);
-        return mod10Verfahren.isValid(Integer.toString(getArztnummer()));
-    }
+    val isValid: Boolean
+        get() {
+            val mod10Verfahren = Mod10Verfahren(4, 9)
+            return mod10Verfahren.isValid(Integer.toString(arztnummer))
+        }
 
     /**
      * Die letzten beiden Ziffern der LANR bilden die Fachgruppe.
      *
      * @return Zahl zwischen 1 und 99
      */
-    public int getFachgruppe() {
-        return this.getCode() % 100;
-    }
+    val fachgruppe: Int
+        get() = code % 100
 
     /**
      * Neben "999999900" als Pseudo-Arztnummer gibt es noch weitere Nummern,
@@ -163,26 +104,72 @@ public class LANR extends AbstractFachwert<Integer, LANR> {
      * @return true oder false
      * @since 2.3
      */
-    public boolean isPseudoNummer() {
-        int arztNr = getArztnummer();
-        switch (arztNr) {
-            case 3333333:
-            case 4444444:
-            case 9999999:
-                return true;
-            default:
-                return (arztNr / 10) == 555555;
+    val isPseudoNummer: Boolean
+        get() {
+            val arztNr = arztnummer
+            return when (arztNr) {
+                3333333, 4444444, 9999999 -> true
+                else -> arztNr / 10 == 555555
+            }
         }
-    }
 
     /**
      * Die LANR ist 9-stellig und wird auch neunstellig ausgegeben.
      *
      * @return 9-stellige Zeichenkette, evtl. mit fuehrenden Nullen
      */
-    @Override
-    public String toString() {
-        return String.format("%09d", this.getCode());
+    override fun toString(): String {
+        return String.format("%09d", code)
+    }
+
+
+
+    companion object {
+
+        private val VALIDATOR = LengthValidator<Int>(4, 9)
+        private val WEAK_CACHE = WeakHashMap<Int, LANR>()
+
+        /** Null-Konstante fuer Initialisierungen.  */
+        val NULL = LANR(0, NullValidator())
+
+        /** Pseudonummer fuer Bundeswehraerzte, Zahnaerzte und Hebammen.  */
+        @JvmField
+        val PSEUDO_NUMMER = of(999999900)
+
+        /**
+         * Liefert eine LANR zurueck.
+         *
+         * @param code 9-stellige Nummer
+         * @return die LANR
+         */
+        @JvmStatic
+        fun of(code: Int): LANR {
+            return WEAK_CACHE.computeIfAbsent(code) { n: Int -> LANR(n) }
+        }
+
+        /**
+         * Liefert eine LANR zurueck.
+         *
+         * @param code 9-stellige Nummer
+         * @return die LANR
+         */
+        @JvmStatic
+        fun of(code: String): LANR {
+            return of(code.toInt())
+        }
+
+        /**
+         * Ueberprueft die uebergebenen Nummer, ob sie 9-stellig und eine
+         * korrekte LANR darstellt. Die Pruefziffer wird nicht ueberprueft,
+         * weil sie optional ist und nicht unbedingt stimmen muss.
+         *
+         * @param nummer 9-stellige Nummer
+         * @return die Nummer selbst zur Weiterverarbeitung
+         */
+        fun validate(nummer: Int): Int {
+            return VALIDATOR.validate(nummer)
+        }
+
     }
 
 }
