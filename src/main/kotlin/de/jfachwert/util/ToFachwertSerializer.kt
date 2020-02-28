@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,37 +15,27 @@
  *
  * (c)reated 27.07.2018 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.util;
+package de.jfachwert.util
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import de.jfachwert.Fachwert;
-
-import java.io.IOException;
-import java.util.Map;
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.databind.ser.std.StdSerializer
+import de.jfachwert.Fachwert
+import java.io.IOException
 
 /**
  * Die Klasse serialisiert Fachwerte nach und von JSON. Damit die
  * Serialisierung funktioniert, muss
  * <pre>
- *       &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
- *       &lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;
+ * &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
+ * &lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;
  * </pre>
  * als Abhaengigkeit eingebunden werden.
  *
  * @author oboehm
  * @since 1.0
  */
-public class ToFachwertSerializer extends StdSerializer<Fachwert> {
-
-    public ToFachwertSerializer() {
-        this(Fachwert.class);
-    }
-
-    public ToFachwertSerializer(Class<Fachwert> t) {
-        super(t);
-    }
+class ToFachwertSerializer @JvmOverloads constructor(t: Class<Fachwert> = Fachwert::class.java) : StdSerializer<Fachwert>(t) {
 
     /**
      * Fuer die Serialisierung wird der uebergebenen Fachwert nach seinen
@@ -56,18 +46,18 @@ public class ToFachwertSerializer extends StdSerializer<Fachwert> {
      * @param provider Provider
      * @throws IOException sollte nicht auftreten
      */
-    @Override
-    public void serialize(Fachwert fachwert, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-        serialize(fachwert.toMap(), jgen, provider);
+    @Throws(IOException::class)
+    override fun serialize(fachwert: Fachwert, jgen: JsonGenerator, provider: SerializerProvider) {
+        serialize(fachwert.toMap(), jgen, provider)
     }
 
-    private void serialize(final Map<String, Object> map, final JsonGenerator jgen, final SerializerProvider provider)
-            throws IOException {
-        jgen.writeStartObject();
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            jgen.writeObjectField(entry.getKey(), entry.getValue());
+    @Throws(IOException::class)
+    private fun serialize(map: Map<String, Any>, jgen: JsonGenerator, provider: SerializerProvider) {
+        jgen.writeStartObject()
+        for ((key, value) in map) {
+            jgen.writeObjectField(key, value)
         }
-        jgen.writeEndObject();
+        jgen.writeEndObject()
     }
 
 }
