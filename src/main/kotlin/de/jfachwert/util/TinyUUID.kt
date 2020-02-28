@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,14 @@
  *
  * (c)reated 11.12.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.util;
+package de.jfachwert.util
 
-import de.jfachwert.AbstractFachwert;
-import de.jfachwert.pruefung.exception.InvalidValueException;
-import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
-
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.UUID;
+import de.jfachwert.AbstractFachwert
+import de.jfachwert.pruefung.exception.InvalidValueException
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
+import java.math.BigInteger
+import java.nio.charset.StandardCharsets
+import java.util.*
 
 /**
  * Die Klasse TinyUUID ist ein einfacher Wrapper um UUID mit dem Ziel, eine
@@ -34,31 +31,14 @@ import java.util.UUID;
  * 128 Bits oder 16 Bytes. Damit laeest sich der Speicheraufwand um ueber 50%
  * reduzieren.
  *
- * <p>
  * Die Klasse implementiert die wichtigsten Methoden und Konstruktoren
- * der {@link UUID}-Klasse, sodass sie als Ersatz fuer diese Klasse verwendet
+ * der [UUID]-Klasse, sodass sie als Ersatz fuer diese Klasse verwendet
  * werden kann.
- * </p>
  *
  * @author oboehm
  * @since 0.6+ (11.12.2017)
  */
-public class TinyUUID extends AbstractFachwert<UUID, TinyUUID> {
-
-    /** Minimale UUID. */
-    public static final TinyUUID MIN = new TinyUUID("00000000-0000-0000-0000-000000000000");
-
-    /** Maximale UUID (die aber als Nummer negativ ist). */
-    public static final TinyUUID MAX = new TinyUUID("ffffffff-ffff-ffff-ffff-ffffffffffff");
-
-    /**
-     * Instantiiert eine neue TinyUUID.
-     *
-     * @param uuid gueltige UUID
-     */
-    public TinyUUID(UUID uuid) {
-        super(uuid);
-    }
+open class TinyUUID(uuid: UUID) : AbstractFachwert<UUID, TinyUUID>(uuid) {
 
     /**
      * Instantiiert eine eine neue TinyUUID anhand eines Strings. Dieser kann
@@ -68,9 +48,7 @@ public class TinyUUID extends AbstractFachwert<UUID, TinyUUID> {
      *
      * @param uuid z.B. "4e8108fa-e517-41bd-8372-a828843030ba"
      */
-    public TinyUUID(String uuid) {
-        this(toUUID(uuid));
-    }
+    constructor(uuid: String) : this(toUUID(uuid)) {}
 
     /**
      * Instantiiert eine neue TinyUUID. Die uebergebene Zahl wird dabei auf
@@ -79,32 +57,14 @@ public class TinyUUID extends AbstractFachwert<UUID, TinyUUID> {
      *
      * @param number 128-Bit-Zahl
      */
-    public TinyUUID(BigInteger number) {
-        this(toUUID(number));
-    }
+    constructor(number: BigInteger) : this(toUUID(number)) {}
 
     /**
      * Instantiiert eine neue TinyUUID.
      *
      * @param bytes 16 Bytes
      */
-    public TinyUUID(byte[] bytes) {
-        this(toUUID(bytes));
-    }
-
-    private static byte[] to16Bytes(BigInteger number) {
-        return to16Bytes(number.toByteArray());
-    }
-
-    private static byte[] to16Bytes(byte[] bytes) {
-        if (bytes.length > 15) {
-            return Arrays.copyOfRange(bytes, bytes.length - 16, bytes.length);
-        } else {
-            byte[] bytes16 = new byte[16];
-            System.arraycopy(bytes, 0, bytes16, 16 - bytes.length, bytes.length);
-            return bytes16;
-        }
-    }
+    constructor(bytes: ByteArray) : this(toUUID(bytes)) {}
 
     /**
      * Liefert die UUID als 128-Bit-Zahl zurueck. Diese kann auch negativ
@@ -112,17 +72,9 @@ public class TinyUUID extends AbstractFachwert<UUID, TinyUUID> {
      *
      * @return Zahl
      */
-    public BigInteger toNumber() {
-        UUID uuid = this.getCode();
-        return toBigInteger(uuid.toString());
-    }
-
-    private static BigInteger toBigInteger(String uuid) {
-        try {
-            return new BigInteger(uuid.replaceAll("-", ""), 16);
-        } catch (NumberFormatException nfe) {
-            throw new InvalidValueException(uuid, "UUID");
-        }
+    fun toNumber(): BigInteger {
+        val uuid = code
+        return toBigInteger(uuid.toString())
     }
 
     /**
@@ -130,144 +82,177 @@ public class TinyUUID extends AbstractFachwert<UUID, TinyUUID> {
      *
      * @return 16-stelliges Byte-Array
      */
-    public byte[] toBytes() {
-        byte[] bytes = this.toNumber().toByteArray();
-        return to16Bytes(bytes);
+    fun toBytes(): ByteArray {
+        val bytes = toNumber().toByteArray()
+        return to16Bytes(bytes)
     }
 
     /**
-     * Liefert die {@link UUID} zurueck. Darueber kann man auf die weniger
-     * wichtigen Methoden von {@link UUID} zurueckgreifen, die in dieser Klasse
+     * Liefert die [UUID] zurueck. Darueber kann man auf die weniger
+     * wichtigen Methoden von [UUID] zurueckgreifen, die in dieser Klasse
      * fehlen.
      *
-     * @return die {@link UUID}
+     * @return die [UUID]
      */
-    public UUID getUUID() {
-        return this.getCode();
-    }
+    val uUID: UUID
+        get() = code
 
     /**
      * Liefert die unteren 64 Bits der 128-bittigen UUID.
      *
      * @return die ersten 64 Bits
      */
-    public long getLeastSignificantBits() {
-        return this.getUUID().getLeastSignificantBits();
-    }
+    val leastSignificantBits: Long
+        get() = uUID.leastSignificantBits
 
     /**
      * Liefert die oberen 64 Bits der 128-bittigen UUID.
      *
      * @return die oberen 64 Bits
      */
-    public long getMostSignificantBits() {
-        return this.getUUID().getMostSignificantBits();
-    }
+    val mostSignificantBits: Long
+        get() = uUID.mostSignificantBits
 
     /**
-     * {@link TinyUUID} ist zwar als Ersatz fuer die {@link UUID}-Klasse gedacht,
+     * [TinyUUID] ist zwar als Ersatz fuer die [UUID]-Klasse gedacht,
      * liefert aber immer die Kurzform ueber die toString()-Methode zurueck.
-     * D.h. das Ergebis entspricht der Ausgabe von {@link #toShortString()}.
+     * D.h. das Ergebis entspricht der Ausgabe von [.toShortString].
      *
      * @return z.B. "ix9de14vQgGKwXZUaruCzw"
      */
-    @Override
-    public String toString() {
-        return this.toShortString();
-    }
-
-    private static String toString(BigInteger number) {
-        byte[] bytes = to16Bytes(number);
-        return toString(bytes);
-    }
-
-    private static String toString(byte[] bytes) {
-        return String.format("%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
-                bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7],
-                bytes[8], bytes[9], bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15]);
+    override fun toString(): String {
+        return toShortString()
     }
 
     /**
      * Liefert eine verkuerzte Darstellung einer UUID als String. Die Laenge
      * reduziert sich dadurch auf 22 Zeichen. Diese kann z.B. dazu genutzt
      * werden, um eine UUID platzsparend abzuspeichern, wenn man dazu nicht
-     * das Ergebnis aus {@link #toBytes()} (16 Bytes) verwenden will.
-     * <p>
+     * das Ergebnis aus [.toBytes] (16 Bytes) verwenden will.
+     *
      * Damit der resultierende String auch URL-safe ist, werden die Zeichen
      * '/' und '+' durch '_' und '-' ersetzt.
-     * </p>
      *
      * @return 22 Zeichen, z.B. "ix9de14vQgGKwXZUaruCzw"
      */
-    public String toShortString() {
-        String s = Base64.getEncoder().withoutPadding().encodeToString(toBytes());
-        return s.replace('/', '_').replace('+', '-');
+    open fun toShortString(): String {
+        val s = Base64.getEncoder().withoutPadding().encodeToString(toBytes())
+        return s.replace('/', '_').replace('+', '-')
     }
 
     /**
-     * Dies ist das Gegenstueck zu {@link #toShortString()}.
+     * Dies ist das Gegenstueck zu [.toShortString].
      *
      * @return z.B. "4e8108fa-e517-41bd-8372-a828843030ba"
      */
-    public String toLongString() {
-        return this.getUUID().toString();
+    fun toLongString(): String {
+        return uUID.toString()
     }
 
-    /**
-     * Aehnlich wie {@link UUID#fromString(String)} wird hier eine
-     * {@link TinyUUID} anhand des uebergebenen Strings erzeugt.
-     * Der uebergebene String kann dabei das Format einer UUID
-     * besitzen, kann aber auch ein Ergebnis von {@link #toShortString()}
-     * sein.
-     *
-     * @param id z.B. "ix9de14vQgGKwXZUaruCzw"
-     * @return a TinyUUID
-     */
-    public static TinyUUID fromString(String id) {
-        return new TinyUUID(toUUID(id));
-    }
-    
-    private static UUID toUUID(String id) {
-        switch (id.length()) {
-            case 22:
-                String base64 = id.replace('-', '+').replace('_', '/');
-                byte [] bytes = Base64.getDecoder().decode(base64.getBytes(StandardCharsets.UTF_8));
-                return toUUID(bytes);
-            case 25:
-                BigInteger n = new BigInteger(id, Character.MAX_RADIX);
-                return toUUID(n);
-            default:
-                try {
-                    return UUID.fromString(id);
-                } catch (IllegalArgumentException ex) {
-                    throw new InvalidValueException(id, "UUID");
+
+
+    companion object {
+
+        /** Minimale UUID.  */
+        @JvmField
+        val MIN = TinyUUID("00000000-0000-0000-0000-000000000000")
+
+        /** Maximale UUID (die aber als Nummer negativ ist).  */
+        @JvmField
+        val MAX = TinyUUID("ffffffff-ffff-ffff-ffff-ffffffffffff")
+
+        private fun to16Bytes(number: BigInteger): ByteArray {
+            return to16Bytes(number.toByteArray())
+        }
+
+        private fun to16Bytes(bytes: ByteArray): ByteArray {
+            return if (bytes.size > 15) {
+                Arrays.copyOfRange(bytes, bytes.size - 16, bytes.size)
+            } else {
+                val bytes16 = ByteArray(16)
+                System.arraycopy(bytes, 0, bytes16, 16 - bytes.size, bytes.size)
+                bytes16
+            }
+        }
+
+        private fun toBigInteger(uuid: String): BigInteger {
+            return try {
+                BigInteger(uuid.replace("-".toRegex(), ""), 16)
+            } catch (nfe: NumberFormatException) {
+                throw InvalidValueException(uuid, "UUID")
+            }
+        }
+
+        private fun toString(number: BigInteger): String {
+            val bytes = to16Bytes(number)
+            return toString(bytes)
+        }
+
+        private fun toString(bytes: ByteArray): String {
+            return String.format("%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
+                    bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7],
+                    bytes[8], bytes[9], bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15])
+        }
+
+        /**
+         * Aehnlich wie [UUID.fromString] wird hier eine
+         * [TinyUUID] anhand des uebergebenen Strings erzeugt.
+         * Der uebergebene String kann dabei das Format einer UUID
+         * besitzen, kann aber auch ein Ergebnis von [.toShortString]
+         * sein.
+         *
+         * @param id z.B. "ix9de14vQgGKwXZUaruCzw"
+         * @return a TinyUUID
+         */
+        @JvmStatic
+        fun fromString(id: String): TinyUUID {
+            return TinyUUID(toUUID(id))
+        }
+
+        private fun toUUID(id: String): UUID {
+            return when (id.length) {
+                22 -> {
+                    val base64 = id.replace('-', '+').replace('_', '/')
+                    val bytes = Base64.getDecoder().decode(base64.toByteArray(StandardCharsets.UTF_8))
+                    toUUID(bytes)
                 }
+                25 -> {
+                    val n = BigInteger(id, Character.MAX_RADIX)
+                    toUUID(n)
+                }
+                else -> try {
+                    UUID.fromString(id)
+                } catch (ex: IllegalArgumentException) {
+                    throw InvalidValueException(id, "UUID")
+                }
+            }
         }
-    }
 
-    private static UUID toUUID(BigInteger number) {
-        return UUID.fromString(toString(number));
-    }
-
-    private static UUID toUUID(byte[] bytes) {
-        return UUID.fromString(toString(verify(bytes)));
-    }
-
-    private static byte[] verify(byte[] bytes) {
-        if (bytes.length != 16) {
-            throw new LocalizedIllegalArgumentException(bytes, 16);
+        private fun toUUID(number: BigInteger): UUID {
+            return UUID.fromString(toString(number))
         }
-        return bytes;
-    }
 
-    /**
-     * Dies ist das Gegenstueck zur {@link UUID#randomUUID()}, nur dass hier
-     * bereits eine {@link TinyUUID} erzeugt wird.
-     *
-     * @return zufaellige UUID
-     */
-    public static TinyUUID randomUUID() {
-        return new TinyUUID(UUID.randomUUID());
+        private fun toUUID(bytes: ByteArray): UUID {
+            return UUID.fromString(toString(verify(bytes)))
+        }
+
+        private fun verify(bytes: ByteArray): ByteArray {
+            if (bytes.size != 16) {
+                throw LocalizedIllegalArgumentException(bytes, 16)
+            }
+            return bytes
+        }
+
+        /**
+         * Dies ist das Gegenstueck zur [UUID.randomUUID], nur dass hier
+         * bereits eine [TinyUUID] erzeugt wird.
+         *
+         * @return zufaellige UUID
+         */
+        fun randomUUID(): TinyUUID {
+            return TinyUUID(UUID.randomUUID())
+        }
+
     }
 
 }
