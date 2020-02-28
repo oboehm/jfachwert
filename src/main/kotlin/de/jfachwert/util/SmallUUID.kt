@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 by Oliver Boehm
+ * Copyright (c) 2019, 2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,35 +15,27 @@
  *
  * (c)reated 23.04.2019 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.util;
+package de.jfachwert.util
 
-import java.math.BigInteger;
-import java.util.UUID;
+import java.math.BigInteger
+import java.util.*
 
 /**
- * Im Gegensatz zur {@link TinyUUID} verwendet die SmallUUID nur Zahlen und
+ * Im Gegensatz zur [TinyUUID] verwendet die SmallUUID nur Zahlen und
  * Kleinbuchstaben. Damit kann diese Klasse auch zur Bildung von Dateinamen
  * herangezogen werden.
  *
  * @author oboehm
  * @since 2.3 (23.04.2019)
  */
-public class SmallUUID extends TinyUUID {
-
-    /** Minimale UUID. */
-    public static final SmallUUID MIN = new SmallUUID("00000000-0000-0000-0000-000000000000");
-
-    /** Maximale UUID (die aber als Nummer negativ ist). */
-    public static final SmallUUID MAX = new SmallUUID("ffffffff-ffff-ffff-ffff-ffffffffffff");
+open class SmallUUID : TinyUUID {
 
     /**
      * Instantiiert eine neue SmallUUID.
      *
      * @param uuid gueltige UUID
      */
-    public SmallUUID(UUID uuid) {
-        super(uuid);
-    }
+    constructor(uuid: UUID) : super(uuid) {}
 
     /**
      * Instantiiert eine eine neue SmallUUID anhand eines Strings. Dieser kann
@@ -53,9 +45,7 @@ public class SmallUUID extends TinyUUID {
      *
      * @param uuid z.B. "4e8108fa-e517-41bd-8372-a828843030ba"
      */
-    public SmallUUID(String uuid) {
-        super(uuid);
-    }
+    constructor(uuid: String) : super(uuid) {}
 
     /**
      * Instantiiert eine neue SmallUUID. Die uebergebene Zahl wird dabei auf
@@ -64,28 +54,14 @@ public class SmallUUID extends TinyUUID {
      *
      * @param number 128-Bit-Zahl
      */
-    public SmallUUID(BigInteger number) {
-        super(number);
-    }
+    constructor(number: BigInteger) : super(number) {}
 
     /**
      * Instantiiert eine neue SmallUUID.
      *
      * @param bytes 16 Bytes
      */
-    public SmallUUID(byte[] bytes) {
-        super(bytes);
-    }
-
-    /**
-     * Dies ist das Gegenstueck zur {@link UUID#randomUUID()}, nur dass hier
-     * bereits eine {@link SmallUUID} erzeugt wird.
-     *
-     * @return zufaellige UUID
-     */
-    public static SmallUUID randomUUID() {
-        return new SmallUUID(UUID.randomUUID());
-    }
+    constructor(bytes: ByteArray) : super(bytes) {}
 
     /**
      * Liefert eine verkuerzte Darstellung einer UUID als String. Die Laenge
@@ -94,11 +70,35 @@ public class SmallUUID extends TinyUUID {
      *
      * @return 25 Zeichen, z.B. "12srde28kvwih41tdis7vz5sx"
      */
-    @Override
-    public String toShortString() {
-        BigInteger id = toNumber();
-        String s = "000000000000000000000000" + id.toString(Character.MAX_RADIX);
-        return s.substring(s.length() - 25);
+    override fun toShortString(): String {
+        val id = toNumber()
+        val s = "000000000000000000000000" + id.toString(Character.MAX_RADIX)
+        return s.substring(s.length - 25)
+    }
+
+
+
+    companion object {
+
+        /** Minimale UUID.  */
+        @JvmField
+        val MIN = SmallUUID("00000000-0000-0000-0000-000000000000")
+
+        /** Maximale UUID (die aber als Nummer negativ ist).  */
+        @JvmField
+        val MAX = SmallUUID("ffffffff-ffff-ffff-ffff-ffffffffffff")
+
+        /**
+         * Dies ist das Gegenstueck zur [UUID.randomUUID], nur dass hier
+         * bereits eine [SmallUUID] erzeugt wird.
+         *
+         * @return zufaellige UUID
+         */
+        @JvmStatic
+        fun randomUUID(): SmallUUID {
+            return SmallUUID(UUID.randomUUID())
+        }
+
     }
 
 }
