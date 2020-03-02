@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,13 @@
  *
  * (c)reated 21.02.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.pruefung;
+package de.jfachwert.pruefung
 
-import de.jfachwert.*;
-import de.jfachwert.pruefung.exception.InvalidLengthException;
-import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
-
-import java.io.*;
-import java.util.*;
+import de.jfachwert.PruefzifferVerfahren
+import de.jfachwert.pruefung.exception.InvalidLengthException
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
+import java.io.Serializable
+import java.util.*
 
 /**
  * Bei der Laengen-Validierung wird nur die Laenge des Fachwertes geprueft, ob
@@ -30,28 +29,14 @@ import java.util.*;
  * Minimallaenge 0, sind leere Werte erlaubt, ist die Maximallaenge unendlich
  * (bzw. groesster Integer-Wert), gibt es keine Laengenbeschraenkung.
  *
- * Urspruenglich besass diese Klasse rein statisiche Methode fuer die
+ * Urspruenglich besass diese Klasse rein statisiche Methoden fuer die
  * Laengenvaliderung. Ab v0.3.1 kann sie auch anstelle eines
  * Pruefziffernverfahrens eingesetzt werden.
  *
  * @author oboehm
  * @since 0.2 (20.04.2017)
  */
-public class LengthValidator<T extends Serializable> extends NoopVerfahren<T> {
-
-    public static final PruefzifferVerfahren<String> NOT_EMPTY_VALIDATOR = new LengthValidator<>(1);
-
-    private final int min;
-    private final int max;
-
-    public LengthValidator(int min) {
-        this(min, Integer.MAX_VALUE);
-    }
-
-    public LengthValidator(int min, int max) {
-        this.min = min;
-        this.max = max;
-    }
+class LengthValidator<T : Serializable?> @JvmOverloads constructor(private val min: Int, private val max: Int = Int.MAX_VALUE) : NoopVerfahren<T>() {
 
     /**
      * Liefert true zurueck, wenn der uebergebene Wert innerhalb der erlaubten
@@ -60,10 +45,9 @@ public class LengthValidator<T extends Serializable> extends NoopVerfahren<T> {
      * @param wert Fachwert oder gekapselter Wert
      * @return true oder false
      */
-    @Override
-    public boolean isValid(T wert) {
-        int length = Objects.toString(wert, "").length();
-        return (length >= min) && (length <= max);
+    override fun isValid(wert: T): Boolean {
+        val length = Objects.toString(wert, "").length
+        return length >= min && length <= max
     }
 
     /**
@@ -73,62 +57,69 @@ public class LengthValidator<T extends Serializable> extends NoopVerfahren<T> {
      * @param wert zu ueberpruefender Wert
      * @return den ueberprueften Wert (zur Weiterverarbeitung)
      */
-    @Override
-    public T validate(T wert) {
+    override fun validate(wert: T): T {
         if (!isValid(wert)) {
-            throw new InvalidLengthException(Objects.toString(wert), min, max);
+            throw InvalidLengthException(Objects.toString(wert), min, max)
         }
-        return wert;
+        return wert
     }
 
-    /**
-     * Validiert die Laenge des uebergebenen Wertes.
-     *
-     * @param value zu pruefender Wert
-     * @param expected erwartete Laenge
-     * @return der gepruefte Wert (zur evtl. Weiterverarbeitung)
-     */
-    public static String validate(String value, int expected) {
-        if (value.length() != expected) {
-            throw new InvalidLengthException(value, expected);
-        }
-        return value;
-    }
 
-    /**
-     * Validiert die Laenge des uebergebenen Wertes.
-     *
-     * @param value zu pruefender Wert
-     * @param min   geforderte Minimal-Laenge
-     * @param max   Maximal-Laenge
-     * @return der gepruefte Wert (zur evtl. Weiterverarbeitung)
-     */
-    public static String validate(String value, int min, int max) {
-        if (min == max) {
-            return validate(value, min);
-        }
-        if ((value.length() < min) || (value.length() > max)) {
-            throw new InvalidLengthException(value, min, max);
-        }
-        return value;
-    }
 
-    /**
-     * Verifziert die Laenge des uebergebenen Wertes. Im Gegensatz zur
-     * {@link #validate(String, int, int)}-Methode wird herbei eine
-     * {@link IllegalArgumentException} geworfen.
-     *
-     * @param value zu pruefender Wert
-     * @param min   geforderte Minimal-Laenge
-     * @param max   Maximal-Laenge
-     * @return der gepruefte Wert (zur evtl. Weiterverarbeitung)
-     */
-    public static String verify(String value, int min, int max) {
-        try {
-            return validate(value, min, max);
-        } catch (IllegalArgumentException ex) {
-            throw new LocalizedIllegalArgumentException(ex);
+    companion object {
+
+        val NOT_EMPTY_VALIDATOR: PruefzifferVerfahren<String> = LengthValidator(1)
+
+        /**
+         * Validiert die Laenge des uebergebenen Wertes.
+         *
+         * @param value zu pruefender Wert
+         * @param expected erwartete Laenge
+         * @return der gepruefte Wert (zur evtl. Weiterverarbeitung)
+         */
+        fun validate(value: String, expected: Int): String {
+            if (value.length != expected) {
+                throw InvalidLengthException(value, expected)
+            }
+            return value
         }
+
+        /**
+         * Validiert die Laenge des uebergebenen Wertes.
+         *
+         * @param value zu pruefender Wert
+         * @param min   geforderte Minimal-Laenge
+         * @param max   Maximal-Laenge
+         * @return der gepruefte Wert (zur evtl. Weiterverarbeitung)
+         */
+        fun validate(value: String, min: Int, max: Int): String {
+            if (min == max) {
+                return validate(value, min)
+            }
+            if (value.length < min || value.length > max) {
+                throw InvalidLengthException(value, min, max)
+            }
+            return value
+        }
+
+        /**
+         * Verifziert die Laenge des uebergebenen Wertes. Im Gegensatz zur
+         * [.validate]-Methode wird herbei eine
+         * [IllegalArgumentException] geworfen.
+         *
+         * @param value zu pruefender Wert
+         * @param min   geforderte Minimal-Laenge
+         * @param max   Maximal-Laenge
+         * @return der gepruefte Wert (zur evtl. Weiterverarbeitung)
+         */
+        fun verify(value: String, min: Int, max: Int): String {
+            return try {
+                validate(value, min, max)
+            } catch (ex: IllegalArgumentException) {
+                throw LocalizedIllegalArgumentException(ex)
+            }
+        }
+
     }
 
 }
