@@ -44,7 +44,7 @@ open class BLZ
  * @param code      eine 5- oder 8-stellige Zahl
  * @param validator fuer die Ueberpruefung
  */
-@JvmOverloads constructor(code: String, validator: SimpleValidator<PackedDecimal>? = VALIDATOR) :
+@JvmOverloads constructor(code: String, validator: SimpleValidator<PackedDecimal> = VALIDATOR) :
         AbstractFachwert<PackedDecimal, BLZ>(PackedDecimal.valueOf(code), validator) {
 
     /**

@@ -49,7 +49,7 @@ open class BIC
  * @param code      eine 11- oder 14-stellige BIC
  * @param validator zum Pruefen der BIC (optional)
  */
-@JvmOverloads constructor(code: String, validator: SimpleValidator<String>? = VALIDATOR) : Text(code, validator) {
+@JvmOverloads constructor(code: String, validator: SimpleValidator<String> = VALIDATOR) : Text(code, validator) {
 
     /**
      * Dieser Validator ist fuer die Ueberpruefung von BICs vorgesehen.

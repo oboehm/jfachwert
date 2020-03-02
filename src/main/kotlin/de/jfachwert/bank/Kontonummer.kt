@@ -39,7 +39,7 @@ open class Kontonummer
  * @param nr        Kontnummer als Zahl
  * @param validator fuer die Pruefung
  */
-@JvmOverloads constructor(nr: Long, validator: SimpleValidator<Long>? = VALIDATOR) : AbstractFachwert<Long, Kontonummer>(nr, validator) {
+@JvmOverloads constructor(nr: Long, validator: SimpleValidator<Long> = VALIDATOR) : AbstractFachwert<Long, Kontonummer>(nr, validator) {
 
     /**
      * Hierueber wird eine neue Kontonummer angelegt.

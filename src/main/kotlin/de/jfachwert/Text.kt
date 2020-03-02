@@ -41,7 +41,7 @@ open class Text
  * @param text      Text
  * @param validator Validator fuer die Ueberpruefung
  */
-@JvmOverloads constructor(text: String, validator: SimpleValidator<String>? = VALIDATOR) : AbstractFachwert<String, Text>(VALIDATOR.verify(text).intern(), validator), Comparable<Text> {
+@JvmOverloads constructor(text: String, validator: SimpleValidator<String> = VALIDATOR) : AbstractFachwert<String, Text>(VALIDATOR.verify(text).intern(), validator), Comparable<Text> {
     /**
      * Berechnet die Levenshtein-Distanz.
      *
@@ -82,7 +82,7 @@ open class Text
      * @since 2.1
      */
     fun toLowerCase(): Text {
-        return of(code!!.toLowerCase())
+        return of(code.toLowerCase())
     }
 
     /**
@@ -92,7 +92,7 @@ open class Text
      * @since 2.1
      */
     fun toUpperCase(): Text {
-        return of(code!!.toUpperCase())
+        return of(code.toUpperCase())
     }
 
     /**
@@ -137,7 +137,7 @@ open class Text
      * @since 3.0
      */
     override fun compareTo(other: Text): Int {
-        return code!!.compareTo(other.code!!)
+        return code.compareTo(other.code)
     }
 
 

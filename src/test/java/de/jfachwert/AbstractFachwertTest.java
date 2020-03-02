@@ -37,7 +37,7 @@ import static org.junit.Assert.assertSame;
  * @param <T> the type parameter
  * @author <a href="ob@aosd.de">oliver</a>
  */
-public abstract class AbstractFachwertTest<T extends Serializable, S extends AbstractFachwert> extends FachwertTest {
+public abstract class AbstractFachwertTest<T extends Serializable, S extends AbstractFachwert<T, S>> extends FachwertTest {
 
     /**
      * Zum Testen erstellen wir hierueber ein Test-Objekt.

@@ -43,7 +43,7 @@ open class IBAN
  * @param iban        die IBAN
  * @param pzVerfahren das verwendete PruefzifferVerfahren (optional)
  */
-@JvmOverloads constructor(iban: String, pzVerfahren: SimpleValidator<String>? = VALIDATOR) : Text(iban, pzVerfahren) {
+@JvmOverloads constructor(iban: String, pzVerfahren: SimpleValidator<String> = VALIDATOR) : Text(iban, pzVerfahren) {
 
     /**
      * Liefert die IBAN formattiert in der DIN-Form. Dies ist die uebliche

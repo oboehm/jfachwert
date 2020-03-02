@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,73 +15,57 @@
  *
  * (c)reated 14.03.2017 by oboehm (ob@jfachwert.de)
  */
-package de.jfachwert;
+package de.jfachwert
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import de.jfachwert.pruefung.NullValidator;
-
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
+import de.jfachwert.pruefung.NullValidator
+import java.io.Serializable
+import java.util.*
+import javax.validation.constraints.NotNull
 
 /**
  * Die meisten Fachwerte sind nur ein ganz duenner Wrapper um ein Attribut vom
- * Typ 'String'. Fuer diese Fachwerte duerfte diese Implementierung ausreichen.
+ * Typ 'String' (oder allgemein vom Typ 'T'). Fuer diese Fachwerte duerfte
+ * diese Implementierung ausreichen.
  *
  * @author oboehm
  * @since 14.03.2017
  * @since 0.0.2
  */
-@JsonSerialize(using = ToStringSerializer.class)
-public abstract class AbstractFachwert<T extends Serializable, S extends AbstractFachwert> implements Fachwert, Comparable<S> {
-
-    private final T code;
-
-    protected AbstractFachwert(T code) {
-        this(code, new NullValidator<>());
-    }
-
-    protected AbstractFachwert(T code, SimpleValidator<T> validator) {
-        this.code = validator.verify(code);
-    }
+@JsonSerialize(using = ToStringSerializer::class)
+abstract class AbstractFachwert<T : Serializable, S : AbstractFachwert<T, S>> protected constructor(code: T, validator: SimpleValidator<T> = NullValidator()) : Fachwert, Comparable<S> {
 
     /**
-     * Liefert die interne Praesentation fuer die abgeleiteten Klassen. Er
+     * Liefert die interne Praesentation fuer die abgeleiteten Klassen. Sie
      * ist nicht fuer den direkten Aufruf vorgesehen, weswegen die Methode auch
      * 'final' ist.
      *
      * @return die interne Repraesentation
      */
-    protected final T getCode() {
-        return this.code;
+    val code: T
+
+    init {
+        this.code = validator.verify(code)
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        return this.code.hashCode();
+    override fun hashCode(): Int {
+        return code.hashCode()
     }
 
     /**
      * Zwei Fachwerte sind nur dann gleich, wenn sie vom gleichen Typ sind und
      * den gleichen Wert besitzen.
      *
-     * @param obj zu vergleichender Fachwert
+     * @param other zu vergleichender Fachwert
      * @return true bei Gleichheit
-     * @see java.lang.Object#equals(java.lang.Object)
+     * @see java.lang.Object.equals
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof AbstractFachwert) || (!this.getClass().isAssignableFrom(obj.getClass()))) {
-            return false;
+    override fun equals(other: Any?): Boolean {
+        if (other !is AbstractFachwert<*, *> || !this.javaClass.isAssignableFrom(other.javaClass)) {
+            return false
         }
-        AbstractFachwert other = (AbstractFachwert) obj;
-        return this.code.equals(other.getCode());
+        return code == other.code
     }
 
     /**
@@ -90,9 +74,8 @@ public abstract class AbstractFachwert<T extends Serializable, S extends Abstrac
      *
      * @return den internen code
      */
-    @Override
-    public String toString() {
-        return Objects.toString(this.code);
+    override fun toString(): String {
+        return Objects.toString(code)
     }
 
     /**
@@ -102,11 +85,10 @@ public abstract class AbstractFachwert<T extends Serializable, S extends Abstrac
      *
      * @return Attribute als Map
      */
-    @Override
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put(this.getClass().getSimpleName().toLowerCase(), toString());
-        return map;
+    override fun toMap(): Map<String, Any> {
+        val map: MutableMap<String, Any> = HashMap()
+        map[this.javaClass.simpleName.toLowerCase()] = toString()
+        return map
     }
 
     /**
@@ -117,18 +99,17 @@ public abstract class AbstractFachwert<T extends Serializable, S extends Abstrac
      * positive Zahl.
      * @since 3.0
      */
-    @Override
-    public int compareTo(@NotNull S other) {
-        if (this.equals(other)) {
-            return 0;
+    override fun compareTo(@NotNull other: S): Int {
+        if (this == other) {
+            return 0
         }
-        Serializable otherCode = other.getCode();
-        if (otherCode instanceof Comparable) {
-            Comparable thisValue = (Comparable) this.getCode();
-            Comparable otherValue = (Comparable) otherCode;
-            return thisValue.compareTo(otherValue);
+        val otherCode = other.code
+        return if (otherCode is Comparable<*>) {
+            val thisValue = code as S
+            val otherValue = otherCode as S
+            thisValue.compareTo(otherValue)
         } else {
-            throw new UnsupportedOperationException("not implemented for " + this.getClass());
+            throw UnsupportedOperationException("not implemented for " + this.javaClass)
         }
     }
 
