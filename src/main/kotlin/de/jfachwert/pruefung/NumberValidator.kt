@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,126 +15,127 @@
  *
  * (c)reated 30.08.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.pruefung;
+package de.jfachwert.pruefung
 
-import de.jfachwert.SimpleValidator;
-import de.jfachwert.pruefung.exception.InvalidValueException;
-import de.jfachwert.pruefung.exception.LocalizedArithmeticException;
-import org.apache.commons.lang3.Range;
-
-import javax.validation.ValidationException;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.util.Locale;
+import de.jfachwert.SimpleValidator
+import de.jfachwert.pruefung.exception.InvalidValueException
+import de.jfachwert.pruefung.exception.LocalizedArithmeticException
+import org.apache.commons.lang3.Range
+import java.math.BigDecimal
+import java.text.DecimalFormat
+import java.text.ParseException
+import java.util.*
 
 /**
- * Der NumberValidator ueberprueft eine uebergebene {@link Number}, ob sie
+ * Der NumberValidator ueberprueft eine uebergebene [Number], ob sie
  * im erlaubten Wertebereich liegt.
  *
  * @author oboehm
  * @since 0.4 (30.08.2017)
  */
-public class NumberValidator implements SimpleValidator<String> {
+class NumberValidator @JvmOverloads
+/**
+ * Instanziert einen Validator, der prueft, ob ein Wert zwischen den
+ * vorgegebenen Grenzen liegt.
+ *
+ * @param min untere Grenze
+ * @param max obere Grenze
+ */
+constructor(min: BigDecimal = INFINITE.negate(), max: BigDecimal = INFINITE) : SimpleValidator<String> {
 
-    private static final String NUMBER = "number";
-    private final Range<BigDecimal> range;
+    private val range: Range<BigDecimal>
 
-     /** Wenn man keine obere Grenze angeben will, nimmt man diesen Wert. */
-    public static final BigDecimal INFINITE = BigDecimal.valueOf(Long.MAX_VALUE);
+    /**
+     * Instanziert einen Validator, der prueft, ob ein Wert zwischen den
+     * vorgegebenen Grenzen liegt.
+     *
+     * @param min untere Grenze
+     * @param max obere Grenze
+     */
+    constructor(min: Long, max: Long) : this(BigDecimal.valueOf(min), BigDecimal.valueOf(max)) {}
 
     /**
      * Als Default werden alle numerischen Werte zugelassen.
      */
-    public NumberValidator() {
-        this(INFINITE.negate(), INFINITE);
+    init {
+        range = Range.between(min, max)
     }
 
     /**
-     * Instanziert einen Validator, der prueft, ob ein Wert zwischen den
-     * vorgegebenen Grenzen liegt.
-     *
-     * @param min untere Grenze
-     * @param max obere Grenze
-     */
-    public NumberValidator(long min, long max) {
-        this(BigDecimal.valueOf(min), BigDecimal.valueOf(max));
-    }
-
-    /**
-     * Instanziert einen Validator, der prueft, ob ein Wert zwischen den
-     * vorgegebenen Grenzen liegt.
-     *
-     * @param min untere Grenze
-     * @param max obere Grenze
-     */
-    public NumberValidator(BigDecimal min, BigDecimal max) {
-        this.range = Range.between(min, max);
-    }
-
-    /**
-     * Wenn der uebergebene Wert gueltig ist, soll er unveraendert zurueckgegeben werden, damit er anschliessend von der
-     * aufrufenden Methode weiterverarbeitet werden kann. Ist der Wert nicht gueltig, soll eine {@link
-     * ValidationException} geworfen werden.
+     * Wenn der uebergebene Wert gueltig ist, soll er unveraendert
+     * zurueckgegeben werden, damit er anschliessend von der
+     * aufrufenden Methode weiterverarbeitet werden kann.
+     * Ist der Wert nicht gueltig, soll eine [InvalidValueException]
+     * geworfen werden.
      *
      * @param value Wert, der validiert werden soll
      * @return Wert selber, wenn er gueltig ist
      */
-    @Override
-    public String validate(String value) {
-        String normalized = normalize(value);
+    override fun validate(value: String): String {
+        val normalized = normalize(value)
         try {
-            BigDecimal n = new BigDecimal(normalized);
+            val n = BigDecimal(normalized)
             if (range.contains(n)) {
-                return normalized;
+                return normalized
             }
-        } catch (NumberFormatException ex) {
-            throw new InvalidValueException(value, NUMBER, ex);
+        } catch (ex: NumberFormatException) {
+            throw InvalidValueException(value, NUMBER, ex)
         }
-        throw new InvalidValueException(value, NUMBER, range);
+        throw InvalidValueException(value, NUMBER, range)
     }
 
     /**
      * Normalisiert einen String, sodass er zur Generierung einer Zahl
      * herangezogen werden kann.
-     * 
+     *
      * @param value z.B. "1,234.5"
      * @return normalisiert, z.B. "1234.5"
      */
-    public String normalize(String value) {
-        if (!value.matches("[\\d,.]+([eE]\\d+)?")) {
-            throw new InvalidValueException(value, NUMBER);
+    fun normalize(value: String): String {
+        if (!value.matches("[\\d,.]+([eE]\\d+)?".toRegex())) {
+            throw InvalidValueException(value, NUMBER)
         }
-        Locale locale = guessLocale(value);
-        DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance(locale);
-        df.setParseBigDecimal(true);
-        try {
-            return df.parse(value).toString();
-        } catch (ParseException ex) {
-            throw new InvalidValueException(value, NUMBER, ex);
+        val locale = guessLocale(value)
+        val df = DecimalFormat.getInstance(locale) as DecimalFormat
+        df.isParseBigDecimal = true
+        return try {
+            df.parse(value).toString()
+        } catch (ex: ParseException) {
+            throw InvalidValueException(value, NUMBER, ex)
         }
-    }
-
-    private static Locale guessLocale(String value) {
-        return value.matches("\\d+(\\.\\d{3})*(,\\d+)?") ? Locale.GERMAN : Locale.ENGLISH;
     }
 
     /**
      * Verifiziert die uebergebene Nummer, ob sie eine gueltige Nummer und
      * nicht unendlich oder 'NaN' ist. Falls die Nummer unendlich oder 'NaN'
-     * ist, wird eine {@link ArithmeticException} geworfen.
+     * ist, wird eine [ArithmeticException] geworfen.
      *
      * @param number zu pruefende Nummer
      * @return die Nummer selbst zur Weiterverarbeitung
      */
-    public Number verifyNumber(Number number) {
-        if ((number instanceof Double) || (number instanceof Float)) {
-            double dValue = number.doubleValue();
-            if (Double.isNaN(dValue) || Double.isInfinite(dValue)) {
-                throw new LocalizedArithmeticException(dValue, NUMBER);
+    fun verifyNumber(number: Number): Number {
+        if (number is Double || number is Float) {
+            val dValue: Double = number.toDouble()
+            if (java.lang.Double.isNaN(dValue) || java.lang.Double.isInfinite(dValue)) {
+                throw LocalizedArithmeticException(dValue, NUMBER)
             }
         }
-        return number;
+        return number
+    }
+
+
+
+    companion object {
+
+        private const val NUMBER = "number"
+
+        /** Wenn man keine obere Grenze angeben will, nimmt man diesen Wert.  */
+        val INFINITE = BigDecimal.valueOf(Long.MAX_VALUE)
+
+        private fun guessLocale(value: String): Locale {
+            return if (value.matches("\\d+(\\.\\d{3})*(,\\d+)?".toRegex())) Locale.GERMAN else Locale.ENGLISH
+        }
+
     }
 
 }
