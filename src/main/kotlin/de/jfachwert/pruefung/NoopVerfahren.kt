@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,10 @@
  *
  * (c)reated 26.03.2017 by oboehm (ob@jfachwert.de)
  */
-package de.jfachwert.pruefung;
+package de.jfachwert.pruefung
 
-import de.jfachwert.PruefzifferVerfahren;
-
-import java.io.*;
+import de.jfachwert.PruefzifferVerfahren
+import java.io.Serializable
 
 /**
  * "Noop" steht fuer "No Operation" und bedeutet, dass mit diesem Pruefziffer-
@@ -29,7 +28,7 @@ import java.io.*;
  * @author oboehm
  * @since 0.1.0
  */
-public class NoopVerfahren<T extends Serializable> implements PruefzifferVerfahren<T> {
+open class NoopVerfahren<T : Serializable?> : PruefzifferVerfahren<T> {
 
     /**
      * Meistens ist die letzte Ziffer die Pruefziffer, die hierueber abgefragt
@@ -38,9 +37,8 @@ public class NoopVerfahren<T extends Serializable> implements PruefzifferVerfahr
      * @param wert Fachwert oder gekapselter Wert
      * @return meist ein Wert zwischen 0 und 9
      */
-    @Override
-    public T getPruefziffer(T wert) {
-        return wert;
+    override fun getPruefziffer(wert: T): T {
+        return wert
     }
 
     /**
@@ -49,9 +47,8 @@ public class NoopVerfahren<T extends Serializable> implements PruefzifferVerfahr
      * @param wert Wert
      * @return errechnete Pruefziffer
      */
-    @Override
-    public T berechnePruefziffer(T wert) {
-        return wert;
+    override fun berechnePruefziffer(wert: T): T {
+        return wert
     }
 
 }
