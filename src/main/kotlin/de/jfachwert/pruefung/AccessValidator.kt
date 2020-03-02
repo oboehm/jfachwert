@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,24 +15,20 @@
  *
  * (c)reated 06.10.17 by oliver (ob@oasd.de)
  */
-package de.jfachwert.pruefung;
+package de.jfachwert.pruefung
 
-import de.jfachwert.pruefung.exception.InvalidValueException;
-import org.apache.commons.lang3.Range;
+import de.jfachwert.pruefung.exception.InvalidValueException
+import org.apache.commons.lang3.Range
 
 /**
  * Der AccessValidator ueberprueft den Zugriff auf Arrays, ob er gueltig ist
  * oder mit einem ungueltigen Index erfolgte. Ansonsten wird eine
- * {@link javax.validation.ValidationException} geworfen.
+ * [javax.validation.ValidationException] geworfen.
  *
- * @author <a href="ob@aosd.de">oliver</a>
+ * @author oliver (ob@aosd.de)
  * @since 0.5
  */
-public class AccessValidator {
-
-    /** Utility-Klasse - wird nicht instanziiert. */
-    private AccessValidator() {
-    }
+object AccessValidator {
 
     /**
      * Liefert das n-te Element des uebergebenen Arrays zurueck, falls ein
@@ -43,12 +39,13 @@ public class AccessValidator {
      * @param n     Array-Index, beginnend bei 0
      * @return n -te Element des Arrays
      */
-    public static <T> T access(T[] array, int n) {
-        int max = array.length - 1;
-        if ((n < 0) || (n > max)) {
-            throw new InvalidValueException(n, "n", Range.between(0, max));
+    @JvmStatic
+    fun <T> access(array: Array<T>, n: Int): T {
+        val max = array.size - 1
+        if (n < 0 || n > max) {
+            throw InvalidValueException(n, "n", Range.between(0, max))
         }
-        return array[n];
+        return array[n]
     }
 
 }
