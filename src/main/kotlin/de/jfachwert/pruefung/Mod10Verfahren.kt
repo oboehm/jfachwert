@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,54 +15,35 @@
  *
  * (c)reated 11.12.2018 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.pruefung;
+package de.jfachwert.pruefung
 
-import de.jfachwert.PruefzifferVerfahren;
-import org.apache.commons.lang3.StringUtils;
+import de.jfachwert.PruefzifferVerfahren
+import org.apache.commons.lang3.StringUtils
 
 /**
  * Das Modulo-10-Verfahren ist auch als Luhn-Alogorithmus oder Luhn-Formel
  * bekannt und ist eine einfache Methode zur Berechnung einer Pruefsumme.
  * Das Verfahren dient u.a. zur Verifizierung von:
- * <ul>
- * <li>Kreditkartennummern,</li>
- * <li>Sozialversicherungsnummern,</li>
- * <li>Nummern von Lokomotiven und Triebwagen.</li>
- * </ul>
- * <p>
+ *
+ *  * Kreditkartennummern,
+ *  * Sozialversicherungsnummern,
+ *  * Nummern von Lokomotiven und Triebwagen.
+ *
  * Die Pruefziffer ergibt sich aus der Pruefsumme modulo 10. Sie wird an
  * die bestehende Zahl angehaengt.
- * </p>
- * <p>
+ *
  * Die verschiedenen Modulo10-Verfahren, die es gibt, unterscheiden sich noch
  * in der Gewichtung der einzelnen Ziffern. Naeheres kann man unter
  * https://www.activebarcode.de/codes/checkdigit/modulo10.html nachlesen.
- * </p>
+ *
+ * Die Gewichtung gibt an, mit welcher Zahl die ungeraden und geraden
+ * Stellen mulitpliziert werden, bevor die Quersumme fuer die Preufung
+ * gebildet wird. Bei Barcodes wird hier z.B. die Werte 4 und 9 verwendet.
  *
  * @author oboehm
  * @since 1.1 (11.12.2018)
  */
-public class Mod10Verfahren implements PruefzifferVerfahren<String> {
-
-    private final int gewichtungUngerade;
-    private final int gewichtungGerade;
-
-    /** EAN13 mit Gewichtung 3. */
-    public static final Mod10Verfahren EAN13 = new Mod10Verfahren(1, 3);
-
-    /** Code25 wird mit der Gewichtung 3 und 1 berchnet. */
-    public static final Mod10Verfahren CODE25 = new Mod10Verfahren(3, 1);
-
-    /** Leitcode oder Identcode hat eine Gewichtung von 4 und 9. */
-    public static final Mod10Verfahren LEITCODE = new Mod10Verfahren(4, 9);
-
-    /**
-     * Bei dem Standard-Modulo10-Verfahren wird eine Gewichtung von 2
-     * verwendet.
-     */
-    public Mod10Verfahren() {
-        this(2);
-    }
+open class Mod10Verfahren(private val gewichtungUngerade: Int, private val gewichtungGerade: Int) : PruefzifferVerfahren<String> {
 
     /**
      * Die Gewichtung ist fuer die ungeraden Ziffern relevant. Sie werden
@@ -70,35 +51,21 @@ public class Mod10Verfahren implements PruefzifferVerfahren<String> {
      *
      * @param gewichtung typischerweise z.B. 3
      */
-    public Mod10Verfahren(int gewichtung) {
-        this(gewichtung, 1);
+    @JvmOverloads
+    constructor(gewichtung: Int = 2) : this(gewichtung, 1) {
     }
 
-    /**
-     * Die Gewichtung gibt an, mit welcher Zahl die ungeraden und geraden
-     * Stellen mulitpliziert werden, bevor die Quersumme fuer die Preufung
-     * gebildet wird. Bei Barcodes wird hier z.B. die Werte 4 und 9 verwendet.
-     *
-     * @param ungerade Gewichtung fuer ungerade Ziffern
-     * @param gerade   Gewichtung fuer gerade Ziffern
-     */
-    public Mod10Verfahren(int ungerade, int gerade) {
-        this.gewichtungUngerade = ungerade;
-        this.gewichtungGerade = gerade;
-    }
-    
     /**
      * Liefert true zurueck, wenn der uebergebene Wert gueltig ist.
      *
      * @param wert Fachwert oder gekapselter Wert
      * @return true oder false
      */
-    @Override
-    public boolean isValid(String wert) {
-        if (StringUtils.length(wert) < 1) {
-            return false;
+    override fun isValid(wert: String): Boolean {
+        return if (StringUtils.length(wert) < 1) {
+            false
         } else {
-            return getPruefziffer(wert).equals(berechnePruefziffer(wert.substring(0, wert.length() - 1)));
+            getPruefziffer(wert) == berechnePruefziffer(wert.substring(0, wert.length - 1))
         }
     }
 
@@ -109,9 +76,8 @@ public class Mod10Verfahren implements PruefzifferVerfahren<String> {
      * @param wert Fachwert oder gekapselter Wert
      * @return meist ein Wert zwischen 0 und 9
      */
-    @Override
-    public String getPruefziffer(String wert) {
-        return wert.substring(wert.length() - 1);
+    override fun getPruefziffer(wert: String): String {
+        return wert.substring(wert.length - 1)
     }
 
     /**
@@ -121,25 +87,43 @@ public class Mod10Verfahren implements PruefzifferVerfahren<String> {
      * @param wert Wert (ohne Pruefziffer)
      * @return errechnete Pruefziffer
      */
-    public String berechnePruefziffer(String wert) {
-        int sum = getQuersumme(wert);
-        return Integer.toString((10 - sum % 10) % 10);
+    override fun berechnePruefziffer(wert: String): String {
+        val sum = getQuersumme(wert)
+        return Integer.toString((10 - sum % 10) % 10)
     }
 
-    private int getQuersumme(String wert) {
-        char[] digits = wert.toCharArray();
-        int sum = 0;
-        int length = digits.length;
-        for (int i = 0; i < length; i++) {
-            int digit = Character.digit(digits[i], 10);
-            if (i % 2 == 0) {
-                digit *= this.gewichtungUngerade;
+    private fun getQuersumme(wert: String): Int {
+        val digits = wert.toCharArray()
+        var sum = 0
+        val length = digits.size
+        for (i in 0 until length) {
+            var digit = Character.digit(digits[i], 10)
+            digit *= if (i % 2 == 0) {
+                gewichtungUngerade
             } else {
-                digit *= this.gewichtungGerade;
+                gewichtungGerade
             }
-            sum += digit;
+            sum += digit
         }
-        return sum;
+        return sum
+    }
+
+
+
+    companion object {
+
+        /** EAN13 mit Gewichtung 3.  */
+        @JvmField
+        val EAN13 = Mod10Verfahren(1, 3)
+
+        /** Code25 wird mit der Gewichtung 3 und 1 berchnet.  */
+        @JvmField
+        val CODE25 = Mod10Verfahren(3, 1)
+        /** Leitcode oder Identcode hat eine Gewichtung von 4 und 9.  */
+
+        @JvmField
+        val LEITCODE = Mod10Verfahren(4, 9)
+
     }
 
 }
