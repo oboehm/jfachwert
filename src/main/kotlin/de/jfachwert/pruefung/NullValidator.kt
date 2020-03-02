@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,11 @@
  *
  * (c)reated 20.08.17 by oliver (ob@oasd.de)
  */
-package de.jfachwert.pruefung;
+package de.jfachwert.pruefung
 
-import de.jfachwert.SimpleValidator;
-import de.jfachwert.pruefung.exception.NullValueException;
-
-import java.io.Serializable;
+import de.jfachwert.SimpleValidator
+import de.jfachwert.pruefung.exception.NullValueException
+import java.io.Serializable
 
 /**
  * Der NullValidator verhindert, dass 'null' als valider Wert durchgereicht
@@ -29,22 +28,21 @@ import java.io.Serializable;
  *
  * @since 0.4
  */
-public class NullValidator<T extends Serializable> implements SimpleValidator<T> {
+class NullValidator<T : Serializable?> : SimpleValidator<T> {
 
     /**
      * Wenn der uebergebene Wert nicht null ist, wird er unveraendert
      * zurueckgegeben. Ansonsten wird eine
-     * {@link javax.validation.ValidationException} geworfen.
+     * [javax.validation.ValidationException] geworfen.
      *
      * @param value Wert, der validiert werden soll
      * @return Wert selber, wenn er nicht null ist
      */
-    @Override
-    public T validate(T value) {
+    override fun validate(value: T): T {
         if (value == null) {
-            throw new NullValueException();
+            throw NullValueException()
         }
-        return value;
+        return value
     }
 
 }
