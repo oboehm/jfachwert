@@ -206,8 +206,8 @@ open class Text
          * @since 2.1
          */
         @JvmStatic
-        fun replaceUmlaute(text: String?): String {
-            val zeichen = text!!.toCharArray()
+        fun replaceUmlaute(text: String): String {
+            val zeichen = text.toCharArray()
             val buffer = CharBuffer.allocate(zeichen.size * 2)
             for (c in zeichen) {
                 when (c) {
