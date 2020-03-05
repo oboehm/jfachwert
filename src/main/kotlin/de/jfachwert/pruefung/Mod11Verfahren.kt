@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,11 @@
  *
  * (c)reated 19.03.17 by oliver (ob@oasd.de)
  */
-package de.jfachwert.pruefung;
+package de.jfachwert.pruefung
 
-import de.jfachwert.PruefzifferVerfahren;
-import de.jfachwert.pruefung.exception.LocalizedValidationException;
-import de.jfachwert.pruefung.exception.PruefzifferException;
+import de.jfachwert.PruefzifferVerfahren
+import de.jfachwert.pruefung.exception.LocalizedValidationException
+import de.jfachwert.pruefung.exception.PruefzifferException
 
 /**
  * Das Modulo-11-Verfahren wird fuer die 11-stellige Steuer-Identifikationsnummer
@@ -27,16 +27,10 @@ import de.jfachwert.pruefung.exception.PruefzifferException;
  * "DIN ISO 7964, Mod 11, 10" beschreiben (s.a.
  * http://www.jura.uni-sb.de/BGBl/TEIL1/1993/19930736.1.HTML).
  *
- * @author <a href="ob@aosd.de">oliver</a>
+ * @author oliver (ob@aosd.de)
  * @since 0.1.0
  */
-public class Mod11Verfahren implements PruefzifferVerfahren<String> {
-
-    private final int anzahlStellen;
-
-    public Mod11Verfahren(int anzahlStellen) {
-        this.anzahlStellen = anzahlStellen;
-    }
+class Mod11Verfahren(private val anzahlStellen: Int) : PruefzifferVerfahren<String> {
 
     /**
      * Die letzte Ziffer ist die Pruefziffer, die hierueber abgefragt werden
@@ -45,75 +39,70 @@ public class Mod11Verfahren implements PruefzifferVerfahren<String> {
      * @param wert Fachwert oder gekapselter Wert
      * @return Wert zwischen 0 und 9
      */
-    public String getPruefziffer(String wert) {
-        return wert.substring(wert.length() - 1);
+    override fun getPruefziffer(wert: String): String {
+        return wert.substring(wert.length - 1)
     }
 
     /**
      * Diese Methode ist aber nur fuer die 11-stellige Steuer-Identifikationsnummer
      * (TIN) implementiert. Fuer andere Steuernummer kommt eine
-     * {@link IllegalArgumentException}.
+     * [IllegalArgumentException].
      *
      * @param wert Fachwert oder gekapselter Wert
      * @return the boolean
      */
-    @Override
-    public boolean isValid(String wert) {
-        int n = anzahlStellen + 1;
-        if (wert.length() != n) {
-            throw new IllegalArgumentException("Nummer '" + wert + "' ist nicht " + n + " Zeichen lang");
-        }
-        String pruefziffer = getPruefziffer(wert);
-        return pruefziffer.equals(berechnePruefziffer(wert.substring(0, wert.length() - 1)));
+    override fun isValid(wert: String): Boolean {
+        val n = anzahlStellen + 1
+        require(wert.length == n) { "Nummer '$wert' ist nicht $n Zeichen lang" }
+        val pruefziffer = getPruefziffer(wert)
+        return pruefziffer == berechnePruefziffer(wert.substring(0, wert.length - 1))
     }
 
     /**
      * Berechnet die Pruefziffer des uebergebenen Wertes.
      * Die Berechung stammt aus Wikipedia und wurde nach Java uebersetzt
      * (s. https://de.wikipedia.org/wiki/Steuer-Identifikationsnummer).
-     * <p>
+     *
      * Der Ausgangswert fuer die Berechnung kann mit oder ohne Pruefziffer
      * uebergeben werden. Es werden nur die ersten 10 Ziffern zur Ermittlung
      * der Pruefziffer herangezogen.
-     * </p>
      *
      * @param wert Wert (mit oder ohne Pruefziffer)
      * @return errechnete Pruefziffer
      */
-    public String berechnePruefziffer(String wert) {
-        char[] ziffernfolge = wert.toCharArray();
-        int produkt = 10;
-        for (int stelle = 1; stelle <= this.anzahlStellen; stelle++) {
-            int summe = (Character.getNumericValue(ziffernfolge[stelle-1]) + produkt) % 10;
+    override fun berechnePruefziffer(wert: String): String {
+        val ziffernfolge = wert.toCharArray()
+        var produkt = 10
+        for (stelle in 1..anzahlStellen) {
+            var summe = (Character.getNumericValue(ziffernfolge[stelle - 1]) + produkt) % 10
             if (summe == 0) {
-                summe = 10;
+                summe = 10
             }
-            produkt = (summe * 2) % 11;
+            produkt = summe * 2 % 11
         }
-        int pruefziffer = 11 - produkt;
+        var pruefziffer = 11 - produkt
         if (pruefziffer == 10) {
-            pruefziffer = 0;
+            pruefziffer = 0
         }
-        return Integer.toString(pruefziffer);
+        return Integer.toString(pruefziffer)
     }
 
     /**
      * Validiert den uebergebenen Wert. Falls dieser nicht stimmt, wird eine
-     * {@link javax.validation.ValidationException} geworfen, auch bei Werten,
+     * [javax.validation.ValidationException] geworfen, auch bei Werten,
      * die zu kurz oder zu lang sind.
      *
      * @param wert zu ueberpruefender Wert
      * @return den ueberprueften Wert (zur Weiterverarbeitung)
      */
-    @Override
-    public String validate(String wert) {
-        try {
+    override fun validate(wert: String): String {
+        return try {
             if (!isValid(wert)) {
-                throw new PruefzifferException(wert, berechnePruefziffer(wert), getPruefziffer(wert));
+                throw PruefzifferException(wert, berechnePruefziffer(wert), getPruefziffer(wert))
             }
-            return wert;
-        } catch (IllegalArgumentException ex) {
-            throw new LocalizedValidationException(ex.getMessage(), ex);
+            wert
+        } catch (ex: IllegalArgumentException) {
+            throw LocalizedValidationException(ex.message, ex)
         }
     }
 
