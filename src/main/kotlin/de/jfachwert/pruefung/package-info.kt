@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +15,17 @@
  *
  * (c)reated 22.03.2017 by oboehm (ob@jfachwert.de)
  */
-
 /**
  * In diesem Package sind die verschiedenen Pruefziffernverfahren versammelt,
- * die das Interface {@link de.jfachwert.PruefzifferVerfahren} implementieren.
+ * die das Interface [de.jfachwert.PruefzifferVerfahren] implementieren.
  * Meist basieren diese Pruefziffernverfahren auf dem Modulo-Operator,
  * dementsprechend heissen die Klassen dazu z.B.
- * {@link de.jfachwert.pruefung.Mod11Verfahren}.
- * <p>
+ * [de.jfachwert.pruefung.Mod11Verfahren].
+ *
  * Anmerkung: da Modulo11 leicht mit Modul011 verwechselt werden kann, wurde
  * statt "Modulo" nur "Mod" als Prefix genommen.
- * </p>
  *
  * @author oboehm
  * @since 0.1.0
  */
-package de.jfachwert.pruefung;
+package de.jfachwert.pruefung

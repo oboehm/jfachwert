@@ -155,7 +155,7 @@ open class IBAN
     }
 
     companion object {
-        private val MOD97 = Mod97Verfahren.getInstance()
+        private val MOD97 = Mod97Verfahren.instance
         private val WEAK_CACHE = WeakHashMap<String, IBAN>()
         private val VALIDATOR: SimpleValidator<String> = Validator()
         /** Konstante fuer unbekannte IBAN (aus Wikipedia, aber mit korrigierter Pruefziffer).  */
