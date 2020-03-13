@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,10 @@
  *
  * (c)reated 21.02.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.pruefung.exception;
+package de.jfachwert.pruefung.exception
 
-import javax.validation.ValidationException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.io.Serializable
+import java.util.*
 
 /**
  * Die Klasse InvalidLengthException ist fuer die Laengen-Validierung
@@ -32,24 +28,21 @@ import java.util.List;
  * @author oboehm
  * @since 0.2 (20.04.2017)
  */
-public class InvalidLengthException extends LocalizedValidationException {
+class InvalidLengthException : LocalizedValidationException {
 
-    private final Serializable[] arguments;
-    private final int min;
-    private final int max;
-    private final List<Integer> allowedLengths = new ArrayList<>();
+    private val arguments: Array<Serializable?>
+    private val min: Int
+    private val max: Int
+    private val allowedLengths: MutableList<Int> = ArrayList()
 
     /**
-     * Erzeugt eine {@link ValidationException} mit der Wertebereich-Verletzung
-     * des uebergebenen Arguments. The errorCode and linkedException will
-     * default to null.
+     * Erzeugt eine [LocalizedValidationException] mit der Wertebereich-Verletzung
+     * des uebergebenen Arguments.
      *
      * @param argument das fehlerhafte Argument
      * @param expected erwartete Laenge
      */
-    public InvalidLengthException(String argument, int expected) {
-        this(argument, Collections.singletonList(expected));
-    }
+    constructor(argument: String, expected: Int) : this(argument, listOf<Int>(expected)) {}
 
     /**
      * Dieser Constructor kann bei Arrays mit falscher Groesse eingesetzt
@@ -58,75 +51,75 @@ public class InvalidLengthException extends LocalizedValidationException {
      * @param array fehlerhaftes Array
      * @param expected erwartete Array-Groesse
      */
-    public InvalidLengthException(byte[] array, int expected) {
-        super("array=" + Arrays.toString(array) + " has not length " + expected + " (but " + array.length + ")");
-        this.min = expected;
-        this.max = expected;
-        this.arguments = new Serializable[array.length];
-        for (int i = 0; i < array.length; i++) {
-            this.arguments[i] = array[i];
+    constructor(array: ByteArray, expected: Int) : super("array=" + Arrays.toString(array) + " has not length " + expected + " (but " + array.size + ")") {
+        min = expected
+        max = expected
+        arguments = arrayOfNulls(array.size)
+        for (i in array.indices) {
+            arguments[i] = array[i]
         }
     }
 
     /**
-     * Erzeugt eine {@link ValidationException} mit der Wertebereich-Verletzung
-     * des uebergebenen Arguments. The errorCode and linkedException will
-     * default to null.
+     * Erzeugt eine [LocalizedValidationException] mit der Wertebereich-Verletzung
+     * des uebergebenen Arguments.
      *
      * @param argument das fehlerhafte Argument
      * @param min      erwartete Mindest-Laenge
      * @param max      erwartete Maximal-Laenge
      */
-    public InvalidLengthException(String argument, int min, int max) {
-        super("'" + argument + "': length (" + argument.length() + ") is not between " + min + " and " + max);
-        this.min = min;
-        this.max = max;
-        this.arguments = asArray(argument);
+    constructor(argument: String, min: Int, max: Int) : super("'" + argument + "': length (" + argument.length + ") is not between " + min + " and " + max) {
+        this.min = min
+        this.max = max
+        arguments = asArray(argument)
     }
 
     /**
-     * Erzeugt eine {@link ValidationException} mit der Wertebereich-Verletzung
-     * des uebergebenen Arguments. The errorCode and linkedException will
-     * default to null.
+     * Erzeugt eine [LocalizedValidationException] mit der Wertebereich-Verletzung
+     * des uebergebenen Arguments.
      *
      * @param argument das fehlerhafte Argument
      * @param allowedLengths erlaubten Laengen
      */
-    public InvalidLengthException(String argument, List<Integer> allowedLengths) {
-        super("'" + argument + "': " + argument.length() + " is not in allowed lengths " + allowedLengths);
-        this.min = 0;
-        this.max = 0;
-        this.arguments = asArray(argument);
-        this.allowedLengths.addAll(allowedLengths);
-    }
-
-    private static Serializable[] asArray(String s) {
-        Serializable[] a = new Serializable[1];
-        a[0] = s;
-        return a;
+    constructor(argument: String, allowedLengths: List<Int>) : super("'" + argument + "': " + argument.length + " is not in allowed lengths " + allowedLengths) {
+        min = 0
+        max = 0
+        arguments = asArray(argument)
+        this.allowedLengths.addAll(allowedLengths)
     }
 
     /**
-     * Im Gegensatz {@code getMessage()} wird hier die Beschreibung auf deutsch
+     * Im Gegensatz `getMessage()` wird hier die Beschreibung auf deutsch
      * zurueckgegeben, wenn die Loacale auf Deutsch steht.
      *
      * @return lokalisierte Beschreibung
      */
-    @Override
-    public String getLocalizedMessage() {
-        String arg = arguments[0].toString();
-        if (this.allowedLengths.isEmpty()) {
+    override fun getLocalizedMessage(): String {
+        val arg = arguments[0].toString()
+        return if (allowedLengths.isEmpty()) {
             if (min < max) {
-                return this.getLocalizedMessage("pruefung.illegallength.exception.message.range", arg, arg
-                        .length(), min, max);
+                this.getLocalizedMessage("pruefung.illegallength.exception.message.range", arg, arg
+                        .length, min, max)
             } else {
-                return this.getLocalizedMessage("pruefung.illegallength.exception.message.array",
-                        Arrays.toString(arguments), arguments.length, min);
+                this.getLocalizedMessage("pruefung.illegallength.exception.message.array",
+                        Arrays.toString(arguments), arguments.size, min)
             }
         } else {
-            return this.getLocalizedMessage("pruefung.illegallength.exception.message.values",
-                        arg, arg.length(), allowedLengths);
+            this.getLocalizedMessage("pruefung.illegallength.exception.message.values",
+                    arg, arg.length, allowedLengths)
         }
+    }
+
+
+
+    companion object {
+
+        private fun asArray(s: String): Array<Serializable?> {
+            val a = arrayOfNulls<Serializable>(1)
+            a[0] = s
+            return a
+        }
+
     }
 
 }
