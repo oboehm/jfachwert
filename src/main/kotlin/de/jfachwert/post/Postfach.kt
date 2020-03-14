@@ -85,7 +85,7 @@ open class Postfach : Fachwert {
      * @param nummer z.B. "12 34 56"
      * @param ort Ort mit Postleitzahl
      */
-    constructor(nummer: String?, ort: String?) : this(toNumber(nummer), Ort(ort!!)) {}
+    constructor(nummer: String, ort: String) : this(toNumber(nummer), Ort(ort)) {}
 
     /**
      * Erzeugt ein neues Postfach.
@@ -94,7 +94,7 @@ open class Postfach : Fachwert {
      * "nummer".
      */
     @JsonCreator
-    constructor(map: Map<String?, String?>) : this(toNumber(map["nummer"]), Ort(PLZ.of(map["plz"]!!), map["ortsname"]!!)) {
+    constructor(map: Map<String, String>) : this(toNumber(map["nummer"]!!), Ort(PLZ.of(map["plz"]!!), map["ortsname"]!!)) {
     }
 
     /**
@@ -311,7 +311,7 @@ open class Postfach : Fachwert {
             return splitted
         }
 
-        private fun toNumber(number: String?): Optional<BigInteger> {
+        private fun toNumber(number: String): Optional<BigInteger> {
             if (StringUtils.isBlank(number)) {
                 return Optional.empty()
             }

@@ -87,7 +87,7 @@ open class Kontonummer
          * @param kontonr die Kontonummer
          * @return die validierte Kontonummer zur Weiterverabeitung
          */
-        fun validate(kontonr: String?): String {
+        fun validate(kontonr: String): String {
             val normalized = StringUtils.trimToEmpty(kontonr)
             try {
                 validate(java.lang.Long.valueOf(normalized))
@@ -128,7 +128,7 @@ open class Kontonummer
          * @param kontonr die Kontonummer
          * @return die validierte Kontonummer zur Weiterverabeitung
          */
-        fun validate(kontonr: String?): String {
+        fun validate(kontonr: String): String {
             return VALIDATOR.validate(kontonr)
         }
 
