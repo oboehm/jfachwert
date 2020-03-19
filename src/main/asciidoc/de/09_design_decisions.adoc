@@ -167,3 +167,11 @@ Ansonsten muss die Währung übereinstimmen.
 
 Dies gilt auch für die Implementierung der equals-Methode:
 zwei 0-Beträge werden als gleich angesehen, auch wenn sie unterschiedliche Währungseinheiten besitzen.
+
+
+=== Kompatiblität der Kotlin-Portierung (v4)
+
+Wegen https://youtrack.jetbrains.com/issue/KT-6653[KT-6653] ist das Kotlin Interface _ILocalizedException_ nicht identisch zur Java-Variante _LocalizedException_.
+Da dieses Interface aber nur für den internen Gebrauch gedacht ist, wurde diese Inkompatibilität in Kauf genommen.
+
+Ansosten wird die Kompatilität zur Java Version (v3) dadurch sichergestellt, das die Unit-Tests in Java verbleiben und auch in Java weiterentwickelt werden.

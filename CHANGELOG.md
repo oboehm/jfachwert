@@ -12,7 +12,10 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Zinssatz-Klasse im bank-Paket
 
 ### Changed
-- Beginn Umstellung auf Kotlin
+- Beginn Umstellung auf Kotlin.
+- **Achtung:** ILocalizedException ist nicht kompatible mit der alten Java-Version (LocalizedException).
+  Grund dafür ist [KT-6653](https://youtrack.jetbrains.com/issue/KT-6653).
+
 
 ## [3.0] - 2019-10-09
 ### Added
