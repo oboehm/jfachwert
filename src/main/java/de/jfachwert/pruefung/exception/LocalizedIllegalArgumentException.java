@@ -59,7 +59,7 @@ public class LocalizedIllegalArgumentException extends IllegalArgumentException 
      * @param context Resource des fehlerhaften Wertes (z.B. "email_address")
      * @param range   untere und obere Schranke
      */
-    public LocalizedIllegalArgumentException(Serializable value, String context, Range<? extends Comparable> range) {
+    public LocalizedIllegalArgumentException(Serializable value, String context, Range<? extends Comparable<?>> range) {
         this(value, context, new InvalidValueException(value, context, range));
     }
 
