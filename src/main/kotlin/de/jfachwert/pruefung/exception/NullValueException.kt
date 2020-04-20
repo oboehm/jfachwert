@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  *
  * (c)reated 17.01.2018 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.pruefung.exception;
+package de.jfachwert.pruefung.exception
 
 /**
  * Die NullValueException kommt dann zum Einsatz, wenn ein Null-Wert uebergeben
@@ -24,13 +24,4 @@ package de.jfachwert.pruefung.exception;
  * @author oboehm
  * @since 0.5 (17.01.2018)
  */
-public class NullValueException extends LocalizedValidationException {
-
-    /**
-     * Default Konstruktor.
-     */
-    public NullValueException() {
-        super("null values not allowed");
-    }
-
-}
+class NullValueException : LocalizedValidationException("null values not allowed")

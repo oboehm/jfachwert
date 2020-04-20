@@ -82,7 +82,7 @@ class InvalidValueException : LocalizedValidationException {
     }
 
     /**
-     * Im Gegensatz `getMessage()` wird hier die Beschreibung auf deutsch
+     * Im Gegensatz zu `getMessage()` wird hier die Beschreibung auf deutsch
      * zurueckgegeben, wenn die Locale auf Deutsch steht.
      *
      * @return lokalisierte Beschreibung
