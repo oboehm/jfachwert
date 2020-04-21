@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2018 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,10 @@
  *
  * (c)reated 22.03.2017 by oboehm (ob@jfachwert.de)
  */
-package de.jfachwert.pruefung.exception;
+package de.jfachwert.pruefung.exception
 
-import de.jfachwert.PruefzifferVerfahren;
-
-import java.io.Serializable;
+import de.jfachwert.PruefzifferVerfahren
+import java.io.Serializable
 
 /**
  * Die PruefzifferException gibt neben dem Wert auch die fehlerhafte
@@ -28,47 +27,33 @@ import java.io.Serializable;
  * @author oboehm
  * @since 0.1.0
  */
-public class PruefzifferException extends LocalizedValidationException {
-
-    private final Serializable wert;
-    private final Serializable expected;
-    private final Serializable pruefziffer;
+class PruefzifferException(wert: Serializable, expected: Serializable, pruefziffer: Serializable) : LocalizedValidationException(wert.toString() + ": Pruefziffer=" + expected + " expected but got '" + pruefziffer + "'") {
+    private val wert: Serializable
+    private val expected: Serializable
+    private val pruefziffer: Serializable
 
     /**
      * Gibt neben dem Wert auch die erwartete Pruefziffer mit aus.
      *
-     * @param <T>       Typ-Parameter
      * @param wert      fehlerhafter Wert
      * @param verfahren Verfahren zur Bestimmung der Pruefziffer
      */
-    public <T extends Serializable> PruefzifferException(T wert, PruefzifferVerfahren<T> verfahren) {
-        this(wert, verfahren.berechnePruefziffer(wert), verfahren.getPruefziffer(wert));
-    }
+    constructor(wert: Serializable, verfahren: PruefzifferVerfahren<Serializable>) : this(wert, verfahren.berechnePruefziffer(wert), verfahren.getPruefziffer(wert)) {}
 
     /**
-     * Gibt neben dem Wert auch die erwartete Pruefziffer mit aus.
-     *
-     * @param <T>         Typ-Parameter
-     * @param wert        Wert
-     * @param expected    erwartete Pruefziffer
-     * @param pruefziffer tatsaechliche Pruefziffer
-     */
-    public <T extends Serializable> PruefzifferException(T wert, T expected, T pruefziffer) {
-        super(wert + ": Pruefziffer=" + expected + " expected but got '" + pruefziffer + "'");
-        this.wert = wert;
-        this.expected = expected;
-        this.pruefziffer = pruefziffer;
-    }
-
-    /**
-     * Im Gegensatz {@code getMessage()} wird hier die Beschreibung auf deutsch
-     * zurueckgegeben, wenn die Loacale auf Deutsch steht.
+     * Im Gegensatz zu `getMessage()` wird hier die Beschreibung auf deutsch
+     * zurueckgegeben, wenn die Locale auf Deutsch steht.
      *
      * @return lokalisierte Beschreibung
      */
-    @Override
-    public String getLocalizedMessage() {
-        return this.getLocalizedMessage("pruefung.pruefziffer.exception.message", wert, expected, pruefziffer);
+    override fun getLocalizedMessage(): String {
+        return this.getLocalizedMessage("pruefung.pruefziffer.exception.message", wert, expected, pruefziffer)
+    }
+
+    init {
+        this.wert = wert
+        this.expected = expected
+        this.pruefziffer = pruefziffer
     }
 
 }
