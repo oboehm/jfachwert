@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,11 @@
  *
  * (c)reated 21.02.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.pruefung.exception;
+package de.jfachwert.pruefung.exception
 
-import org.apache.commons.lang3.Range;
-
-import java.io.Serializable;
-import java.util.Arrays;
+import org.apache.commons.lang3.Range
+import java.io.Serializable
+import java.util.*
 
 /**
  * Die InvalidValueException ist eine Exception fuer ungueltige Werte.
@@ -28,28 +27,14 @@ import java.util.Arrays;
  * @author oboehm
  * @since 0.2.0 (26.04.2017)
  */
-public class LocalizedIllegalArgumentException extends IllegalArgumentException implements LocalizedException {
-
-    private final Throwable valueException;
+class LocalizedIllegalArgumentException(message: String?, private val valueException: Throwable) : IllegalArgumentException(message, valueException), ILocalizedException {
 
     /**
-     * Erzeugt eine {@link LocalizedIllegalArgumentException}.
+     * Erzeugt eine [LocalizedIllegalArgumentException].
      *
      * @param message Fehlermeldung
      */
-    public LocalizedIllegalArgumentException(String message) {
-        this(null, message);
-    }
-
-    /**
-     * Erzeugt eine neue Exception fuer einen fehlerhaften Wert.
-     *
-     * @param value der fehlerhafte Wert
-     * @param context Resource des fehlerhaften Wertes (z.B. "email_address")
-     */
-    public LocalizedIllegalArgumentException(Serializable value, String context) {
-        this(value, context, new InvalidValueException(value, context));
-    }
+    constructor(message: String) : this(null, message) {}
 
     /**
      * Erzeugt eine neue Exception fuer einen fehlerhaften Wert, der nicht
@@ -59,9 +44,7 @@ public class LocalizedIllegalArgumentException extends IllegalArgumentException 
      * @param context Resource des fehlerhaften Wertes (z.B. "email_address")
      * @param range   untere und obere Schranke
      */
-    public LocalizedIllegalArgumentException(Serializable value, String context, Range<? extends Comparable<?>> range) {
-        this(value, context, new InvalidValueException(value, context, range));
-    }
+    constructor(value: Serializable?, context: String, range: Range<out Comparable<*>?>?) : this(value, context, InvalidValueException(value!!, context, range!!)) {}
 
     /**
      * Erzeugt eine neue Exception fuer einen fehlerhaften Wert.
@@ -70,8 +53,8 @@ public class LocalizedIllegalArgumentException extends IllegalArgumentException 
      * @param context Resource des fehlerhaften Wertes (z.B. "email_address")
      * @param cause Ursache
      */
-    public LocalizedIllegalArgumentException(Serializable value, String context, Throwable cause) {
-        this("illegal value for " + context.replace('_', ' ') + ": \"" + value + '"', cause);
+    @JvmOverloads
+    constructor(value: Serializable?, context: String, cause: Throwable = InvalidValueException(value!!, context)) : this("illegal value for " + context.replace('_', ' ') + ": \"" + value + '"', cause) {
     }
 
     /**
@@ -81,9 +64,8 @@ public class LocalizedIllegalArgumentException extends IllegalArgumentException 
      * @param array fehlerhaftes Array
      * @param expected erwartete Array-Groesse
      */
-    public LocalizedIllegalArgumentException(byte[] array, int expected) {
-        this("array=" + Arrays.toString(array) + " has not length " + expected + " (but " + array.length + ")",
-                new InvalidLengthException(array, expected));
+    constructor(array: ByteArray, expected: Int) : this("array=" + Arrays.toString(array) + " has not length " + expected + " (but " + array.size + ")",
+            InvalidLengthException(array, expected)) {
     }
 
     /**
@@ -91,29 +73,15 @@ public class LocalizedIllegalArgumentException extends IllegalArgumentException 
      *
      * @param cause eigentliche Ursache
      */
-    public LocalizedIllegalArgumentException(Throwable cause) {
-        this(cause.getMessage(), cause);
-    }
-
-    /**
-     * Erzeugt eine neue Exception fuer einen fehlerhaften Wert.
-     *
-     * @param message Meldung
-     * @param cause eigentliche Ursache
-     */
-    public LocalizedIllegalArgumentException(String message, Throwable cause) {
-        super(message, cause);
-        this.valueException = cause;
-    }
+    constructor(cause: Throwable) : this(cause.message, cause) {}
 
     /**
      * Erzeugt eine lokalisiserte Fehlermeldung fuer diese Exception.
      *
      * @return lokalisierte Fehlermeldung
      */
-    @Override
-    public String getLocalizedMessage() {
-        return valueException.getLocalizedMessage();
+    override fun getLocalizedMessage(): String {
+        return valueException.localizedMessage
     }
 
 }
