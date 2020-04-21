@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,40 +15,31 @@
  *
  * (c)reated 20.08.2018 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.pruefung.exception;
+package de.jfachwert.pruefung.exception
 
-import java.io.Serializable;
+import java.io.Serializable
 
 /**
  * Die LocalizedArithmeticException ist eine Unterklasse der
- * {@link ArithmeticException} mit lokalisierter Fehlermeldung.
+ * [ArithmeticException] mit lokalisierter Fehlermeldung.
  *
  * @author oboehm
  * @since 1.0 (20.08.2018)
  */
-public class LocalizedArithmeticException extends ArithmeticException implements LocalizedException {
-    
-    private final InvalidValueException valueException;
-
-    /**
-     * Erzeugt eine neue Exception fuer einen fehlerhaften Wert.
-     *
-     * @param value der fehlerhafte Wert
-     * @param context Resource des fehlerhaften Wertes (z.B. "email_address")
-     */
-    public LocalizedArithmeticException(Serializable value, String context) {
-        super("invalid value for " + context.replace('_', ' ') + ": \"" + value + '"');
-        this.valueException = new InvalidValueException(value, context);
-    }
+class LocalizedArithmeticException(value: Serializable, context: String) : ArithmeticException("invalid value for " + context.replace('_', ' ') + ": \"" + value + '"'), ILocalizedException {
+    private val valueException: InvalidValueException
 
     /**
      * Erzeugt eine lokalisiserte Fehlermeldung fuer diese Exception.
      *
      * @return lokalisierte Fehlermeldung
      */
-    @Override
-    public String getLocalizedMessage() {
-        return valueException.getLocalizedMessage();
+    override fun getLocalizedMessage(): String {
+        return valueException.localizedMessage
+    }
+
+    init {
+        valueException = InvalidValueException(value, context)
     }
 
 }
