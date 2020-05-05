@@ -185,7 +185,7 @@ open class IBAN
          * @param iban die 22-stellige IBAN
          * @return die IBAN in normalisierter Form (ohne Leerzeichen)
          */
-        fun validate(iban: String?): String? {
+        fun validate(iban: String): String {
             return VALIDATOR.validate(iban)
         }
     }

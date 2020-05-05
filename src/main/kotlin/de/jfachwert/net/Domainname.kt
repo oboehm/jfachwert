@@ -132,7 +132,7 @@ open class Domainname
          * @param name Domain-Name
          * @return validierter Domain-Name zur Weiterverarbeitung
          */
-        fun validate(name: String?): String? {
+        fun validate(name: String): String {
             return VALIDATOR.validate(name)
         }
 

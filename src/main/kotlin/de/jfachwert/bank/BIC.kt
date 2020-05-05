@@ -99,7 +99,7 @@ open class BIC
          * @param bic die BIC (11- oder 14-stellig)
          * @return die validierte BIC (zur Weiterverarbeitung)
          */
-        fun validate(bic: String?): String? {
+        fun validate(bic: String): String {
             return VALIDATOR.validate(bic)
         }
     }
