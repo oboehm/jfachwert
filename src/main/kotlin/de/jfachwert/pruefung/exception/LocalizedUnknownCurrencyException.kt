@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 by Oliver Boehm
+ * Copyright (c) 2019, 2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,10 @@
  *
  * (c)reated 10.08.2019 by oboehm (ob@jfachwert.de)
  */
-package de.jfachwert.pruefung.exception;
+package de.jfachwert.pruefung.exception
 
-import org.apache.commons.lang3.StringUtils;
-
-import javax.money.UnknownCurrencyException;
+import org.apache.commons.lang3.StringUtils
+import javax.money.UnknownCurrencyException
 
 /**
  * Klasse LocalizedUnknownCurrencyException.
@@ -27,16 +26,14 @@ import javax.money.UnknownCurrencyException;
  * @author oboehm
  * @since 10.08.2019
  */
-public class LocalizedUnknownCurrencyException extends UnknownCurrencyException implements LocalizedException {
+class LocalizedUnknownCurrencyException : UnknownCurrencyException, ILocalizedException {
 
     /**
      * Kreiert eine Exception fuer eine unbekannte Waehrung.
      *
      * @param currency unbekannte Waehrung
      */
-    public LocalizedUnknownCurrencyException(String currency) {
-        super(currency);
-    }
+    constructor(currency: String) : super(currency) {}
 
     /**
      * Kreiert eine Exception fuer eine unbekannte Waehrung.
@@ -44,21 +41,19 @@ public class LocalizedUnknownCurrencyException extends UnknownCurrencyException 
      * @param currency unbekannte Waehrung
      * @param cause    Ursache fuer die Exception
      */
-    public LocalizedUnknownCurrencyException(String currency, Throwable cause) {
-        super(currency);
-        super.initCause(cause);
+    constructor(currency: String, cause: Throwable) : super(currency) {
+        super.initCause(cause)
     }
 
     /**
-     * Im Gegensatz {@code getMessage()} wird hier die Beschreibung auf deutsch
+     * Im Gegensatz `getMessage()` wird hier die Beschreibung auf deutsch
      * zurueckgegeben, wenn die Locale auf Deutsch steht.
      *
      * @return lokalisierte Beschreibung
      */
-    @Override
-    public String getLocalizedMessage() {
-        String code = StringUtils.substringAfter(super.getMessage(), ":");
-        return getLocalizedString("unknown_currency_code") + ":" + code;
+    override fun getLocalizedMessage(): String {
+        val code = StringUtils.substringAfter(super.message, ":")
+        return getLocalizedString("unknown_currency_code") + ":" + code
     }
 
 }
