@@ -1,61 +1,43 @@
-package de.jfachwert.pruefung.exception;
+/*
+ * Copyright (c) 2018-2020 by Oliver Boehm
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * (c)reated 12.10.2018 by oboehm (ob@oasd.de)
+ */
+package de.jfachwert.pruefung.exception
 
-import javax.money.format.MonetaryParseException;
+import javax.money.format.MonetaryParseException
 
 /**
  * Die LocalizedMonetaryParseException ist fuer Fehler beim Parsen von
  * Geldbetraegen gedacht.
  *
- * @author <a href="ob@aosd.de">oliver</a>
+ * @author ob@aosd.de
  * @since 1.0.1 (12.10.18)
  */
-@SuppressWarnings("squid:MaximumInheritanceDepth")
-public class LocalizedMonetaryParseException extends MonetaryParseException implements LocalizedException {
-
-    private final Throwable cause;
+class LocalizedMonetaryParseException(parsedData: CharSequence, @get:Synchronized override val cause: Throwable) :
+        MonetaryParseException(parsedData.toString(), parsedData, 0), ILocalizedException {
 
     /**
-     * Erzeuge eine LocalizedMonetaryParseException.
-     *
-     * @param parsedData Text mit Geldbetrag
-     * @param cause Ursache fuer den Parse-Fehler
-     */
-    public LocalizedMonetaryParseException(CharSequence parsedData, Throwable cause) {
-        super(parsedData, 0);
-        this.cause = cause;
-    }
-
-    /**
-     * Liefert die Ursache fuer die Exception.
-     *
-     * @return Ursache, moeglicherweise auch {@code null}
-     */
-    @Override
-    public synchronized Throwable getCause() {
-        return cause;
-    }
-
-    /**
-     * Um eine aussagekraeftige Meldung zu bekommen, reichen wir das Ganze
-     * noch um den Input-String an.
-     *
-     * @return detaillierte Meldung
-     */
-    @Override
-    public String getMessage() {
-        return getLocalizedMessage();
-    }
-
-    /**
-     * Im Gegensatz {@code getMessage()} wird hier die Beschreibung auf deutsch
+     * Im Gegensatz `getMessage()` wird hier die Beschreibung auf deutsch
      * zurueckgegeben, wenn die Locale auf Deutsch steht.
      *
      * @return lokalisierte Beschreibung
      */
-    @Override
-    public String getLocalizedMessage() {
+    override fun getLocalizedMessage(): String {
         return getLocalizedString(
-                getLocalizedString("is_no_monetary_amount") + ": '" + getInput() + "' (" + super.getMessage() + ")");
+                getLocalizedString("is_no_monetary_amount") + ": '" + input + "' (" + super.message + ")")
     }
 
 }
