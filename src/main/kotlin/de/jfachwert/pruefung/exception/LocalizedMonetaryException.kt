@@ -28,7 +28,7 @@ import javax.money.MonetaryException
  * @author oboehm
  * @since 1.0 (19.07.2018)
  */
-class LocalizedMonetaryException : MonetaryException, ILocalizedException {
+class LocalizedMonetaryException : MonetaryException, LocalizedException {
     private val amounts: MutableList<Any> = ArrayList()
     private var msg: String
 

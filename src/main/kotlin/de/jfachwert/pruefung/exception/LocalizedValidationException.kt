@@ -28,7 +28,7 @@ import javax.validation.ValidationException
  * @author oboehm
  * @since 0.2 (15.05.2017)
  */
-open class LocalizedValidationException : ValidationException, ILocalizedException {
+open class LocalizedValidationException : ValidationException, LocalizedException {
 
     /**
      * Erzeugt eine [LocalizedValidationException].

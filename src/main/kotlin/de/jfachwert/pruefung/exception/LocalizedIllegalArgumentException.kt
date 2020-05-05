@@ -27,7 +27,7 @@ import java.util.*
  * @author oboehm
  * @since 0.2.0 (26.04.2017)
  */
-class LocalizedIllegalArgumentException(message: String?, private val valueException: Throwable) : IllegalArgumentException(message, valueException), ILocalizedException {
+class LocalizedIllegalArgumentException(message: String?, private val valueException: Throwable) : IllegalArgumentException(message, valueException), LocalizedException {
 
     /**
      * Erzeugt eine [LocalizedIllegalArgumentException].

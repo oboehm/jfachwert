@@ -27,7 +27,7 @@ import javax.money.format.MonetaryParseException
  * @since 1.0.1 (12.10.18)
  */
 class LocalizedMonetaryParseException(parsedData: CharSequence, @get:Synchronized override val cause: Throwable) :
-        MonetaryParseException(parsedData.toString(), parsedData, 0), ILocalizedException {
+        MonetaryParseException(parsedData.toString(), parsedData, 0), LocalizedException {
 
     /**
      * Im Gegensatz `getMessage()` wird hier die Beschreibung auf deutsch

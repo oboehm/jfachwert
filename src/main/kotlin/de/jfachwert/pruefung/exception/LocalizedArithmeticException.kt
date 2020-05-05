@@ -26,7 +26,7 @@ import java.io.Serializable
  * @author oboehm
  * @since 1.0 (20.08.2018)
  */
-class LocalizedArithmeticException(value: Serializable, context: String) : ArithmeticException("invalid value for " + context.replace('_', ' ') + ": \"" + value + '"'), ILocalizedException {
+class LocalizedArithmeticException(value: Serializable, context: String) : ArithmeticException("invalid value for " + context.replace('_', ' ') + ": \"" + value + '"'), LocalizedException {
     private val valueException: InvalidValueException
 
     /**

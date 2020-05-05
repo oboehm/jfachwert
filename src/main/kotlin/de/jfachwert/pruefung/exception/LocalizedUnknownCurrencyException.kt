@@ -26,7 +26,7 @@ import javax.money.UnknownCurrencyException
  * @author oboehm
  * @since 10.08.2019
  */
-class LocalizedUnknownCurrencyException : UnknownCurrencyException, ILocalizedException {
+class LocalizedUnknownCurrencyException : UnknownCurrencyException, LocalizedException {
 
     /**
      * Kreiert eine Exception fuer eine unbekannte Waehrung.

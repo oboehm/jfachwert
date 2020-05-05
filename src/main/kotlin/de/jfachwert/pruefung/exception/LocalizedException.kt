@@ -26,15 +26,19 @@ import java.util.*
  * zusammengefasst. Eine gemeinsame Oberklasse war leider nicht möglich, weil
  * die betroffenen Exceptions bereits von anderen Exceptions abgeleitet sind.
  *
- * Diese Kotlin-Interface ist identisch mit dem Java-Interface [LocalizedException].
- * Wegen https://youtrack.jetbrains.com/issue/KT-6653 ist es momentan leider
+ * Diese Kotlin-Interface ist nahezu identisch mit dem alten Java-Interface.
+ * Wegen https://youtrack.jetbrains.com/issue/KT-6653 gab es Probleme mit
+ * der getMessage(String)-Methode. Deswegen wurde diese Methode fuer Kotlin
+ * in #getMessageKey umbenannt.
+ *
+ * ist es momentan leider
  * nicht moeglich, fuer Kotlin- und Java-Implementierungen das gleiche
  * Interface zu verwenden.
  *
  * @author oboehm
  * @since 4.0 (15.03.2020)
  */
-interface ILocalizedException {
+interface LocalizedException {
 
     /**
      * Dies ist eine Hilfsmethode, um aus einer Message den entsprechenden
