@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,151 +15,163 @@
  *
  * (c)reated 24.01.2018 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.math;
+package de.jfachwert.math
 
-import de.jfachwert.Fachwert;
-import de.jfachwert.SimpleValidator;
-import de.jfachwert.pruefung.exception.InvalidValueException;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.Objects;
+import de.jfachwert.Fachwert
+import de.jfachwert.SimpleValidator
+import de.jfachwert.pruefung.exception.InvalidValueException
+import java.math.BigDecimal
+import java.math.BigInteger
+import java.util.*
 
 /**
  * Die Klasse Nummer dient zum Abspeichern einer beliebigen Nummer. Eine Nummer
  * ist eine positive Ganzzahl und beginnt ueblicherweise mit 1. Dabei kann es
  * sich um eine laufende Nummer, Start-Nummer, Trikot-Nummer, ... handeln.
- * <p>
+ *
  * Die Klasse ist Speicher-optimiert, um auch eine große Zahl von Nummern im
  * Speicher halten zu koennen. Und man kann damit auch Zahlen mit fuehrenden
  * Nullen (wie z.B. PLZ) abbilden.
- * </p>
- * <p>
- * Urspruenglich war diese Klasse als Ergaenzung zur {@link de.jfachwert.Text}-
+ *
+ * Urspruenglich war diese Klasse als Ergaenzung zur [de.jfachwert.Text]-
  * Klasse gedacht.
- * </p>
  *
  * @author oboehm
  * @since 0.6 (24.01.2018)
  */
-public class Nummer extends AbstractNumber implements Fachwert {
+open class Nummer(code: String) : AbstractNumber(), Fachwert {
 
-    private static final Nummer[] CACHE = new Nummer[11];
-    private static final SimpleValidator<String> VALIDATOR = new Validator();
-    private final PackedDecimal code;
+    private val code: PackedDecimal
 
-    /** Null-Konstante fuer Initialisierungen. */
-    public static final Nummer NULL = new Nummer("");
+    companion object {
+        private val CACHE = arrayOfNulls<Nummer>(11)
+        private val VALIDATOR: SimpleValidator<String> = Validator()
 
-    static {
-        for (int i = 0; i < CACHE.length; i++) {
-            CACHE[i] = new Nummer(i);
+        /** Null-Konstante fuer Initialisierungen.  */
+        @JvmStatic
+        val NULL = Nummer("")
+
+        /**
+         * Die of-Methode liefert fuer kleine Nummer immer dasselbe Objekt zurueck.
+         * Vor allem wenn man nur kleinere Nummern hat, lohnt sich der Aufruf
+         * dieser Methode.
+         *
+         * @param code Nummer
+         * @return eine (evtl. bereits instanziierte) Nummer
+         */
+        @JvmStatic
+        fun of(code: Long): Nummer {
+            return if (code >= 0 && code < CACHE.size) {
+                CACHE[code.toInt()]!!
+            } else {
+                Nummer(code)
+            }
+        }
+
+        /**
+         * Die of-Methode liefert fuer kleine Nummer immer dasselbe Objekt zurueck.
+         * Vor allem wenn man nur kleinere Nummern hat, lohnt sich der Aufruf
+         * dieser Methode.
+         *
+         * @param code Nummer
+         * @return eine (evtl. bereits instanziierte) Nummer
+         */
+        @JvmStatic
+        fun of(code: String): Nummer {
+            return of(Nummer(code))
+        }
+
+        /**
+         * Die of-Methode liefert fuer kleine Nummer immer dasselbe Objekt zurueck.
+         * Vor allem wenn man nur kleinere Nummern hat, lohnt sich der Aufruf
+         * dieser Methode.
+         *
+         * @param code Nummer
+         * @return eine (evtl. bereits instanziierte) Nummer
+         */
+        @JvmStatic
+        fun of(code: BigInteger): Nummer {
+            return of(code.toLong())
+        }
+
+        /**
+         * Die of-Methode liefert fuer kleine Nummer immer dasselbe Objekt zurueck.
+         * Vor allem wenn man nur kleinere Nummern hat, lohnt sich der Aufruf
+         * dieser Methode.
+         *
+         *
+         * Diese Methode dient dazu, um ein "ueberfluessige" Nummern, die
+         * durch Aufruf anderer Methoden entstanden sind, dem Garbage Collector
+         * zum Aufraeumen zur Verfuegung zu stellen.
+         *
+         *
+         * @param other andere Nummer
+         * @return eine (evtl. bereits instanziierte) Nummer
+         */
+        @JvmStatic
+        fun of(other: Nummer): Nummer {
+            return of(other.toLong())
+        }
+
+        /**
+         * Ueberprueft, ob der uebergebene String auch tatsaechlich eine Zahl ist.
+         *
+         * @param nummer z.B. "4711"
+         * @return validierter String zur Weiterverarbeitung
+         */
+        @JvmStatic
+        fun validate(nummer: String): String {
+            return VALIDATOR.validate(nummer)
+        }
+
+        init {
+            for (i in CACHE.indices) {
+                CACHE[i] = Nummer(i)
+            }
         }
     }
 
     /**
      * Erzeugt eine Nummer als positive Ganzzahl.
-     * 
+     *
      * @param code eine Zahl, z.B. 42
      */
-    public Nummer(long code) {
-        this(BigInteger.valueOf(code));
-    }
+    constructor(code: Int) : this(BigInteger.valueOf(code.toLong())) {}
 
     /**
-     * Wandelt den angegebene String in eine Zahl um.
-     * 
-     * @param code z.B. "42"
+     * Erzeugt eine Nummer als positive Ganzzahl.
+     *
+     * @param code eine Zahl, z.B. 42
      */
-    public Nummer(String code) {
-        this.code = PackedDecimal.valueOf(code);
-    }
+    constructor(code: Long) : this(BigInteger.valueOf(code)) {}
 
     /**
      * Erzeugt eine beliebige Gleitkomma- oder Ganzzahl.
-     * 
+     *
      * @param code eine beliebige Zahl
      */
-    public Nummer(BigInteger code) {
-        this(code.toString());
-    }
-
-    /**
-     * Die of-Methode liefert fuer kleine Nummer immer dasselbe Objekt zurueck.
-     * Vor allem wenn man nur kleinere Nummern hat, lohnt sich der Aufruf
-     * dieser Methode.
-     *
-     * @param code Nummer
-     * @return eine (evtl. bereits instanziierte) Nummer
-     */
-    public static Nummer of(long code) {
-        if ((code >= 0) && (code < CACHE.length)) {
-            return CACHE[(int) code];
-        } else {
-            return new Nummer(code);
-        }
-    }
-
-    /**
-     * Die of-Methode liefert fuer kleine Nummer immer dasselbe Objekt zurueck.
-     * Vor allem wenn man nur kleinere Nummern hat, lohnt sich der Aufruf
-     * dieser Methode.
-     *
-     * @param code Nummer
-     * @return eine (evtl. bereits instanziierte) Nummer
-     */
-    public static Nummer of(String code) {
-        return of(new Nummer(code));
-    }
-
-    /**
-     * Die of-Methode liefert fuer kleine Nummer immer dasselbe Objekt zurueck.
-     * Vor allem wenn man nur kleinere Nummern hat, lohnt sich der Aufruf
-     * dieser Methode.
-     *
-     * @param code Nummer
-     * @return eine (evtl. bereits instanziierte) Nummer
-     */
-    public static Nummer of(BigInteger code) {
-        return of(code.longValue());
-    }
-
-    /**
-     * Die of-Methode liefert fuer kleine Nummer immer dasselbe Objekt zurueck.
-     * Vor allem wenn man nur kleinere Nummern hat, lohnt sich der Aufruf
-     * dieser Methode.
-     * <p>
-     * Diese Methode dient dazu, um ein "ueberfluessige" Nummern, die
-     * durch Aufruf anderer Methoden entstanden sind, dem Garbage Collector
-     * zum Aufraeumen zur Verfuegung zu stellen.
-     * </p>
-     *
-     * @param other andere Nummer
-     * @return eine (evtl. bereits instanziierte) Nummer
-     */
-    public static Nummer of(Nummer other) {
-        return of(other.longValue());
-    }
-
-    /**
-     * Ueberprueft, ob der uebergebene String auch tatsaechlich eine Zahl ist.
-     * 
-     * @param nummer z.B. "4711"
-     * @return validierter String zur Weiterverarbeitung
-     */
-    public static String validate(String nummer) {
-        return VALIDATOR.validate(nummer);
-    }
+    constructor(code: BigInteger) : this(code.toString()) {}
 
     /**
      * Diese Methode liefert die Zahl als BigDecimal zurueck und wird fuer
      * die Default-Implementierung der Number-Methoden benoetigt.
      *
-     * @return die Zahl als {@link BigDecimal}
+     * @return die Zahl als [BigDecimal]
      */
-    @Override
-    public BigDecimal toBigDecimal() {
-        return code.toBigDecimal();
+    override fun toBigDecimal(): BigDecimal {
+        return code.toBigDecimal()
+    }
+
+    override fun toByte(): Byte {
+        return code.toByte()
+    }
+
+    override fun toChar(): Char {
+        return code.toChar()
+    }
+
+    override fun toShort(): Short {
+        return code.toShort()
     }
 
     /**
@@ -167,9 +179,8 @@ public class Nummer extends AbstractNumber implements Fachwert {
      *
      * @return z.B. 42
      */
-    @Override
-    public int intValue() {
-        return code.intValue();
+    override fun toInt(): Int {
+        return code.toInt()
     }
 
     /**
@@ -177,73 +188,67 @@ public class Nummer extends AbstractNumber implements Fachwert {
      *
      * @return z.B. 42L
      */
-    @Override
-    public long longValue() {
-        return code.longValue();
+    override fun toLong(): Long {
+        return code.toLong()
     }
 
     /**
      * Zwei Nummer sind dann gleich, wenn sie exact gleich geschrieben werden.
      * D.h. fuehrende Nullen werden beim Vergleich nicht ignoriert.
-     * 
-     * @param obj Vergleichsobjekt
+     *
+     * @param other Vergleichsobjekt
      * @return true oder false
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Nummer)) {
-            return false;
+    override fun equals(other: Any?): Boolean {
+        if (other !is Nummer) {
+            return false
         }
-        Nummer other = (Nummer) obj;
-        return this.toString().equals(other.toString());
+        return this.toString() == other.toString()
     }
 
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
-    @Override
-    public int hashCode() {
-        return Objects.hash(code);
+    override fun hashCode(): Int {
+        return Objects.hash(code)
     }
 
     /**
      * Hier wird die Nummer inklusive fuehrende Null (falls vorhanden)
      * ausgegeben.
-     * 
+     *
      * @return z.B. "0711"
      */
-    @Override
-    public String toString() {
-        return this.code.toString();
+    override fun toString(): String {
+        return code.toString()
     }
-
-
 
     /**
      * Dieser Validator ist fuer die Ueberpruefung von Zahlen vorgesehen.
      *
      * @since 3.0
      */
-    public static class Validator implements SimpleValidator<String> {
-
+    class Validator : SimpleValidator<String> {
         /**
          * Wenn die uebergebene Waehrungsstring gueltig ist, wird sie
          * unveraendert zurueckgegeben, damit sie anschliessend von der
          * aufrufenden Methode weiterverarbeitet werden kann. Ist der Wert
-         * nicht gueltig, wird eine {@link InvalidValueException} geworfen.
+         * nicht gueltig, wird eine [InvalidValueException] geworfen.
          *
          * @param nummer Zahl, die validiert wird
          * @return Zahl selber, wenn sie gueltig ist
          */
-        @Override
-        public String validate(String nummer) {
-            try {
-                return new BigInteger(nummer).toString();
-            } catch (NumberFormatException nfe) {
-                throw new InvalidValueException(nummer, "number");
+        override fun validate(nummer: String): String {
+            return try {
+                BigInteger(nummer).toString()
+            } catch (nfe: NumberFormatException) {
+                throw InvalidValueException(nummer, "number")
             }
         }
+    }
 
+    init {
+        this.code = PackedDecimal.valueOf(code)
     }
 
 }
