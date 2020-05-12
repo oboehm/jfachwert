@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,21 +15,20 @@
  *
  * (c)reated 29.03.2018 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.math;
+package de.jfachwert.math
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import de.jfachwert.Fachwert;
-import de.jfachwert.SimpleValidator;
-import de.jfachwert.pruefung.NullValidator;
-import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.WeakHashMap;
-import java.util.logging.Logger;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
+import de.jfachwert.Fachwert
+import de.jfachwert.SimpleValidator
+import de.jfachwert.pruefung.NullValidator
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
+import org.apache.commons.lang3.StringUtils
+import java.math.BigDecimal
+import java.math.RoundingMode
+import java.util.*
+import java.util.logging.Logger
+import javax.validation.constraints.NotNull
 
 /**
  * Die Klasse PackedDecimal dienst zum speicherschonende Speichern von Zahlen.
@@ -37,36 +36,32 @@ import java.util.logging.Logger;
  * "COMPUTATIONAL-3 PACKED" gibt, wo die Zahlen in Halb-Bytes (Nibbles)
  * abgespeichert wird. D.h. In einem Byte lassen sich damit 2 Zahlen
  * abspeichern. Diese Praesentation ist auch als BCD (Binary Coded Decimal)
- * bekannt (s. <a href="https://de.wikipedia.org/wiki/BCD-Code">BCD-Code</a>
+ * bekannt (s. [BCD-Code](https://de.wikipedia.org/wiki/BCD-Code)
  * in Wikipedia).
- * <p>
+ *
  * Dieser Datentyp eignet sich damit fuer:
- * <ul>
- *     <li>Abspeichern grosser Menge von Zahlen, wenn dabei die interne
- *     Speichergroesse relevant ist,</li>
- *     <li>Abspeichern von Zahlen beliebiger Groesse
- *     (Ersatz fuer {@link java.math.BigDecimal},</li>
- *     <li>Abspeichern von Zahlen mit fuehrender Null (z.B. Vorwahl).</li>
- * </ul>
- * <p>
+ *
+ *  * Abspeichern grosser Menge von Zahlen, wenn dabei die interne
+ * Speichergroesse relevant ist,
+ *  * Abspeichern von Zahlen beliebiger Groesse
+ * (Ersatz fuer [java.math.BigDecimal],
+ *  * Abspeichern von Zahlen mit fuehrender Null (z.B. Vorwahl).
+ *
  * Eine noch kompaktere Darstellung (ca. 20%) laesst sich mit der Chen-Ho- oder
  * Densely-Packed-Decimal-Kodierung (s.
- * <a href="http://speleotrove.com/decimal/DPDecimal.html">A Summary of Densely Packed Decimal encoding</a>).
+ * [A Summary of Densely Packed Decimal encoding](http://speleotrove.com/decimal/DPDecimal.html)).
  * Diese kommt hier aber nicht zum Einsatz. Stattdessen kommt der BCD-Algorithmus
  * zum Einsatz. Dadurch koennen auch weitere Trenn- und Fuell-Zeichen aufgenommen
  * werden:
- * </p>
- * <ul>
- *     <li>Vorzeichen (+, -)</li>
- *     <li>Formattierung ('.', ',')</li>
- *     <li>Leerzeichen</li>
- *     <li>Trennzeichen (z.B. fuer Telefonnummern)</li>
- * </ul>
- * <p>
+ *
+ *  * Vorzeichen (+, -)
+ *  * Formattierung ('.', ',')
+ *  * Leerzeichen
+ *  * Trennzeichen (z.B. fuer Telefonnummern)
+ *
  * Die einzelnen Werte, die ein Halb-Byte (Nibble) aufnimmt, sind (angelehnt an
- * <a href="http://acc-gmbh.com/dochtml/Datentypen4.html">COMPUTATIONAL-3 PACKED</a>
+ * [COMPUTATIONAL-3 PACKED](http://acc-gmbh.com/dochtml/Datentypen4.html)
  * in COBOL):
- * </p>
  * <pre>
  * +-----+---+--------------------------------------------------+
  * | 0x0 | 0 | Ziffer 0                                         |
@@ -80,475 +75,548 @@ import java.util.logging.Logger;
  * | 0xE | . | Formatzeichen Tausenderstelle (im Deutschen)     |
  * | 0xF | , | Trennung Vorkomma/Nachkommastelle (im Deutschen) |
  * +-----+---+--------------------------------------------------+
- * </pre>
- * <p>
+</pre> *
+ *
+ *
  * Damit koennen auch Zeichenketten nachgebildet werden, die strenggenommen
  * keine Dezimalzahl darstellen, z.B. "+49/811 32 16-8". Dies ist zwar
  * zulaessig, jedoch duerfen damit keine mathematische Operation angewendet
  * werden. Ansonsten kann die Klasse ueberall dort eingesetzt werden, wo
- * auch eine {@link java.math.BigDecimal} verwendet wird.
- * </p>
- * <p>
- * Die API orientiert sich an die API von {@link BigDecimal} und ist auch von
- * der {@link Number}-Klasse abgeleitet. Allerdings werden noch nicht alle
- * Methoden von {@link BigDecimal unterstuetzt}. In diesem Fall kann man auf
- * die Methode {@link #toBigDecimal()} ausweichen.
- * </p>
- * <p>
+ * auch eine [java.math.BigDecimal] verwendet wird.
+ *
+ *
+ *
+ * Die API orientiert sich an die API von [BigDecimal] und ist auch von
+ * der [Number]-Klasse abgeleitet. Allerdings werden noch nicht alle
+ * Methoden von [unterstuetzt][BigDecimal]. In diesem Fall kann man auf
+ * die Methode [.toBigDecimal] ausweichen.
+ *
+ *
+ *
  * Da diese Klasse eher eine technische als eine fachliche Klasse ist, wurde
  * die englische Bezeichnung aus COBOL uebernommen. Sie wird von einigen
  * Fachwert-Klassen intern verwendet, kann aber auch fuer eigene Zwecke
  * verwendet werden.
- * </p>
+ *
  *
  * @author oboehm
  * @since 0.6 (29.03.2018)
  */
-@JsonSerialize(using = ToStringSerializer.class)
-public class PackedDecimal extends AbstractNumber implements Fachwert {
+@JsonSerialize(using = ToStringSerializer::class)
+open class PackedDecimal @JvmOverloads constructor(zahl: String, validator: SimpleValidator<String> = VALIDATOR) : AbstractNumber(), Fachwert {
 
-    private static final Logger LOG = Logger.getLogger(PackedDecimal.class.getName());
-    private static final NullValidator<String> VALIDATOR = new NullValidator();
-    private static final PackedDecimal[] CACHE = new PackedDecimal[10];
-    private static final WeakHashMap<String, PackedDecimal> WEAK_CACHE = new WeakHashMap<>();
-    private final byte[] code;
+    private val code: ByteArray
 
-    /** Null-Konstante fuer Initialisierungen. */
-    public static final PackedDecimal NULL = new PackedDecimal("");
+    constructor(zahl: Int): this(zahl.toLong()) {}
 
-    static {
-        for (int i = 0; i < CACHE.length; i++) {
-            CACHE[i] = new PackedDecimal(i);
+    companion object {
+
+        private val LOG = Logger.getLogger(PackedDecimal::class.java.name)
+        private val VALIDATOR: NullValidator<String> = NullValidator<String>()
+        private val CACHE = arrayOfNulls<PackedDecimal>(10)
+        private val WEAK_CACHE = WeakHashMap<String, PackedDecimal>()
+
+        init {
+            for (i in CACHE.indices) {
+                CACHE[i] = PackedDecimal(i)
+            }
         }
+
+        /** Null-Konstante fuer Initialisierungen.  */
+        val NULL = PackedDecimal("")
+
+        /** Leere PackedDecimal.  */
+        @JvmField
+        val EMPTY = PackedDecimal("")
+
+        /** Die Zahl 0.  */
+        @JvmField
+        val ZERO = CACHE[0]
+
+        /** Die Zahl 1.  */
+        @JvmField
+        val ONE = CACHE[1]
+
+        /** Die Zahl 10.  */
+        @JvmField
+        val TEN = of(10)
+
+        /**
+         * Liefert den uebergebenen String als [PackedDecimal] zurueck.
+         * Diese Methode ist dem Konstruktor vorzuziehen, da fuer gaengige Zahlen
+         * wie "0" oder "1" immer das gleiche Objekt zurueckgegeben wird.
+         *
+         * @param zahl beliebige long-Zahl
+         * @return Zahl als [PackedDecimal]
+         */
+        @JvmStatic
+        fun valueOf(zahl: Long): PackedDecimal {
+            return valueOf(zahl.toString())
+        }
+
+        /**
+         * Da alle anderen Klassen auch eine of-Methode vorweisen, hat auch diese
+         * Klasse eine of-Methode. Ansonsten entspricht dies der valueOf-Methode.
+         *
+         * @param zahl beliebige long-Zahl
+         * @return Zahl als [PackedDecimal]
+         * @since 2.0
+         */
+        @JvmStatic
+        fun of(zahl: Long): PackedDecimal {
+            return valueOf(zahl)
+        }
+
+        /**
+         * Liefert den uebergebenen String als [PackedDecimal] zurueck.
+         *
+         * @param zahl beliebige Zahl
+         * @return Zahl als [PackedDecimal]
+         */
+        @JvmStatic
+        fun valueOf(zahl: Double): PackedDecimal {
+            return valueOf(java.lang.Double.toString(zahl))
+        }
+
+        /**
+         * Da alle anderen Klassen auch eine of-Methode vorweisen, hat auch diese
+         * Klasse eine of-Methode. Ansonsten entspricht dies der valueOf-Methode.
+         *
+         * @param zahl beliebige Zahl
+         * @return Zahl als [PackedDecimal]
+         * @since 2.0
+         */
+        @JvmStatic
+        fun of(zahl: Double): PackedDecimal {
+            return valueOf(zahl)
+        }
+
+        /**
+         * Liefert den uebergebenen String als [PackedDecimal] zurueck.
+         * Diese Methode ist dem Konstruktor vorzuziehen, da fuer gaengige Zahlen
+         * wie "0" oder "1" immer das gleiche Objekt zurueckgegeben wird.
+         *
+         * @param zahl beliebige Zahl
+         * @return Zahl als [PackedDecimal]
+         */
+        @JvmStatic
+        fun valueOf(zahl: BigDecimal): PackedDecimal {
+            return valueOf(zahl.toString())
+        }
+
+        /**
+         * Da alle anderen Klassen auch eine of-Methode vorweisen, hat auch diese
+         * Klasse eine of-Methode. Ansonsten entspricht dies der valueOf-Methode.
+         *
+         * @param zahl beliebige Zahl
+         * @return Zahl als [PackedDecimal]
+         * @since 2.0
+         */
+        @JvmStatic
+        fun of(zahl: BigDecimal): PackedDecimal {
+            return valueOf(zahl)
+        }
+
+        /**
+         * Liefert den uebergebenen String als [PackedDecimal] zurueck.
+         *
+         * @param bruch beliebiger Bruch
+         * @return Bruch als [PackedDecimal]
+         */
+        @JvmStatic
+        fun valueOf(bruch: AbstractNumber): PackedDecimal {
+            return valueOf(bruch.toString())
+        }
+
+        /**
+         * Da alle anderen Klassen auch eine of-Methode vorweisen, hat auch diese
+         * Klasse eine of-Methode. Ansonsten entspricht dies der valueOf-Methode.
+         *
+         * @param zahl beliebige Zahl
+         * @return Zahl als [PackedDecimal]
+         * @since 2.0
+         */
+        @JvmStatic
+        fun of(zahl: AbstractNumber): PackedDecimal {
+            return valueOf(zahl)
+        }
+
+        /**
+         * Liefert den uebergebenen String als [PackedDecimal] zurueck.
+         * Diese Methode ist dem Konstruktor vorzuziehen, da fuer gaengige Zahlen
+         * wie "0" oder "1" immer das gleiche Objekt zurueckgegeben wird.
+         *
+         *
+         * Im Gegensatz zum String-Konstruktor darf man hier auch 'null' als Wert
+         * uebergeben. In diesem Fall wird dies in [.EMPTY] uebersetzt.
+         *
+         *
+         *
+         * Die erzeugten PackedDecimals werden intern in einem "weak" Cache
+         * abgelegt, damit bei gleichen Zahlen auch die gleichen PackedDecimals
+         * zurueckgegeben werden. Dies dient vor allem zur Reduktion des
+         * Speicherverbrauchs.
+         *
+         *
+         * @param zahl String aus Zahlen
+         * @return Zahl als [PackedDecimal]
+         */
+        @JvmStatic
+        fun valueOf(zahl: String): PackedDecimal {
+            val trimmed = StringUtils.trimToEmpty(zahl)
+            if (StringUtils.isEmpty(trimmed)) {
+                return EMPTY
+            }
+            return if (trimmed.length == 1 && Character.isDigit(trimmed[0])) {
+                CACHE[Character.getNumericValue(trimmed[0])]!!
+            } else {
+                WEAK_CACHE.computeIfAbsent(zahl) { z: String -> PackedDecimal(z) }
+            }
+        }
+
+        /**
+         * Da alle anderen Klassen auch eine of-Methode vorweisen, hat auch diese
+         * Klasse eine of-Methode. Ansonsten entspricht dies der valueOf-Methode.
+         *
+         * @param zahl beliebige Zahl
+         * @return Zahl als [PackedDecimal]
+         * @since 2.0
+         */
+        @JvmStatic
+        fun of(zahl: String): PackedDecimal {
+            return valueOf(zahl)
+        }
+
+        private fun asNibbles(zahl: String): ByteArray {
+            val chars = "$zahl ".toCharArray()
+            val bytes = ByteArray(chars.size / 2)
+            try {
+                for (i in bytes.indices) {
+                    val upper = decode(chars[i * 2])
+                    val lower = decode(chars[i * 2 + 1])
+                    bytes[i] = (upper shl 4 or lower).toByte()
+                }
+            } catch (ex: IllegalArgumentException) {
+                throw LocalizedIllegalArgumentException(zahl, "number", ex)
+            }
+            return bytes
+        }
+
+        private fun decode(x: Char): Int {
+            return when (x) {
+                '0' -> 0x0
+                '1' -> 0x1
+                '2' -> 0x2
+                '3' -> 0x3
+                '4' -> 0x4
+                '5' -> 0x5
+                '6' -> 0x6
+                '7' -> 0x7
+                '8' -> 0x8
+                '9' -> 0x9
+                '/' -> 0xA
+                '\t', ' ' -> 0xB
+                '+' -> 0xC
+                '-' -> 0xD
+                '.' -> 0xE
+                ',' -> 0xF
+                else -> throw LocalizedIllegalArgumentException(x, "number")
+            }
+        }
+
+        private fun encode(nibble: Int): Char {
+            return when (0x0F and nibble) {
+                0x0 -> '0'
+                0x1 -> '1'
+                0x2 -> '2'
+                0x3 -> '3'
+                0x4 -> '4'
+                0x5 -> '5'
+                0x6 -> '6'
+                0x7 -> '7'
+                0x8 -> '8'
+                0x9 -> '9'
+                0xA -> '/'
+                0xB -> ' '
+                0xC -> '+'
+                0xD -> '-'
+                0xE -> '.'
+                0xF -> ','
+                else -> throw IllegalStateException("internal error")
+            }
+        }
+
     }
-
-    /** Leere PackedDecimal. */
-    public static final PackedDecimal EMPTY = new PackedDecimal("");
-
-    /** Die Zahl 0. */
-    public static final PackedDecimal ZERO = CACHE[0];
-
-    /** Die Zahl 1. */
-    public static final PackedDecimal ONE = CACHE[1];
-
-    /** Die Zahl 10. */
-    public static final PackedDecimal TEN = PackedDecimal.of(10);
 
     /**
      * Instanziiert ein PackedDecimal.
      *
      * @param zahl Zahl
      */
-    public PackedDecimal(long zahl) {
-        this(Long.toString(zahl));
-    }
+    constructor(zahl: Long) : this(java.lang.Long.toString(zahl)) {}
 
     /**
      * Instanziiert ein PackedDecimal.
      *
      * @param zahl Zahl
      */
-    public PackedDecimal(double zahl) {
-        this(Double.toString(zahl));
-    }
+    constructor(zahl: Double) : this(java.lang.Double.toString(zahl)) {}
 
     /**
-     * Falls man eine {@link BigDecimal} in eine {@link PackedDecimal} wandeln
+     * Falls man eine [BigDecimal] in eine [PackedDecimal] wandeln
      * will, kann man diesen Konstruktor hier verwenden. Besser ist es
-     * allerdings, wenn man dazu {@link #valueOf(BigDecimal)} verwendet.
+     * allerdings, wenn man dazu [.valueOf] verwendet.
      *
      * @param zahl eine Dezimalzahl
      */
-    public PackedDecimal(BigDecimal zahl) {
-        this(zahl.toString());
-    }
-
-    /**
-     * Instanziiert ein PackedDecimal.
-     *
-     * @param zahl String aus Zahlen
-     */
-    public PackedDecimal(String zahl) {
-        this(zahl, VALIDATOR);
-    }
-
-    /**
-     * Instanziiert ein PackedDecimal. Diesen Konstruktor kann man verwenden,
-     * wenn man mehr einen eigenen Validator zur Pruefung heranziehen will.
-     *
-     * @param zahl      String aus Zahlen
-     * @param validator Validator, der die Zahl prueft
-     */
-    public PackedDecimal(String zahl, SimpleValidator<String> validator) {
-        this.code = asNibbles(validator.validate(zahl));
-    }
-
-    /**
-     * Liefert den uebergebenen String als {@link PackedDecimal} zurueck.
-     * Diese Methode ist dem Konstruktor vorzuziehen, da fuer gaengige Zahlen
-     * wie "0" oder "1" immer das gleiche Objekt zurueckgegeben wird.
-     *
-     * @param zahl beliebige long-Zahl
-     * @return Zahl als {@link PackedDecimal}
-     */
-    public static PackedDecimal valueOf(long zahl) {
-        return valueOf(Long.toString(zahl));
-    }
-
-    /**
-     * Da alle anderen Klassen auch eine of-Methode vorweisen, hat auch diese
-     * Klasse eine of-Methode. Ansonsten entspricht dies der valueOf-Methode.
-     *
-     * @param zahl beliebige long-Zahl
-     * @return Zahl als {@link PackedDecimal}
-     * @since 2.0
-     */
-    public static PackedDecimal of(long zahl) {
-        return PackedDecimal.valueOf(zahl);
-    }
-
-    /**
-     * Liefert den uebergebenen String als {@link PackedDecimal} zurueck.
-     *
-     * @param zahl beliebige Zahl
-     * @return Zahl als {@link PackedDecimal}
-     */
-    public static PackedDecimal valueOf(double zahl) {
-        return valueOf(Double.toString(zahl));
-    }
-
-    /**
-     * Da alle anderen Klassen auch eine of-Methode vorweisen, hat auch diese
-     * Klasse eine of-Methode. Ansonsten entspricht dies der valueOf-Methode.
-     *
-     * @param zahl beliebige Zahl
-     * @return Zahl als {@link PackedDecimal}
-     * @since 2.0
-     */
-    public static PackedDecimal of(double zahl) {
-        return PackedDecimal.valueOf(zahl);
-    }
-
-    /**
-     * Liefert den uebergebenen String als {@link PackedDecimal} zurueck.
-     * Diese Methode ist dem Konstruktor vorzuziehen, da fuer gaengige Zahlen
-     * wie "0" oder "1" immer das gleiche Objekt zurueckgegeben wird.
-     *
-     * @param zahl beliebige Zahl
-     * @return Zahl als {@link PackedDecimal}
-     */
-    public static PackedDecimal valueOf(BigDecimal zahl) {
-        return valueOf(zahl.toString());
-    }
-
-    /**
-     * Da alle anderen Klassen auch eine of-Methode vorweisen, hat auch diese
-     * Klasse eine of-Methode. Ansonsten entspricht dies der valueOf-Methode.
-     *
-     * @param zahl beliebige Zahl
-     * @return Zahl als {@link PackedDecimal}
-     * @since 2.0
-     */
-    public static PackedDecimal of(BigDecimal zahl) {
-        return PackedDecimal.valueOf(zahl);
-    }
-
-    /**
-     * Liefert den uebergebenen String als {@link PackedDecimal} zurueck.
-     *
-     * @param bruch beliebiger Bruch
-     * @return Bruch als {@link PackedDecimal}
-     */
-    public static PackedDecimal valueOf(AbstractNumber bruch) {
-        return valueOf(bruch.toString());
-    }
-
-    /**
-     * Da alle anderen Klassen auch eine of-Methode vorweisen, hat auch diese
-     * Klasse eine of-Methode. Ansonsten entspricht dies der valueOf-Methode.
-     *
-     * @param zahl beliebige Zahl
-     * @return Zahl als {@link PackedDecimal}
-     * @since 2.0
-     */
-    public static PackedDecimal of(AbstractNumber zahl) {
-        return PackedDecimal.valueOf(zahl);
-    }
-    
-    /**
-     * Liefert den uebergebenen String als {@link PackedDecimal} zurueck.
-     * Diese Methode ist dem Konstruktor vorzuziehen, da fuer gaengige Zahlen
-     * wie "0" oder "1" immer das gleiche Objekt zurueckgegeben wird.
-     * <p>
-     * Im Gegensatz zum String-Konstruktor darf man hier auch 'null' als Wert
-     * uebergeben. In diesem Fall wird dies in {@link #EMPTY} uebersetzt.
-     * </p>
-     * <p>
-     * Die erzeugten PackedDecimals werden intern in einem "weak" Cache
-     * abgelegt, damit bei gleichen Zahlen auch die gleichen PackedDecimals
-     * zurueckgegeben werden. Dies dient vor allem zur Reduktion des
-     * Speicherverbrauchs.
-     * </p>
-     *
-     * @param zahl String aus Zahlen
-     * @return Zahl als {@link PackedDecimal}
-     */
-    public static PackedDecimal valueOf(String zahl) {
-        String trimmed = StringUtils.trimToEmpty(zahl);
-        if (StringUtils.isEmpty(trimmed)) {
-            return EMPTY;
-        }
-        if ((trimmed.length() == 1 && Character.isDigit(trimmed.charAt(0)))) {
-            return CACHE[Character.getNumericValue(trimmed.charAt(0))];
-        } else {
-            return WEAK_CACHE.computeIfAbsent(zahl, PackedDecimal::new);
-        }
-    }
-
-    /**
-     * Da alle anderen Klassen auch eine of-Methode vorweisen, hat auch diese
-     * Klasse eine of-Methode. Ansonsten entspricht dies der valueOf-Methode.
-     *
-     * @param zahl beliebige Zahl
-     * @return Zahl als {@link PackedDecimal}
-     * @since 2.0
-     */
-    public static PackedDecimal of(String zahl) {
-        return PackedDecimal.valueOf(zahl);
-    }
+    constructor(zahl: BigDecimal) : this(zahl.toString()) {}
 
     /**
      * Liefert true zurueck, wenn die Zahl als Bruch angegeben ist.
      *
      * @return true oder false
      */
-    public boolean isBruch() {
-        String s = toString();
-        if (s.contains("/")) {
-            try {
-                Bruch.of(s);
-                return true;
-            } catch (IllegalArgumentException ex) {
-                LOG.fine(s + " is not a fraction: " + ex);
-                return false;
+    val isBruch: Boolean
+        get() {
+            val s = toString()
+            return if (s.contains("/")) {
+                try {
+                    Bruch.of(s)
+                    true
+                } catch (ex: IllegalArgumentException) {
+                    LOG.fine("$s is not a fraction: $ex")
+                    false
+                }
+            } else {
+                false
             }
-        } else {
-            return false;
         }
-    }
-    
+
     /**
-     * Da sich mit {@link PackedDecimal} auch Telefonnummer und andere
+     * Da sich mit [PackedDecimal] auch Telefonnummer und andere
      * Zahlenkombinationen abspeichern lassen, die im eigentlichen Sinn
      * keine Zahl darstellen, kann man ueber diese Methode abfragen, ob
      * eine Zahl abespeichdert wurde oder nicht.
-     * 
+     *
      * @return true, falls es sich um eine Zahl handelt.
      */
-    public boolean isNumber() {
-        String packed = toString().replaceAll(" ", "");
-        try {
-            new BigDecimal(packed);
-            return true;
-        } catch (NumberFormatException nfe) {
-            LOG.fine(packed + " is not a number: " + nfe);
-            return isBruch();
+    val isNumber: Boolean
+        get() {
+            val packed = toString().replace(" ".toRegex(), "")
+            return try {
+                BigDecimal(packed)
+                true
+            } catch (nfe: NumberFormatException) {
+                LOG.fine("$packed is not a number: $nfe")
+                isBruch
+            }
         }
-    }
 
     /**
      * Liefert die Zahl als Bruch zurueck.
      *
      * @return Bruch als Zahl
      */
-    public Bruch toBruch() {
-        return Bruch.of(toString());
+    fun toBruch(): Bruch {
+        return Bruch.of(toString())
     }
 
     /**
-     * Liefert die gepackte Dezimalzahl wieder als {@link BigDecimal} zurueck.
+     * Liefert die gepackte Dezimalzahl wieder als [BigDecimal] zurueck.
      *
-     * @return gepackte Dezimalzahl als {@link BigDecimal}
+     * @return gepackte Dezimalzahl als [BigDecimal]
      */
-    public BigDecimal toBigDecimal() {
-        return new BigDecimal(toString());
+    override fun toBigDecimal(): BigDecimal {
+        return BigDecimal(toString())
+    }
+
+    override fun toByte(): Byte {
+        return toBigDecimal().toByte()
+    }
+
+    override fun toChar(): Char {
+        return toBigDecimal().toChar()
+    }
+
+    override fun toShort(): Short {
+        return toBigDecimal().toShort()
     }
 
     /**
      * Summiert den uebergebenen Summanden und liefert als Ergebnis eine neue
-     * {@link PackedDecimal} zurueck
+     * [PackedDecimal] zurueck
      *
      * @param summand Summand
      * @return Summe
      */
-    public PackedDecimal add(PackedDecimal summand) {
-        if (this.isBruch() || summand.isBruch()) {
-            return add(summand.toBruch());
+    fun add(summand: PackedDecimal): PackedDecimal {
+        return if (isBruch || summand.isBruch) {
+            add(summand.toBruch())
         } else {
-            return add(summand.toBigDecimal());
+            add(summand.toBigDecimal())
         }
     }
 
     /**
      * Summiert den uebergebenen Summanden und liefert als Ergebnis eine neue
-     * {@link PackedDecimal} zurueck
+     * [PackedDecimal] zurueck
      *
      * @param summand Operand
      * @return Differenz
      */
-    public PackedDecimal add(BigDecimal summand) {
-        BigDecimal summe = toBigDecimal().add(summand);
-        return PackedDecimal.valueOf(summe);
+    fun add(summand: BigDecimal): PackedDecimal {
+        val summe = toBigDecimal().add(summand)
+        return valueOf(summe)
     }
 
     /**
      * Summiert den uebergebenen Summanden und liefert als Ergebnis eine neue
-     * {@link PackedDecimal} zurueck
+     * [PackedDecimal] zurueck
      *
      * @param summand Operand
      * @return Differenz
      */
-    public PackedDecimal add(Bruch summand) {
-        AbstractNumber summe = toBruch().add(summand);
-        return PackedDecimal.valueOf(summe);
+    fun add(summand: Bruch): PackedDecimal {
+        val summe = toBruch().add(summand)
+        return valueOf(summe)
     }
 
     /**
      * Subtrahiert den uebergebenen Operanden und liefert als Ergebnis eine neue
-     * {@link PackedDecimal} zurueck
+     * [PackedDecimal] zurueck
      *
      * @param operand Summand
      * @return Summe
      */
-    public PackedDecimal subtract(PackedDecimal operand) {
-        if (this.isBruch() || operand.isBruch()) {
-            return subtract(operand.toBruch());
+    fun subtract(operand: PackedDecimal): PackedDecimal {
+        return if (isBruch || operand.isBruch) {
+            subtract(operand.toBruch())
         } else {
-            return subtract(operand.toBigDecimal());
+            subtract(operand.toBigDecimal())
         }
     }
 
     /**
      * Subtrahiert den uebergebenen Operanden und liefert als Ergebnis eine neue
-     * {@link PackedDecimal} zurueck
+     * [PackedDecimal] zurueck
      *
      * @param operand Operand
      * @return Differenz
      */
-    public PackedDecimal subtract(BigDecimal operand) {
-        BigDecimal result = toBigDecimal().subtract(operand);
-        return PackedDecimal.valueOf(result);
+    fun subtract(operand: BigDecimal): PackedDecimal {
+        val result = toBigDecimal().subtract(operand)
+        return valueOf(result)
     }
 
     /**
      * Subtrahiert den uebergebenen Operanden und liefert als Ergebnis eine neue
-     * {@link PackedDecimal} zurueck
+     * [PackedDecimal] zurueck
      *
      * @param operand Operand
      * @return Differenz
      */
-    public PackedDecimal subtract(Bruch operand) {
-        AbstractNumber result = toBruch().subtract(operand);
-        return PackedDecimal.valueOf(result);
+    fun subtract(operand: Bruch): PackedDecimal {
+        val result = toBruch().subtract(operand)
+        return valueOf(result)
     }
 
     /**
      * Mulitpliziert den uebergebenen Operanden und liefert als Ergebnis eine neue
-     * {@link PackedDecimal} zurueck
+     * [PackedDecimal] zurueck
      *
      * @param operand Summand
      * @return Produkt
      */
-    public PackedDecimal multiply(PackedDecimal operand) {
-        if (this.isBruch() || operand.isBruch()) {
-            return multiply(operand.toBruch());
+    fun multiply(operand: PackedDecimal): PackedDecimal {
+        return if (isBruch || operand.isBruch) {
+            multiply(operand.toBruch())
         } else {
-            return multiply(operand.toBigDecimal());
+            multiply(operand.toBigDecimal())
         }
     }
 
     /**
      * Multipliziert den uebergebenen Operanden und liefert als Ergebnis eine neue
-     * {@link PackedDecimal} zurueck
+     * [PackedDecimal] zurueck
      *
      * @param operand Operand
      * @return Produkt
      */
-    public PackedDecimal multiply(BigDecimal operand) {
-        BigDecimal produkt = toBigDecimal().multiply(operand);
-        return PackedDecimal.valueOf(produkt);
+    fun multiply(operand: BigDecimal): PackedDecimal {
+        val produkt = toBigDecimal().multiply(operand)
+        return valueOf(produkt)
     }
 
     /**
      * Multipliziert den uebergebenen Operanden und liefert als Ergebnis eine neue
-     * {@link PackedDecimal} zurueck
+     * [PackedDecimal] zurueck
      *
      * @param operand Operand
      * @return Produkt
      */
-    public PackedDecimal multiply(Bruch operand) {
-        AbstractNumber produkt = toBruch().multiply(operand);
-        return PackedDecimal.valueOf(produkt);
+    fun multiply(operand: Bruch): PackedDecimal {
+        val produkt = toBruch().multiply(operand)
+        return valueOf(produkt)
     }
 
     /**
      * Dividiert den uebergebenen Operanden und liefert als Ergebnis eine neue
-     * {@link PackedDecimal} zurueck
+     * [PackedDecimal] zurueck
      *
      * @param operand Operand
      * @return Ergebnis der Division
      */
-    public PackedDecimal divide(PackedDecimal operand) {
-        if (this.isBruch() || operand.isBruch()) {
-            return divide(operand.toBruch());
+    fun divide(operand: PackedDecimal): PackedDecimal {
+        return if (isBruch || operand.isBruch) {
+            divide(operand.toBruch())
         } else {
-            return divide(operand.toBigDecimal());
+            divide(operand.toBigDecimal())
         }
     }
 
     /**
      * Dividiert den uebergebenen Operanden und liefert als Ergebnis eine neue
-     * {@link PackedDecimal} zurueck
+     * [PackedDecimal] zurueck
      *
      * @param operand Operand
      * @return Ergebnis der Division
      */
-    public PackedDecimal divide(Bruch operand) {
-        return multiply(operand.kehrwert());
+    fun divide(operand: Bruch): PackedDecimal {
+        return multiply(operand.kehrwert())
     }
 
     /**
      * Dividiert den uebergebenen Operanden und liefert als Ergebnis eine neue
-     * {@link PackedDecimal} zurueck
+     * [PackedDecimal] zurueck
      *
      * @param operand Operand
      * @return Ergebnis der Division
      */
-    public PackedDecimal divide(BigDecimal operand) {
-        BigDecimal result = toBigDecimal().divide(operand, RoundingMode.HALF_UP);
-        return PackedDecimal.valueOf(result);
+    fun divide(operand: BigDecimal): PackedDecimal {
+        val result = toBigDecimal().divide(operand, RoundingMode.HALF_UP)
+        return valueOf(result)
     }
 
     /**
      * Verschiebt den Dezimalpunkt um n Stellen nach links.
      *
      * @param n Anzahl Stellen
-     * @return eine neue {@link PackedDecimal}
+     * @return eine neue [PackedDecimal]
      */
-    public PackedDecimal movePointLeft(int n) {
-        BigDecimal result = toBigDecimal().movePointLeft(n);
-        return PackedDecimal.valueOf(result);
+    fun movePointLeft(n: Int): PackedDecimal {
+        val result = toBigDecimal().movePointLeft(n)
+        return valueOf(result)
     }
 
     /**
      * Verschiebt den Dezimalpunkt um n Stellen nach rechts.
      *
      * @param n Anzahl Stellen
-     * @return eine neue {@link PackedDecimal}
+     * @return eine neue [PackedDecimal]
      */
-    public PackedDecimal movePointRight(int n) {
-        BigDecimal result = toBigDecimal().movePointRight(n);
-        return PackedDecimal.valueOf(result);
+    fun movePointRight(n: Int): PackedDecimal {
+        val result = toBigDecimal().movePointRight(n)
+        return valueOf(result)
     }
 
     /**
@@ -556,89 +624,27 @@ public class PackedDecimal extends AbstractNumber implements Fachwert {
      *
      * @param n z.B. 0, falls keine Nachkommastelle gesetzt sein soll
      * @param mode Rundungs-Mode
-     * @return eine neue {@link PackedDecimal}
+     * @return eine neue [PackedDecimal]
      */
-    public PackedDecimal setScale(int n, RoundingMode mode) {
-        BigDecimal result = toBigDecimal().setScale(n, mode);
-        return PackedDecimal.valueOf(result);
+    fun setScale(n: Int, mode: RoundingMode): PackedDecimal {
+        val result = toBigDecimal().setScale(n, mode)
+        return valueOf(result)
     }
 
-    private static byte[] asNibbles(String zahl) {
-        char[] chars = (zahl + " ").toCharArray();
-        byte[] bytes = new byte[(chars.length) / 2];
-        try {
-            for (int i = 0; i < bytes.length; i++) {
-                int upper = decode(chars[i * 2]);
-                int lower = decode(chars[i * 2 + 1]);
-                bytes[i] = (byte) ((upper << 4) | lower);
-            }
-        } catch (IllegalArgumentException ex) {
-            throw new LocalizedIllegalArgumentException(zahl, "number", ex);
+    override fun toString(): String {
+        val buf = StringBuilder()
+        for (b in code) {
+            buf.append(encode(b.toInt() shr 4))
+            buf.append(encode(b.toInt() and 0x0F))
         }
-        return bytes;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder buf = new StringBuilder();
-        for (byte b : this.code) {
-            buf.append(encode(b >> 4));
-            buf.append(encode(b & 0x0F));
-        }
-        return buf.toString().trim();
-    }
-
-    private static int decode(char x) {
-        switch (x) {
-            case '0':   return 0x0;
-            case '1':   return 0x1;
-            case '2':   return 0x2;
-            case '3':   return 0x3;
-            case '4':   return 0x4;
-            case '5':   return 0x5;
-            case '6':   return 0x6;
-            case '7':   return 0x7;
-            case '8':   return 0x8;
-            case '9':   return 0x9;
-            case '/':   return 0xA;
-            case '\t':
-            case ' ':   return 0xB;
-            case '+':   return 0xC;
-            case '-':   return 0xD;
-            case '.':   return 0xE;
-            case ',':   return 0xF;
-            default:    throw new LocalizedIllegalArgumentException(x, "number");
-        }
-    }
-
-    private static char encode(int nibble) {
-        switch (0x0F & nibble) {
-            case 0x0:   return '0';
-            case 0x1:   return '1';
-            case 0x2:   return '2';
-            case 0x3:   return '3';
-            case 0x4:   return '4';
-            case 0x5:   return '5';
-            case 0x6:   return '6';
-            case 0x7:   return '7';
-            case 0x8:   return '8';
-            case 0x9:   return '9';
-            case 0xA:   return '/';
-            case 0xB:   return ' ';
-            case 0xC:   return '+';
-            case 0xD:   return '-';
-            case 0xE:   return '.';
-            case 0xF:   return ',';
-            default:    throw new IllegalStateException("internal error");
-        }
+        return buf.toString().trim { it <= ' ' }
     }
 
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
-    @Override
-    public int hashCode() {
-        return this.toString().hashCode();
+    override fun hashCode(): Int {
+        return this.toString().hashCode()
     }
 
     /**
@@ -646,13 +652,12 @@ public class PackedDecimal extends AbstractNumber implements Fachwert {
      * beruecksichtigt. D.h. '711' und '0711' werden als unterschiedlich
      * betrachtet.
      *
-     * @param obj zu vergleichende PackedDedimal
+     * @param other zu vergleichende PackedDedimal
      * @return true bei Gleichheit
-     * @see Object#equals(Object)
+     * @see Object.equals
      */
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof PackedDecimal && this.toString().equals(obj.toString());
+    override fun equals(other: Any?): Boolean {
+        return other is PackedDecimal && this.toString() == other.toString()
     }
 
     /**
@@ -662,24 +667,27 @@ public class PackedDecimal extends AbstractNumber implements Fachwert {
      * @return negtive Zahl, falls this &lt; other, 0 bei Gleichheit, ansonsten
      * positive Zahl.
      */
-    @Override
-    public int compareTo(AbstractNumber other) {
-        if (other instanceof PackedDecimal) {
-            return compareTo((PackedDecimal) other);
+    override fun compareTo(other: AbstractNumber): Int {
+        return if (other is PackedDecimal) {
+            compareTo(other)
         } else {
-            return super.compareTo(other);
+            super.compareTo(other)
         }
     }
 
     /**
      * Vergleicht die andere Zahl mit der aktuellen Zahl.
      *
-     * @param other die andere {@link PackedDecimal}, die verglichen wird.
+     * @param other die andere [PackedDecimal], die verglichen wird.
      * @return negtive Zahl, falls this &lt; other, 0 bei Gleichheit, ansonsten
      * positive Zahl.
      */
-    public int compareTo(@NotNull PackedDecimal other) {
-        return this.toBruch().compareTo(other.toBruch());
+    operator fun compareTo(@NotNull other: PackedDecimal): Int {
+        return toBruch().compareTo(other.toBruch())
+    }
+
+    init {
+        code = asNibbles(validator.validate(zahl))
     }
 
 }
