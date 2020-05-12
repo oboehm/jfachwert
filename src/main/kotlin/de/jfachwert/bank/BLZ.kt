@@ -138,7 +138,7 @@ open class BLZ
          * @param blz die Bankleitzahl
          * @return die Bankleitzahl zur Weiterverabeitung
          */
-        fun validate(blz: String?): String {
+        fun validate(blz: String): String {
             return VALIDATOR.validate(PackedDecimal.of(blz)).toString()
         }
 
