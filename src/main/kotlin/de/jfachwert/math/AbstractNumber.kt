@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,74 +15,69 @@
  *
  * (c)reated 12.04.18 by oliver (ob@oasd.de)
  */
-package de.jfachwert.math;
+package de.jfachwert.math
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import de.jfachwert.math.internal.ToNumberSerializer;
-
-import java.math.BigDecimal;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import de.jfachwert.math.internal.ToNumberSerializer
+import java.math.BigDecimal
 
 /**
  * In dieser Klasse sind die gemeinsame Implementierung der abstrakten
- * Methoden der {@link Number}-Klasse zusammengefasst. Diese Klasse
+ * Methoden der [Number]-Klasse zusammengefasst. Diese Klasse
  * wurde eingezogen, um Code-Duplikate zu vermeiden.
  *
- * @author <a href="ob@aosd.de">oliver</a>
+ * @author ob@aosd.de
  * @since 0.7
  */
-@JsonSerialize(using = ToNumberSerializer.class)
-public abstract class AbstractNumber extends Number implements Comparable<AbstractNumber> {
+@JsonSerialize(using = ToNumberSerializer::class)
+abstract class AbstractNumber : Number(), Comparable<AbstractNumber> {
 
     /**
      * Diese Methode liefert die Zahl als BigDecimal zurueck und wird fuer
      * die Default-Implementierung der Number-Methoden benoetigt.
      *
-     * @return die Zahl als {@link BigDecimal}
+     * @return die Zahl als [BigDecimal]
      */
-    public abstract BigDecimal toBigDecimal();
+    abstract fun toBigDecimal(): BigDecimal
 
     /**
-     * Liefert die Zahl als ein {@code int} (gerundet) zurueck.
+     * Liefert die Zahl als ein `int` (gerundet) zurueck.
      *
-     * @return den numerischen Wert als {@code int}
+     * @return den numerischen Wert als `int`
      * @since 0.7
      */
-    @Override
-    public int intValue() {
-        return toBigDecimal().intValue();
+    override fun toInt(): Int {
+        return toBigDecimal().toInt()
     }
 
     /**
-     * Liefert die Zahl als ein {@code long} (gerundet) zurueck.
+     * Liefert die Zahl als ein `long` (gerundet) zurueck.
      *
-     * @return den numerischen Wert als {@code long}
+     * @return den numerischen Wert als `long`
      * @since 0.7
      */
-    @Override
-    public long longValue() {
-        return toBigDecimal().longValue();
+    override fun toLong(): Long {
+        return toBigDecimal().toLong()
     }
 
     /**
-     * Liefert die Zahl als ein {@code float} zurueck.
+     * Liefert die Zahl als ein `float` zurueck.
      *
-     * @return den numerischen Wert als {@code float}
+     * @return den numerischen Wert als `float`
      * @since 0.7
      */
-    @Override
-    public float floatValue() {
-        return toBigDecimal().floatValue();
+    override fun toFloat(): Float {
+        return toBigDecimal().toFloat()
     }
 
     /**
-     * Liefert die Zahl als ein {@code double} zurueck.
+     * Liefert die Zahl als ein `double` zurueck.
      *
-     * @return den numerischen Wert als {@code double}
+     * @return den numerischen Wert als `double`
      * @since 0.7
      */
-    @Override
-    public double doubleValue() {
-        return toBigDecimal().doubleValue();
+    override fun toDouble(): Double {
+        return toBigDecimal().toDouble()
     }
 
     /**
@@ -92,9 +87,7 @@ public abstract class AbstractNumber extends Number implements Comparable<Abstra
      * @return Abstand zur anderen Zahl
      * @since 3.0
      */
-    @Override
-    public int compareTo(AbstractNumber other) {
-        return this.toBigDecimal().compareTo(other.toBigDecimal());
+    override fun compareTo(other: AbstractNumber): Int {
+        return this.toBigDecimal().compareTo(other.toBigDecimal())
     }
-
 }
