@@ -50,7 +50,7 @@ open class Promille : Prozent {
      *
      * @param wert Promille-Wert, z.B. 10 fuer 10 °/oo
      */
-    constructor(wert: BigDecimal?) : super(wert) {}
+    constructor(wert: BigDecimal) : super(wert) {}
 
     /**
      * Diese Methode liefert den mathematischen Wert als BigDecimal zurueck,

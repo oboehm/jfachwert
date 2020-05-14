@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 by Oliver Boehm
+ * Copyright (c) 2019, 2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,143 +15,68 @@
  *
  * (c)reated 01.10.2019 by oboehm (ob@jfachwert.de)
  */
-package de.jfachwert.math;
+package de.jfachwert.math
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import de.jfachwert.Fachwert;
-import de.jfachwert.bank.Geldbetrag;
-
-import javax.money.MonetaryAmount;
-import java.math.BigDecimal;
-import java.util.Objects;
-import java.util.WeakHashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
+import de.jfachwert.Fachwert
+import de.jfachwert.bank.Geldbetrag.Companion.of
+import java.math.BigDecimal
+import java.util.*
+import java.util.logging.Level
+import java.util.logging.Logger
+import javax.money.MonetaryAmount
 
 /**
  * Die Klasse Prozent steht fuer den Hundersten Teil einer Zahl.
  * Sie kann wie jede andere Zahl fuer Berechnungen eingesetzt werden,
- * weswegen sie auch von {@link java.lang.Number} abgeleitet ist.
- * <p>
+ * weswegen sie auch von [java.lang.Number] abgeleitet ist.
+ *
  * Soweit moeglich und sinnvoll wurden die mathematischen Operationen
  * von BigDecimal uebernommen. So gibt es fuer die Multiplikation eine
- * {@link #multiply(BigDecimal)}-Methode. Auch gibt es Konstanten
- * ZERO, ONE und TEN.
- * </p>
+ * [.multiply]-Methode. Auch gibt es Konstanten ZERO, ONE und TEN.
  *
  * @author oboehm
  * @since 3.0 (01.10.2019)
  */
-@JsonSerialize(using = ToStringSerializer.class)
-public class Prozent extends AbstractNumber implements Fachwert {
-
-    private static final Logger LOG = Logger.getLogger(Prozent.class.getName());
-    private static final WeakHashMap<BigDecimal, Prozent> WEAK_CACHE = new WeakHashMap<>();
-
-    /** Konstante fuer "0%". */
-    public static final Prozent ZERO = Prozent.of(BigDecimal.ZERO);
-
-    /** Konstante fuer "1%". */
-    public static final Prozent ONE = Prozent.of(BigDecimal.ONE);
-
-    /** Konstante fuer "10%". */
-    public static final Prozent TEN = Prozent.of(BigDecimal.TEN);
-
-    private final BigDecimal wert;
+@JsonSerialize(using = ToStringSerializer::class)
+open class Prozent(val wert: BigDecimal) : AbstractNumber(), Fachwert {
 
     /**
      * Legt ein Prozent-Objekt an.
      *
      * @param wert Prozentwert, z.B. "10" fuer 10 %
      */
-    public Prozent(String wert) {
-        this(toNumber(wert));
-    }
-
-    private static BigDecimal toNumber(String wert) {
-        String number = wert.split("%")[0].trim();
-        try {
-            return new BigDecimal(number);
-        } catch (NumberFormatException ex) {
-            LOG.log(Level.FINE, number + " is not a normal number", ex);
-            return new BigDecimal(number.replace(',', '.'));
-        }
-    }
+    constructor(wert: String) : this(toNumber(wert)) {}
 
     /**
      * Legt ein Prozent-Objekt an.
      *
      * @param wert Prozentwert, z.B. 10 fuer 10 %
      */
-    public Prozent(long wert) {
-        this(BigDecimal.valueOf(wert));
-    }
-
-    /**
-     * Legt ein Prozent-Objekt an.
-     *
-     * @param wert Prozentwert, z.B. 10 fuer 10 %
-     */
-    public Prozent(BigDecimal wert) {
-        this.wert = wert;
-    }
-
-    /**
-     * Die of-Methode liefert fuer dieselbe Zahl immer dasselbe Objekt zurueck.
-     * Diese Methode lohnt sich daher, wenn man immer denselben Prozent-Wert
-     * erzeugen will, um die Anzahl der Objekte gering zu halten.
-     *
-     * @param wert z.B. "19%"
-     * @return "19%" als Prozent-Objekt
-     */
-    public static Prozent of(String wert) {
-        return Prozent.of(toNumber(wert));
-    }
-
-    /**
-     * Die of-Methode liefert fuer dieselbe Zahl immer dasselbe Objekt zurueck.
-     * Diese Methode lohnt sich daher, wenn man immer denselben Prozent-Wert
-     * erzeugen will, um die Anzahl der Objekte gering zu halten.
-     *
-     * @param wert z.B. "19%"
-     * @return "19%" als Prozent-Objekt
-     */
-    public static Prozent of(long wert) {
-        return Prozent.of(BigDecimal.valueOf(wert));
-    }
-
-    /**
-     * Die of-Methode liefert fuer dieselbe Zahl immer dasselbe Objekt zurueck.
-     * Diese Methode lohnt sich daher, wenn man immer denselben Prozent-Wert
-     * erzeugen will, um die Anzahl der Objekte gering zu halten.
-     *
-     * @param wert z.B. 19
-     * @return "19%" als Prozent-Objekt
-     */
-    public static Prozent of(BigDecimal wert) {
-        return WEAK_CACHE.computeIfAbsent(wert, Prozent::new);
-    }
-
-    /**
-     * Liefert den eigentlichen Prozentwert, der vor dem Prozentzeichen steht.
-     *
-     * @return z.B. 19 fuer 19% MwSt.
-     */
-    public BigDecimal getWert() {
-        return this.wert;
-    }
+    constructor(wert: Long) : this(BigDecimal.valueOf(wert)) {}
 
     /**
      * Diese Methode liefert den mathematischen Wert als BigDecimal zurueck,
      * mit dem dann weitergerechnet werden kann. D.h. 19% wird dann als '0.19'
      * zurueckgegeben.
      *
-     * @return die Zahl als {@link BigDecimal}
+     * @return die Zahl als [BigDecimal]
      */
-    @Override
-    public BigDecimal toBigDecimal() {
-        return this.wert.divide(BigDecimal.valueOf(100));
+    override fun toBigDecimal(): BigDecimal {
+        return wert.divide(BigDecimal.valueOf(100))
+    }
+
+    override fun toByte(): Byte {
+        return toBigDecimal().toByte()
+    }
+
+    override fun toChar(): Char {
+        return toBigDecimal().toChar()
+    }
+
+    override fun toShort(): Short {
+        return toBigDecimal().toShort()
     }
 
     /**
@@ -160,8 +85,8 @@ public class Prozent extends AbstractNumber implements Fachwert {
      * @param x Multiplikant
      * @return x * Prozentwert / 100
      */
-    public BigDecimal multiply(BigDecimal x) {
-        return x.multiply(toBigDecimal());
+    fun multiply(x: BigDecimal): BigDecimal {
+        return x.multiply(toBigDecimal())
     }
 
     /**
@@ -172,9 +97,9 @@ public class Prozent extends AbstractNumber implements Fachwert {
      * @return Prozentwert des Geldbetrags
      * @since 4.0
      */
-    public MonetaryAmount multiply(MonetaryAmount geldbetrag) {
-        BigDecimal zins = this.multiply(geldbetrag.getNumber().numberValue(BigDecimal.class));
-        return Geldbetrag.of(zins, geldbetrag.getCurrency());
+    fun multiply(geldbetrag: MonetaryAmount): MonetaryAmount {
+        val zins = this.multiply(geldbetrag.number.numberValue(BigDecimal::class.java))
+        return of(zins, geldbetrag.currency)
     }
 
     /**
@@ -183,27 +108,93 @@ public class Prozent extends AbstractNumber implements Fachwert {
      * @param x Multiplikant
      * @return x * Prozentwert / 100
      */
-    public BigDecimal multiply(long x) {
-        return multiply(BigDecimal.valueOf(x));
+    fun multiply(x: Long): BigDecimal {
+        return multiply(BigDecimal.valueOf(x))
     }
 
-    @Override
-    public String toString() {
-        return this.wert + "%";
+    override fun toString(): String {
+        return wert.toString() + "%"
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Prozent)) {
-            return false;
+    override fun equals(other: Any?): Boolean {
+        if (other !is Prozent) {
+            return false
         }
-        Prozent other = (Prozent) obj;
-        return Objects.equals(this.wert, other.wert);
+        return wert == other.wert
     }
 
-    @Override
-    public int hashCode() {
-        return this.wert.hashCode();
+    override fun hashCode(): Int {
+        return wert.hashCode()
+    }
+
+
+
+    companion object {
+
+        private val LOG = Logger.getLogger(Prozent::class.java.name)
+        private val WEAK_CACHE = WeakHashMap<BigDecimal, Prozent>()
+
+        /** Konstante fuer "0%".  */
+        @JvmField
+        val ZERO = of(BigDecimal.ZERO)
+
+        /** Konstante fuer "1%".  */
+        @JvmField
+        val ONE = of(BigDecimal.ONE)
+
+        /** Konstante fuer "10%".  */
+        @JvmField
+        val TEN = of(BigDecimal.TEN)
+
+        private fun toNumber(wert: String): BigDecimal {
+            val number = wert.split("%").toTypedArray()[0].trim { it <= ' ' }
+            return try {
+                BigDecimal(number)
+            } catch (ex: NumberFormatException) {
+                LOG.log(Level.FINE, "$number is not a normal number", ex)
+                BigDecimal(number.replace(',', '.'))
+            }
+        }
+
+        /**
+         * Die of-Methode liefert fuer dieselbe Zahl immer dasselbe Objekt zurueck.
+         * Diese Methode lohnt sich daher, wenn man immer denselben Prozent-Wert
+         * erzeugen will, um die Anzahl der Objekte gering zu halten.
+         *
+         * @param wert z.B. "19%"
+         * @return "19%" als Prozent-Objekt
+         */
+        @JvmStatic
+        fun of(wert: String): Prozent {
+            return of(toNumber(wert))
+        }
+
+        /**
+         * Die of-Methode liefert fuer dieselbe Zahl immer dasselbe Objekt zurueck.
+         * Diese Methode lohnt sich daher, wenn man immer denselben Prozent-Wert
+         * erzeugen will, um die Anzahl der Objekte gering zu halten.
+         *
+         * @param wert z.B. "19%"
+         * @return "19%" als Prozent-Objekt
+         */
+        @JvmStatic
+        fun of(wert: Long): Prozent {
+            return of(BigDecimal.valueOf(wert))
+        }
+
+        /**
+         * Die of-Methode liefert fuer dieselbe Zahl immer dasselbe Objekt zurueck.
+         * Diese Methode lohnt sich daher, wenn man immer denselben Prozent-Wert
+         * erzeugen will, um die Anzahl der Objekte gering zu halten.
+         *
+         * @param wert z.B. 19
+         * @return "19%" als Prozent-Objekt
+         */
+        @JvmStatic
+        fun of(wert: BigDecimal): Prozent {
+            return WEAK_CACHE.computeIfAbsent(wert) { w: BigDecimal -> Prozent(w) }
+        }
+
     }
 
 }
