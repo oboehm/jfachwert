@@ -246,17 +246,13 @@ open class PackedDecimal @JvmOverloads constructor(zahl: String, validator: Simp
          * Diese Methode ist dem Konstruktor vorzuziehen, da fuer gaengige Zahlen
          * wie "0" oder "1" immer das gleiche Objekt zurueckgegeben wird.
          *
-         *
          * Im Gegensatz zum String-Konstruktor darf man hier auch 'null' als Wert
          * uebergeben. In diesem Fall wird dies in [.EMPTY] uebersetzt.
-         *
-         *
          *
          * Die erzeugten PackedDecimals werden intern in einem "weak" Cache
          * abgelegt, damit bei gleichen Zahlen auch die gleichen PackedDecimals
          * zurueckgegeben werden. Dies dient vor allem zur Reduktion des
          * Speicherverbrauchs.
-         *
          *
          * @param zahl String aus Zahlen
          * @return Zahl als [PackedDecimal]
@@ -428,18 +424,6 @@ open class PackedDecimal @JvmOverloads constructor(zahl: String, validator: Simp
      */
     override fun toBigDecimal(): BigDecimal {
         return BigDecimal(toString())
-    }
-
-    override fun toByte(): Byte {
-        return toBigDecimal().toByte()
-    }
-
-    override fun toChar(): Char {
-        return toBigDecimal().toChar()
-    }
-
-    override fun toShort(): Short {
-        return toBigDecimal().toShort()
     }
 
     /**

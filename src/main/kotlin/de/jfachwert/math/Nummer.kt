@@ -43,7 +43,10 @@ open class Nummer(code: String) : AbstractNumber(), Fachwert {
 
     private val code: PackedDecimal
 
+
+
     companion object {
+
         private val CACHE = arrayOfNulls<Nummer>(11)
         private val VALIDATOR: SimpleValidator<String> = Validator()
 
@@ -160,18 +163,6 @@ open class Nummer(code: String) : AbstractNumber(), Fachwert {
      */
     override fun toBigDecimal(): BigDecimal {
         return code.toBigDecimal()
-    }
-
-    override fun toByte(): Byte {
-        return code.toByte()
-    }
-
-    override fun toChar(): Char {
-        return code.toChar()
-    }
-
-    override fun toShort(): Short {
-        return code.toShort()
     }
 
     /**

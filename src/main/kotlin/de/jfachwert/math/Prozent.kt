@@ -67,18 +67,6 @@ open class Prozent(val wert: BigDecimal) : AbstractNumber(), Fachwert {
         return wert.divide(BigDecimal.valueOf(100))
     }
 
-    override fun toByte(): Byte {
-        return toBigDecimal().toByte()
-    }
-
-    override fun toChar(): Char {
-        return toBigDecimal().toChar()
-    }
-
-    override fun toShort(): Short {
-        return toBigDecimal().toShort()
-    }
-
     /**
      * Fuehrt eine einfache Prozent-Rechnung aus. D.h. '10% * 42 = 4.2'.
      *

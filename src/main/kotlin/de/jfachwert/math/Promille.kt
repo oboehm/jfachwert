@@ -63,18 +63,6 @@ open class Promille : Prozent {
         return wert.divide(BigDecimal.valueOf(1000))
     }
 
-    override fun toShort(): Short {
-        return toBigDecimal().toShort()
-    }
-
-    override fun toByte(): Byte {
-        return toBigDecimal().toByte()
-    }
-
-    override fun toChar(): Char {
-        return toBigDecimal().toChar()
-    }
-
     override fun toString(): String {
         return wert.toString() + Character.toString(PROMILLE_ZEICHEN)
     }

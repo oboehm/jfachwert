@@ -81,6 +81,33 @@ abstract class AbstractNumber : Number(), Comparable<AbstractNumber> {
     }
 
     /**
+     * Liefert die Zahl als ein `Byte` zurueck.
+     *
+     * @return den numerischen Wert als `Byte`
+     */
+    override fun toByte(): Byte {
+        return toBigDecimal().toByte()
+    }
+
+    /**
+     * Liefert die Zahl als ein `Char` zurueck.
+     *
+     * @return den numerischen Wert als `Char`
+     */
+    override fun toChar(): Char {
+        return toBigDecimal().toChar()
+    }
+
+    /**
+     * Liefert die Zahl als ein `Short` zurueck.
+     *
+     * @return den numerischen Wert als `Short`
+     */
+    override fun toShort(): Short {
+        return toBigDecimal().toShort()
+    }
+
+    /**
      * Dient zum Vergleich zweier Zahlen.
      *
      * @param other die andere Zahl

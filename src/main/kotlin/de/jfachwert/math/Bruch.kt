@@ -224,17 +224,7 @@ open class Bruch(val zaehler: BigInteger, val nenner: BigInteger) : AbstractNumb
         return BigDecimal(zaehler).divide(BigDecimal(nenner))
     }
 
-    override fun toByte(): Byte {
-        return toBigDecimal().toByte()
-    }
 
-    override fun toChar(): Char {
-        return toBigDecimal().toChar()
-    }
-
-    override fun toShort(): Short {
-        return toBigDecimal().toShort()
-    }
 
     companion object {
 
@@ -244,6 +234,7 @@ open class Bruch(val zaehler: BigInteger, val nenner: BigInteger) : AbstractNumb
 
         private fun toNumbers(bruch: String): Array<BigInteger> {
             val parts = StringUtils.split(bruch, "/")
+            // entgegen der Meinung von IntelliJ wird der catch-Bereich gebraucht
             return try {
                 when (parts.size) {
                     1 -> {
