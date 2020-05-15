@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,9 @@
  *
  * (c)reated 28.08.2017 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.formular;
+package de.jfachwert.formular
 
-import de.jfachwert.pruefung.AccessValidator;
+import de.jfachwert.pruefung.AccessValidator.access
 
 /**
  * Die Liste fuer die Anrede orientiert sich am Handbuch des Gesamtverbands der
@@ -26,34 +26,28 @@ import de.jfachwert.pruefung.AccessValidator;
  *
  * @since 2.0
  */
-public enum Anrede {
+enum class Anrede(private val text: String) {
 
-    /** Unbekannte Anrede. */
+    /** Unbekannte Anrede.  */
     OHNE_ANREDE(""),
 
-    /** Maennliche Anrede. */
+    /** Maennliche Anrede.  */
     HERR("Herr"),
 
-    /** Weibliche Anrede. */
+    /** Weibliche Anrede.  */
     FRAU("Frau"),
 
-    /** Firma. */
+    /** Firma.  */
     FIRMA("Firma"),
 
-    /** Herr und Frau. */
+    /** Herr und Frau.  */
     HERR_UND_FRAU("Herr und Frau"),
 
-    /** Fraeulein (aus historischen Gruenden). */
+    /** Fraeulein (aus historischen Gruenden).  */
     FRAEULEIN("Fr\u00e4ulein"),
 
-    /** Vereinigung. */
+    /** Vereinigung.  */
     VEREINIGUNG("Vereinigung");
-
-    private final String text;
-
-    Anrede(String text) {
-        this.text = text;
-    }
 
     /**
      * Als Ergebnis werden die einzelnen Elemente in normaler Schreibweise
@@ -61,20 +55,26 @@ public enum Anrede {
      *
      * @return z.B. "Herr" oder "Frau"
      */
-    @Override
-    public String toString() {
-        return text;
+    override fun toString(): String {
+        return text
     }
 
-    /**
-     * Liefert das n-te Element als Anrede zurueck. Die Reihenfolge entspricht
-     * dabei der Reihenfolge, wie sie im Handbuch des GDVs dokumentiert sind.
-     *
-     * @param n von 0 bis 6
-     * @return Anrede
-     */
-    public static Anrede of(int n) {
-        return AccessValidator.access(Anrede.values(), n);
+
+
+    companion object {
+
+        /**
+         * Liefert das n-te Element als Anrede zurueck. Die Reihenfolge entspricht
+         * dabei der Reihenfolge, wie sie im Handbuch des GDVs dokumentiert sind.
+         *
+         * @param n von 0 bis 6
+         * @return Anrede
+         */
+        @JvmStatic
+        fun of(n: Int): Anrede {
+            return access(values(), n)
+        }
+
     }
 
 }
