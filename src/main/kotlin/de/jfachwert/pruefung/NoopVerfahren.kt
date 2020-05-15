@@ -28,7 +28,7 @@ import java.io.Serializable
  * @author oboehm
  * @since 0.1.0
  */
-open class NoopVerfahren<T : Serializable?> : PruefzifferVerfahren<T> {
+open class NoopVerfahren<T : Serializable> : PruefzifferVerfahren<T> {
 
     /**
      * Meistens ist die letzte Ziffer die Pruefziffer, die hierueber abgefragt

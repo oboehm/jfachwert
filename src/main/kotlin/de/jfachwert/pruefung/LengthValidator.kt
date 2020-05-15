@@ -36,7 +36,7 @@ import java.util.*
  * @author oboehm
  * @since 0.2 (20.04.2017)
  */
-class LengthValidator<T : Serializable?> @JvmOverloads constructor(private val min: Int, private val max: Int = Int.MAX_VALUE) : NoopVerfahren<T>() {
+class LengthValidator<T : Serializable> @JvmOverloads constructor(private val min: Int, private val max: Int = Int.MAX_VALUE) : NoopVerfahren<T>() {
 
     /**
      * Liefert true zurueck, wenn der uebergebene Wert innerhalb der erlaubten

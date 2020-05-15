@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,10 @@
  *
  * (c)reated 19.03.17 by oliver (ob@oasd.de)
  */
-package de.jfachwert;
+package de.jfachwert
 
-import de.jfachwert.pruefung.exception.PruefzifferException;
-
-import java.io.Serializable;
+import de.jfachwert.pruefung.exception.PruefzifferException
+import java.io.Serializable
 
 /**
  * Viele Fachwerte wie IBAN, ISBN oder Steuernummer besitzen eine Pruefziffer,
@@ -33,10 +32,10 @@ import java.io.Serializable;
  * PruefzifferVerfahren heisst.
  *
  * @param <T> Typ, der vom Fachwert verwendet wird
- * @author <a href="ob@aosd.de">oliver</a>
+ * @author ob@aosd.de
  * @since 0.1.0
  */
-public interface PruefzifferVerfahren<T extends Serializable> extends SimpleValidator<T> {
+interface PruefzifferVerfahren<T : Serializable> : SimpleValidator<T> {
 
     /**
      * Meistens ist die letzte Ziffer die Pruefziffer, die hierueber abgefragt
@@ -45,7 +44,7 @@ public interface PruefzifferVerfahren<T extends Serializable> extends SimpleVali
      * @param wert Fachwert oder gekapselter Wert
      * @return meist ein Wert zwischen 0 und 9
      */
-    T getPruefziffer(T wert);
+    fun getPruefziffer(wert: T): T
 
     /**
      * Berechnet die Pruefziffer des uebergebenen Wertes.
@@ -53,7 +52,7 @@ public interface PruefzifferVerfahren<T extends Serializable> extends SimpleVali
      * @param wert Wert
      * @return errechnete Pruefziffer
      */
-    T berechnePruefziffer(T wert);
+    fun berechnePruefziffer(wert: T): T
 
     /**
      * Liefert true zurueck, wenn der uebergebene Wert gueltig ist.
@@ -61,9 +60,9 @@ public interface PruefzifferVerfahren<T extends Serializable> extends SimpleVali
      * @param wert Fachwert oder gekapselter Wert
      * @return true oder false
      */
-    default boolean isValid(T wert) {
-        T pruefziffer = getPruefziffer(wert);
-        return pruefziffer.equals(berechnePruefziffer(wert));
+    fun isValid(wert: T): Boolean {
+        val pruefziffer = getPruefziffer(wert)
+        return pruefziffer == berechnePruefziffer(wert)
     }
 
     /**
@@ -73,11 +72,11 @@ public interface PruefzifferVerfahren<T extends Serializable> extends SimpleVali
      * @param wert zu ueberpruefender Wert
      * @return den ueberprueften Wert (zur Weiterverarbeitung)
      */
-    default T validate(T wert) {
+    override fun validate(wert: T): T {
         if (!isValid(wert)) {
-            throw new PruefzifferException(wert, berechnePruefziffer(wert), getPruefziffer(wert));
+            throw PruefzifferException(wert, berechnePruefziffer(wert), getPruefziffer(wert))
         }
-        return wert;
+        return wert
     }
 
 }
