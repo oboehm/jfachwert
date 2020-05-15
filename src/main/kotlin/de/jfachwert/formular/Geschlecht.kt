@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,41 +15,35 @@
  *
  * (c)reated 05.10.17 by oliver (ob@oasd.de)
  */
-package de.jfachwert.formular;
+package de.jfachwert.formular
 
-import de.jfachwert.pruefung.AccessValidator;
+import de.jfachwert.pruefung.AccessValidator.access
 
 /**
  * Die Werte fuer das Geschlecht orientieren sich am Handbuch des
  * Gesamtverbands der Deutschen Versicherungswirtschaft (GDV). Auch
- * Reihenfolge entspricht diesem Handbuch. Zusaetzlich wurde noch
- * {@link Geschlecht#DIVERS} und {@link Geschlecht#UNBEKANNT} als Wert mit
+ * die Reihenfolge entspricht diesem Handbuch. Zusaetzlich wurde noch
+ * [Geschlecht.DIVERS] und [Geschlecht.UNBEKANNT] als Wert mit
  * aufgenommen.
  *
  * @since 2.0
  */
-public enum Geschlecht {
+enum class Geschlecht(private val text: String) {
 
-    /** Juristische Person (meist Firmen). */
+    /** Juristische Person (meist Firmen).  */
     JURISTISCHE_PERSON("juristische Person"),
 
-    /** Maennliches Geschlecht. */
+    /** Maennliches Geschlecht.  */
     MAENNLICH("m\u00e4nnlich"),
 
-    /** Weibliches Geschlecht. */
+    /** Weibliches Geschlecht.  */
     WEIBLICH("weiblich"),
 
-    /** Divers. */
+    /** Divers.  */
     DIVERS("divers"),
 
-    /** Unbekanntes Geschlecht. */
+    /** Unbekanntes Geschlecht.  */
     UNBEKANNT("?");
-
-    private final String text;
-
-    Geschlecht(String text) {
-        this.text = text;
-    }
 
     /**
      * Als Ergebnis werden die einzelnen Elemente in normaler Schreibweise
@@ -57,38 +51,45 @@ public enum Geschlecht {
      *
      * @return z.B. "weiblich"
      */
-    @Override
-    public String toString() {
-        return text;
+    override fun toString(): String {
+        return text
     }
 
-    /**
-     * Liefert das n-te Element als Geschlecht zurueck. Die Reihenfolge
-     * entspricht dabei der Reihenfolge, wie sie im Handbuch des GDVs
-     * dokumentiert sind.
-     *
-     * @param n von 0 bis 4
-     * @return Geschlecht
-     */
-    public static Geschlecht of(int n) {
-        return AccessValidator.access(Geschlecht.values(), n);
-    }
 
-    /**
-     * Liefert das Geschlecht, das dem uebergebenen Buchstaben entspricht.
-     * Bei unbekanntem Buchstaben wird {@link Geschlecht#UNBEKANNT}
-     * zurueckgegeben.
-     *
-     * @param key Buchstaben wie 'w', 'm' oder 'j' (juristische Person)
-     * @return Geschlecht
-     */
-    public static Geschlecht of(char key) {
-        for (Geschlecht g : Geschlecht.values()) {
-            if (g.text.charAt(0) == Character.toLowerCase(key)) {
-                return g;
-            }
+
+    companion object {
+
+        /**
+         * Liefert das n-te Element als Geschlecht zurueck. Die Reihenfolge
+         * entspricht dabei der Reihenfolge, wie sie im Handbuch des GDVs
+         * dokumentiert sind.
+         *
+         * @param n von 0 bis 4
+         * @return Geschlecht
+         */
+        @JvmStatic
+        fun of(n: Int): Geschlecht {
+            return access(values(), n)
         }
-        return UNBEKANNT;
+
+        /**
+         * Liefert das Geschlecht, das dem uebergebenen Buchstaben entspricht.
+         * Bei unbekanntem Buchstaben wird [Geschlecht.UNBEKANNT]
+         * zurueckgegeben.
+         *
+         * @param key Buchstaben wie 'w', 'm' oder 'j' (juristische Person)
+         * @return Geschlecht
+         */
+        @JvmStatic
+        fun of(key: Char): Geschlecht {
+            for (g in values()) {
+                if (g.text[0] == Character.toLowerCase(key)) {
+                    return g
+                }
+            }
+            return UNBEKANNT
+        }
+
     }
 
 }

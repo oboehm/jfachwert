@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,10 @@
 
 /**
  * In diesem Package sind Klassen und Aufzaehlungstypen wie
- * {@link de.jfachwert.formular.Anrede} oder
- * {@link de.jfachwert.formular.Geschlecht}, die ueblicherweise in Formularen
+ * 'Anrede' oder 'Geschlecht', die ueblicherweise in Formularen
  * und Vertraege anzufinden sind,
  *
- * @author <a href="ob@aosd.de">oliver</a>
+ * @author ob@aosd.de
  * @since 2.0
  */
-package de.jfachwert.formular;
+package de.jfachwert.formular
