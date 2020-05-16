@@ -28,7 +28,7 @@ import java.io.Serializable
  *
  * @since 0.4
  */
-class NullValidator<T : Serializable?> : SimpleValidator<T> {
+class NullValidator<T : Serializable> : SimpleValidator<T> {
 
     /**
      * Wenn der uebergebene Wert nicht null ist, wird er unveraendert
@@ -39,9 +39,6 @@ class NullValidator<T : Serializable?> : SimpleValidator<T> {
      * @return Wert selber, wenn er nicht null ist
      */
     override fun validate(value: T): T {
-        if (value == null) {
-            throw NullValueException()
-        }
         return value
     }
 

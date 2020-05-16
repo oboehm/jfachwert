@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,16 +19,15 @@
 /**
  * Dies ist das oberste Package von jFachwert. Unterhalb diese Bereichs sind
  * die einzelne Fachwerte thematisch aufgeteilt.
- * <p>
+ *
  * Die meisten Implementierung verhindern, dass ungueltige Fachwerte angelegt
  * werden koennen, indem die Parameter im Konstruktor validiert werden. Dies
  * ist beim Aufruf des Konstruktors zu beachten.
- * Dazu besitzen die meisten {@link de.jfachwert.Fachwert}-Klassen eine
- * statische validate-Methode, um die Gueltigkeit der Konstruktor-Argumente
- * im Vorfeld ueberpruefen zu koennen.
- * </p>
+ * Dazu besitzen die meisten Fachwert-Klassen eine statische validate-Methode,
+ * um die Gueltigkeit der Konstruktor-Argumente im Vorfeld ueberpruefen zu
+ * koennen.
  *
- * @author <a href="ob@aosd.de">oliver</a>
+ * @author ob@aosd.de
  * @since 0.0.1
  */
-package de.jfachwert;
+package de.jfachwert

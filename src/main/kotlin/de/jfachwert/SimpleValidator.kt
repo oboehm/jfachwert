@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2020 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,14 @@
  *
  * (c)reated 20.08.17 by oliver (ob@oasd.de)
  */
-package de.jfachwert;
+package de.jfachwert
 
-import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
-import de.jfachwert.pruefung.exception.NullValueException;
-
-import javax.validation.ValidationException;
-import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
+import de.jfachwert.pruefung.exception.NullValueException
+import java.io.Serializable
+import java.util.logging.Level
+import java.util.logging.Logger
+import javax.validation.ValidationException
 
 /**
  * Um die verschiedenen Validatoren als allgemeines Attribut verwendenen
@@ -34,48 +33,47 @@ import java.util.logging.Logger;
  *
  * @since 0.4 (20.08.17)
  */
-public interface SimpleValidator<T extends Serializable> extends Serializable {
-
-    static final Logger logger = Logger.getLogger(SimpleValidator.class.getName());
+interface SimpleValidator<T : Serializable> : Serializable {
 
     /**
      * Wenn der uebergebene Wert gueltig ist, soll er unveraendert
      * zurueckgegeben werden, damit er anschliessend von der aufrufenden
      * Methode weiterverarbeitet werden kann. Ist der Wert nicht gueltig,
-     * soll eine {@link javax.validation.ValidationException} geworfen
+     * soll eine [javax.validation.ValidationException] geworfen
      * werden.
      *
      * @param value Wert, der validiert werden soll
      * @return Wert selber, wenn er gueltig ist
      */
-    T validate(T value);
+    fun validate(value: T): T
 
-    default Object validateObject(Object value) {
+    fun validateObject(value: Any): Any? {
         try {
-            return validate((T) value);
-        } catch (ClassCastException ex) {
-            logger.log(Level.FINE, "cannot cast " + value, ex);
+            return validate(value as T)
+        } catch (ex: ClassCastException) {
+            logger.log(Level.FINE, "cannot cast $value", ex)
         }
-        if (value == null) {
-            throw new NullValueException();
-        }
-        return value;
+        return value
     }
 
     /**
-     * Im Unterschied zur {@link #validate(Serializable)}-Methode wird hier
-     * eine {@link IllegalArgumentException} geworfen, wenn der Wert kein
+     * Im Unterschied zur [.validate]-Methode wird hier
+     * eine [IllegalArgumentException] geworfen, wenn der Wert kein
      * gueltiges Argument ist.
      *
      * @param value Wert, der verifiziert werden soll
      * @return Wert selber, wenn er gueltig ist
      */
-    default T verify(T value) {
-        try {
-            return validate(value);
-        } catch (ValidationException ex) {
-            throw new LocalizedIllegalArgumentException(ex);
+    fun verify(value: T): T {
+        return try {
+            validate(value)
+        } catch (ex: ValidationException) {
+            throw LocalizedIllegalArgumentException(ex)
         }
+    }
+
+    companion object {
+        val logger = Logger.getLogger(SimpleValidator::class.java.name)
     }
 
 }
