@@ -22,6 +22,7 @@ import de.jfachwert.math.*
 import de.jfachwert.med.BSNR
 import de.jfachwert.med.IK
 import de.jfachwert.med.LANR
+import de.jfachwert.med.PZN
 import de.jfachwert.net.ChatAccount
 import de.jfachwert.net.Domainname
 import de.jfachwert.net.EMailAdresse
@@ -188,6 +189,7 @@ class FachwertFactory private constructor() {
             instance.register(Promille::class.java)
             instance.register(Mehrwertsteuer::class.java)
             instance.register(Zinssatz::class.java)
+            instance.register(PZN::class.java)
         }
     }
 

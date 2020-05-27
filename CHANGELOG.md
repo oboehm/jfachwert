@@ -10,10 +10,11 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ### Added
 - Mehrwertsteuer-Klasse im steuer-Paket
 - Zinssatz-Klasse im bank-Paket
+- PZN-Klasse im med-Paket
 
 ### Changed
 - Beginn Umstellung auf Kotlin.
-- **Achtung:** ILocalizedException ist nicht kompatible mit der alten Java-Version (LocalizedException).
+- **Achtung:** Interface LocalizedException ist nicht kompatible mit der alten Java-Version (LocalizedException).
   Grund dafür ist [KT-6653](https://youtrack.jetbrains.com/issue/KT-6653).
 
 
