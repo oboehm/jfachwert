@@ -160,9 +160,10 @@ open class PZN
             val digits = wert.toCharArray()
             var sum = 0
             val length = digits.size-1
+            val anfangsWichtung = 8 - length
             for (i in 0 until length) {
                 val digit = Character.digit(digits[i], 10)
-                sum += digit * (i + 1)
+                sum += digit * (anfangsWichtung + i)
             }
             return sum
         }

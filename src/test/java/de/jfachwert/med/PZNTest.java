@@ -51,10 +51,14 @@ public final class PZNTest extends AbstractFachwertTest<Integer, PZN> {
         return "27580899";
     }
 
+    /**
+     * Dieser Testfall mit Aspirin stammt aus
+     * https://www.mubk.de/bildungsgaenge/bs/pk/faecher/ws/lf_03/ws_lf_03_011.htm.
+     */
     @Test
-    public void testPZNmit0() {
-        PZN nr = PZN.of(1234563);
-        assertEquals("PZN-01234563", nr.toString());
+    public void testPZN7() {
+        PZN nr = PZN.of(2495052);
+        assertEquals("PZN-02495052", nr.toString());
     }
 
     @Test(expected = IllegalArgumentException.class)
