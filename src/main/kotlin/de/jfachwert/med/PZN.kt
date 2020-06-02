@@ -19,11 +19,9 @@
 package de.jfachwert.med
 
 import de.jfachwert.AbstractFachwert
+import de.jfachwert.PruefzifferVerfahren
 import de.jfachwert.SimpleValidator
-import de.jfachwert.math.Promille
 import de.jfachwert.pruefung.LengthValidator
-import org.apache.commons.lang3.StringUtils
-import java.math.BigDecimal
 import java.util.*
 
 /**
@@ -61,7 +59,7 @@ open class PZN
 
     companion object {
 
-        private val VALIDATOR = LengthValidator<Int>(2, 8)
+        private val VALIDATOR = Validator()
         private val WEAK_CACHE = WeakHashMap<Int, PZN>()
 
         /**
@@ -88,6 +86,85 @@ open class PZN
 
         private fun toInt(s: String): Int {
             return s.replace("PZN-", "", true).toInt()
+        }
+
+    }
+
+
+
+    /**
+     * Die Pruefziffer der PZN wird nach dem Modulo 11 berechnet. Dabei wird
+     * jede Ziffer der PZN mit einem unterschiedlichen Faktor von eins bis neun
+     * gewichtet. Ueber die Produkte wird die Summe gebildet und durch 11
+     * dividiert. Der verbleibende ganzzahlige Rest bildet die Pruefziffer.
+     * Bleibt als Rest die Zahl 10, dann wird diese Ziffernfolge nicht als PZN verwendet
+     */
+    class Validator : SimpleValidator<Int> {
+
+        /**
+         * Wenn der uebergebene Wert gueltig ist, soll er unveraendert
+         * zurueckgegeben werden, damit er anschliessend von der aufrufenden
+         * Methode weiterverarbeitet werden kann. Ist der Wert nicht gueltig,
+         * soll eine [javax.validation.ValidationException] geworfen
+         * werden.
+         *
+         * @param value Wert, der validiert werden soll
+         * @return Wert selber, wenn er gueltig ist
+         */
+        override fun validate(value: Int): Int {
+            val n = VALIDATOR8.validate(value)
+            MOD11.validate(Integer.toString(n))
+            return n
+        }
+
+        companion object {
+            private val MOD11: PruefzifferVerfahren<String> = Mod11Verfahren()
+            private val VALIDATOR8 = LengthValidator<Int>(2, 8)
+        }
+
+    }
+
+
+    /**
+     * Die Pruefziffer der PZN wird nach dem Modulo 11 berechnet. Dabei wird
+     * jede Ziffer der PZN mit einem unterschiedlichen Faktor von 1 bis 9
+     * gewichtet. Ueber die Produkte wird die Summe gebildet und durch 11
+     * dividiert. Der verbleibende ganzzahlige Rest bildet die Pruefziffer.
+     * Bleibt als Rest die Zahl 10, dann wird diese Ziffernfolge nicht als PZN
+     * verwendet
+     */
+    class Mod11Verfahren : PruefzifferVerfahren<String> {
+
+        /**
+         * Die Pruefziffer ist die letzte Ziffer.
+         *
+         * @param wert eine PZN
+         * @return ein Wert zwischen 0 und 9
+         */
+        override fun getPruefziffer(wert: String): String {
+            return wert.last().toString()
+        }
+
+        /**
+         * Berechnet die Pruefziffer des uebergebenen Wertes.
+         *
+         * @param wert Wert
+         * @return errechnete Pruefziffer
+         */
+        override fun berechnePruefziffer(wert: String): String {
+            val sum = getQuersumme(wert)
+            return Integer.toString((sum % 11) % 10)
+        }
+
+        private fun getQuersumme(wert: String): Int {
+            val digits = wert.toCharArray()
+            var sum = 0
+            val length = digits.size-1
+            for (i in 0 until length) {
+                val digit = Character.digit(digits[i], 10)
+                sum += digit * (i + 1)
+            }
+            return sum
         }
 
     }

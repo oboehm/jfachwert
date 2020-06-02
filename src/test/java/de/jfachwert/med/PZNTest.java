@@ -48,18 +48,23 @@ public final class PZNTest extends AbstractFachwertTest<Integer, PZN> {
      */
     @Override
     protected String getCode() {
-        return "2758089";
+        return "27580899";
     }
 
     @Test
     public void testPZNmit0() {
-        PZN nr = PZN.of(1234567);
-        assertEquals("PZN-01234567", nr.toString());
+        PZN nr = PZN.of(1234563);
+        assertEquals("PZN-01234563", nr.toString());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void test10stelligeBSNR() {
+    public void test10stelligePZN() {
         PZN.of(1234567890);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidPZN() {
+        PZN.of(27580890);
     }
 
     /**
@@ -67,8 +72,8 @@ public final class PZNTest extends AbstractFachwertTest<Integer, PZN> {
      */
     @Test
     public void testOf() {
-        PZN nr = PZN.of("02758089");
-        assertThat(nr.toString(), containsString("02758089"));
+        PZN nr = PZN.of("04877800");
+        assertThat(nr.toString(), containsString("04877800"));
     }
 
 }
