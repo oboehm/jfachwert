@@ -425,6 +425,7 @@
     <dependency>
       <groupId>org.javamoney</groupId>
       <artifactId>moneta-bp</artifactId>
+      <scope>compile</scope>
     </dependency>
     
     <!-- Serialisierung (optional) -->
