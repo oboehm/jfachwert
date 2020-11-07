@@ -18,11 +18,17 @@
 package de.jfachwert.med;
 
 import de.jfachwert.AbstractFachwertTest;
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import javax.validation.ValidationException;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Unit-Tests fuer {@link IK}-Klasse.
@@ -54,7 +60,7 @@ public final class IKTest extends AbstractFachwertTest<Integer, IK> {
 
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalIK() {
-        IK.of(123456789);
+        IK.of(263456789);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -64,7 +70,7 @@ public final class IKTest extends AbstractFachwertTest<Integer, IK> {
 
     @Test(expected = ValidationException.class)
     public void testValidate() {
-        new IK.Validator().validate(123456789);
+        new IK.Validator().validate(263456789);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -90,6 +96,16 @@ public final class IKTest extends AbstractFachwertTest<Integer, IK> {
     @Test
     public void testGetPruefziffer() {
         assertEquals(2, ik.getPruefziffer());
+    }
+
+    @Test
+    public void testIKs() throws IOException {
+        try (InputStream istream = IKTest.class.getResourceAsStream("/de/jfachwert/med/test-iks.txt")) {
+            assertNotNull(istream);
+            for (String ik : IOUtils.readLines(istream, StandardCharsets.US_ASCII)) {
+                IK.of(ik);
+            }
+        }
     }
 
 }

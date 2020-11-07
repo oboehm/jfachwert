@@ -114,8 +114,15 @@ open class IK
          */
         override fun validate(nummer: Int): Int {
             val n = VALIDATOR9.validate(nummer)
-            MOD10.validate(Integer.toString(n))
+            if (!isSpezialIK(n)) {
+                MOD10.validate(Integer.toString(n))
+            }
             return n
+        }
+
+        private fun isSpezialIK(n: Int): Boolean {
+            val klass = n / 10000000
+            return klass != 26 && klass != 34 || n % 10000000 == 9999999
         }
 
         companion object {
