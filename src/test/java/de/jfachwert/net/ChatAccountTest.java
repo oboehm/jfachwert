@@ -42,10 +42,11 @@ public final class ChatAccountTest extends FachwertTest {
     }
 
     /**
-     * Bei falschen Argumenten sollte eine {@link IllegalArgumentException}
-     * geworfen werden.
+     * Null-Werte werden bereits von Kotlin zurueckgewiesen, waehrend wir in
+     * der Java-Version hier eine IllegalArgumentException erwartet haben.
+     * Jetzt akzeptieren wir beides.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = RuntimeException.class)
     public void testChatAccountInvalid() {
         new ChatAccount(ChatDienst.SONSTIGER, null);
     }

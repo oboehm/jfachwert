@@ -17,6 +17,7 @@
  */
 package de.jfachwert;
 
+import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -43,9 +44,11 @@ public final class TextTest extends FachwertTest {
     }
 
     /**
-     * Es sollte nicht moeglich sein, einen Null-Text anzulegen.
+     * Es sollte nicht moeglich sein, einen Null-Text anzulegen. Normalerweise
+     * wuerden wir hier eine IllegalArgumentException erwarten, aber Kotlin 1.4
+     * macht hier schone eine Nullpointerexception.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = RuntimeException.class)
     public void testCtorNull() {
         new Text(null);
     }
@@ -68,7 +71,7 @@ public final class TextTest extends FachwertTest {
         Text hello = new Text("hello");
         Text hallo = new Text("hallo");
         Text world = new Text("world");
-        assertThat(hello.getDistanz(hallo), lessThan(hello.getDistanz(world)));
+        MatcherAssert.assertThat(hello.getDistanz(hallo), lessThan(hello.getDistanz(world)));
     }
 
     /**
@@ -130,7 +133,7 @@ public final class TextTest extends FachwertTest {
         String r = Text.replaceUmlaute(s);
         long t1 = System.nanoTime();
         LOG.info("replaceUmlaute started ended after " + (t1 - t0) / 1000000.0 + " ms");
-        assertThat (r, not(containsString("W\u00e4hrung")));
+        MatcherAssert.assertThat (r, not(containsString("W\u00e4hrung")));
     }
 
     @Test
@@ -162,8 +165,8 @@ public final class TextTest extends FachwertTest {
     public void testCompareTo() {
         Text abc = Text.of("abc");
         Text def = Text.of("def");
-        assertThat(abc.compareTo(def), lessThan(0));
-        assertThat(def.compareTo(abc), greaterThan(0));
+        MatcherAssert.assertThat(abc.compareTo(def), lessThan(0));
+        MatcherAssert.assertThat(def.compareTo(abc), greaterThan(0));
     }
     
 }

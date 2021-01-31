@@ -17,7 +17,6 @@
  */
 package de.jfachwert.post;
 
-import de.jfachwert.AbstractFachwert;
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
 import org.junit.Test;
@@ -45,9 +44,12 @@ public final class AdressatTest extends AbstractFachwertTest<String, Text> {
     }
 
     /**
-     * Null-Adressat soll nicht erzeugt werden koennen.
+     * Null-Adressat soll nicht erzeugt werden koennen. Normalerweise
+     * wuerden wir hier eine IllegalArgumentException erwarten, aber Kotlin 1.4
+     * macht hier schone eine Nullpointerexception. Deswegen akzeptieren wir
+     * jetzt beides.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = RuntimeException.class)
     public void testAdressatNull() {
         new Adressat(null);
     }

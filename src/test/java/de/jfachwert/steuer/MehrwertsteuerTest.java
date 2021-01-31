@@ -20,6 +20,7 @@ package de.jfachwert.steuer;
 import de.jfachwert.FachwertTest;
 import de.jfachwert.bank.Geldbetrag;
 import de.jfachwert.math.Prozent;
+import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.greaterThan;
@@ -67,7 +68,12 @@ public final class MehrwertsteuerTest extends FachwertTest {
         assertSame(Mehrwertsteuer.of(p), Mehrwertsteuer.of(p));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    /**
+     * Null-Werte werden bereits von Kotlin zurueckgewiesen, waehrend wir in
+     * der Java-Version hier eine IllegalArgumentException erwartet haben.
+     * Jetzt akzeptieren wir beides.
+     */
+    @Test(expected = RuntimeException.class)
     public void testMehrwertsteuerNull() {
         Prozent nullProzent = null;
         new Mehrwertsteuer(nullProzent);
@@ -99,8 +105,8 @@ public final class MehrwertsteuerTest extends FachwertTest {
 
     @Test
     public void testCompareTo() {
-        assertThat(Mehrwertsteuer.CH_NORMAL.compareTo(Mehrwertsteuer.CH_REDUZIERT), greaterThan(0));
-        assertThat(Mehrwertsteuer.CH_SONDER.compareTo(Mehrwertsteuer.CH_NORMAL), lessThan(0));
+        MatcherAssert.assertThat(Mehrwertsteuer.CH_NORMAL.compareTo(Mehrwertsteuer.CH_REDUZIERT), greaterThan(0));
+        MatcherAssert.assertThat(Mehrwertsteuer.CH_SONDER.compareTo(Mehrwertsteuer.CH_NORMAL), lessThan(0));
     }
 
 }

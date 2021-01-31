@@ -19,6 +19,7 @@ package de.jfachwert.post;
 
 import de.jfachwert.Fachwert;
 import de.jfachwert.FachwertTest;
+import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
@@ -63,7 +64,7 @@ public class OrtTest extends FachwertTest {
     public void testNotEquals() {
         Ort neustadtHarz = new Ort(new PLZ("99762"), "Neustadt");
         Ort neustadtDonau = new Ort(new PLZ("93333"), "Neustadt");
-        assertThat(neustadtDonau, not(neustadtHarz));
+        MatcherAssert.assertThat(neustadtDonau, not(neustadtHarz));
     }
 
     /**
@@ -85,7 +86,7 @@ public class OrtTest extends FachwertTest {
     @Test
     public void testEqualsPLZbutDifferentOrt() {
         PLZ plz = PLZ.of("12345");
-        assertThat(Ort.of(plz, "Monopoloy"), not(equalTo(Ort.of(plz, "Carcassone"))));
+        MatcherAssert.assertThat(Ort.of(plz, "Monopoloy"), not(equalTo(Ort.of(plz, "Carcassone"))));
     }
 
     /**
@@ -124,7 +125,7 @@ public class OrtTest extends FachwertTest {
     public void testEqualsSatisfiable() {
         Ort neustadt = Ort.of(new PLZ("99762"), "Neustadt");
         Ort altstadt = Ort.of("Altstadt");
-        assertThat(neustadt, not(altstadt));
+        MatcherAssert.assertThat(neustadt, not(altstadt));
     }
 
     /**
@@ -165,7 +166,7 @@ public class OrtTest extends FachwertTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testCtorInvalid() {
-        new Ort(null);
+        new Ort("");
     }
 
 }
