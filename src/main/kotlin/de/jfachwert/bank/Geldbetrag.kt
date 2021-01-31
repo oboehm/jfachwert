@@ -72,21 +72,21 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
      *
      * @param betrag Geldbetrag, z.B. 1
      */
-    constructor(betrag: Long) : this(BigDecimal.valueOf(betrag)) {}
+    constructor(betrag: Long) : this(BigDecimal.valueOf(betrag))
 
     /**
      * Erzeugt einen Geldbetrag in der aktuellen Landeswaehrung.
      *
      * @param betrag Geldbetrag, z.B. 1.00
      */
-    constructor(betrag: Double) : this(BigDecimal.valueOf(betrag)) {}
+    constructor(betrag: Double) : this(BigDecimal.valueOf(betrag))
 
     /**
      * Erzeugt einen Geldbetrag in der aktuellen Landeswaehrung.
      *
      * @param betrag Geldbetrag, z.B. "1"
      */
-    constructor(betrag: String) : this(valueOf(betrag)) {}
+    constructor(betrag: String) : this(valueOf(betrag))
 
     /**
      * Dies ist zum einen der CopyConstructor als Ersatz fuer eine
@@ -95,7 +95,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
      *
      * @param other der andere Geldbetrag
      */
-    constructor(other: MonetaryAmount) : this(other.number, Currency.getInstance(other.currency.currencyCode)) {}
+    constructor(other: MonetaryAmount) : this(other.number, Currency.getInstance(other.currency.currencyCode))
 
     /**
      * Erzeugt einen Geldbetrag in der angegebenen Waehrung.
@@ -104,8 +104,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
      * @param currency Waehrung, z.B. Euro
      */
     @JvmOverloads
-    constructor(betrag: Number, currency: Currency? = Waehrung.DEFAULT_CURRENCY) : this(betrag, Waehrung.of(currency!!)) {
-    }
+    constructor(betrag: Number, currency: Currency? = Waehrung.DEFAULT_CURRENCY) : this(betrag, Waehrung.of(currency!!))
 
     /**
      * Liefert einen Geldbetrag mit der neuen gewuenschten Waehrung zurueck.
@@ -594,20 +593,21 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
 
     /**
      * Vergleicht die Zahlenwerter der beiden Geldbetraege. Aber nur, wenn es
-     * sich um die gleiche Waehrung handelt. Sonst wird eine
-     * [MonetaryException] ausgeloest.
-     * Compares this object with the specified object for order.  Returns a
+     * sich um die gleiche Waehrung handelt. Ansonsten wird die Waehrung als
+     * Vergleichswert herangezogen. Dies fuehrt dazu, dass "CHF 1 < GBP 0" ist.
+     * Dies ist leider durch das TCK so vorgegeben :-(
      *
      * @param other der andere Geldbetrag
      * @return 0 bei Gleicheit; negative Zahl, wenn dieser Geldbetrag kleiner
      * als der andere ist; sonst positive Zahl.
      */
     override fun compareTo(other: MonetaryAmount): Int {
-        val n = toBigDecimal(other.number)
-        if (betrag.compareTo(BigDecimal.ZERO) != 0 && n.compareTo(BigDecimal.ZERO) != 0) {
-            checkCurrency(other)
+        var compare = getCurrency().currencyCode.compareTo(other.currency.currencyCode)
+        if (compare == 0) {
+            val n = toBigDecimal(other.number)
+            return betrag.compareTo(n)
         }
-        return betrag.compareTo(n)
+        return compare
     }
 
     /**

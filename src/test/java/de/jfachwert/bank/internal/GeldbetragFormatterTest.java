@@ -19,7 +19,7 @@ package de.jfachwert.bank.internal;
 
 import de.jfachwert.bank.Geldbetrag;
 import org.javamoney.moneta.Money;
-import org.javamoney.moneta.internal.RoundedMoneyAmountFactory;
+import org.javamoney.moneta.spi.RoundedMoneyAmountFactory;
 import org.junit.Assert;
 import org.junit.Test;
 

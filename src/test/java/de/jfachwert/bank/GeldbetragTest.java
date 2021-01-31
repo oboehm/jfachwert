@@ -18,6 +18,7 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.FachwertTest;
+import org.hamcrest.MatcherAssert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
@@ -398,8 +399,20 @@ public final class GeldbetragTest extends FachwertTest {
     public void testCompareTo() {
         Geldbetrag fiftyCents = Geldbetrag.fromCent(50);
         Geldbetrag fiftyoneCents = Geldbetrag.fromCent(51);
-        assertThat(fiftyoneCents.compareTo(fiftyCents), greaterThan(0));
-        assertThat(fiftyCents.compareTo(fiftyoneCents), lessThan(0));
+        MatcherAssert.assertThat(fiftyoneCents.compareTo(fiftyCents), greaterThan(0));
+        MatcherAssert.assertThat(fiftyCents.compareTo(fiftyoneCents), lessThan(0));
+    }
+
+    /**
+     * Diese Test stammt aus dem TCK. Hier gilt 0 XXX ist groeser als
+     * 1 CHF, weil fuer die compareTo-Methode die Waehrung ausschlaggebend
+     * ist und nicht der Betrag :-(
+     */
+    @Test
+    public void testCompareToTck() {
+        Geldbetrag xxx0 = FACTORY.setCurrency("XXX").setNumber(0).create();
+        Geldbetrag chf1 = FACTORY.setCurrency("CHF").setNumber(1).create();
+        MatcherAssert.assertThat(xxx0.compareTo(chf1), greaterThan(0));
     }
 
     /**

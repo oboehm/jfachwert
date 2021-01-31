@@ -17,7 +17,7 @@
  */
 package de.jfachwert.bank.internal;
 
-import org.javamoney.moneta.internal.FastMoneyAmountFactory;
+import org.javamoney.moneta.spi.FastMoneyAmountFactory;
 import org.junit.Test;
 
 import javax.money.format.AmountFormatQuery;
