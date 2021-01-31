@@ -14,7 +14,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ### Changed
 - Beginn Umstellung auf Kotlin.
-- **Achtung:** Interface LocalizedException ist nicht kompatible mit der alten Java-Version (LocalizedException).
+- **Achtung:** Interface LocalizedException ist nicht kompatibel mit der alten Java-Version (LocalizedException).
   Grund dafür ist [KT-6653](https://youtrack.jetbrains.com/issue/KT-6653).
 
 
