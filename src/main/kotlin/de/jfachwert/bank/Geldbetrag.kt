@@ -43,7 +43,7 @@ import javax.money.format.MonetaryParseException
  * oftmals ein [BigDecimal] verwendet wurde, wird auch diese
  * Schnittstelle weitgehende unterstützt. Einzige Unterschied ist
  * die [MonetaryAmount.stripTrailingZeros]-Methode, die einen anderen
- * Rueckgabewert hat. Deswegen ist dies Klasse auch nicht von
+ * Rueckgabewert hat. Deswegen ist diese Klasse auch nicht von
  * [BigDecimal] abgeleitet...
  *
  * Im Gegensatz zur [org.javamoney.moneta.Money]- und

@@ -24,7 +24,7 @@
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <kotlin.version>1.4.20</kotlin.version>
+    <kotlin.version>1.5.0</kotlin.version>
     <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 
