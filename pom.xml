@@ -343,6 +343,11 @@
       </dependency>
       <dependency>
         <groupId>org.javamoney</groupId>
+        <artifactId>moneta-api-bp</artifactId>
+        <version>1.4.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.javamoney</groupId>
         <artifactId>moneta-bp</artifactId>
         <version>1.4.1</version>
       </dependency>
@@ -424,7 +429,7 @@
     <!-- Workaround, s. https://github.com/JavaMoney/jsr354-ri/issues/158 -->
     <dependency>
       <groupId>org.javamoney</groupId>
-      <artifactId>moneta-bp</artifactId>
+      <artifactId>moneta-api-bp</artifactId>
       <scope>compile</scope>
       <exclusions>
         <exclusion>
@@ -467,7 +472,11 @@
       <artifactId>javamoney-tck</artifactId>
       <scope>test</scope>
         <exclusions>
-            <exclusion>
+          <exclusion>  <!-- We only need this for the Java 8 version -->
+            <groupId>org.javamoney</groupId>
+            <artifactId>moneta-bp</artifactId>
+          </exclusion>
+          <exclusion>
                 <groupId>com.google.code.findbugs</groupId>
                 <artifactId>jsr305</artifactId>
             </exclusion>

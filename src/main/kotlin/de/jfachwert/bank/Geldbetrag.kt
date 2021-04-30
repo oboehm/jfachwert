@@ -242,6 +242,51 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
     }
 
     /**
+     * Testet, ob der Betrag negativ ist.
+     *
+     * @return true bei negativen Betraegen
+     */
+    override fun isNegative(): Boolean {
+        return compareTo(ZERO) < 0
+    }
+
+    /**
+     * Testet, ob der Betrag negativ oder Null ist.
+     *
+     * @return false bei positiven Betraegen
+     */
+    override fun isNegativeOrZero(): Boolean {
+        return compareTo(ZERO) <= 0
+    }
+
+    /**
+     * Testet, ob der Betrag positiv ist.
+     *
+     * @return true bei positiven Betraegen
+     */
+    override fun isPositive(): Boolean {
+        return compareTo(ZERO) > 0
+    }
+
+    /**
+     * Testet, ob der Betrag positiv oder Null ist.
+     *
+     * @return false bei negativen Betraegen
+     */
+    override fun isPositiveOrZero(): Boolean {
+        return compareTo(ZERO) >= 0;
+    }
+
+    /**
+     * Tested, ob der Betrag null ist.
+     *
+     * @return true, falls Betrag == 0
+     */
+    override fun isZero(): Boolean {
+        return compareTo(ZERO) == 0
+    }
+
+    /**
      * Returns the signum function of this `MonetaryAmount`.
      *
      * @return -1, 0, or 1 as the value of this `MonetaryAmount` is negative, zero, or
@@ -602,7 +647,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
      * als der andere ist; sonst positive Zahl.
      */
     override fun compareTo(other: MonetaryAmount): Int {
-        var compare = getCurrency().currencyCode.compareTo(other.currency.currencyCode)
+        val compare = getCurrency().currencyCode.compareTo(other.currency.currencyCode)
         if (compare == 0) {
             val n = toBigDecimal(other.number)
             return betrag.compareTo(n)

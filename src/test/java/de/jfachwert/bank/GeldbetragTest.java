@@ -585,4 +585,22 @@ public final class GeldbetragTest extends FachwertTest {
         assertEquals(Geldbetrag.of("11 EUR"), Geldbetrag.of("11\u20ac"));
     }
 
+    @Test
+    public void testPositiveNegative() {
+        Geldbetrag einEuro = Geldbetrag.of("1 EUR");
+        assertTrue(einEuro.isPositive());
+        assertTrue(einEuro.isPositiveOrZero());
+        assertFalse(einEuro.isNegative());
+        assertFalse(einEuro.isNegativeOrZero());
+        assertFalse(einEuro.isZero());
+    }
+
+    @Test
+    public void testIsZero() {
+        Geldbetrag zero = Geldbetrag.ZERO;
+        assertTrue(zero.isZero());
+        assertTrue(zero.isPositiveOrZero());
+        assertTrue(zero.isNegativeOrZero());
+    }
+
 }
