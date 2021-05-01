@@ -343,11 +343,6 @@
       </dependency>
       <dependency>
         <groupId>org.javamoney</groupId>
-        <artifactId>moneta-api-bp</artifactId>
-        <version>1.4.1</version>
-      </dependency>
-      <dependency>
-        <groupId>org.javamoney</groupId>
         <artifactId>moneta-bp</artifactId>
         <version>1.4.1</version>
       </dependency>
@@ -429,7 +424,7 @@
     <!-- Workaround, s. https://github.com/JavaMoney/jsr354-ri/issues/158 -->
     <dependency>
       <groupId>org.javamoney</groupId>
-      <artifactId>moneta-api-bp</artifactId>
+      <artifactId>moneta-bp</artifactId>
       <scope>compile</scope>
       <exclusions>
         <exclusion>
