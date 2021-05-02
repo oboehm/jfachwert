@@ -6,7 +6,6 @@ package de.jfachwert.bank.internal;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 import static org.junit.Assert.assertEquals;
 
@@ -44,6 +43,13 @@ public final class ZahlenwertTest {
         BigDecimal expected = BigDecimal.valueOf(0x1234567890L);
         Zahlenwert zahlenwert = new Zahlenwert(expected);
         assertEquals(expected.longValueExact(), zahlenwert.longValueExact());
+    }
+
+    @Test
+    public void testFloat() {
+        BigDecimal expected = BigDecimal.valueOf(1.23F);
+        Zahlenwert zahlenwert = new Zahlenwert(expected);
+        assertEquals(expected.floatValue(), zahlenwert.floatValue(), 0.0001);
     }
 
     @Test

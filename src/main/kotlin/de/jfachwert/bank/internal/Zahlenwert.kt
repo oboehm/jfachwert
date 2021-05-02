@@ -52,10 +52,10 @@ class Zahlenwert(val number: Number) : NumberValue() {
     }
 
     /**
-     * Returns the value of this number as a [Float], which may involve rounding.
+     * Liefert den Zahlenwert als [Float] (evtl. gerundet).
      */
     override fun toFloat(): Float {
-        TODO("Not yet implemented")
+        return toBigDecimal().toFloat()
     }
 
     /**
