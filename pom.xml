@@ -419,6 +419,7 @@
     <dependency>
       <groupId>javax.money</groupId>
       <artifactId>money-api</artifactId>
+      <type>jar</type>
       <scope>provided</scope>
     </dependency>
     <!-- Workaround, s. https://github.com/JavaMoney/jsr354-ri/issues/158 -->

@@ -24,11 +24,11 @@ import de.jfachwert.SimpleValidator
 import de.jfachwert.bank.Waehrung.Companion.getSymbol
 import de.jfachwert.bank.Waehrung.Companion.toCurrency
 import de.jfachwert.bank.internal.GeldbetragFormatter
+import de.jfachwert.bank.internal.Zahlenwert
 import de.jfachwert.pruefung.NumberValidator
 import de.jfachwert.pruefung.exception.InvalidValueException
 import de.jfachwert.pruefung.exception.LocalizedArithmeticException
 import de.jfachwert.pruefung.exception.LocalizedMonetaryException
-import org.javamoney.moneta.spi.DefaultNumberValue
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -682,7 +682,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
      * @return der entsprechende [NumberValue], not null.
      */
     override fun getNumber(): NumberValue {
-        return DefaultNumberValue(betrag)
+        return Zahlenwert(betrag)
     }
 
     /**
@@ -1256,7 +1256,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
             var n: BigDecimal = BigDecimal.valueOf(value.toDouble())
             if (value is BigDecimal) {
                 n = value
-            } else if (value is DefaultNumberValue) {
+            } else if (value is Zahlenwert) {
                 n = value.numberValue(BigDecimal::class.java)
             }
             var roundingMode = monetaryContext.get(RoundingMode::class.java)

@@ -21,8 +21,6 @@ import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
 import org.junit.Test;
 
-import javax.validation.ValidationException;
-
 import static org.junit.Assert.assertEquals;
 
 /**
