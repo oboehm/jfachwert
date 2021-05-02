@@ -59,17 +59,17 @@ class Zahlenwert(val number: Number) : NumberValue() {
     }
 
     /**
-     * Returns the value of this number as an [Int], which may involve rounding or truncation.
+     * Liefert den Zahlenwert als [Int] (evtl. gerundet oder abgeschnitten).
      */
     override fun toInt(): Int {
-        TODO("Not yet implemented")
+        return toBigDecimal().toInt()
     }
 
     /**
-     * Returns the value of this number as a [Long], which may involve rounding or truncation.
+     * Liefert den Zahlenwert als [Long] (evtl. gerundet oder abgeschnitten).
      */
     override fun toLong(): Long {
-        TODO("Not yet implemented")
+        return toBigDecimal().toLong()
     }
 
     /**
@@ -77,6 +77,13 @@ class Zahlenwert(val number: Number) : NumberValue() {
      */
     override fun toShort(): Short {
         TODO("Not yet implemented")
+    }
+
+    fun toBigDecimal(): BigDecimal {
+        when (this.number) {
+            is BigDecimal -> return this.number
+        }
+        return BigDecimal(this.number.toString())
     }
 
     /**
@@ -89,66 +96,54 @@ class Zahlenwert(val number: Number) : NumberValue() {
     }
 
     /**
-     * Returns the *precision* of this `MonetaryAmount`. (The precision is the number of
-     * digits in the unscaled value.)
+     * Liefert die *Praezision* eines `MonetaryAmount` (Anzahl Ziffern).
      *
-     *
-     *
-     * The precision of a zero value is 1.
-     *
-     * @return the precision of this `MonetaryAmount`.
+     * @return *Praezision* eines `MonetaryAmount`.
      */
     override fun getPrecision(): Int {
-        TODO("Not yet implemented")
+        return toBigDecimal().precision()
     }
 
     /**
-     * Returns the *scale* of this `MonetaryAmount`. If zero or positive, the scale is
-     * the number of digits to the right of the decimal point. If negative, the unscaled value of
-     * the number is multiplied by ten to the power of the negation of the scale. For example, a
-     * scale of `-3` means the unscaled value is multiplied by 1000.
+     * Liefert die *Skala* des Zahlenwerts. Bei positiven Zahlen (oder 0) ist dies
+     * die Anzahl der Nachkommastellen. Bei negativen Zahlen ist dies der Exponent,
+     * mit dem der Wert multipliziert wird. Dh.h eine Skala von `-3` bedeuted eine
+     * Multiplikation mit 1000.
      *
-     * @return the scale of this `MonetaryAmount`.
+     * @return Skala von `MonetaryAmount`.
      */
     override fun getScale(): Int {
-        TODO("Not yet implemented")
+        return toBigDecimal().scale()
     }
 
     /**
      * Liefert einen Zahlenwert als `int` so wie er ist.
-     * Access the numeric value as `int`. Hereby no truncation will be performed to fit the
-     * value into the target data type.
      *
      * @return Zahlenwert als `int`.
      * @throws ArithmeticException falls der Zahlenwert nicht in ein `int` passt.
      */
     override fun intValueExact(): Int {
-        when (this.number) {
-            is BigDecimal -> return this.number.intValueExact()
-        }
-        return this.number.toInt()
+        return toBigDecimal().intValueExact()
     }
 
     /**
-     * Access the numeric value as `long`. Hereby no truncation will be performed to fit the
-     * value into the target data type.
+     * Liefert einen Zahlenwert als `long` so wie er ist.
      *
-     * @return the (possibly) truncated value of the [MonetaryAmount].
-     * @throws ArithmeticException If the value must be truncated to fit the target datatype.
+     * @return Zahlenwert als `long`.
+     * @throws ArithmeticException falls der Zahlenwert nicht in ein `long` passt.
      */
     override fun longValueExact(): Long {
-        TODO("Not yet implemented")
+        return toBigDecimal().longValueExact()
     }
 
     /**
-     * Access the numeric value as `double`. Hereby no truncation will be performed to fit the
-     * value into the target data type.
+     * Liefert einen Zahlenwert als `double` so wie er ist.
      *
-     * @return the (possibly) truncated value of the [MonetaryAmount].
-     * @throws ArithmeticException If the value must be truncated to fit the target datatype.
+     * @return Zahlenwert als `double`.
+     * @throws ArithmeticException falls der Zahlenwert nicht in ein `double` passt.
      */
     override fun doubleValueExact(): Double {
-        TODO("Not yet implemented")
+        return toBigDecimal().toDouble()
     }
 
     /**
