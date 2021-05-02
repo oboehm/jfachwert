@@ -80,4 +80,10 @@ public final class ZahlenwertTest {
         assertEquals(expected.precision(), zahlenwert.getPrecision());
     }
 
+    @Test
+    public void testNumberValueShort() {
+        Zahlenwert zahlenwert = new Zahlenwert(BigDecimal.ONE);
+        assertEquals((short) 1, zahlenwert.shortValue());
+    }
+
 }

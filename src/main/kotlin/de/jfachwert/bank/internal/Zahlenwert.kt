@@ -31,17 +31,17 @@ import javax.money.NumberValue
 class Zahlenwert(val number: Number) : NumberValue() {
 
     /**
-     * Returns the value of this number as a [Byte], which may involve rounding or truncation.
+     * Liefert den Zahlenwert als [Byte] (evtl. gerundet).
      */
     override fun toByte(): Byte {
-        TODO("Not yet implemented")
+        return toBigDecimal().toByte()
     }
 
     /**
-     * Returns the [Char] with the numeric value equal to this number, truncated to 16 bits if appropriate.
+     * Liefert den Zahlenwert als [Char] (evtl. gerundet).
      */
     override fun toChar(): Char {
-        TODO("Not yet implemented")
+        return toBigDecimal().toChar()
     }
 
     /**
@@ -73,10 +73,10 @@ class Zahlenwert(val number: Number) : NumberValue() {
     }
 
     /**
-     * Returns the value of this number as a [Short], which may involve rounding or truncation.
+     * Liefert den Zahlenwert als [Short] (evtl. gerundet oder abgeschnitten).
      */
     override fun toShort(): Short {
-        TODO("Not yet implemented")
+        return toBigDecimal().toShort()
     }
 
     fun toBigDecimal(): BigDecimal {
@@ -87,12 +87,12 @@ class Zahlenwert(val number: Number) : NumberValue() {
     }
 
     /**
-     * Get the numeric implementation type, that is the base of this number.
+     * Liefert den Typ des Zahlenwerts.
      *
-     * @return the numeric implementation type, not `null`.
+     * @return Typ des Zahlenwerts, nicht `null`.
      */
     override fun getNumberType(): Class<*> {
-        TODO("Not yet implemented")
+        return number.javaClass
     }
 
     /**
