@@ -247,7 +247,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
      * @return true bei negativen Betraegen
      */
     override fun isNegative(): Boolean {
-        return compareTo(ZERO) < 0
+        return betrag.compareTo(BigDecimal.ZERO) < 0
     }
 
     /**
@@ -256,7 +256,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
      * @return false bei positiven Betraegen
      */
     override fun isNegativeOrZero(): Boolean {
-        return compareTo(ZERO) <= 0
+        return betrag.compareTo(BigDecimal.ZERO) <= 0
     }
 
     /**
@@ -265,7 +265,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
      * @return true bei positiven Betraegen
      */
     override fun isPositive(): Boolean {
-        return compareTo(ZERO) > 0
+        return betrag.compareTo(BigDecimal.ZERO) > 0
     }
 
     /**
@@ -274,7 +274,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
      * @return false bei negativen Betraegen
      */
     override fun isPositiveOrZero(): Boolean {
-        return compareTo(ZERO) >= 0;
+        return betrag.compareTo(BigDecimal.ZERO) >= 0
     }
 
     /**
@@ -283,7 +283,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
      * @return true, falls Betrag == 0
      */
     override fun isZero(): Boolean {
-        return compareTo(ZERO) == 0
+        return betrag.compareTo(BigDecimal.ZERO) == 0
     }
 
     /**
@@ -813,14 +813,14 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
         /**
          * Validiert die uebergebene Zahl, ob sie sich als Geldbetrag eignet.
          *
-         * @param zahl als String
+         * @param value als String
          * @return die Zahl zur Weitervarabeitung
          */
-        override fun validate(zahl: String): String {
+        override fun validate(value: String): String {
             return try {
-                valueOf(zahl).toString()
+                valueOf(value).toString()
             } catch (ex: IllegalArgumentException) {
-                throw InvalidValueException(zahl, "money_amount", ex)
+                throw InvalidValueException(value, "money_amount", ex)
             }
         }
     }
