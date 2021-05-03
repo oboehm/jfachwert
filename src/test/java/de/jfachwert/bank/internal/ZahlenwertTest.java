@@ -5,7 +5,10 @@ package de.jfachwert.bank.internal;
 
 import org.junit.Test;
 
+import javax.money.NumberValue;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 import static org.junit.Assert.assertEquals;
 
@@ -84,6 +87,14 @@ public final class ZahlenwertTest {
     public void testNumberValueShort() {
         Zahlenwert zahlenwert = new Zahlenwert(BigDecimal.ONE);
         assertEquals((short) 1, zahlenwert.shortValue());
+    }
+
+    @Test
+    public void testRound() {
+        Zahlenwert zahlenwert = new Zahlenwert(BigDecimal.valueOf(1.2));
+        MathContext context = new MathContext(1, RoundingMode.HALF_UP);
+        NumberValue value = zahlenwert.round(context);
+        assertEquals(1.0, value.doubleValue(), 0.0001);
     }
 
 }

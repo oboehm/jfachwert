@@ -166,14 +166,15 @@ class Zahlenwert(val number: Number) : NumberValue() {
     }
 
     /**
-     * Access the current NumberValue rounded using the given [java.math.MathContext].
+     * Liefert den aktuellen Zahlenwert gemaess [java.math.MathContext]
+     * gerundet zurueck.
      *
-     * @param mathContext the [java.math.MathContext] to be applied.
-     * @return the new NumberValue, never null.
+     * @param mathContext [java.math.MathContext] mit Rundungs-Mode
+     * @return gerunderter Zahlenwert (nicht null).
      * @see java.math.BigDecimal.round
      */
     override fun round(mathContext: MathContext?): NumberValue {
-        TODO("Not yet implemented")
+        return Zahlenwert(toBigDecimal().round(mathContext))
     }
 
     /**
