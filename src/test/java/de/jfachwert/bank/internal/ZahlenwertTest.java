@@ -90,11 +90,31 @@ public final class ZahlenwertTest {
     }
 
     @Test
+    public void testNumberValue() {
+        Zahlenwert zahlenwert = new Zahlenwert(BigDecimal.ONE);
+        Short n = zahlenwert.numberValue(Short.class);
+        assertEquals(Short.valueOf((short) 1), n);
+    }
+
+    @Test
     public void testRound() {
         Zahlenwert zahlenwert = new Zahlenwert(BigDecimal.valueOf(1.2));
         MathContext context = new MathContext(1, RoundingMode.HALF_UP);
         NumberValue value = zahlenwert.round(context);
         assertEquals(1.0, value.doubleValue(), 0.0001);
+    }
+
+    @Test
+    public void testValueExact() {
+        BigDecimal number = BigDecimal.valueOf(123.45678);
+        Zahlenwert zahlenwert = new Zahlenwert(number);
+        assertEquals(number, zahlenwert.numberValueExact(BigDecimal.class));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testValueExactWithException() {
+        Zahlenwert zahlenwert = new Zahlenwert(BigDecimal.valueOf(1.2));
+        zahlenwert.numberValueExact(Integer.class);
     }
 
 }

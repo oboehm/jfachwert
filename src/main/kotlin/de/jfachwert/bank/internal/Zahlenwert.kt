@@ -17,7 +17,9 @@
  */
 package de.jfachwert.bank.internal
 
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import java.math.BigDecimal
+import java.math.BigInteger
 import java.math.MathContext
 import javax.money.NumberValue
 
@@ -151,7 +153,7 @@ class Zahlenwert(val number: Number) : NumberValue() {
      * abgeschnitten, um in den Zieltyp zu passen.
      *
      * @param numberType Konkrete Number-Klasse, die zurueckgelieft wird.
-     * Es werden folgende Number-Type unterstuezt:
+     * Es werden folgende Number-Typen unterstuezt:
      *
      *  * `java.lang.Long`
      *  * `java.lang.Double`
@@ -162,6 +164,13 @@ class Zahlenwert(val number: Number) : NumberValue() {
      * @return Zahlenwert eines [MonetaryAmount].
      */
     override fun <T : Number> numberValue(numberType: Class<T>): T {
+        when (numberType) {
+            java.lang.Short::class.java -> return number.toShort() as T
+            java.lang.Integer::class.java -> return number.toInt() as T
+            java.lang.Long::class.java -> return number.toLong() as T
+            java.lang.Float::class.java -> return number.toFloat() as T
+            java.lang.Double::class.java -> return number.toDouble() as T
+        }
         return this.number as T
     }
 
@@ -193,8 +202,13 @@ class Zahlenwert(val number: Number) : NumberValue() {
      * @return the (possibly) truncated value of the [MonetaryAmount].
      * @throws ArithmeticException If the value must be truncated to fit the target datatype.
      */
-    override fun <T : Number?> numberValueExact(numberType: Class<T>?): T {
-        TODO("Not yet implemented")
+    override fun <T : Number> numberValueExact(numberType: Class<T>): T {
+        val valueExact = this.numberValue(numberType)
+        if (toBigDecimal().toString().equals(valueExact.toString())) {
+            return valueExact
+        } else {
+            throw LocalizedIllegalArgumentException(number, "data_type $numberType")
+        }
     }
 
     /**
