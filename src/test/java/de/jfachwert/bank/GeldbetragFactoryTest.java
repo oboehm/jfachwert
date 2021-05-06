@@ -20,10 +20,8 @@ package de.jfachwert.bank;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.money.CurrencyUnit;
-import javax.money.MonetaryContext;
-import javax.money.MonetaryContextBuilder;
-import javax.money.NumberValue;
+import javax.money.*;
+import java.util.logging.Logger;
 
 import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.*;
@@ -34,7 +32,8 @@ import static org.junit.Assert.*;
  * @author oboehm
  */
 public final class GeldbetragFactoryTest {
-    
+
+    private static final Logger LOG = Logger.getLogger(Geldbetrag.class.getName());
     private final GeldbetragFactory factory = new GeldbetragFactory();
     
     @Before
@@ -126,6 +125,17 @@ public final class GeldbetragFactoryTest {
         factory.setContext(context);
         Geldbetrag geldbetrag = factory.create();
         assertEquals(context, geldbetrag.getContext());
+    }
+
+    @Test
+    public void testDoubleWithTruncationNegative() {
+        Double num = Double.valueOf(-1.24355354543534545d);
+        try {
+            Geldbetrag betrag = factory.setCurrency("EUR").setNumber(num).create();
+            assertEquals(num.doubleValue(), betrag.getNumber().doubleValue(), 0.0d);
+        } catch (ArithmeticException | MonetaryException mayhappen) {
+            LOG.info(mayhappen.getLocalizedMessage());
+        }
     }
 
 }

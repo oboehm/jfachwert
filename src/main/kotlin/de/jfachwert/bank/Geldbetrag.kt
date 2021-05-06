@@ -583,7 +583,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
     override fun scaleByPowerOfTen(power: Int): Geldbetrag {
         //val scaled = betrag.scaleByPowerOfTen(power).setScale(context.maxScale, context.get(RoundingMode::class.java))
         val scaled = betrag.scaleByPowerOfTen(power)
-        return valueOf(scaled, getCurrency(), context)
+        return roundedValueOf(scaled, getCurrency(), context)
     }
 
     /**
@@ -1138,6 +1138,23 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
         }
 
         /**
+         * Im Gegensatz zu valueOf wird hier keine [ArithmeticException]
+         * geworfen, wenn Genauigkeit verloren geht. Stattdessen wird der
+         * Wert gerundet.
+         *
+         * @param value Wert des andere Geldbetrags
+         * @param currency Waehrung des anderen Geldbetrags
+         * @param monetaryContext Kontext des anderen Geldbetrags
+         * @return ein Geldbetrag
+         * @since 4.0
+         */
+        @JvmStatic
+        fun roundedValueOf(value: Number, currency: CurrencyUnit, monetaryContext: MonetaryContext): Geldbetrag {
+            val roundedValue = toBigDecimalRounded(value, monetaryContext)
+            return valueOf(Geldbetrag(roundedValue, currency, monetaryContext))
+        }
+
+        /**
          * Erzeugt einen Geldbetrag anhand des uebergebenen Textes und mittels
          * des uebergebenen Formatters.
          *
@@ -1254,12 +1271,16 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
         }
 
         private fun toBigDecimal(value: Number, monetaryContext: MonetaryContext): BigDecimal {
-            var n: BigDecimal = BigDecimal.valueOf(value.toDouble())
-            if (value is BigDecimal) {
-                n = value
-            } else if (value is Zahlenwert) {
-                n = value.numberValue(BigDecimal::class.java)
+            var n: BigDecimal = toBigDecimal(value)
+            var rounded: BigDecimal = toBigDecimalRounded(value, monetaryContext);
+            if (n.compareTo(rounded) != 0) {
+                throw LocalizedArithmeticException(value, "lost_precision")
             }
+            return rounded;
+        }
+
+        private fun toBigDecimalRounded(value: Number, monetaryContext: MonetaryContext): BigDecimal {
+            var n: BigDecimal = toBigDecimal(value)
             var roundingMode = monetaryContext.get(RoundingMode::class.java)
             if (roundingMode == null) {
                 roundingMode = RoundingMode.HALF_UP
@@ -1269,12 +1290,19 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
                 n
             } else {
                 val scaled = n.setScale(scale, roundingMode)
-//                if (scaled.compareTo(n) != 0) {
-//                    throw LocalizedArithmeticException(value, "lost_precision")
-//                }
                 scaled
             }
         }
+
+        private fun toBigDecimal(value: Number): BigDecimal {
+            if (value is BigDecimal) {
+                return value
+            } else if (value is Zahlenwert) {
+                return value.numberValue(BigDecimal::class.java)
+            }
+            return BigDecimal.valueOf(value.toDouble())
+        }
+
     }
 
     /**
