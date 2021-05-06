@@ -346,6 +346,17 @@ public final class GeldbetragTest extends FachwertTest {
     public void testScaleByPowerOfTenWithLostPrecision() {
         assertEquals(Geldbetrag.valueOf(3.0002), Geldbetrag.valueOf(3000200.0001).scaleByPowerOfTen(-6));
     }
+
+    @Test
+    public void testScaleWithMaxContext() {
+        GeldbetragFactory f = new GeldbetragFactory();
+        MonetaryContext context = f.getMaximalMonetaryContext();
+        f.setCurrency("EUR");
+        f.setContext(context);
+        f.setNumber(BigDecimal.valueOf(16, -1));
+        Geldbetrag betrag = f.create();
+        assertEquals(betrag, betrag.scaleByPowerOfTen(-1).scaleByPowerOfTen(1));
+    }
     
     /**
      * Test fuer die verschieden divide-Methoden.

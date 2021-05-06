@@ -581,7 +581,8 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
      * @return berechneter Geldbetrag
      */
     override fun scaleByPowerOfTen(power: Int): Geldbetrag {
-        val scaled = betrag.scaleByPowerOfTen(power).setScale(context.maxScale, context.get(RoundingMode::class.java))
+        //val scaled = betrag.scaleByPowerOfTen(power).setScale(context.maxScale, context.get(RoundingMode::class.java))
+        val scaled = betrag.scaleByPowerOfTen(power)
         return valueOf(scaled, getCurrency(), context)
     }
 
@@ -1268,9 +1269,9 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
                 n
             } else {
                 val scaled = n.setScale(scale, roundingMode)
-                if (scaled.compareTo(n) != 0) {
-                    throw LocalizedArithmeticException(value, "lost_precision")
-                }
+//                if (scaled.compareTo(n) != 0) {
+//                    throw LocalizedArithmeticException(value, "lost_precision")
+//                }
                 scaled
             }
         }
