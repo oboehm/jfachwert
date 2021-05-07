@@ -170,6 +170,7 @@ class Zahlenwert(val number: Number) : NumberValue() {
             java.lang.Long::class.java -> return number.toLong() as T
             java.lang.Float::class.java -> return number.toFloat() as T
             java.lang.Double::class.java -> return number.toDouble() as T
+            java.lang.Byte::class.java -> return number.toByte() as T
         }
         return this.number as T
     }

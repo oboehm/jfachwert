@@ -117,4 +117,11 @@ public final class ZahlenwertTest {
         zahlenwert.numberValueExact(Integer.class);
     }
 
+    @Test
+    public void testToByte() {
+        Zahlenwert zahlenwert = new Zahlenwert(BigDecimal.valueOf(42));
+        Byte theAnswer = zahlenwert.numberValueExact(Byte.class);
+        assertEquals(Byte.valueOf("42"), theAnswer);
+    }
+
 }
