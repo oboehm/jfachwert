@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import javax.money.NumberValue;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
@@ -122,6 +123,13 @@ public final class ZahlenwertTest {
         Zahlenwert zahlenwert = new Zahlenwert(BigDecimal.valueOf(42));
         Byte theAnswer = zahlenwert.numberValueExact(Byte.class);
         assertEquals(Byte.valueOf("42"), theAnswer);
+    }
+
+    @Test
+    public void testToBigInteger() {
+        Zahlenwert zahlenwert = new Zahlenwert(BigDecimal.valueOf(4711));
+        assertEquals(BigInteger.valueOf(4711), zahlenwert.numberValue(BigInteger.class));
+        assertEquals(BigInteger.valueOf(4711), zahlenwert.numberValueExact(BigInteger.class));
     }
 
 }
