@@ -127,9 +127,16 @@ public final class ZahlenwertTest {
 
     @Test
     public void testToBigInteger() {
-        Zahlenwert zahlenwert = new Zahlenwert(BigDecimal.valueOf(4711));
-        assertEquals(BigInteger.valueOf(4711), zahlenwert.numberValue(BigInteger.class));
-        assertEquals(BigInteger.valueOf(4711), zahlenwert.numberValueExact(BigInteger.class));
+        BigInteger expected = new BigInteger("99887766554433221100");
+        Zahlenwert zahlenwert = new Zahlenwert(new BigDecimal(expected.toString()));
+        assertEquals(expected, zahlenwert.numberValue(BigInteger.class));
+        assertEquals(expected, zahlenwert.numberValueExact(BigInteger.class));
+    }
+
+    @Test
+    public void testToBigIntegerTruncated() {
+        Zahlenwert zahlenwert = new Zahlenwert(BigDecimal.valueOf(123.0000));
+        assertEquals(BigInteger.valueOf(123), zahlenwert.numberValue(BigInteger.class));
     }
 
 }
