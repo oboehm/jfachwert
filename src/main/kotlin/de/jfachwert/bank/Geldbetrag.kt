@@ -1276,7 +1276,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
             if (n.compareTo(rounded) != 0) {
                 throw LocalizedArithmeticException(value, "lost_precision")
             }
-            return rounded;
+            return n;
         }
 
         private fun toBigDecimalRounded(value: Number, monetaryContext: MonetaryContext): BigDecimal {

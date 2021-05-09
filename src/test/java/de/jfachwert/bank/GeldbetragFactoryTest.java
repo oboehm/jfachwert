@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.money.*;
+import java.math.BigDecimal;
 import java.util.logging.Logger;
 
 import static org.hamcrest.Matchers.lessThan;
@@ -136,6 +137,13 @@ public final class GeldbetragFactoryTest {
         } catch (ArithmeticException | MonetaryException mayhappen) {
             LOG.info(mayhappen.getLocalizedMessage());
         }
+    }
+
+    @Test
+    public void testPrecisionNegative() {
+        BigDecimal n = new BigDecimal("-1.23");
+        Geldbetrag betrag = factory.setCurrency("EUR").setNumber(n).create();
+        assertEquals(n.precision(), betrag.getNumber().getPrecision());
     }
 
 }
