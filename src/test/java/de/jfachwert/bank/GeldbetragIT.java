@@ -22,6 +22,7 @@ import org.hamcrest.MatcherAssert;
 import org.javamoney.moneta.Money;
 import org.javamoney.tck.JSR354TestConfiguration;
 import org.javamoney.tck.TCKRunner;
+import org.javamoney.tck.TCKTestSetup;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -35,7 +36,7 @@ import java.util.*;
 
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * Fuer den Integrationstest der {@link Geldbetrag}-Klasse wird das TCK
@@ -57,12 +58,32 @@ import static org.junit.Assert.assertThat;
 public class GeldbetragIT implements JSR354TestConfiguration {
 
     /**
+     * Test, ob die Test-Konfiguration als Service registriert wurde.
+     */
+    @Test
+    public void loadTestConfiguration() {
+        ServiceLoader<JSR354TestConfiguration> loader = ServiceLoader.load(JSR354TestConfiguration.class);
+        assertNotNull(loader);
+        assertTrue(loader.iterator().hasNext());
+        assertEquals(GeldbetragIT.class, loader.iterator().next().getClass());
+    }
+
+    /**
+     * Test, ob die Test-Konfiguration geladen werden kann.
+     */
+    @Test
+    public void testLoadTCK() {
+        JSR354TestConfiguration testConfiguration = TCKTestSetup.getTestConfiguration();
+        assertNotNull(testConfiguration);
+    }
+
+    /**
      * Start der TCK-Suite.
      * 
      * @throws IOException falls Resultat nicht gelesen werden kann
      */
     @Test
-    //@Ignore
+    @Ignore
     public void runTCK() throws IOException {
         ServiceLoader.load(GeldbetragIT.class);
         TCKRunner.main();

@@ -426,7 +426,7 @@
     <dependency>
       <groupId>org.javamoney</groupId>
       <artifactId>moneta-bp</artifactId>
-      <scope>compile</scope>
+      <scope>test</scope>
       <exclusions>
         <exclusion>
           <groupId>javax.annotation</groupId>
