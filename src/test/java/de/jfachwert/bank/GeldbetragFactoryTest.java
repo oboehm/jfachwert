@@ -17,6 +17,7 @@
  */
 package de.jfachwert.bank;
 
+import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -87,7 +88,7 @@ public final class GeldbetragFactoryTest {
     public void testMinMaxNumber() {
         NumberValue minNumber = factory.getMinNumber();
         NumberValue maxNumber = factory.getMaxNumber();
-        assertThat(minNumber + " < " + maxNumber, minNumber.compareTo(maxNumber), lessThan(0));
+        MatcherAssert.assertThat(minNumber + " < " + maxNumber, minNumber.compareTo(maxNumber), lessThan(0));
     }
 
     /**
@@ -131,10 +132,10 @@ public final class GeldbetragFactoryTest {
 
     @Test
     public void testDoubleWithTruncationNegative() {
-        Double num = Double.valueOf(-1.24355354543534545d);
+        Double num = -1.24355354543534545d;
         try {
             Geldbetrag betrag = factory.setCurrency("EUR").setNumber(num).create();
-            assertEquals(num.doubleValue(), betrag.getNumber().doubleValue(), 0.0d);
+            assertEquals(num, betrag.getNumber().doubleValue(), 0.0d);
         } catch (ArithmeticException | MonetaryException mayhappen) {
             LOG.info(mayhappen.getLocalizedMessage());
         }
@@ -157,6 +158,13 @@ public final class GeldbetragFactoryTest {
         assertEquals(cu, betrag.getCurrency());
         assertTrue(betrag.isNegative());
         assertEquals(-1, betrag.signum());
+    }
+
+    @Test
+    public void testScaleNegative() {
+        BigDecimal n = BigDecimal.valueOf(-1);
+        Geldbetrag betrag = factory.setCurrency("EUR").setNumber(n).create();
+        assertEquals(n.scale(), betrag.getNumber().getScale());
     }
 
 }

@@ -131,7 +131,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
      * @return Geldbetrag mit neuer Waehrung
      */
     fun withCurrency(waehrung: String): Geldbetrag {
-        var normalized = waehrung.toUpperCase().trim { it <= ' ' }
+        var normalized = waehrung.uppercase().trim { it <= ' ' }
         if ("DM".equals(normalized, ignoreCase = true)) {
             normalized = "DEM"
         }
@@ -1232,20 +1232,6 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
             return VALIDATOR.validate(zahl)
         }
 
-        /**
-         * Validiert die uebergebene Zahl.
-         *
-         * @param zahl     als String
-         * @param currency die Waehrung
-         * @return die Zahl zur Weitervarabeitung
-         */
-        @JvmStatic
-        fun validate(zahl: BigDecimal, currency: CurrencyUnit): BigDecimal {
-            return if ((zahl.scale() == 0) && (currency.defaultFractionDigits > 0)) {
-                zahl.setScale(currency.defaultFractionDigits, RoundingMode.HALF_UP)
-            } else zahl
-        }
-
         private fun toBigDecimal(value: NumberValue): BigDecimal {
             return value.numberValue(BigDecimal::class.java)
         }
@@ -1309,7 +1295,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
      * Erzeugt einen Geldbetrag in der angegebenen Waehrung.
      */
     init {
-        this.betrag = validate(toBigDecimal(betrag, context), currency)
+        this.betrag = toBigDecimal(betrag, context)
         this.currency = currency
         this.context = context
     }
