@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.money.*;
+import java.lang.reflect.GenericDeclaration;
 import java.math.BigDecimal;
 import java.util.logging.Logger;
 
@@ -144,6 +145,18 @@ public final class GeldbetragFactoryTest {
         BigDecimal n = new BigDecimal("-1.23");
         Geldbetrag betrag = factory.setCurrency("EUR").setNumber(n).create();
         assertEquals(n.precision(), betrag.getNumber().getPrecision());
+    }
+
+    @Test
+    public void testNegativAmountWithCurrency() {
+        CurrencyUnit cu = Monetary.getCurrency("XUA");
+        factory.setCurrency(cu);
+        factory.setNumber(-3);
+        Geldbetrag betrag = factory.create();
+        assertEquals(-3, betrag.getNumber().intValueExact());
+        assertEquals(cu, betrag.getCurrency());
+        assertTrue(betrag.isNegative());
+        assertEquals(-1, betrag.signum());
     }
 
 }

@@ -1241,7 +1241,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
          */
         @JvmStatic
         fun validate(zahl: BigDecimal, currency: CurrencyUnit): BigDecimal {
-            return if (zahl.scale() == 0) {
+            return if ((zahl.scale() == 0) && (currency.defaultFractionDigits > 0)) {
                 zahl.setScale(currency.defaultFractionDigits, RoundingMode.HALF_UP)
             } else zahl
         }
@@ -1271,16 +1271,16 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
         }
 
         private fun toBigDecimal(value: Number, monetaryContext: MonetaryContext): BigDecimal {
-            var n: BigDecimal = toBigDecimal(value)
-            var rounded: BigDecimal = toBigDecimalRounded(value, monetaryContext);
+            val n: BigDecimal = toBigDecimal(value)
+            val rounded: BigDecimal = toBigDecimalRounded(value, monetaryContext)
             if (n.compareTo(rounded) != 0) {
                 throw LocalizedArithmeticException(value, "lost_precision")
             }
-            return n;
+            return n
         }
 
         private fun toBigDecimalRounded(value: Number, monetaryContext: MonetaryContext): BigDecimal {
-            var n: BigDecimal = toBigDecimal(value)
+            val n: BigDecimal = toBigDecimal(value)
             var roundingMode = monetaryContext.get(RoundingMode::class.java)
             if (roundingMode == null) {
                 roundingMode = RoundingMode.HALF_UP
