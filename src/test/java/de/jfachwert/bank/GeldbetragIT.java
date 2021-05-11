@@ -20,6 +20,7 @@ package de.jfachwert.bank;
 import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.MatcherAssert;
 import org.javamoney.moneta.Money;
+import org.javamoney.moneta.convert.IMFRateProvider;
 import org.javamoney.tck.JSR354TestConfiguration;
 import org.javamoney.tck.TCKRunner;
 import org.javamoney.tck.TCKTestSetup;
@@ -27,6 +28,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.money.*;
+import javax.money.convert.ExchangeRateProvider;
+import javax.money.spi.Bootstrap;
 import javax.money.spi.MonetaryAmountFactoryProviderSpi;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -78,16 +81,34 @@ public class GeldbetragIT implements JSR354TestConfiguration {
     }
 
     /**
+     * Hier gab es beim Testen Probleme mit der Instantiierung
+     */
+    @Test
+    public void testIMFRateProvider() {
+        IMFRateProvider provider = new IMFRateProvider();
+        assertNotNull(provider.getContext());
+    }
+
+    /**
+     * Beim Holen des {@link ExchangeRateProvider} konnte leider der
+     * {@link IMFRateProvider} nicht instantiiert werden.
+     */
+    @Test
+    public void testGetExchangeRateProvider() {
+        ExchangeRateProvider provider = Bootstrap.getService(ExchangeRateProvider.class);
+        assertNotNull(provider);
+    }
+
+    /**
      * Start der TCK-Suite.
      * 
      * @throws IOException falls Resultat nicht gelesen werden kann
      */
     @Test
-    //@Ignore
     public void runTCK() throws IOException {
         ServiceLoader.load(GeldbetragIT.class);
         TCKRunner.main();
-        MatcherAssert.assertThat("number of failed tests", getNumberOfFailedTests(), lessThanOrEqualTo(39));
+        MatcherAssert.assertThat("number of failed tests", getNumberOfFailedTests(), lessThanOrEqualTo(2));
     }
     
     private static int getNumberOfFailedTests() throws IOException {

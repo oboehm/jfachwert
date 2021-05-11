@@ -421,6 +421,12 @@
       <artifactId>money-api</artifactId>
       <type>jar</type>
       <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.javamoney.moneta</groupId>
+          <artifactId>moneta-core</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <!-- Workaround, s. https://github.com/JavaMoney/jsr354-ri/issues/158 -->
     <dependency>
@@ -468,6 +474,10 @@
       <artifactId>javamoney-tck</artifactId>
       <scope>test</scope>
         <exclusions>
+          <exclusion>
+            <groupId>org.javamoney</groupId>
+            <artifactId>moneta</artifactId>
+          </exclusion>
           <exclusion>  <!-- We only need this for the Java 8 version -->
             <groupId>org.javamoney</groupId>
             <artifactId>moneta-bp</artifactId>
@@ -484,7 +494,17 @@
                 <groupId>org.mutabilitydetector</groupId>
                 <artifactId>MutabilityDetector</artifactId>
             </exclusion>
+          <exclusion>
+            <artifactId>moneta-core</artifactId>
+            <groupId>org.javamoney.moneta</groupId>
+          </exclusion>
         </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>javax.annotation-api</artifactId>
+      <version>1.3.2</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.mutabilitydetector</groupId>
