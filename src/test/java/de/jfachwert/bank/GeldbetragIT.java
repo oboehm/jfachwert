@@ -83,7 +83,7 @@ public class GeldbetragIT implements JSR354TestConfiguration {
      * @throws IOException falls Resultat nicht gelesen werden kann
      */
     @Test
-    @Ignore
+    //@Ignore
     public void runTCK() throws IOException {
         ServiceLoader.load(GeldbetragIT.class);
         TCKRunner.main();
