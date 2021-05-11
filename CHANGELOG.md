@@ -13,7 +13,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - PZN-Klasse im med-Paket
 
 ### Changed
-- Beginn Umstellung auf Kotlin.
+- Umstellung auf Kotlin.
 - **Achtung:** Interface LocalizedException ist nicht kompatibel mit der alten Java-Version (LocalizedException).
   Grund dafür ist [KT-6653](https://youtrack.jetbrains.com/issue/KT-6653).
 

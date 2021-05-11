@@ -42,6 +42,9 @@ Jetzt kann man die Argumente nicht mehr verwechseln, weil sonst der Compiler mec
 
 ## Aktueller Stand
 
+Version 4 basiert jetzt auf Kotlin, unterstützt aber weiterhin Java 8.
+Die Kompatibilität mit der alten API garantieren JUnit-Tests, die weiterhin in Java verblieben sind.
+
 Version 3 unterstützt nach wie vor Java 8, wurde aber auch mit Java 11 getestet.
 Dies kam vor allem der (internen) Bereinigung in Zusammenhang der Geldbetrag-Klasse (die das Money-API implementiert) zu Gute.
 Ferner wurden die Methodennamen sprechender und eindeutiger benannt.
