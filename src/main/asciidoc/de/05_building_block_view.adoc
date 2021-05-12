@@ -27,11 +27,17 @@ Die einzelnen Klassen sind in fachliche Packages aufgeteilt.
 |steuer
 |das Finanzamt lässt grüßen - hier sind Fachwerte wie `Steuernummer` und `UStIdNr` defniert
 
+|formular
+|was so üblicherweise in Formualaren vorkommt wie `Anrede` oder `Familienstand`
+
 |post
 |hier finden sich Fachwerte wie `Anschrift`, `Adresse` oder `PLZ`
 
 |rechnung
 |Fachwerte, die man üblicherweise auf Rechnungen antrifft wie `Bestellnummer`, `Referenznummer` oder `Rechnungsmonat`
+
+|math
+|einige Dinge, mit denen man rechnen kann, wie z.B. `Bruch` oder `Prozent`
 
 |net
 |Fachwerte für das Neuland "Internet" wie `EMailAdresse` oder `Domainname`
@@ -61,6 +67,8 @@ include::../images/package-bank.puml[]
 Mit dem bank-Package hat alles angefangen.
 Die Fachwerte in diesem Paket repräsentieren Konzepte, die im Bank-Umfeld typischerweise anzutreffen sind.
 
+Die `Geldbetrag` und `Waehrung`-Klasse implementiert dabei die aktuelle Money-API 1.1 und wurde gegen das aktuelle TCK getestet.
+Aus diesem Grund wurde die GeldbetragFactory hinzugefügt, die vom TCK zum Aufsetzen der Tests verwendet wird.
 
 
 ==== steuer
@@ -133,6 +141,16 @@ include::../images/package-util.puml[]
 Das util-Package ist mit v0.7 hinzugekommen.
 Es enthält im Wesentliche die TinyUUID- und SmallUUID-Klasse, die die gleiche Funktionalität wie die UUID-Klasse hat.
 Lediglich die toString()-Methode liefert eine kompaktere Schreibweise (22 bzw. 25 Zeichen) als die UUID-Klasse (36 Zeichen).
+
+
+==== formular
+
+["plantuml", "package-formular", "svg"]
+------------------------------------------------
+include::../images/package-formular.puml[]
+------------------------------------------------
+
+Wer sich nicht damit rumschlagen will, was als Enum alles in eine Anrede, Geschlecht oder Familienstand hinein sollte, findet hier eine Implementierung, die für die allermeisten Fälle ausreichen dürfte.
 
 
 ==== med

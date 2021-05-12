@@ -5,6 +5,7 @@ package "steuer" {
     class SteuerIdNr
     class Steuernummer
     class UStIdNr
+    class Mehrwertsteuer
 
 }
 

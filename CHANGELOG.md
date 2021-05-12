@@ -14,6 +14,8 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ### Changed
 - Umstellung auf Kotlin.
+- Architektur-Dokumentation aktualisiert
+- Geldbetrag wurde jetzt mit javamoney-tck 1.1 getestet
 - **Achtung:** Interface LocalizedException ist nicht kompatibel mit der alten Java-Version (LocalizedException).
   Grund dafür ist [KT-6653](https://youtrack.jetbrains.com/issue/KT-6653).
 

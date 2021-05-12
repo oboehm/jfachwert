@@ -5,6 +5,7 @@ package "med" {
     class IK
     class LANR
     class BSNR
+    class PZN
 
 }
 

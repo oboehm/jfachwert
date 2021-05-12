@@ -23,6 +23,9 @@ package "jfachwert" {
     package "rechnung" {
     }
 
+    package "formular" {
+    }
+
     package "bank" {
     }
 
@@ -30,6 +33,7 @@ package "jfachwert" {
     }
 
     bank ..> pruefung
+    formular ..> pruefung
     steuer ..> pruefung
     post ..> pruefung
     rechnung ..> pruefung
