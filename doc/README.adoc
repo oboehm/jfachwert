@@ -48,11 +48,19 @@ konfiguriert ist:
 |===
 |Schritt |Kommandos |Anmerkung
 
+|auf Master-Branch wechseln
+|`git checkout master`
+|Die folgenden Schritte sollten auf dem Master-Branch erfolgen, weil dort das
+letzte Release abgelegt wird.
+
 |Release starten
-|`mvn jgitflow:release-start`
-|Hierbei wird geprüft, ob keine SNAPSHOT-Abhängkeiten mehr im Projekt
-vorhanden sind. Ist dies nicht der Fall, wird ein release-Branch
-angelegt und auf diesen Branch gewechselt.
+|`git merge develop`
+|Änderungen des aktuellen develop-Branches auf den master-Branch bringen.
+Danach wird "-SNAPSHOT" von der Versions-Nummer entfernt sowie alle SNAPSHOT-Abhängkeiten.
+
+|alle Artefakte bauen
+|mvn clean install dokka:javadocJar source:jar gpg:sign repository:bundle-create -Dgpg.passphrase=xx
+|Die Artefakte werden anschliessend deploy't.
 
 |Version in deploy.sh prüfen
 |
@@ -61,20 +69,6 @@ das die Versionsnummer im Deploy-Skript "src/script/deploy.sh"
 mit der Versionsnummer im POM übereinstimmt. Auch letzte Änderungen wie z.B.
 die Anpassung des Release-Datums in link:../src/changes/changes.xml[changes.xml]
 können noch vorgenommen werden.
-
-|Release beenden
-|`mvn jgitflow:release-finish`
-|Damit wird "-SNAPSHOT" von der Versions-Nummer entfernt und das eigentliche
-Release gebaut.
-
-|auf Master-Branch wechseln
-|`git checkout master`
-|Die folgenden Schritte müssen auf dem Master-Branch erfolgen, weil dort das
-letzte Release verfügbar ist.
-
-|alle Artefakte bauen
-|mvn clean install javadoc:jar source:jar gpg:sign repository:bundle-create -Dgpg.passphrase=xx
-|Die Artefakte werden anschliessend deploy't.
 
 |Release deployen
 |`sh src/script/deploy.sh`

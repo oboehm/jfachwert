@@ -35,7 +35,7 @@
     </links>
     
     <menu name="jFachwert">
-      <item name="Release Notes"  href="https://github.com/oboehm/jfachwert/blob/master/doc/release-notes.adoc" />
+      <item name="Release Notes"  href="https://github.com/oboehm/jfachwert/blob/master/CHANGELOG.md" />
       <item name="Infos"		  href="index.html" />
       <item name="JavaDoc API"    href="apidocs/index.html" />
       <item name="Architektur-Doku" href="generated-docs/de/index.html" />
