@@ -18,7 +18,7 @@
 package de.jfachwert.math;
 
 import de.jfachwert.FachwertTest;
-import de.jfachwert.Fachwert;
+import de.jfachwert.KFachwert;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
@@ -45,7 +45,7 @@ public final class BruchTest extends FachwertTest {
      * @return 1/2 als Bruch
      */
     @Override
-    protected Fachwert createFachwert() {
+    protected KFachwert createFachwert() {
         return new Bruch(1, 2);
     }
 

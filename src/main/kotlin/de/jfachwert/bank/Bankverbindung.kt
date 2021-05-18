@@ -19,7 +19,7 @@ package de.jfachwert.bank
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import de.jfachwert.Fachwert
+import de.jfachwert.KFachwert
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import de.jfachwert.util.ToFachwertSerializer
 import org.apache.commons.lang3.StringUtils
@@ -36,7 +36,7 @@ import java.util.*
 @JsonSerialize(using = ToFachwertSerializer::class)
 open class Bankverbindung
 
-@JvmOverloads constructor(val kontoinhaber: String, iban: IBAN, bic: BIC? = null) : Fachwert {
+@JvmOverloads constructor(val kontoinhaber: String, iban: IBAN, bic: BIC? = null) : KFachwert {
 
     val iban: IBAN
     private val bic: BIC?

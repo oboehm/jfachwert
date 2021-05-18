@@ -18,7 +18,7 @@
 package de.jfachwert.rechnung;
 
 import de.jfachwert.FachwertTest;
-import de.jfachwert.Fachwert;
+import de.jfachwert.KFachwert;
 import org.junit.Test;
 
 import java.time.DayOfWeek;
@@ -46,7 +46,7 @@ public final class RechnungsmonatTest extends FachwertTest {
      * @return Juli 2017
      */
     @Override
-    protected Fachwert createFachwert() {
+    protected KFachwert createFachwert() {
         return new Rechnungsmonat(7, 2017);
     }
 

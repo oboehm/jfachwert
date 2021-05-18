@@ -17,7 +17,7 @@
  */
 package de.jfachwert.post;
 
-import de.jfachwert.Fachwert;
+import de.jfachwert.KFachwert;
 import de.jfachwert.FachwertTest;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
@@ -41,7 +41,7 @@ public class OrtTest extends FachwertTest {
      * @return den Ort Arnis in Schleswig Holstein
      */
     @Override
-    protected Fachwert createFachwert() {
+    protected KFachwert createFachwert() {
         return new Ort("Arnis");
     }
 

@@ -19,7 +19,7 @@ package de.jfachwert.post
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import de.jfachwert.Fachwert
+import de.jfachwert.KFachwert
 import de.jfachwert.pruefung.exception.InvalidValueException
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import de.jfachwert.util.ToFachwertSerializer
@@ -42,7 +42,7 @@ import javax.validation.ValidationException
  * @since 0.2 (19.06.2017)
  */
 @JsonSerialize(using = ToFachwertSerializer::class)
-open class Postfach : Fachwert {
+open class Postfach : KFachwert {
 
     private val nummer: BigInteger?
 

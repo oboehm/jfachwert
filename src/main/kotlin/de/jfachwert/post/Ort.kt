@@ -19,7 +19,7 @@ package de.jfachwert.post
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
-import de.jfachwert.Fachwert
+import de.jfachwert.KFachwert
 import de.jfachwert.SimpleValidator
 import de.jfachwert.Text
 import de.jfachwert.pruefung.LengthValidator
@@ -48,7 +48,7 @@ open class Ort
  * @param name      Name des Ortes
  * @param validator Validator fuer die Ueberpruefung des Ortes
  */
-@JvmOverloads constructor(private val plz: PLZ?, name: String, validator: SimpleValidator<String> = VALIDATOR) : Fachwert {
+@JvmOverloads constructor(private val plz: PLZ?, name: String, validator: SimpleValidator<String> = VALIDATOR) : KFachwert {
 
     /**
      * Liefert den Ortsnamen zurueck.

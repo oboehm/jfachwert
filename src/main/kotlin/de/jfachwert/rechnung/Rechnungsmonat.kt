@@ -19,7 +19,7 @@ package de.jfachwert.rechnung
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
-import de.jfachwert.Fachwert
+import de.jfachwert.KFachwert
 import de.jfachwert.pruefung.exception.InvalidValueException
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import org.apache.commons.lang3.Range
@@ -49,7 +49,7 @@ import java.util.*
  * @since 0.3.1 (12.07.2017)
  */
 @JsonSerialize(using = ToStringSerializer::class)
-open class Rechnungsmonat : Fachwert, Comparable<Rechnungsmonat> {
+open class Rechnungsmonat : KFachwert, Comparable<Rechnungsmonat> {
 
     private val monate: Short
 

@@ -19,7 +19,7 @@ package de.jfachwert.bank
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
-import de.jfachwert.Fachwert
+import de.jfachwert.KFachwert
 import de.jfachwert.SimpleValidator
 import de.jfachwert.bank.Waehrung.Companion.getSymbol
 import de.jfachwert.bank.Waehrung.Companion.toCurrency
@@ -55,7 +55,7 @@ import javax.money.format.MonetaryParseException
  * @since 1.0 (18.07.2018)
  */
 @JsonSerialize(using = ToStringSerializer::class)
-open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: CurrencyUnit, context: MonetaryContext = FACTORY.getMonetaryContextOf(betrag)) : MonetaryAmount, Comparable<MonetaryAmount>, Fachwert {
+open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: CurrencyUnit, context: MonetaryContext = FACTORY.getMonetaryContextOf(betrag)) : MonetaryAmount, Comparable<MonetaryAmount>, KFachwert {
 
     private val betrag: BigDecimal
     private val context: MonetaryContext

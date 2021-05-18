@@ -65,11 +65,11 @@ import javax.validation.ValidationException
  */
 class FachwertFactory private constructor() {
 
-    private val registeredClasses: MutableMap<String, Class<out Fachwert>> = HashMap()
+    private val registeredClasses: MutableMap<String, Class<out KFachwert>> = HashMap()
 
     companion object {
 
-        private val LOG = Logger.getLogger(Fachwert::class.java.name)
+        private val LOG = Logger.getLogger(KFachwert::class.java.name)
 
         /**
          * Die FachwertFactory ist als Singleton angelegt, um die Implementierung
@@ -81,7 +81,7 @@ class FachwertFactory private constructor() {
         @JvmStatic
         val instance = FachwertFactory()
 
-        private fun getValidator(clazz: Class<out Fachwert>?): Optional<SimpleValidator<*>> {
+        private fun getValidator(clazz: Class<out KFachwert>?): Optional<SimpleValidator<*>> {
             try {
                 val validatorField = clazz!!.getDeclaredField("VALIDATOR")
                 validatorField.isAccessible = true
@@ -97,10 +97,10 @@ class FachwertFactory private constructor() {
             return Optional.empty()
         }
 
-        private fun callValidate(clazz: Class<out Fachwert>, args: Array<Serializable>) {
+        private fun callValidate(clazz: Class<out KFachwert>, args: Array<Serializable>) {
             try {
                 val companion = getCompanionOf(clazz)
-                callValidate(companion, args, companion.javaClass as Class<out Fachwert>)
+                callValidate(companion, args, companion.javaClass as Class<out KFachwert>)
             } catch (ex: ReflectiveOperationException) {
                 LOG.log(Level.FINE, "Cannot use companion of $clazz", ex)
                 try {
@@ -112,7 +112,7 @@ class FachwertFactory private constructor() {
         }
 
         @Throws(ReflectiveOperationException::class)
-        private fun callValidate(obj: Any?, args: Array<Serializable>, clazz: Class<out Fachwert>) {
+        private fun callValidate(obj: Any?, args: Array<Serializable>, clazz: Class<out KFachwert>) {
             try {
                 val argTypes = toTypes(args)
                 val method = clazz.getMethod("validate", *argTypes)
@@ -126,7 +126,7 @@ class FachwertFactory private constructor() {
         }
 
         @Throws(ReflectiveOperationException::class)
-        private fun getCompanionOf(clazz: Class<out Fachwert>): Any {
+        private fun getCompanionOf(clazz: Class<out KFachwert>): Any {
             val companionField = clazz.getField("Companion")
             return companionField[null]
         }
@@ -201,7 +201,7 @@ class FachwertFactory private constructor() {
      * @param fachwertClass Fachwert-Klasse
      */
     @Synchronized
-    fun register(fachwertClass: Class<out Fachwert>) {
+    fun register(fachwertClass: Class<out KFachwert>) {
         registeredClasses[fachwertClass.simpleName] = fachwertClass
     }
 
@@ -210,7 +210,7 @@ class FachwertFactory private constructor() {
      *
      * @return registrierte Klassen
      */
-    fun getRegisteredClasses(): Map<String, Class<out Fachwert>> {
+    fun getRegisteredClasses(): Map<String, Class<out KFachwert>> {
         return registeredClasses
     }
 
@@ -229,7 +229,7 @@ class FachwertFactory private constructor() {
      * @param args Argument(e) fuer den Konstruktor der Fachwert-Klasse
      * @return ein Fachwert
      */
-    fun getFachwert(name: String, vararg args: Serializable): Fachwert {
+    fun getFachwert(name: String, vararg args: Serializable): KFachwert {
         val fachwertClass = getClassFor(name)
         return getFachwert(fachwertClass, *args)
     }
@@ -241,7 +241,7 @@ class FachwertFactory private constructor() {
      * @param args Argument(e) fuer den Konstruktor der Fachwert-Klasse
      * @return ein Fachwert
      */
-    fun getFachwert(clazz: Class<out Fachwert>, vararg args: Serializable): Fachwert {
+    fun getFachwert(clazz: Class<out KFachwert>, vararg args: Serializable): KFachwert {
         val argTypes = toTypes(args)
         return try {
             val ctor = clazz.getConstructor(*argTypes)
@@ -294,7 +294,7 @@ class FachwertFactory private constructor() {
      * @param clazz Fachwert-Klasse
      * @param args Argument(e), die validiert werden
      */
-    fun validate(clazz: Class<out Fachwert>, vararg args: Serializable) {
+    fun validate(clazz: Class<out KFachwert>, vararg args: Serializable) {
         val validator = getValidator(clazz)
         if (validator.isPresent) {
             validator.get().validateObject(args[0])
@@ -303,7 +303,7 @@ class FachwertFactory private constructor() {
         }
     }
 
-    private fun getClassFor(name: String): Class<out Fachwert> {
+    private fun getClassFor(name: String): Class<out KFachwert> {
         var fachwertClass = registeredClasses[name]
         if (fachwertClass == null) {
             fachwertClass = registeredClasses[getSimilarName(name)]

@@ -19,7 +19,7 @@ package de.jfachwert.math
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
-import de.jfachwert.Fachwert
+import de.jfachwert.KFachwert
 import de.jfachwert.bank.Geldbetrag.Companion.of
 import java.math.BigDecimal
 import java.util.*
@@ -40,7 +40,7 @@ import javax.money.MonetaryAmount
  * @since 3.0 (01.10.2019)
  */
 @JsonSerialize(using = ToStringSerializer::class)
-open class Prozent(val wert: BigDecimal) : AbstractNumber(), Fachwert {
+open class Prozent(val wert: BigDecimal) : AbstractNumber(), KFachwert {
 
     /**
      * Legt ein Prozent-Objekt an.

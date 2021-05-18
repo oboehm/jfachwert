@@ -19,7 +19,7 @@ package de.jfachwert.steuer
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
-import de.jfachwert.Fachwert
+import de.jfachwert.KFachwert
 import de.jfachwert.math.Prozent
 import java.math.BigDecimal
 import java.util.*
@@ -32,7 +32,7 @@ import javax.money.MonetaryAmount
  * den ermaessigten Steuersatz von 7%.
  */
 @JsonSerialize(using = ToStringSerializer::class)
-open class Mehrwertsteuer (val prozent: Prozent) : Fachwert, Comparable<Mehrwertsteuer> {
+open class Mehrwertsteuer (val prozent: Prozent) : KFachwert, Comparable<Mehrwertsteuer> {
 
     constructor(satz: String) : this(Prozent.of(satz))
 

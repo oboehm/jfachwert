@@ -19,7 +19,7 @@ package de.jfachwert.net
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import de.jfachwert.Fachwert
+import de.jfachwert.KFachwert
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import de.jfachwert.util.ToFachwertSerializer
 import org.apache.commons.lang3.StringUtils
@@ -33,7 +33,7 @@ import java.util.*
  * @since 0.4 (08.08.2017)
  */
 @JsonSerialize(using = ToFachwertSerializer::class)
-open class ChatAccount(val chatDienst: ChatDienst, private val dienstName: String?, account: String) : Fachwert {
+open class ChatAccount(val chatDienst: ChatDienst, private val dienstName: String?, account: String) : KFachwert {
 
     /**
      * Liefert den Account-Namen zurueck.

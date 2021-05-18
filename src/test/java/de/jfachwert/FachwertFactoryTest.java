@@ -48,7 +48,7 @@ public class FachwertFactoryTest {
      */
     @Test
     public void testGetFachwertClass() {
-        Fachwert iban = FACTORY.getFachwert(IBAN.class, "DE41300606010006605605");
+        KFachwert iban = FACTORY.getFachwert(IBAN.class, "DE41300606010006605605");
         assertEquals(new IBAN("DE41300606010006605605"), iban);
     }
 
@@ -57,7 +57,7 @@ public class FachwertFactoryTest {
      */
     @Test
     public void testGetFachwertString() {
-        Fachwert bic = FACTORY.getFachwert("BIC", "BELADEBEXXX");
+        KFachwert bic = FACTORY.getFachwert("BIC", "BELADEBEXXX");
         assertEquals(new BIC("BELADEBEXXX"), bic);
     }
 
@@ -68,7 +68,7 @@ public class FachwertFactoryTest {
      */
     @Test
     public void testGetSimilarFachwert() {
-        Fachwert bic = FACTORY.getFachwert("BIC1", "MARKDEFF");
+        KFachwert bic = FACTORY.getFachwert("BIC1", "MARKDEFF");
         assertEquals(new BIC("MARKDEFF"), bic);
     }
 
@@ -133,8 +133,8 @@ public class FachwertFactoryTest {
      */
     @Test
     public void testValidateAll() {
-        Collection<Class<? extends Fachwert>> registeredClasses = FACTORY.getRegisteredClasses().values();
-        for (Class<? extends Fachwert> fachwertClass : registeredClasses) {
+        Collection<Class<? extends KFachwert>> registeredClasses = FACTORY.getRegisteredClasses().values();
+        for (Class<? extends KFachwert> fachwertClass : registeredClasses) {
             try {
                 FACTORY.validate(fachwertClass, "TEST");
             } catch (ValidationException mayhappen) {
@@ -166,8 +166,8 @@ public class FachwertFactoryTest {
         if (Modifier.isAbstract(mod) || Modifier.isInterface(mod) || clazz.equals(Primzahl.class)) {
             return;
         }
-        if (Fachwert.class.isAssignableFrom(clazz)) {
-            assertThat(FACTORY.getRegisteredClasses().values(), hasItem((Class<? extends Fachwert>) clazz));
+        if (KFachwert.class.isAssignableFrom(clazz)) {
+            assertThat(FACTORY.getRegisteredClasses().values(), hasItem((Class<? extends KFachwert>) clazz));
         }
     }
 

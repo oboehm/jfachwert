@@ -17,7 +17,7 @@
  */
 package de.jfachwert.math
 
-import de.jfachwert.Fachwert
+import de.jfachwert.KFachwert
 import java.lang.ref.SoftReference
 import java.math.BigInteger
 import java.util.concurrent.CopyOnWriteArrayList
@@ -38,7 +38,7 @@ import java.util.concurrent.CopyOnWriteArrayList
  * @author oboehm
  * @since 0.6.1 (04.04.2018)
  */
-open class Primzahl private constructor(private val value: Int) : Number(), Fachwert, Comparable<Primzahl> {
+open class Primzahl private constructor(private val value: Int) : Number(), KFachwert, Comparable<Primzahl> {
 
     /**
      * Liefert den numerischen Wert der Primzahl. Der Name der Methode

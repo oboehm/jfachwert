@@ -18,7 +18,7 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.FachwertTest;
-import de.jfachwert.Fachwert;
+import de.jfachwert.KFachwert;
 import org.junit.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
@@ -31,7 +31,7 @@ import static org.junit.Assert.*;
 public final class BankverbindungTest extends FachwertTest {
 
     @Override
-    protected Fachwert createFachwert() {
+    protected KFachwert createFachwert() {
         return new Bankverbindung("Max Muster", new IBAN("DE41300606010006605605"), new BIC("GENODEF1JEV"));
     }
 

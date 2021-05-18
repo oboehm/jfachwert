@@ -18,7 +18,6 @@
 package de.jfachwert;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.javamoney.tck.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import patterntesting.runtime.junit.ImmutableTester;
@@ -56,7 +55,7 @@ import static org.junit.Assert.*;
 public class FachwertTest {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    private Fachwert fachwert;
+    private KFachwert fachwert;
 
     /**
      * Zum Testen brauchen wir ein Test-Objekt. Dies muss hierueber von den
@@ -72,7 +71,7 @@ public class FachwertTest {
      *
      * @return Test-Objekt zum Testen
      */
-    protected Fachwert createFachwert() {
+    protected KFachwert createFachwert() {
         return FachwertFactory.getInstance().getFachwert("Name", "Oli B.");
     }
 
@@ -121,19 +120,19 @@ public class FachwertTest {
      */
     @Test
     public void testNotFinal() {
-        Class<? extends Fachwert> clazz = fachwert.getClass();
+        Class<? extends KFachwert> clazz = fachwert.getClass();
         assertFalse(clazz + " should be not final", Modifier.isFinal(clazz.getModifiers()));
     }
 
     /**
-     * Falls die equals- und hashCode-Methode von {@link Fachwert}
+     * Falls die equals- und hashCode-Methode von {@link KFachwert}
      * ueberschrieben werden, wird die Korrektheit hier zur Sicherheit
      * ueberprueft.
      */
     @Test
     public void testEquals() {
-        Fachwert one = this.createFachwert();
-        Fachwert anotherOne = this.createFachwert();
+        KFachwert one = this.createFachwert();
+        KFachwert anotherOne = this.createFachwert();
         ObjectTester.assertEquals(one, anotherOne);
     }
 
@@ -143,7 +142,7 @@ public class FachwertTest {
     @Test
     public void testJsonSerialization() {
         String json = marshal(fachwert);
-        Fachwert deserialized = unmarshal(json, fachwert.getClass());
+        KFachwert deserialized = unmarshal(json, fachwert.getClass());
         assertEquals(json, fachwert, deserialized);
     }
 

@@ -67,7 +67,7 @@ public abstract class AbstractFachwertTest<T extends Serializable, S extends Abs
      * @return Test-Objekt zum Testen
      */
     @Override
-    protected Fachwert createFachwert() {
+    protected KFachwert createFachwert() {
         return createFachwert(getCode());
     }
 

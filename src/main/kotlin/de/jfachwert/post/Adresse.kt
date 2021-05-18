@@ -19,7 +19,7 @@ package de.jfachwert.post
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import de.jfachwert.Fachwert
+import de.jfachwert.KFachwert
 import de.jfachwert.SimpleValidator
 import de.jfachwert.Text
 import de.jfachwert.pruefung.LengthValidator
@@ -46,7 +46,7 @@ import javax.validation.ValidationException
 @JsonSerialize(using = ToFachwertSerializer::class)
 open class Adresse
 @JvmOverloads constructor(
-        val ort: Ort, private val strasse: String, private val hausnummer: String, validator: SimpleValidator<String> = VALIDATOR) : Fachwert {
+        val ort: Ort, private val strasse: String, private val hausnummer: String, validator: SimpleValidator<String> = VALIDATOR) : KFachwert {
 
     /**
      * Zerlegt die uebergebene Adresse in ihre Einzelteile und baut daraus die

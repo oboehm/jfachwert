@@ -19,7 +19,7 @@ package de.jfachwert.math
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
-import de.jfachwert.Fachwert
+import de.jfachwert.KFachwert
 import de.jfachwert.SimpleValidator
 import de.jfachwert.pruefung.NullValidator
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
@@ -103,7 +103,7 @@ import javax.validation.constraints.NotNull
  * @since 0.6 (29.03.2018)
  */
 @JsonSerialize(using = ToStringSerializer::class)
-open class PackedDecimal @JvmOverloads constructor(zahl: String, validator: SimpleValidator<String> = VALIDATOR) : AbstractNumber(), Fachwert {
+open class PackedDecimal @JvmOverloads constructor(zahl: String, validator: SimpleValidator<String> = VALIDATOR) : AbstractNumber(), KFachwert {
 
     private val code: ByteArray
 

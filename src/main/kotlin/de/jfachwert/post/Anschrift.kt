@@ -19,8 +19,7 @@ package de.jfachwert.post
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import de.jfachwert.Fachwert
-import de.jfachwert.post.Anschrift
+import de.jfachwert.KFachwert
 import de.jfachwert.pruefung.exception.InvalidValueException
 import de.jfachwert.util.ToFachwertSerializer
 import org.apache.commons.lang3.StringUtils
@@ -39,7 +38,7 @@ import javax.validation.ValidationException
  */
 @JsonSerialize(using = ToFachwertSerializer::class)
 open class Anschrift private constructor(
-        val adressat: Adressat, private val adresse: Adresse?, private val postfach: Postfach?) : Fachwert {
+        val adressat: Adressat, private val adresse: Adresse?, private val postfach: Postfach?) : KFachwert {
 
     /**
      * Zerlegt die uebergebene Anschrift in Adressat und Adresse oder Postfach,

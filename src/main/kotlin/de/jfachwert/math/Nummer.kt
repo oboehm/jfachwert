@@ -17,7 +17,7 @@
  */
 package de.jfachwert.math
 
-import de.jfachwert.Fachwert
+import de.jfachwert.KFachwert
 import de.jfachwert.SimpleValidator
 import de.jfachwert.pruefung.exception.InvalidValueException
 import java.math.BigDecimal
@@ -39,7 +39,7 @@ import java.util.*
  * @author oboehm
  * @since 0.6 (24.01.2018)
  */
-open class Nummer(code: String) : AbstractNumber(), Fachwert {
+open class Nummer(code: String) : AbstractNumber(), KFachwert {
 
     private val code: PackedDecimal
 

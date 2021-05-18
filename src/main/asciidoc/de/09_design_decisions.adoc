@@ -5,12 +5,8 @@
 
 === Keine `null`-Werte
 
-Mit http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html[Optional] aus Java 8 besteht keine Notwendigkeit mehr, `null` als Argument oder Rückgabewert zulassen.
-Dementsprechend wird bei Rückgabewerte, die optional sind, auch http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html[Optional] als Datentyp zurückgegeben.
-`null` als Rückgabewert wird nicht verwendet.
-
-Auch bei Parametern ist `null` kein zulässiges Argument, sondern wird als Fehler betrachtet und mit einer ValidationException bestraft.
-Optionale Parameter können beim Aufruf einfach weggelassen werden.
+Ein Grund für die Migration auf Kotlin war die Unterbindung von null-Werten.
+Damit kann schon auf Aufruf-Ebene schon garantiert werden, dass null-Werte nicht weitergegeben werden, sondern sofort zum Fehler führen ("fail fast").
 
 
 === NULL-Konstanten
@@ -33,9 +29,10 @@ Die einzigen Abhängigkeiten, die in Kauf genommen werden, sind:
 * commons-lang3: diese Bibliothek ist bereits als Abhängigkeit vieler anderer Bibliotheken vorhanden
 * commons-collections4: aus dieser Bibliothek wurde die ReferenceMap verwendet, um Objekte, die oft gebraucht werden, vorhalten zu können
   (zur Reduktion des Speicherverbrauchs)
+* commons-text: hieraus wurden die WordUtils für die Groß-/Kleinschreibung von Namensanteilen verwendet.
 * validation-api: Basis-Bibliothek für Validierung
-* money-api (JSR 354): diese API ist Bestandteil ab Java 9
-* JavaMoney.org: diese Bibliothek kam mit 0.8 für die Unterstützung des Geldbetrags herein, da sonst `Monetary.getCurrency("EUR")` nicht funktioniert.
+* money-api (JSR 354): diese API sowie einige weitere Bibliotheken dazu sind optional, da sie Java 9 Bestandteil des JDKs sind.
+  Evtl. müssen sie unter Java 8 als Dependency mit aufgeführt werden, wenn diese Funktionalität benötigt wird.
 
 
 === Ableitung möglich
@@ -174,4 +171,8 @@ zwei 0-Beträge werden als gleich angesehen, auch wenn sie unterschiedliche Wäh
 Wegen https://youtrack.jetbrains.com/issue/KT-6653[KT-6653] ist das Kotlin Interface _ILocalizedException_ nicht identisch zur Java-Variante _LocalizedException_.
 Da dieses Interface aber nur für den internen Gebrauch gedacht ist, wurde diese Inkompatibilität in Kauf genommen.
 
+Einige weitere Interfaces wie _Fachwert_ sind in Java verblieben, da Interfaces mit Default-Implementierung nicht 100%-ig kompatibel sind (s. https://youtrack.jetbrains.com/issue/KT-4779[KT-4779]).
+Für die Verwendung in Kotlin gibt es das Interface mit vorangestelltem 'K' (_KFachwert_).
+
 Ansosten wird die Kompatilität zur Java Version (v3) dadurch sichergestellt, das die Unit-Tests in Java verbleiben und auch in Java weiterentwickelt werden.
+Daneben wurden einige Klassen aus anderen Projekte, bei denen es Kompatibiltätsprobleme gab, als zusätzliche Testfälle hinzugefügt.

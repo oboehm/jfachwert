@@ -28,10 +28,15 @@ import javax.annotation.concurrent.Immutable
  *  * serialisierbar,
  *  * ...
  *
+ *  Urspruenglich sollte diese Version die Java-Variante ersezten. Allerdings
+ *  gibt es in Kotlin noch Kompatibilitaetsprobleme bei Interfaces mit
+ *  Default-Implementierung, sodass die Original-Java-Implementierung
+ *  beibehalten wurde und die Kotlin-Variante in KFachwert umbenannt wurde.
+ *
  * @author ob@aosd.de
  */
 @Immutable
-interface Fachwert : Serializable {
+interface KFachwert : Serializable, Fachwert {
 
     /**
      * Liefert die einzelnen Attribute eines Fachwertes als Map. Diese Methode
@@ -39,7 +44,7 @@ interface Fachwert : Serializable {
      *
      * @return Attribute als Map
      */
-    fun toMap(): Map<String, Any> {
+    override fun toMap(): Map<String, Any> {
         throw UnsupportedOperationException("not yet implemented")
     }
 

@@ -20,7 +20,7 @@ package de.jfachwert.util
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.ser.std.StdSerializer
-import de.jfachwert.Fachwert
+import de.jfachwert.KFachwert
 import java.io.IOException
 
 /**
@@ -35,7 +35,7 @@ import java.io.IOException
  * @author oboehm
  * @since 1.0
  */
-class ToFachwertSerializer @JvmOverloads constructor(t: Class<Fachwert> = Fachwert::class.java) : StdSerializer<Fachwert>(t) {
+class ToFachwertSerializer @JvmOverloads constructor(t: Class<KFachwert> = KFachwert::class.java) : StdSerializer<KFachwert>(t) {
 
     /**
      * Fuer die Serialisierung wird der uebergebenen Fachwert nach seinen
@@ -47,7 +47,7 @@ class ToFachwertSerializer @JvmOverloads constructor(t: Class<Fachwert> = Fachwe
      * @throws IOException sollte nicht auftreten
      */
     @Throws(IOException::class)
-    override fun serialize(fachwert: Fachwert, jgen: JsonGenerator, provider: SerializerProvider) {
+    override fun serialize(fachwert: KFachwert, jgen: JsonGenerator, provider: SerializerProvider) {
         serialize(fachwert.toMap(), jgen, provider)
     }
 

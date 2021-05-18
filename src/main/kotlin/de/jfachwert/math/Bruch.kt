@@ -17,7 +17,7 @@
  */
 package de.jfachwert.math
 
-import de.jfachwert.Fachwert
+import de.jfachwert.KFachwert
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import org.apache.commons.lang3.StringUtils
 import java.math.BigDecimal
@@ -36,7 +36,7 @@ import java.math.BigInteger
  * @author ob@aosd.de
  * @since 0.6
  */
-open class Bruch(val zaehler: BigInteger, val nenner: BigInteger) : AbstractNumber(), Fachwert {
+open class Bruch(val zaehler: BigInteger, val nenner: BigInteger) : AbstractNumber(), KFachwert {
 
     /**
      * Legt einen Bruch mit dem angegeben Zaehler und Nenner an. Brueche

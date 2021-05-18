@@ -19,7 +19,7 @@ package de.jfachwert.bank
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
-import de.jfachwert.Fachwert
+import de.jfachwert.KFachwert
 import de.jfachwert.SimpleValidator
 import de.jfachwert.pruefung.NullValidator
 import de.jfachwert.pruefung.exception.InvalidValueException
@@ -41,7 +41,7 @@ import javax.money.UnknownCurrencyException
  * @since 1.0
  */
 @JsonSerialize(using = ToStringSerializer::class)
-open class Waehrung protected constructor(code: Currency, validator: SimpleValidator<Currency>) : Fachwert, Comparable<CurrencyUnit>, CurrencyUnit {
+open class Waehrung protected constructor(code: Currency, validator: SimpleValidator<Currency>) : KFachwert, Comparable<CurrencyUnit>, CurrencyUnit {
 
     companion object {
 

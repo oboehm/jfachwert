@@ -19,7 +19,7 @@ package de.jfachwert.bank
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
-import de.jfachwert.Fachwert
+import de.jfachwert.KFachwert
 import de.jfachwert.math.Prozent
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -36,7 +36,7 @@ import javax.money.MonetaryAmount
  * @since 4.0
  */
 @JsonSerialize(using = ToStringSerializer::class)
-open class Zinssatz(val prozent: Prozent) : Fachwert, Comparable<Zinssatz> {
+open class Zinssatz(val prozent: Prozent) : KFachwert, Comparable<Zinssatz> {
 
     constructor(satz: String) : this(Prozent.of(satz))
 
