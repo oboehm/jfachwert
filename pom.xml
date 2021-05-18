@@ -42,8 +42,6 @@
 
   <build>
 
-    <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
-
     <plugins>
 
       <!-- Kotlin Compiler -->
@@ -65,19 +63,6 @@
               </sourceDirs>
             </configuration>
           </execution>
-          <execution>
-            <id>test-compile</id>
-            <phase>test-compile</phase>
-            <goals>
-              <goal>test-compile</goal>
-            </goals>
-            <configuration>
-              <sourceDirs>
-                <source>src/test/kotlin</source>
-                <source>src/test/java</source>
-              </sourceDirs>
-            </configuration>
-          </execution>
         </executions>
         <configuration>
           <jvmTarget>1.8</jvmTarget>
@@ -88,7 +73,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.6.2</version>
+        <version>3.8.1</version>
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
