@@ -20,7 +20,7 @@ package de.jfachwert.post
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import de.jfachwert.KFachwert
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.Text
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.NullValidator
@@ -46,7 +46,7 @@ import javax.validation.ValidationException
 @JsonSerialize(using = ToFachwertSerializer::class)
 open class Adresse
 @JvmOverloads constructor(
-        val ort: Ort, private val strasse: String, private val hausnummer: String, validator: SimpleValidator<String> = VALIDATOR) : KFachwert {
+        val ort: Ort, private val strasse: String, private val hausnummer: String, validator: KSimpleValidator<String> = VALIDATOR) : KFachwert {
 
     /**
      * Zerlegt die uebergebene Adresse in ihre Einzelteile und baut daraus die
@@ -217,7 +217,7 @@ open class Adresse
 
     companion object {
 
-        private val VALIDATOR: SimpleValidator<String> = LengthValidator(1)
+        private val VALIDATOR: KSimpleValidator<String> = LengthValidator(1)
         private val LOG = Logger.getLogger(Adresse::class.java.name)
         private val PATTERN_STRASSE = Pattern.compile(".*(?i)tra(ss|[\u00dfe])e$")
 
@@ -282,7 +282,7 @@ open class Adresse
             return of(ort, strasse, Integer.toString(hausnummer))
         }
 
-        private fun verify(ort: Ort, strasse: String, hausnummer: String, validator: SimpleValidator<String>) {
+        private fun verify(ort: Ort, strasse: String, hausnummer: String, validator: KSimpleValidator<String>) {
             try {
                 validate(ort, strasse, hausnummer, validator)
             } catch (ex: ValidationException) {
@@ -304,7 +304,7 @@ open class Adresse
             validate(ort, strasse, hausnummer, VALIDATOR)
         }
 
-        private fun validate(ort: Ort, strasse: String, hausnummer: String, validator: SimpleValidator<String>) {
+        private fun validate(ort: Ort, strasse: String, hausnummer: String, validator: KSimpleValidator<String>) {
             if (!ort.pLZ.isPresent) {
                 throw InvalidValueException(ort, "postal_code")
             }

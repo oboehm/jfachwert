@@ -20,7 +20,7 @@ package de.jfachwert.bank
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
 import de.jfachwert.KFachwert
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.bank.Waehrung.Companion.getSymbol
 import de.jfachwert.bank.Waehrung.Companion.toCurrency
 import de.jfachwert.bank.internal.GeldbetragFormatter
@@ -810,7 +810,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
      *
      * @since 3.0
      */
-    class Validator : SimpleValidator<String> {
+    class Validator : KSimpleValidator<String> {
         /**
          * Validiert die uebergebene Zahl, ob sie sich als Geldbetrag eignet.
          *
@@ -833,7 +833,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
         private val FACTORY = GeldbetragFactory()
         private val DEFAULT_FORMATTER = GeldbetragFormatter()
         private val NUMBER_VALIDATOR = NumberValidator()
-        private val VALIDATOR: SimpleValidator<String> = Validator()
+        private val VALIDATOR: KSimpleValidator<String> = Validator()
 
         /** Da 0-Betraege relativ haeufig vorkommen, spendieren wir dafuer eine eigene Konstante.  */
         @JvmField

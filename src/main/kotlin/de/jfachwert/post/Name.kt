@@ -17,7 +17,7 @@
  */
 package de.jfachwert.post
 
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.Text
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.NullValidator
@@ -39,7 +39,7 @@ open class Name
  * @param name,     z.B. "Duck, Donald"
  * @param validator Validator fuer die Ueberpruefung
  */
-@JvmOverloads constructor(name: String, validator: SimpleValidator<String> = VALIDATOR) : Text(name, validator) {
+@JvmOverloads constructor(name: String, validator: KSimpleValidator<String> = VALIDATOR) : Text(name, validator) {
 
     /**
      * Liefert den Nachnamen.
@@ -167,7 +167,7 @@ open class Name
     companion object {
 
         private val WEAK_CACHE = WeakHashMap<String, Name>()
-        private val VALIDATOR: SimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR
+        private val VALIDATOR: KSimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR
 
         /** Null-Wert fuer Initialisierung.  */
         val NULL = Name("", NullValidator())

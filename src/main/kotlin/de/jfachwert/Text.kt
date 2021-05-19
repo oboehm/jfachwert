@@ -41,7 +41,7 @@ open class Text
  * @param text      Text
  * @param validator Validator fuer die Ueberpruefung
  */
-@JvmOverloads constructor(text: String, validator: SimpleValidator<String> = VALIDATOR) : AbstractFachwert<String, Text>(VALIDATOR.verify(text).intern(), validator), Comparable<Text> {
+@JvmOverloads constructor(text: String, validator: KSimpleValidator<String> = VALIDATOR) : AbstractFachwert<String, Text>(VALIDATOR.verify(text).intern(), validator), Comparable<Text> {
     /**
      * Berechnet die Levenshtein-Distanz.
      *
@@ -144,7 +144,7 @@ open class Text
 
     companion object {
 
-        private val VALIDATOR: SimpleValidator<String> = NullValidator()
+        private val VALIDATOR: KSimpleValidator<String> = NullValidator()
         private val WEAK_CACHE = WeakHashMap<String, Text>()
 
         /** Null-Konstante fuer Initialisierungen .  */

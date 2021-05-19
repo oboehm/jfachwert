@@ -19,7 +19,7 @@ package de.jfachwert.steuer
 
 import de.jfachwert.AbstractFachwert
 import de.jfachwert.PruefzifferVerfahren
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.math.PackedDecimal
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.Mod11Verfahren
@@ -57,7 +57,7 @@ open class Steuernummer
      * @param nr          die Steuernummer
      * @param pzVerfahren das verwendete PruefzifferVerfahren
      */
-    constructor(nr: String, pzVerfahren: SimpleValidator<PackedDecimal> = VALIDATOR) : AbstractFachwert<PackedDecimal, Steuernummer>(PackedDecimal.of(nr), pzVerfahren) {
+    constructor(nr: String, pzVerfahren: KSimpleValidator<PackedDecimal> = VALIDATOR) : AbstractFachwert<PackedDecimal, Steuernummer>(PackedDecimal.of(nr), pzVerfahren) {
 
     /**
      * Hierueber wird eine neue Steuernummer angelegt.
@@ -81,7 +81,7 @@ open class Steuernummer
      *
      * @since 2.2
      */
-    open class Validator : SimpleValidator<PackedDecimal> {
+    open class Validator : KSimpleValidator<PackedDecimal> {
 
         /**
          * Die Steuernummer muss zwischen 10 und 13 Stellen lang sein und die

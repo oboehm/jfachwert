@@ -17,7 +17,7 @@
  */
 package de.jfachwert.net
 
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.Text
 import de.jfachwert.pruefung.exception.InvalidValueException
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
@@ -44,7 +44,7 @@ open class Domainname
  * @param name      gueltiger Domain-Name
  * @param validator zur Pruefung
  */
-@JvmOverloads constructor(name: String, validator: SimpleValidator<String> = VALIDATOR) : Text(name.trim { it <= ' ' }.toLowerCase(), validator) {
+@JvmOverloads constructor(name: String, validator: KSimpleValidator<String> = VALIDATOR) : Text(name.trim { it <= ' ' }.toLowerCase(), validator) {
 
     /**
      * Liefert die Top-Level-Domain (TLD) zurueck.
@@ -83,7 +83,7 @@ open class Domainname
      *
      * @since 2.2
      */
-    class Validator : SimpleValidator<String> {
+    class Validator : KSimpleValidator<String> {
 
         /**
          * Hie valideren wir den Namen auf Richtigkeit. Das Pattern dazu stammt aus
@@ -111,7 +111,7 @@ open class Domainname
     companion object {
 
         private val WEAK_CACHE = WeakHashMap<String, Domainname>()
-        private val VALIDATOR: SimpleValidator<String> = Validator()
+        private val VALIDATOR: KSimpleValidator<String> = Validator()
 
         /**
          * Liefert einen Domainnamen.

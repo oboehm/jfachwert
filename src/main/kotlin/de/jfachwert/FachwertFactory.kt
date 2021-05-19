@@ -81,12 +81,12 @@ class FachwertFactory private constructor() {
         @JvmStatic
         val instance = FachwertFactory()
 
-        private fun getValidator(clazz: Class<out KFachwert>?): Optional<SimpleValidator<*>> {
+        private fun getValidator(clazz: Class<out KFachwert>?): Optional<KSimpleValidator<*>> {
             try {
                 val validatorField = clazz!!.getDeclaredField("VALIDATOR")
                 validatorField.isAccessible = true
                 val obj = validatorField[null]
-                if (obj is SimpleValidator<*>) {
+                if (obj is KSimpleValidator<*>) {
                     return Optional.of(obj)
                 }
             } catch (ex: NoSuchFieldException) {

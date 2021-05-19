@@ -19,6 +19,9 @@
 package de.jfachwert3;
 
 import de.jfachwert.Fachwert;
+import de.jfachwert.SimpleValidator;
+import de.jfachwert.pruefung.exception.InvalidValueException;
+import org.apache.commons.lang3.Range;
 
 /**
  * Mit der Klasse ByteAdresse wird ein Feld innherhalb eines Teildatensatzes
@@ -29,12 +32,11 @@ import de.jfachwert.Fachwert;
  */
 public class ByteAdresse extends Number implements Fachwert {
 
-    //private static final Validator VALIDATOR = new Validator();
+    private static final Validator VALIDATOR = new Validator();
     final byte adresse;
 
     private ByteAdresse(int adresse) {
-        //this.adresse = (byte) (VALIDATOR.verify(adresse) - 129);
-        this.adresse = (byte) (adresse - 129);
+        this.adresse = (byte) (VALIDATOR.verify(adresse) - 129);
     }
 
     public static ByteAdresse of(int n) {
@@ -68,33 +70,22 @@ public class ByteAdresse extends Number implements Fachwert {
 
 
 
-//    public static class Validator implements SimpleValidator<Integer> {
-//
-//        /**
-//         * Eine gueltige Byte-Adresse liegt zwischen 1 und 256.
-//         *
-//         * @param n Adresse, die validiert wird
-//         * @return Zahl selber, wenn sie gueltig ist
-//         */
-//        @Override
-//        public Integer validate(Integer n) {
-//            if ((n < 1) || (n > 256)) {
-//                throw new InvalidValueException(n, "Adresse", Range.between(1, 256));
-//            }
-//            return n;
-//        }
-//
-//        @Nullable
-//        @Override
-//        public Object validateObject(@NotNull Object value) {
-//            return SimpleValidator.super.validateObject(value);
-//        }
-//
-//        @NotNull
-//        @Override
-//        public Integer verify(@NotNull Integer value) {
-//            return SimpleValidator.super.verify(value);
-//        }
-//    }
+    public static class Validator implements SimpleValidator<Integer> {
+
+        /**
+         * Eine gueltige Byte-Adresse liegt zwischen 1 und 256.
+         *
+         * @param n Adresse, die validiert wird
+         * @return Zahl selber, wenn sie gueltig ist
+         */
+        @Override
+        public Integer validate(Integer n) {
+            if ((n < 1) || (n > 256)) {
+                throw new InvalidValueException(n, "Adresse", Range.between(1, 256));
+            }
+            return n;
+        }
+
+    }
 
 }

@@ -19,7 +19,7 @@ package de.jfachwert.med
 
 import de.jfachwert.AbstractFachwert
 import de.jfachwert.PruefzifferVerfahren
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.LuhnVerfahren
 import de.jfachwert.pruefung.NullValidator
@@ -49,7 +49,7 @@ open class IK
  * @param code      Institutionskennzeichen (mit Pruefziffer), z.B. 260326822
  * @param validator Validator zur Pruefung der Zahl
  */
-@JvmOverloads constructor(code: Int, validator: SimpleValidator<Int> = VALIDATOR) : AbstractFachwert<Int, IK>(code, validator) {
+@JvmOverloads constructor(code: Int, validator: KSimpleValidator<Int> = VALIDATOR) : AbstractFachwert<Int, IK>(code, validator) {
 
     /**
      * Erzeugt ein neues IK-Objekt.
@@ -100,7 +100,7 @@ open class IK
      *
      * @since 2.2
      */
-    class Validator : SimpleValidator<Int> {
+    class Validator : KSimpleValidator<Int> {
 
         /**
          * Wenn der uebergebene Wert gueltig ist, soll er unveraendert
@@ -136,7 +136,7 @@ open class IK
 
     companion object {
 
-        private val VALIDATOR: SimpleValidator<Int> = Validator()
+        private val VALIDATOR: KSimpleValidator<Int> = Validator()
         private val WEAK_CACHE = WeakHashMap<Int, IK>()
 
         /** Null-Konstante fuer Initialisierungen.  */

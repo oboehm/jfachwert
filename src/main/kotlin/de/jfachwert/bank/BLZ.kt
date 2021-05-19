@@ -18,7 +18,7 @@
 package de.jfachwert.bank
 
 import de.jfachwert.AbstractFachwert
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.math.PackedDecimal
 import de.jfachwert.pruefung.NullValidator
 import de.jfachwert.pruefung.NumberValidator
@@ -44,7 +44,7 @@ open class BLZ
  * @param code      eine 5- oder 8-stellige Zahl
  * @param validator fuer die Ueberpruefung
  */
-@JvmOverloads constructor(code: String, validator: SimpleValidator<PackedDecimal> = VALIDATOR) :
+@JvmOverloads constructor(code: String, validator: KSimpleValidator<PackedDecimal> = VALIDATOR) :
         AbstractFachwert<PackedDecimal, BLZ>(PackedDecimal.valueOf(code), validator) {
 
     /**
@@ -85,7 +85,7 @@ open class BLZ
      *
      * @since 2.2
      */
-    class Validator : SimpleValidator<PackedDecimal> {
+    class Validator : KSimpleValidator<PackedDecimal> {
         /**
          * Eine BLZ darf maximal 8-stellig sein.
          *

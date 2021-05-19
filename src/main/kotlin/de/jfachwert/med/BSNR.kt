@@ -18,7 +18,7 @@
 package de.jfachwert.med
 
 import de.jfachwert.AbstractFachwert
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.NullValidator
 import java.util.*
@@ -39,7 +39,7 @@ open class BSNR
  * @param code neunstellige Zahl
  * @param validator Validator zur Pruefung der Zahl
  */
-@JvmOverloads constructor(code: Int, validator: SimpleValidator<Int> = VALIDATOR) : AbstractFachwert<Int, BSNR>(code, validator) {
+@JvmOverloads constructor(code: Int, validator: KSimpleValidator<Int> = VALIDATOR) : AbstractFachwert<Int, BSNR>(code, validator) {
 
     /**
      * Erzeugt ein neues BSNR-Objekt.

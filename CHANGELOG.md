@@ -7,6 +7,9 @@ genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
 ## [Unreleased]
+### Changed
+- Java-Variante von Fachwert- und SimpleValidator wiederhergestellt und Kotlin-Variante in KFachwert und KSimpleValidator umbenannt,
+  da es bei Interfaces mit Default-Implementierungen Kompatiblitätsprobleme gibt ([KT-4779](https://youtrack.jetbrains.com/issue/KT-4779)) 
 
 ## [4.0] - 2021-05-13
 ### Added

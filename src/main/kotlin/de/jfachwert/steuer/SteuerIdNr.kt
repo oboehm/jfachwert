@@ -17,7 +17,7 @@
  */
 package de.jfachwert.steuer
 
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.math.PackedDecimal
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.NullValidator
@@ -40,7 +40,7 @@ open class SteuerIdNr
      * @param idNr      11-stellige Zahl
      * @param validator zur Pruefung
      */
-    constructor(idNr: String, validator: SimpleValidator<PackedDecimal> = VALIDATOR) : Steuernummer(idNr, validator) {
+    constructor(idNr: String, validator: KSimpleValidator<PackedDecimal> = VALIDATOR) : Steuernummer(idNr, validator) {
 
     /**
      * Die SteuerIdNr ist eine 11-stellige Zahl mit einer Pruefziffer.

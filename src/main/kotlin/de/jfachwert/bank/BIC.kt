@@ -17,7 +17,7 @@
  */
 package de.jfachwert.bank
 
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.Text
 import de.jfachwert.pruefung.NullValidator
 import de.jfachwert.pruefung.exception.InvalidLengthException
@@ -49,14 +49,14 @@ open class BIC
  * @param code      eine 11- oder 14-stellige BIC
  * @param validator zum Pruefen der BIC (optional)
  */
-@JvmOverloads constructor(code: String, validator: SimpleValidator<String> = VALIDATOR) : Text(code, validator) {
+@JvmOverloads constructor(code: String, validator: KSimpleValidator<String> = VALIDATOR) : Text(code, validator) {
 
     /**
      * Dieser Validator ist fuer die Ueberpruefung von BICs vorgesehen.
      *
      * @since 2.2
      */
-    class Validator : SimpleValidator<String> {
+    class Validator : KSimpleValidator<String> {
         /**
          * Hierueber kann man eine BIC validieren.
          *
@@ -76,7 +76,7 @@ open class BIC
     companion object {
 
         private val WEAK_CACHE = WeakHashMap<String, BIC>()
-        private val VALIDATOR: SimpleValidator<String> = Validator()
+        private val VALIDATOR: KSimpleValidator<String> = Validator()
 
         /** Null-Konstante fuer Initialisierungen.  */
         val NULL = BIC("", NullValidator())

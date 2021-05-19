@@ -17,7 +17,7 @@
  */
 package de.jfachwert.net
 
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.Text
 import de.jfachwert.post.Name
 import de.jfachwert.pruefung.NullValidator
@@ -52,7 +52,7 @@ open class EMailAdresse
  * @param emailAdresse eine gueltige Adresse, z.B. "max@mustermann.de"
  * @param validator    SimpleValidator zur Adressen-Validierung
  */
-@JvmOverloads constructor(emailAdresse: String, validator: SimpleValidator<String> = VALIDATOR) : Text(validator.verify(emailAdresse)) {
+@JvmOverloads constructor(emailAdresse: String, validator: KSimpleValidator<String> = VALIDATOR) : Text(validator.verify(emailAdresse)) {
 
     /**
      * Als Local Part wird der Teil einer E-Mail-Adresse bezeichnet, der die
@@ -109,7 +109,7 @@ open class EMailAdresse
          *
          * @param addressPattern Pattern fuer die Adress-Validerung
          */
-        protected constructor(private val addressPattern: Pattern) : SimpleValidator<String> {
+        protected constructor(private val addressPattern: Pattern) : KSimpleValidator<String> {
 
         /**
          * Hier wird der E-Mail-SimpleValidator mit einerm Pattern von
@@ -139,7 +139,7 @@ open class EMailAdresse
     }
 
     companion object {
-        private val VALIDATOR: SimpleValidator<String> = Validator()
+        private val VALIDATOR: KSimpleValidator<String> = Validator()
         private val WEAK_CACHE = WeakHashMap<String, EMailAdresse>()
         /** Null-Konstante fuer Initialisierungen.  */
         val NULL = EMailAdresse("", NullValidator())

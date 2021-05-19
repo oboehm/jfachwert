@@ -15,10 +15,10 @@ public final class ByteAdresseTest {
 
     private static final Logger LOG = LogManager.getLogger();
 
-//    @Test(expected = IllegalArgumentException.class)
-//    public void testAdresseNull() {
-//        ByteAdresse.of(0);
-//    }
+    @Test(expected = IllegalArgumentException.class)
+    public void testAdresseNull() {
+        ByteAdresse.of(0);
+    }
 
     @Test
     public void testAdresseEins() {
@@ -30,10 +30,10 @@ public final class ByteAdresseTest {
         assertEquals(256, ByteAdresse.of(256).intValue());
     }
 
-//    @Test(expected = IllegalArgumentException.class)
-//    public void testAdresseZuGross() {
-//       ByteAdresse.of(257);
-//    }
+    @Test(expected = IllegalArgumentException.class)
+    public void testAdresseZuGross() {
+       ByteAdresse.of(257);
+    }
 
     @Test
     public void testToString() {

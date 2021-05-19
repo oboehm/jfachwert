@@ -20,7 +20,7 @@ package de.jfachwert.bank
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
 import de.jfachwert.KFachwert
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.pruefung.NullValidator
 import de.jfachwert.pruefung.exception.InvalidValueException
 import de.jfachwert.pruefung.exception.LocalizedUnknownCurrencyException
@@ -41,13 +41,13 @@ import javax.money.UnknownCurrencyException
  * @since 1.0
  */
 @JsonSerialize(using = ToStringSerializer::class)
-open class Waehrung protected constructor(code: Currency, validator: SimpleValidator<Currency>) : KFachwert, Comparable<CurrencyUnit>, CurrencyUnit {
+open class Waehrung protected constructor(code: Currency, validator: KSimpleValidator<Currency>) : KFachwert, Comparable<CurrencyUnit>, CurrencyUnit {
 
     companion object {
 
         private val LOG = Logger.getLogger(Waehrung::class.java.name)
         private val CACHE: MutableMap<String, Waehrung> = ReferenceMap()
-        private val VALIDATOR: SimpleValidator<String> = Validator()
+        private val VALIDATOR: KSimpleValidator<String> = Validator()
 
         /** Default-Waehrung, die durch die Landeseinstellung (Locale) vorgegeben wird.  */
         @JvmField
@@ -327,7 +327,7 @@ open class Waehrung protected constructor(code: Currency, validator: SimpleValid
      *
      * @since 3.0
      */
-    class Validator : SimpleValidator<String> {
+    class Validator : KSimpleValidator<String> {
 
         /**
          * Wenn der uebergebene Waehrungsstring gueltig ist, wird er

@@ -18,7 +18,7 @@
 package de.jfachwert.bank
 
 import de.jfachwert.AbstractFachwert
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.pruefung.exception.InvalidLengthException
 import de.jfachwert.pruefung.exception.InvalidValueException
 import org.apache.commons.lang3.StringUtils
@@ -39,7 +39,7 @@ open class Kontonummer
  * @param nr        Kontnummer als Zahl
  * @param validator fuer die Pruefung
  */
-@JvmOverloads constructor(nr: Long, validator: SimpleValidator<Long> = VALIDATOR) : AbstractFachwert<Long, Kontonummer>(nr, validator) {
+@JvmOverloads constructor(nr: Long, validator: KSimpleValidator<Long> = VALIDATOR) : AbstractFachwert<Long, Kontonummer>(nr, validator) {
 
     /**
      * Hierueber wird eine neue Kontonummer angelegt.
@@ -64,7 +64,7 @@ open class Kontonummer
      *
      * @since 2.2
      */
-    class Validator : SimpleValidator<Long> {
+    class Validator : KSimpleValidator<Long> {
         /**
          * Eine gueltige Kontonummer beginnt bei 1 und hat maximal 10 Stellen.
          *

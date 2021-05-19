@@ -17,7 +17,7 @@
  */
 package de.jfachwert.rechnung
 
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.Text
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.NullValidator
@@ -33,15 +33,15 @@ import java.util.*
 open class Kundennummer
 /**
  * Dieser Konstruktor ist hauptsaechlich fuer abgeleitete Klassen gedacht,
- * damit diese den [SimpleValidator] ueberschreiben koennen.
- * Man kann es auch verwenden, um einen eigenen [SimpleValidator]
+ * damit diese den [KSimpleValidator] ueberschreiben koennen.
+ * Man kann es auch verwenden, um einen eigenen [KSimpleValidator]
  * einsetzen zu koennen. Standardmaessig wird hier ansonsten nur ueberprueft,
  * ob die Kundennummer nicht leer ist.
  *
  * @param kundennummer die Kundennummer, z.B. "100.059"
  * @param pruefung     Pruefverfahren
  */
-@JvmOverloads constructor(kundennummer: String, pruefung: SimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR) : Text(kundennummer, pruefung) {
+@JvmOverloads constructor(kundennummer: String, pruefung: KSimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR) : Text(kundennummer, pruefung) {
 
     companion object {
 

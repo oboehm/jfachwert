@@ -18,7 +18,6 @@
 package de.jfachwert
 
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
-import de.jfachwert.pruefung.exception.NullValueException
 import java.io.Serializable
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -31,9 +30,15 @@ import javax.validation.ValidationException
  * Damit das Interface nicht mit dem Validator-Interface aus javax.validation
  * verwechselt wird, wurde es in SimpleValidator umbenannt.
  *
+ * Urspruenglich sollte diese Version die Java-Variante ersezten. Allerdings
+ * gibt es in Kotlin noch Kompatibilitaetsprobleme bei Interfaces mit
+ * Default-Implementierung, sodass die Original-Java-Implementierung
+ * beibehalten wurde und die Kotlin-Variante in KSimpleValidator umbenannt
+ * wurde.
+ *
  * @since 0.4 (20.08.17)
  */
-interface SimpleValidator<T : Serializable> : Serializable {
+interface KSimpleValidator<T : Serializable> : Serializable, SimpleValidator<T> {
 
     /**
      * Wenn der uebergebene Wert gueltig ist, soll er unveraendert
@@ -45,9 +50,9 @@ interface SimpleValidator<T : Serializable> : Serializable {
      * @param value Wert, der validiert werden soll
      * @return Wert selber, wenn er gueltig ist
      */
-    fun validate(value: T): T
+    override fun validate(value: T): T
 
-    fun validateObject(value: Any): Any? {
+    override fun validateObject(value: Any): Any? {
         try {
             return validate(value as T)
         } catch (ex: ClassCastException) {
@@ -64,7 +69,7 @@ interface SimpleValidator<T : Serializable> : Serializable {
      * @param value Wert, der verifiziert werden soll
      * @return Wert selber, wenn er gueltig ist
      */
-    fun verify(value: T): T {
+    override fun verify(value: T): T {
         return try {
             validate(value)
         } catch (ex: ValidationException) {
@@ -73,7 +78,7 @@ interface SimpleValidator<T : Serializable> : Serializable {
     }
 
     companion object {
-        val logger = Logger.getLogger(SimpleValidator::class.java.name)
+        val logger = Logger.getLogger(KSimpleValidator::class.java.name)
     }
 
 }

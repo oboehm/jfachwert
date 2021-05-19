@@ -18,7 +18,7 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.FachwertTest;
-import de.jfachwert.SimpleValidator;
+import de.jfachwert.KSimpleValidator;
 import org.javamoney.tck.TestUtils;
 import org.javamoney.tck.tests.internal.TestCurrencyUnit;
 import org.junit.Test;
@@ -98,7 +98,7 @@ public final class WaehrungTest extends FachwertTest {
 
     @Test
     public void testValidate() {
-        SimpleValidator<String> validator = new Waehrung.Validator();
+        KSimpleValidator<String> validator = new Waehrung.Validator();
         Object validated = validator.validateObject("EUR");
         assertEquals("EUR", validated);
     }

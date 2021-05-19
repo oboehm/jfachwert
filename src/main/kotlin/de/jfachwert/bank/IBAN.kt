@@ -18,7 +18,7 @@
 package de.jfachwert.bank
 
 import de.jfachwert.PruefzifferVerfahren
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.Text
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.Mod97Verfahren
@@ -43,7 +43,7 @@ open class IBAN
  * @param iban        die IBAN
  * @param pzVerfahren das verwendete PruefzifferVerfahren (optional)
  */
-@JvmOverloads constructor(iban: String, pzVerfahren: SimpleValidator<String> = VALIDATOR) : Text(iban, pzVerfahren) {
+@JvmOverloads constructor(iban: String, pzVerfahren: KSimpleValidator<String> = VALIDATOR) : Text(iban, pzVerfahren) {
 
     /**
      * Liefert die IBAN formattiert in der DIN-Form. Dies ist die uebliche
@@ -130,7 +130,7 @@ open class IBAN
      *
      * @since 2.2
      */
-    class Validator : SimpleValidator<String> {
+    class Validator : KSimpleValidator<String> {
         /**
          * Mit dieser Methode kann man eine IBAN validieren, ohne dass man erst
          * den Konstruktor aufrufen muss. Falls die Pruefziffer nicht stimmt,
@@ -157,7 +157,7 @@ open class IBAN
     companion object {
         private val MOD97 = Mod97Verfahren.instance
         private val WEAK_CACHE = WeakHashMap<String, IBAN>()
-        private val VALIDATOR: SimpleValidator<String> = Validator()
+        private val VALIDATOR: KSimpleValidator<String> = Validator()
         /** Konstante fuer unbekannte IBAN (aus Wikipedia, aber mit korrigierter Pruefziffer).  */
         val UNBEKANNT = IBAN("DE07123412341234123412")
         /** Null-Konstante.  */

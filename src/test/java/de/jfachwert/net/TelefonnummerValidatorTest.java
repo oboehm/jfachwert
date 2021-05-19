@@ -17,7 +17,7 @@
  */
 package de.jfachwert.net;
 
-import de.jfachwert.SimpleValidator;
+import de.jfachwert.KSimpleValidator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -40,7 +40,7 @@ public class TelefonnummerValidatorTest {
 
     private final String telefonnummer;
     private final boolean valid;
-    private final SimpleValidator<String> validator = new Telefonnummer.Validator();
+    private final KSimpleValidator<String> validator = new Telefonnummer.Validator();
 
     /**
      * Hierueber werden die Test-Werte per Konstruktor "injected".

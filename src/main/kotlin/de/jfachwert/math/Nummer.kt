@@ -18,7 +18,7 @@
 package de.jfachwert.math
 
 import de.jfachwert.KFachwert
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.pruefung.exception.InvalidValueException
 import java.math.BigDecimal
 import java.math.BigInteger
@@ -48,7 +48,7 @@ open class Nummer(code: String) : AbstractNumber(), KFachwert {
     companion object {
 
         private val CACHE = arrayOfNulls<Nummer>(11)
-        private val VALIDATOR: SimpleValidator<String> = Validator()
+        private val VALIDATOR: KSimpleValidator<String> = Validator()
 
         /** Null-Konstante fuer Initialisierungen.  */
         @JvmStatic
@@ -219,7 +219,7 @@ open class Nummer(code: String) : AbstractNumber(), KFachwert {
      *
      * @since 3.0
      */
-    class Validator : SimpleValidator<String> {
+    class Validator : KSimpleValidator<String> {
         /**
          * Wenn die uebergebene Waehrungsstring gueltig ist, wird sie
          * unveraendert zurueckgegeben, damit sie anschliessend von der

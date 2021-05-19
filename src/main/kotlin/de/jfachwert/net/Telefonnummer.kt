@@ -17,7 +17,7 @@
  */
 package de.jfachwert.net
 
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.Text
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.NullValidator
@@ -64,7 +64,7 @@ open class Telefonnummer
  * @param nummer    eine gueltige Telefonnummer, z.B. "+49 30 12345-67"
  * @param validator SimpleValidator zur Adressen-Validierung
  */
-@JvmOverloads constructor(nummer: String, validator: SimpleValidator<String> = VALIDATOR) : Text(normalize(nummer), validator) {
+@JvmOverloads constructor(nummer: String, validator: KSimpleValidator<String> = VALIDATOR) : Text(normalize(nummer), validator) {
 
     /**
      * Eine Telefonnummer lasesst sich auch ueber eine URI kreieren. Der
@@ -225,7 +225,7 @@ open class Telefonnummer
      * @author oboehm
      * @since 0.5 (05.09.2017)
      */
-    class Validator constructor(private val pattern: Pattern) : SimpleValidator<String> {
+    class Validator constructor(private val pattern: Pattern) : KSimpleValidator<String> {
 
         private val lengthValidator = LengthValidator<String>(3, 15)
 
@@ -258,7 +258,7 @@ open class Telefonnummer
 
 
     companion object {
-        private val VALIDATOR: SimpleValidator<String> = Validator()
+        private val VALIDATOR: KSimpleValidator<String> = Validator()
         private val WEAK_CACHE = WeakHashMap<String, Telefonnummer>()
         /** Null-Konstante fuer Initialisierungen.  */
         val NULL = Telefonnummer("", NullValidator())

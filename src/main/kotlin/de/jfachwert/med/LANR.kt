@@ -18,7 +18,7 @@
 package de.jfachwert.med
 
 import de.jfachwert.AbstractFachwert
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.Mod10Verfahren
 import de.jfachwert.pruefung.NullValidator
@@ -40,7 +40,7 @@ open class LANR
  * @param code      neunstellige Zahl
  * @param validator Validator zur Pruefung der Zahl
  */
-@JvmOverloads constructor(code: Int, validator: SimpleValidator<Int> = VALIDATOR) : AbstractFachwert<Int, LANR>(code, validator) {
+@JvmOverloads constructor(code: Int, validator: KSimpleValidator<Int> = VALIDATOR) : AbstractFachwert<Int, LANR>(code, validator) {
 
     /**
      * Erzeugt ein neues LANR-Objekt.

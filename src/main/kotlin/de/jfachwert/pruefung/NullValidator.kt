@@ -17,8 +17,7 @@
  */
 package de.jfachwert.pruefung
 
-import de.jfachwert.SimpleValidator
-import de.jfachwert.pruefung.exception.NullValueException
+import de.jfachwert.KSimpleValidator
 import java.io.Serializable
 
 /**
@@ -28,7 +27,7 @@ import java.io.Serializable
  *
  * @since 0.4
  */
-class NullValidator<T : Serializable> : SimpleValidator<T> {
+class NullValidator<T : Serializable> : KSimpleValidator<T> {
 
     /**
      * Wenn der uebergebene Wert nicht null ist, wird er unveraendert

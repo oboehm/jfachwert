@@ -17,7 +17,7 @@
  */
 package de.jfachwert.pruefung
 
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.pruefung.exception.InvalidValueException
 import de.jfachwert.pruefung.exception.LocalizedArithmeticException
 import org.apache.commons.lang3.Range
@@ -41,7 +41,7 @@ class NumberValidator @JvmOverloads
  * @param min untere Grenze
  * @param max obere Grenze
  */
-constructor(min: BigDecimal = INFINITE.negate(), max: BigDecimal = INFINITE) : SimpleValidator<String> {
+constructor(min: BigDecimal = INFINITE.negate(), max: BigDecimal = INFINITE) : KSimpleValidator<String> {
 
     private val range: Range<BigDecimal>
 

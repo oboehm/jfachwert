@@ -35,7 +35,7 @@ import java.io.Serializable
  * @author ob@aosd.de
  * @since 0.1.0
  */
-interface PruefzifferVerfahren<T : Serializable> : SimpleValidator<T> {
+interface PruefzifferVerfahren<T : Serializable> : KSimpleValidator<T> {
 
     /**
      * Meistens ist die letzte Ziffer die Pruefziffer, die hierueber abgefragt

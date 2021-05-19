@@ -17,7 +17,7 @@
  */
 package de.jfachwert.net
 
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.pruefung.NullValidator
 import de.jfachwert.pruefung.NumberValidator
 import java.math.BigDecimal
@@ -31,7 +31,7 @@ import java.math.BigDecimal
  *
  * @since 0.4 (08.08.2017)
  */
-enum class ChatDienst constructor(val chatName: String, val validator: SimpleValidator<String> = NullValidator<String>()) {
+enum class ChatDienst constructor(val chatName: String, val validator: KSimpleValidator<String> = NullValidator<String>()) {
 
     /** AOL Instant Messaenger.  */
     AIM("AIM"),

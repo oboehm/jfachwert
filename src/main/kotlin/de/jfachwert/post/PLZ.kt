@@ -17,7 +17,7 @@
  */
 package de.jfachwert.post
 
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.Text
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.NullValidator
@@ -54,7 +54,7 @@ open class PLZ : Text {
      * @param plz z.B. "70839" oder "D-70839"
      * @param validator fuer die Ueberpruefung
      */
-    constructor(plz: String, validator: SimpleValidator<String>) : super(plz, validator) {}
+    constructor(plz: String, validator: KSimpleValidator<String>) : super(plz, validator) {}
 
     /**
      * Ueber diesen Konstruktor kann die Landeskennung als extra Parameter
@@ -170,7 +170,7 @@ open class PLZ : Text {
      * Will man eine PLZ online fuer verschiedene Laender validieren, kann man
      * auf [Zippotam](http://api.zippopotam.us/) zurueckgreifen.
      */
-    class Validator : SimpleValidator<String> {
+    class Validator : KSimpleValidator<String> {
 
         /**
          * Eine Postleitahl muss zwischen 3 und 10 Ziffern lang sein. Eventuell
@@ -231,7 +231,7 @@ open class PLZ : Text {
 
     companion object {
 
-        private val VALIDATOR: SimpleValidator<String> = Validator()
+        private val VALIDATOR: KSimpleValidator<String> = Validator()
         private val WEAK_CACHE = WeakHashMap<String, PLZ>()
 
         /** Null-Wert fuer Initialisierung.  */

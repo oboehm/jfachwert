@@ -20,7 +20,7 @@ package de.jfachwert.med
 
 import de.jfachwert.AbstractFachwert
 import de.jfachwert.PruefzifferVerfahren
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.pruefung.LengthValidator
 import java.util.*
 
@@ -37,7 +37,7 @@ open class PZN
  * @param code achtstellige Zahl
  * @param validator Validator zur Pruefung der Zahl
  */
-@JvmOverloads constructor(code: Int, validator: SimpleValidator<Int> = VALIDATOR) : AbstractFachwert<Int, PZN>(code, validator) {
+@JvmOverloads constructor(code: Int, validator: KSimpleValidator<Int> = VALIDATOR) : AbstractFachwert<Int, PZN>(code, validator) {
 
     /**
      * Erzeugt ein neues PZN-Objekt.
@@ -99,7 +99,7 @@ open class PZN
      * dividiert. Der verbleibende ganzzahlige Rest bildet die Pruefziffer.
      * Bleibt als Rest die Zahl 10, dann wird diese Ziffernfolge nicht als PZN verwendet
      */
-    class Validator : SimpleValidator<Int> {
+    class Validator : KSimpleValidator<Int> {
 
         /**
          * Wenn der uebergebene Wert gueltig ist, soll er unveraendert

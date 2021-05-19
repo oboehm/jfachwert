@@ -34,7 +34,7 @@ import javax.validation.constraints.NotNull
  * @since 0.0.2
  */
 @JsonSerialize(using = ToStringSerializer::class)
-abstract class AbstractFachwert<T : Serializable, S : AbstractFachwert<T, S>> protected constructor(code: T, validator: SimpleValidator<T> = NullValidator()) : KFachwert, Comparable<S> {
+abstract class AbstractFachwert<T : Serializable, S : AbstractFachwert<T, S>> protected constructor(code: T, validator: KSimpleValidator<T> = NullValidator()) : KFachwert, Comparable<S> {
 
     /**
      * Liefert die interne Praesentation fuer die abgeleiteten Klassen. Sie

@@ -17,7 +17,7 @@
  */
 package de.jfachwert.post
 
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.NullValidator
 import java.util.*
@@ -43,7 +43,7 @@ open class Adressat
  * @param name      z.B. "Mustermann, Max"
  * @param validator Validator fuer die Ueberpruefung des Namens
  */
-@JvmOverloads constructor(name: String, validator: SimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR) : Name(name, validator) {
+@JvmOverloads constructor(name: String, validator: KSimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR) : Name(name, validator) {
 
     /**
      * Der Name ist der Teil vor dem Komma (bei Personen). Bei Firmen ist

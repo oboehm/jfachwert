@@ -20,7 +20,7 @@ package de.jfachwert.post
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
 import de.jfachwert.KFachwert
-import de.jfachwert.SimpleValidator
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.Text
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.NullValidator
@@ -48,7 +48,7 @@ open class Ort
  * @param name      Name des Ortes
  * @param validator Validator fuer die Ueberpruefung des Ortes
  */
-@JvmOverloads constructor(private val plz: PLZ?, name: String, validator: SimpleValidator<String> = VALIDATOR) : KFachwert {
+@JvmOverloads constructor(private val plz: PLZ?, name: String, validator: KSimpleValidator<String> = VALIDATOR) : KFachwert {
 
     /**
      * Liefert den Ortsnamen zurueck.
@@ -150,7 +150,7 @@ open class Ort
 
     companion object {
 
-        private val VALIDATOR: SimpleValidator<String> = LengthValidator(1)
+        private val VALIDATOR: KSimpleValidator<String> = LengthValidator(1)
         private val LOG = Logger.getLogger(Ort::class.java.name)
 
         /** Null-Wert fuer Initialisierung.  */
@@ -192,14 +192,14 @@ open class Ort
             return validate(name, VALIDATOR)
         }
 
-        private fun validate(name: String, validator: SimpleValidator<String>): String {
+        private fun validate(name: String, validator: KSimpleValidator<String>): String {
             val splitted = split(name)
             val ortsname = splitted[1]
             validator.validate(ortsname)
             return name
         }
 
-        private fun verify(name: String, validator: SimpleValidator<String>): String {
+        private fun verify(name: String, validator: KSimpleValidator<String>): String {
             return try {
                 validate(name, validator)
             } catch (ex: ValidationException) {
