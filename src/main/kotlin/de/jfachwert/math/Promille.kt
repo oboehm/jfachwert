@@ -75,9 +75,11 @@ open class Promille : Prozent {
         private const val PROMILLE_ZEICHEN = '\u2030'
 
         /** Konstante fuer "0 Promille".  */
+        @JvmField
         val ZERO = of(BigDecimal.ZERO)
 
         /** Konstante fuer "1 Promille".  */
+        @JvmField
         val ONE = of(BigDecimal.ONE)
 
         /** Konstante fuer "10 Promillle".  */

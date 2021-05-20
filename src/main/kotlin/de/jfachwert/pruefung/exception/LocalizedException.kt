@@ -97,6 +97,7 @@ interface LocalizedException {
     }
 
     companion object {
+        @JvmField
         val BUNDLE = ResourceBundle.getBundle("de.jfachwert.messages")
     }
 }
