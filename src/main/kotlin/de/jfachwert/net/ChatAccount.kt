@@ -83,7 +83,7 @@ open class ChatAccount(val chatDienst: ChatDienst, private val dienstName: Strin
     constructor(dienst: ChatDienst, account: String) : this(dienst, null, account) {}
 
     init {
-        this.account = chatDienst.validator.verify(account) as String
+        this.account = chatDienst.validator.verify(account)
     }
 
     /**
@@ -154,6 +154,7 @@ open class ChatAccount(val chatDienst: ChatDienst, private val dienstName: Strin
         private val WEAK_CACHE = WeakHashMap<String, ChatAccount>()
 
         /** Null-Konstante fuer Initialisierungen.  */
+        @JvmField
         val NULL = ChatAccount(ChatDienst.SONSTIGER, "", "")
 
         private fun split(value: String): Array<String> {

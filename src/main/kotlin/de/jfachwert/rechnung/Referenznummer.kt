@@ -48,6 +48,7 @@ open class Referenznummer
         private val WEAK_CACHE = WeakHashMap<String, Referenznummer>()
 
         /** Null-Konstante fuer Initialisierungen.  */
+        @JvmField
         val NULL = Referenznummer("", NullValidator())
 
         /**

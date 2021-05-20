@@ -82,7 +82,7 @@ open class IBAN
     val land: Locale
         get() {
             val country = unformatted.substring(0, 2)
-            var language = country.toLowerCase()
+            var language = country.lowercase()
             when (country) {
                 "AT", "CH" -> language = "de"
             }
@@ -139,16 +139,16 @@ open class IBAN
          * [de.jfachwert.pruefung.exception.InvalidLengthException].
          * Die Laenge liegt zwischen 16 (Belgien) und 34 Zeichen.
          *
-         * @param iban die 22-stellige IBAN
+         * @param value die 22-stellige IBAN
          * @return die IBAN in normalisierter Form (ohne Leerzeichen)
          */
-        override fun validate(iban: String): String {
-            val normalized = StringUtils.remove(iban, ' ').toUpperCase()
+        override fun validate(value: String): String {
+            val normalized = StringUtils.remove(value, ' ').uppercase()
             LengthValidator.validate(normalized, 16, 34)
             when (normalized.substring(0, 1)) {
-                "AT" -> LengthValidator.validate(iban, 20)
-                "CH" -> LengthValidator.validate(iban, 21)
-                "DE" -> LengthValidator.validate(iban, 22)
+                "AT" -> LengthValidator.validate(value, 20)
+                "CH" -> LengthValidator.validate(value, 21)
+                "DE" -> LengthValidator.validate(value, 22)
             }
             return MOD97.validate(normalized)
         }
@@ -159,8 +159,10 @@ open class IBAN
         private val WEAK_CACHE = WeakHashMap<String, IBAN>()
         private val VALIDATOR: KSimpleValidator<String> = Validator()
         /** Konstante fuer unbekannte IBAN (aus Wikipedia, aber mit korrigierter Pruefziffer).  */
+        @JvmField
         val UNBEKANNT = IBAN("DE07123412341234123412")
         /** Null-Konstante.  */
+        @JvmField
         val NULL = IBAN("", NullValidator())
 
         /**

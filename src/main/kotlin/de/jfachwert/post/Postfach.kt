@@ -240,6 +240,7 @@ open class Postfach : KFachwert {
     companion object {
 
         /** Null-Konstante fuer Initialisierungen.  */
+        @JvmField
         val NULL = Postfach(Ort.NULL)
 
         /**

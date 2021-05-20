@@ -82,7 +82,7 @@ open class Text
      * @since 2.1
      */
     fun toLowerCase(): Text {
-        return of(code.toLowerCase())
+        return of(code.lowercase())
     }
 
     /**
@@ -92,7 +92,7 @@ open class Text
      * @since 2.1
      */
     fun toUpperCase(): Text {
-        return of(code.toUpperCase())
+        return of(code.uppercase())
     }
 
     /**
@@ -148,6 +148,7 @@ open class Text
         private val WEAK_CACHE = WeakHashMap<String, Text>()
 
         /** Null-Konstante fuer Initialisierungen .  */
+        @JvmField
         val NULL = Text("")
 
         /**
@@ -172,8 +173,8 @@ open class Text
         }
 
         private fun distance(s1: String, s2: String): Int {
-            val a = s1.toLowerCase()
-            val b = s2.toLowerCase()
+            val a = s1.lowercase()
+            val b = s2.lowercase()
             // i == 0
             val costs = IntArray(b.length + 1)
             for (j in costs.indices) {

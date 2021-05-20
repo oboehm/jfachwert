@@ -75,6 +75,7 @@ open class BSNR
         private val WEAK_CACHE = WeakHashMap<Int, BSNR>()
 
         /** Null-Konstante fuer Initialisierungen.  */
+        @JvmField
         val NULL = BSNR(0, NullValidator())
 
         /** Pseudonummer.  */

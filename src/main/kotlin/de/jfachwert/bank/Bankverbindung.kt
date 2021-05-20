@@ -122,6 +122,7 @@ open class Bankverbindung
     companion object {
 
         /** Null-Konstante fuer Initialisierungen.  */
+        @JvmField
         val NULL = Bankverbindung("", IBAN.NULL, BIC.NULL)
 
         private fun split(bankverbindung: String): Array<Any?> {

@@ -47,6 +47,7 @@ open class Bestellnummer
         private val WEAK_CACHE = WeakHashMap<String, Bestellnummer>()
 
         /** Null-Konstante fuer Initialisierungen.  */
+        @JvmField
         val NULL = Bestellnummer("", NullValidator())
 
         /**

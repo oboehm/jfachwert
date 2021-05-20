@@ -109,7 +109,7 @@ open class Name
     }
 
     override fun hashCode(): Int {
-        return replaceUmlaute(nachname).toLowerCase().hashCode()
+        return replaceUmlaute(nachname).lowercase().hashCode()
     }
 
     /**
@@ -170,6 +170,7 @@ open class Name
         private val VALIDATOR: KSimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR
 
         /** Null-Wert fuer Initialisierung.  */
+        @JvmField
         val NULL = Name("", NullValidator())
 
         /**

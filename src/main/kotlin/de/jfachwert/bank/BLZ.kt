@@ -89,11 +89,11 @@ open class BLZ
         /**
          * Eine BLZ darf maximal 8-stellig sein.
          *
-         * @param blz die Bankleitzahl
+         * @param value die Bankleitzahl
          * @return die Bankleitzahl zur Weiterverabeitung
          */
-        override fun validate(blz: PackedDecimal): PackedDecimal {
-            val normalized = validate(blz.toString())
+        override fun validate(value: PackedDecimal): PackedDecimal {
+            val normalized = validate(value.toString())
             return PackedDecimal.of(normalized)
         }
 
@@ -130,6 +130,7 @@ open class BLZ
         private val VALIDATOR = Validator()
 
         /** Null-Konstante fuer Initialisierungen.  */
+        @JvmField
         val NULL = BLZ("", NullValidator())
 
         /**

@@ -7,6 +7,8 @@ genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
 ## [Unreleased]
+### Changed
+- NULL-Werte sind jetzt auch von Java aus zugreifbar
 
 ## [4.0.1] - 2021-05-19
 ### Changed

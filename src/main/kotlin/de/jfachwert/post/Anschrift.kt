@@ -60,7 +60,7 @@ open class Anschrift private constructor(
      * @param map mit den einzelnen Elementen fuer "adressat" und "adresse".
      */
     @JsonCreator
-    constructor(map: Map<String, Any>) : this(Adressat(map["adressat"].toString()), Adresse(map["adresse"] as Map<String, String>)) {
+    constructor(map: Map<String, Any>) : this(Adressat(map["adressat"].toString()), Adresse(map = map["adresse"] as Map<String, String>)) {
     }
 
     /**
@@ -111,7 +111,7 @@ open class Anschrift private constructor(
      */
     fun getAdresse(): Adresse {
         checkNotNull(adresse) { "no address available" }
-        return adresse!!
+        return adresse
     }
 
     /**
@@ -123,7 +123,7 @@ open class Anschrift private constructor(
      */
     fun getPostfach(): Postfach {
         checkNotNull(postfach) { "no post office box available" }
-        return postfach!!
+        return postfach
     }
 
     /**
@@ -191,6 +191,7 @@ open class Anschrift private constructor(
         private const val ADDRESS = "address"
 
         /** Null-Wert fuer Initialisierung.  */
+        @JvmField
         val NULL = Anschrift(Adressat.NULL, Adresse.NULL)
 
         /**

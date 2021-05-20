@@ -60,11 +60,11 @@ open class BIC
         /**
          * Hierueber kann man eine BIC validieren.
          *
-         * @param bic die BIC (11- oder 14-stellig)
+         * @param value die BIC (11- oder 14-stellig)
          * @return die validierte BIC (zur Weiterverarbeitung)
          */
-        override fun validate(bic: String): String {
-            val normalized = StringUtils.trim(bic)
+        override fun validate(value: String): String {
+            val normalized = StringUtils.trim(value)
             val allowedLengths = Arrays.asList(8, 11, 14)
             if (!allowedLengths.contains(normalized.length)) {
                 throw InvalidLengthException(normalized, allowedLengths)
@@ -79,6 +79,7 @@ open class BIC
         private val VALIDATOR: KSimpleValidator<String> = Validator()
 
         /** Null-Konstante fuer Initialisierungen.  */
+        @JvmField
         val NULL = BIC("", NullValidator())
 
         /**

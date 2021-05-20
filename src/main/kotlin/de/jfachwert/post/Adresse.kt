@@ -178,7 +178,7 @@ open class Adresse
      * @return hashCode
      */
     override fun hashCode(): Int {
-        return normalizeStrasse(this).toLowerCase().hashCode()
+        return normalizeStrasse(this).lowercase().hashCode()
     }
 
     /**

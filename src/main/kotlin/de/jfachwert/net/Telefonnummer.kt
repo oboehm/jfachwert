@@ -240,17 +240,17 @@ open class Telefonnummer
          * Ueberprueft die Telefonnummer, ob sie nur erlaubte Nummern (und
          * Sonderzeichen) enthaelt.
          *
-         * @param nummer zu pruefende Telefonnummer
+         * @param value zu pruefende Telefonnummer
          * @return Wert selber, wenn er gueltig ist
          */
-        override fun validate(nummer: String): String {
-            val matcher = pattern.matcher(nummer)
+        override fun validate(value: String): String {
+            val matcher = pattern.matcher(value)
             if (matcher.matches()) {
-                val normalized = RegExUtils.removeAll(nummer, "[ \t+-/]|(\\(0\\))")
+                val normalized = RegExUtils.removeAll(value, "[ \t+-/]|(\\(0\\))")
                 lengthValidator.validate(normalized)
-                return nummer
+                return value
             }
-            throw InvalidValueException(nummer, "phone_number")
+            throw InvalidValueException(value, "phone_number")
         }
 
     }
@@ -261,6 +261,7 @@ open class Telefonnummer
         private val VALIDATOR: KSimpleValidator<String> = Validator()
         private val WEAK_CACHE = WeakHashMap<String, Telefonnummer>()
         /** Null-Konstante fuer Initialisierungen.  */
+        @JvmField
         val NULL = Telefonnummer("", NullValidator())
 
         /**

@@ -62,6 +62,7 @@ open class Waehrung protected constructor(code: Currency, validator: KSimpleVali
         val EUR = of("EUR")
 
         /** Null-Konstante fuer Initialiserung.  */
+        @JvmField
         val NULL = Waehrung("XXX")
 
         /**
@@ -336,18 +337,18 @@ open class Waehrung protected constructor(code: Currency, validator: KSimpleVali
          * nicht gueltig, wird eine [javax.validation.ValidationException]
          * geworfen.
          *
-         * @param code Waehrungs-String, der validiert wird
+         * @param value Waehrungs-String, der validiert wird
          * @return Wert selber, wenn er gueltig ist
          */
-        override fun validate(code: String): String {
+        override fun validate(value: String): String {
             try {
-                toCurrency(code)
+                toCurrency(value)
             } catch (ex: IllegalArgumentException) {
-                throw InvalidValueException(code, "currency")
+                throw InvalidValueException(value, "currency")
             } catch (ex: UnknownCurrencyException) {
-                throw InvalidValueException(code, "currency")
+                throw InvalidValueException(value, "currency")
             }
-            return code
+            return value
         }
     }
 

@@ -48,6 +48,7 @@ open class Rechnungsnummer
         private val WEAK_CACHE = WeakHashMap<String, Rechnungsnummer>()
 
         /** Null-Konstante fuer Initialisierungen.  */
+        @JvmField
         val NULL = Rechnungsnummer("", NullValidator())
 
         /**

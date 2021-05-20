@@ -395,6 +395,7 @@ open class Rechnungsmonat : KFachwert, Comparable<Rechnungsmonat> {
         private const val MONTH = "month"
         private const val YEAR = "year"
         /** Null-Monat fuer Initialisierungen.  */
+        @JvmField
         val NULL = of(0)
 
         @JvmStatic

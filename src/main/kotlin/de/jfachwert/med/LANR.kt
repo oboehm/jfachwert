@@ -130,6 +130,7 @@ open class LANR
         private val WEAK_CACHE = WeakHashMap<Int, LANR>()
 
         /** Null-Konstante fuer Initialisierungen.  */
+        @JvmField
         val NULL = LANR(0, NullValidator())
 
         /** Pseudonummer fuer Bundeswehraerzte, Zahnaerzte und Hebammen.  */

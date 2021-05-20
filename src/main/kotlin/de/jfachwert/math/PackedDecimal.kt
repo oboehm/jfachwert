@@ -123,6 +123,7 @@ open class PackedDecimal @JvmOverloads constructor(zahl: String, validator: KSim
         }
 
         /** Null-Konstante fuer Initialisierungen.  */
+        @JvmField
         val NULL = PackedDecimal("")
 
         /** Leere PackedDecimal.  */

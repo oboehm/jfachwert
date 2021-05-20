@@ -87,7 +87,7 @@ abstract class AbstractFachwert<T : Serializable, S : AbstractFachwert<T, S>> pr
      */
     override fun toMap(): Map<String, Any> {
         val map: MutableMap<String, Any> = HashMap()
-        map[this.javaClass.simpleName.toLowerCase()] = toString()
+        map[this.javaClass.simpleName.lowercase()] = toString()
         return map
     }
 

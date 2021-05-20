@@ -87,12 +87,12 @@ open class Steuernummer
          * Die Steuernummer muss zwischen 10 und 13 Stellen lang sein und die
          * Pruefziffer muss stimmen (falls sie bekannt ist).
          *
-         * @param nr die Steuernummer
+         * @param value die Steuernummer
          * @return die validierte Steuernummer zur Weiterverarbeitung
          */
-        override fun validate(nr: PackedDecimal): PackedDecimal {
-            validate(nr.toString())
-            return nr
+        override fun validate(value: PackedDecimal): PackedDecimal {
+            validate(value.toString())
+            return value
         }
 
         open fun validate(nr: String): String {
@@ -126,6 +126,7 @@ open class Steuernummer
         private val WEAK_CACHE = WeakHashMap<String, Steuernummer>()
 
         /** Null-Konstante fuer Initialisierungen.  */
+        @JvmField
         val NULL = Steuernummer("", NullValidator())
 
         /**

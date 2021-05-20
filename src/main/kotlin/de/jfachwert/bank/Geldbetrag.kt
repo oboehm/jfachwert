@@ -840,12 +840,15 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
         val ZERO = Geldbetrag(BigDecimal.ZERO)
 
         /** Der minimale Betrag, den wir unterstuetzen.  */
+        @JvmField
         val MIN_VALUE = Geldbetrag(BigDecimal.valueOf(Long.MIN_VALUE))
 
         /** Der maximale Betrag, den wir unterstuetzen.  */
+        @JvmField
         val MAX_VALUE = Geldbetrag(BigDecimal.valueOf(Long.MAX_VALUE))
 
         /** Null-Konstante fuer Initialisierungen.  */
+        @JvmField
         val NULL = ZERO
 
         /**

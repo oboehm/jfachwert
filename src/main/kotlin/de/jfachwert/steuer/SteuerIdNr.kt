@@ -69,6 +69,7 @@ open class SteuerIdNr
         private val WEAK_CACHE = WeakHashMap<String, SteuerIdNr>()
 
         /** Null-Konstante fuer Initialisierungen.  */
+        @JvmField
         val NULL = SteuerIdNr("", NullValidator())
 
         /**

@@ -125,15 +125,15 @@ open class EMailAdresse
          * durch. Schlaegt die Pruefung fehl, wird eine
          * [javax.validation.ValidationException] geworfen.
          *
-         * @param emailAdresse zu pruefende E-Mail-Adresse
+         * @param value zu pruefende E-Mail-Adresse
          * @return die validierte E-Mail-Adresse (zur Weiterverarbeitung)
          */
-        override fun validate(emailAdresse: String): String {
-            val matcher = addressPattern.matcher(emailAdresse)
+        override fun validate(value: String): String {
+            val matcher = addressPattern.matcher(value)
             if (matcher.matches()) {
-                return emailAdresse
+                return value
             }
-            throw InvalidValueException(emailAdresse, "email_address")
+            throw InvalidValueException(value, "email_address")
         }
 
     }
@@ -142,6 +142,7 @@ open class EMailAdresse
         private val VALIDATOR: KSimpleValidator<String> = Validator()
         private val WEAK_CACHE = WeakHashMap<String, EMailAdresse>()
         /** Null-Konstante fuer Initialisierungen.  */
+        @JvmField
         val NULL = EMailAdresse("", NullValidator())
 
         /**

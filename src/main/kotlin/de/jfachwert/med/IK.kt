@@ -109,11 +109,11 @@ open class IK
          * soll eine [javax.validation.ValidationException] geworfen
          * werden.
          *
-         * @param nummer Wert, der validiert werden soll
+         * @param value Wert, der validiert werden soll
          * @return Wert selber, wenn er gueltig ist
          */
-        override fun validate(nummer: Int): Int {
-            val n = VALIDATOR9.validate(nummer)
+        override fun validate(value: Int): Int {
+            val n = VALIDATOR9.validate(value)
             if (!isSpezialIK(n)) {
                 MOD10.validate(Integer.toString(n))
             }
@@ -140,6 +140,7 @@ open class IK
         private val WEAK_CACHE = WeakHashMap<Int, IK>()
 
         /** Null-Konstante fuer Initialisierungen.  */
+        @JvmField
         val NULL = IK(0, NullValidator())
 
         /**

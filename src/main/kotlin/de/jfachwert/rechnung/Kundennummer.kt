@@ -48,6 +48,7 @@ open class Kundennummer
         private val WEAK_CACHE = WeakHashMap<String, Kundennummer>()
 
         /** Null-Konstante fuer Initialisierungen.  */
+        @JvmField
         val NULL = Kundennummer("", NullValidator())
 
         /**
