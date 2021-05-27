@@ -152,6 +152,7 @@ open class Waehrung protected constructor(code: Currency, validator: KSimpleVali
          * @param code Waehrungscode als String
          * @return Waehrungscode zur Weiterverarbeitung
          */
+        @JvmStatic
         fun validate(code: String): String {
             return VALIDATOR.validate(code)
         }

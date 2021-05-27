@@ -128,6 +128,7 @@ open class Kontonummer
          * @param kontonr die Kontonummer
          * @return die validierte Kontonummer zur Weiterverabeitung
          */
+        @JvmStatic
         fun validate(kontonr: String): String {
             return VALIDATOR.validate(kontonr)
         }
@@ -138,6 +139,7 @@ open class Kontonummer
          * @param kontonr die Kontonummer
          * @return die validierte Kontonummer zur Weiterverabeitung
          */
+        @JvmStatic
         fun validate(kontonr: Long): Long {
             return VALIDATOR.validate(kontonr)
         }
