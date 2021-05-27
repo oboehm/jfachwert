@@ -6,9 +6,10 @@ Es ersetzt die **Release Notes** aus den Anfangstagen von jFachwert und orientie
 genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
-## [Unreleased]
+## [4.0.2] - 2021-05-28
 ### Changed
 - NULL-Werte sind jetzt auch von Java aus zugreifbar
+- statische validate-Methoden sind wieder für Java verfügbar
 
 ## [4.0.1] - 2021-05-19
 ### Changed
