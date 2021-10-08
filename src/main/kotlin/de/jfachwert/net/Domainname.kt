@@ -44,7 +44,7 @@ open class Domainname
  * @param name      gueltiger Domain-Name
  * @param validator zur Pruefung
  */
-@JvmOverloads constructor(name: String, validator: KSimpleValidator<String> = VALIDATOR) : Text(name.trim { it <= ' ' }.toLowerCase(), validator) {
+@JvmOverloads constructor(name: String, validator: KSimpleValidator<String> = VALIDATOR) : Text(name.trim { it <= ' ' }.lowercase(), validator) {
 
     /**
      * Liefert die Top-Level-Domain (TLD) zurueck.
