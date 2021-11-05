@@ -22,6 +22,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -168,5 +169,16 @@ public final class TextTest extends FachwertTest {
         MatcherAssert.assertThat(abc.compareTo(def), lessThan(0));
         MatcherAssert.assertThat(def.compareTo(abc), greaterThan(0));
     }
-    
+
+    @Test
+    public void testIsPrintable() {
+        assertTrue(Text.of("Gr\u00fc\u00dfe").isPrintable());
+    }
+
+    @Test
+    public void testIsNotPrintable() {
+        String invalid = new String("Gr\u00fc\u00dfe".getBytes(StandardCharsets.ISO_8859_1));
+        assertFalse(Text.of(invalid).isPrintable());
+    }
+
 }

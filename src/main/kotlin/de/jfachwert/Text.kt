@@ -18,6 +18,7 @@
 package de.jfachwert
 
 import de.jfachwert.pruefung.NullValidator
+import org.apache.commons.lang3.StringUtils
 import java.nio.CharBuffer
 import java.util.*
 
@@ -73,6 +74,18 @@ open class Text
      */
     fun replaceUmlaute(): Text {
         return of(replaceUmlaute(code))
+    }
+
+    /**
+     * Dient zur Abfrage, ob ein Text nur gueltige (druckbare) Zeichen
+     * enthaelt. Ist dies nicht der Fall, koennte ein Encoding-Problem
+     * vorliegen.
+     *
+     * @return true oder false
+     * @since 4.1
+     */
+    fun isPrintable(): Boolean {
+        return StringUtils.isAsciiPrintable(replaceUmlaute(code))
     }
 
     /**
