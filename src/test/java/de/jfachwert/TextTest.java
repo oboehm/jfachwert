@@ -23,6 +23,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Currency;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -185,6 +186,14 @@ public final class TextTest extends FachwertTest {
     @Test
     public void testIsPrintableSonderzeichen() {
         assertTrue(Text.of("P\u00e4ragraph § 218.").isPrintable());
+    }
+
+    @Test
+    public void testIsPrintableCurrencies() {
+        for (Currency c : Currency.getAvailableCurrencies()) {
+            String s = String.format("%s: %s (%s)", c.getCurrencyCode(), c.getSymbol(), c);
+            assertTrue(s, Text.of(s).isPrintable());
+        }
     }
 
     @Test
