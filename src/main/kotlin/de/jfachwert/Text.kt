@@ -85,7 +85,16 @@ open class Text
      * @since 4.1
      */
     fun isPrintable(): Boolean {
-        return StringUtils.isAsciiPrintable(replaceUmlaute(code))
+        if (StringUtils.isAsciiPrintable(replaceUmlaute(code))) {
+            return true
+        }
+        val printable = {}.javaClass.getResource("printable.txt").readText()
+        for (c in code) {
+            if (!(c.isLetterOrDigit() || c.isWhitespace() || printable.contains(c))) {
+                return false
+            }
+        }
+        return true
     }
 
     /**

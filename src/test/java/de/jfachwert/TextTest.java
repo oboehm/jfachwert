@@ -176,6 +176,18 @@ public final class TextTest extends FachwertTest {
     }
 
     @Test
+    public void testIsPrintableAscii() {
+        for (int code = 32; code <= 126; code++) {
+            assertTrue(Text.of(Character.toString((char) code)).isPrintable());
+        }
+    }
+
+    @Test
+    public void testIsPrintableSonderzeichen() {
+        assertTrue(Text.of("P\u00e4ragraph § 218.").isPrintable());
+    }
+
+    @Test
     public void testIsNotPrintable() {
         String invalid = new String("Gr\u00fc\u00dfe".getBytes(StandardCharsets.ISO_8859_1));
         assertFalse(Text.of(invalid).isPrintable());
