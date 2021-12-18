@@ -529,7 +529,7 @@
     <dependency>
       <groupId>org.mutabilitydetector</groupId>
       <artifactId>MutabilityDetector</artifactId>
-      <version>0.10.2</version>
+      <version>0.10.4</version>
     </dependency>
 
   </dependencies>
@@ -580,41 +580,13 @@
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-jar-plugin</artifactId>
-              <version>3.0.2</version>
+              <version>3.2.0</version>
               <configuration>
                 <classifier>debug</classifier>
               </configuration>
             </plugin>
           </plugins>
         </pluginManagement>
-        <plugins>
-          <!-- AspectJ Compiler -->
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>aspectj-maven-plugin</artifactId>
-            <version>1.10</version>
-            <configuration>
-              <source>${java.version}</source>
-              <target>${java.version}</target>
-              <complianceLevel>${java.version}</complianceLevel>
-              <aspectLibraries>
-                <!-- we need the AbstractTraceAspect from PatternTesting -->
-                <aspectLibrary>
-                  <groupId>org.patterntesting</groupId>
-                  <artifactId>patterntesting-rt</artifactId>
-                </aspectLibrary>
-              </aspectLibraries>
-            </configuration>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>compile</goal>       <!-- use this goal to weave all your main classes -->
-                  <goal>test-compile</goal>  <!-- use this goal to weave all your test classes -->
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
       </build>
 
     </profile>
@@ -634,7 +606,7 @@
         <asciidoctor.maven.plugin.version>2.2.1</asciidoctor.maven.plugin.version>
         <asciidoctorj.version>2.5.2</asciidoctorj.version>
         <asciidoctorj.diagram.version>2.2.1</asciidoctorj.diagram.version>
-        <jruby.version>9.3.1.0</jruby.version>
+        <jruby.version>9.3.2.0</jruby.version>
       </properties>
       <build>
         <defaultGoal>process-resources</defaultGoal>
