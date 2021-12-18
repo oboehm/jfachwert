@@ -11,8 +11,9 @@
 
     <section name="Was ist jFachwert?">
       <p>
-        <i>jFachwert</i> ist eine Java-Bibliothek, die einige fachlichen Datentypen wie IBAN oder BIC zur Verf&#252;gung
+        <i>jFachwert</i> ist gestartet als Java-Bibliothek, die einige fachlichen Datentypen wie IBAN oder BIC zur Verf&#252;gung
         stellt, die in vielen Programmen ben&#246;tigt werden, aber f&#252;r die es keine Bibliothek gibt.
+        Ab Version 4 wurde die Bibliothek umgestellt, kann aber nach wie vor als Java-Bibliothek eingebunden werden.
       </p>
       <subsection name="Was sind Fachwerte?">
         <p>
