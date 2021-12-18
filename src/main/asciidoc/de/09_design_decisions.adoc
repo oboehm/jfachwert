@@ -38,7 +38,7 @@ Die einzigen Abhängigkeiten, die in Kauf genommen werden, sind:
 === Ableitung möglich
 
 Um für Fachklassen auch eigene Logik hinterlegen zu können, können die Klassen abgeleitet werden.
-Deswegen sind die Klassen nicht `final` und besitzen keine statischen Methoden, die `public` sind.
+Deswegen sind die Klassen nicht `final`.
 
 
 === Konstruktor mit Validierung
