@@ -7,6 +7,11 @@ genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
 ## [Unreleased]
+
+### Changed
+- _fixed_ _[#13](https://github.com/oboehm/jfachwert/issues/13)_: TinyUUID.randomUUID() mit @JvmStatic gekennzeichnet
+
+## [4.0.3] - 2021-12-18
 ### Security
 - (experimentelle) Abhängigkeit zu Log4J und LogAspect entfernt
 ### Added

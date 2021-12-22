@@ -26,8 +26,7 @@ import java.math.BigInteger;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * Unit-Tests fuer {@link TinyUUID}-Klasse.
@@ -305,6 +304,15 @@ public class TinyUUIDTest extends FachwertTest {
         TinyUUID expected = TinyUUID.fromString("00108310-0042-0fff-b3cb-1c3ff7cefafb");
         TinyUUID tinyUUID = TinyUUID.fromString("ABCDEABCD_-zyxw_9876-w");
         assertEquals(expected, tinyUUID);
+    }
+
+    /**
+     * Dies ist der Test fuer Issue 13.
+     */
+    @Test
+    public void testRandomUUID() {
+        TinyUUID random = TinyUUID.randomUUID();
+        assertNotNull(random);
     }
 
 }

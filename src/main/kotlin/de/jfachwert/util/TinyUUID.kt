@@ -249,6 +249,7 @@ open class TinyUUID(uuid: UUID) : AbstractFachwert<UUID, TinyUUID>(uuid) {
          *
          * @return zufaellige UUID
          */
+        @JvmStatic
         fun randomUUID(): TinyUUID {
             return TinyUUID(UUID.randomUUID())
         }
