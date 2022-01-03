@@ -26,6 +26,7 @@ Dazu wird aber das Logging-Framework des JDKs im Log-Level FINE verwendet.
 Um sich nicht weitere unerwünschte Abhängigkeiten bei der Verwendung von jFachwert einzufangen, werden die Abhängigkeiten zu anderen Bibiotheken auf ein Minimum reduziert.
 Die einzigen Abhängigkeiten, die in Kauf genommen werden, sind:
 
+* kotlin-stdlib: diese Bibliothek kam durch die Umstellung auf Kotlin in v4 hinzu
 * commons-lang3: diese Bibliothek ist bereits als Abhängigkeit vieler anderer Bibliotheken vorhanden
 * commons-collections4: aus dieser Bibliothek wurde die ReferenceMap verwendet, um Objekte, die oft gebraucht werden, vorhalten zu können
   (zur Reduktion des Speicherverbrauchs)
