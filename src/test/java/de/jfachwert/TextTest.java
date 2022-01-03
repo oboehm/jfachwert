@@ -177,6 +177,11 @@ public final class TextTest extends FachwertTest {
     }
 
     @Test
+    public void testIsPrintableStatic() {
+        assertTrue(Text.isPrintable("Gr\u00fc\u00dfe"));
+    }
+
+    @Test
     public void testIsPrintableAscii() {
         for (int code = 32; code <= 126; code++) {
             assertTrue(Text.of(Character.toString((char) code)).isPrintable());

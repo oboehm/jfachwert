@@ -256,6 +256,20 @@ open class Text
             return buffer.toString().trim { it <= ' ' }
         }
 
+        /**
+         * Dient zur Abfrage, ob ein Text nur gueltige (druckbare) Zeichen
+         * enthaelt. Ist dies nicht der Fall, koennte ein Encoding-Problem
+         * vorliegen.
+         *
+         * @param text Text
+         * @return true oder false
+         * @since 4.1
+         */
+        @JvmStatic
+        fun isPrintable(text: String): Boolean {
+            return Text(text).isPrintable()
+        }
+
     }
 
 }

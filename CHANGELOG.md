@@ -6,6 +6,10 @@ Es ersetzt die **Release Notes** aus den Anfangstagen von jFachwert und orientie
 genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
+## [Unreleased]
+### Added
+- Text.isPrintable(..) gibt es jetzt auch als statische Methode
+
 ## [4.0.4] - 2022-01-01
 ### Changed
 - _fixed_ _[#13](https://github.com/oboehm/jfachwert/issues/13)_: TinyUUID.randomUUID() mit @JvmStatic gekennzeichnet
