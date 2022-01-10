@@ -9,6 +9,9 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Unreleased]
 ### Added
 - Text.isPrintable(..) gibt es jetzt auch als statische Methode
+- fehlende Methoden in Zahlenwert implementiert
+### Changed
+- Bau und Test unter Java 11
 
 ## [4.0.4] - 2022-01-01
 ### Changed

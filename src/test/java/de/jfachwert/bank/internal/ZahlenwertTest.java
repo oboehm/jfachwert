@@ -139,4 +139,23 @@ public final class ZahlenwertTest {
         assertEquals(BigInteger.valueOf(123), zahlenwert.numberValue(BigInteger.class));
     }
 
+    @Test
+    public void testToString() {
+        Number n = new BigDecimal("123.45");
+        Zahlenwert zahlenwert = new Zahlenwert(n);
+        assertEquals(n.toString(), zahlenwert.toString());
+    }
+
+    @Test
+    public void testGetZaehler() {
+        Zahlenwert zweiFuenftel = new Zahlenwert(new BigDecimal("0.4"));
+        assertEquals(2, zweiFuenftel.getAmountFractionNumerator());
+    }
+
+    @Test
+    public void testGetNenner() {
+        Zahlenwert zweiFuenftel = new Zahlenwert(new BigDecimal("0.4"));
+        assertEquals(5, zweiFuenftel.getAmountFractionDenominator());
+    }
+
 }

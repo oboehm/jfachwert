@@ -17,6 +17,7 @@
  */
 package de.jfachwert.bank.internal
 
+import de.jfachwert.math.Bruch
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import java.math.BigDecimal
 import java.math.BigInteger
@@ -81,11 +82,27 @@ class Zahlenwert(val number: Number) : NumberValue() {
         return toBigDecimal().toShort()
     }
 
+    /**
+     * Liefert den Zahlenwert als [BigDecimal].
+     */
     fun toBigDecimal(): BigDecimal {
         when (this.number) {
             is BigDecimal -> return this.number
         }
         return BigDecimal(this.number.toString())
+    }
+
+    /**
+     * Liefert den Zahlenwert als [Bruch] zurueck.
+     *
+     * @since 4.1
+     */
+    fun toBruch() : Bruch {
+        return Bruch.of(toString())
+    }
+
+    override fun toString(): String {
+        return toBigDecimal().toString()
     }
 
     /**
@@ -161,7 +178,7 @@ class Zahlenwert(val number: Number) : NumberValue() {
      *  * `java.math.BigInteger`
      *  * `java.math.BigDecimal`
      *
-     * @return Zahlenwert eines [MonetaryAmount].
+     * @return Zahlenwert eines MonetaryAmount's.
      */
     override fun <T : Number> numberValue(numberType: Class<T>): T {
         when (numberType) {
@@ -204,7 +221,7 @@ class Zahlenwert(val number: Number) : NumberValue() {
      *  * `java.math.BigInteger`, currently not available on all platforms.
      *  * `java.math.BigDecimal`, currently not available on all platforms.
      *
-     * @return the (possibly) truncated value of the [MonetaryAmount].
+     * @return the (possibly) truncated value of the MonetaryAmount's.
      * @throws ArithmeticException If the value must be truncated to fit the target datatype.
      */
     override fun <T : Number> numberValueExact(numberType: Class<T>): T {
@@ -217,11 +234,12 @@ class Zahlenwert(val number: Number) : NumberValue() {
     }
 
     /**
-     * This method allows to extract the numerator part of the current fraction, hereby given
+     * Diese Methode ermittelt den Zaehler, wenn man die aktuelle Zahl als
+     * Bruch betrachtet. Dabei gilt:
      * <pre>`
      * w = longValue()
-     * n = getFractionNominator()
-     * d = getFractionDenominator()
+     * n = getFractionNominator() (Zaehler)
+     * d = getFractionDenominator() (Nenner)
     `</pre> *
      *
      * the following must be always true:
@@ -236,11 +254,12 @@ class Zahlenwert(val number: Number) : NumberValue() {
      * @return the amount's fraction numerator..
      */
     override fun getAmountFractionNumerator(): Long {
-        TODO("Not yet implemented")
+        return toBruch().zaehler.toLong()
     }
 
     /**
-     * This method allows to extract the denominator part of the current fraction, hereby given
+     * Diese Methode ermittelt den Nenner, wenn man die aktuelle Zahl als
+     * Bruch betrachtet. Dabei gilt:
      * <pre>`
      * w = longValue()
      * n = getFractionNominator()
@@ -259,7 +278,9 @@ class Zahlenwert(val number: Number) : NumberValue() {
      * @return the amount's fraction denominator.
      */
     override fun getAmountFractionDenominator(): Long {
-        TODO("Not yet implemented")
+        return toBruch().nenner.toLong()
     }
+
+    // TODO: static of(..)-Methode fehlt noch
 
 }
