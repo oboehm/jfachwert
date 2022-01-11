@@ -19,6 +19,7 @@ package de.jfachwert
 
 import de.jfachwert.pruefung.NullValidator
 import org.apache.commons.lang3.StringUtils
+import java.lang.IllegalStateException
 import java.nio.CharBuffer
 import java.util.*
 
@@ -252,8 +253,12 @@ open class Text
                     else -> buffer.put(c)
                 }
             }
-            buffer.rewind()
-            return buffer.toString().trim { it <= ' ' }
+            try {
+                buffer.rewind()
+                return buffer.toString().trim { it <= ' ' }
+            } catch (ex: NoSuchMethodError) {
+                throw IllegalStateException("wrong JDK - use at least Java 11", ex)
+            }
         }
 
         /**
