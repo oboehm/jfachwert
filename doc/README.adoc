@@ -49,8 +49,8 @@ konfiguriert ist:
 |Schritt |Kommandos |Anmerkung
 
 |auf Master-Branch wechseln
-|`git checkout master`
-|Die folgenden Schritte sollten auf dem Master-Branch erfolgen, weil dort das
+|`git checkout release/4.x`
+|Die folgenden Schritte sollten auf dem Release-Branch erfolgen, weil dort das
 letzte Release abgelegt wird.
 
 |Release starten
@@ -72,11 +72,15 @@ können noch vorgenommen werden.
 
 |Release deployen
 |`sh src/script/deploy.sh`
-|Damit werden die Artefakte signiert und nach  https://oss.sonatype.org/[oss.sonatype.org] hochgeladen.
+|Damit werden die Artefakte signiert und nach https://oss.sonatype.org/[oss.sonatype.org] hochgeladen.
 
 |Release freigeben
 |https://oss.sonatype.org/[oss.sonatype.org]
 |"Staging Repositories" selektieren, danach "Close", "Refresh" und "Release".
+
+|Einchecken + Tag vergeben
+|`git commit` ...
+|NamensKonvention für Tag ist `jfachwert-x.x.x`
 
 |Release-Notes erstellen
 |https://github.com/oboehm/jfachwert/releases[releases]
@@ -95,4 +99,8 @@ Vorher noch prüfen, ob `changes.xml` aktuell ist.
 https://github.com/oboehm/jfachwert/tree/develop/src/main/asciidoc[src/main/asciidoc] zu finden ist.
 Zur erfolgreichen Generierung muss https://www.graphviz.org/[GraphViz] auf dem Rechner installiert sein.
 Danach wird target/generated-docs auf http://jfachwert.de/generated-docs/[jFachwert.de/generated-docs] hochgeladen.
+
+|auf master- und develop-Branch mergen
+|`git checkout master` ...
+|auf `develop` mit neuem Snapshot beginnen
 |===
