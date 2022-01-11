@@ -19,7 +19,7 @@ package de.jfachwert
 
 import de.jfachwert.pruefung.NullValidator
 import org.apache.commons.lang3.StringUtils
-import java.lang.IllegalStateException
+import java.nio.Buffer
 import java.nio.CharBuffer
 import java.util.*
 
@@ -253,12 +253,16 @@ open class Text
                     else -> buffer.put(c)
                 }
             }
-            try {
-                buffer.rewind()
-                return buffer.toString().trim { it <= ' ' }
-            } catch (ex: NoSuchMethodError) {
-                throw IllegalStateException("wrong JDK - use at least Java 11", ex)
-            }
+            rewind(buffer)
+            return buffer.toString().trim { it <= ' ' }
+        }
+
+        private fun rewind(buffer: CharBuffer?) {
+            // buffer.rewind() bereitet unter Java 8 Problem wegen inkompatibler API-Änderung zwischen Java 8 und 9
+            // https://stackoverflow.com/questions/61267495/exception-in-thread-main-java-lang-nosuchmethoderror-java-nio-bytebuffer-flip
+            // Daher jetzt der Workaround ueber Cast auf Oberklasse
+            val b: Buffer = buffer as Buffer
+            b.rewind()
         }
 
         /**

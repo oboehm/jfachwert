@@ -12,6 +12,9 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - fehlende Methoden in Zahlenwert implementiert
 ### Changed
 - Bau und Test unter Java 11
+### Fixed
+- Probleme mit fehlender CharBuffer.rewind()-Methode in Text-Klasse unter Java 8 behoben
+
 
 ## [4.0.4] - 2022-01-01
 ### Changed

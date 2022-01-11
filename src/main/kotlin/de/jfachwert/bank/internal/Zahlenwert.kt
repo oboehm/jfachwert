@@ -281,6 +281,18 @@ class Zahlenwert(val number: Number) : NumberValue() {
         return toBruch().nenner.toLong()
     }
 
-    // TODO: static of(..)-Methode fehlt noch
+
+
+    companion object {
+
+        /**
+         * Liefert einen Zahlenwert.
+         */
+        @JvmStatic
+        fun of(n: Number) : Zahlenwert {
+            return Zahlenwert(n)
+        }
+
+    }
 
 }

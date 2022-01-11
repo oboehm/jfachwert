@@ -148,13 +148,13 @@ public final class ZahlenwertTest {
 
     @Test
     public void testGetZaehler() {
-        Zahlenwert zweiFuenftel = new Zahlenwert(new BigDecimal("0.4"));
+        Zahlenwert zweiFuenftel = Zahlenwert.of(new BigDecimal("0.4"));
         assertEquals(2, zweiFuenftel.getAmountFractionNumerator());
     }
 
     @Test
     public void testGetNenner() {
-        Zahlenwert zweiFuenftel = new Zahlenwert(new BigDecimal("0.4"));
+        Zahlenwert zweiFuenftel = Zahlenwert.of(new BigDecimal("0.4"));
         assertEquals(5, zweiFuenftel.getAmountFractionDenominator());
     }
 

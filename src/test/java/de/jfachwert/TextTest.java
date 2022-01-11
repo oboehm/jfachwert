@@ -111,8 +111,8 @@ public final class TextTest extends FachwertTest {
     }
 
     /**
-     * Beim Adressvergleich von 300.000 wurde festgestellt, dass viel Zeit in
-     * {@link Text#replaceUmlaute)()} verbraucht wurde. Dies ist zwar kein
+     * Beim Adressvergleich von 300.000 Adressen wurde festgestellt, dass viel Zeit
+     * in {@link Text#replaceUmlaute)()} verbraucht wurde. Dies ist zwar kein
      * echter Performance-Test, er gibt aber zumindestens Anhaltspunkte, ob
      * die Performance sich verbessert hat.
      * 
