@@ -18,10 +18,11 @@
 package de.jfachwert.med;
 
 import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.pruefung.NoopVerfahren;
+import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.*;
 import static org.testng.AssertJUnit.assertEquals;
 
 /**
@@ -71,13 +72,19 @@ public final class PZNTest extends AbstractFachwertTest<Integer, PZN> {
         PZN.of(27580890);
     }
 
+    @Test
+    public void testCreateInvalidPZN() {
+        PZN invalid = new PZN(1234567890, new NoopVerfahren<>());
+        assertEquals(1234567890, invalid.getCode().intValue());
+    }
+
     /**
      * PZNs koennen fuehrende Nullen enthalten.
      */
     @Test
     public void testOf() {
         PZN nr = PZN.of("04877800");
-        assertThat(nr.toString(), containsString("04877800"));
+        MatcherAssert.assertThat(nr.toString(), containsString("04877800"));
     }
 
 }
