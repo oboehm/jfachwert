@@ -207,4 +207,19 @@ public final class TextTest extends FachwertTest {
         assertFalse(Text.of(invalid).isPrintable());
     }
 
+    @Test
+    public void testDetectUTF8() {
+        assertEquals(StandardCharsets.UTF_8, Text.detectCharset("B\u00f6hm"));
+    }
+
+    @Test
+    public void testDetectLatin1() {
+        assertEquals(StandardCharsets.ISO_8859_1, Text.detectCharset("B\u00c3\u00b6hm"));
+    }
+
+    @Test
+    public void testConvertToLatin1() {
+        assertEquals("B\u00c3\u00b6hm", Text.convert("B\u00f6hm", StandardCharsets.UTF_8, StandardCharsets.ISO_8859_1));
+    }
+
 }

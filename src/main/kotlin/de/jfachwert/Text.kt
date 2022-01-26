@@ -21,6 +21,8 @@ import de.jfachwert.pruefung.NullValidator
 import org.apache.commons.lang3.StringUtils
 import java.nio.Buffer
 import java.nio.CharBuffer
+import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
 import java.util.*
 
 /**
@@ -277,6 +279,46 @@ open class Text
         @JvmStatic
         fun isPrintable(text: String): Boolean {
             return Text(text).isPrintable()
+        }
+
+        /**
+         * Erkennt das Encoding eines Textes. Die Idee dahinter ist, dass wir
+         * einen Text nach UTF-8 und wieder zurueck konvertieren. Dies ist ein
+         * einfacher Ansatz und stammt aus <a
+         * href="https://www.turro.org/publications?item=114&page=0">Detect the
+         * charset in Java strings</a>, reicht aber fuer einfache Faelle aus.
+         *
+         * Wer es genauer will, kann z.B. auf
+         * <a href="https://tika.apache.org/">Tika</a>
+         * zurueckgreifen.
+         *
+         * @param value Text mit unbekanntem Encoding
+         * @return Encoding
+         * @since 4.2
+         */
+        @JvmStatic
+        fun detectCharset(value: String): Charset? {
+            val charsets = arrayOf(StandardCharsets.ISO_8859_1, StandardCharsets.UTF_8)
+            val probe = StandardCharsets.UTF_8
+            for (cs in charsets) {
+                if (value == convert(convert(value, cs, probe), probe, cs)) {
+                    return cs
+                }
+            }
+            return StandardCharsets.ISO_8859_1
+        }
+
+        /**
+         * Konvertierten einen Text in ein gewuenschtes Encoding.
+         *
+         * @param value Text
+         * @param fromEncoding aktuelles Encoding des Textes
+         * @param toEncoding gewuenschtes Encoding
+         * @since 4.2
+         */
+        @JvmStatic
+        fun convert(value: String, fromEncoding: Charset, toEncoding: Charset): String {
+            return String(value.toByteArray(fromEncoding), toEncoding)
         }
 
     }

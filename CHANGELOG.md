@@ -6,6 +6,11 @@ Es ersetzt die **Release Notes** aus den Anfangstagen von jFachwert und orientie
 genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
+## [Unreleased]
+### Added
+- Text.convert(..) konvertiert Texte in ein anderes Encoding
+- Text.detectCharset(..) erkennt (in gewissen Grenzen) das Encoding eines Textes
+
 ## [4.1.0] - 2022-01-11
 ### Added
 - Text.isPrintable(..) gibt es jetzt auch als statische Methode
