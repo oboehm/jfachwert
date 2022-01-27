@@ -18,18 +18,23 @@
 package de.jfachwert;
 
 import org.hamcrest.MatcherAssert;
-import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Currency;
-import java.util.Properties;
+import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer {@link Text}-Klasse.
@@ -50,9 +55,9 @@ public final class TextTest extends FachwertTest {
      * wuerden wir hier eine IllegalArgumentException erwarten, aber Kotlin 1.4
      * macht hier schone eine Nullpointerexception.
      */
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testCtorNull() {
-        new Text(null);
+        assertThrows(RuntimeException.class, () -> new Text(null));
     }
 
     @Test
@@ -197,7 +202,7 @@ public final class TextTest extends FachwertTest {
     public void testIsPrintableCurrencies() {
         for (Currency c : Currency.getAvailableCurrencies()) {
             String s = String.format("%s: %s (%s)", c.getCurrencyCode(), c.getSymbol(), c);
-            assertTrue(s, Text.of(s).isPrintable());
+            assertTrue(Text.of(s).isPrintable(), s);
         }
     }
 
@@ -220,6 +225,30 @@ public final class TextTest extends FachwertTest {
     @Test
     public void testConvertToLatin1() {
         assertEquals("B\u00c3\u00b6hm", Text.convert("B\u00f6hm", StandardCharsets.UTF_8, StandardCharsets.ISO_8859_1));
+    }
+
+    @DisplayName("Konvertierung")
+    @ParameterizedTest(name = "{index}: {0}")
+    @MethodSource("encodingParameters")
+    void testConvert(Charset charset) {
+        String text = "H\u00e4llo W\u00f6rld";
+        String converted = Text.convert(text, StandardCharsets.UTF_8, charset);
+        assertEquals(text, Text.convert(converted, charset, StandardCharsets.UTF_8));
+    }
+
+    static Stream<Arguments> encodingParameters() {
+        Set<Charset> availableCharsets = new HashSet<>(Collections.singletonList(StandardCharsets.ISO_8859_1));
+        String probe = "a\u00e4\u00f6\u00fc\u00dfA\u00c4\u00d6\u00dc";
+        for (Charset charset : Charset.availableCharsets().values()) {
+            try {
+                if (probe.equals(new String(probe.getBytes(charset), StandardCharsets.UTF_8))) {
+                    availableCharsets.add(charset);
+                }
+            } catch (UnsupportedOperationException ex) {
+                LOG.info(charset + " wird auf diesem System nicht unterstuetzt: " + ex);
+            }
+        }
+        return availableCharsets.stream().map(Arguments::of);
     }
 
 }

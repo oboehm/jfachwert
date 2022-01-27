@@ -8,8 +8,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ## [Unreleased]
 ### Added
-- Text.convert(..) konvertiert Texte in ein anderes Encoding
-- Text.detectCharset(..) erkennt (in gewissen Grenzen) das Encoding eines Textes
+- Text-Klasse bietet Encoding-Erkennung und -Umwandlung als leichtgewichtige Alternative zu [Tika](https://tika.apache.org/) an
 
 ## [4.1.0] - 2022-01-11
 ### Added

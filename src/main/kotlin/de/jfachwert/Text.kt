@@ -298,7 +298,8 @@ open class Text
          */
         @JvmStatic
         fun detectCharset(value: String): Charset? {
-            val charsets = arrayOf(StandardCharsets.ISO_8859_1, StandardCharsets.UTF_8)
+            val charsets = mutableListOf<Charset>(StandardCharsets.ISO_8859_1, StandardCharsets.UTF_8)
+            charsets.addAll(Charset.availableCharsets().values)
             val probe = StandardCharsets.UTF_8
             for (cs in charsets) {
                 if (value == convert(convert(value, cs, probe), probe, cs)) {
@@ -309,7 +310,9 @@ open class Text
         }
 
         /**
-         * Konvertierten einen Text in ein gewuenschtes Encoding.
+         * Konvertiert mit JDK-Bordmittel einen Text in ein gewuenschtes
+         * Encoding. Allerdings kann je nach Konvertierung das Ergebnis
+         * verlustbheaft
          *
          * @param value Text
          * @param fromEncoding aktuelles Encoding des Textes
