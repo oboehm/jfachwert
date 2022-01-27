@@ -22,7 +22,7 @@ import de.jfachwert.bank.IBAN;
 import de.jfachwert.math.Primzahl;
 import de.jfachwert.steuer.UStIdNr;
 import org.junit.Test;
-import patterntesting.runtime.monitor.ClasspathMonitor;
+import clazzfish.monitor.ClasspathMonitor;
 
 import javax.validation.ValidationException;
 import java.lang.reflect.Modifier;
