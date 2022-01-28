@@ -101,6 +101,37 @@ open class Text
     }
 
     /**
+     * Erkennt das Encoding eines Textes. Die Idee dahinter ist, dass wir
+     * einen Text nach UTF-8 und wieder zurueck konvertieren. Dies ist ein
+     * einfacher Ansatz und stammt aus <a
+     * href="https://www.turro.org/publications?item=114&page=0">Detect the
+     * charset in Java strings</a>, reicht aber fuer einfache Faelle aus.
+     *
+     * Wer es genauer will, kann z.B. auf
+     * <a href="https://tika.apache.org/">Tika</a>
+     * zurueckgreifen.
+     *
+     * @return Encoding
+     * @since 4.2
+     */
+    fun detectCharset(): Charset {
+        return Companion.detectCharset(code)
+    }
+
+    /**
+     * Konvertiert mit JDK-Bordmittel einen Text in ein gewuenschtes
+     * Encoding. Allerdings kann je nach Konvertierung das Ergebnis
+     * verlustbehaftet sein.
+     *
+     * @param toEncoding gewuenschtes Encoding
+     * @param fromEncoding aktuelles Encoding des Textes
+     * @since 4.2
+     */
+    fun convertTo(toEncoding: Charset, fromEncoding: Charset = detectCharset()) : Text {
+        return of(convert(code, toEncoding, fromEncoding))
+    }
+
+    /**
      * Liefert einen Text mit Kleinbuchstaben.
      *
      * @return Text mit Kleinbuchstaben
@@ -297,12 +328,12 @@ open class Text
          * @since 4.2
          */
         @JvmStatic
-        fun detectCharset(value: String): Charset? {
+        fun detectCharset(value: String): Charset {
             val charsets = mutableListOf<Charset>(StandardCharsets.ISO_8859_1, StandardCharsets.UTF_8)
             charsets.addAll(Charset.availableCharsets().values)
             val probe = StandardCharsets.UTF_8
             for (cs in charsets) {
-                if (value == convert(convert(value, cs, probe), probe, cs)) {
+                if (value == convert(convert(value, probe, cs), cs, probe)) {
                     return cs
                 }
             }
@@ -312,15 +343,30 @@ open class Text
         /**
          * Konvertiert mit JDK-Bordmittel einen Text in ein gewuenschtes
          * Encoding. Allerdings kann je nach Konvertierung das Ergebnis
-         * verlustbheaft
+         * verlustbehaftet sein.
          *
          * @param value Text
-         * @param fromEncoding aktuelles Encoding des Textes
          * @param toEncoding gewuenschtes Encoding
          * @since 4.2
          */
         @JvmStatic
-        fun convert(value: String, fromEncoding: Charset, toEncoding: Charset): String {
+        fun convert(value: String, toEncoding: Charset): String {
+            val fromEncoding = detectCharset(value)
+            return String(value.toByteArray(fromEncoding), toEncoding)
+        }
+
+        /**
+         * Konvertiert mit JDK-Bordmittel einen Text in ein gewuenschtes
+         * Encoding. Allerdings kann je nach Konvertierung das Ergebnis
+         * verlustbehaftet sein.
+         *
+         * @param value Text
+         * @param toEncoding gewuenschtes Encoding
+         * @param fromEncoding aktuelles Encoding des Textes
+         * @since 4.2
+         */
+        @JvmStatic
+        fun convert(value: String, toEncoding: Charset, fromEncoding: Charset): String {
             return String(value.toByteArray(fromEncoding), toEncoding)
         }
 

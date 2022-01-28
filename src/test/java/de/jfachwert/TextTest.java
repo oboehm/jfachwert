@@ -223,6 +223,11 @@ public final class TextTest extends FachwertTest {
     }
 
     @Test
+    public void testConvertTo() {
+        assertEquals(Text.of("B\u00c3\u00b6hm"), Text.of("B\u00f6hm").convertTo(StandardCharsets.ISO_8859_1, StandardCharsets.UTF_8));
+    }
+
+    @Test
     public void testConvertToLatin1() {
         assertEquals("B\u00c3\u00b6hm", Text.convert("B\u00f6hm", StandardCharsets.ISO_8859_1));
     }
@@ -232,8 +237,8 @@ public final class TextTest extends FachwertTest {
     @MethodSource("encodingParameters")
     void testConvert(Charset charset) {
         String text = "H\u00e4llo W\u00f6rld";
-        String converted = Text.convert(text, StandardCharsets.UTF_8, charset);
-        assertEquals(text, Text.convert(converted, charset, StandardCharsets.UTF_8));
+        String converted = Text.convert(text, charset, StandardCharsets.UTF_8);
+        assertEquals(text, Text.convert(converted, StandardCharsets.UTF_8, charset));
     }
 
     static Stream<Arguments> encodingParameters() {
