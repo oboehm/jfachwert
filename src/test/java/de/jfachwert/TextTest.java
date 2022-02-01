@@ -17,7 +17,6 @@
  */
 package de.jfachwert;
 
-import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,6 +32,7 @@ import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -78,7 +78,7 @@ public final class TextTest extends FachwertTest {
         Text hello = new Text("hello");
         Text hallo = new Text("hallo");
         Text world = new Text("world");
-        MatcherAssert.assertThat(hello.getDistanz(hallo), lessThan(hello.getDistanz(world)));
+        assertThat(hello.getDistanz(hallo), lessThan(hello.getDistanz(world)));
     }
 
     /**
@@ -140,7 +140,7 @@ public final class TextTest extends FachwertTest {
         String r = Text.replaceUmlaute(s);
         long t1 = System.nanoTime();
         LOG.info("replaceUmlaute started ended after " + (t1 - t0) / 1000000.0 + " ms");
-        MatcherAssert.assertThat (r, not(containsString("W\u00e4hrung")));
+        assertThat (r, not(containsString("W\u00e4hrung")));
     }
 
     @Test
@@ -172,8 +172,8 @@ public final class TextTest extends FachwertTest {
     public void testCompareTo() {
         Text abc = Text.of("abc");
         Text def = Text.of("def");
-        MatcherAssert.assertThat(abc.compareTo(def), lessThan(0));
-        MatcherAssert.assertThat(def.compareTo(abc), greaterThan(0));
+        assertThat(abc.compareTo(def), lessThan(0));
+        assertThat(def.compareTo(abc), greaterThan(0));
     }
 
     @Test
@@ -241,8 +241,19 @@ public final class TextTest extends FachwertTest {
         assertEquals(text, Text.convert(converted, StandardCharsets.UTF_8, charset));
     }
 
+    @DisplayName("Charset-Erkennung")
+    @ParameterizedTest(name = "{index}: {0}")
+    @MethodSource("encodingParameters")
+    void testDetect(Charset charset) {
+        Text utf8 = Text.of("Gr\u00fc\u00dfe aus \u00c4gypten, \u00d6sterreich, \ud801\udc00");
+        Text converted = utf8.convertTo(charset, StandardCharsets.UTF_8);
+        Collection<Charset> charsets = converted.detectCharsets();
+        assertThat(charsets, hasItem(charset));
+        assertThat(charsets, hasItem(converted.detectCharset()));
+    }
+
     static Stream<Arguments> encodingParameters() {
-        Set<Charset> availableCharsets = new HashSet<>(Collections.singletonList(StandardCharsets.ISO_8859_1));
+        Set<Charset> availableCharsets = new HashSet<>(Arrays.asList(StandardCharsets.ISO_8859_1, Charset.forName("IBM850")));
         String probe = "a\u00e4\u00f6\u00fc\u00dfA\u00c4\u00d6\u00dc";
         for (Charset charset : Charset.availableCharsets().values()) {
             try {

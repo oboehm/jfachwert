@@ -24,6 +24,7 @@ import java.nio.CharBuffer
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import java.util.*
+import java.util.logging.Logger
 
 /**
  * Die Klasse Text ist der einfachste Fachwerte, der eigentlich nur ein
@@ -119,6 +120,17 @@ open class Text
     }
 
     /**
+     * Erkennt das Encoding eines Textes. Im Unterschied zu Text#detectCharset
+     * werden hier alle erkannte Charsets zurueckgegeben
+     *
+     * @return Liste mit Encodings, die in Frage kommen
+     * @since 4.2
+     */
+    fun detectCharsets(): Collection<Charset> {
+        return Companion.detectCharsets(code)
+    }
+
+    /**
      * Konvertiert mit JDK-Bordmittel einen Text in ein gewuenschtes
      * Encoding. Allerdings kann je nach Konvertierung das Ergebnis
      * verlustbehaftet sein.
@@ -200,6 +212,7 @@ open class Text
 
     companion object {
 
+        private val LOG = Logger.getLogger(Text::class.java.name)
         private val VALIDATOR: KSimpleValidator<String> = NullValidator()
         private val WEAK_CACHE = WeakHashMap<String, Text>()
 
@@ -331,13 +344,47 @@ open class Text
         fun detectCharset(value: String): Charset {
             val charsets = mutableListOf<Charset>(StandardCharsets.ISO_8859_1, StandardCharsets.UTF_8)
             charsets.addAll(Charset.availableCharsets().values)
-            val probe = StandardCharsets.UTF_8
             for (cs in charsets) {
-                if (value == convert(convert(value, probe, cs), cs, probe)) {
+                if (canBeConverted(value, cs)) {
                     return cs
                 }
             }
             return StandardCharsets.ISO_8859_1
+        }
+
+        /**
+         * Erkennt das Encoding eines Textes. Die Idee dahinter ist, dass wir
+         * einen Text nach UTF-8 und wieder zurueck konvertieren. Dies ist ein
+         * einfacher Ansatz und stammt aus <a
+         * href="https://www.turro.org/publications?item=114&page=0">Detect the
+         * charset in Java strings</a>, reicht aber fuer einfache Faelle aus.
+         *
+         * Im Gegensatz zu Text#detectCharset wird hier nicht ein einzelnes
+         * Charset zurueckgegeben, sondern alle, die in Frage kommen.
+         *
+         * @param value Text mit unbekanntem Encoding
+         * @return Liste mit Encodings, die in Frage kommen
+         * @since 4.2
+         */
+        @JvmStatic
+        fun detectCharsets(value: String): Collection<Charset> {
+            val charsets = mutableListOf<Charset>()
+            for (cs in Charset.availableCharsets().values) {
+                if (canBeConverted(value, cs)) {
+                    charsets.add(cs)
+                }
+            }
+            return charsets
+        }
+
+        private fun canBeConverted(value: String, cs: Charset) : Boolean {
+            val probe = StandardCharsets.UTF_8
+            try {
+                return value == convert(convert(value, probe, cs), cs, probe)
+            } catch (ex : UnsupportedOperationException) {
+                LOG.fine("$cs wird nicht unterstuetzt: $ex")
+                return false
+            }
         }
 
         /**
