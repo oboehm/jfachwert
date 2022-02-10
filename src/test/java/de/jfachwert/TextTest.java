@@ -44,6 +44,20 @@ import static org.junit.jupiter.api.Assertions.*;
 public final class TextTest extends FachwertTest {
 
     private static final Logger LOG = Logger.getLogger(TextTest.class.getName());
+    private static final Set<Charset> availableCharsets = new HashSet<>(Arrays.asList(StandardCharsets.ISO_8859_1, Charset.forName("IBM850")));
+
+    static {
+        String probe = "a\u00e4\u00f6\u00fc\u00dfA\u00c4\u00d6\u00dc";
+        for (Charset charset : Charset.availableCharsets().values()) {
+            try {
+                if (probe.equals(new String(probe.getBytes(charset), StandardCharsets.UTF_8))) {
+                    availableCharsets.add(charset);
+                }
+            } catch (UnsupportedOperationException ex) {
+                LOG.info(charset + " wird auf diesem System nicht unterstuetzt: " + ex);
+            }
+        }
+    }
 
     @Override
     protected Text createFachwert() {
@@ -223,6 +237,12 @@ public final class TextTest extends FachwertTest {
     }
 
     @Test
+    public void testIsLatin1() {
+        Text t = Text.of("B\u00c3\u00b6hm");
+        assertTrue(t.isCharset(StandardCharsets.ISO_8859_1));
+    }
+
+    @Test
     public void testConvertTo() {
         assertEquals(Text.of("B\u00c3\u00b6hm"), Text.of("B\u00f6hm").convertTo(StandardCharsets.ISO_8859_1, StandardCharsets.UTF_8));
     }
@@ -253,17 +273,6 @@ public final class TextTest extends FachwertTest {
     }
 
     static Stream<Arguments> encodingParameters() {
-        Set<Charset> availableCharsets = new HashSet<>(Arrays.asList(StandardCharsets.ISO_8859_1, Charset.forName("IBM850")));
-        String probe = "a\u00e4\u00f6\u00fc\u00dfA\u00c4\u00d6\u00dc";
-        for (Charset charset : Charset.availableCharsets().values()) {
-            try {
-                if (probe.equals(new String(probe.getBytes(charset), StandardCharsets.UTF_8))) {
-                    availableCharsets.add(charset);
-                }
-            } catch (UnsupportedOperationException ex) {
-                LOG.info(charset + " wird auf diesem System nicht unterstuetzt: " + ex);
-            }
-        }
         return availableCharsets.stream().map(Arguments::of);
     }
 

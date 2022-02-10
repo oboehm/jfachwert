@@ -131,6 +131,19 @@ open class Text
     }
 
     /**
+     * Testet, ob das Encoding fuer den uergebenen Text stimmen kann.
+     * Die Idee dahinter ist, dass wir einen Text nach UTF-8 und wieder
+     * zurueck konvertieren. Falls es klappt, wird 'true' zurueckgegeben.
+     *
+     * @param cs vermutetes Encoding
+     * @return true, wenn das Encoding stimmen koennte
+     * @since 4.2
+     */
+    fun isCharset(cs: Charset) : Boolean {
+        return Companion.isCharset(code, cs)
+    }
+
+    /**
      * Konvertiert mit JDK-Bordmittel einen Text in ein gewuenschtes
      * Encoding. Allerdings kann je nach Konvertierung das Ergebnis
      * verlustbehaftet sein.
@@ -345,7 +358,7 @@ open class Text
             val charsets = mutableListOf<Charset>(StandardCharsets.ISO_8859_1, StandardCharsets.UTF_8)
             charsets.addAll(Charset.availableCharsets().values)
             for (cs in charsets) {
-                if (canBeConverted(value, cs)) {
+                if (isCharset(value, cs)) {
                     return cs
                 }
             }
@@ -370,14 +383,28 @@ open class Text
         fun detectCharsets(value: String): Collection<Charset> {
             val charsets = mutableListOf<Charset>()
             for (cs in Charset.availableCharsets().values) {
-                if (canBeConverted(value, cs)) {
+                if (isCharset(value, cs)) {
                     charsets.add(cs)
                 }
             }
             return charsets
         }
 
-        private fun canBeConverted(value: String, cs: Charset) : Boolean {
+        /**
+         * Testet, ob das Encoding fuer den uergebenen Text stimmen kann.
+         * Die Idee dahinter ist, dass wir
+         * einen Text nach UTF-8 und wieder zurueck konvertieren. Dies ist ein
+         * einfacher Ansatz und stammt aus <a
+         * href="https://www.turro.org/publications?item=114&page=0">Detect the
+         * charset in Java strings</a>, reicht aber fuer einfache Faelle aus.
+         *
+         * @param value Text
+         * @param cs    vermutetes Encoding
+         * @return true, wenn das Encoding stimmen koennte
+         * @since 4.2
+         */
+        @JvmStatic
+        fun isCharset(value: String, cs: Charset) : Boolean {
             val probe = StandardCharsets.UTF_8
             try {
                 return value == convert(convert(value, probe, cs), cs, probe)
