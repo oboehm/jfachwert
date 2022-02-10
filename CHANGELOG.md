@@ -6,11 +6,11 @@ Es ersetzt die **Release Notes** aus den Anfangstagen von jFachwert und orientie
 genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
-## [Unreleased]
+## [4.2.0] - 2022-02-11
 ### Added
 - Text-Klasse bietet Encoding-Erkennung und -Umwandlung als leichtgewichtige Alternative zu [Tika](https://tika.apache.org/) an
 
-## [4.1.0] - 2022-01-11
+## [4.1] - 2022-01-11
 ### Added
 - Text.isPrintable(..) gibt es jetzt auch als statische Methode
 - fehlende Methoden in Zahlenwert implementiert
@@ -20,33 +20,22 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Probleme mit fehlender CharBuffer.rewind()-Methode in Text-Klasse unter Java 8 behoben
 
 
-## [4.0.4] - 2022-01-01
-### Changed
-- _fixed_ _[#13](https://github.com/oboehm/jfachwert/issues/13)_: TinyUUID.randomUUID() mit @JvmStatic gekennzeichnet
-
-## [4.0.3] - 2021-12-18
+## [4.0] - 2021-05-13
+### Fixed
+- **v4.0.4**: TinyUUID.randomUUID() mit @JvmStatic gekennzeichnet
+  ([#13](https://github.com/oboehm/jfachwert/issues/13))
 ### Security
-- (experimentelle) Abhängigkeit zu Log4J und LogAspect entfernt
+- **v4.0.3**: (experimentelle) Abhängigkeit zu Log4J und LogAspect entfernt
 ### Added
-- Text.isPrintable()
-
-## [4.0.2] - 2021-05-28
+- **v4.0.3**: Text.isPrintable()
+- **v4.0.1**: Mehrwertsteuer-Klasse im steuer-Paket
+- **v4.0.1**: Zinssatz-Klasse im bank-Paket
+- **v4.0.1**: PZN-Klasse im med-Paket
 ### Changed
-- NULL-Werte sind jetzt auch von Java aus zugreifbar
-- statische validate-Methoden sind wieder für Java verfügbar
-
-## [4.0.1] - 2021-05-19
-### Changed
-- Java-Variante von Fachwert- und SimpleValidator wiederhergestellt und Kotlin-Variante in KFachwert und KSimpleValidator umbenannt,
-  da es bei Interfaces mit Default-Implementierungen Kompatiblitätsprobleme gibt ([KT-4779](https://youtrack.jetbrains.com/issue/KT-4779)) 
-
-## [4.0.0] - 2021-05-13
-### Added
-- Mehrwertsteuer-Klasse im steuer-Paket
-- Zinssatz-Klasse im bank-Paket
-- PZN-Klasse im med-Paket
-
-### Changed
+- **v4.0.2**: NULL-Werte sind jetzt auch von Java aus zugreifbar
+- **v4.0.2**: statische validate-Methoden sind wieder für Java verfügbar
+- **v4.0.1**: Java-Variante von Fachwert- und SimpleValidator wiederhergestellt und Kotlin-Variante in KFachwert und KSimpleValidator umbenannt,
+  da es bei Interfaces mit Default-Implementierungen Kompatiblitätsprobleme gibt ([KT-4779](https://youtrack.jetbrains.com/issue/KT-4779))
 - Umstellung auf Kotlin.
 - Architektur-Dokumentation aktualisiert
 - Geldbetrag wurde jetzt mit javamoney-tck 1.1 getestet
