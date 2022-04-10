@@ -1,5 +1,5 @@
-package de.jfachwert.rechnung;/*
- * Copyright (c) 2017 by Oliver Boehm
+/*
+ * Copyright (c) 2017-2022 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@ package de.jfachwert.rechnung;/*
  *
  * (c)reated 10.07.2017 by oboehm (ob@oasd.de)
  */
+package de.jfachwert.rechnung;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
