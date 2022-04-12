@@ -17,13 +17,14 @@
  */
 package de.jfachwert.pruefung;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.Locale;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer {@link NumberValidator}-Klasse.
@@ -34,9 +35,9 @@ public class NumberValidatorTest {
     
     private final NumberValidator validator = new NumberValidator();
 
-    @Test(expected = ArithmeticException.class)
+    @Test
     public void testVerifyNumber() {
-        validator.verifyNumber(Double.NEGATIVE_INFINITY);
+        assertThrows(ArithmeticException.class, () -> validator.verifyNumber(Double.NEGATIVE_INFINITY));
     }
     
     @Test

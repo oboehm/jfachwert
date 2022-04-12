@@ -17,7 +17,7 @@
  */
 package de.jfachwert.bank.internal;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import patterntesting.runtime.junit.CollectionTester;
 
 import javax.money.CurrencyQuery;
@@ -32,7 +32,7 @@ import java.util.Set;
 
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Unit-Tests fuer {@link WaehrungenSingleton}-Klasse.

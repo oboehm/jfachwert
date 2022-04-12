@@ -20,9 +20,10 @@ package de.jfachwert.steuer;
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.math.PackedDecimal;
 import de.jfachwert.pruefung.NoopVerfahren;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer die {@link Steuernummer}-Klasse.
@@ -52,9 +53,9 @@ public class SteuernummerTest extends AbstractFachwertTest<PackedDecimal, Steuer
     /**
      * Ungueltige Steuernummern sollten nicht erzeugt werden koennen.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSteuernummerInvalid() {
-        Steuernummer.of("12345678001");
+        assertThrows(IllegalArgumentException.class, () -> Steuernummer.of("12345678001"));
     }
 
     @Test

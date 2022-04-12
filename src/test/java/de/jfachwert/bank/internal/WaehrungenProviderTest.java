@@ -17,7 +17,7 @@
  */
 package de.jfachwert.bank.internal;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.money.CurrencyQuery;
 import javax.money.CurrencyQueryBuilder;
@@ -25,8 +25,9 @@ import javax.money.CurrencyUnit;
 
 import java.util.Set;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Test fuer {@link WaehrungenProvider}-Klasse.

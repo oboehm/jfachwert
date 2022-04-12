@@ -19,13 +19,14 @@ package de.jfachwert.math;
 
 import de.jfachwert.FachwertTest;
 import de.jfachwert.bank.Geldbetrag;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Test fuer {@link Prozent}-Klasse.
@@ -50,9 +51,9 @@ public final class ProzentTest extends FachwertTest {
         assertEquals(Prozent.of(BigDecimal.valueOf(19)), mwst);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testOfInvalid() {
-        Prozent.of("x");
+        assertThrows(IllegalArgumentException.class, () -> Prozent.of("x"));
     }
 
     @Test

@@ -16,10 +16,10 @@ package de.jfachwert.util;/*
  * (c)reated 23.04.2019 by oboehm (ob@oasd.de)
  */
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit-Tests fuer {@link SmallUUID}-Klasse.
@@ -45,7 +45,7 @@ public class SmallUUIDTest extends TinyUUIDTest {
         SmallUUID uuid = SmallUUID.randomUUID();
         String s = uuid.toString();
         for (char c : s.toCharArray()) {
-            assertTrue("invalid char in '" + s + "': " + c, Character.isLetterOrDigit(c));
+            assertTrue(Character.isLetterOrDigit(c), "invalid char in '" + s + "': " + c);
         }
     }
 

@@ -18,15 +18,16 @@
 package de.jfachwert.util;
 
 import de.jfachwert.FachwertTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import javax.validation.ValidationException;
 import java.math.BigInteger;
 import java.util.UUID;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer {@link TinyUUID}-Klasse.
@@ -37,7 +38,7 @@ public class TinyUUIDTest extends FachwertTest {
 
     private TinyUUID tinyUUID;
 
-    @Before
+    @BeforeEach
     public void setUpTinyUUID() {
         tinyUUID = createFachwert();
     }
@@ -87,9 +88,9 @@ public class TinyUUIDTest extends FachwertTest {
      * 16 Bytes uebergeben werden, sollte eine {@link ValidationException}
      * kommen.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testTinyUUIDInvalidBytes() {
-        new TinyUUID(new byte[1]);
+        assertThrows(IllegalArgumentException.class, () -> new TinyUUID(new byte[1]));
     }
 
     /**

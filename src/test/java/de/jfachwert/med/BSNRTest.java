@@ -18,11 +18,9 @@
 package de.jfachwert.med;
 
 import de.jfachwert.AbstractFachwertTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer {@link BSNR}-Klasse.
@@ -57,9 +55,9 @@ public class BSNRTest extends AbstractFachwertTest<Integer, BSNR> {
         assertEquals("012345678", nr.toString());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void test10stelligeBSNR() {
-        BSNR.of(1234567890);
+        assertThrows(IllegalArgumentException.class, () -> BSNR.of(1234567890));
     }
 
     /**

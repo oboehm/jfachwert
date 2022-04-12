@@ -21,15 +21,14 @@ import de.jfachwert.FachwertTest;
 import de.jfachwert.KSimpleValidator;
 import org.javamoney.tck.TestUtils;
 import org.javamoney.tck.tests.internal.TestCurrencyUnit;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
 import javax.money.CurrencyUnit;
 import javax.money.UnknownCurrencyException;
 import java.util.Currency;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer {@link Waehrung}-Klasse.
@@ -49,9 +48,9 @@ public final class WaehrungTest extends FachwertTest {
         return Waehrung.of("EUR");
     }
 
-    @Test(expected = UnknownCurrencyException.class)
+    @Test
     public void testWaehrungInvalid() {
-        new Waehrung("Taler");
+        assertThrows(UnknownCurrencyException.class, () -> new Waehrung("Taler"));
     }
 
     /**
@@ -79,9 +78,9 @@ public final class WaehrungTest extends FachwertTest {
         assertEquals(Waehrung.EUR, euro);
     }
 
-    @Test(expected = UnknownCurrencyException.class)
+    @Test
     public void testOfUnknownCurrency() {
-        Waehrung.of("shj");
+        assertThrows(UnknownCurrencyException.class, () -> Waehrung.of("shj"));
     }
 
     @Test

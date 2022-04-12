@@ -19,9 +19,10 @@ package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.math.PackedDecimal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Test fuer {@link BLZ}-Klasse.
@@ -55,9 +56,9 @@ public final class BLZTest extends AbstractFachwertTest<PackedDecimal, BLZ> {
     /**
      * Bei Bankleitzahlen sind nur Ziffern erlaubt.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testInvalidBLZ() {
-        new BLZ("0x10");
+        assertThrows(IllegalArgumentException.class, () -> new BLZ("0x10"));
     }
 
     /**

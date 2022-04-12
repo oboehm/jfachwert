@@ -19,12 +19,13 @@ package de.jfachwert.steuer;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.validation.ValidationException;
 import java.util.Locale;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Test fuer {@link UStIdNr}-Klasse.
@@ -60,18 +61,18 @@ public final class UStIdNrTest extends AbstractFachwertTest<String, Text> {
      * Falls die UStIdNr eine falsche Pruefziffer enthaelt, soll sie nicht
      * erzeugt werden koennen.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testUStIdNrInvalid() {
-        UStIdNr.of("DE136695970");
+        assertThrows(IllegalArgumentException.class, () -> UStIdNr.of("DE136695970"));
     }
 
     /**
      * Aehnlicher Test wie vorhin, nur wird hier direkt die validate-Methode
      * aufgerufen.
      */
-    @Test(expected = ValidationException.class)
+    @Test
     public void testValidate() {
-        UStIdNr.Companion.validate("DE136695970");
+        assertThrows(ValidationException.class, () -> UStIdNr.Companion.validate("DE136695970"));
     }
 
     /**

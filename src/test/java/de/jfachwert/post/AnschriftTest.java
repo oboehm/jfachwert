@@ -18,11 +18,12 @@
 package de.jfachwert.post;
 
 import de.jfachwert.FachwertTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Teests fuer de.jfachwert.post.Anschrift.
@@ -46,10 +47,10 @@ public final class AnschriftTest extends FachwertTest {
     /**
      * Eine Anschrift mit leerem Namen sollte nicht angelegt werden koennen.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCreateAnschriftWithInvalidAdresse() {
         Adresse entenhausen = createFachwert().getAdresse();
-        new Anschrift(Adressat.of(""), entenhausen);
+        assertThrows(IllegalArgumentException.class, () -> new Anschrift(Adressat.of(""), entenhausen));
     }
 
     /**

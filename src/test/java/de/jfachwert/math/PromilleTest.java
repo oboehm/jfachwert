@@ -18,12 +18,11 @@
 package de.jfachwert.math;
 
 import de.jfachwert.FachwertTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Test fuer {@link Promille}-Klasse.
@@ -48,9 +47,9 @@ public final class PromilleTest extends FachwertTest {
         assertEquals(Promille.of(BigDecimal.valueOf(2)), p);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testOfInvalid() {
-        Prozent.of("1.2.3");
+        assertThrows(IllegalArgumentException.class, () -> Prozent.of("1.2.3"));
     }
 
     @Test

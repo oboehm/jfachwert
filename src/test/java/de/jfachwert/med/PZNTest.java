@@ -20,11 +20,11 @@ package de.jfachwert.med;
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.pruefung.NoopVerfahren;
 import org.hamcrest.MatcherAssert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.testng.AssertJUnit.assertEquals;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Unit-Tests fuer {@link PZN}-Klasse.
  */
@@ -62,14 +62,14 @@ public final class PZNTest extends AbstractFachwertTest<Integer, PZN> {
         assertEquals("PZN-02495052", nr.toString());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void test10stelligePZN() {
-        PZN.of(1234567890);
+        assertThrows(IllegalArgumentException.class, () -> PZN.of(1234567890));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testInvalidPZN() {
-        PZN.of(27580890);
+        assertThrows(IllegalArgumentException.class, () -> PZN.of(27580890));
     }
 
     @Test

@@ -19,9 +19,10 @@ package de.jfachwert.post;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer {@link Adressat}-Klasse.
@@ -49,9 +50,9 @@ public final class AdressatTest extends AbstractFachwertTest<String, Text> {
      * macht hier schone eine Nullpointerexception. Deswegen akzeptieren wir
      * jetzt beides.
      */
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testAdressatNull() {
-        new Adressat(null);
+        assertThrows(RuntimeException.class, () -> new Adressat(null));
     }
 
     /**
@@ -82,10 +83,10 @@ public final class AdressatTest extends AbstractFachwertTest<String, Text> {
      * Firmen haben keinen Vornamen. Von daher sollte das mit einer Exception
      * zurueckgewiesen werden.
      */
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testGetVornameFromFirma() {
         Adressat ichAG = new Adressat("Ich AG");
-        ichAG.getVorname();
+        assertThrows(RuntimeException.class, ichAG::getVorname);
     }
 
 }

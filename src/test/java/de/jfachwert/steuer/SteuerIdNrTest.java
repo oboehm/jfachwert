@@ -17,7 +17,9 @@
  */
 package de.jfachwert.steuer;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Test fuer {@link SteuerIdNr}-Klasse. Die Beispiel-Id stammt aus
@@ -50,18 +52,18 @@ public final class SteuerIdNrTest extends SteuernummerTest {
     /**
      * Ungueltige Steuernummern sollten nicht erzeugt werden koennen.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSteuerIdNrInvalid() {
-        SteuerIdNr.of("12365489750");
+        assertThrows(IllegalArgumentException.class, () -> SteuerIdNr.of("12365489750"));
     }
 
     /**
      * Alte Steuernnummern und Nummer, die zu lang sind, sollten auch nicht
      * angelegt werden koennen.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSteuerIdNrZuLang() {
-        new SteuerIdNr("1121081508150");
+        assertThrows(IllegalArgumentException.class, () -> new SteuerIdNr("1121081508150"));
     }
 
 }

@@ -4,20 +4,21 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
 import static org.hamcrest.collection.IsEmptyCollection.empty;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class ByteAdresseTest {
 
     private static final Logger LOG = LogManager.getLogger();
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testAdresseNull() {
-        ByteAdresse.of(0);
+        assertThrows(IllegalArgumentException.class, () -> ByteAdresse.of(0));
     }
 
     @Test
@@ -30,9 +31,9 @@ public final class ByteAdresseTest {
         assertEquals(256, ByteAdresse.of(256).intValue());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testAdresseZuGross() {
-       ByteAdresse.of(257);
+        assertThrows(IllegalArgumentException.class, () -> ByteAdresse.of(257));
     }
 
     @Test

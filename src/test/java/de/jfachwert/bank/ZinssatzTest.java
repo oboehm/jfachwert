@@ -19,13 +19,14 @@ package de.jfachwert.bank;
 
 import de.jfachwert.FachwertTest;
 import de.jfachwert.math.Prozent;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.Period;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThan;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Test fuer {@link Zinssatz}-Klasse.

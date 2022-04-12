@@ -18,9 +18,8 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.FachwertTest;
-import org.hamcrest.MatcherAssert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
 import javax.money.MonetaryAmount;
@@ -33,10 +32,11 @@ import java.util.Currency;
 import java.util.Locale;
 import java.util.logging.Logger;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
 import static org.hamcrest.number.OrderingComparison.lessThan;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer {@link Geldbetrag}-Klasse. Wenn der Test mit einer anderen
@@ -53,7 +53,7 @@ public final class GeldbetragTest extends FachwertTest {
     private static final Logger LOG = Logger.getLogger(Geldbetrag.class.getName());
     private static final GeldbetragFactory FACTORY = new GeldbetragFactory();
     
-    @BeforeClass
+    @BeforeAll
     public static void setUpFactory() {
         FACTORY.setCurrency(Waehrung.DEFAULT);
     }
@@ -74,9 +74,9 @@ public final class GeldbetragTest extends FachwertTest {
     /**
      * Illegale Betraege sollte nicht akzeptiert werden.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testInvalidGeldbetrag() {
-        new Geldbetrag("falscher Fuffzger");
+        assertThrows(IllegalArgumentException.class, () -> new Geldbetrag("falscher Fuffzger"));
     }
 
     /**
@@ -125,11 +125,11 @@ public final class GeldbetragTest extends FachwertTest {
      * {@link javax.money.MonetaryAmount#isEqualTo(MonetaryAmount)} zu einer
      * {@link MonetaryException} fuehren.
      */
-    @Test(expected = MonetaryException.class)
+    @Test
     public void testIsEqualsToDifferentCurrencies() {
         Geldbetrag oneEuro = new Geldbetrag(1.0);
         Geldbetrag oneDM = new Geldbetrag(1.0).withCurrency("DEM");
-        oneEuro.isEqualTo(oneDM);
+        assertThrows(MonetaryException.class, () -> oneEuro.isEqualTo(oneDM));
     }
 
     /**
@@ -167,7 +167,7 @@ public final class GeldbetragTest extends FachwertTest {
     public void testAddZero() {
         Geldbetrag base = new Geldbetrag(11L);
         Geldbetrag sum = base.add(Geldbetrag.ZERO);
-        assertEquals("Summe von x + 0 sollte x sein", base, sum);
+        assertEquals(base, sum, "Summe von x + 0 sollte x sein");
     }
 
     /**
@@ -184,9 +184,9 @@ public final class GeldbetragTest extends FachwertTest {
     /**
      * Laut Abschnitt "4.2.2" des TCKs wird hier eine NPE erwartet.
      */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testAddNull() {
-        Geldbetrag.ZERO.add(null);
+        assertThrows(NullPointerException.class, () -> Geldbetrag.ZERO.add(null));
     }
 
     @Test
@@ -204,11 +204,11 @@ public final class GeldbetragTest extends FachwertTest {
      * {@link MonetaryException} geworfen werden.
      * 
      */
-    @Test(expected = MonetaryException.class)
+    @Test
     public void testAddWithDifferentCurrency() {
         Geldbetrag oneEuro = new Geldbetrag(1.0).withCurrency("EUR");
         Geldbetrag oneDM = new Geldbetrag(1.0).withCurrency("DEM");
-        oneEuro.add(oneDM);
+        assertThrows(MonetaryException.class, () -> oneEuro.add(oneDM));
     }
     
     @Test
@@ -410,8 +410,8 @@ public final class GeldbetragTest extends FachwertTest {
     public void testCompareTo() {
         Geldbetrag fiftyCents = Geldbetrag.fromCent(50);
         Geldbetrag fiftyoneCents = Geldbetrag.fromCent(51);
-        MatcherAssert.assertThat(fiftyoneCents.compareTo(fiftyCents), greaterThan(0));
-        MatcherAssert.assertThat(fiftyCents.compareTo(fiftyoneCents), lessThan(0));
+        assertThat(fiftyoneCents.compareTo(fiftyCents), greaterThan(0));
+        assertThat(fiftyCents.compareTo(fiftyoneCents), lessThan(0));
     }
 
     /**
@@ -423,7 +423,7 @@ public final class GeldbetragTest extends FachwertTest {
     public void testCompareToTck() {
         Geldbetrag xxx0 = FACTORY.setCurrency("XXX").setNumber(0).create();
         Geldbetrag chf1 = FACTORY.setCurrency("CHF").setNumber(1).create();
-        MatcherAssert.assertThat(xxx0.compareTo(chf1), greaterThan(0));
+        assertThat(xxx0.compareTo(chf1), greaterThan(0));
     }
 
     /**

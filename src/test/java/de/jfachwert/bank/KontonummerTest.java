@@ -1,7 +1,5 @@
-package de.jfachwert.bank;
-
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2022 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +15,13 @@ package de.jfachwert.bank;
  *
  * (c)reated 16.03.2017 by oboehm (ob@jfachwert.de)
  */
+package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwertTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer {@link Kontonummer}-Klasse.
@@ -72,14 +72,14 @@ public final class KontonummerTest extends AbstractFachwertTest<Long, Kontonumme
     /**
      * Dieser Test ueberprueft das Fehlerhandling bei fehlerhafter Erzeugung.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testKontonummerFailed() {
-        new Kontonummer("falsch");
+        assertThrows(IllegalArgumentException.class, () -> new Kontonummer("falsch"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testNegativeKontonummer() {
-        new Kontonummer(-1);
+        assertThrows(IllegalArgumentException.class, () -> new Kontonummer(-1));
     }
 
 }

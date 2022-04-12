@@ -17,13 +17,14 @@ package de.jfachwert.pruefung;/*
  */
 
 import de.jfachwert.PruefzifferVerfahren;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.validation.ValidationException;
 
 import java.io.Serializable;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Test fuer {@link Mod97Verfahren}-Klasse.
@@ -72,9 +73,9 @@ public final class Mod97VerfahrenTest extends AbstractPruefzifferVerfahrenTest<S
     /**
      * Testmethode fuer {@link Mod97Verfahren#validate(Serializable)}.
      */
-    @Test(expected = ValidationException.class)
+    @Test
     public void testValidateWithException() {
-        MOD97.validate("DE99210501700012345678");
+        assertThrows(ValidationException.class, () -> MOD97.validate("DE99210501700012345678"));
     }
 
 }

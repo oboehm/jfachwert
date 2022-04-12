@@ -20,12 +20,12 @@ package de.jfachwert.post;
 import de.jfachwert.KFachwert;
 import de.jfachwert.FachwertTest;
 import org.hamcrest.MatcherAssert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer die Ort-Klasse.
@@ -164,9 +164,9 @@ public class OrtTest extends FachwertTest {
     /**
      * Ein leerer Ort sollte nicht angelegt werden koennen.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCtorInvalid() {
-        new Ort("");
+        assertThrows(IllegalArgumentException.class, () -> new Ort(""));
     }
 
 }

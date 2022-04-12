@@ -17,9 +17,9 @@
  */
 package de.jfachwert.pruefung;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer {@link Mod10Verfahren}-Klasse. Die Beispiele dazu stammen

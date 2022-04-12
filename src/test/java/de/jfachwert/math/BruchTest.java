@@ -19,7 +19,7 @@ package de.jfachwert.math;
 
 import de.jfachwert.FachwertTest;
 import de.jfachwert.KFachwert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
 import java.math.BigDecimal;
@@ -28,9 +28,9 @@ import java.math.BigInteger;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThan;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Unit-Tests fuer {@link Bruch}-Klasse.

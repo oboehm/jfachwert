@@ -21,17 +21,19 @@ import de.jfachwert.bank.BIC;
 import de.jfachwert.bank.IBAN;
 import de.jfachwert.math.Primzahl;
 import de.jfachwert.steuer.UStIdNr;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import clazzfish.monitor.ClasspathMonitor;
 
 import javax.validation.ValidationException;
+import java.io.Serializable;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItem;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer {@link FachwertFactory}-Klasse.
@@ -44,7 +46,7 @@ public class FachwertFactoryTest {
     private static final FachwertFactory FACTORY = FachwertFactory.getInstance();
 
     /**
-     * Test-Methode fuer {@link FachwertFactory#getFachwert(Class, Object...)}.
+     * Test-Methode fuer {@link FachwertFactory#getFachwert(String, Serializable...)}.
      */
     @Test
     public void testGetFachwertClass() {
@@ -53,7 +55,7 @@ public class FachwertFactoryTest {
     }
 
     /**
-     * Test-Methode fuer {@link FachwertFactory#getFachwert(String, Object...)}
+     * Test-Methode fuer {@link FachwertFactory#getFachwert(String, Serializable...)}
      */
     @Test
     public void testGetFachwertString() {
@@ -86,9 +88,9 @@ public class FachwertFactoryTest {
      * Klassen in das Companion-Objekt gewandert. UStIdNr war dabei die
      * erste Klasse, die von Java auf Kotlin umgestellt wurde.
      */
-    @Test(expected = ValidationException.class)
+    @Test
     public void testValidateCompanion() {
-        FACTORY.validate(UStIdNr.class, "DE136695970");
+        assertThrows(ValidationException.class, () -> FACTORY.validate(UStIdNr.class, "DE136695970"));
     }
 
     /**
@@ -112,9 +114,9 @@ public class FachwertFactoryTest {
     /**
      * Test-Methode fuer {@link FachwertFactory#validate(Class, java.io.Serializable...)}.
      */
-    @Test(expected = ValidationException.class)
+    @Test
     public void testValidateWithFailure() {
-        FACTORY.validate(BIC.class, "AAA");
+        assertThrows(ValidationException.class, () -> FACTORY.validate(BIC.class, "AAA"));
     }
 
     /**

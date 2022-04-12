@@ -1,5 +1,5 @@
-package de.jfachwert.pruefung.exception;/*
- * Copyright (c) 2018 by Oliver Boehm
+/*
+ * Copyright (c) 2018-2022 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,18 @@ package de.jfachwert.pruefung.exception;/*
  *
  * (c)reated 20.07.2018 by oboehm (ob@oasd.de)
  */
+package de.jfachwert.pruefung.exception;
 
 import de.jfachwert.bank.Geldbetrag;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import javax.money.MonetaryAmount;
 import java.util.Locale;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.Assert.assertThat;
 
 /**
  * Unit-Tests fuer {@link LocalizedMonetaryException}-Klasse.
@@ -36,7 +37,7 @@ public class LocalizedMonetaryExceptionTest {
     
     private LocalizedMonetaryException exception;
     
-    @Before
+    @BeforeEach
     public void setUpException() {
         MonetaryAmount einEuro = new Geldbetrag(1).withCurrency("EUR");
         MonetaryAmount zweiDM = new Geldbetrag(2).withCurrency("DEM");

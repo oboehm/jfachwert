@@ -16,12 +16,12 @@ package de.jfachwert.pruefung;/*
  * (c)reated 26.03.2017 by oboehm (ob@jfachwert.de)
  */
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit-Test fuer {@link NoopVerfahren}-Klasse.
@@ -38,7 +38,7 @@ public final class NoopVerfahrenTest {
     @Test
     public void testIsValid() {
         String hello = "world";
-        assertTrue("all input should be valid", noop.isValid(hello));
+        assertTrue(noop.isValid(hello), "all input should be valid");
     }
 
     /**
