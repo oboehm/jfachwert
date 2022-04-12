@@ -17,9 +17,10 @@ package de.jfachwert.net;/*
  */
 
 import de.jfachwert.FachwertTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer {@link ChatAccount}-Klasse.
@@ -46,9 +47,9 @@ public final class ChatAccountTest extends FachwertTest {
      * der Java-Version hier eine IllegalArgumentException erwartet haben.
      * Jetzt akzeptieren wir beides.
      */
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testChatAccountInvalid() {
-        new ChatAccount(ChatDienst.SONSTIGER, null);
+        assertThrows(RuntimeException.class, () -> new ChatAccount(ChatDienst.SONSTIGER, null));
     }
     
     /**
@@ -97,9 +98,9 @@ public final class ChatAccountTest extends FachwertTest {
     /**
      * Test eines ungueltigen Jabber-Accounts.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testChatAccountJabberInvalid() {
-        new ChatAccount(ChatDienst.JABBER, "a@b@c");
+        assertThrows(IllegalArgumentException.class, () -> new ChatAccount(ChatDienst.JABBER, "a@b@c"));
     }
 
     /**
@@ -115,18 +116,18 @@ public final class ChatAccountTest extends FachwertTest {
      * Test eines ungueltigen ICQ-Accounts (ICQ-Nummber sind mindestens
      * 5-stellig).
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testChatAccountIcqInvalid() {
-        new ChatAccount(ChatDienst.ICQ, "9999");
+        assertThrows(IllegalArgumentException.class, () -> new ChatAccount(ChatDienst.ICQ, "9999"));
     }
 
     /**
      * Test eines ungueltigen ICQ-Accounts (ICQ-Nummber sind mindestens
      * 5-stelling).
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testChatAccountNoNumber() {
-        new ChatAccount(ChatDienst.ICQ, "0x12345");
+        assertThrows(IllegalArgumentException.class, () -> new ChatAccount(ChatDienst.ICQ, "0x12345"));
     }
 
     /**

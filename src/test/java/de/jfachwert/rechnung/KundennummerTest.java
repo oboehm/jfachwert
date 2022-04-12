@@ -19,7 +19,9 @@ package de.jfachwert.rechnung;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer {@link Kundennummer}-Klasse.
@@ -43,9 +45,9 @@ public class KundennummerTest extends AbstractFachwertTest<String, Text> {
      * Eine leere Kundennummer macht keinen Sinn und sollte deswegen nicht
      * angelegt werden koennen.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testNotEmpty() {
-        Kundennummer.of("");
+        assertThrows(IllegalArgumentException.class, () -> Kundennummer.of(""));
     }
 
 }

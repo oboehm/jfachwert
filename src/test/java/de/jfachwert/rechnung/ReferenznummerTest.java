@@ -18,7 +18,9 @@ package de.jfachwert.rechnung;/*
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer {@link Referenznummer}-Klasse.
@@ -42,9 +44,9 @@ public class ReferenznummerTest extends AbstractFachwertTest<String, Text> {
      * Eine leere Referenznummer macht keinen Sinn und sollte deswegen nicht
      * angelegt werden koennen.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testNotEmpty() {
-        Referenznummer.of("");
+        assertThrows(IllegalArgumentException.class, () -> Referenznummer.of(""));
     }
 
 }

@@ -18,7 +18,9 @@ package de.jfachwert.rechnung;/*
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer {@link Artikelnummer}-Klasse.
@@ -42,9 +44,9 @@ public class ArtikelnummerTest extends AbstractFachwertTest<String, Text> {
      * Eine leere Artikelnummer macht keinen Sinn und sollte deswegen nicht
      * angelegt werden koennen.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testNotEmpty() {
-        Artikelnummer.of("");
+        assertThrows(IllegalArgumentException.class, () -> Artikelnummer.of(""));
     }
 
 }

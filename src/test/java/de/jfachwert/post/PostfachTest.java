@@ -16,16 +16,17 @@ package de.jfachwert.post;/*
  * (c)reated 21.02.2017 by oboehm (ob@oasd.de)
  */
 
-import de.jfachwert.*;
-import org.junit.*;
+import de.jfachwert.FachwertTest;
+import org.junit.jupiter.api.Test;
 
-import javax.validation.*;
-
+import javax.validation.ValidationException;
 import java.util.Optional;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer die {@link Postfach}-Klasse.
@@ -68,9 +69,9 @@ public final class PostfachTest extends FachwertTest {
      * Postfaeche muessen immer eine positive Zahl sein. Andere Zahlen sollten
      * abgelehnt werden.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testInvalidPostfach() {
-        new Postfach(-1, new Ort(new PLZ("04711"), "Dufte"));
+        assertThrows(IllegalArgumentException.class, () -> new Postfach(-1, new Ort(new PLZ("04711"), "Dufte")));
     }
 
     /**
@@ -94,10 +95,10 @@ public final class PostfachTest extends FachwertTest {
     /**
      * Test-Methode fuer {@link Postfach#validate(String)}.
      */
-    @Test(expected = ValidationException.class)
+    @Test
     public void testValidateInvalidNummer() {
         String postfach = "Postfach abc\n12350 Musterdorf";
-        Postfach.validate(postfach);
+        assertThrows(ValidationException.class, () -> Postfach.validate(postfach));
     }
     
     @Test
