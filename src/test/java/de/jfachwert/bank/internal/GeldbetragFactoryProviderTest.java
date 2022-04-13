@@ -18,7 +18,7 @@
 package de.jfachwert.bank.internal;
 
 import de.jfachwert.bank.Geldbetrag;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.money.MonetaryAmountFactory;
 import javax.money.MonetaryContext;
@@ -26,8 +26,8 @@ import javax.money.MonetaryContext;
 import java.util.Currency;
 import java.util.Locale;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Unit-Test fuer {@link GeldbetragFactoryProvider}-Klasse.

@@ -19,14 +19,15 @@ package de.jfachwert.rechnung;
 
 import de.jfachwert.FachwertTest;
 import de.jfachwert.KFachwert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer {@link Rechnungsmonat}-Klasse.
@@ -54,9 +55,9 @@ public final class RechnungsmonatTest extends FachwertTest {
      * Sollte der Konstruktur mit fehlerhaften Werten aufgerufen werden,
      * erwarten wir eine {@link IllegalArgumentException}.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testRechnungsmonatWrongMonth() {
-        new Rechnungsmonat(13, 2017);
+        assertThrows(IllegalArgumentException.class, () -> new Rechnungsmonat(13, 2017));
     }
 
     /**
@@ -79,9 +80,9 @@ public final class RechnungsmonatTest extends FachwertTest {
         assertEquals(FEB_2017, new Rechnungsmonat("2017-02-14"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testRechnungsmonatInvalid() {
-        Rechnungsmonat.of("1-2-3-4");
+        assertThrows(IllegalArgumentException.class, () -> Rechnungsmonat.of("1-2-3-4"));
     }
 
     /**
@@ -238,9 +239,9 @@ public final class RechnungsmonatTest extends FachwertTest {
         assertEquals(2000 * 12, Rechnungsmonat.of(12, 1999).asMonate());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testIssue7() {
-        Rechnungsmonat.of(13, 2019);
+        assertThrows(IllegalArgumentException.class, () -> Rechnungsmonat.of(13, 2019));
     }
 
     @Test

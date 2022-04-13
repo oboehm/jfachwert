@@ -18,7 +18,7 @@
 package de.jfachwert.bank.internal;
 
 import org.javamoney.moneta.spi.FastMoneyAmountFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.money.format.AmountFormatQuery;
 import javax.money.format.AmountFormatQueryBuilder;
@@ -29,8 +29,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Test fuer {@link WaehrungsformatSingleton}-Klasse.

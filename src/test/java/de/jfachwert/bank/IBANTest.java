@@ -19,12 +19,13 @@ package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.validation.ValidationException;
 import java.util.Locale;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Test fuer {@link IBAN}-Klasse.
@@ -58,25 +59,25 @@ public final class IBANTest extends AbstractFachwertTest<String, Text> {
     /**
      * Ungueltige IBANs sollten nicht erzeugt werden koennen.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testIbanInvalid() {
-        new IBAN("DE99300606010006605605");
+        assertThrows(IllegalArgumentException.class, () -> new IBAN("DE99300606010006605605"));
     }
 
     /**
      * Leere IBANs sind ebenfalls ungueltige IBANs.
      */
-    @Test(expected = ValidationException.class)
+    @Test
     public void testValidate() {
-        new IBAN.Validator().validate("                                  ");
+        assertThrows(ValidationException.class, () -> new IBAN.Validator().validate("                                  "));
     }
 
     /**
      * Eine leere IBAN sollte nicht moeglich sein.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testIbanEmpty() {
-        new IBAN("");
+        assertThrows(IllegalArgumentException.class, () -> new IBAN(""));
     }
 
     /**

@@ -18,11 +18,12 @@
 package de.jfachwert.post;
 
 import de.jfachwert.FachwertTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThan;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Teests fuer de.jfachwert.post.Adresse.
@@ -48,9 +49,9 @@ public final class AdresseTest extends FachwertTest {
     /**
      * Eine Adresse besteht mindestens aus Ort und Strasse.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testAdresseInvalid() {
-        new Adresse("Nirwana");
+        assertThrows(IllegalArgumentException.class, () -> new Adresse("Nirwana"));
     }
 
     /**
@@ -87,9 +88,9 @@ public final class AdresseTest extends FachwertTest {
         Adresse.validate(adresse);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testInvalidAdresse() {
-        Adresse.of(entenhausen, "", "");
+        assertThrows(IllegalArgumentException.class, () -> Adresse.of(entenhausen, "", ""));
     }
 
     /**

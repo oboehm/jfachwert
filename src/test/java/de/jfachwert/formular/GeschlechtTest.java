@@ -17,11 +17,12 @@
  */
 package de.jfachwert.formular;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.validation.ValidationException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer {@link Geschlecht}.
@@ -47,9 +48,9 @@ public class GeschlechtTest {
     /**
      * Test-Methode fuer {@link Geschlecht#of(int)}
      */
-    @Test(expected = ValidationException.class)
+    @Test
     public void testOfInvalidInt() {
-        Geschlecht.of(-1);
+        assertThrows(ValidationException.class, () -> Geschlecht.of(-1));
     }
 
     /**

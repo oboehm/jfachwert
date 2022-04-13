@@ -18,16 +18,15 @@
 package de.jfachwert.math;
 
 import de.jfachwert.FachwertTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import patterntesting.runtime.util.Converter;
 
 import java.io.NotSerializableException;
 import java.math.BigInteger;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer {@link Nummer}-Klasse.
@@ -45,9 +44,9 @@ public final class NummerTest extends FachwertTest {
      * Fehlerhafte Argumente sollten mit einer {@link IllegalArgumentException}
      * zurueckgewiesen werden.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testNummerInvalid() {
-        new Nummer("TEST");
+        assertThrows(IllegalArgumentException.class, () -> new Nummer("TEST"));
     }
 
     /**

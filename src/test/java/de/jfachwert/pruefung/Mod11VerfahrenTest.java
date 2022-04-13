@@ -17,13 +17,14 @@ package de.jfachwert.pruefung;/*
  */
 
 import de.jfachwert.PruefzifferVerfahren;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.validation.ValidationException;
 
 import java.io.Serializable;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Test fuer {@link Mod11Verfahren}-Klasse.
@@ -73,18 +74,18 @@ public final class Mod11VerfahrenTest extends AbstractPruefzifferVerfahrenTest<S
     /**
      * Testmethode fuer {@link Mod11Verfahren#validate(Serializable)}.
      */
-    @Test(expected = ValidationException.class)
+    @Test
     public void testValidateWithException() {
-        MOD11.validate("12345678001");
+        assertThrows(ValidationException.class, () -> MOD11.validate("12345678001"));
     }
 
     /**
      * Auch bei Zahlen, die nicht 11 Stellen lang sind, soll eine
      * {@link ValidationException} kommen.
      */
-    @Test(expected = ValidationException.class)
+    @Test
     public void testValidateTooShort() {
-        MOD11.validate("4711");
+        assertThrows(ValidationException.class, () -> MOD11.validate("4711"));
     }
 
 }

@@ -16,11 +16,12 @@ package de.jfachwert.formular;/*
  * (c)reated 28.08.2017 by oboehm (ob@oasd.de)
  */
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.validation.ValidationException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer {@link Anrede}-Klasse.
@@ -65,9 +66,9 @@ public final class AnredeTest {
     /**
      * Test-Methode fuer {@link Anrede#of(int)} mit fehlerhaftem Argument.
      */
-    @Test(expected = ValidationException.class)
+    @Test
     public void testOfInvalidArgument() {
-        Anrede.of(7);
+        assertThrows(ValidationException.class, () -> Anrede.of(7));
     }
 
 }

@@ -19,11 +19,12 @@ package de.jfachwert.bank;
 
 import de.jfachwert.FachwertTest;
 import de.jfachwert.KFachwert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer {@link Bankverbindung}-Klasse.
@@ -53,7 +54,7 @@ public final class BankverbindungTest extends FachwertTest {
         Bankverbindung bankverbindung = new Bankverbindung("Max Muster, IBAN DE41300606010006605605");
         assertEquals("Max Muster", bankverbindung.getKontoinhaber());
         assertEquals(new IBAN("DE41300606010006605605"), bankverbindung.getIban());
-        assertFalse("no BIC expected for " + bankverbindung, bankverbindung.getBic().isPresent());
+        assertFalse(bankverbindung.getBic().isPresent(), "no BIC expected for " + bankverbindung);
     }
 
     /**

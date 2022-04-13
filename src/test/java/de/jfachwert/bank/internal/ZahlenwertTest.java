@@ -3,7 +3,7 @@
  */
 package de.jfachwert.bank.internal;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.money.NumberValue;
 import java.math.BigDecimal;
@@ -11,7 +11,8 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer {@link Zahlenwert}.
@@ -112,10 +113,10 @@ public final class ZahlenwertTest {
         assertEquals(number, zahlenwert.numberValueExact(BigDecimal.class));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testValueExactWithException() {
         Zahlenwert zahlenwert = new Zahlenwert(BigDecimal.valueOf(1.2));
-        zahlenwert.numberValueExact(Integer.class);
+        assertThrows(IllegalArgumentException.class, () -> zahlenwert.numberValueExact(Integer.class));
     }
 
     @Test

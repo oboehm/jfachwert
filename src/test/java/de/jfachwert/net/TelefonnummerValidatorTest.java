@@ -18,86 +18,37 @@
 package de.jfachwert.net;
 
 import de.jfachwert.KSimpleValidator;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import javax.validation.ValidationException;
-import java.util.ArrayList;
-import java.util.Collection;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer {@link Telefonnummer.Validator}-Klasse.
  *
  * @author oboehm
  */
-@RunWith(Parameterized.class)
 public class TelefonnummerValidatorTest {
 
-    private final String telefonnummer;
-    private final boolean valid;
     private final KSimpleValidator<String> validator = new Telefonnummer.Validator();
 
-    /**
-     * Hierueber werden die Test-Werte per Konstruktor "injected".
-     *
-     * @param nummer gueltige oder ungueltige Telefonnummer
-     * @param valid kennzeichnet die Telefonnummer als gueltig oder ungueltgi
-     */
-    public TelefonnummerValidatorTest(String nummer, boolean valid) {
-        this.telefonnummer = nummer;
-        this.valid = valid;
+    @ParameterizedTest
+    @ValueSource(strings = {"+49 30 12345-67", "+49 30 1234567", "+49 (30) 12345 - 67", "+49-30-1234567",
+            "+49 (0)30 12345-67", "030 12345-67", "(030) 12345 67", "0900 5 123456", "0 30 / 12 34 56",
+            "+43 1 58058-0", "01 58058-0", "026 324 11 13", "+41 26 324 11 13", "+49 30 12345678910",
+            "+49 (0)30 / 12 34 5 - 67 89 10"})
+    public void testValidNummern(String telefonnummer) {
+        String validated = validator.validate(telefonnummer);
+        assertEquals(telefonnummer, validated);
     }
 
-    /**
-     * Hier setzen wir die verschiedenen Telefonnumer auf. Die Testwerte dazu
-     * entstammen u.a. aus dem Wikipedia-Artikel zu Rufnummern.
-     *
-     * @return Iterable of Array, wie vom Parameterized-Runner vorgegeben.
-     */
-    @Parameterized.Parameters(name = "{index}: {0}: {1}")
-    public static Collection<Object[]> data() {
-        Collection<Object[]> values = new ArrayList<>();
-        addValidNummern(values, "+49 30 12345-67", "+49 30 1234567", "+49 (30) 12345 - 67", "+49-30-1234567",
-                "+49 (0)30 12345-67", "030 12345-67", "(030) 12345 67", "0900 5 123456", "0 30 / 12 34 56",
-                "+43 1 58058-0", "01 58058-0", "026 324 11 13", "+41 26 324 11 13", "+49 30 12345678910",
-                "+49 (0)30 / 12 34 5 - 67 89 10");
-        addInvalidNummern(values, "Buchstaben", "012abc", "+49 30 123456789101");
-        return values;
-    }
-
-    private static void addValidNummern(Collection<Object[]> values, String... nummern) {
-        addNummern(values, true, nummern);
-    }
-
-    private static void addInvalidNummern(Collection<Object[]> values, String... nummern) {
-        addNummern(values, false, nummern);
-    }
-
-    private static void addNummern(Collection<Object[]> values, boolean valid, String... nummern) {
-        for(String n : nummern) {
-            Object[] array = { n, valid };
-            values.add(array);
-        }
-    }
-
-    /**
-     * Hier testen wir den SimpleValidator fuer die verschiedensten E-Mail-Adressen,
-     * die ueber die Parameterized-Klasse hereinkommen.
-     */
-    @Test
-    public void validateTelefonnummer() {
-        try {
-            String validated = validator.validate(telefonnummer);
-            assertEquals(telefonnummer, validated);
-            assertThat(telefonnummer, valid, is(true));
-        } catch (ValidationException expected) {
-            assertThat(expected.getMessage(), valid, is(false));
-        }
+    @ParameterizedTest
+    @ValueSource(strings = {"Buchstaben", "012abc", "+49 30 123456789101"})
+    public void testInvalidNummern(String telefonnummer) {
+        assertThrows(ValidationException.class, () -> validator.validate(telefonnummer));
     }
 
 }

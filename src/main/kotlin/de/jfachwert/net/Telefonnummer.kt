@@ -104,9 +104,12 @@ open class Telefonnummer
      */
     val laenderkennzahl: Optional<String>
         get() {
-            val laenderkennzahl = code.substring(0, 3)
-            return if (laenderkennzahl.startsWith("+")) {
-                Optional.of(laenderkennzahl)
+            return if (code.startsWith("+")) {
+                Optional.of(code.substring(0, 3))
+            } else if (code.startsWith("00")) {
+                Optional.of("+" + code.substring(2, 4))
+            } else if (code.contains("(0)")) {
+                Optional.of("+" + code.substring(0, 2))
             } else {
                 Optional.empty()
             }

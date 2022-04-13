@@ -18,16 +18,15 @@
 package de.jfachwert.bank;
 
 import org.hamcrest.MatcherAssert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import javax.money.*;
-import java.lang.reflect.GenericDeclaration;
 import java.math.BigDecimal;
 import java.util.logging.Logger;
 
 import static org.hamcrest.Matchers.lessThan;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer {@link GeldbetragFactory}-Klasse.
@@ -39,7 +38,7 @@ public final class GeldbetragFactoryTest {
     private static final Logger LOG = Logger.getLogger(Geldbetrag.class.getName());
     private final GeldbetragFactory factory = new GeldbetragFactory();
     
-    @Before
+    @BeforeEach
     public void setUpFactory() {
         factory.setCurrency(Waehrung.DEFAULT);
     }

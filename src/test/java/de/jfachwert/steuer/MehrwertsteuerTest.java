@@ -21,11 +21,11 @@ import de.jfachwert.FachwertTest;
 import de.jfachwert.bank.Geldbetrag;
 import de.jfachwert.math.Prozent;
 import org.hamcrest.MatcherAssert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThan;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Test fuer [Mehrwertsteuer]-Klasse.
@@ -73,10 +73,10 @@ public final class MehrwertsteuerTest extends FachwertTest {
      * der Java-Version hier eine IllegalArgumentException erwartet haben.
      * Jetzt akzeptieren wir beides.
      */
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testMehrwertsteuerNull() {
         Prozent nullProzent = null;
-        new Mehrwertsteuer(nullProzent);
+        assertThrows(RuntimeException.class, () -> new Mehrwertsteuer(nullProzent));
     }
 
     @Test

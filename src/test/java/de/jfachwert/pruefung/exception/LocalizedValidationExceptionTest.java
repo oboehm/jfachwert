@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2022 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,18 +17,16 @@
  */
 package de.jfachwert.pruefung.exception;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import patterntesting.runtime.junit.SerializableTester;
 import patterntesting.runtime.util.Converter;
 
 import java.io.NotSerializableException;
 import java.util.Locale;
 
-import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.startsWith;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit-Tests fuer {@link LocalizedValidationException}-Klasse.
@@ -45,7 +43,7 @@ public final class LocalizedValidationExceptionTest {
     @Test
     public void getLocalizedString() {
         String s = exception.getLocalizedMessage();
-        assertThat(s, not(isEmptyOrNullString()));
+        assertThat(s, not(emptyOrNullString()));
         if ("DE".equals(Locale.getDefault().getCountry())) {
             assertThat(s, startsWith("fehlender Wert"));
         } else {

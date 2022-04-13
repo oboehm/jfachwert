@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2022 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,10 @@ package de.jfachwert.net;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer {@link Domainname}-Klasse.
@@ -56,9 +57,9 @@ public class DomainnameTest extends AbstractFachwertTest<String, Text> {
     /**
      * Test mit einem ungueltigen Domainnamen.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testDomainnameInvalid() {
-        new Domainname("-abc");
+        assertThrows(IllegalArgumentException.class, () -> new Domainname("-abc"));
     }
 
     /**
@@ -94,9 +95,9 @@ public class DomainnameTest extends AbstractFachwertTest<String, Text> {
     /**
      * Weitere Testmethode fuer {@link Domainname#getLevelDomain(int)}.
      */
-    @Test(expected =  IllegalArgumentException.class)
+    @Test
     public void testGetFourthLevelDomain() {
-        domainName.getLevelDomain(4);
+        assertThrows(IllegalArgumentException.class, () -> domainName.getLevelDomain(4));
     }
 
 }

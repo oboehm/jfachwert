@@ -9,6 +9,8 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [4.2.0] - 2022-02-11
 ### Added
 - Text-Klasse bietet Encoding-Erkennung und -Umwandlung als leichtgewichtige Alternative zu [Tika](https://tika.apache.org/) an
+### Changed
+- Tests komplett auf JUnit 5 umgestellt
 
 ## [4.1] - 2022-01-11
 ### Added

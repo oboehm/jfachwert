@@ -18,15 +18,15 @@
 package de.jfachwert.pruefung;
 
 import de.jfachwert.PruefzifferVerfahren;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * In AbstractPruefzifferVerfahrenTest sind die Gemeinsamkeiten fuer den Test
@@ -57,7 +57,7 @@ public abstract class AbstractPruefzifferVerfahrenTest<T extends Serializable> {
     /**
      * Hier setzen wir das Verfahren und den Wert zum Testen auf.
      */
-    @Before
+    @BeforeEach
     public void setUpPruefzifferVerfahren() {
         verfahren = getPruefzifferVerfahren();
         wert = getValidWert();
@@ -78,7 +78,7 @@ public abstract class AbstractPruefzifferVerfahrenTest<T extends Serializable> {
      */
     @Test
     public void isValid() {
-        assertTrue("should be valid: " + wert, verfahren.isValid(wert));
+        assertTrue(verfahren.isValid(wert), "should be valid: " + wert);
     }
 
     /**

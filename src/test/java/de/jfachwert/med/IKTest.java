@@ -19,7 +19,7 @@ package de.jfachwert.med;
 
 import de.jfachwert.AbstractFachwertTest;
 import org.apache.commons.io.IOUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.validation.ValidationException;
 
@@ -27,8 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer {@link IK}-Klasse.
@@ -58,24 +57,24 @@ public final class IKTest extends AbstractFachwertTest<Integer, IK> {
         return "260326822";
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testIllegalIK() {
-        IK.of(263456789);
+        assertThrows(IllegalArgumentException.class, () -> IK.of(263456789));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void test8stelligesIK() {
-        IK.of(12345671);
+        assertThrows(IllegalArgumentException.class, () -> IK.of(12345671));
     }
 
-    @Test(expected = ValidationException.class)
+    @Test
     public void testValidate() {
-        new IK.Validator().validate(263456789);
+        assertThrows(ValidationException.class, () -> new IK.Validator().validate(263456789));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void test10stelligesIK() {
-        IK.of(1234567897);
+        assertThrows(IllegalArgumentException.class, () -> IK.of(1234567897));
     }
 
     @Test

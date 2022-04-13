@@ -18,8 +18,8 @@
 package de.jfachwert;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import patterntesting.runtime.junit.ImmutableTester;
 import patterntesting.runtime.junit.ObjectTester;
 import patterntesting.runtime.junit.SerializableTester;
@@ -31,9 +31,11 @@ import java.io.StringWriter;
 import java.lang.reflect.Modifier;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
 
 /**
  * In der Klasse FachwertTest sind die Tests zusammengefasst, die fuer alle
@@ -80,7 +82,7 @@ public class FachwertTest {
      * damit die abgeleiteten Test-Klassen die Chance haben, erst sauber ihre
      * Attribute zu initialiseren, ehe die getFachwert-Methode aufgerufen wird.
      */
-    @Before
+    @BeforeEach
     public void setUpFachwert() {
         this.fachwert = this.createFachwert();
     }
@@ -143,7 +145,7 @@ public class FachwertTest {
     public void testJsonSerialization() {
         String json = marshal(fachwert);
         KFachwert deserialized = unmarshal(json, fachwert.getClass());
-        assertEquals(json, fachwert, deserialized);
+        assertEquals(fachwert, deserialized, json);
     }
 
     /**

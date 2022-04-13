@@ -16,11 +16,11 @@ package de.jfachwert.pruefung.exception;/*
  * (c)reated 17.01.2018 by oboehm (ob@oasd.de)
  */
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ResourceBundle;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit-Tests fuer {@link NullValueException}-Klasse.

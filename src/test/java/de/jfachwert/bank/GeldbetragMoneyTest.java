@@ -18,14 +18,14 @@
 package de.jfachwert.bank;
 
 import org.javamoney.moneta.Money;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.money.CurrencyUnit;
 import javax.money.MonetaryContext;
 import javax.money.MonetaryContextBuilder;
 import java.math.BigDecimal;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Der GeldbetragMoneyTest vergleicht die Implementierung der
@@ -37,9 +37,9 @@ import static org.junit.Assert.assertEquals;
  */
 public class GeldbetragMoneyTest {
 
-    private Number number = new BigDecimal("123.45");
-    private CurrencyUnit currency = Waehrung.of("DEM");
-    private MonetaryContext mc = MonetaryContextBuilder.of().build();
+    private final Number number = new BigDecimal("123.45");
+    private final CurrencyUnit currency = Waehrung.of("DEM");
+    private final MonetaryContext mc = MonetaryContextBuilder.of().build();
 
     @Test
     public void testOfNumberString() {

@@ -1,5 +1,5 @@
-package de.jfachwert.net;/*
- * Copyright (c) 2017 by Oliver Boehm
+/*
+ * Copyright (c) 2017-2022 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,15 @@ package de.jfachwert.net;/*
  *
  * (c)reated 23.06.2017 by oboehm (ob@oasd.de)
  */
+package de.jfachwert.net;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
 import de.jfachwert.post.Name;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Teests fuer de.jfachwert.net.EMailAdresse.
@@ -56,9 +58,9 @@ public final class EMailAdresseTest extends AbstractFachwertTest<String, Text> {
     /**
      * Eine falsche E-Mail-Adresse sollte zurueckgewiesen werden.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testInvalidEmailAdresse() {
-        new EMailAdresse("gibts.net");
+        assertThrows(IllegalArgumentException.class, () -> new EMailAdresse("gibts.net"));
     }
 
     /**

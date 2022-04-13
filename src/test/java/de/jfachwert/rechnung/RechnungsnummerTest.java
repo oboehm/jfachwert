@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2022 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,9 @@ package de.jfachwert.rechnung;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer {@link Rechnungsnummer}-Klasse.
@@ -43,9 +45,9 @@ public class RechnungsnummerTest extends AbstractFachwertTest<String, Text> {
      * Eine leere Rechnungsnummer macht keinen Sinn und sollte deswegen nicht
      * angelegt werden koennen.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testNotEmpty() {
-        Rechnungsnummer.of("");
+        assertThrows(IllegalArgumentException.class, () -> Rechnungsnummer.of(""));
     }
 
 }

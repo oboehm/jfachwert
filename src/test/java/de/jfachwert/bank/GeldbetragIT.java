@@ -24,8 +24,8 @@ import org.javamoney.moneta.convert.IMFRateProvider;
 import org.javamoney.tck.JSR354TestConfiguration;
 import org.javamoney.tck.TCKRunner;
 import org.javamoney.tck.TCKTestSetup;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import javax.money.*;
 import javax.money.convert.ExchangeRateProvider;
@@ -39,7 +39,7 @@ import java.util.*;
 
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Fuer den Integrationstest der {@link Geldbetrag}-Klasse wird das TCK
@@ -161,7 +161,7 @@ public class GeldbetragIT implements JSR354TestConfiguration {
      * die vom TCK immer noch als "falsch" bewertet wird.
      */
     @Test
-    @Ignore
+    @Disabled
     public void testCompareToGeldbetrag() {
         checkCompareTo(Monetary.getAmountFactory(Geldbetrag.class));
     }
@@ -171,7 +171,7 @@ public class GeldbetragIT implements JSR354TestConfiguration {
      * anderes Ergebnis, weswegen sie auf "@Ignore" gesetzt wurde.
      */
     @Test
-    @Ignore
+    @Disabled
     public void testCompareToMoney() {
         checkCompareTo(Monetary.getAmountFactory(Money.class));
     }

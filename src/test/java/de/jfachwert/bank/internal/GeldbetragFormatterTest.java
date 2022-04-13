@@ -20,8 +20,7 @@ package de.jfachwert.bank.internal;
 import de.jfachwert.bank.Geldbetrag;
 import org.javamoney.moneta.Money;
 import org.javamoney.moneta.spi.RoundedMoneyAmountFactory;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.money.MonetaryAmount;
 import javax.money.MonetaryAmountFactory;
@@ -30,9 +29,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Locale;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer @link{de.jfachwert.bank.internal.GeldbetragFormatter}.
@@ -48,7 +48,7 @@ public final class GeldbetragFormatterTest {
     @Test
     public void testParse() {
         MonetaryAmount parsed = formatter.parse("100 CHF");
-        Assert.assertEquals(Geldbetrag.of(100, "CHF"), parsed);
+        assertEquals(Geldbetrag.of(100, "CHF"), parsed);
     }
 
     @Test
@@ -73,9 +73,9 @@ public final class GeldbetragFormatterTest {
         assertEquals(created, parsed);
     }
 
-    @Test(expected = MonetaryParseException.class)
+    @Test
     public void testParseInvalid() {
-        formatter.parse("1-2-3 Polizei");
+        assertThrows(MonetaryParseException.class, () -> formatter.parse("1-2-3 Polizei"));
     }
 
     @Test

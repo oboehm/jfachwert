@@ -17,12 +17,12 @@
  */
 package de.jfachwert;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 /**
  * In der Klasse AbstractFachwertTest sind die Tests zusammengefasst, die fuer

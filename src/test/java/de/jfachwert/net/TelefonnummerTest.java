@@ -19,10 +19,10 @@ package de.jfachwert.net;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import patterntesting.runtime.junit.ObjectTester;
 
 import java.net.URI;
@@ -30,16 +30,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.startsWith;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer {@link Telefonnummer}-Klasse.
  *
  * @author oboehm
  */
-@RunWith(Parameterized.class)
 public final class TelefonnummerTest extends AbstractFachwertTest<String, Text> {
 
     /** Telefonnumer aus Spider Murphy's "Skandal im Sperrbezirik". */
@@ -48,9 +48,13 @@ public final class TelefonnummerTest extends AbstractFachwertTest<String, Text> 
     private final String nummer;
     private Telefonnummer rosisNummer;
 
-    public TelefonnummerTest(String telefonnummer) {
-        this.nummer = telefonnummer;
+    public TelefonnummerTest() {
+        this.nummer = "+49 811 3216-8";
     }
+
+//    public TelefonnummerTest(String telefonnummer) {
+//        this.nummer = telefonnummer;
+//    }
 
     /**
      * Hier setzen wir immer die gleiche Telefonnumern (Rosis Telefonnummer
@@ -59,7 +63,6 @@ public final class TelefonnummerTest extends AbstractFachwertTest<String, Text> 
      *
      * @return Iterable of Array, wie vom Parameterized-Runner vorgegeben.
      */
-    @Parameterized.Parameters(name = "{0}")
     public static Collection<Object[]> data() {
         Collection<Object[]> values = new ArrayList<>();
         values.add(new Object[] { "+49 811 3216-8" });
@@ -68,7 +71,7 @@ public final class TelefonnummerTest extends AbstractFachwertTest<String, Text> 
         return values;
     }
 
-    @Before
+    @BeforeEach
     public void setUpTelefonnummer() {
         this.rosisNummer = createFachwert(this.nummer);
     }
@@ -97,9 +100,9 @@ public final class TelefonnummerTest extends AbstractFachwertTest<String, Text> 
     /**
      * Eine falsche Telefonnummer sollte zurueckgewiesen werden.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testInvalidTelefonnummer() {
-        new Telefonnummer("ABC-" + this.nummer);
+        assertThrows(IllegalArgumentException.class, () -> new Telefonnummer("ABC-" + this.nummer));
     }
 
     /**
@@ -114,9 +117,11 @@ public final class TelefonnummerTest extends AbstractFachwertTest<String, Text> 
     /**
      * Die Inlandsnummer sollte mit der fuehrenden 0 der Vorwahl anfangen.
      */
-    @Test
-    public void testGetInlandsnummer() {
-        Telefonnummer inland = rosisNummer.getInlandsnummer();
+    @ParameterizedTest
+    @ValueSource(strings = {"+49 811 3216-8", "49 (0)811 32 16 - 8", "+49(0)811/3216-8"})
+    public void testGetInlandsnummer(String nr) {
+        Telefonnummer telnr = Telefonnummer.of(nr);
+        Telefonnummer inland = telnr.getInlandsnummer();
         assertEquals(new Telefonnummer("0811/32168"), inland);
         assertThat(inland.toString(), startsWith("0811"));
     }
@@ -179,9 +184,11 @@ public final class TelefonnummerTest extends AbstractFachwertTest<String, Text> 
     /**
      * Testmethode fuer {@link Telefonnummer#getLaenderkennzahl()}
      */
-    @Test
-    public void testGetLandeskennzahl() {
-        assertEquals(Optional.of("+49"), rosisNummer.getLaenderkennzahl());
+    @ParameterizedTest
+    @ValueSource(strings = {"0049 811 3216-8", "49 (0)811 32 16 - 8", "+49(0)811/3216-8"})
+    public void testGetLandeskennzahl(String nr) {
+        Telefonnummer telnr = Telefonnummer.of(nr);
+        assertEquals(Optional.of("+49"), telnr.getLaenderkennzahl());
     }
 
     /**

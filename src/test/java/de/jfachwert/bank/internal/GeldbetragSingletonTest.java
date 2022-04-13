@@ -19,7 +19,7 @@ package de.jfachwert.bank.internal;
 
 import de.jfachwert.bank.Geldbetrag;
 import de.jfachwert.bank.GeldbetragFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.money.MonetaryAmount;
 import javax.money.MonetaryAmountFactory;
@@ -27,8 +27,8 @@ import java.util.Collection;
 import java.util.Set;
 
 import static org.hamcrest.Matchers.hasItem;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Unit-Tests fuer {@link GeldbetragSingleton}-Klasse.

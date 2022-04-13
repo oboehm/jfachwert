@@ -18,9 +18,9 @@
 package de.jfachwert.med;
 
 import de.jfachwert.AbstractFachwertTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer {@link LANR}-Klasse.
@@ -57,9 +57,9 @@ public class LANRTest extends AbstractFachwertTest<Integer, LANR> {
         assertEquals(67, nr.getArztnummer());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void test10stelligeLANR() {
-        LANR.of(1234567890);
+        assertThrows(IllegalArgumentException.class, () -> LANR.of(1234567890));
     }
 
     @Test

@@ -18,11 +18,12 @@ package de.jfachwert.post;/*
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer die PLZ-Klasse.
@@ -56,26 +57,26 @@ public class PLZTest extends AbstractFachwertTest<String, Text> {
      * Postleitzahlen in Oesterreich sind 4-stellig. D.h. eine 5-stellige
      * oesterreichische PLZ sollte nicht erstellt werden koennen.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testInvalidPLZausOesterreich() {
-        new PLZ(new Locale("de", "AT"), "12345");
+        assertThrows(IllegalArgumentException.class, () -> new PLZ(new Locale("de", "AT"), "12345"));
     }
 
     /**
      * In der DACH-Region bestehen die Postleitzahlen nur aus Ziffern.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testInvalidPostleitZahl() {
-        new PLZ("CH-0x23");
+        assertThrows(IllegalArgumentException.class, () -> new PLZ("CH-0x23"));
     }
 
     /**
      * Weltweit sind die Postleitzahlen zwischen 3 und 10 Zeichen lang.
      * Quelle: https://de.wikipedia.org/wiki/Postleitzahl
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testInvalidPLZ() {
-        new PLZ("12");
+        assertThrows(IllegalArgumentException.class, () -> new PLZ("12"));
     }
 
     /**
@@ -148,26 +149,26 @@ public class PLZTest extends AbstractFachwertTest<String, Text> {
      * Fuenfstelligen Postleitzahlen kommen aus Deutschland. Dort duerfen
      * Postleitzahlen nicht mit '00...' anfangen.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testFuenfstellig() {
-        PLZ.of("00123");
+        assertThrows(IllegalArgumentException.class, () -> PLZ.of("00123"));
     }
 
     /**
      * Postleitzahlen duerfen in Deutschland nicht mit '00...' anfangen.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testFuenfstelligDE() {
-        PLZ.of("D-00999");
+        assertThrows(IllegalArgumentException.class, () -> PLZ.of("D-00999"));
     }
 
     /**
      * Nach <a href="http://api.zippopotam.us/">Zippotam</a> ist 99999 keine
      * gueltige PLZ in Deutschland.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testD99999() {
-        PLZ.of("D-99999");
+        assertThrows(IllegalArgumentException.class, () -> PLZ.of("D-99999"));
     }
 
 }
