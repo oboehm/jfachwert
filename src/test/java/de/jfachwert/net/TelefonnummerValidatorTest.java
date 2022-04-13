@@ -18,12 +18,12 @@
 package de.jfachwert.net;
 
 import de.jfachwert.KSimpleValidator;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import javax.validation.ValidationException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -42,7 +42,7 @@ public class TelefonnummerValidatorTest {
             "+49 (0)30 / 12 34 5 - 67 89 10"})
     public void testValidNummern(String telefonnummer) {
         String validated = validator.validate(telefonnummer);
-        Assertions.assertEquals(telefonnummer, validated);
+        assertEquals(telefonnummer, validated);
     }
 
     @ParameterizedTest
