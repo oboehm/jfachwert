@@ -6,12 +6,16 @@ Es ersetzt die **Release Notes** aus den Anfangstagen von jFachwert und orientie
 genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
+## [4.2.1] - 2022-06-02
+### Fixed
+- Validator- und Exception-Klassen können wieder abgeleitet werden
+  ([#15](https://github.com/oboehm/jfachwert/issues/15))
+
 ## [4.2.0] - 2022-02-11
 ### Added
 - Text-Klasse bietet Encoding-Erkennung und -Umwandlung als leichtgewichtige Alternative zu [Tika](https://tika.apache.org/) an
 ### Changed
 - Tests komplett auf JUnit 5 umgestellt
-- _fixed_ _[#15](https://github.com/oboehm/jfachwert/issues/15)_: Validator- und Exception-Klassen können wieder abgeleitet werden
 
 ## [4.1] - 2022-01-11
 ### Added
