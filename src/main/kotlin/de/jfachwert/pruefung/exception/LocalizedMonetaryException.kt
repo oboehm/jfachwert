@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 by Oliver Boehm
+ * Copyright (c) 2018-2022 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import javax.money.MonetaryException
  * @author oboehm
  * @since 1.0 (19.07.2018)
  */
-class LocalizedMonetaryException : MonetaryException, LocalizedException {
+open class LocalizedMonetaryException : MonetaryException, LocalizedException {
     private val amounts: MutableList<Any> = ArrayList()
     private var msg: String
 

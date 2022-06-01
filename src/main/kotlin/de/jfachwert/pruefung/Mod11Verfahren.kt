@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2022 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import de.jfachwert.pruefung.exception.PruefzifferException
  * @author oliver (ob@aosd.de)
  * @since 0.1.0
  */
-class Mod11Verfahren(private val anzahlStellen: Int) : PruefzifferVerfahren<String> {
+open class Mod11Verfahren(private val anzahlStellen: Int) : PruefzifferVerfahren<String> {
 
     /**
      * Die letzte Ziffer ist die Pruefziffer, die hierueber abgefragt werden

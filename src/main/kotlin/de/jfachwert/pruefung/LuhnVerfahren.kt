@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 by Oliver Boehm
+ * Copyright (c) 2018-2022 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ package de.jfachwert.pruefung
  * @author oboehm
  * @since 1.1 (11.12.2018)
  */
-class LuhnVerfahren : Mod10Verfahren() {
+open class LuhnVerfahren : Mod10Verfahren() {
 
     /**
      * Berechnet die Pruefziffer des uebergebenen Wertes.

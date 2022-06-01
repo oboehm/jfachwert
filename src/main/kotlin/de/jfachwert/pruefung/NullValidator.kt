@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2022 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import java.io.Serializable
  *
  * @since 0.4
  */
-class NullValidator<T : Serializable> : KSimpleValidator<T> {
+open class NullValidator<T : Serializable> : KSimpleValidator<T> {
 
     /**
      * Wenn der uebergebene Wert nicht null ist, wird er unveraendert

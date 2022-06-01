@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2022 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -130,7 +130,7 @@ open class Ort
      * @return hashcode
      */
     override fun hashCode(): Int {
-        return Character.toUpperCase(Text.replaceUmlaute(name)[0]).toInt()
+        return Character.toUpperCase(Text.replaceUmlaute(name)[0]).code
     }
 
     /**
