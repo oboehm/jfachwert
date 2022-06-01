@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2022 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import java.math.BigDecimal
  * @author oboehm
  * @since 0.1.0
  */
-class Mod97Verfahren private constructor() : PruefzifferVerfahren<String> {
+open class Mod97Verfahren private constructor() : PruefzifferVerfahren<String> {
 
     /**
      * Bei der IBAN ist die Pruefziffer 2-stellig und folgt der Laenderkennung.
@@ -60,7 +60,7 @@ class Mod97Verfahren private constructor() : PruefzifferVerfahren<String> {
      * @return z.B. "68"
      */
     override fun berechnePruefziffer(wert: String): String {
-        val land = wert.substring(0, 2).toUpperCase().toCharArray()
+        val land = wert.substring(0, 2).uppercase().toCharArray()
         val umgestellt = wert.substring(4) + toZahl(land[0]) + toZahl(land[1]) + "00"
         val number = BigDecimal(umgestellt)
         val modulo = number.remainder(BigDecimal.valueOf(97))
@@ -84,7 +84,7 @@ class Mod97Verfahren private constructor() : PruefzifferVerfahren<String> {
             get() = INSTANCE
 
         private fun toZahl(c: Char): Int {
-            return 10 + c.toInt() - 'A'.toInt()
+            return 10 + c.code - 'A'.code
         }
 
     }

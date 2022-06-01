@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2022 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import java.util.*
  * @author oboehm
  * @since 0.2.0 (26.04.2017)
  */
-class LocalizedIllegalArgumentException(message: String?, private val valueException: Throwable) : IllegalArgumentException(message, valueException), LocalizedException {
+open class LocalizedIllegalArgumentException(message: String?, private val valueException: Throwable) : IllegalArgumentException(message, valueException), LocalizedException {
 
     /**
      * Erzeugt eine [LocalizedIllegalArgumentException].

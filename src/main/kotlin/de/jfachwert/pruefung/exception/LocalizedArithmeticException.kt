@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 by Oliver Boehm
+ * Copyright (c) 2018-2022 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import java.io.Serializable
  * @author oboehm
  * @since 1.0 (20.08.2018)
  */
-class LocalizedArithmeticException(value: Serializable, context: String) : ArithmeticException("invalid value for " + context.replace('_', ' ') + ": \"" + value + '"'), LocalizedException {
+open class LocalizedArithmeticException(value: Serializable, context: String) : ArithmeticException("invalid value for " + context.replace('_', ' ') + ": \"" + value + '"'), LocalizedException {
     private val valueException: InvalidValueException
 
     /**

@@ -11,6 +11,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Text-Klasse bietet Encoding-Erkennung und -Umwandlung als leichtgewichtige Alternative zu [Tika](https://tika.apache.org/) an
 ### Changed
 - Tests komplett auf JUnit 5 umgestellt
+- _fixed_ _[#15](https://github.com/oboehm/jfachwert/issues/15)_: Validator- und Exception-Klassen können wieder abgeleitet werden
 
 ## [4.1.0] - 2022-01-11
 ### Added

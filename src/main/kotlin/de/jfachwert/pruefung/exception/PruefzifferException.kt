@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 by Oliver Boehm
+ * Copyright (c) 2017-2022 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import java.io.Serializable
  * @author oboehm
  * @since 0.1.0
  */
-class PruefzifferException(wert: Serializable, expected: Serializable, pruefziffer: Serializable) : LocalizedValidationException(wert.toString() + ": Pruefziffer=" + expected + " expected but got '" + pruefziffer + "'") {
+open class PruefzifferException(wert: Serializable, expected: Serializable, pruefziffer: Serializable) : LocalizedValidationException(wert.toString() + ": Pruefziffer=" + expected + " expected but got '" + pruefziffer + "'") {
     private val wert: Serializable
     private val expected: Serializable
     private val pruefziffer: Serializable

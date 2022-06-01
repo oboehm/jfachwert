@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019, 2020 by Oliver Boehm
+ * Copyright (c) 2019-2022 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import javax.money.UnknownCurrencyException
  * @author oboehm
  * @since 10.08.2019
  */
-class LocalizedUnknownCurrencyException : UnknownCurrencyException, LocalizedException {
+open class LocalizedUnknownCurrencyException : UnknownCurrencyException, LocalizedException {
 
     /**
      * Kreiert eine Exception fuer eine unbekannte Waehrung.

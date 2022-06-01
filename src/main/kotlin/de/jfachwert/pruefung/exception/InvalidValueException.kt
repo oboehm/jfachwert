@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2022 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import java.io.Serializable
  * @author oboehm
  * @since 0.2.0 (26.04.2017)
  */
-class InvalidValueException : LocalizedValidationException {
+open class InvalidValueException : LocalizedValidationException {
     private val value: Serializable?
     private val context: String
     private val range: Range<out Comparable<*>?>?

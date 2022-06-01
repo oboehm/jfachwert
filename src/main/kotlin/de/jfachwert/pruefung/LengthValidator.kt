@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2022 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ import java.util.*
  * @author oboehm
  * @since 0.2 (20.04.2017)
  */
-class LengthValidator<T : Serializable> @JvmOverloads constructor(private val min: Int, private val max: Int = Int.MAX_VALUE) : NoopVerfahren<T>() {
+open class LengthValidator<T : Serializable> @JvmOverloads constructor(private val min: Int, private val max: Int = Int.MAX_VALUE) : NoopVerfahren<T>() {
 
     /**
      * Liefert true zurueck, wenn der uebergebene Wert innerhalb der erlaubten

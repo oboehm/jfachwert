@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2022 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import java.util.*
  * @author oboehm
  * @since 0.2 (20.04.2017)
  */
-class InvalidLengthException : LocalizedValidationException {
+open class InvalidLengthException : LocalizedValidationException {
 
     private val arguments: Array<Serializable?>
     private val min: Int
