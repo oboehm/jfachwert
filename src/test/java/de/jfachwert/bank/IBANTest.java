@@ -19,13 +19,13 @@ package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
+import de.jfachwert.pruefung.exception.InvalidLengthException;
 import org.junit.jupiter.api.Test;
 
 import javax.validation.ValidationException;
 import java.util.Locale;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Test fuer {@link IBAN}-Klasse.
@@ -134,6 +134,33 @@ public final class IBANTest extends AbstractFachwertTest<String, Text> {
     @Test
     public void testGetKontonummer() {
         assertEquals(new Kontonummer("0006605605"), iban.getKontonummer());
+    }
+
+    /**
+     * Beispiel stammt aus https://ibanvalidieren.de/beispiele.html.
+     */
+    @Test
+    public void testIbanAT() {
+        IBAN at = IBAN.of("AT026000000001349870");
+        assertNotNull(at);
+    }
+
+    /**
+     * Beispiel stammt aus https://ibanvalidieren.de/beispiele.html.
+     */
+    @Test
+    public void testIbanCH() {
+        IBAN ch = IBAN.of("CH0209000000100013997");
+        assertNotNull(ch);
+    }
+
+    /**
+     * Eine deutsche IBAN ist genau 22 Zeichen lang (und nicht 21).
+     */
+    @Test
+    public void validateInvalidLength() {
+        IBAN.Validator v = new IBAN.Validator();
+        assertThrows(InvalidLengthException.class, () -> v.validate("DE196000000001349870"));
     }
 
 }

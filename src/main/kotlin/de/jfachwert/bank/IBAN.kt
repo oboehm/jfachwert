@@ -17,8 +17,8 @@
  */
 package de.jfachwert.bank
 
-import de.jfachwert.PruefzifferVerfahren
 import de.jfachwert.KSimpleValidator
+import de.jfachwert.PruefzifferVerfahren
 import de.jfachwert.Text
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.Mod97Verfahren
@@ -145,10 +145,10 @@ open class IBAN
         override fun validate(value: String): String {
             val normalized = StringUtils.remove(value, ' ').uppercase()
             LengthValidator.validate(normalized, 16, 34)
-            when (normalized.substring(0, 1)) {
-                "AT" -> LengthValidator.validate(value, 20)
-                "CH" -> LengthValidator.validate(value, 21)
-                "DE" -> LengthValidator.validate(value, 22)
+            when (normalized.substring(0, 2)) {
+                "AT" -> LengthValidator.validate(normalized, 20)
+                "CH" -> LengthValidator.validate(normalized, 21)
+                "DE" -> LengthValidator.validate(normalized, 22)
             }
             return MOD97.validate(normalized)
         }
