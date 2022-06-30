@@ -7,6 +7,8 @@ genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
 ## [Unreleased]
+### Fixed
+- Ungenauigkeit bei der IBAN-Validierung korrigiert
 ### Changed
 - IBAN nicht mehr von Text abgeleitet
 
