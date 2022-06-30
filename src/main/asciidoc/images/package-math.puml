@@ -12,10 +12,10 @@ package "math" {
 
 }
 
-interface javax.lang.Number #white
+interface java.lang.Number #white
 
-javax.lang.Number <|-- AbstractNumber
-javax.lang.Number <|-- Primzahl
+java.lang.Number <|-- AbstractNumber
+java.lang.Number <|-- Primzahl
 AbstractNumber <|-- Nummer
 AbstractNumber <|-- PackedDecimal
 AbstractNumber <|-- Bruch

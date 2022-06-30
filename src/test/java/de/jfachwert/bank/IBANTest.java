@@ -18,7 +18,6 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwertTest;
-import de.jfachwert.Text;
 import org.junit.jupiter.api.Test;
 
 import javax.validation.ValidationException;
@@ -32,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  *
  * @author oboehm
  */
-public final class IBANTest extends AbstractFachwertTest<String, Text> {
+public final class IBANTest extends AbstractFachwertTest<String, IBAN> {
 
     private final IBAN iban = new IBAN("DE41300606010006605605");
 

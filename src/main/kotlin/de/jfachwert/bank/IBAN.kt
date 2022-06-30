@@ -17,9 +17,9 @@
  */
 package de.jfachwert.bank
 
+import de.jfachwert.AbstractFachwert
 import de.jfachwert.PruefzifferVerfahren
 import de.jfachwert.KSimpleValidator
-import de.jfachwert.Text
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.Mod97Verfahren
 import de.jfachwert.pruefung.NullValidator
@@ -43,7 +43,7 @@ open class IBAN
  * @param iban        die IBAN
  * @param pzVerfahren das verwendete PruefzifferVerfahren (optional)
  */
-@JvmOverloads constructor(iban: String, pzVerfahren: KSimpleValidator<String> = VALIDATOR) : Text(iban, pzVerfahren) {
+@JvmOverloads constructor(iban: String, pzVerfahren: KSimpleValidator<String> = VALIDATOR) : AbstractFachwert<String, IBAN>(iban, pzVerfahren) {
 
     /**
      * Liefert die IBAN formattiert in der DIN-Form. Dies ist die uebliche
