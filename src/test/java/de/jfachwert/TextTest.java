@@ -213,6 +213,12 @@ public final class TextTest extends FachwertTest {
     }
 
     @Test
+    public void testIsPrintableSpanischeZeichen() {
+        Text x = Text.of("Por qu\u00e9 el espa\u00f1ol es el \u00fanico idioma que utiliza signos de interrogaci\u00f3n (\u00bf?) y admiraci\u00f3n (\u00a1!) dobles.");
+        assertTrue(x.isPrintable());
+    }
+
+    @Test
     public void testIsPrintableCurrencies() {
         for (Currency c : Currency.getAvailableCurrencies()) {
             String s = String.format("%s: %s (%s)", c.getCurrencyCode(), c.getSymbol(), c);
