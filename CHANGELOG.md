@@ -8,6 +8,8 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ## [Unreleased]
 ### Fixed
+- '¿' und '¡' werden als druckbares Zeichen erkannt
+  ([#16](https://github.com/oboehm/jfachwert/issues/16))
 - Ungenauigkeit bei der IBAN-Validierung korrigiert
 ### Changed
 - IBAN nicht mehr von Text abgeleitet

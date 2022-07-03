@@ -212,6 +212,10 @@ public final class TextTest extends FachwertTest {
         assertTrue(Text.of("P\u00e4ragraph § 218.").isPrintable());
     }
 
+    /**
+     * Test fuer Issue
+     * <a href="https://github.com/oboehm/jfachwert/issues/16">#16</a>.
+     */
     @Test
     public void testIsPrintableSpanischeZeichen() {
         Text x = Text.of("Por qu\u00e9 el espa\u00f1ol es el \u00fanico idioma que utiliza signos de interrogaci\u00f3n (\u00bf?) y admiraci\u00f3n (\u00a1!) dobles.");
