@@ -4,7 +4,7 @@
 
   <groupId>de.jfachwert</groupId>
   <artifactId>jfachwert</artifactId>
-  <version>4.2.2-SNAPSHOT</version>
+  <version>4.2.2</version>
   <name>jFachwert</name>
 
   <description>Implementierung einiger Fachwerte nach dem WAM-Ansatz</description>
@@ -24,8 +24,7 @@
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <kotlin.version>1.6.20</kotlin.version>
-    <dokka.version>1.6.20</dokka.version>
+    <kotlin.version>1.7.0</kotlin.version>
     <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 
@@ -108,7 +107,7 @@
       <plugin>
         <groupId>org.jetbrains.dokka</groupId>
         <artifactId>dokka-maven-plugin</artifactId>
-        <version>${dokka.version}</version>
+        <version>${kotlin.version}</version>
         <executions>
           <execution>
             <phase>pre-site</phase>
@@ -126,7 +125,7 @@
             <plugin>
               <groupId>org.jetbrains.dokka</groupId>
               <artifactId>kotlin-as-java-plugin</artifactId>
-              <version>${dokka.version}</version>
+              <version>${kotlin.version}</version>
             </plugin>
           </dokkaPlugins>
           <sourceLinks>
@@ -269,13 +268,13 @@
       <plugin>
         <groupId>org.jetbrains.dokka</groupId>
         <artifactId>dokka-maven-plugin</artifactId>
-        <version>${dokka.version}</version>
+        <version>${kotlin.version}</version>
         <configuration>
           <dokkaPlugins>
             <plugin>
               <groupId>org.jetbrains.dokka</groupId>
               <artifactId>kotlin-as-java-plugin</artifactId>
-              <version>${dokka.version}</version>
+              <version>${kotlin.version}</version>
             </plugin>
           </dokkaPlugins>
           <sourceLinks>
