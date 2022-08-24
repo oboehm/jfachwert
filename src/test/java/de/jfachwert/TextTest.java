@@ -262,6 +262,14 @@ public final class TextTest extends FachwertTest {
         assertEquals("B\u00c3\u00b6hm", Text.convert("B\u00f6hm", StandardCharsets.ISO_8859_1));
     }
 
+    @Test
+    public void testConvertSenftenberg() {
+        String senftenberg = "Senftenberg/Z\u0142y Komorow";
+        String converted = Text.convert(senftenberg, StandardCharsets.ISO_8859_1);
+        LOG.info("UTF-8: '" + senftenberg + "' / ISO-8859-1: '" + converted + "'");
+        assertEquals(senftenberg.length(), converted.length(), "falsch konvertiert: " + converted);
+    }
+
     @DisplayName("Konvertierung")
     @ParameterizedTest(name = "{index}: {0}")
     @MethodSource("encodingParameters")

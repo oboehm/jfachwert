@@ -407,7 +407,7 @@ open class Text
         fun isCharset(value: String, cs: Charset) : Boolean {
             val probe = StandardCharsets.UTF_8
             try {
-                return value == convert(convert(value, probe, cs), cs, probe)
+                return value == String(String(value.toByteArray(cs), probe).toByteArray(probe), cs)
             } catch (ex : UnsupportedOperationException) {
                 LOG.fine("$cs wird nicht unterstuetzt: $ex")
                 return false
@@ -426,7 +426,7 @@ open class Text
         @JvmStatic
         fun convert(value: String, toEncoding: Charset): String {
             val fromEncoding = detectCharset(value)
-            return String(value.toByteArray(fromEncoding), toEncoding)
+            return convert(value, toEncoding, fromEncoding)
         }
 
         /**
@@ -441,7 +441,24 @@ open class Text
          */
         @JvmStatic
         fun convert(value: String, toEncoding: Charset, fromEncoding: Charset): String {
-            return String(value.toByteArray(fromEncoding), toEncoding)
+            var x = value
+            if (fromEncoding == StandardCharsets.UTF_8) {
+                x = replaceSpecialChars(value)
+            }
+            return String(x.toByteArray(fromEncoding), toEncoding)
+        }
+
+        private fun replaceSpecialChars(value: String): String {
+            val zeichen = value.toCharArray()
+            val buffer = CharBuffer.allocate(zeichen.size * 2)
+            for (c in zeichen) {
+                when (c) {
+                    '\u0142' -> buffer.put('l')
+                    else -> buffer.put(c)
+                }
+            }
+            rewind(buffer)
+            return buffer.toString().trim { it <= ' ' }
         }
 
     }

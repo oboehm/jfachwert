@@ -6,6 +6,9 @@ Es ersetzt die **Release Notes** aus den Anfangstagen von jFachwert und orientie
 genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
+## [Unrelesed]
+- `Text.convert(..)` kann jetzt auch mit 'Senftenberg/Zły Komorow' nach ISO-8859-1 konvertieren
+
 ## [4.2.2] - 2022-07-03
 ### Fixed
 - '¿' und '¡' werden als druckbares Zeichen erkannt
