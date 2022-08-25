@@ -309,7 +309,7 @@ open class Text
                     '\u00c9', '\u00c8', '\u00ca' -> buffer.put('E')
                     '\u00d3', '\u00d2', '\u00d4' -> buffer.put('O')
                     '\u00da', '\u00d9', '\u00db' -> buffer.put('U')
-                    else -> buffer.put(c)
+                    else -> buffer.put(replaceSpecialChar(c))
                 }
             }
             rewind(buffer)
@@ -452,13 +452,17 @@ open class Text
             val zeichen = value.toCharArray()
             val buffer = CharBuffer.allocate(zeichen.size * 2)
             for (c in zeichen) {
-                when (c) {
-                    '\u0142' -> buffer.put('l')
-                    else -> buffer.put(c)
-                }
+                buffer.put(replaceSpecialChar(c))
             }
             rewind(buffer)
             return buffer.toString().trim { it <= ' ' }
+        }
+
+        private fun replaceSpecialChar(c: Char): Char {
+            when (c) {
+                '\u0142' -> return 'l'
+                else -> return c
+            }
         }
 
     }

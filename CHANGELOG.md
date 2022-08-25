@@ -6,6 +6,10 @@ Es ersetzt die **Release Notes** aus den Anfangstagen von jFachwert und orientie
 genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
+## [Unreleased]
+### Fixed
+- 'Text.replaceUmlaute(..)' ersetzt jetzt 'ł' durch 'l'
+
 ## [4.2.3] - 2022-08-24
 ### Fixed
 - `Text.convert(..)` kann jetzt auch mit 'Senftenberg/Zły Komorow' nach ISO-8859-1 konvertieren

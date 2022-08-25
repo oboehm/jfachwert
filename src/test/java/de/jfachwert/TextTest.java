@@ -265,9 +265,12 @@ public final class TextTest extends FachwertTest {
     @Test
     public void testConvertSenftenberg() {
         String senftenberg = "Senftenberg/Z\u0142y Komorow";
+        assertEquals(StandardCharsets.UTF_8, Text.detectCharset(senftenberg));
         String converted = Text.convert(senftenberg, StandardCharsets.ISO_8859_1);
         LOG.info("UTF-8: '" + senftenberg + "' / ISO-8859-1: '" + converted + "'");
         assertEquals(senftenberg.length(), converted.length(), "falsch konvertiert: " + converted);
+        assertTrue(Text.isPrintable(senftenberg));
+        assertEquals("Senftenberg/Zly Komorow", Text.replaceUmlaute(senftenberg));
     }
 
     @DisplayName("Konvertierung")
