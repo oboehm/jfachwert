@@ -8,7 +8,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ## [Unreleased]
 ### Added
-- 'Text.of(..)' akzeptiert jetzt auch Zeichensatz (z.B. ISO-8859-1) als Parameter und wandelt Sonderzeichen, die es in diesem Zeichensatz nicht gibt, in ihre Ersatzdarstellung um
+- Text-Konvertierung nach ASCII (und andere Zeichensätze) wird unterstützt
 ### Fixed
 - 'Text.replaceUmlaute(..)' ersetzt jetzt 'ł' durch 'l'
 
