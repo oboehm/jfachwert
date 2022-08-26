@@ -298,13 +298,6 @@ public final class TextTest extends FachwertTest {
         checkOf(content, charset);
     }
 
-    @Test
-    void testLatin15() {
-        String content = String.join("\n", orte);
-        Charset latin15 = Charset.forName("ISO-8859-15");
-        Text t1 = Text.of(content, StandardCharsets.ISO_8859_1);
-    }
-
     @DisplayName("Waehrungen ersetzen")
     @ParameterizedTest(name = "{index}: {0}")
     @MethodSource("encodingParameters")
@@ -314,6 +307,11 @@ public final class TextTest extends FachwertTest {
             buf.append(c.getCurrencyCode()).append('\t').append(c.getSymbol()).append('\n');
         }
         checkOf(buf.toString(), charset);
+    }
+
+    @Test
+    void testAsciiWaehrungen() throws IOException {
+        testEncodingWaehrungen(StandardCharsets.US_ASCII);
     }
 
     private void checkOf(String content, Charset charset) throws IOException {

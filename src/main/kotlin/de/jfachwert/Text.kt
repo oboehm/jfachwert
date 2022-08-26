@@ -333,6 +333,8 @@ open class Text
                 '\u00d3', '\u00d2', '\u00d4' -> return "O"
                 '\u00da', '\u00d9', '\u00db' -> return "U"
                 '\u00a1' -> return "!"
+                '\u00a3' -> return "GBP"
+                '\u00a5' -> return "JPY"
                 '\u00bf' -> return "?"
                 else -> return replaceSpecialChar(c, StandardCharsets.ISO_8859_1)
             }
