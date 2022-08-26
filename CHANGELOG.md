@@ -7,6 +7,8 @@ genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
 ## [Unreleased]
+### Added
+- 'Text.of(..)' akzeptiert jetzt auch Zeichensatz (z.B. ISO-8859-1) als Parameter und wandelt Sonderzeichen, die es in diesem Zeichensatz nicht gibt, in ihre Ersatzdarstellung um
 ### Fixed
 - 'Text.replaceUmlaute(..)' ersetzt jetzt 'ł' durch 'l'
 

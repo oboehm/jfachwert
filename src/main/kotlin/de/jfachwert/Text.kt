@@ -309,27 +309,33 @@ open class Text
             val zeichen = text.toCharArray()
             val buffer = CharBuffer.allocate(zeichen.size * 2)
             for (c in zeichen) {
-                when (c) {
-                    '\u00e4' -> buffer.put("ae")
-                    '\u00f6' -> buffer.put("oe")
-                    '\u00fc' -> buffer.put("ue")
-                    '\u00df' -> buffer.put("ss")
-                    '\u00c4' -> buffer.put("Ae")
-                    '\u00d6' -> buffer.put("Oe")
-                    '\u00dc' -> buffer.put("Ue")
-                    '\u00e1', '\u00e0', '\u00e2' -> buffer.put('a')
-                    '\u00e9', '\u00e8', '\u00ea', '\u00eb' -> buffer.put('e')
-                    '\u00f3', '\u00f2', '\u00f4' -> buffer.put('o')
-                    '\u00fa', '\u00f9', '\u00fb' -> buffer.put('u')
-                    '\u00c1', '\u00c0', '\u00c2' -> buffer.put('A')
-                    '\u00c9', '\u00c8', '\u00ca' -> buffer.put('E')
-                    '\u00d3', '\u00d2', '\u00d4' -> buffer.put('O')
-                    '\u00da', '\u00d9', '\u00db' -> buffer.put('U')
-                    else -> buffer.put(replaceSpecialChar(c, StandardCharsets.ISO_8859_1))
-                }
+                buffer.put(replaceUmlaut(c))
             }
             rewind(buffer)
             return buffer.toString().trim { it <= ' ' }
+        }
+
+        private fun replaceUmlaut(c: Char) : String {
+            when (c) {
+                '\u00e4' -> return "ae"
+                '\u00f6' -> return "oe"
+                '\u00fc' -> return "ue"
+                '\u00df' -> return "ss"
+                '\u00c4' -> return "Ae"
+                '\u00d6' -> return "Oe"
+                '\u00dc' -> return "Ue"
+                '\u00e1', '\u00e0', '\u00e2' -> return "a"
+                '\u00e9', '\u00e8', '\u00ea', '\u00eb' -> return "e"
+                '\u00f3', '\u00f2', '\u00f4' -> return "o"
+                '\u00fa', '\u00f9', '\u00fb' -> return "u"
+                '\u00c1', '\u00c0', '\u00c2' -> return "A"
+                '\u00c9', '\u00c8', '\u00ca' -> return "E"
+                '\u00d3', '\u00d2', '\u00d4' -> return "O"
+                '\u00da', '\u00d9', '\u00db' -> return "U"
+                '\u00a1' -> return "!"
+                '\u00bf' -> return "?"
+                else -> return replaceSpecialChar(c, StandardCharsets.ISO_8859_1)
+            }
         }
 
         private fun rewind(buffer: CharBuffer?) {
@@ -475,18 +481,19 @@ open class Text
             return buffer.toString().trim { it <= ' ' }
         }
 
-        private fun replaceSpecialChar(c: Char, encoding: Charset): Char {
+        private fun replaceSpecialChar(c: Char, encoding: Charset): String {
             when (encoding) {
-                StandardCharsets.UTF_8 -> return c
+                StandardCharsets.UTF_8 -> return c.toString()
+                StandardCharsets.US_ASCII -> return replaceUmlaut(c)
                 else ->
                     when (c) {
-                        '\u011b' -> return 'e'
-                        '\u015b', '\u0161' -> return 's'
-                        '\u0107', '\u010d' -> return 'c'
-                        '\u0141', '\u0142' -> return 'l'
-                        '\u0144' -> return 'n'
-                        '\u017e', '\u017a' -> return 'z'
-                        else -> return c
+                        '\u011b' -> return "e"
+                        '\u015b', '\u0161' -> return "s"
+                        '\u0107', '\u010d' -> return "c"
+                        '\u0141', '\u0142' -> return "l"
+                        '\u0144' -> return "n"
+                        '\u017e', '\u017a' -> return "z"
+                        else -> return c.toString()
                     }
             }
         }

@@ -18,6 +18,7 @@
 package de.jfachwert;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -47,6 +48,8 @@ public final class TextTest extends FachwertTest {
 
     private static final Logger LOG = Logger.getLogger(TextTest.class.getName());
     private static final Set<Charset> availableCharsets = new HashSet<>(Arrays.asList(StandardCharsets.ISO_8859_1, Charset.forName("IBM850")));
+    private static final File ORTE_FILE = new File("src/test/resources/de/jfachwert/orte.txt");
+    private static List<String> orte;
 
     static {
         String probe = "a\u00e4\u00f6\u00fc\u00dfA\u00c4\u00d6\u00dc";
@@ -59,6 +62,12 @@ public final class TextTest extends FachwertTest {
                 LOG.info(charset + " wird auf diesem System nicht unterstuetzt: " + ex);
             }
         }
+    }
+
+    @BeforeAll
+    static void setUpOrte() throws IOException {
+        File file = new File("src/test/resources/de/jfachwert/orte.txt");
+        orte = FileUtils.readLines(ORTE_FILE, StandardCharsets.UTF_8);
     }
 
     @Override
@@ -225,6 +234,13 @@ public final class TextTest extends FachwertTest {
     }
 
     @Test
+    public void testIsPrintableOrte() {
+        for (String x : orte) {
+            assertTrue(Text.of(x).isPrintable(), x);
+        }
+    }
+
+    @Test
     public void testIsPrintableCurrencies() {
         for (Currency c : Currency.getAvailableCurrencies()) {
             String s = String.format("%s: %s (%s)", c.getCurrencyCode(), c.getSymbol(), c);
@@ -265,13 +281,21 @@ public final class TextTest extends FachwertTest {
     }
 
     @Test
-    void testOfCharset() throws IOException {
-        File file = new File("src/test/resources/de/jfachwert/orte.txt");
-        String content = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
-        Text latin = Text.of(content, StandardCharsets.ISO_8859_1);
-        File latinFile = new File("target", "latin.txt");
-        FileUtils.writeStringToFile(latinFile, latin.toString(), StandardCharsets.ISO_8859_1);
-        String loaded = FileUtils.readFileToString(latinFile, StandardCharsets.ISO_8859_1);
+    void testOfLatin1() throws IOException {
+        checkOf(StandardCharsets.ISO_8859_1);
+    }
+
+    @Test
+    void testOfAscii() throws IOException {
+        checkOf(StandardCharsets.US_ASCII);
+    }
+
+    private void checkOf(Charset charset) throws IOException {
+        String content = String.join("\n", orte);
+        Text latin = Text.of(content, charset);
+        File encodedFile = new File("target", charset + ".txt");
+        FileUtils.writeStringToFile(encodedFile, latin.toString(), charset);
+        String loaded = FileUtils.readFileToString(encodedFile, charset);
         assertEquals(latin.toString(), loaded);
     }
 
