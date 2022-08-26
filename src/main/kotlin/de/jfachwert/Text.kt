@@ -487,23 +487,31 @@ open class Text
                 "IBM850",
                 StandardCharsets.ISO_8859_1.name() ->
                     when (c) {
-                        '\u011b' -> return "e"
-                        '\u015b', '\u0161' -> return "s"
-                        '\u0107', '\u010d' -> return "c"
-                        '\u0141', '\u0142' -> return "l"
-                        '\u0144' -> return "n"
-                        '\u017e', '\u017a' -> return "z"
-                        '\u0e3f' -> return "THB"
-                        '\u20a9' -> return "KRW"
-                        '\u20aa' -> return "ILS"
-                        '\u20ab' -> return "VND"
                         '\u20ac' -> return "EUR"
-                        '\u20b9' -> return "INR"
-                        else -> return c.toString()
+                        else -> return replaceSpecialCharLatin15(c)
                     }
+                "ISO-8859-15" -> return replaceSpecialCharLatin15(c)
                 else -> return c.toString()
             }
         }
+
+        private fun replaceSpecialCharLatin15(c: Char): String {
+            when (c) {
+                '\u011b' -> return "e"
+                '\u015b', '\u0161' -> return "s"
+                '\u0107', '\u010d' -> return "c"
+                '\u0141', '\u0142' -> return "l"
+                '\u0144' -> return "n"
+                '\u017e', '\u017a' -> return "z"
+                '\u0e3f' -> return "THB"
+                '\u20a9' -> return "KRW"
+                '\u20aa' -> return "ILS"
+                '\u20ab' -> return "VND"
+                '\u20b9' -> return "INR"
+                else -> return c.toString()
+            }
+        }
+
     }
 
 }

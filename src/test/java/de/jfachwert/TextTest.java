@@ -62,6 +62,7 @@ public final class TextTest extends FachwertTest {
                 LOG.info(charset + " wird auf diesem System nicht unterstuetzt: " + ex);
             }
         }
+        availableCharsets.add(Charset.forName("ISO-8859-15"));
     }
 
     @BeforeAll
