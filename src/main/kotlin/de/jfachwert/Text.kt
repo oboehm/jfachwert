@@ -245,6 +245,22 @@ open class Text
         }
 
         /**
+         * Liefert einen Text fuer den gewuenschten Zeichensatz (Encoding)
+         * zurueck. Dabei werden Zeichen, die nicht in diesem Zeichensatz
+         * vorhanden sind, durch eine Ersatzdarstellung ersetzt.
+         *
+         * @param text darf nicht null sein
+         * @param encoding z.B. ISO-8859-1
+         * @return Text
+         * @since 4.3
+         */
+        @JvmStatic
+        fun of(text: String, encoding: Charset): Text {
+            val encoded = replaceSpecialChars(text, encoding)
+            return of(encoded)
+        }
+
+        /**
          * Ueberprueft den uebergebenen Text.
          *
          * @param text Text
@@ -309,7 +325,7 @@ open class Text
                     '\u00c9', '\u00c8', '\u00ca' -> buffer.put('E')
                     '\u00d3', '\u00d2', '\u00d4' -> buffer.put('O')
                     '\u00da', '\u00d9', '\u00db' -> buffer.put('U')
-                    else -> buffer.put(replaceSpecialChar(c))
+                    else -> buffer.put(replaceSpecialChar(c, StandardCharsets.ISO_8859_1))
                 }
             }
             rewind(buffer)
@@ -443,28 +459,37 @@ open class Text
         fun convert(value: String, toEncoding: Charset, fromEncoding: Charset): String {
             var x = value
             if (fromEncoding == StandardCharsets.UTF_8) {
-                x = replaceSpecialChars(value)
+                x = replaceSpecialChars(value, toEncoding)
             }
             return String(x.toByteArray(fromEncoding), toEncoding)
         }
 
-        private fun replaceSpecialChars(value: String): String {
+        @JvmStatic
+        fun replaceSpecialChars(value: String, encoding: Charset): String {
             val zeichen = value.toCharArray()
             val buffer = CharBuffer.allocate(zeichen.size * 2)
             for (c in zeichen) {
-                buffer.put(replaceSpecialChar(c))
+                buffer.put(replaceSpecialChar(c, encoding))
             }
             rewind(buffer)
             return buffer.toString().trim { it <= ' ' }
         }
 
-        private fun replaceSpecialChar(c: Char): Char {
-            when (c) {
-                '\u0142' -> return 'l'
-                else -> return c
+        private fun replaceSpecialChar(c: Char, encoding: Charset): Char {
+            when (encoding) {
+                StandardCharsets.UTF_8 -> return c
+                else ->
+                    when (c) {
+                        '\u011b' -> return 'e'
+                        '\u015b', '\u0161' -> return 's'
+                        '\u0107', '\u010d' -> return 'c'
+                        '\u0141', '\u0142' -> return 'l'
+                        '\u0144' -> return 'n'
+                        '\u017e', '\u017a' -> return 'z'
+                        else -> return c
+                    }
             }
         }
-
     }
 
 }

@@ -17,12 +17,14 @@
  */
 package de.jfachwert;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -263,14 +265,14 @@ public final class TextTest extends FachwertTest {
     }
 
     @Test
-    public void testConvertSenftenberg() {
-        String senftenberg = "Senftenberg/Z\u0142y Komorow";
-        assertEquals(StandardCharsets.UTF_8, Text.detectCharset(senftenberg));
-        String converted = Text.convert(senftenberg, StandardCharsets.ISO_8859_1);
-        LOG.info("UTF-8: '" + senftenberg + "' / ISO-8859-1: '" + converted + "'");
-        assertEquals(senftenberg.length(), converted.length(), "falsch konvertiert: " + converted);
-        assertTrue(Text.isPrintable(senftenberg));
-        assertEquals("Senftenberg/Zly Komorow", Text.replaceUmlaute(senftenberg));
+    void testOfCharset() throws IOException {
+        File file = new File("src/test/resources/de/jfachwert/orte.txt");
+        String content = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+        Text latin = Text.of(content, StandardCharsets.ISO_8859_1);
+        File latinFile = new File("target", "latin.txt");
+        FileUtils.writeStringToFile(latinFile, latin.toString(), StandardCharsets.ISO_8859_1);
+        String loaded = FileUtils.readFileToString(latinFile, StandardCharsets.ISO_8859_1);
+        assertEquals(latin.toString(), loaded);
     }
 
     @DisplayName("Konvertierung")
