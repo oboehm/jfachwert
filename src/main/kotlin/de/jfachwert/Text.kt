@@ -493,6 +493,12 @@ open class Text
                         '\u0141', '\u0142' -> return "l"
                         '\u0144' -> return "n"
                         '\u017e', '\u017a' -> return "z"
+                        '\u0e3f' -> return "THB"
+                        '\u20a9' -> return "KRW"
+                        '\u20aa' -> return "ILS"
+                        '\u20ab' -> return "VND"
+                        '\u20ac' -> return "EUR"
+                        '\u20b9' -> return "INR"
                         else -> return c.toString()
                     }
                 else -> return c.toString()

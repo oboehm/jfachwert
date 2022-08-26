@@ -294,11 +294,7 @@ public final class TextTest extends FachwertTest {
 
     private void checkOf(Charset charset) throws IOException {
         String content = String.join("\n", orte);
-        Text latin = Text.of(content, charset);
-        File encodedFile = new File("target", charset + ".txt");
-        FileUtils.writeStringToFile(encodedFile, latin.toString(), charset);
-        String loaded = FileUtils.readFileToString(encodedFile, charset);
-        assertEquals(latin.toString(), loaded);
+        checkOf(content, charset);
     }
 
     @Test
@@ -306,6 +302,25 @@ public final class TextTest extends FachwertTest {
         String content = String.join("\n", orte);
         Charset latin15 = Charset.forName("ISO-8859-15");
         Text t1 = Text.of(content, StandardCharsets.ISO_8859_1);
+    }
+
+    @DisplayName("Waehrungen ersetzen")
+    @ParameterizedTest(name = "{index}: {0}")
+    @MethodSource("encodingParameters")
+    void testEncodingWaehrungen(Charset charset) throws IOException {
+        StringBuilder buf = new StringBuilder();
+        for (Currency c : Currency.getAvailableCurrencies()) {
+            buf.append(c.getCurrencyCode()).append('\t').append(c.getSymbol()).append('\n');
+        }
+        checkOf(buf.toString(), charset);
+    }
+
+    private void checkOf(String content, Charset charset) throws IOException {
+        Text text = Text.of(content, charset);
+        File encodedFile = new File("target", charset + ".txt");
+        FileUtils.writeStringToFile(encodedFile, text.toString(), charset);
+        String loaded = FileUtils.readFileToString(encodedFile, charset);
+        assertEquals(text.toString(), loaded);
     }
 
     @DisplayName("Konvertierung")
