@@ -280,9 +280,11 @@ public final class TextTest extends FachwertTest {
         assertEquals("B\u00c3\u00b6hm", Text.convert("B\u00f6hm", StandardCharsets.ISO_8859_1));
     }
 
-    @Test
-    void testOfLatin1() throws IOException {
-        checkOf(StandardCharsets.ISO_8859_1);
+    @DisplayName("Sonderzeichen ersetzen")
+    @ParameterizedTest(name = "{index}: {0}")
+    @MethodSource("encodingParameters")
+    void testOfCharset(Charset charset) throws IOException {
+        checkOf(charset);
     }
 
     @Test
@@ -297,6 +299,13 @@ public final class TextTest extends FachwertTest {
         FileUtils.writeStringToFile(encodedFile, latin.toString(), charset);
         String loaded = FileUtils.readFileToString(encodedFile, charset);
         assertEquals(latin.toString(), loaded);
+    }
+
+    @Test
+    void testLatin15() {
+        String content = String.join("\n", orte);
+        Charset latin15 = Charset.forName("ISO-8859-15");
+        Text t1 = Text.of(content, StandardCharsets.ISO_8859_1);
     }
 
     @DisplayName("Konvertierung")

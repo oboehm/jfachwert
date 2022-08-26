@@ -482,10 +482,10 @@ open class Text
         }
 
         private fun replaceSpecialChar(c: Char, encoding: Charset): String {
-            when (encoding) {
-                StandardCharsets.UTF_8 -> return c.toString()
-                StandardCharsets.US_ASCII -> return replaceUmlaut(c)
-                else ->
+            when (encoding.name()) {
+                StandardCharsets.US_ASCII.name() -> return replaceUmlaut(c)
+                "IBM850",
+                StandardCharsets.ISO_8859_1.name() ->
                     when (c) {
                         '\u011b' -> return "e"
                         '\u015b', '\u0161' -> return "s"
@@ -495,6 +495,7 @@ open class Text
                         '\u017e', '\u017a' -> return "z"
                         else -> return c.toString()
                     }
+                else -> return c.toString()
             }
         }
     }
