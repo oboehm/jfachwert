@@ -48,7 +48,7 @@ konfiguriert ist:
 |===
 |Schritt |Kommandos |Anmerkung
 
-|auf Master-Branch wechseln
+|auf Release-Branch wechseln
 |`git checkout release/4.x`
 |Die folgenden Schritte sollten auf dem Release-Branch erfolgen, weil dort das
 letzte Release abgelegt wird.
