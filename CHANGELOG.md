@@ -8,13 +8,13 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ## [4.3.0] - 2022-08-27
 ### Added
-- Text-Konvertierung nach ASCII (und andere Zeichensätze) wird unterstützt
+- Text.of(..) akzeptiert jetzt als 2. Parameter einen Zeichensatz- Text-Konvertierung nach ASCII (und andere Zeichensätze) wird unterstützt
 ### Fixed
 - 'Text.replaceUmlaute(..)' ersetzt jetzt 'ł' durch 'l'
 
 ## [4.2.3] - 2022-08-24
 ### Fixed
-- `Text.convert(..)` kann jetzt auch mit 'Senftenberg/Zły Komorow' nach ISO-8859-1 konvertieren
+- `Text.convert(..)` kann jetzt auch 'Senftenberg/Zły Komorow' und andere polnische Grenz-Städte nach ISO-8859-1 konvertieren
 
 ## [4.2.2] - 2022-07-03
 ### Fixed
