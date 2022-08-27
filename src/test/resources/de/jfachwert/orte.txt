@@ -1,4 +1,3 @@
-Burg (Spreewald)/Bórkowy (Błota)
 Byhleguhre-Byhlen/Beła Góra-Bělin
 Cottbus/Chóśebuz
 Crostwitz / Chrósćicy
@@ -7,24 +6,15 @@ Gablenz / Jabłońc
 Groß Düben / Dźěwin
 Großräschen/Rań
 Göda / Hodźij
-Kolkwitz/Gołkojce
-Lohsa / Łaz
-Lübben (Spreewald) / Lubin (Błota)
-Lübbenau/Spreewald / Lubnjow/Błota
 Nebelschütz / Njebjelčicy
-Neiße-Malxetal/Dolina Nysa-Małksa
 Neschwitz / Njeswačidło
 Neuhausen/Spree / Kopańce/Sprjewja
 Panschwitz-Kuckau / Pančicy-Kukow
 Rietschen / Rěčicy
 Schlepzig/Słopišća
-Senftenberg/Zły Komorow
-Spreetal / Sprjewiny Doł
 Spreewaldheide/Błośańska Góla
 Straupitz (Spreewald)/Tšupc (Błota)
-Turnow-Preilack/Turnow-Pśiłuk
 Vetschau/Spreewald / Wětošow/Błota
 Weißkeißel / Wuskidź
 Weißwasser/O.L. / Běła Woda
-Wiesengrund/Łukojcec
 ¿Madrid - ¡Madrid
