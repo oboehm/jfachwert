@@ -23,7 +23,6 @@ import de.jfachwert.post.Name
 import de.jfachwert.pruefung.NullValidator
 import de.jfachwert.pruefung.exception.InvalidValueException
 import org.apache.commons.lang3.StringUtils
-import org.apache.commons.text.WordUtils
 import java.util.*
 import java.util.regex.Pattern
 
@@ -86,9 +85,22 @@ open class EMailAdresse
      */
     val name: Name
         get() {
-            val name = WordUtils.capitalize(localPart, '.')
+            val name = capitalize(localPart, '.')
             return Name.of(name)
         }
+
+    private fun capitalize(word: String, delimiter: Char): String {
+        val parts = word.split(delimiter)
+        var capitalized = ""
+        for (s in parts) {
+            capitalized += capitalize(s) + ' '
+        }
+        return capitalized.trim()
+    }
+
+    private fun capitalize(word: String): String {
+        return word.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+    }
 
 
 
