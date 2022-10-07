@@ -18,6 +18,7 @@
 package de.jfachwert;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -67,7 +68,6 @@ public final class TextTest extends FachwertTest {
 
     @BeforeAll
     static void setUpOrte() throws IOException {
-        File file = new File("src/test/resources/de/jfachwert/orte.txt");
         orte = FileUtils.readLines(ORTE_FILE, StandardCharsets.UTF_8);
     }
 
@@ -146,11 +146,12 @@ public final class TextTest extends FachwertTest {
      * in {@link Text#replaceUmlaute)()} verbraucht wurde. Dies ist zwar kein
      * echter Performance-Test, er gibt aber zumindestens Anhaltspunkte, ob
      * die Performance sich verbessert hat.
-     * 
+     * <p>
      * So dauert dieser Test auf einem Entwickler-Notebook von 2015 zwischen
      * 0,8 und 1,3 ms fuer die urspruengliche Implementierung. Nach der
      * Optimierung der Methode braucht sie jetzt zwischen 0,2 und 0,3 ms
      * (auf dem gleichen Rechner).
+     * </p>
      *
      * @throws IOException the io exception
      */
@@ -314,12 +315,27 @@ public final class TextTest extends FachwertTest {
         testEncodingWaehrungen(StandardCharsets.US_ASCII);
     }
 
+    /**
+     * Mit dieser Waehrung gab es unter Java 17 Probleme.
+     *
+     * @throws IOException im Fehlerfall
+     */
+    @Test
+    void testWaehrungXOF() throws IOException {
+        Currency c = Currency.getInstance("XOF");
+        checkOf(c.getSymbol(), StandardCharsets.US_ASCII);
+    }
+
     private void checkOf(String content, Charset charset) throws IOException {
         Text text = Text.of(content, charset);
-        File encodedFile = new File("target", charset + ".txt");
+        File targetDir = new File("target", SystemUtils.JAVA_VERSION);
+        if (targetDir.mkdir()) {
+            LOG.info(String.format("Verzeichnis '%s' wurde angelegt.", targetDir));
+        }
+        File encodedFile = new File(targetDir, charset + ".txt");
         FileUtils.writeStringToFile(encodedFile, text.toString(), charset);
         String loaded = FileUtils.readFileToString(encodedFile, charset);
-        assertEquals(text.toString(), loaded);
+        assertEquals(text.toString(), loaded, "Charset " + charset);
     }
 
     @DisplayName("Konvertierung")

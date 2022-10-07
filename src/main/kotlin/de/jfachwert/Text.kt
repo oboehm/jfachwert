@@ -484,6 +484,9 @@ open class Text
         }
 
         private fun replaceSpecialChar(c: Char, encoding: Charset): String {
+            if (c.isWhitespace()) {
+                return " "
+            }
             when (encoding.name()) {
                 StandardCharsets.US_ASCII.name() -> return replaceUmlaut(c)
                 "IBM850",

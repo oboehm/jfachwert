@@ -349,6 +349,11 @@
         <version>2.0.1.Final</version>
       </dependency>
       <dependency>
+        <groupId>org.mutabilitydetector</groupId>
+        <artifactId>MutabilityDetector</artifactId>
+        <version>0.10.6</version>
+      </dependency>
+      <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter</artifactId>
         <version>5.8.2</version>
@@ -541,7 +546,7 @@
     <dependency>
       <groupId>org.mutabilitydetector</groupId>
       <artifactId>MutabilityDetector</artifactId>
-      <version>0.10.4</version>
+      <scope>test</scope>
     </dependency>
 
   </dependencies>
