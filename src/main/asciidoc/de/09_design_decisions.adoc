@@ -30,10 +30,12 @@ Die einzigen Abhängigkeiten, die in Kauf genommen werden, sind:
 * commons-lang3: diese Bibliothek ist bereits als Abhängigkeit vieler anderer Bibliotheken vorhanden
 * commons-collections4: aus dieser Bibliothek wurde die ReferenceMap verwendet, um Objekte, die oft gebraucht werden, vorhalten zu können
   (zur Reduktion des Speicherverbrauchs)
-* commons-text: hieraus wurden die WordUtils für die Groß-/Kleinschreibung von Namensanteilen verwendet.
 * validation-api: Basis-Bibliothek für Validierung
 * money-api (JSR 354): diese API sowie einige weitere Bibliotheken dazu sind optional, da sie Java 9 Bestandteil des JDKs sind.
   Evtl. müssen sie unter Java 8 als Dependency mit aufgeführt werden, wenn diese Funktionalität benötigt wird.
+
+Mit v4.4 wurde die Abhänigkeit zu commons-text wieder entfernt, da Kotlin hierfür genügend Unterstützung anbietet, um die fehlende Funktionalität selbst zu implementieren.
+
 
 
 === Ableitung möglich
