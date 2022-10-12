@@ -24,7 +24,6 @@ import de.jfachwert.KSimpleValidator
 import de.jfachwert.pruefung.NullValidator
 import de.jfachwert.pruefung.exception.InvalidValueException
 import de.jfachwert.pruefung.exception.LocalizedUnknownCurrencyException
-import org.apache.commons.collections4.map.ReferenceMap
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -46,7 +45,7 @@ open class Waehrung protected constructor(code: Currency, validator: KSimpleVali
     companion object {
 
         private val LOG = Logger.getLogger(Waehrung::class.java.name)
-        private val CACHE: MutableMap<String, Waehrung> = ReferenceMap()
+        private val CACHE: MutableMap<String, Waehrung> = WeakHashMap()
         private val VALIDATOR: KSimpleValidator<String> = Validator()
 
         /** Default-Waehrung, die durch die Landeseinstellung (Locale) vorgegeben wird.  */
