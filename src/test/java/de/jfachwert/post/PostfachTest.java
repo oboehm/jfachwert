@@ -19,7 +19,7 @@ package de.jfachwert.post;/*
 import de.jfachwert.FachwertTest;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.ValidationException;
+import de.jfachwert.pruefung.exception.ValidationException;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;

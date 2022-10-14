@@ -28,7 +28,6 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.*
 import java.util.logging.Logger
-import javax.validation.constraints.NotNull
 
 /**
  * Die Klasse PackedDecimal dienst zum speicherschonende Speichern von Zahlen.
@@ -42,9 +41,9 @@ import javax.validation.constraints.NotNull
  * Dieser Datentyp eignet sich damit fuer:
  *
  *  * Abspeichern grosser Menge von Zahlen, wenn dabei die interne
- * Speichergroesse relevant ist,
+ *    Speichergroesse relevant ist,
  *  * Abspeichern von Zahlen beliebiger Groesse
- * (Ersatz fuer [java.math.BigDecimal],
+ *    (Ersatz fuer [java.math.BigDecimal],
  *  * Abspeichern von Zahlen mit fuehrender Null (z.B. Vorwahl).
  *
  * Eine noch kompaktere Darstellung (ca. 20%) laesst sich mit der Chen-Ho- oder
@@ -77,27 +76,21 @@ import javax.validation.constraints.NotNull
  * +-----+---+--------------------------------------------------+
 </pre> *
  *
- *
  * Damit koennen auch Zeichenketten nachgebildet werden, die strenggenommen
  * keine Dezimalzahl darstellen, z.B. "+49/811 32 16-8". Dies ist zwar
  * zulaessig, jedoch duerfen damit keine mathematische Operation angewendet
  * werden. Ansonsten kann die Klasse ueberall dort eingesetzt werden, wo
  * auch eine [java.math.BigDecimal] verwendet wird.
  *
- *
- *
  * Die API orientiert sich an die API von [BigDecimal] und ist auch von
  * der [Number]-Klasse abgeleitet. Allerdings werden noch nicht alle
  * Methoden von [unterstuetzt][BigDecimal]. In diesem Fall kann man auf
  * die Methode [.toBigDecimal] ausweichen.
  *
- *
- *
  * Da diese Klasse eher eine technische als eine fachliche Klasse ist, wurde
  * die englische Bezeichnung aus COBOL uebernommen. Sie wird von einigen
  * Fachwert-Klassen intern verwendet, kann aber auch fuer eigene Zwecke
  * verwendet werden.
- *
  *
  * @author oboehm
  * @since 0.6 (29.03.2018)
@@ -667,7 +660,7 @@ open class PackedDecimal @JvmOverloads constructor(zahl: String, validator: KSim
      * @return negtive Zahl, falls this &lt; other, 0 bei Gleichheit, ansonsten
      * positive Zahl.
      */
-    operator fun compareTo(@NotNull other: PackedDecimal): Int {
+    operator fun compareTo(other: PackedDecimal): Int {
         return toBruch().compareTo(other.toBruch())
     }
 

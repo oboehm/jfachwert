@@ -31,10 +31,6 @@ import java.util.*
  * der getMessage(String)-Methode. Deswegen wurde diese Methode fuer Kotlin
  * in #getMessageKey umbenannt.
  *
- * ist es momentan leider
- * nicht moeglich, fuer Kotlin- und Java-Implementierungen das gleiche
- * Interface zu verwenden.
- *
  * @author oboehm
  * @since 4.0 (15.03.2020)
  */

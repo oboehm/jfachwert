@@ -20,7 +20,7 @@ package de.jfachwert;
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import de.jfachwert.pruefung.exception.NullValueException;
 
-import javax.validation.ValidationException;
+import de.jfachwert.pruefung.exception.ValidationException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,7 +44,7 @@ import java.util.logging.Logger;
  */
 public interface SimpleValidator<T extends Serializable> extends Serializable {
 
-    static final Logger logger = Logger.getLogger(SimpleValidator.class.getName());
+    Logger logger = Logger.getLogger(SimpleValidator.class.getName());
 
     /**
      * Wenn der uebergebene Wert gueltig ist, soll er unveraendert

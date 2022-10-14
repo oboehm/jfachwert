@@ -21,7 +21,7 @@ import de.jfachwert.AbstractFachwertTest;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.ValidationException;
+import de.jfachwert.pruefung.exception.ValidationException;
 
 import java.io.IOException;
 import java.io.InputStream;

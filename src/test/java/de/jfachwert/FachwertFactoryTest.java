@@ -24,7 +24,7 @@ import de.jfachwert.steuer.UStIdNr;
 import org.junit.jupiter.api.Test;
 import clazzfish.monitor.ClasspathMonitor;
 
-import javax.validation.ValidationException;
+import de.jfachwert.pruefung.exception.ValidationException;
 import java.io.Serializable;
 import java.lang.reflect.Modifier;
 import java.util.Collection;

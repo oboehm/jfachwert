@@ -21,7 +21,7 @@ import de.jfachwert.FachwertTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.ValidationException;
+import de.jfachwert.pruefung.exception.ValidationException;
 import java.math.BigInteger;
 import java.util.UUID;
 
@@ -286,7 +286,7 @@ public class TinyUUIDTest extends FachwertTest {
     private static void checkLastByte(String prefix) {
         for (int i = 1; i < 256; i++) {
             String s = String.format("%s%02x", prefix, i);
-            checkFromString(TinyUUID.fromString(prefix));
+            checkFromString(TinyUUID.fromString(s));
         }
     }
 

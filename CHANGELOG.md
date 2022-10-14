@@ -7,12 +7,16 @@ genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
 ## [Unreleased]
-- Abhängigkeit zu commons-text entfernt
+### Changed
+- Abhängigkeit zu commons-text und commons-collections4 entfernt
+- Abhängigkeit zu javax.validation für Entfernung vorbereitet
+### Fixed
 - Encoding-Probleme unter Java 17 behoben
 
 ## [4.3.0] - 2022-08-27
 ### Added
-- Text.of(..) akzeptiert jetzt als 2. Parameter einen Zeichensatz- Text-Konvertierung nach ASCII (und andere Zeichensätze) wird unterstützt
+- Text.of(..) akzeptiert jetzt als 2. Parameter einen Zeichensatz
+- Text-Konvertierung nach ASCII (und andere Zeichensätze) wird unterstützt
 ### Fixed
 - 'Text.replaceUmlaute(..)' ersetzt jetzt 'ł' durch 'l'
 

@@ -19,7 +19,7 @@ package de.jfachwert.formular;
 
 import org.junit.jupiter.api.Test;
 
-import javax.validation.ValidationException;
+import de.jfachwert.pruefung.exception.ValidationException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

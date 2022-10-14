@@ -18,7 +18,6 @@
 package de.jfachwert.pruefung.exception
 
 import org.apache.commons.lang3.StringUtils
-import javax.validation.ValidationException
 
 /**
  * Im Gegensatz zur [ValidationException] wurde hier

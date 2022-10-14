@@ -26,7 +26,7 @@ import javax.money.MonetaryAmount;
 import javax.money.MonetaryContext;
 import javax.money.MonetaryException;
 import javax.money.NumberValue;
-import javax.validation.ValidationException;
+import de.jfachwert.pruefung.exception.ValidationException;
 import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Locale;
