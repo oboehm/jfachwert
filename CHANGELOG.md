@@ -6,10 +6,13 @@ Es ersetzt die **Release Notes** aus den Anfangstagen von jFachwert und orientie
 genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
-## [Unreleased]
+## [4.4.0] - 2022-10-14
 ### Changed
-- Abhängigkeit zu commons-text und commons-collections4 entfernt
+- Abhängigkeit zu commons-collections4 entfernt
 - Abhängigkeit zu javax.validation für Entfernung vorbereitet
+### Security
+- Abhängigkeit zu commons-text entfernt
+  ([CVE-2022-42889](https://github.com/advisories/GHSA-599f-7c49-w659/dependabot))
 ### Fixed
 - Encoding-Probleme unter Java 17 behoben
 
