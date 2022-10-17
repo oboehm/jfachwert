@@ -6,6 +6,10 @@ Es ersetzt die **Release Notes** aus den Anfangstagen von jFachwert und orientie
 genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
+## [Unreleased]
+### Changed
+- Abhängigkeit zu com.google.code.findbugs:jsr305 entfernt
+
 ## [4.4.0] - 2022-10-14
 ### Changed
 - Abhängigkeit zu commons-collections4 entfernt

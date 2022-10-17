@@ -18,7 +18,6 @@
 package de.jfachwert
 
 import java.io.Serializable
-import javax.annotation.concurrent.Immutable
 
 /**
  * In diesem Interface fuer Fachwerte sind alle Eigenschaften zusammengefasst,
@@ -35,7 +34,6 @@ import javax.annotation.concurrent.Immutable
  *
  * @author ob@aosd.de
  */
-@Immutable
 interface KFachwert : Serializable, Fachwert {
 
     /**

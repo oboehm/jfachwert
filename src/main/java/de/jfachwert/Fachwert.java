@@ -17,7 +17,6 @@
  */
 package de.jfachwert;
 
-import javax.annotation.concurrent.Immutable;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -39,7 +38,6 @@ import java.util.Map;
  *
  * @author <a href="ob@aosd.de">oliver</a>
  */
-@Immutable
 public interface Fachwert extends Serializable {
 
     /**
