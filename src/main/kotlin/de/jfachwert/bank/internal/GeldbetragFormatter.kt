@@ -36,7 +36,7 @@ import javax.money.format.AmountFormatContext
 import javax.money.format.AmountFormatContextBuilder
 import javax.money.format.MonetaryAmountFormat
 import javax.money.format.MonetaryParseException
-import javax.validation.ValidationException
+import de.jfachwert.pruefung.exception.ValidationException
 
 /**
  * Der GeldbetragFormatter ist fuer die Formattierung und Parsen von

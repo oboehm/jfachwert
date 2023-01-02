@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
 import de.jfachwert.pruefung.NullValidator
 import java.io.Serializable
 import java.util.*
-import javax.validation.constraints.NotNull
 
 /**
  * Die meisten Fachwerte sind nur ein ganz duenner Wrapper um ein Attribut vom
@@ -99,7 +98,7 @@ abstract class AbstractFachwert<T : Serializable, S : AbstractFachwert<T, S>> pr
      * positive Zahl.
      * @since 3.0
      */
-    override fun compareTo(@NotNull other: S): Int {
+    override fun compareTo(other: S): Int {
         if (this == other) {
             return 0
         }

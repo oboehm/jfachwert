@@ -27,7 +27,7 @@ import org.apache.commons.lang3.RegExUtils
 import org.apache.commons.lang3.StringUtils
 import java.math.BigInteger
 import java.util.*
-import javax.validation.ValidationException
+import de.jfachwert.pruefung.exception.ValidationException
 
 /**
  * Ein Postfach besteht aus einer Nummer ohne fuehrende Nullen und einer

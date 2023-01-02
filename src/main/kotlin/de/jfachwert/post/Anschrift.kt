@@ -26,7 +26,7 @@ import org.apache.commons.lang3.StringUtils
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
-import javax.validation.ValidationException
+import de.jfachwert.pruefung.exception.ValidationException
 
 /**
  * Die Anschrift besteht aus Namen und Adresse oder Postfach. Der Name kann

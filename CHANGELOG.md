@@ -9,6 +9,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Unreleased]
 ### Changed
 - Abhängigkeit zu com.google.code.findbugs:jsr305 entfernt
+- Abhängigkeit zu javax.validation weiter reduziert
 
 ## [4.4.0] - 2022-10-14
 ### Changed

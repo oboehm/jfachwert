@@ -21,7 +21,7 @@ import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import java.io.Serializable
 import java.util.logging.Level
 import java.util.logging.Logger
-import javax.validation.ValidationException
+import de.jfachwert.pruefung.exception.ValidationException
 
 /**
  * Um die verschiedenen Validatoren als allgemeines Attribut verwendenen

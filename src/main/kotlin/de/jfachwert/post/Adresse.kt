@@ -33,7 +33,7 @@ import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
 import java.util.regex.Pattern
-import javax.validation.ValidationException
+import de.jfachwert.pruefung.exception.ValidationException
 
 /**
  * Bei einer Adresse kann es sich um eine Wohnungsadresse oder Gebaeudeadresse

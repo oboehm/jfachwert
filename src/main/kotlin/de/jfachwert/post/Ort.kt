@@ -29,7 +29,7 @@ import org.apache.commons.lang3.StringUtils
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
-import javax.validation.ValidationException
+import de.jfachwert.pruefung.exception.ValidationException
 
 /**
  * Ein Ort (oder auch Ortschaft) ist eine Stadt oder Gemeinde. Ein Ort hat

@@ -41,7 +41,7 @@ import java.lang.reflect.InvocationTargetException
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
-import javax.validation.ValidationException
+import de.jfachwert.pruefung.exception.ValidationException
 
 /**
  * Ueber die FachwertFactory kann ein beliebiger Fachwert generiert oder geholt
