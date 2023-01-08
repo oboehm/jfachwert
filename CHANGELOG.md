@@ -11,6 +11,9 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Abhängigkeit zu com.google.code.findbugs:jsr305 entfernt
 - Abhängigkeit zu javax.validation weiter reduziert
 - auf [GitHub Actions](https://github.com/oboehm/jfachwert/actions) umgestellt
+### Security
+* Bump jackson-databind from 2.12.6.1 to 2.13.4.1 by @dependabot in [#17](https://github.com/oboehm/jfachwert/pull/17)
+* Bump commons-text from 1.9 to 1.10.0 by @dependabot in [#18](https://github.com/oboehm/jfachwert/pull/18)
 
 ## [4.4.0] - 2022-10-14
 ### Changed
