@@ -25,6 +25,8 @@ import javax.money.MonetaryContext;
 
 import java.util.Currency;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -35,6 +37,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @author oboehm
  */
 public final class GeldbetragFactoryProviderTest {
+
+    private static final Logger log = Logger.getLogger(GeldbetragFactoryProviderTest.class.getName());
 
     private final GeldbetragFactoryProvider provider = new GeldbetragFactoryProvider();
 
@@ -53,8 +57,14 @@ public final class GeldbetragFactoryProviderTest {
     @Test
     public void testCreateMonetaryAmountFactory() {
         MonetaryAmountFactory<Geldbetrag> factory = provider.createMonetaryAmountFactory();
-        String concurrency = Currency.getInstance(Locale.getDefault()).getSymbol();
-        assertEquals(Geldbetrag.ZERO, factory.setCurrency(concurrency).create());
+        Locale locale = Locale.getDefault();
+        try {
+            Currency currency = Currency.getInstance(locale);
+            String concurrency = currency.getSymbol();
+            assertEquals(Geldbetrag.ZERO, factory.setCurrency(concurrency).create());
+        } catch (IllegalArgumentException ex) {
+            log.log(Level.INFO, "Test wird uebersprungen, da keine Waehrung fuer " + locale + " ermittelt wurde:", ex);
+        }
     }
 
     @Test
