@@ -6,10 +6,11 @@ Es ersetzt die **Release Notes** aus den Anfangstagen von jFachwert und orientie
 genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
-## [Unreleased]
+## [4.4.1] - 2023-01-08
 ### Changed
 - Abhängigkeit zu com.google.code.findbugs:jsr305 entfernt
 - Abhängigkeit zu javax.validation weiter reduziert
+- auf [GitHub Actions](https://github.com/oboehm/jfachwert/actions) umgestellt
 
 ## [4.4.0] - 2022-10-14
 ### Changed
@@ -21,34 +22,25 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ### Fixed
 - Encoding-Probleme unter Java 17 behoben
 
-## [4.3.0] - 2022-08-27
+## [4.3] - 2022-08-27
 ### Added
 - Text.of(..) akzeptiert jetzt als 2. Parameter einen Zeichensatz
 - Text-Konvertierung nach ASCII (und andere Zeichensätze) wird unterstützt
 ### Fixed
 - 'Text.replaceUmlaute(..)' ersetzt jetzt 'ł' durch 'l'
 
-## [4.2.3] - 2022-08-24
-### Fixed
-- `Text.convert(..)` kann jetzt auch 'Senftenberg/Zły Komorow' und andere polnische Grenz-Städte nach ISO-8859-1 konvertieren
-
-## [4.2.2] - 2022-07-03
-### Fixed
-- '¿' und '¡' werden als druckbares Zeichen erkannt
-  ([#16](https://github.com/oboehm/jfachwert/issues/16))
-- Ungenauigkeit bei der IBAN-Validierung korrigiert
-### Changed
-- IBAN nicht mehr von Text abgeleitet
-
-## [4.2.1] - 2022-06-02
-### Fixed
-- Validator- und Exception-Klassen können wieder abgeleitet werden
-  ([#15](https://github.com/oboehm/jfachwert/issues/15))
-
-## [4.2.0] - 2022-02-11
+## [4.2] - 2022-02-11
 ### Added
 - Text-Klasse bietet Encoding-Erkennung und -Umwandlung als leichtgewichtige Alternative zu [Tika](https://tika.apache.org/) an
+### Fixed
+- **v4.2.3**: `Text.convert(..)` kann jetzt auch 'Senftenberg/Zły Komorow' und andere polnische Grenz-Städte nach ISO-8859-1 konvertieren
+- **v4.2.2**: '¿' und '¡' werden als druckbares Zeichen erkannt
+  ([#16](https://github.com/oboehm/jfachwert/issues/16))
+- **v4.2.2**: Ungenauigkeit bei der IBAN-Validierung korrigiert
+- **v4.2.1**: Validator- und Exception-Klassen können wieder abgeleitet werden
+  ([#15](https://github.com/oboehm/jfachwert/issues/15))
 ### Changed
+- **v4.2.2**: IBAN nicht mehr von Text abgeleitet
 - Tests komplett auf JUnit 5 umgestellt
 
 ## [4.1] - 2022-01-11
