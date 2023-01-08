@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * Unit-Test fuer {@link GeldbetragFactoryProvider}-Klasse.
@@ -58,12 +59,19 @@ public final class GeldbetragFactoryProviderTest {
     public void testCreateMonetaryAmountFactory() {
         MonetaryAmountFactory<Geldbetrag> factory = provider.createMonetaryAmountFactory();
         Locale locale = Locale.getDefault();
+        assumeTrue(hasCurrency(locale));
+        Currency currency = Currency.getInstance(locale);
+        String concurrency = currency.getSymbol();
+        assertEquals(Geldbetrag.ZERO, factory.setCurrency(concurrency).create());
+    }
+
+    private static boolean hasCurrency(Locale locale) {
         try {
-            Currency currency = Currency.getInstance(locale);
-            String concurrency = currency.getSymbol();
-            assertEquals(Geldbetrag.ZERO, factory.setCurrency(concurrency).create());
-        } catch (IllegalArgumentException ex) {
-            log.log(Level.INFO, "Test wird uebersprungen, da keine Waehrung fuer " + locale + " ermittelt wurde:", ex);
+            Currency.getInstance(locale);
+            return true;
+        } catch(IllegalArgumentException ex) {
+            log.log(Level.INFO, "System kennt keine Waehrung fuer " + locale, ex);
+            return false;
         }
     }
 

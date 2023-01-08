@@ -34,8 +34,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * In der Klasse FachwertTest sind die Tests zusammengefasst, die fuer alle
@@ -123,7 +122,7 @@ public class FachwertTest {
     @Test
     public void testNotFinal() {
         Class<? extends KFachwert> clazz = fachwert.getClass();
-        assertFalse(clazz + " should be not final", Modifier.isFinal(clazz.getModifiers()));
+        assertFalse(Modifier.isFinal(clazz.getModifiers()), clazz + " should be not final");
     }
 
     /**

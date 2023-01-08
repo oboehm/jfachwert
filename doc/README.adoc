@@ -9,16 +9,16 @@ sie nicht bereits im obersten link:../README.md[README] enthalten sind.
 
 .Builds
 |===
-|Branch |https://travis-ci.com/github/oboehm/jfachwert/branches[Travis-CI.com] |https://sonarcloud.io/projects[sonarcloud.io]|https://coveralls.io/github/oboehm/jfachwert[CoverAlls.io] |https://codecov.io/gh/oboehm/jfachwert[codecov.io]
+|Branch |https://github.com/oboehm/jfachwert/actions/[GitHub Actions] |https://sonarcloud.io/projects[sonarcloud.io]|https://coveralls.io/github/oboehm/jfachwert[CoverAlls.io] |https://codecov.io/gh/oboehm/jfachwert[codecov.io]
 
 |master
-|https://travis-ci.com/github/oboehm/jfachwert/branches[image:https://travis-ci.com/oboehm/jfachwert.svg?branch=master[Build Status]]
+|
 |https://sonarcloud.io/dashboard?id=de.jfachwert%3Ajfachwert[image:https://sonarcloud.io/api/project_badges/measure?metric=alert_status&project=de.jfachwert:jfachwert[Quality Gate]]
 |https://coveralls.io/github/oboehm/jfachwert?branch=master[image:https://coveralls.io/repos/github/oboehm/jfachwert/badge.svg?branch=master[coveralls]]
 |https://codecov.io/gh/oboehm/jfachwert/branch/master[image:https://codecov.io/gh/oboehm/jfachwert/branch/master/graph/badge.svg[codecov]]
 
 |develop
-|https://travis-ci.com/github/oboehm/jfachwert/branches[image:https://travis-ci.com/oboehm/jfachwert.svg?branch=develop[Build Status]]
+|https://github.com/oboehm/jfachwert/actions/workflows/maven.yml[image:https://github.com/oboehm/jfachwert/actions/workflows/maven.yml/badge.svg[Build Status]]
 |https://sonarcloud.io/dashboard?id=de.jfachwert%3Ajfachwert%3Adevelop[image:https://sonarcloud.io/api/project_badges/measure?metric=alert_status&project=de.jfachwert:jfachwert:develop[Quality Gate]]
 |https://coveralls.io/github/oboehm/jfachwert?branch=develop[image:https://coveralls.io/repos/github/oboehm/jfachwert/badge.svg?branch=develop[coveralls]]
 |https://codecov.io/gh/oboehm/jfachwert/branch/develop[image:https://codecov.io/gh/oboehm/jfachwert/branch/develop/graph/badge.svg[codecov]]

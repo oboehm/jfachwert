@@ -24,7 +24,7 @@
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <kotlin.version>1.7.0</kotlin.version>
+    <kotlin.version>1.7.20</kotlin.version>
     <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 
@@ -168,7 +168,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M6</version>
+        <version>3.0.0-M7</version>
         <configuration>
           <excludes>
             <exclude>**/Abstract*.java</exclude>
@@ -261,7 +261,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>3.1.1</version>
+        <version>3.4.1</version>
       </plugin>
 
       <!-- Javadoc -->
@@ -503,22 +503,36 @@
             <artifactId>moneta-bp</artifactId>
           </exclusion>
           <exclusion>
-                <groupId>com.google.code.findbugs</groupId>
-                <artifactId>jsr305</artifactId>
-            </exclusion>
-            <exclusion>
-                <groupId>org.hamcrest</groupId>
-                <artifactId>hamcrest-core</artifactId>
-            </exclusion>
-            <exclusion>
-                <groupId>org.mutabilitydetector</groupId>
-                <artifactId>MutabilityDetector</artifactId>
-            </exclusion>
+              <groupId>com.google.code.findbugs</groupId>
+              <artifactId>jsr305</artifactId>
+          </exclusion>
+          <exclusion>
+              <groupId>org.hamcrest</groupId>
+              <artifactId>hamcrest-core</artifactId>
+          </exclusion>
+          <exclusion>
+              <groupId>org.mutabilitydetector</groupId>
+              <artifactId>MutabilityDetector</artifactId>
+          </exclusion>
           <exclusion>
             <artifactId>moneta-core</artifactId>
             <groupId>org.javamoney.moneta</groupId>
           </exclusion>
+          <exclusion>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>com.beust</groupId>
+            <artifactId>jcommander</artifactId>
+          </exclusion>
         </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>7.7.1</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>javax.annotation</groupId>
@@ -603,10 +617,10 @@
     <profile>
       <id>doc</id>
       <properties>
-        <asciidoctor.maven.plugin.version>2.2.1</asciidoctor.maven.plugin.version>
-        <asciidoctorj.version>2.5.2</asciidoctorj.version>
-        <asciidoctorj.diagram.version>2.2.1</asciidoctorj.diagram.version>
-        <jruby.version>9.3.2.0</jruby.version>
+        <asciidoctor.maven.plugin.version>2.2.2</asciidoctor.maven.plugin.version>
+        <asciidoctorj.version>2.5.7</asciidoctorj.version>
+        <asciidoctorj.diagram.version>2.2.3</asciidoctorj.diagram.version>
+        <jruby.version>9.4.0.0</jruby.version>
       </properties>
       <build>
         <defaultGoal>process-resources</defaultGoal>
