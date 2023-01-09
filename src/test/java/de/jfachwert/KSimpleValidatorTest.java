@@ -20,15 +20,15 @@ package de.jfachwert;
 import de.jfachwert.pruefung.NoopVerfahren;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.ValidationException;
+import javax.validation.ConstraintDefinitionException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer KSimpleValidator.
  *
  * @author oboehm
- * @since x.x (09.01.23)
+ * @since 09.01.23
  */
 public class KSimpleValidatorTest {
 
@@ -42,7 +42,7 @@ public class KSimpleValidatorTest {
     public static class TestValidator extends NoopVerfahren<Long> {
         @Override
         public Long validate(Long wert) {
-            throw new ValidationException("ups");
+            throw new ConstraintDefinitionException("ups");
         }
     }
 
