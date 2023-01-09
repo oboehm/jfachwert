@@ -47,7 +47,7 @@ public final class NoopVerfahrenTest {
      * werden.
      */
     @Test
-    public void testValdate() {
+    public void testValidate() {
         Integer answer = 42;
         assertEquals(answer, noop.validate(answer));
     }

@@ -18,10 +18,12 @@
 package de.jfachwert.bank.internal
 
 import de.jfachwert.bank.Waehrung.Companion.of
+import de.jfachwert.pruefung.exception.ValidationException
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
 import javax.money.CurrencyQuery
+import javax.money.CurrencyQueryBuilder
 import javax.money.CurrencyUnit
 import javax.money.UnknownCurrencyException
 import javax.money.spi.Bootstrap
@@ -36,6 +38,8 @@ import javax.money.spi.MonetaryCurrenciesSingletonSpi
  * @since 1.0 (07.08.2018)
  */
 class WaehrungenSingleton : MonetaryCurrenciesSingletonSpi {
+
+    private val log = Logger.getLogger(WaehrungenSingleton::class.java.name)
 
     /**
      * Access a list of the currently registered default providers. The default providers are used, when
@@ -94,6 +98,18 @@ class WaehrungenSingleton : MonetaryCurrenciesSingletonSpi {
             result.addAll(spi.getCurrencies(query))
         }
         return result
+    }
+
+    override fun getCurrency(currencyCode: String, vararg providers: String?): CurrencyUnit {
+        val found: Collection<CurrencyUnit> =
+            getCurrencies(CurrencyQueryBuilder.of().setCurrencyCodes(currencyCode).setProviderNames(*providers).build())
+        if (found.isEmpty()) {
+            throw UnknownCurrencyException(currencyCode)
+        }
+        if (found.size > 1) {
+            log.info("${found} found for $currencyCode - using first one.")
+        }
+        return found.iterator().next()
     }
 
     companion object {

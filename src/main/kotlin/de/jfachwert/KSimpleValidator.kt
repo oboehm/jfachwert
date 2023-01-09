@@ -17,11 +17,12 @@
  */
 package de.jfachwert
 
+import de.jfachwert.SimpleValidator.logger
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
+import de.jfachwert.pruefung.exception.ValidationException
 import java.io.Serializable
 import java.util.logging.Level
 import java.util.logging.Logger
-import de.jfachwert.pruefung.exception.ValidationException
 
 /**
  * Um die verschiedenen Validatoren als allgemeines Attribut verwendenen
@@ -74,6 +75,13 @@ interface KSimpleValidator<T : Serializable> : Serializable, SimpleValidator<T> 
             validate(value)
         } catch (ex: ValidationException) {
             throw LocalizedIllegalArgumentException(ex)
+        } catch (rtEx: RuntimeException) {
+            val exName = rtEx::class.java.simpleName
+            if (exName == "ValidationException") {
+                throw LocalizedIllegalArgumentException(rtEx)
+            } else {
+                throw rtEx
+            }
         }
     }
 

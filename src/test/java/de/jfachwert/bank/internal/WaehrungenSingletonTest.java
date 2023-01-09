@@ -23,6 +23,7 @@ import patterntesting.runtime.junit.CollectionTester;
 import javax.money.CurrencyQuery;
 import javax.money.CurrencyQueryBuilder;
 import javax.money.CurrencyUnit;
+import javax.money.Monetary;
 import javax.money.spi.Bootstrap;
 import javax.money.spi.CurrencyProviderSpi;
 import java.util.HashSet;
@@ -33,6 +34,7 @@ import java.util.Set;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Unit-Tests fuer {@link WaehrungenSingleton}-Klasse.
@@ -73,6 +75,12 @@ public final class WaehrungenSingletonTest {
         }
         Set<CurrencyUnit> currencies = singleton.getCurrencies(query);
         CollectionTester.assertEquals(expected, currencies);
+    }
+
+    @Test
+    public void getCurrencyEuro() {
+        CurrencyUnit cu = Monetary.getCurrency("EUR");
+        assertNotNull(cu);
     }
 
 }
