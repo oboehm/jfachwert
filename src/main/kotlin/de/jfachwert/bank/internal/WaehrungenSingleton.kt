@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 by Oliver Boehm
+ * Copyright (c) 2018-2023 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 package de.jfachwert.bank.internal
 
 import de.jfachwert.bank.Waehrung.Companion.of
-import de.jfachwert.pruefung.exception.ValidationException
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -107,7 +106,7 @@ class WaehrungenSingleton : MonetaryCurrenciesSingletonSpi {
             throw UnknownCurrencyException(currencyCode)
         }
         if (found.size > 1) {
-            log.info("${found} found for $currencyCode - using first one.")
+            log.fine("${found} found for $currencyCode - using first one.")
         }
         return found.iterator().next()
     }

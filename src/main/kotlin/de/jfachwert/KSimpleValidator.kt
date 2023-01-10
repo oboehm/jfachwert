@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2023 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 package de.jfachwert
 
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
-import de.jfachwert.pruefung.exception.ValidationException
 import java.io.Serializable
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -72,18 +71,8 @@ interface KSimpleValidator<T : Serializable> : Serializable, SimpleValidator<T> 
     override fun verify(value: T): T {
         return try {
             validate(value)
-        } catch (ex: ValidationException) {
+        } catch (ex: RuntimeException) {
             throw LocalizedIllegalArgumentException(ex)
-        } catch (rtEx: RuntimeException) {
-            var exClazz = rtEx::class.java
-            do {
-                when (exClazz.name) {
-                    in "javax.validation.ValidationException" -> throw LocalizedIllegalArgumentException(rtEx)
-                    in "java.lang.RuntimeException" -> throw rtEx
-                }
-                exClazz = exClazz.superclass as Class<out RuntimeException>
-            } while (true)
-            throw rtEx
         }
     }
 
