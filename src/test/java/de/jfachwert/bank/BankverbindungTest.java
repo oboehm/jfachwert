@@ -57,6 +57,14 @@ public final class BankverbindungTest extends FachwertTest {
         assertFalse(bankverbindung.getBic().isPresent(), "no BIC expected for " + bankverbindung);
     }
 
+    @Test
+    public void testOfString() {
+        Bankverbindung b1 = Bankverbindung.of("Max Muster, IBAN DE41300606010006605605");
+        Bankverbindung b2 = Bankverbindung.of("Max Muster, IBAN DE41300606010006605605");
+        assertEquals(b1, b2);
+        assertSame(b1, b2);
+    }
+
     /**
      * Test-Methode fuer {@link Bankverbindung#Bankverbindung(String)} (Gut-Fall).
      */

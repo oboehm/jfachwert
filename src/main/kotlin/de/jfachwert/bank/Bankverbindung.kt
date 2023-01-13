@@ -121,9 +121,23 @@ open class Bankverbindung
 
     companion object {
 
+        private val WEAK_CACHE = WeakHashMap<Triple<String, IBAN, BIC?>, Bankverbindung>()
+
         /** Null-Konstante fuer Initialisierungen.  */
         @JvmField
         val NULL = Bankverbindung("", IBAN.NULL, BIC.NULL)
+
+        @JvmStatic
+        fun of(s: String): Bankverbindung {
+            val b = Bankverbindung(s)
+            return of(b.kontoinhaber, b.iban, b.bic)
+        }
+
+        @JvmStatic
+        fun of(kontoinhaber: String, iban: IBAN, bic: BIC? = null): Bankverbindung {
+            val triple = Triple(kontoinhaber, iban, bic)
+            return WEAK_CACHE.computeIfAbsent(triple) { b: Triple<String, IBAN, BIC?> -> Bankverbindung(kontoinhaber, iban, bic) }
+        }
 
         private fun split(bankverbindung: String): Array<Any?> {
             val splitted = arrayOfNulls<String>(3)
@@ -152,6 +166,7 @@ open class Bankverbindung
             }
             return value
         }
+
     }
 
     init {
