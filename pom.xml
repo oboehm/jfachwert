@@ -24,7 +24,7 @@
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <kotlin.version>1.7.20</kotlin.version>
+    <kotlin.version>1.7.22</kotlin.version>
     <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 
@@ -222,30 +222,6 @@
         <configuration>
           <locales>de</locales>
           <outputEncoding>UTF-8</outputEncoding>
-        </configuration>
-      </plugin>
-
-      <!--
-        Bitte nicht jgitflow-maven-plugin 1.0-m5.1 verwenden
-        s. https://ecosystem.atlassian.net/browse/MJF-249
-      -->
-      <plugin>
-        <groupId>external.atlassian.jgitflow</groupId>
-        <artifactId>jgitflow-maven-plugin</artifactId>
-        <version>1.0-m5.1</version>
-        <configuration>
-          <pushFeatures>true</pushFeatures>
-          <pushHotfixes>true</pushHotfixes>
-          <pushReleases>true</pushReleases>
-          <noDeploy>true</noDeploy>
-          <flowInitContext>
-            <masterBranchName>master</masterBranchName>
-            <developBranchName>develop</developBranchName>
-            <featureBranchPrefix>feature/</featureBranchPrefix>
-            <releaseBranchPrefix>release/</releaseBranchPrefix>
-            <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
-            <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
-          </flowInitContext>
         </configuration>
       </plugin>
 
