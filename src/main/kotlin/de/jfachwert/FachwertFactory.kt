@@ -202,7 +202,11 @@ class FachwertFactory private constructor() {
      */
     @Synchronized
     fun register(fachwertClass: Class<out KFachwert>) {
-        registeredClasses[fachwertClass.simpleName] = fachwertClass
+        try {
+            registeredClasses[fachwertClass.simpleName] = fachwertClass
+        } catch (ex: NoClassDefFoundError) {
+            LOG.log(Level.FINE, "Registration of $fachwertClass is ignored:", ex)
+        }
     }
 
     /**
