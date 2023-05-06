@@ -6,9 +6,10 @@ Es ersetzt die **Release Notes** aus den Anfangstagen von jFachwert und orientie
 genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
-## [Unreleased]
+## [4.5.0]
 ### Changed
 - Bibliothek kann jetzt ohne Abhängigkeit zu `javax.money:money-api` betrieben werden (optional)
+- abhängige Bibliotheken jeweils auf den neuesten Stand gebracht
 
 ## [4.4.3] - 2023-01-13
 ### Added

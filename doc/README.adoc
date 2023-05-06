@@ -67,7 +67,7 @@ Danach wird "-SNAPSHOT" von der Versions-Nummer entfernt sowie alle SNAPSHOT-Abh
 |Wichtig für das Deployment nach https://oss.sonatype.org/[oss.sonatype.org] ist,
 das die Versionsnummer im Deploy-Skript "src/script/deploy.sh"
 mit der Versionsnummer im POM übereinstimmt. Auch letzte Änderungen wie z.B.
-die Anpassung des Release-Datums in link:../src/changes/changes.xml[changes.xml]
+die Anpassung des Release-Datums in link:../CHANGELOG.md[CHANGELOG.md]
 können noch vorgenommen werden.
 
 |Release deployen
