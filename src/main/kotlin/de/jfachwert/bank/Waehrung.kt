@@ -195,7 +195,7 @@ open class Waehrung protected constructor(code: Currency, validator: KSimpleVali
                     try {
                         return Currency.getInstance(loc)
                     } catch (iae: IllegalArgumentException) {
-                        LOG.log(Level.INFO,
+                        LOG.log(Level.FINE,
                                 "No currency for locale '$loc' available on this machine - will try next one.", iae)
                     }
                 }

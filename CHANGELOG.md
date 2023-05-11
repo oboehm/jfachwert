@@ -9,6 +9,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Unreleased]
 ### Changed
 - Bibliothek kann jetzt ohne Abhängigkeit zu `javax.money:money-api` betrieben werden (optional)
+- Logging jetzt nur noch ab Level FINE
 
 ## [4.4.3] - 2023-01-13
 ### Added
