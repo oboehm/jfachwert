@@ -7,6 +7,8 @@ genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
 ## [Unreleased]
+### Added
+- Text.toPrintable() hinzugefügt
 ### Changed
 - Logging jetzt nur noch ab Level FINE
 

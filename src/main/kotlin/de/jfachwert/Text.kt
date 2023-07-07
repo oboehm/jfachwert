@@ -19,6 +19,7 @@ package de.jfachwert
 
 import de.jfachwert.pruefung.NullValidator
 import org.apache.commons.lang3.StringUtils
+import java.awt.SystemColor.text
 import java.nio.Buffer
 import java.nio.CharBuffer
 import java.nio.charset.Charset
@@ -89,9 +90,6 @@ open class Text
      * @since 4.1
      */
     fun isPrintable(): Boolean {
-        if (StringUtils.isAsciiPrintable(replaceUmlaute(code))) {
-            return true
-        }
         val printable = {}.javaClass.getResource("printable.txt").readText()
         for (c in code) {
             if (!(c.isLetterOrDigit() || c.isWhitespace() || printable.contains(c))) {
@@ -99,6 +97,23 @@ open class Text
             }
         }
         return true
+    }
+
+    /**
+     * Wandelt einen Text in druckbare Zeichen, indem nicht druckbare Zeichen
+     * ausgefiltert werden.
+     *
+     * @return Text nur mit druckbaren Zeichen
+     * @since 4.6
+     */
+    fun toPrintable(): Text {
+        val buf = StringBuilder()
+        for (c in code) {
+            if (Text.of(c).isPrintable()) {
+                buf.append(c)
+            }
+        }
+        return Text.of(buf.toString())
     }
 
     /**
@@ -245,6 +260,18 @@ open class Text
         }
 
         /**
+         * Liefert ein einzelnes Zeichen als zurueck.
+         *
+         * @param c einzelnes Zeichen
+         * @return Text
+         * @since 4.6
+         */
+        @JvmStatic
+        fun of(c: Char): Text {
+            return of(c.toString())
+        }
+
+        /**
          * Liefert einen Text fuer den gewuenschten Zeichensatz (Encoding)
          * zurueck. Dabei werden Zeichen, die nicht in diesem Zeichensatz
          * vorhanden sind, durch eine Ersatzdarstellung ersetzt.
@@ -360,6 +387,18 @@ open class Text
         @JvmStatic
         fun isPrintable(text: String): Boolean {
             return Text(text).isPrintable()
+        }
+
+        /**
+         * Filtert nicht druckbare Zeichen aus dem uebergebenen String aus.
+         *
+         * @param text Text
+         * @return String nur mit druckbaren Zeichen
+         * @since 4.6
+         */
+        @JvmStatic
+        fun toPrintable(text: String): String {
+            return Text(text).toPrintable().toString()
         }
 
         /**

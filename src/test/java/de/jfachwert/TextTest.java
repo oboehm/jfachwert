@@ -257,6 +257,16 @@ public final class TextTest extends FachwertTest {
     }
 
     @Test
+    public void testToPrintable() {
+        assertEquals(Text.of("Viele Gr\u00fc\u00dfe"), Text.of("Viele\u0007 Gr\u00fc\u00dfe").toPrintable());
+    }
+
+    @Test
+    public void testToPrintableStatic() {
+        assertEquals("0 \u2260 1 / 1 <> 0", Text.toPrintable("0 \u2260 1\u0001 / 1 <> 0"));
+    }
+
+    @Test
     public void testDetectUTF8() {
         assertEquals(StandardCharsets.UTF_8, Text.detectCharset("B\u00f6hm"));
     }
