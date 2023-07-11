@@ -42,6 +42,7 @@ import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
 import de.jfachwert.pruefung.exception.ValidationException
+import de.jfachwert.zeit.Zeitdauer
 
 /**
  * Ueber die FachwertFactory kann ein beliebiger Fachwert generiert oder geholt
@@ -190,6 +191,7 @@ class FachwertFactory private constructor() {
             instance.register(Mehrwertsteuer::class.java)
             instance.register(Zinssatz::class.java)
             instance.register(PZN::class.java)
+            instance.register(Zeitdauer::class.java)
         }
     }
 

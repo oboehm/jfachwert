@@ -8,6 +8,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ## [Unreleased]
 ### Added
+- zeit-Package mit Zeitdauer-Klasse hinzugefügt
 - Text.toPrintable() hinzugefügt
 ### Changed
 - Logging jetzt nur noch ab Level FINE
