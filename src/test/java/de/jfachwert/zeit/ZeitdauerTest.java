@@ -22,9 +22,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -33,6 +36,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author oboehm
  */
 public final class ZeitdauerTest extends FachwertTest {
+
+    private static final Logger log = Logger.getLogger(ZeitdauerTest.class.getName());
+
+    @Test
+    void defaultCtor() {
+        Zeitdauer zeitdauer = new Zeitdauer();
+        log.log(Level.INFO, "Zeitdauer = " + zeitdauer);
+        assertThat(zeitdauer.getZaehler().longValue(), greaterThan(0L));
+    }
 
     @Test
     void units() {
