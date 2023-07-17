@@ -20,6 +20,7 @@ package de.jfachwert.zeit;
 import de.jfachwert.FachwertTest;
 import org.junit.jupiter.api.Test;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -34,19 +35,31 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public final class ZeitdauerTest extends FachwertTest {
 
     @Test
+    void units() {
+        for (TimeUnit unit : TimeUnit.values()) {
+            Zeitdauer zeitdauer = new Zeitdauer(10, unit);
+            assertEquals(unit, zeitdauer.getEinheit());
+        }
+    }
+
+    @Test
     @Override
     public void testToString() {
         Zeitdauer zeitdauer = new Zeitdauer(5, TimeUnit.DAYS);
         String s = zeitdauer.toString();
-        assertEquals("5 Tage", s);
+        if (Locale.getDefault().getLanguage().equalsIgnoreCase("DE")) {
+            assertEquals("5 Tage", s);
+        } else {
+            assertEquals("5 d", s);
+        }
     }
 
     @Test
     void testToStringAllUnits() {
         for (TimeUnit unit : TimeUnit.values()) {
-            Zeitdauer zeitdauer = new Zeitdauer(10, unit);
+            Zeitdauer zeitdauer = new Zeitdauer(42, unit);
             String s = zeitdauer.toString();
-            assertThat(s, containsString("10"));
+            assertThat("42 " + unit, s, containsString("42"));
         }
     }
 
