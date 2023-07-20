@@ -35,11 +35,11 @@ import java.util.concurrent.TimeUnit
  * @author oboehm
  * @since 5.0 (10.07.2023)
  */
-open class Zeitdauer(val startTime: BigInteger, val endTime : BigInteger? = null) : KFachwert {
+open class Zeitdauer(val startTime: Zeitpunkt, val endTime : Zeitpunkt? = null) : KFachwert {
 
-    constructor() : this(currentTimeNanos()) {}
+    constructor() : this(Zeitpunkt()) {}
 
-    constructor(code: Long, unit: TimeUnit) : this(BigInteger.ZERO, toNanoseconds(code, unit)) {}
+    constructor(code: Long, unit: TimeUnit) : this(Zeitpunkt.ZERO, Zeitpunkt(toNanoseconds(code, unit))) {}
 
     fun getZaehler() : BigInteger {
         val t = getTimeInNanos()
@@ -74,7 +74,7 @@ open class Zeitdauer(val startTime: BigInteger, val endTime : BigInteger? = null
     }
 
     fun getTimeInNanos() : BigInteger {
-        return (endTime?:currentTimeNanos()).subtract(startTime)
+        return (endTime?:Zeitpunkt()).minus(startTime).getTimeInNanos()
     }
 
     override fun toString(): String {
@@ -87,12 +87,12 @@ open class Zeitdauer(val startTime: BigInteger, val endTime : BigInteger? = null
 
         @JvmField
         val BUNDLE = ResourceBundle.getBundle("de.jfachwert.messages")
-        private val MICROSECOND_IN_NANOS = BigInteger.valueOf(1_000L)
-        private val MILLISECOND_IN_NANOS = BigInteger.valueOf(1_000_000L)
-        private val SECOND_IN_NANOS = BigInteger.valueOf(1_000_000_000L)
-        private val MINUTE_IN_NANOS = BigInteger.valueOf(60_000_000_000L)
-        private val HOUR_IN_NANOS = BigInteger.valueOf(3_600_000_000_000L)
-        private val DAY_IN_NANOS = BigInteger.valueOf(86_400_000_000_000L)
+        val MICROSECOND_IN_NANOS = BigInteger.valueOf(1_000L)
+        val MILLISECOND_IN_NANOS = BigInteger.valueOf(1_000_000L)
+        val SECOND_IN_NANOS = BigInteger.valueOf(1_000_000_000L)
+        val MINUTE_IN_NANOS = BigInteger.valueOf(60_000_000_000L)
+        val HOUR_IN_NANOS = BigInteger.valueOf(3_600_000_000_000L)
+        val DAY_IN_NANOS = BigInteger.valueOf(86_400_000_000_000L)
 
         private fun toNanoseconds(code: Long, unit: TimeUnit): BigInteger {
             return when(unit) {
@@ -104,11 +104,6 @@ open class Zeitdauer(val startTime: BigInteger, val endTime : BigInteger? = null
                 TimeUnit.HOURS -> BigInteger.valueOf(code).multiply(HOUR_IN_NANOS)
                 TimeUnit.DAYS -> BigInteger.valueOf(code).multiply(DAY_IN_NANOS)
             }
-        }
-
-        private fun currentTimeNanos(): BigInteger {
-            val nanos = BigInteger.valueOf(System.nanoTime() % MILLISECOND_IN_NANOS.toLong())
-            return BigInteger.valueOf(System.currentTimeMillis()).multiply(MILLISECOND_IN_NANOS).add(nanos)
         }
 
     }

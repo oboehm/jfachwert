@@ -29,6 +29,7 @@ import de.jfachwert.net.EMailAdresse
 import de.jfachwert.net.Telefonnummer
 import de.jfachwert.post.*
 import de.jfachwert.pruefung.exception.LocalizedValidationException
+import de.jfachwert.pruefung.exception.ValidationException
 import de.jfachwert.rechnung.*
 import de.jfachwert.steuer.Mehrwertsteuer
 import de.jfachwert.steuer.SteuerIdNr
@@ -36,13 +37,13 @@ import de.jfachwert.steuer.Steuernummer
 import de.jfachwert.steuer.UStIdNr
 import de.jfachwert.util.SmallUUID
 import de.jfachwert.util.TinyUUID
+import de.jfachwert.zeit.Zeitdauer
+import de.jfachwert.zeit.Zeitpunkt
 import java.io.Serializable
 import java.lang.reflect.InvocationTargetException
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
-import de.jfachwert.pruefung.exception.ValidationException
-import de.jfachwert.zeit.Zeitdauer
 
 /**
  * Ueber die FachwertFactory kann ein beliebiger Fachwert generiert oder geholt
@@ -192,6 +193,7 @@ class FachwertFactory private constructor() {
             instance.register(Zinssatz::class.java)
             instance.register(PZN::class.java)
             instance.register(Zeitdauer::class.java)
+            instance.register(Zeitpunkt::class.java)
         }
     }
 
