@@ -19,13 +19,25 @@ package de.jfachwert.zeit
 
 import de.jfachwert.AbstractFachwert
 import java.math.BigInteger
+import java.sql.Timestamp
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
+import java.time.temporal.ChronoField
 import java.util.*
+import java.util.logging.Level
+import java.util.logging.Logger
+
 
 /**
  * Diese Klasse repraesentiert einen Zeitpunkt in der Vergangenheit oder
  * auch in der Zukunft. Sie entspricht damit in etwa der Timestamp- oder
  * LocalDateTime-Klasse, nur dass die Aufloesung hier etwas genauer ist
  * und im Nanosekunden-Bereich liegt.
+ *
+ * Als Basis wird der 1.1.1970 0:00 UTC verwendet. Auch die Ausgabe verwendet
+ * UTC als Basis, wenn nicht der ZoneOffset als Parameter uebergeben wird.
  *
  * Die Klasse ist nicht von der LocalDateTime-Klasse abgeleitet, da sie
  * final ist. Die Timestamp-Klasse kommt nicht in Frage, da diese Klasse
@@ -51,7 +63,7 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
      *
      * @param code Ganz-Zahl als String
      */
-    constructor(code: String) : this(BigInteger(code)) {}
+    constructor(code: String) : this(toNanos(code)) {}
 
     /**
      * Liefert den aktuellen Zeitpunkt in Nanosekunden seit 1970 zurueck.
@@ -68,7 +80,20 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
      * @return Zeit seit 1.1.1970 in ms
      */
     fun getTimeInMillis() : Long {
-        return code.divide(BigInteger.valueOf(1_000_000L)).toLong()
+        return code.divide(Zeitdauer.MILLISECOND_IN_NANOS).toLong()
+    }
+
+    /**
+     * Liefert den Nano-Anteil der Sekunde
+     *
+     * @return Nano-Anteil, von 0 bis 999_999_999
+     */
+    fun getNanos(): Int {
+        return code.mod(Zeitdauer.SECOND_IN_NANOS).toInt()
+    }
+
+    fun toEpochSecond(): Long {
+        return code.divide(Zeitdauer.SECOND_IN_NANOS).toLong()
     }
 
     /**
@@ -91,12 +116,65 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
         return of(code.add(t.code))
     }
 
+    /**
+     * Wandelt den Zeitpunkt in einen Timestamp um.
+     *
+     * @return Timestamp aus java.sql
+     */
+    fun toTimestamp() : Timestamp {
+        return Timestamp(getTimeInMillis())
+    }
+
+    /**
+     * Wandelt den Zeitpunkt in ein LocalDateTime um.
+     *
+     * @return LocalDateTime aus java.time
+     */
+    fun toLocalDateTime() : LocalDateTime {
+        return toLocalDateTime(ZoneOffset.UTC)
+    }
+
+    /**
+     * Wandelt den Zeitpunkt in ein LocalDateTime um.
+     *
+     * @param offset Offset zu UTC
+     * @return LocalDateTime aus java.time
+     */
+    fun toLocalDateTime(offset: ZoneOffset) : LocalDateTime {
+        return LocalDateTime.ofEpochSecond(toEpochSecond(), getNanos(), offset)
+    }
+
+    /**
+     * Zeitpunkt wird als Zeit-/Datumsanage ausgegeben.
+     *
+     * @return Ausgabe aehnlich wie bei Timestamp, aber Nonosekunden-genau
+     */
+    override fun toString(): String {
+        return toString(ZoneOffset.UTC)
+    }
+
+    /**
+     * Zeitpunkt wird als Zeit-/Datumsanage ausgegeben.
+     *
+     * @param offset Offset zu UTC
+     * @return Ausgabe aehnlich wie bei Timestamp, aber Nonosekunden-genau
+     */
+    fun toString(offset: ZoneOffset): String {
+        val dtfb = DateTimeFormatterBuilder()
+            .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        val formatter = dtfb.toFormatter()
+        return String.format("%s.%09d", formatter.format(toLocalDateTime(offset)), getNanos())
+    }
+
 
 
     companion object {
 
+        private val LOG = Logger.getLogger(Zeitpunkt::class.java.name)
         private val WEAK_CACHE = WeakHashMap<BigInteger, Zeitpunkt>()
-        val ZERO = Zeitpunkt(BigInteger.ZERO)
+        /** Die Epoche beginnt am 1.1.1970. */
+        @JvmField
+        val EPOCH = Zeitpunkt(BigInteger.ZERO)
 
         /**
          * Liefert einen Zeitpunkt zurueck.
@@ -120,12 +198,52 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
             return of(BigInteger(code))
         }
 
+        /**
+         * Liefert den aktuellen Zeitpunkt zurueck.
+         *
+         * @return aktuellen Zeitpunkt
+         */
+        @JvmStatic
+        fun now(): Zeitpunkt {
+            return Zeitpunkt(currentTimeNanos())
+        }
+
         private fun currentTimeNanos(): BigInteger {
             var nanos = System.nanoTime() % Zeitdauer.MILLISECOND_IN_NANOS.toLong()
             if (nanos < 0L) {
                 nanos = 0L
             }
             return BigInteger.valueOf(System.currentTimeMillis()).multiply(Zeitdauer.MILLISECOND_IN_NANOS).add(BigInteger.valueOf(nanos))
+        }
+
+        private fun toNanos(s: String): BigInteger {
+            return try {
+                BigInteger(s)
+            } catch (ex: IllegalArgumentException) {
+                LOG.log(Level.FINEST, "'$s' ist keine Zahl:", ex)
+                dateToNanos(s)
+            }
+        }
+
+        private fun dateToNanos(s: String): BigInteger {
+            val dtfb = DateTimeFormatterBuilder()
+                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSSSS"))
+                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSSS"))
+                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSS"))
+                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS"))
+                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSS"))
+                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSS"))
+                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"))
+                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SS"))
+                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"))
+                .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+                .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+                .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
+            val formatter = dtfb.toFormatter()
+            val ldt = LocalDateTime.parse(s, formatter)
+            val seconds = ldt.toEpochSecond(ZoneOffset.UTC)
+            val nanos = BigInteger.valueOf(seconds).multiply(Zeitdauer.SECOND_IN_NANOS).add(BigInteger.valueOf(ldt.nano.toLong()))
+            return nanos
         }
 
     }

@@ -39,7 +39,7 @@ open class Zeitdauer(val startTime: Zeitpunkt, val endTime : Zeitpunkt? = null) 
 
     constructor() : this(Zeitpunkt()) {}
 
-    constructor(code: Long, unit: TimeUnit) : this(Zeitpunkt.ZERO, Zeitpunkt(toNanoseconds(code, unit))) {}
+    constructor(code: Long, unit: TimeUnit) : this(Zeitpunkt.EPOCH, Zeitpunkt(toNanoseconds(code, unit))) {}
 
     fun getZaehler() : BigInteger {
         val t = getTimeInNanos()

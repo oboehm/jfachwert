@@ -34,21 +34,31 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
 
     @Override
     protected AbstractFachwert<BigInteger, Zeitpunkt> createFachwert(String code) {
-        return Zeitpunkt.of(BigInteger.ONE);
+        return Zeitpunkt.of(BigInteger.ZERO);
     }
 
     @Test
-    void minus() {
-        Zeitpunkt one = Zeitpunkt.of(BigInteger.ONE);
-        Zeitpunkt ten = Zeitpunkt.of(BigInteger.TEN);
-        assertEquals(9, ten.minus(one).getTimeInNanos().longValue());
+    void stringCtor() {
+        Zeitpunkt now = Zeitpunkt.now();
+        Zeitpunkt jetzt = new Zeitpunkt(now.toString());
+        assertEquals(now, jetzt);
     }
 
     @Test
-    void plus() {
+    void plusMinus() {
         Zeitpunkt one = Zeitpunkt.of(BigInteger.ONE);
+        Zeitpunkt nine = Zeitpunkt.of(BigInteger.valueOf(9));
         Zeitpunkt ten = Zeitpunkt.of(BigInteger.TEN);
-        assertEquals(11, ten.plus(one).getTimeInNanos().longValue());
+        assertEquals(ten, nine.plus(one));
+        assertEquals(ten, ten.minus(one).plus(one));
+    }
+
+    @Test
+    @Override
+    public void testToString() {
+        Zeitpunkt now = Zeitpunkt.of(BigInteger.ZERO);
+        String s = now.toString();
+        assertEquals("1970-01-01 00:00:00.000000000", s);
     }
 
 }
