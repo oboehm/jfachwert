@@ -44,6 +44,9 @@ Die einzelnen Klassen sind in fachliche Packages aufgeteilt.
 
 |med
 |Fachwerte für den medizinischen Bereich und der Welt der Krankenkasse
+
+|zeit
+|Fachwerte für den Umgang mit Zeitangaben
 |===
 
 Das pruefung-Package enthält Klassen zur Validierung und zu verschiedenen Pruefzifferverfahren.
@@ -162,6 +165,27 @@ include::../images/package-med.puml[]
 
 Das med-Package ist mit v1.1 hinzugekommen.
 Es enthält Klassen aus der Welt der Krankenkassen.
+
+
+==== zeit
+
+["plantuml", "package-zeit", "svg"]
+------------------------------------------------
+include::../images/package-zeit.puml[]
+------------------------------------------------
+
+Das zeit-Package ist mit v5 hinzugekommen.
+Die darin enthalt Zeitdauer-Klasse eignet u.a. für die Zeitmessung von Berechnungen:
+
+[source,java]
+----
+    void someMethod() {
+        Zeitdauer zeitdauer = new Zeitdauer();
+        // Berechnungen, ...
+        log.info("Die Berechnung dauerte {}.", zeitdauer);
+    }
+----
+
 
 
 
