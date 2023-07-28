@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2023 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,12 +21,11 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import de.jfachwert.KFachwert
 import de.jfachwert.pruefung.exception.InvalidValueException
+import de.jfachwert.pruefung.exception.ValidationException
 import de.jfachwert.util.ToFachwertSerializer
 import org.apache.commons.lang3.StringUtils
-import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
-import de.jfachwert.pruefung.exception.ValidationException
 
 /**
  * Die Anschrift besteht aus Namen und Adresse oder Postfach. Der Name kann
@@ -187,7 +186,7 @@ open class Anschrift private constructor(
 
     companion object {
 
-        private val LOG = Logger.getLogger(Anschrift::class.java.name)
+        private val log = Logger.getLogger(Anschrift::class.java.name)
         private const val ADDRESS = "address"
 
         /** Null-Wert fuer Initialisierung.  */
@@ -261,7 +260,8 @@ open class Anschrift private constructor(
                 parts[1] = null
                 parts[2] = Postfach(adresseOrPostfach)
             } catch (ex: ValidationException) {
-                LOG.log(Level.FINE, "'$adresseOrPostfach' is not a post office box:", ex)
+                log.log(Level.FINE, "'$adresseOrPostfach' ist kein Postfach.")
+                log.log(Level.FINER, "Details:", ex)
                 parts[1] = Adresse(adresseOrPostfach)
                 parts[2] = null
             }

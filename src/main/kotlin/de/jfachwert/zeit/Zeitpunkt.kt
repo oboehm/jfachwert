@@ -170,7 +170,7 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
 
     companion object {
 
-        private val LOG = Logger.getLogger(Zeitpunkt::class.java.name)
+        private val log = Logger.getLogger(Zeitpunkt::class.java.name)
         private val WEAK_CACHE = WeakHashMap<BigInteger, Zeitpunkt>()
         /** Die Epoche beginnt am 1.1.1970. */
         @JvmField
@@ -220,7 +220,8 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
             return try {
                 BigInteger(s)
             } catch (ex: IllegalArgumentException) {
-                LOG.log(Level.FINEST, "'$s' ist keine Zahl:", ex)
+                log.log(Level.FINE, "'$s' ist keine Zahl und wird als Datum behandelt.")
+                log.log(Level.FINER, "Details:", ex)
                 dateToNanos(s)
             }
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2023 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.NullValidator
 import de.jfachwert.pruefung.exception.InvalidValueException
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
+import de.jfachwert.pruefung.exception.ValidationException
 import de.jfachwert.util.ToFachwertSerializer
 import org.apache.commons.lang3.RegExUtils
 import org.apache.commons.lang3.StringUtils
@@ -33,7 +34,6 @@ import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
 import java.util.regex.Pattern
-import de.jfachwert.pruefung.exception.ValidationException
 
 /**
  * Bei einer Adresse kann es sich um eine Wohnungsadresse oder Gebaeudeadresse
@@ -217,8 +217,8 @@ open class Adresse
 
     companion object {
 
+        private val log = Logger.getLogger(Adresse::class.java.name)
         private val VALIDATOR: KSimpleValidator<String> = LengthValidator(1)
-        private val LOG = Logger.getLogger(Adresse::class.java.name)
         private val PATTERN_STRASSE = Pattern.compile(".*(?i)tra(ss|[\u00dfe])e$")
 
         /** Null-Konstante.  */
@@ -354,7 +354,8 @@ open class Adresse
                 val ort = Ort(line)
                 ort.pLZ.isPresent
             } catch (ex: ValidationException) {
-                LOG.log(Level.FINE, "no PLZ inside '$line' found:", ex)
+                log.log(Level.FINE, "Keine PLZ in '$line' gefunden.")
+                log.log(Level.FINER, "Details:", ex)
                 false
             }
         }

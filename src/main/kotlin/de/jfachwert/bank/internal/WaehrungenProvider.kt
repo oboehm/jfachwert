@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019, 2020 by Oliver Boehm
+ * Copyright (c) 2019-2023 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ class WaehrungenProvider : CurrencyProviderSpi {
 
     companion object {
 
-        private val LOG = Logger.getLogger(WaehrungenProvider::class.java.name)
+        private val log = Logger.getLogger(WaehrungenProvider::class.java.name)
         private val AVAILABLE_CURRENCIES: Map<String, CurrencyUnit>
 
         init {
@@ -85,7 +85,8 @@ class WaehrungenProvider : CurrencyProviderSpi {
                 currencies.add(cu)
             }
         } catch (ex: IllegalArgumentException) {
-            LOG.log(Level.FINE, "Cannot add currency for $country", ex)
+            log.log(Level.FINE, "Kann Waehrung fuer '$country' nicht hinzufuegen.")
+            log.log(Level.FINER, "Details:", ex)
         }
     }
 

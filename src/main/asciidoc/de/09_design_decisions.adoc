@@ -20,8 +20,8 @@ Damit können Variablen mit diesem Wert vorbelegt werden.
 Um nicht von einem bestimmten Log-Framework abhängig zu sein, wurde auf Logging weitgehend verzichtet.
 Das bedeutet, dass in einem Falle eines Fehlers oder fehlerhaften Aufrufs eine hilfreiche Exception ausgelöst wird.
 Diese Exception stellt alle Informationen zur Verfügung, um die Ursache des Fehlers zu finden.
-Eine Ausnahme hiervon ist die FachwertFactory-Klasse, da hier Exceptions behandelt werden.
-Dazu wird aber das Logging-Framework des JDKs im Log-Level FINE verwendet.
+Exceptions, die abgefangen und behandelt werden, werden ueber das Logging-Framework des JDKs protokolliert.
+Um diese Meldungen sichtbar zu machen, muss der Log-Level FINE oder FINER (für den Stacktrace) konfiguriert werden.
 
 Um sich nicht weitere unerwünschte Abhängigkeiten bei der Verwendung von jFachwert einzufangen, werden die Abhängigkeiten zu anderen Bibiotheken auf ein Minimum reduziert.
 Die einzigen Abhängigkeiten, die in Kauf genommen werden, sind:

@@ -78,19 +78,17 @@ class WaehrungenSingleton : MonetaryCurrenciesSingletonSpi {
         for (locale in query.countries) {
             try {
                 result.add(of(Currency.getInstance(locale)))
-            } catch (ex: IllegalArgumentException) {
-                LOG.log(Level.WARNING, "Cannot get currency for locale '$locale':", ex)
-            } catch (ex: UnknownCurrencyException) {
-                LOG.log(Level.WARNING, "Cannot get currency for locale '$locale':", ex)
+            } catch (ex: Exception) {
+                log.log(Level.FINE,"Kann Waehrung fuer Locale '$locale' nicht ermitteln.")
+                log.log(Level.FINER,"Details:", ex)
             }
         }
         for (currencyCode in query.currencyCodes) {
             try {
                 result.add(of(currencyCode))
-            } catch (ex: IllegalArgumentException) {
-                LOG.log(Level.WARNING, "Cannot get currency '$currencyCode':", ex)
-            } catch (ex: UnknownCurrencyException) {
-                LOG.log(Level.WARNING, "Cannot get currency '$currencyCode':", ex)
+            } catch (ex: Exception) {
+                log.log(Level.FINE,"Kann Waehrung '$currencyCode' nicht ermitteln.")
+                log.log(Level.FINER,"Details:", ex)
             }
         }
         for (spi in Bootstrap.getServices(CurrencyProviderSpi::class.java)) {
@@ -109,10 +107,6 @@ class WaehrungenSingleton : MonetaryCurrenciesSingletonSpi {
             log.fine("${found} found for $currencyCode - using first one.")
         }
         return found.iterator().next()
-    }
-
-    companion object {
-        private val LOG = Logger.getLogger(WaehrungenSingleton::class.java.name)
     }
 
 }

@@ -40,7 +40,7 @@ public class ValidationException extends javax.validation.ValidationException {
     private static final Logger log = Logger.getLogger(ValidationException.class.getName());
 
     static {
-        log.info("Ab v5 wird javax.validation.ValidationException nicht mehr verwendet, sondern durch " +
+        log.fine("Ab v5 wird javax.validation.ValidationException nicht mehr verwendet, sondern durch " +
                 ValidationException.class + " ersetzt.");
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019, 2020 by Oliver Boehm
+ * Copyright (c) 2019-2023 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -119,7 +119,7 @@ open class Prozent(val wert: BigDecimal) : AbstractNumber(), KFachwert {
 
     companion object {
 
-        private val LOG = Logger.getLogger(Prozent::class.java.name)
+        private val log = Logger.getLogger(Prozent::class.java.name)
         private val WEAK_CACHE = WeakHashMap<BigDecimal, Prozent>()
 
         /** Konstante fuer "0%".  */
@@ -139,7 +139,8 @@ open class Prozent(val wert: BigDecimal) : AbstractNumber(), KFachwert {
             return try {
                 BigDecimal(number)
             } catch (ex: NumberFormatException) {
-                LOG.log(Level.FINE, "$number is not a normal number", ex)
+                log.log(Level.FINE, "$number ist keine normale Nummer.")
+                log.log(Level.FINER, "Details:", ex)
                 BigDecimal(number.replace(',', '.'))
             }
         }

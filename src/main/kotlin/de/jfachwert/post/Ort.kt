@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2022 by Oliver Boehm
+ * Copyright (c) 2017-2023 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,11 +25,11 @@ import de.jfachwert.Text
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.NullValidator
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
+import de.jfachwert.pruefung.exception.ValidationException
 import org.apache.commons.lang3.StringUtils
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
-import de.jfachwert.pruefung.exception.ValidationException
 
 /**
  * Ein Ort (oder auch Ortschaft) ist eine Stadt oder Gemeinde. Ein Ort hat
@@ -151,7 +151,7 @@ open class Ort
     companion object {
 
         private val VALIDATOR: KSimpleValidator<String> = LengthValidator(1)
-        private val LOG = Logger.getLogger(Ort::class.java.name)
+        private val log = Logger.getLogger(Ort::class.java.name)
 
         /** Null-Wert fuer Initialisierung.  */
         @JvmField
@@ -216,7 +216,8 @@ open class Ort
                     splitted[0] = plz
                     splitted[1] = StringUtils.substringAfter(input, " ").trim { it <= ' ' }
                 } catch (ex: ValidationException) {
-                    LOG.log(Level.FINE, "no PLZ inside '$name' found:", ex)
+                    log.log(Level.FINE, "keine PLZ in '$name' gefunden.")
+                    log.log(Level.FINER, "Details:", ex)
                 }
             }
             return splitted

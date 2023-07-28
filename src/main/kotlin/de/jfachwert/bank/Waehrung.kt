@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 by Oliver Boehm
+ * Copyright (c) 2018-2023 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ open class Waehrung protected constructor(code: Currency, validator: KSimpleVali
 
     companion object {
 
-        private val LOG = Logger.getLogger(Waehrung::class.java.name)
+        private val log = Logger.getLogger(Waehrung::class.java.name)
         private val CACHE: MutableMap<String, Waehrung> = WeakHashMap()
         private val VALIDATOR: KSimpleValidator<String> = Validator()
 
@@ -167,7 +167,7 @@ open class Waehrung protected constructor(code: Currency, validator: KSimpleVali
             return try {
                 of(cu).symbol
             } catch (ex: IllegalArgumentException) {
-                LOG.log(Level.WARNING, "Cannot get symbol for '$cu':", ex)
+                log.log(Level.FINE, "Kann das Symbol fuer '$cu' nicht ermitteln:", ex)
                 cu.currencyCode
             }
         }
@@ -195,8 +195,8 @@ open class Waehrung protected constructor(code: Currency, validator: KSimpleVali
                     try {
                         return Currency.getInstance(loc)
                     } catch (iae: IllegalArgumentException) {
-                        LOG.fine("No currency for locale '$loc' available on this machine - will try next one.")
-                        LOG.log(Level.FINER,"Details:", iae)
+                        log.log(Level.FINE,"Keine Waehrung fuer Locale '$loc' verhanden - versuche es mit einer anderen.")
+                        log.log(Level.FINER,"Details:", iae)
                     }
                 }
                 return Currency.getAvailableCurrencies().iterator().next()

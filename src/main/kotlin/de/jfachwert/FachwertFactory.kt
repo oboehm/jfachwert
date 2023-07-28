@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 by Oliver Boehm
+ * Copyright (c) 2018-2023 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,7 +71,7 @@ class FachwertFactory private constructor() {
 
     companion object {
 
-        private val LOG = Logger.getLogger(KFachwert::class.java.name)
+        private val log = Logger.getLogger(KFachwert::class.java.name)
 
         /**
          * Die FachwertFactory ist als Singleton angelegt, um die Implementierung
@@ -91,10 +91,9 @@ class FachwertFactory private constructor() {
                 if (obj is KSimpleValidator<*>) {
                     return Optional.of(obj)
                 }
-            } catch (ex: NoSuchFieldException) {
-                LOG.log(Level.FINE, "Cannot find/access validator in $clazz", ex)
-            } catch (ex: IllegalAccessException) {
-                LOG.log(Level.FINE, "Cannot find/access validator in $clazz", ex)
+            } catch (ex: ReflectiveOperationException) {
+                log.log(Level.FINE, "Kann nicht auf den Validator in $clazz zugreifen.")
+                log.log(Level.FINER, "Details:", ex)
             }
             return Optional.empty()
         }
@@ -104,11 +103,13 @@ class FachwertFactory private constructor() {
                 val companion = getCompanionOf(clazz)
                 callValidate(companion, args, companion.javaClass as Class<out KFachwert>)
             } catch (ex: ReflectiveOperationException) {
-                LOG.log(Level.FINE, "Cannot use companion of $clazz", ex)
+                log.log(Level.FINE, "Kann nicht Companion von $clazz verwenden.")
+                log.log(Level.FINER, "Details:", ex)
                 try {
                     callValidate(null, args, clazz)
                 } catch (rex: ReflectiveOperationException) {
-                    LOG.log(Level.FINE, "Cannot call validate method of $clazz", rex)
+                    log.log(Level.FINE, "Kann die validate-Methode von $clazz nicht aufrufen.")
+                    log.log(Level.FINER, "Details:", rex)
                 }
             }
         }
@@ -120,9 +121,11 @@ class FachwertFactory private constructor() {
                 val method = clazz.getMethod("validate", *argTypes)
                 method.invoke(obj, *args)
             } catch (ex: InvocationTargetException) {
-                LOG.log(Level.FINE, "Call of validate method of " + clazz + "failed:", ex)
+                log.log(Level.FINE, "Aufruf der validate-Methode von $clazz funktioniert nicht.")
                 if (ex.targetException is ValidationException) {
                     throw (ex.targetException as ValidationException)
+                } else {
+                    log.log(Level.FINER, "Details:", ex)
                 }
             }
         }
@@ -209,7 +212,8 @@ class FachwertFactory private constructor() {
         try {
             registeredClasses[fachwertClass.simpleName] = fachwertClass
         } catch (ex: NoClassDefFoundError) {
-            LOG.log(Level.FINE, "Registration of $fachwertClass is ignored:", ex)
+            log.log(Level.FINE, "Registrierung von $fachwertClass wird ignoriert.")
+            log.log(Level.FINER, "Details:", ex)
         }
     }
 
@@ -330,8 +334,8 @@ class FachwertFactory private constructor() {
             }
         }
         if (minDistance > 2) {
-            if (LOG.isLoggable(Level.FINE)) {
-                LOG.fine("Nearest name for '" + name + "' is '" + similarName + "' and too far away (" + minDistance +
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Nearest name for '" + name + "' is '" + similarName + "' and too far away (" + minDistance +
                         ") - will use Text class as fallback.")
             }
             similarName = Text::class.java.simpleName
