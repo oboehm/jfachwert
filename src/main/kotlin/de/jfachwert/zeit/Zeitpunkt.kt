@@ -122,7 +122,7 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
      * @return Timestamp aus java.sql
      */
     fun toTimestamp() : Timestamp {
-        return Timestamp(getTimeInMillis())
+        return Timestamp.valueOf(toLocalDateTime())
     }
 
     /**
@@ -199,6 +199,18 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
         }
 
         /**
+         * Liefert einen Zeitpunkt zurueck.
+         *
+         * @param t beliebiger Zeitpunkt als LocalDateTime
+         * @return der Zeitpunkt
+         */
+        @JvmStatic
+        fun of(t: LocalDateTime): Zeitpunkt {
+            return of(BigInteger.valueOf(t.toEpochSecond(ZoneOffset.UTC)).multiply(Zeitdauer.SECOND_IN_NANOS)
+                .add(BigInteger.valueOf(t.nano.toLong())))
+        }
+
+        /**
          * Liefert den aktuellen Zeitpunkt zurueck.
          *
          * @return aktuellen Zeitpunkt
@@ -209,11 +221,9 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
         }
 
         private fun currentTimeNanos(): BigInteger {
-            var nanos = System.nanoTime() % Zeitdauer.MILLISECOND_IN_NANOS.toLong()
-            if (nanos < 0L) {
-                nanos = 0L
-            }
-            return BigInteger.valueOf(System.currentTimeMillis()).multiply(Zeitdauer.MILLISECOND_IN_NANOS).add(BigInteger.valueOf(nanos))
+            val now = LocalDateTime.now(ZoneOffset.UTC)
+            return BigInteger.valueOf(now.toEpochSecond(ZoneOffset.UTC)).multiply(Zeitdauer.SECOND_IN_NANOS)
+                .add(BigInteger.valueOf(now.nano.toLong()))
         }
 
         private fun toNanos(s: String): BigInteger {
@@ -243,8 +253,7 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
             val formatter = dtfb.toFormatter()
             val ldt = LocalDateTime.parse(s, formatter)
             val seconds = ldt.toEpochSecond(ZoneOffset.UTC)
-            val nanos = BigInteger.valueOf(seconds).multiply(Zeitdauer.SECOND_IN_NANOS).add(BigInteger.valueOf(ldt.nano.toLong()))
-            return nanos
+            return BigInteger.valueOf(seconds).multiply(Zeitdauer.SECOND_IN_NANOS).add(BigInteger.valueOf(ldt.nano.toLong()))
         }
 
     }

@@ -22,7 +22,12 @@ import de.jfachwert.AbstractFachwertTest;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -56,9 +61,31 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
     @Test
     @Override
     public void testToString() {
-        Zeitpunkt now = Zeitpunkt.of(BigInteger.ZERO);
-        String s = now.toString();
+        Zeitpunkt epoch = Zeitpunkt.of(BigInteger.ZERO);
+        String s = epoch.toString();
         assertEquals("1970-01-01 00:00:00.000000000", s);
+    }
+
+    @Test
+    public void testEpoch() {
+        Zeitpunkt epoch = Zeitpunkt.of(LocalDateTime.ofEpochSecond(0, 0, ZoneOffset.UTC));
+        assertEquals(Zeitpunkt.EPOCH, epoch);
+        assertEquals(0L, epoch.getTimeInMillis());
+    }
+
+    @Test
+    public void testToTimestampe() {
+        Zeitpunkt t = Zeitpunkt.now();
+        assertEquals(t.toTimestamp(), Timestamp.valueOf(t.toLocalDateTime()));
+    }
+
+    @Test
+    void testGetMillis() {
+        long t0 = System.currentTimeMillis();
+        long t1 = Zeitpunkt.now().getTimeInMillis();
+        long t2 = System.currentTimeMillis();
+        assertThat(t0, lessThanOrEqualTo(t1));
+        assertThat(t1, lessThanOrEqualTo(t2));
     }
 
 }

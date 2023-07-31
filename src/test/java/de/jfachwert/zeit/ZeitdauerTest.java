@@ -20,6 +20,7 @@ package de.jfachwert.zeit;
 import de.jfachwert.FachwertTest;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Timestamp;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
