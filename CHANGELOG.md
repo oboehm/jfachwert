@@ -15,7 +15,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Logging von behandelten Exceptions (Stacktrace) wird nur im Log-Level FINER ausgegeben
 - Exceptions mit deutschen Fehlermeldungen
 
-## [4.5.0]
+## [4.5.0] - 2023-05-06
 ### Changed
 - Bibliothek kann jetzt ohne Abhängigkeit zu `javax.money:money-api` betrieben werden (optional)
 - abhängige Bibliotheken jeweils auf den neuesten Stand gebracht
