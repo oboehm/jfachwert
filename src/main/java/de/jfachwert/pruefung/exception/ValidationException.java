@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  *         Allgemein: Reduktion der Abhaengigkeiten
  *     </li>
  *     <li>
- *         Speziell: keine Abhaengigkeiten zu JavaEE bzw. Jakarte als
+ *         Speziell: keine Abhaengigkeiten zu JavaEE bzw. Jakarta als
  *         Nachfolgeprojekt
  *     </li>
  * </ol>

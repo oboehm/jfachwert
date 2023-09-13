@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit
  * Fehlt der zweite Zeitpunkt, repraesentiert diese Klasse den Zeitraum
  * zwischen Start und aktuellem Zeitpunkt.
  *
- * Die Zeitdauer-Klasse ist angelehnt an die Duraation-Klasse aus dem
+ * Die Zeitdauer-Klasse ist angelehnt an die Duration-Klasse aus dem
  * JDK, nur dass sie ueber den Default-Constructor auch zur Zeitmessung
  * verwendet werden kann: einfach anlegen und ausgeben - schon hat man
  * die aktuelle Zeitdauer seit dem Start (Aufruf des Default-Constructors).
@@ -37,9 +37,9 @@ import java.util.concurrent.TimeUnit
  */
 open class Zeitdauer(val startTime: Zeitpunkt, val endTime : Zeitpunkt? = null) : KFachwert {
 
-    constructor() : this(Zeitpunkt()) {}
+    constructor() : this(Zeitpunkt())
 
-    constructor(code: Long, unit: TimeUnit) : this(Zeitpunkt.EPOCH, Zeitpunkt(toNanoseconds(code, unit))) {}
+    constructor(code: Long, unit: TimeUnit) : this(Zeitpunkt.EPOCH, Zeitpunkt(toNanoseconds(code, unit)))
 
     fun getZaehler() : BigInteger {
         val t = getTimeInNanos()
