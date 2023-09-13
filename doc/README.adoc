@@ -57,7 +57,7 @@ letzte Release abgelegt wird.
 Danach wird "-SNAPSHOT" von der Versions-Nummer entfernt sowie alle SNAPSHOT-Abhängkeiten.
 
 |alle Artefakte bauen
-|mvn clean install dokka:javadocJar source:jar gpg:sign repository:bundle-create -Dgpg.passphrase=xx
+|mvn clean install dokka:javadocJar source:jar repository:bundle-create gpg:sign -Dgpg.passphrase=xx
 |Die Artefakte werden anschliessend deploy't.
 
 |Version in deploy.sh prüfen
