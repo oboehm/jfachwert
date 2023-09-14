@@ -3,28 +3,16 @@
 folder "commons" {
 
     [commons-lang3.jar]
-    [commons-codec.jar]
-    [commons-collections4.jar]
-    [commons-text.jar]
 
 }
 
 [jfachwert.jar] ..> commons
-
-[jfachwert.jar] ..> [validation-api.jar]
-
-[jfachwert.jar] ..> [jsr305.jar]
 
 [jfachwert.jar] ..> [kotlin-stdlib.jar]
 
 [jfachwert.jar] ..> [money-api.jar]
 
 [commons-lang3.jar] #White
-[commons-codec.jar] #White
-[commons-collections4.jar] #White
-[commons-text.jar] #White
-[validation-api.jar] #White
-[jsr305.jar] #White
 [kotlin-stdlib.jar] #White
 [money-api.jar] #Lightgrey
 
