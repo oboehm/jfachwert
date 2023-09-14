@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 by Oli B.
+ * Copyright (c) 2022-2023 by Oli B.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ import java.util.logging.Logger;
  * @author oboehm
  * @since 4.4 (14.10.22)
  */
-public class ValidationException extends javax.validation.ValidationException {
+public class ValidationException extends RuntimeException {
 
     private static final Logger log = Logger.getLogger(ValidationException.class.getName());
 

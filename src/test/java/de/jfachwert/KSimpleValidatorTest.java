@@ -18,9 +18,8 @@
 package de.jfachwert;
 
 import de.jfachwert.pruefung.NoopVerfahren;
+import de.jfachwert.pruefung.exception.ValidationException;
 import org.junit.jupiter.api.Test;
-
-import javax.validation.ConstraintDefinitionException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -42,7 +41,7 @@ public class KSimpleValidatorTest {
     public static class TestValidator extends NoopVerfahren<Long> {
         @Override
         public Long validate(Long wert) {
-            throw new ConstraintDefinitionException("ups");
+            throw new ValidationException("ups");
         }
     }
 
