@@ -6,7 +6,7 @@ Es ersetzt die **Release Notes** aus den Anfangstagen von jFachwert und orientie
 genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
-## [Unreleased]
+## [5.0.0] - 2023-09-14
 ### Added
 - zeit-Package mit Zeitdauer-Klasse hinzugefügt
 - Text.toPrintable() hinzugefügt
@@ -14,6 +14,8 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Logging erfolgt maximal im Log-Level FINE und auf Deutsch
 - Logging von behandelten Exceptions (Stacktrace) wird nur im Log-Level FINER ausgegeben
 - Exceptions mit deutschen Fehlermeldungen
+
+---
 
 ## [4.5.0] - 2023-05-06
 ### Changed
