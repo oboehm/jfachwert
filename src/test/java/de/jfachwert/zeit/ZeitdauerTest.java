@@ -20,7 +20,7 @@ package de.jfachwert.zeit;
 import de.jfachwert.FachwertTest;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Timestamp;
+import java.math.BigInteger;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -74,6 +74,18 @@ public final class ZeitdauerTest extends FachwertTest {
             String s = zeitdauer.toString();
             assertThat("42 " + unit, s, containsString("42"));
         }
+    }
+
+    @Test
+    void testTimeInNanos() {
+        Zeitdauer zeitdauer = new Zeitdauer(2, TimeUnit.MILLISECONDS);
+        assertEquals(BigInteger.valueOf(2_000_000), zeitdauer.getTimeInNanos());
+    }
+
+    @Test
+    void testTimeInMillis() {
+        Zeitdauer zeitdauer = new Zeitdauer(3, TimeUnit.MILLISECONDS);
+        assertEquals(3L, zeitdauer.getTimeInMillis());
     }
 
 }

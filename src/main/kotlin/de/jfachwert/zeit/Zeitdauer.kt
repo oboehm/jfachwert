@@ -77,6 +77,10 @@ open class Zeitdauer(val startTime: Zeitpunkt, val endTime : Zeitpunkt? = null) 
         return (endTime?:Zeitpunkt()).minus(startTime).getTimeInNanos()
     }
 
+    fun getTimeInMillis() : Long {
+        return getTimeInNanos().divide(MILLISECOND_IN_NANOS).toLong()
+    }
+
     override fun toString(): String {
         return "${getZaehler()} " + BUNDLE.getString(getEinheit().toString())
     }
