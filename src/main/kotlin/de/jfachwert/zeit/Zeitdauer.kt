@@ -39,7 +39,9 @@ open class Zeitdauer(val startTime: Zeitpunkt, val endTime : Zeitpunkt? = null) 
 
     constructor() : this(Zeitpunkt())
 
-    constructor(code: Long, unit: TimeUnit) : this(Zeitpunkt.EPOCH, Zeitpunkt(toNanoseconds(code, unit)))
+    constructor(code: Long, unit: TimeUnit) : this(Zeitpunkt.EPOCH, Zeitpunkt.of(toNanoseconds(code, unit)))
+
+    constructor(code: BigInteger) : this(Zeitpunkt.EPOCH, Zeitpunkt.of(code))
 
     fun getZaehler() : BigInteger {
         val t = getTimeInNanos()
@@ -88,6 +90,31 @@ open class Zeitdauer(val startTime: Zeitpunkt, val endTime : Zeitpunkt? = null) 
 
 
     companion object {
+
+        private val WEAK_CACHE = WeakHashMap<BigInteger, Zeitdauer>()
+
+        /**
+         * Liefert eine Zeitdauer zurueck.
+         *
+         * @param code beliebige Zahl
+         * @param unit Zeiteinheilt
+         * @return die Zeitdauer
+         */
+        @JvmStatic
+        fun of(code: Long, unit: TimeUnit): Zeitdauer {
+            val nanos = toNanoseconds(code, unit)
+            return WEAK_CACHE.computeIfAbsent(nanos) { n: BigInteger -> Zeitdauer(n) }
+        }
+
+        /**
+         * Startet die Zeitmessung.
+         *
+         * @return aktuelle Zeitdauer
+         */
+        @JvmStatic
+        fun start() : Zeitdauer {
+            return Zeitdauer()
+        }
 
         @JvmField
         val BUNDLE = ResourceBundle.getBundle("de.jfachwert.messages")

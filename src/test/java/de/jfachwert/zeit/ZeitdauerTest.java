@@ -41,8 +41,8 @@ public final class ZeitdauerTest extends FachwertTest {
     private static final Logger log = Logger.getLogger(ZeitdauerTest.class.getName());
 
     @Test
-    void defaultCtor() {
-        Zeitdauer zeitdauer = new Zeitdauer();
+    void start() {
+        Zeitdauer zeitdauer = Zeitdauer.start();
         log.log(Level.INFO, "Zeitdauer = " + zeitdauer);
         assertThat(zeitdauer.getZaehler().longValue(), greaterThan(0L));
     }
@@ -78,13 +78,13 @@ public final class ZeitdauerTest extends FachwertTest {
 
     @Test
     void testTimeInNanos() {
-        Zeitdauer zeitdauer = new Zeitdauer(2, TimeUnit.MILLISECONDS);
+        Zeitdauer zeitdauer = Zeitdauer.of(2, TimeUnit.MILLISECONDS);
         assertEquals(BigInteger.valueOf(2_000_000), zeitdauer.getTimeInNanos());
     }
 
     @Test
     void testTimeInMillis() {
-        Zeitdauer zeitdauer = new Zeitdauer(3, TimeUnit.MILLISECONDS);
+        Zeitdauer zeitdauer = Zeitdauer.of(3, TimeUnit.MILLISECONDS);
         assertEquals(3L, zeitdauer.getTimeInMillis());
     }
 
