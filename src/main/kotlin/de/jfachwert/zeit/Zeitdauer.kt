@@ -44,8 +44,11 @@ open class Zeitdauer(val startTime: Zeitpunkt, val endTime : Zeitpunkt? = null) 
     constructor(code: BigInteger) : this(Zeitpunkt.EPOCH, Zeitpunkt.of(code))
 
     fun getZaehler() : BigInteger {
-        val t = getTimeInNanos()
-        return when(getEinheit()) {
+        return getZaehler(getTimeInNanos())
+    }
+
+    private fun getZaehler(t: BigInteger) : BigInteger {
+        return when(getEinheit(t)) {
             TimeUnit.NANOSECONDS -> t
             TimeUnit.MICROSECONDS -> t.divide(MICROSECOND_IN_NANOS)
             TimeUnit.MILLISECONDS -> t.divide(MILLISECOND_IN_NANOS)
@@ -56,8 +59,11 @@ open class Zeitdauer(val startTime: Zeitpunkt, val endTime : Zeitpunkt? = null) 
         }
     }
 
-    fun getEinheit() : TimeUnit {
-        val t = getTimeInNanos()
+    fun getEinheit(): TimeUnit {
+        return getEinheit(getTimeInNanos())
+    }
+
+    private fun getEinheit(t: BigInteger) : TimeUnit {
         return if (t.compareTo(DAY_IN_NANOS.multiply(BigInteger.valueOf(4L))) > 0) {
             TimeUnit.DAYS
         } else if (t.compareTo(HOUR_IN_NANOS.multiply(BigInteger.valueOf(5L))) > 0) {
@@ -84,7 +90,8 @@ open class Zeitdauer(val startTime: Zeitpunkt, val endTime : Zeitpunkt? = null) 
     }
 
     override fun toString(): String {
-        return "${getZaehler()} " + BUNDLE.getString(getEinheit().toString())
+        val t = getTimeInNanos()
+        return "${getZaehler(t)} " + BUNDLE.getString(getEinheit(t).toString())
     }
 
 
