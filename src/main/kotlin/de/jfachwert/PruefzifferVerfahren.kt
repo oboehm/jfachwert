@@ -69,14 +69,14 @@ interface PruefzifferVerfahren<T : Serializable> : KSimpleValidator<T> {
      * Validiert den uebergebenen Wert. Falls dieser nicht stimmt, sollte eine
      * javax.validation.ValidationException geworfen werden.
      *
-     * @param wert zu ueberpruefender Wert
+     * @param value zu ueberpruefender Wert
      * @return den ueberprueften Wert (zur Weiterverarbeitung)
      */
-    override fun validate(wert: T): T {
-        if (!isValid(wert)) {
-            throw PruefzifferException(wert, berechnePruefziffer(wert), getPruefziffer(wert))
+    override fun validate(value: T): T {
+        if (!isValid(value)) {
+            throw PruefzifferException(value, berechnePruefziffer(value), getPruefziffer(value))
         }
-        return wert
+        return value
     }
 
 }

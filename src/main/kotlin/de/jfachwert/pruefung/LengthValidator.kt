@@ -54,14 +54,14 @@ open class LengthValidator<T : Serializable> @JvmOverloads constructor(private v
      * Ueberprueft, ob der uebergebenen Werte innerhalb der min/max-Werte
      * liegt.
      *
-     * @param wert zu ueberpruefender Wert
+     * @param value zu ueberpruefender Wert
      * @return den ueberprueften Wert (zur Weiterverarbeitung)
      */
-    override fun validate(wert: T): T {
-        if (!isValid(wert)) {
-            throw InvalidLengthException(Objects.toString(wert), min, max)
+    override fun validate(value: T): T {
+        if (!isValid(value)) {
+            throw InvalidLengthException(Objects.toString(value), min, max)
         }
-        return wert
+        return value
     }
 
 

@@ -92,15 +92,15 @@ open class Mod11Verfahren(private val anzahlStellen: Int) : PruefzifferVerfahren
      * [javax.validation.ValidationException] geworfen, auch bei Werten,
      * die zu kurz oder zu lang sind.
      *
-     * @param wert zu ueberpruefender Wert
+     * @param value zu ueberpruefender Wert
      * @return den ueberprueften Wert (zur Weiterverarbeitung)
      */
-    override fun validate(wert: String): String {
+    override fun validate(value: String): String {
         return try {
-            if (!isValid(wert)) {
-                throw PruefzifferException(wert, berechnePruefziffer(wert), getPruefziffer(wert))
+            if (!isValid(value)) {
+                throw PruefzifferException(value, berechnePruefziffer(value), getPruefziffer(value))
             }
-            wert
+            value
         } catch (ex: IllegalArgumentException) {
             throw LocalizedValidationException(ex.message, ex)
         }

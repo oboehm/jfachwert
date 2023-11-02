@@ -52,10 +52,10 @@ open class Bankverbindung
      *
      * @param bankverbindung z.B. "Max Muster, IBAN DE41300606010006605605"
      */
-    constructor(bankverbindung: String) : this(split(bankverbindung)) {}
+    constructor(bankverbindung: String) : this(split(bankverbindung))
 
     private constructor(bankverbindung: Array<Any?>) :
-            this(bankverbindung[0].toString(), bankverbindung[1] as IBAN, bankverbindung[2] as BIC?) {}
+            this(bankverbindung[0].toString(), bankverbindung[1] as IBAN, bankverbindung[2] as BIC?)
 
     /**
      * Erzeugt eine neue Bankverbindung aus der uebergebenen Map.
@@ -65,8 +65,7 @@ open class Bankverbindung
      */
     @JsonCreator
     constructor(map: Map<String, String>) :
-            this(Objects.toString(map["kontoinhaber"], ""), IBAN(map["iban"]!!), BIC(map["bic"]!!)) {
-    }
+            this(Objects.toString(map["kontoinhaber"], ""), IBAN(map["iban"]!!), BIC(map["bic"]!!))
 
     /**
      * Da die BIC bei Inlands-Ueberweisungen optional ist, wird sie hier als
@@ -136,7 +135,7 @@ open class Bankverbindung
         @JvmStatic
         fun of(kontoinhaber: String, iban: IBAN, bic: BIC? = null): Bankverbindung {
             val triple = Triple(kontoinhaber, iban, bic)
-            return WEAK_CACHE.computeIfAbsent(triple) { b: Triple<String, IBAN, BIC?> -> Bankverbindung(kontoinhaber, iban, bic) }
+            return WEAK_CACHE.computeIfAbsent(triple) { Bankverbindung(kontoinhaber, iban, bic) }
         }
 
         private fun split(bankverbindung: String): Array<Any?> {

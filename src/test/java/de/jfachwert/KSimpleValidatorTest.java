@@ -40,7 +40,7 @@ public class KSimpleValidatorTest {
 
     public static class TestValidator extends NoopVerfahren<Long> {
         @Override
-        public Long validate(Long wert) {
+        public Long validate(Long value) {
             throw new ValidationException("ups");
         }
     }
