@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     kotlin("jvm") version "1.9.0"
 }
@@ -31,6 +33,13 @@ dependencies {
     }
     testImplementation("org.patterntesting:patterntesting-rt:2.3.0")
     testImplementation("org.slf4j:slf4j-api:2.0.9")
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs = listOf("-Xjsr305=strict")
+        jvmTarget = "11"
+    }
 }
 
 tasks.test {
