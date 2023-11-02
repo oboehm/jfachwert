@@ -1,4 +1,4 @@
-[![Maven Central](https://img.shields.io/maven-central/v/de.jfachwert/jfachwert.svg)](https://central.sonatype.com/search?q=g:de.jfachwert%20a:jfachwert)
+[![Maven Central](https://img.shields.io/maven-central/v/de.jfachwert/jfachwert.svg)](https://central.sonatype.com/artifact/de.jfachwert/jfachwert)
 [![Build Status](https://github.com/oboehm/jfachwert/actions/workflows/maven.yml/badge.svg)](https://github.com/oboehm/jfachwert/actions/workflows/maven.yml)
 [![Coverage Status](https://coveralls.io/repos/github/oboehm/jfachwert/badge.svg?branch=master)](https://coveralls.io/github/oboehm/jfachwert)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)

@@ -8,7 +8,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ## [Unreleased]
 ### Added
-- Zeitdauer-Klasse um getTimeInMillis() ergänzt
+- Zeitdauer-Klasse um getTimeInMillis(), start() und stop() ergänzt
 
 ## [5.0.0] - 2023-09-14
 ### Added

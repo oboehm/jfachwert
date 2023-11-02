@@ -27,8 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -45,6 +44,15 @@ public final class ZeitdauerTest extends FachwertTest {
         Zeitdauer zeitdauer = Zeitdauer.start();
         log.log(Level.INFO, "Zeitdauer = " + zeitdauer);
         assertThat(zeitdauer.getZaehler().longValue(), greaterThan(0L));
+    }
+
+    @Test
+    void stop() {
+        Zeitdauer start = Zeitdauer.start();
+        Zeitdauer zeitdauer = start.stop();
+        log.log(Level.INFO, "Zeitdauer = " + zeitdauer);
+        assertThat(zeitdauer.getTimeInNanos(), greaterThan(BigInteger.ZERO));
+        assertThat(zeitdauer.getTimeInNanos(), lessThan(start.getTimeInNanos()));
     }
 
     @Test

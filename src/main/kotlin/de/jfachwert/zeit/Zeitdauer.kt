@@ -43,6 +43,15 @@ open class Zeitdauer(val startTime: Zeitpunkt, val endTime : Zeitpunkt? = null) 
 
     constructor(code: BigInteger) : this(Zeitpunkt.EPOCH, Zeitpunkt.of(code))
 
+    /**
+     * Da Zeitdauer immutable ist, wird eine neue Zeitdauer zurueckgegeben.
+     *
+     * @return neue Zeitdauer mit jetzigem End-Zeitpunkt
+     */
+    fun stop() : Zeitdauer {
+        return Zeitdauer(startTime, Zeitpunkt.now())
+    }
+
     fun getZaehler() : BigInteger {
         return getZaehler(getTimeInNanos())
     }
