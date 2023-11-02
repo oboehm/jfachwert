@@ -4,7 +4,7 @@ plugins {
 
 group = "de.jfachwert"
 version = "5.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
