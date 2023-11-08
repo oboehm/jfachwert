@@ -23,7 +23,7 @@ import org.apache.commons.lang3.Range
 /**
  * Der AccessValidator ueberprueft den Zugriff auf Arrays, ob er gueltig ist
  * oder mit einem ungueltigen Index erfolgte. Ansonsten wird eine
- * [javax.validation.ValidationException] geworfen.
+ * [ValidationException] geworfen.
  *
  * @author oliver (ob@aosd.de)
  * @since 0.5
@@ -43,7 +43,7 @@ object AccessValidator {
     fun <T> access(array: Array<T>, n: Int): T {
         val max = array.size - 1
         if (n < 0 || n > max) {
-            throw InvalidValueException(n, "n", Range.between(0, max))
+            throw InvalidValueException(n, "n", Range.of(0, max))
         }
         return array[n]
     }

@@ -46,7 +46,7 @@ open class PLZ : Text {
      *
      * @param plz z.B. "70839" oder "D-70839"
      */
-    constructor(plz: String) : super(plz, VALIDATOR) {}
+    constructor(plz: String) : super(plz, VALIDATOR)
 
     /**
      * Hierueber wird eine Postleitzahl angelegt.
@@ -54,7 +54,7 @@ open class PLZ : Text {
      * @param plz z.B. "70839" oder "D-70839"
      * @param validator fuer die Ueberpruefung
      */
-    constructor(plz: String, validator: KSimpleValidator<String>) : super(plz, validator) {}
+    constructor(plz: String, validator: KSimpleValidator<String>) : super(plz, validator)
 
     /**
      * Ueber diesen Konstruktor kann die Landeskennung als extra Parameter
@@ -63,7 +63,7 @@ open class PLZ : Text {
      * @param landeskennung z.B. "D"
      * @param plz z.B. "70839" (fuer Gerlingen)
      */
-    constructor(landeskennung: String, plz: String) : this(landeskennung + plz) {}
+    constructor(landeskennung: String, plz: String) : this(landeskennung + plz)
 
     /**
      * Ueber diesen Konstruktor kann die Landeskennung als extra Parameter
@@ -72,7 +72,7 @@ open class PLZ : Text {
      * @param land z.B. "de_DE"
      * @param plz z.B. "70839" (fuer Gerlingen)
      */
-    constructor(land: Locale, plz: String) : this(toLandeskennung(land) + plz) {}
+    constructor(land: Locale, plz: String) : this(toLandeskennung(land) + plz)
 
     /**
      * Hierueber kann man abfragen, ob der Postleitzahl eine Landeskennung
@@ -177,11 +177,11 @@ open class PLZ : Text {
          * kann noch die Laenderkennung vorangestellt werden. Dies wird hier
          * ueberprueft.
          *
-         * @param code die PLZ
+         * @param value die PLZ
          * @return die validierte PLZ (zur Weiterverarbeitung)
          */
-        override fun validate(code: String): String {
-            var plz = normalize(code)
+        override fun validate(value: String): String {
+            var plz = normalize(value)
             if (hasLandeskennung(plz)) {
                 validateNumberOf(plz)
             } else {
@@ -217,12 +217,12 @@ open class PLZ : Text {
             private fun validateNumberDE(plz: String) {
                 val n = plz.toInt()
                 if (n < 1067 || n > 99998) {
-                    throw InvalidValueException(plz, "postal_code", Range.between("01067", "99998"))
+                    throw InvalidValueException(plz, "postal_code", Range.of("01067", "99998"))
                 }
             }
 
             private fun normalize(plz: String): String {
-                return StringUtils.replaceChars(plz, " -", "").toUpperCase()
+                return StringUtils.replaceChars(plz, " -", "").uppercase()
             }
         }
     }
@@ -239,7 +239,7 @@ open class PLZ : Text {
         val NULL = PLZ("00000", NullValidator())
 
         private fun toLandeskennung(locale: Locale): String {
-            val country = locale.country.toUpperCase()
+            val country = locale.country.uppercase()
             return when (country) {
                 "AT", "DE" -> country.substring(0, 1)
                 else -> country

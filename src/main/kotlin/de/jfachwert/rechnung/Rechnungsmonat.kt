@@ -65,8 +65,7 @@ open class Rechnungsmonat : KFachwert, Comparable<Rechnungsmonat> {
      * @param date Datum
      */
     @JvmOverloads
-    constructor(date: LocalDate = LocalDate.now()) : this(date.monthValue, date.year) {
-    }
+    constructor(date: LocalDate = LocalDate.now()) : this(date.monthValue, date.year)
 
     /**
      * Erzeugt einen gueltigen Rechnungsmonat. Normalerweise sollte der
@@ -81,11 +80,11 @@ open class Rechnungsmonat : KFachwert, Comparable<Rechnungsmonat> {
      */
     constructor(monat: String) {
         val parts = monat.split("/").toTypedArray()
-        if (parts.size == 2 && isDigit(parts[0]) && isDigit(parts[1])) {
-            monate = asMonate(verify(MONTH, parts[0], VALID_MONTH_RANGE), verify(YEAR, parts[1], VALID_YEAR_RANGE))
+        monate = if (parts.size == 2 && isDigit(parts[0]) && isDigit(parts[1])) {
+            asMonate(verify(MONTH, parts[0], VALID_MONTH_RANGE), verify(YEAR, parts[1], VALID_YEAR_RANGE))
         } else {
             val date = toLocalDate(monat)
-            monate = asMonate(date.monthValue, date.year)
+            asMonate(date.monthValue, date.year)
         }
     }
 
@@ -99,7 +98,7 @@ open class Rechnungsmonat : KFachwert, Comparable<Rechnungsmonat> {
      * @param monat zwischen 1 und 12
      * @param jahr vierstellige Zahl zwischen -2730 und +2730
      */
-    constructor(monat: Int, jahr: Int) : this(asMonate(monat, jahr).toInt()) {}
+    constructor(monat: Int, jahr: Int) : this(asMonate(monat, jahr).toInt())
 
     /**
      * Erzeugt einen gueltigen Rechnungsmonat.
@@ -107,7 +106,7 @@ open class Rechnungsmonat : KFachwert, Comparable<Rechnungsmonat> {
      * @param monat MOnat
      * @param jahr vierstellige Zahl
      */
-    constructor(monat: Month, jahr: Int) : this(monat.value, jahr) {}
+    constructor(monat: Month, jahr: Int) : this(monat.value, jahr)
 
     /**
      * Liefert den Abrechnungsmonat als Anzahl Monate zurueck.
@@ -390,8 +389,8 @@ open class Rechnungsmonat : KFachwert, Comparable<Rechnungsmonat> {
     companion object {
 
         private val WEAK_CACHE: MutableMap<Short, Rechnungsmonat> = WeakHashMap()
-        private val VALID_MONTH_RANGE = Range.between(1, 12)
-        private val VALID_YEAR_RANGE = Range.between(0, 9999)
+        private val VALID_MONTH_RANGE = Range.of(1, 12)
+        private val VALID_YEAR_RANGE = Range.of(0, 9999)
         private const val MONTH = "month"
         private const val YEAR = "year"
         /** Null-Monat fuer Initialisierungen.  */

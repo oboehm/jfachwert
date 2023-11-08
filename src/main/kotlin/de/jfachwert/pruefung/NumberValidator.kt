@@ -52,13 +52,13 @@ constructor(min: BigDecimal = INFINITE.negate(), max: BigDecimal = INFINITE) : K
      * @param min untere Grenze
      * @param max obere Grenze
      */
-    constructor(min: Long, max: Long) : this(BigDecimal.valueOf(min), BigDecimal.valueOf(max)) {}
+    constructor(min: Long, max: Long) : this(BigDecimal.valueOf(min), BigDecimal.valueOf(max))
 
     /**
      * Als Default werden alle numerischen Werte zugelassen.
      */
     init {
-        range = Range.between(min, max)
+        range = Range.of(min, max)
     }
 
     /**

@@ -56,9 +56,13 @@ letzte Release abgelegt wird.
 |Änderungen des aktuellen develop-Branches auf den master-Branch bringen.
 Danach wird "-SNAPSHOT" von der Versions-Nummer entfernt sowie alle SNAPSHOT-Abhängkeiten.
 
-|alle Artefakte bauen
+|alle Artefakte bauen (maven)
 |mvn clean install dokka:javadocJar source:jar repository:bundle-create gpg:sign -Dgpg.passphrase=xx
 |Die Artefakte werden anschliessend deploy't.
+
+|alle Artefakte bauen (gradle)
+|./gradlew clean build javadoc
+|ab v6.0 ist der Bau (teilweise) auch mit Gradle möglich, allerdings funktioniert er noch nicht mit Java 21
 
 |Version in deploy.sh prüfen
 |

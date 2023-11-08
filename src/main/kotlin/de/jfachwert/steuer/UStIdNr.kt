@@ -45,8 +45,7 @@ open class UStIdNr
      *
      * @param nr          die Umsatzsteuer-IdNr.
      * @param pzVerfahren das verwendete PruefzifferVerfahren
-     */
-    constructor(nr: String, pzVerfahren: PruefzifferVerfahren<String> = selectPruefzifferVerfahrenFor(nr)) : Text(verify(nr, pzVerfahren)) {
+     */(nr: String, pzVerfahren: PruefzifferVerfahren<String> = selectPruefzifferVerfahrenFor(nr)) : Text(verify(nr, pzVerfahren)) {
 
     /**
      * Liefert das Land, zu dem die IBAN gehoert.
@@ -120,7 +119,7 @@ open class UStIdNr
         }
 
         private fun toLaenderkuerzel(nr: String): String {
-            val kuerzel = nr.substring(0, 2).toUpperCase()
+            val kuerzel = nr.substring(0, 2).uppercase()
             return if (StringUtils.isAlpha(kuerzel)) {
                 kuerzel
             } else {

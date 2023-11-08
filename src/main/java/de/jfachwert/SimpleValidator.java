@@ -19,8 +19,8 @@ package de.jfachwert;
 
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException;
 import de.jfachwert.pruefung.exception.NullValueException;
-
 import de.jfachwert.pruefung.exception.ValidationException;
+
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +35,7 @@ import java.util.logging.Logger;
  * <p>
  * Mit v4 wurde dieses Interface anfangs ebenfalls nach Kotlin ueberfuehrt.
  * Allerdings hat Kotlin bei Interfaces mit Default-Implementierung noch
- * Kompatibiltaetsprobleme (https://youtrack.jetbrains.com/issue/KT-4779).
+ * Kompatibiltaetsprobleme (<a href="https://youtrack.jetbrains.com/issue/KT-4779">KT-4779</a>).
  * Daher wurde die urspruengliche Implementierung wieder restauriert und die
  * Kotlin-Variante nach KSimpleValidator verschoben
  * </p>
@@ -50,8 +50,7 @@ public interface SimpleValidator<T extends Serializable> extends Serializable {
      * Wenn der uebergebene Wert gueltig ist, soll er unveraendert
      * zurueckgegeben werden, damit er anschliessend von der aufrufenden
      * Methode weiterverarbeitet werden kann. Ist der Wert nicht gueltig,
-     * soll eine {@link javax.validation.ValidationException} geworfen
-     * werden.
+     * soll eine {@link ValidationException} geworfen werden.
      *
      * @param value Wert, der validiert werden soll
      * @return Wert selber, wenn er gueltig ist

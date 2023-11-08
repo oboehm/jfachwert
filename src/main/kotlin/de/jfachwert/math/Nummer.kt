@@ -139,21 +139,21 @@ open class Nummer(code: String) : AbstractNumber(), KFachwert {
      *
      * @param code eine Zahl, z.B. 42
      */
-    constructor(code: Int) : this(BigInteger.valueOf(code.toLong())) {}
+    constructor(code: Int) : this(BigInteger.valueOf(code.toLong()))
 
     /**
      * Erzeugt eine Nummer als positive Ganzzahl.
      *
      * @param code eine Zahl, z.B. 42
      */
-    constructor(code: Long) : this(BigInteger.valueOf(code)) {}
+    constructor(code: Long) : this(BigInteger.valueOf(code))
 
     /**
      * Erzeugt eine beliebige Gleitkomma- oder Ganzzahl.
      *
      * @param code eine beliebige Zahl
      */
-    constructor(code: BigInteger) : this(code.toString()) {}
+    constructor(code: BigInteger) : this(code.toString())
 
     /**
      * Diese Methode liefert die Zahl als BigDecimal zurueck und wird fuer
@@ -226,14 +226,14 @@ open class Nummer(code: String) : AbstractNumber(), KFachwert {
          * aufrufenden Methode weiterverarbeitet werden kann. Ist der Wert
          * nicht gueltig, wird eine [InvalidValueException] geworfen.
          *
-         * @param nummer Zahl, die validiert wird
+         * @param value Zahl, die validiert wird
          * @return Zahl selber, wenn sie gueltig ist
          */
-        override fun validate(nummer: String): String {
+        override fun validate(value: String): String {
             return try {
-                BigInteger(nummer).toString()
+                BigInteger(value).toString()
             } catch (nfe: NumberFormatException) {
-                throw InvalidValueException(nummer, "number")
+                throw InvalidValueException(value, "number")
             }
         }
     }

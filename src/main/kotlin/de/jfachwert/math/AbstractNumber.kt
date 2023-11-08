@@ -95,7 +95,7 @@ abstract class AbstractNumber : Number(), Comparable<AbstractNumber> {
      * @return den numerischen Wert als `Char`
      */
     override fun toChar(): Char {
-        return toBigDecimal().toChar()
+        return toInt().toChar()
     }
 
     /**

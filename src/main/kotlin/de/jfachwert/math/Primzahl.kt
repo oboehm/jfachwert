@@ -89,7 +89,7 @@ open class Primzahl private constructor(private val value: Int) : Number(), KFac
     }
 
     override fun toChar(): Char {
-        return toBigInteger().toChar()
+        return toInt().toChar()
     }
 
     /**
@@ -180,7 +180,7 @@ open class Primzahl private constructor(private val value: Int) : Number(), KFac
         @JvmStatic
         fun after(zahl: Int): Primzahl {
             val primzahlen = primzahlen
-            for (p in primzahlen!!) {
+            for (p in primzahlen) {
                 if (zahl < p.toInt()) {
                     return p
                 }
@@ -214,7 +214,7 @@ open class Primzahl private constructor(private val value: Int) : Number(), KFac
          * @return true, falls Zahl einen Teiler hat (d.h. keine Primzahl ist)
          */
         private fun hasTeiler(n: Int): Boolean {
-            for (p in primzahlen!!) {
+            for (p in primzahlen) {
                 val teiler = p.toInt()
                 if (n % teiler == 0) {
                     return true
@@ -226,7 +226,7 @@ open class Primzahl private constructor(private val value: Int) : Number(), KFac
             return false
         }
 
-        private val primzahlen: MutableList<Primzahl>?
+        private val primzahlen: MutableList<Primzahl>
             get() {
                 var primzahlen = refPrimzahlen.get()
                 if (primzahlen == null) {

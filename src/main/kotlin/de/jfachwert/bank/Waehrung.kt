@@ -75,7 +75,7 @@ open class Waehrung protected constructor(code: Currency, validator: KSimpleVali
         @JvmStatic
         fun of(currency: Currency): Waehrung {
             val key = currency.currencyCode
-            return CACHE.computeIfAbsent(key) { t: String? -> Waehrung(currency) }
+            return CACHE.computeIfAbsent(key) { _: String? -> Waehrung(currency) }
         }
 
         /**
@@ -219,14 +219,14 @@ open class Waehrung protected constructor(code: Currency, validator: KSimpleVali
      *
      * @param code z.B. "EUR"
      */
-    constructor(code: String) : this(toCurrency(code)) {}
+    constructor(code: String) : this(toCurrency(code))
 
     /**
      * Darueber kann eine Waehrung angelegt werden.
      *
      * @param code Waehrung
      */
-    constructor(code: Currency) : this(code, NullValidator<Currency>()) {}
+    constructor(code: Currency) : this(code, NullValidator<Currency>())
 
     /**
      * Liefert die Currency zurueck.
@@ -334,8 +334,7 @@ open class Waehrung protected constructor(code: Currency, validator: KSimpleVali
          * Wenn der uebergebene Waehrungsstring gueltig ist, wird er
          * unveraendert zurueckgegeben, damit er anschliessend von der
          * aufrufenden Methode weiterverarbeitet werden kann. Ist der Wert
-         * nicht gueltig, wird eine [javax.validation.ValidationException]
-         * geworfen.
+         * nicht gueltig, wird eine [ValidationException] geworfen.
          *
          * @param value Waehrungs-String, der validiert wird
          * @return Wert selber, wenn er gueltig ist

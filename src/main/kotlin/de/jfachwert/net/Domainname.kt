@@ -66,7 +66,7 @@ open class Domainname
         val parts = code.split(".").toTypedArray()
         val firstPart = parts.size - level
         if (firstPart < 0 || level < 1) {
-            throw LocalizedIllegalArgumentException(level, "level", Range.between(1, parts.size))
+            throw LocalizedIllegalArgumentException(level, "level", Range.of(1, parts.size))
         }
         val name = StringBuilder(parts[firstPart])
         for (i in firstPart + 1 until parts.size) {
@@ -90,14 +90,14 @@ open class Domainname
          * https://regex101.com/r/d5Yd6j/1/tests . Allerdings akzeptieren wir auch
          * die TLD wie "de" als gueltigen Domainnamen.
          *
-         * @param name Domain-Name
+         * @param value Domain-Name
          * @return validierter Domain-Name zur Weiterverarbeitung
          */
-        override fun validate(name: String): String {
-            if (VALID_PATTERN.matcher(name).matches()) {
-                return name
+        override fun validate(value: String): String {
+            if (VALID_PATTERN.matcher(value).matches()) {
+                return value
             }
-            throw InvalidValueException(name, "name")
+            throw InvalidValueException(value, "name")
         }
 
         companion object {

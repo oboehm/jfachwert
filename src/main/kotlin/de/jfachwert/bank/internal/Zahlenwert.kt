@@ -44,7 +44,7 @@ class Zahlenwert(val number: Number) : NumberValue() {
      * Liefert den Zahlenwert als [Char] (evtl. gerundet).
      */
     override fun toChar(): Char {
-        return toBigDecimal().toChar()
+        return toInt().toChar()
     }
 
     /**
