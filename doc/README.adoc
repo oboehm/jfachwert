@@ -61,7 +61,7 @@ Danach wird "-SNAPSHOT" von der Versions-Nummer entfernt sowie alle SNAPSHOT-Abh
 |Die Artefakte werden anschliessend deploy't.
 
 |alle Artefakte bauen (gradle)
-|./gradlew clean build javadoc sourceJar
+|./gradlew clean build dokkaJavadoc sourceJar
 |ab v6.0 ist der Bau (teilweise) auch mit Gradle möglich, allerdings funktioniert er noch nicht mit Java 21
 
 |Version in deploy.sh prüfen
@@ -93,7 +93,6 @@ oder/und mit link:release-notes.adoc[Release-Notes] verlinken
 |`mvn site`
 |Damit werden die Maven-Reports gebaut, die anschliessend auf die Projektseite
 http://jfachwert.de/[jFachwert.de] hochgeladen werden sollten.
-Vorher noch prüfen, ob `changes.xml` aktuell ist.
 
 |Architektur-Dokumentation
 |`mvn -Pdoc generate-resources`
