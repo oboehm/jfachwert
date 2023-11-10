@@ -47,6 +47,13 @@ tasks.test {
     useJUnitPlatform()
 }
 
+// Define the source JAR task
+tasks.register("sourceJar", Jar::class) {
+    archiveClassifier.set("sources")
+    from(sourceSets.main.get().allSource)
+    duplicatesStrategy = DuplicatesStrategy.WARN
+}
+
 sourceSets {
     main {
         kotlin {

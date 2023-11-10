@@ -57,11 +57,11 @@ letzte Release abgelegt wird.
 Danach wird "-SNAPSHOT" von der Versions-Nummer entfernt sowie alle SNAPSHOT-Abhängkeiten.
 
 |alle Artefakte bauen (maven)
-|mvn clean install dokka:javadocJar source:jar repository:bundle-create gpg:sign -Dgpg.passphrase=xx
+|mvn clean install dokka:javadocJar source:jar gpg:sign -Dgpg.passphrase=xx
 |Die Artefakte werden anschliessend deploy't.
 
 |alle Artefakte bauen (gradle)
-|./gradlew clean build javadoc
+|./gradlew clean build javadoc sourceJar
 |ab v6.0 ist der Bau (teilweise) auch mit Gradle möglich, allerdings funktioniert er noch nicht mit Java 21
 
 |Version in deploy.sh prüfen
