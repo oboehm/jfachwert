@@ -20,7 +20,5 @@ Dort kann sie über folgende Maven-Koordinaten als Abhängigkeit in ein Projekt 
 
 === Abhängigkeiten
 
-Externe Abhängigkeiten zu andere Bibliotheken beschränken sich auf einige `commons`-Bibliotheken und `validation-api` zusammen mit `jsr-305` für die Validierung.
-Will man die Geldbetrag-Klasse unter Java 8 verwenden, wird noch `money-api` benötigt.
-
+Externe Abhängigkeiten zu andere Bibliotheken beschränkt sich auf `commons-lang3` und der Kotlin-Standard-Bibliothek.
 Bei Verwendung von Maven oder Gradle werden diese Abhängigkeiten automatisch hinzugefügt.

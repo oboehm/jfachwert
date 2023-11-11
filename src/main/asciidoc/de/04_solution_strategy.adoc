@@ -18,7 +18,7 @@ Diese Eigenschaften werden durch das Fachwert-Interface ausgedrückt, von der al
 === Objekt-Erzeugung
 
 Da Fachwerte immutable (unveränderlich) sind, kommt der Erzeugung eine wichtige Bedeutung zu.
-Prinzipiell bieten sich dabei folgende zwei Verfahren an:
+Prinzipiell bieten sich dabei folgende Verfahren an:
 
 * Erzeugung über Konstruktur
 * Erzeugung über Builder-Pattern

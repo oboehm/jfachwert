@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.9.0"
     id("org.jetbrains.dokka") version "1.9.10"
+    id("org.asciidoctor.jvm.convert") version "3.3.2"
 }
 
 group = "de.jfachwert"
@@ -53,6 +54,23 @@ tasks.register("sourceJar", Jar::class) {
     from(sourceSets.main.get().allSource)
     duplicatesStrategy = DuplicatesStrategy.WARN
 }
+
+// s. https://asciidoctor.github.io/asciidoctor-gradle-plugin/development-3.x/user-guide/
+tasks.asciidoctor {
+    sourceDir("src/main/asciidoc/de/")
+    sources(delegateClosureOf<PatternSet> {
+        include("index.adoc")
+    })
+    resources(delegateClosureOf<CopySpec> {
+        from("src/main/asciidoc/images") {
+            include("**/*.jpg", "**/*.gif", "**/*.png")
+            exclude("**/.txt")
+        }
+        into("./images")
+    })
+    baseDirFollowsSourceDir()
+}
+
 
 sourceSets {
     main {

@@ -95,7 +95,7 @@ oder/und mit link:release-notes.adoc[Release-Notes] verlinken
 http://jfachwert.de/[jFachwert.de] hochgeladen werden sollten.
 
 |Architektur-Dokumentation
-|`mvn -Pdoc generate-resources`
+|`mvn -Pdoc generate-resources` (_alternativ_: `./gradlew asciidoctor`)
 |Damit wird die Architektur-Dokumentation generiert, die in seiner Rohfassung unter
 https://github.com/oboehm/jfachwert/tree/develop/src/main/asciidoc[src/main/asciidoc] zu finden ist.
 Zur erfolgreichen Generierung muss https://www.graphviz.org/[GraphViz] auf dem Rechner installiert sein.
