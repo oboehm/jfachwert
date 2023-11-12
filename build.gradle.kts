@@ -71,6 +71,13 @@ tasks.asciidoctor {
     baseDirFollowsSourceDir()
 }
 
+// s. https://github.com/asciidoctor/asciidoctor-gradle-plugin/blob/master/docs/src/docs/asciidoc/parts/asciidoctor-diagram.adoc
+asciidoctorj {
+    modules {
+        diagram.use()
+        diagram.version("2.2.13")
+    }
+}
 
 sourceSets {
     main {
