@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--
+    Startseite fuer http://fachwert.de
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Oliver Boehm" />
+    <title>jFachwert</title>
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/print.css" media="print" />
+    <meta name="keywords" content="Fachwert, Datentypen, Value Objects, WAM"/>
+  </head>
+  <body>
+    <div id="breadcrumbs">
+      <div class="xright">
+        <a href="http://www.aosd.de/impressum.html" title="Impressum">Impressum</a> |
+        <a href="https://github.com/oboehm/jfachwert" title="GitHub">GitHub</a>
+      </div>
+    </div>
+    <h1>jFachwert</h1>
+    <p>
+        <i>jFachwert</i> ist gestartet als Java-Bibliothek, die einige fachlichen Datentypen wie IBAN oder BIC zur Verf&#xfc;gung
+        stellt, die in vielen Programmen ben&#xf6;tigt werden, aber f&#xfc;r die es keine Bibliothek gibt.
+        Ab Version 4 wurde die Bibliothek auf Kotlin umgestellt, kann aber nach wie vor als Java-Bibliothek eingebunden werden.
+    </p>
+    <h2>Was sind Fachwerte?</h2>
+    <p>
+        Im Werkzeug- und Material-Ansatz (WAM) gibt es das Fachwert-Konzept, das sehr stark mit
+        den <i>Value Objects</i> aus Domain Driven Design (DDD) verwandt ist.
+        Grundlegende Eigenschaften von Fachwerten sind:
+    </p>
+    <ul>
+        <li>einfacher Datentyp, der einen Wert repr&#xe4;sentiert (so wie z.B. BigDecimal in Java)</li>
+        <li>unver&#xe4;nderlich (immutable), d.h. sie haben keinen Status</li>
+    </ul>
+    <p>
+        Damit eignen sich Fachwerte sowhl f&#xfc;r die Weitergabe von Daten (Werte), als auch als
+        Erweiterung von Basis-Typen f&#xfc;r den Aufbau von Domain-Klassen.
+    </p>
+    <h2>Weitere Infos</h2>
+    <ul>
+        <li><a href="https://github.com/oboehm/jfachwert/blob/master/doc/history.adoc">Geschichtliches</a></li>
+        <li><a href="https://github.com/oboehm/jfachwert">GitHub</a></li>
+        <li><a href="generated-docs/de/index.html">Architektur-Dokumentation</a></li>
+        <li><a href="apidocs/index.html">JavaDoc API</a></li>
+    </ul>
+    <div id="footer">
+      <div class="xright">
+        Copyright &#169; 2017&#x2013;2024
+      </div>
+    </div>
+  </body>
+</html>

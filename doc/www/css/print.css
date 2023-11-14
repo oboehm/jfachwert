@@ -1,0 +1,7 @@
+#footer {
+	display: none !important;
+}
+#bodyColumn, body.docs div.docs {
+	margin: 0 !important;
+	border: none !important
+}

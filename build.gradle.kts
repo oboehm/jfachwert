@@ -58,6 +58,7 @@ tasks.register("sourceJar", Jar::class) {
 // s. https://asciidoctor.github.io/asciidoctor-gradle-plugin/development-3.x/user-guide/
 tasks.asciidoctor {
     sourceDir("src/main/asciidoc/de/")
+    setOutputDir("$buildDir/generated-docs")
     sources(delegateClosureOf<PatternSet> {
         include("index.adoc")
     })
