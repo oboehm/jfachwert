@@ -50,7 +50,7 @@ public interface SimpleValidator<T extends Serializable> extends Serializable {
      * Wenn der uebergebene Wert gueltig ist, soll er unveraendert
      * zurueckgegeben werden, damit er anschliessend von der aufrufenden
      * Methode weiterverarbeitet werden kann. Ist der Wert nicht gueltig,
-     * soll eine {@link ValidationException} geworfen werden.
+     * soll eine ValidationException geworfen werden.
      *
      * @param value Wert, der validiert werden soll
      * @return Wert selber, wenn er gueltig ist
