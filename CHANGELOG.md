@@ -6,7 +6,7 @@ Es ersetzt die **Release Notes** aus den Anfangstagen von jFachwert und orientie
 genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
-## [Unreleased]
+## [5.0.1] - 2023-12-17
 ### Added
 - Zeitdauer-Klasse um getTimeInMillis(), start() und stop() ergänzt
 ### Fixed
