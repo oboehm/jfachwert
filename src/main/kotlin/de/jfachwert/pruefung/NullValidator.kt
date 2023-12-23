@@ -32,7 +32,7 @@ open class NullValidator<T : Serializable> : KSimpleValidator<T> {
     /**
      * Wenn der uebergebene Wert nicht null ist, wird er unveraendert
      * zurueckgegeben. Ansonsten wird eine
-     * [javax.validation.ValidationException] geworfen.
+     * [ValidationException] geworfen.
      *
      * @param value Wert, der validiert werden soll
      * @return Wert selber, wenn er nicht null ist

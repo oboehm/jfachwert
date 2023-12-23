@@ -105,7 +105,7 @@ open class PZN
          * Wenn der uebergebene Wert gueltig ist, soll er unveraendert
          * zurueckgegeben werden, damit er anschliessend von der aufrufenden
          * Methode weiterverarbeitet werden kann. Ist der Wert nicht gueltig,
-         * soll eine [javax.validation.ValidationException] geworfen
+         * soll eine [ValidationException] geworfen
          * werden.
          *
          * @param value Wert, der validiert werden soll

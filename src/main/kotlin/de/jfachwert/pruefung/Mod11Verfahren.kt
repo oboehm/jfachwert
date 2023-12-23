@@ -89,7 +89,7 @@ open class Mod11Verfahren(private val anzahlStellen: Int) : PruefzifferVerfahren
 
     /**
      * Validiert den uebergebenen Wert. Falls dieser nicht stimmt, wird eine
-     * [javax.validation.ValidationException] geworfen, auch bei Werten,
+     * [ValidationException] geworfen, auch bei Werten,
      * die zu kurz oder zu lang sind.
      *
      * @param value zu ueberpruefender Wert

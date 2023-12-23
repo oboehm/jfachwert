@@ -277,7 +277,7 @@ class FachwertFactory private constructor() {
      * diese validate-Methode, wird der Konstruktor fuer die Validierung
      * herangezogen. Schlaegt die Validierung fehl, wird eine
      * Schlaegt die Validierung fehl, wird eine
-     * [javax.validation.ValidationException] geworfen.
+     * [ValidationException] geworfen.
      *
      * Wenn es den uebergebenen (Klassen-)Namen nicht gibt, wird mithilfe der
      * Levenshtein-Distanz die aehnlichste Klasse genommen. Ist die Differenz
@@ -296,7 +296,7 @@ class FachwertFactory private constructor() {
      * Viele Fachwert-Klassen haben eine (statische) validate-Methode, die
      * dafuer verwendet wird. Fehlt diese validate-Methode, wird der
      * Konstruktor fuer die Validierung herangezogen. Schlaegt die Validierung
-     * fehl, wird eine [javax.validation.ValidationException] geworfen.
+     * fehl, wird eine [ValidationException] geworfen.
      *
      * Dies ist eine der wenigen Stelle, wo eine
      * Log-Ausgabe erscheinen kann. Hintergrund ist die Exception, die hier

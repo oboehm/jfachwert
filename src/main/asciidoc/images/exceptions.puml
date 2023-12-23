@@ -10,7 +10,7 @@ package de.jfachwert.pruefung {
 
 }
 
-LocalizedValidationException -up-|> javax.validation.ValidationException
+LocalizedValidationException -up-|> ValidationException
 LocalizedValidationException <|-- PruefzifferException
 LocalizedValidationException <|-- IllegalLengthException
 LocalizedValidationException <|-- InvalidValueException

@@ -18,8 +18,8 @@
 package de.jfachwert.bank
 
 import de.jfachwert.AbstractFachwert
-import de.jfachwert.PruefzifferVerfahren
 import de.jfachwert.KSimpleValidator
+import de.jfachwert.PruefzifferVerfahren
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.Mod97Verfahren
 import de.jfachwert.pruefung.NullValidator
@@ -134,7 +134,7 @@ open class IBAN
         /**
          * Mit dieser Methode kann man eine IBAN validieren, ohne dass man erst
          * den Konstruktor aufrufen muss. Falls die Pruefziffer nicht stimmt,
-         * wird eine [javax.validation.ValidationException] geworfen, wenn
+         * wird eine [ValidationException] geworfen, wenn
          * die Laenge nicht uebereinstimmt eine
          * [de.jfachwert.pruefung.exception.InvalidLengthException].
          * Die Laenge liegt zwischen 16 (Belgien) und 34 Zeichen.
@@ -179,7 +179,7 @@ open class IBAN
         /**
          * Mit dieser Methode kann man eine IBAN validieren, ohne dass man erst
          * den Konstruktor aufrufen muss. Falls die Pruefziffer nicht stimmt,
-         * wird eine [javax.validation.ValidationException] geworfen, wenn
+         * wird eine [ValidationException] geworfen, wenn
          * die Laenge nicht uebereinstimmt eine
          * [de.jfachwert.pruefung.exception.InvalidLengthException].
          * Die Laenge liegt zwischen 16 (Belgien) und 34 Zeichen.
