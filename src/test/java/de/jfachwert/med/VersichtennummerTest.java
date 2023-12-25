@@ -18,6 +18,7 @@
 package de.jfachwert.med;
 
 import de.jfachwert.AbstractFachwertTest;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -29,16 +30,29 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 public final class VersichtennummerTest extends AbstractFachwertTest<String, Versichertennummer> {
 
-    private final Versichertennummer versichertennummer = Versichertennummer.of("A123456780");
-
     @Override
     protected Versichertennummer createFachwert(String code) {
         return Versichertennummer.of(code);
     }
 
-    //@Test
-    void testInvalid() {
-        assertThrows(IllegalArgumentException.class, () -> new Versichertennummer("XX12345678"));
+    /**
+     * Liefert eine Test-Versichtennummer als String.
+     *
+     * @return "DE41300606010006605605"
+     */
+    @Override
+    protected String getCode() {
+        return "A123456780";
+    }
+
+    @Test
+    void testWrongLength() {
+        assertThrows(IllegalArgumentException.class, () -> new Versichertennummer("X1234"));
+    }
+
+    @Test
+    void testTooMuchLetters() {
+        assertThrows(IllegalArgumentException.class, () -> Versichertennummer.of("XX12345678"));
     }
 
 }

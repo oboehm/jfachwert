@@ -20,6 +20,7 @@ package de.jfachwert.med
 import de.jfachwert.AbstractFachwert
 import de.jfachwert.KSimpleValidator
 import de.jfachwert.PruefzifferVerfahren
+import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.NullValidator
 import java.util.*
 
@@ -42,22 +43,53 @@ open class Versichertennummer
  * Man kann es auch verwenden, um das PruefzifferVerfahren abzuschalten,
  * indem man das [de.jfachwert.pruefung.NoopVerfahren] verwendet.
  *
- * @param iban        die IBAN
+ * @param code        die Versichertennummer
  * @param pzVerfahren das verwendete PruefzifferVerfahren (optional)
  */
-@JvmOverloads constructor(code: String, pzVerfahren: KSimpleValidator<String> = Versichertennummer.VALIDATOR) : AbstractFachwert<String, Versichertennummer>(code, pzVerfahren) {
+@JvmOverloads constructor(code: String, pzVerfahren: KSimpleValidator<String> = VALIDATOR) : AbstractFachwert<String, Versichertennummer>(code, pzVerfahren) {
+
+    /**
+     * Dieser Validator ist fuer die Ueberpruefung einer Versichertennummer
+     * vorgesehen.
+     *
+     * @since 5.1
+     */
+    class Validator : KSimpleValidator<String> {
+        /**
+         * Die erste Stelle der Krankenversichertennummer ist ein zufaellig
+         * vergebener Grossbuchstabe (kein Umlaut!), es folgen acht zufaellige
+         * Zahlen, die zehnte Stelle ist eine Pruefziffer, die mit dem im
+         * Folgenden beschriebenen Modulo-10-Verfahren mit den Gewichten
+         * 1-2-1-2-1-2-1-2-1-2 berechnet wird:
+         * Der Buchstabe wird durch eine zweistellige Zahl entsprechend
+         * seiner Stelle im Alphabet ersetzt (A = 01, B = 02, …, Z = 26).
+         * Die – zusammen mit den acht Zufallszahlen – resultierenden zehn
+         * Ziffern werden nun von links nach rechts abwechselnd mit 1 und 2
+         * multipliziert. Danach erfolgt eine Quersummenbildung der einzelnen
+         * Produkte mit anschliessender Summenbildung ueber die zehn Quersummen
+         *
+         * @param value die 22-stellige IBAN
+         * @return die IBAN in normalisierter Form (ohne Leerzeichen)
+         */
+        override fun validate(value: String): String {
+            val normalized = value.trim()
+            LengthValidator.validate(normalized, 10)
+            val n = Integer.valueOf(normalized.substring(1))
+            return normalized
+        }
+    }
 
     companion object {
         private val WEAK_CACHE = WeakHashMap<String, Versichertennummer>()
-        private val VALIDATOR: KSimpleValidator<String> = NullValidator()
+        private val VALIDATOR: KSimpleValidator<String> = Validator()
         /** Null-Konstante.  */
         @JvmField
         val NULL = Versichertennummer("", NullValidator())
 
         /**
-         * Liefert eine IBAN.
+         * Liefert eine Versichertennummer.
          *
-         * @param code gueltige IBAN-Nummer
+         * @param code gueltige Versichertennummer
          * @return IBAN
          */
         @JvmStatic
