@@ -22,6 +22,7 @@ import de.jfachwert.KSimpleValidator
 import de.jfachwert.PruefzifferVerfahren
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.NullValidator
+import de.jfachwert.pruefung.exception.InvalidValueException
 import java.util.*
 
 /**
@@ -74,7 +75,11 @@ open class Versichertennummer
         override fun validate(value: String): String {
             val normalized = value.trim()
             LengthValidator.validate(normalized, 10)
-            val n = Integer.valueOf(normalized.substring(1))
+            val regex = Regex("[A-Z]\\d{9}")
+            if (!regex.matches(normalized)) {
+                throw InvalidValueException(normalized, "policy_number", regex)
+            }
+            //val n = Integer.valueOf(normalized.substring(1))
             return normalized
         }
     }

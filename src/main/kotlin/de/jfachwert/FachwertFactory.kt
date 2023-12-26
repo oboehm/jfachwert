@@ -19,10 +19,7 @@ package de.jfachwert
 
 import de.jfachwert.bank.*
 import de.jfachwert.math.*
-import de.jfachwert.med.BSNR
-import de.jfachwert.med.IK
-import de.jfachwert.med.LANR
-import de.jfachwert.med.PZN
+import de.jfachwert.med.*
 import de.jfachwert.net.ChatAccount
 import de.jfachwert.net.Domainname
 import de.jfachwert.net.EMailAdresse
@@ -189,6 +186,7 @@ class FachwertFactory private constructor() {
             instance.register(IK::class.java)
             instance.register(LANR::class.java)
             instance.register(BSNR::class.java)
+            instance.register(Versichertennummer::class.java)
             instance.register(Name::class.java)
             instance.register(Prozent::class.java)
             instance.register(Promille::class.java)

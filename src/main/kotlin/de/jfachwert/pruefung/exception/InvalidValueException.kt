@@ -30,6 +30,7 @@ open class InvalidValueException : LocalizedValidationException {
     private val value: Serializable?
     private val context: String
     private val range: Range<out Comparable<*>?>?
+    private val regex: Regex?
 
     /**
      * Erzeugt eine neue Exception fuer einen fehlenden Wert.
@@ -40,6 +41,7 @@ open class InvalidValueException : LocalizedValidationException {
         value = null
         this.context = context
         range = null
+        regex = null
     }
 
     /**
@@ -52,6 +54,7 @@ open class InvalidValueException : LocalizedValidationException {
         this.value = value
         this.context = context
         range = null
+        regex = null
     }
 
     /**
@@ -65,6 +68,7 @@ open class InvalidValueException : LocalizedValidationException {
         this.value = value
         this.context = context
         range = null
+        regex = null
     }
 
     /**
@@ -79,6 +83,22 @@ open class InvalidValueException : LocalizedValidationException {
         this.value = value
         this.context = context
         this.range = range
+        regex = null
+    }
+
+    /**
+     * Erzeugt eine neue Exception fuer einen fehlerhaften Wert, der nicht
+     * dem angegebenen Muster entspricht.
+     *
+     * @param value   der fehlerhafte Wert
+     * @param context Resource des fehlerhaften Wertes (z.B. "insurance_number")
+     * @param regex   Muster
+     */
+    constructor(value: Serializable, context: String, regex: Regex) : super("value for " + context.replace('_', ' ') + " does not match " + regex + ": \"" + value + '"') {
+        this.value = value
+        this.context = context
+        this.range = null
+        this.regex = regex
     }
 
     /**
@@ -92,10 +112,12 @@ open class InvalidValueException : LocalizedValidationException {
         if (value == null) {
             return getLocalizedMessage("pruefung.missingvalue.exception.message", localizedContext)
         }
-        return if (range == null) {
-            getLocalizedMessage("pruefung.invalidvalue.exception.message", value.toString(), localizedContext)
-        } else {
+        return if (range != null) {
             getLocalizedMessage("pruefung.invalidrange.exception.message", value.toString(), localizedContext, range)
+        } else if (regex != null) {
+            getLocalizedMessage("pruefung.invalidregex.exception.message", value.toString(), localizedContext, regex)
+        } else {
+            getLocalizedMessage("pruefung.invalidvalue.exception.message", value.toString(), localizedContext)
         }
     }
 
