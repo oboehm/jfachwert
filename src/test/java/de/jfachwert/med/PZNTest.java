@@ -23,8 +23,8 @@ import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * Unit-Tests fuer {@link PZN}-Klasse.
  */
@@ -85,6 +85,12 @@ public final class PZNTest extends AbstractFachwertTest<Integer, PZN> {
     public void testOf() {
         PZN nr = PZN.of("04877800");
         MatcherAssert.assertThat(nr.toString(), containsString("04877800"));
+    }
+
+    @Test
+    public void testNull() {
+        PZN x = PZN.NULL;
+        assertNotNull(x.toString());
     }
 
 }

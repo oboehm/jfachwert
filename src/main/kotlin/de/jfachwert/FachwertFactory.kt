@@ -186,6 +186,7 @@ class FachwertFactory private constructor() {
             instance.register(IK::class.java)
             instance.register(LANR::class.java)
             instance.register(BSNR::class.java)
+            instance.register(SNOMED::class.java)
             instance.register(Versichertennummer::class.java)
             instance.register(Name::class.java)
             instance.register(Prozent::class.java)

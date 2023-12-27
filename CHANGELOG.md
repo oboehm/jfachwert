@@ -10,6 +10,9 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Speichervergleich BigDecimal zu PackedDecimal
 - Nummer.toShort()
 - Nummer.asOptional(String, Class), z.B. Nummer.asOptional("1", Short.class)
+
+## [Unreleased]
+### Added
 - med-Package: 
   - Versichertennummer (7-Stellig) und [Krankenversichertennummer](https://de.wikipedia.org/wiki/Krankenversichertennummer)
   - systematisierte Nomenklatur der Medizin [SNOMED](https://de.wikipedia.org/wiki/Systematisierte_Nomenklatur_der_Medizin)
