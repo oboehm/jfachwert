@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * Klasse VersichtennummerTest.
+ * Unit-Tests fuer die {@link Versichertennummer}.
  *
  * @author oboehm
  * @since 5.1 (23.12.23)
@@ -53,6 +53,16 @@ public final class VersichtennummerTest extends AbstractFachwertTest<String, Ver
     @Test
     void testTooMuchLetters() {
         assertThrows(IllegalArgumentException.class, () -> Versichertennummer.of("XX12345678"));
+    }
+
+    @Test
+    void testWrongPruefziffer() {
+        assertThrows(IllegalArgumentException.class, () -> Versichertennummer.of("A123456789"));
+    }
+
+    @Test
+    void testPruefziffer() {
+        Versichertennummer.of("X234567891");
     }
 
 }

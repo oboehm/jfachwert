@@ -21,6 +21,7 @@ import de.jfachwert.AbstractFachwert
 import de.jfachwert.KSimpleValidator
 import de.jfachwert.PruefzifferVerfahren
 import de.jfachwert.pruefung.LengthValidator
+import de.jfachwert.pruefung.LuhnVerfahren
 import de.jfachwert.pruefung.NullValidator
 import de.jfachwert.pruefung.exception.InvalidValueException
 import java.util.*
@@ -79,7 +80,7 @@ open class Versichertennummer
             if (!regex.matches(normalized)) {
                 throw InvalidValueException(normalized, "policy_number", regex)
             }
-            //val n = Integer.valueOf(normalized.substring(1))
+            LuhnVerfahren().validate(normalized)
             return normalized
         }
     }

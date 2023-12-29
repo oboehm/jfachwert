@@ -63,7 +63,7 @@ public final class LuhnVerfahrenTest extends AbstractPruefzifferVerfahrenTest<St
     }
 
     /**
-     * Dieser Testfalls stammt aus der Pruefung der KassenkIK mit der IK-Nummer
+     * Dieser Testfall stammt aus der Pruefung der KassenkIK mit der IK-Nummer
      * "108018132" (AOK Baden Wuerttemberg).
      */
     @Test
@@ -71,6 +71,24 @@ public final class LuhnVerfahrenTest extends AbstractPruefzifferVerfahrenTest<St
         String nummer = "8018132";
         assertEquals("2", MOD10.getPruefziffer(nummer));
         assertTrue(MOD10.isValid(nummer));
+    }
+
+    /**
+     * Das Beispiel fuer Versicherungsnummer stammt aus <a href=
+     * "https://de.wikipedia.org/wiki/Krankenversichertennummer"
+     * >Wikipedia</a>.
+     */
+    @Test
+    public void testVersicherungsnummer() {
+        String versNr = "A123456780";
+        assertEquals("0", MOD10.getPruefziffer(versNr));
+        assertTrue(MOD10.isValid(versNr));
+    }
+
+    @Test
+    public void testOtherVersicherungsnummer() {
+        String versNr = "X234567891";
+        assertTrue(MOD10.isValid(versNr));
     }
 
 }
