@@ -24,7 +24,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer {@link LuhnVerfahren}-Klasse. Die Ergebnisse wurden dabei
- * mit http://www.ee.unb.ca/cgi-bin/tervo/luhn.pl ueberprueft.
+ * mit <a href="http://www.ee.unb.ca/cgi-bin/tervo/luhn.pl">luhn.pl</a>
+ * ueberprueft.
  *
  * @author oboehm
  */

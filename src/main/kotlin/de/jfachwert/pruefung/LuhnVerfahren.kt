@@ -53,7 +53,7 @@ open class LuhnVerfahren : Mod10Verfahren() {
             if (Regex("[A-Z].*").matches(wert)) {
                 return getQuersummeWithLetter(wert)
             }
-            var digits = wert.toCharArray()
+            val digits = wert.toCharArray()
             var sum = 0
             val length = digits.size
             for (i in 0 until length) { // get digits in reverse order
