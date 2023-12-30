@@ -19,10 +19,7 @@ package de.jfachwert
 
 import de.jfachwert.bank.*
 import de.jfachwert.math.*
-import de.jfachwert.med.BSNR
-import de.jfachwert.med.IK
-import de.jfachwert.med.LANR
-import de.jfachwert.med.PZN
+import de.jfachwert.med.*
 import de.jfachwert.net.ChatAccount
 import de.jfachwert.net.Domainname
 import de.jfachwert.net.EMailAdresse
@@ -189,6 +186,8 @@ class FachwertFactory private constructor() {
             instance.register(IK::class.java)
             instance.register(LANR::class.java)
             instance.register(BSNR::class.java)
+            instance.register(SNOMED::class.java)
+            instance.register(Versichertennummer::class.java)
             instance.register(Name::class.java)
             instance.register(Prozent::class.java)
             instance.register(Promille::class.java)
@@ -277,7 +276,7 @@ class FachwertFactory private constructor() {
      * diese validate-Methode, wird der Konstruktor fuer die Validierung
      * herangezogen. Schlaegt die Validierung fehl, wird eine
      * Schlaegt die Validierung fehl, wird eine
-     * [javax.validation.ValidationException] geworfen.
+     * [ValidationException] geworfen.
      *
      * Wenn es den uebergebenen (Klassen-)Namen nicht gibt, wird mithilfe der
      * Levenshtein-Distanz die aehnlichste Klasse genommen. Ist die Differenz
@@ -296,7 +295,7 @@ class FachwertFactory private constructor() {
      * Viele Fachwert-Klassen haben eine (statische) validate-Methode, die
      * dafuer verwendet wird. Fehlt diese validate-Methode, wird der
      * Konstruktor fuer die Validierung herangezogen. Schlaegt die Validierung
-     * fehl, wird eine [javax.validation.ValidationException] geworfen.
+     * fehl, wird eine [ValidationException] geworfen.
      *
      * Dies ist eine der wenigen Stelle, wo eine
      * Log-Ausgabe erscheinen kann. Hintergrund ist die Exception, die hier

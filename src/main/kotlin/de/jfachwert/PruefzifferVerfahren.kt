@@ -67,7 +67,7 @@ interface PruefzifferVerfahren<T : Serializable> : KSimpleValidator<T> {
 
     /**
      * Validiert den uebergebenen Wert. Falls dieser nicht stimmt, sollte eine
-     * javax.validation.ValidationException geworfen werden.
+     * ValidationException geworfen werden.
      *
      * @param value zu ueberpruefender Wert
      * @return den ueberprueften Wert (zur Weiterverarbeitung)

@@ -50,6 +50,9 @@ open class LuhnVerfahren : Mod10Verfahren() {
     companion object {
 
         private fun getQuersumme(wert: String): Int {
+            if (Regex("[A-Z].*").matches(wert)) {
+                return getQuersummeWithLetter(wert)
+            }
             val digits = wert.toCharArray()
             var sum = 0
             val length = digits.size
@@ -62,6 +65,17 @@ open class LuhnVerfahren : Mod10Verfahren() {
                 sum += if (digit > 9) digit - 9 else digit
             }
             return sum
+        }
+
+        /**
+         * Beim modifierten Luhn-Verfahren beginnt der Code mit einem
+         * Grossbuchstaben. Unter
+         * https://de.wikipedia.org/wiki/Krankenversichertennummer
+         * ist das Verfahren beschrieben.
+         */
+        private fun getQuersummeWithLetter(wert: String): Int {
+            val n12 = wert.toCharArray()[0] + 1 - 'A'
+            return getQuersumme(String.format("%02d%s0", n12, wert.substring(1)))
         }
 
     }

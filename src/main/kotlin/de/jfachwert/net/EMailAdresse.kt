@@ -135,7 +135,7 @@ open class EMailAdresse
         /**
          * Fuehrt ein Pattern-basierte Pruefung der uebegebenen E-Mail-Adresse
          * durch. Schlaegt die Pruefung fehl, wird eine
-         * [javax.validation.ValidationException] geworfen.
+         * [ValidationException] geworfen.
          *
          * @param value zu pruefende E-Mail-Adresse
          * @return die validierte E-Mail-Adresse (zur Weiterverarbeitung)

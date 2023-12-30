@@ -19,9 +19,10 @@
 package de.jfachwert.med
 
 import de.jfachwert.AbstractFachwert
-import de.jfachwert.PruefzifferVerfahren
 import de.jfachwert.KSimpleValidator
+import de.jfachwert.PruefzifferVerfahren
 import de.jfachwert.pruefung.LengthValidator
+import de.jfachwert.pruefung.NullValidator
 import java.util.*
 
 /**
@@ -61,6 +62,9 @@ open class PZN
 
         private val VALIDATOR = Validator()
         private val WEAK_CACHE = WeakHashMap<Int, PZN>()
+        /** Null-Konstante.  */
+        @JvmField
+        val NULL = PZN(0, NullValidator())
 
         /**
          * Liefert eine PZN zurueck.
@@ -105,7 +109,7 @@ open class PZN
          * Wenn der uebergebene Wert gueltig ist, soll er unveraendert
          * zurueckgegeben werden, damit er anschliessend von der aufrufenden
          * Methode weiterverarbeitet werden kann. Ist der Wert nicht gueltig,
-         * soll eine [javax.validation.ValidationException] geworfen
+         * soll eine [ValidationException] geworfen
          * werden.
          *
          * @param value Wert, der validiert werden soll
