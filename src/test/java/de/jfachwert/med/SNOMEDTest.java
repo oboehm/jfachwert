@@ -19,12 +19,12 @@ package de.jfachwert.med;
 
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.jupiter.api.Test;
-import patterntesting.runtime.junit.ObjectTester;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static patterntesting.runtime.junit.ObjectTester.assertEquals;
 
 /**
  * Unit-Tests fuer {@link SNOMED}.
@@ -54,7 +54,7 @@ public final class SNOMEDTest extends AbstractFachwertTest<String, SNOMED> {
         SNOMED codeOnly = new SNOMED("373873005:860781008=362943005");
         SNOMED withDisplay = new SNOMED("373873005:860781008=362943005",
                 "Pharmaceutical / biologic product (product) : Has product characteristic (attribute) = Manual method (qualifier value)");
-        ObjectTester.assertEquals(codeOnly, withDisplay);
+        assertEquals(codeOnly, withDisplay);
     }
 
     @Test
@@ -67,8 +67,16 @@ public final class SNOMEDTest extends AbstractFachwertTest<String, SNOMED> {
     void ofWithDisplay() {
         SNOMED s1 = SNOMED.of("373873005", "Pharmaceutical / biologic product");
         SNOMED s2 = SNOMED.of("373873005");
-        ObjectTester.assertEquals(s1, s2);
+        assertEquals(s1, s2);
         assertSame(s1, s2);
+    }
+
+    @Test
+    void ofWithDisplay2nd() {
+        SNOMED s1 = SNOMED.of("362943005");
+        SNOMED s2 = SNOMED.of("362943005", "Manual method");
+        assertEquals(s1, s2);
+        assertEquals("Manual method", s2.getDisplay());
     }
 
 }
