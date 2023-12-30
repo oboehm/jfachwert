@@ -46,7 +46,14 @@ open class SNOMED
  * @param code      der SNOMDE-Code
  * @param validator der verwendete Validator (optional)
  */
-@JvmOverloads constructor(code: String, validator: KSimpleValidator<String> = VALIDATOR) : AbstractFachwert<String, SNOMED>(code, validator) {
+@JvmOverloads constructor(code: String, display: String = "", validator: KSimpleValidator<String> = VALIDATOR) : AbstractFachwert<String, SNOMED>(code, validator) {
+
+    constructor(code: String, validator: KSimpleValidator<String>) : this(code, "", validator)
+
+    val display: String = display
+        get(): String {
+            return if (field.isEmpty()) this.code else field
+        }
 
     companion object {
         private val WEAK_CACHE = WeakHashMap<String, SNOMED>()
@@ -64,6 +71,11 @@ open class SNOMED
         @JvmStatic
         fun of(code: String): SNOMED {
             return WEAK_CACHE.computeIfAbsent(code) { c: String -> SNOMED(c) }
+        }
+
+        @JvmStatic
+        fun of(code: String, display: String): SNOMED {
+            return WEAK_CACHE.computeIfAbsent(code) { c: String -> SNOMED(c, display) }
         }
     }
 
