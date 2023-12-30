@@ -6,6 +6,8 @@ package "med" {
     class LANR
     class BSNR
     class PZN
+    class SNOMED
+    class Versichertennummer
 
 }
 

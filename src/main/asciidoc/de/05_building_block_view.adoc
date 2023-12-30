@@ -43,7 +43,7 @@ Die einzelnen Klassen sind in fachliche Packages aufgeteilt.
 |Fachwerte für das Neuland "Internet" wie `EMailAdresse` oder `Domainname`
 
 |med
-|Fachwerte für den medizinischen Bereich und der Welt der Krankenkasse
+|Fachwerte wie `PZN` oder `IK` für den medizinischen Bereich und der Welt der Krankenkasse
 
 |zeit
 |Fachwerte für den Umgang mit Zeitangaben
