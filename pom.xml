@@ -511,7 +511,7 @@
     </profile>
 
     <!--
-      Das doc-Profile dient zum Erzeugen der Architekt-Dokumentatin
+      Das doc-Profile dient zum Erzeugen der Architekt-Dokumentation
       in src/main/asciidoc. Es erzeugt aus den verschiedenen Kapiteln
       eine einzige HTML-Datei (index.html). Die Vorlage dazu stammt aus
       https://github.com/dukecon/dukecon
@@ -564,6 +564,12 @@
                   </includes>
                 </resource>
               </resources>
+              <headerFooter>true</headerFooter>
+              <attributes>
+                <revnumber>${project.version}</revnumber>
+                <revdate>${maven.build.timestamp}</revdate>
+                <organization>${project.organization.name}</organization>
+              </attributes>
             </configuration>
             <executions>
               <execution>

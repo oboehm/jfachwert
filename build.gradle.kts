@@ -82,6 +82,14 @@ asciidoctorj {
         diagram.use()
         diagram.version("2.2.13")
     }
+    options(mapOf("header_footer" to true))
+    attributes(
+        mapOf(
+            "revnumber"    to "${project.version}",
+            "revdate"      to "2024",
+            "organization" to "oli b."
+        )
+    )
 }
 
 sourceSets {
