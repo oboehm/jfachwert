@@ -11,7 +11,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Nummer.toShort()
 - Nummer.asOptional(String, Class), z.B. Nummer.asOptional("1", Short.class)
 
-## [Unreleased]
+## [5.1.0] - 2024-01-01
 ### Added
 - med-Package: 
   - Versichertennummer (7-Stellig) und [Krankenversichertennummer](https://de.wikipedia.org/wiki/Krankenversichertennummer)

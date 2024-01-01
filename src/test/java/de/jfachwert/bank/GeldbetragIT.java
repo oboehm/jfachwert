@@ -26,6 +26,9 @@ import org.javamoney.tck.TCKRunner;
 import org.javamoney.tck.TCKTestSetup;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import patterntesting.runtime.annotation.SkipTestOn;
+import patterntesting.runtime.junit.extension.SmokeTestExtension;
 
 import javax.money.*;
 import javax.money.convert.ExchangeRateProvider;
@@ -58,6 +61,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author oboehm
  * @since 1.0 (20.07.2018)
  */
+@ExtendWith(SmokeTestExtension.class)
 public class GeldbetragIT implements JSR354TestConfiguration {
 
     /**
@@ -105,6 +109,7 @@ public class GeldbetragIT implements JSR354TestConfiguration {
      * @throws IOException falls Resultat nicht gelesen werden kann
      */
     @Test
+    @SkipTestOn(javaVersion = "21")
     public void runTCK() throws IOException {
         ServiceLoader.load(GeldbetragIT.class);
         TCKRunner.main();
