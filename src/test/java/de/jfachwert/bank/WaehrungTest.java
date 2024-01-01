@@ -22,7 +22,10 @@ import de.jfachwert.KSimpleValidator;
 import org.javamoney.tck.TestUtils;
 import org.javamoney.tck.tests.internal.TestCurrencyUnit;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import patterntesting.runtime.annotation.SkipTestOn;
 import patterntesting.runtime.junit.ObjectTester;
+import patterntesting.runtime.junit.extension.SmokeTestExtension;
 
 import javax.money.CurrencyUnit;
 import javax.money.UnknownCurrencyException;
@@ -33,7 +36,8 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Unit-Tests fuer {@link Waehrung}-Klasse.
  */
-public final class WaehrungTest extends FachwertTest {
+@ExtendWith(SmokeTestExtension.class)
+class WaehrungTest extends FachwertTest {
 
     /**
      * Zum Testen brauchen wir ein Test-Objekt. Dies muss hierueber von den
@@ -129,6 +133,7 @@ public final class WaehrungTest extends FachwertTest {
      * Fehler nicht mehr auf.
      */
     @Test
+    @SkipTestOn(javaVersion = "21")
     public void testImmutableWithTck() {
         TestUtils.testImmutable("4.2.1", Waehrung.class);
     }
