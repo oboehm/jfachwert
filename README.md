@@ -42,7 +42,11 @@ Jetzt kann man die Argumente nicht mehr verwechseln, weil sonst der Compiler mec
 
 ## Aktueller Stand
 
-Version 4 basiert jetzt auf Kotlin, unterstützt aber weiterhin Java 8.
+Mit Version 5 wurde die Abhängigkeit zum javax.validation-Package entfernt.
+Damit ist neben der Kotlin-Standard-Lib nur noch [commons-lang3](https://commons.apache.org/proper/commons-lang/) zum Betrieb notwendig.
+Auch wurde der Build-Prozess von Maven auf [Gradle](https://gradle.org/) umgestellt.
+
+Version 4 basiert jetzt auf [Kotlin](https://kotlinlang.org/), unterstützt aber weiterhin Java 8.
 Die Kompatibilität mit der alten API garantieren JUnit-Tests, die weiterhin in Java verblieben sind.
 
 Version 3 unterstützt nach wie vor Java 8, wurde aber auch mit Java 11 getestet.

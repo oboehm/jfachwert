@@ -181,14 +181,14 @@
       <plugin>
         <groupId>org.sonarsource.scanner.maven</groupId>
         <artifactId>sonar-maven-plugin</artifactId>
-        <version>3.9.1.2184</version>
+        <version>3.10.0.2594</version>
       </plugin>
 
       <!-- Code Coverage  -->
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.10</version>
+        <version>0.8.11</version>
         <executions>
           <execution>
             <id>default-prepare-agent</id>
@@ -296,7 +296,7 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.13.0</version>
+      <version>3.14.0</version>
     </dependency>
 
     <!-- Vorgriff auf Java 9 -->
