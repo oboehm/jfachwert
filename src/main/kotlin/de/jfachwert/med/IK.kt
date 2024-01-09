@@ -18,8 +18,8 @@
 package de.jfachwert.med
 
 import de.jfachwert.AbstractFachwert
-import de.jfachwert.PruefzifferVerfahren
 import de.jfachwert.KSimpleValidator
+import de.jfachwert.PruefzifferVerfahren
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.LuhnVerfahren
 import de.jfachwert.pruefung.NullValidator
@@ -92,6 +92,15 @@ open class IK
     val pruefziffer: Int
         get() = code / 100000000
 
+    /**
+     * Die LANR ist 9-stellig und wird auch neunstellig ausgegeben.
+     *
+     * @return 9-stellige Zeichenkette, evtl. mit fuehrenden Nullen
+     */
+    override fun toString(): String {
+        return String.format("%09d", code)
+    }
+
 
 
     /**
@@ -127,7 +136,7 @@ open class IK
 
         companion object {
             private val MOD10: PruefzifferVerfahren<String> = LuhnVerfahren()
-            private val VALIDATOR9 = LengthValidator<Int>(9, 9)
+            private val VALIDATOR9 = LengthValidator<Int>(2, 9)
         }
 
     }

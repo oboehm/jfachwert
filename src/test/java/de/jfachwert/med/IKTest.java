@@ -62,9 +62,21 @@ public final class IKTest extends AbstractFachwertTest<Integer, IK> {
         assertThrows(IllegalArgumentException.class, () -> IK.of(263456789));
     }
 
+    /**
+     * Test fuer Issue #20.
+     */
     @Test
-    public void test8stelligesIK() {
-        assertThrows(IllegalArgumentException.class, () -> IK.of(12345671));
+    public void testIKmitFuehrenderNull() {
+        IK a = IK.of("021462398");
+        IK b = IK.of(21462398);
+        assertEquals(a, b);
+        assertEquals("021462398", b.toString());
+    }
+
+    @Test
+    public void test4stelligeIK() {
+        IK ik = IK.of(1101);
+        assertEquals("000001101", ik.toString());
     }
 
     @Test
