@@ -11,7 +11,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Nummer.toShort()
 - Nummer.asOptional(String, Class), z.B. Nummer.asOptional("1", Short.class)
 
-## [Unreleased]
+## [5.1.1] - 2024-01-09
 ### Fixed
 - führende Nullen bei IKs führen nicht mehr zu Valdierungsfehlern
   ([#20](https://github.com/oboehm/jfachwert/issues/20))
