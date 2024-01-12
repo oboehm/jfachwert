@@ -21,8 +21,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 
-import static org.junit.jupiter.api.Assertions.assertNotSame;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * In der Klasse AbstractFachwertTest sind die Tests zusammengefasst, die fuer
@@ -85,6 +84,11 @@ public abstract class AbstractFachwertTest<T extends Serializable, S extends Abs
         AbstractFachwert f2 = createFachwert(s2);
         assertSame(f1.getCode(), f2.getCode());
         assertSame(f1, f2);
+    }
+
+    @Test
+    public void isValid() {
+        assertTrue(createFachwert().isValid());
     }
 
 }

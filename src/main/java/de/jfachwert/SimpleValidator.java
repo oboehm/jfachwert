@@ -70,6 +70,24 @@ public interface SimpleValidator<T extends Serializable> extends Serializable {
     }
 
     /**
+     * Wenn man nur daran interessiert ist, ob ein Objekt gueltig oder
+     * gueltig ist, ohne dass eine Exception geworfen wird, kann man dieses
+     * Methode benutzen.
+     *
+     * @param value Wert, der geprueft wird
+     * @return true oder false
+     */
+    default boolean isVald(T value) {
+        try {
+            validate(value);
+            return true;
+        } catch (ValidationException ex) {
+            logger.log(Level.FINE, String.format("'%s' ist ungueltig:", value), ex);
+            return false;
+        }
+    }
+
+    /**
      * Im Unterschied zur {@link #validate(Serializable)}-Methode wird hier
      * eine {@link IllegalArgumentException} geworfen, wenn der Wert kein
      * gueltiges Argument ist.

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 by Oliver Boehm
+ * Copyright (c) 2017-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,8 @@ import java.util.Map;
  * <p>
  * Mit v4 wurde dieses Interface anfangs ebenfalls nach Kotlin ueberfuehrt.
  * Allerdings hat Kotlin bei Interfaces mit Default-Implementierung noch
- * Kompatibiltaetsprobleme (https://youtrack.jetbrains.com/issue/KT-4779).
+ * Kompatibiltaetsprobleme (<a href=
+ * "https://youtrack.jetbrains.com/issue/KT-4779">KT-4779</a>).
  * Daher wurde die urspruengliche Implementierung wieder restauriert und die
  * Kotlin-Variante nach KFachwert verschoben
  * </p>
@@ -47,6 +48,19 @@ public interface Fachwert extends Serializable {
      */
     default Map<String, Object> toMap() {
         throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    /**
+     * Normalerweise liefert diese Methode 'true' zurueck, da es nicht moeglich
+     * ist, ungueltige Fachwerte zu erstellen. Allerdings kann man auch den
+     * Validator gegen den {@link de.jfachwert.pruefung.NullValidator}
+     * austauschen. In diesem Fall sollte diese Methode 'false' zurueck
+     * liefern, wenn der Fachcwert nicht gueltig ist.
+     *
+     * @return normalerweise true
+     */
+    default boolean isValid() {
+        return true;
     }
     
 }

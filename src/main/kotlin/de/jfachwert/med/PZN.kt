@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 by Oliver Boehm
+ * Copyright (c) 2020-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,6 +48,16 @@ open class PZN
     constructor(code: String) : this(toInt(code)) {}
 
     /**
+     * Diese Methode liefert immer 'true' zurueck. Es sei denn, nan hat den
+     * Default-Validator beim Anlegen der PZN deaktiviert.
+     *
+     * @return true oder false
+     */
+    override fun isValid(): Boolean {
+        return VALIDATOR.isVald(code)
+    }
+
+    /**
      * Die PZN ist 8-stellig und wird auch achtstellig ausgegeben.
      *
      * @return 8-stellige Zeichenkette mit PZN-Prefix
@@ -60,8 +70,10 @@ open class PZN
 
     companion object {
 
-        private val VALIDATOR = Validator()
         private val WEAK_CACHE = WeakHashMap<Int, PZN>()
+        /** Default-PZN-Validator. */
+        @JvmField
+        val VALIDATOR = Validator()
         /** Null-Konstante.  */
         @JvmField
         val NULL = PZN(0, NullValidator())
@@ -88,6 +100,34 @@ open class PZN
             return of(toInt(code))
         }
 
+        /**
+         * Diese Methode dient dazu, um PZNs ohne Pruefung anzulegen.
+         * Dazu wird als Parameter der NoopValidator oder NullValidator
+         * angegeben.
+         *
+         * @param code 8-stellige Nummer
+         * @param validator z.B. new NoopValidator<Integer>()
+         * @return die PZN
+         */
+        @JvmStatic
+        fun of(code: String, validator: KSimpleValidator<Int>): PZN {
+            return of(toInt(code), validator)
+        }
+
+        /**
+         * Diese Methode dient dazu, um PZNs ohne Pruefung anzulegen.
+         * Dazu wird als Parameter der NoopValidator oder NullValidator
+         * angegeben.
+         *
+         * @param code Nummer, max. 8-stellig
+         * @param validator z.B. new NoopValidator<Integer>()
+         * @return die PZN
+         */
+        @JvmStatic
+        fun of(code: Int, validator: KSimpleValidator<Int>): PZN {
+            return PZN(code, validator)
+        }
+
         private fun toInt(s: String): Int {
             return s.replace("PZN-", "", true).toInt()
         }
@@ -109,8 +149,8 @@ open class PZN
          * Wenn der uebergebene Wert gueltig ist, soll er unveraendert
          * zurueckgegeben werden, damit er anschliessend von der aufrufenden
          * Methode weiterverarbeitet werden kann. Ist der Wert nicht gueltig,
-         * soll eine [ValidationException] geworfen
-         * werden.
+         * soll eine [de.jfachwert.pruefung.exception.ValidationException]
+         * geworfen werden.
          *
          * @param value Wert, der validiert werden soll
          * @return Wert selber, wenn er gueltig ist

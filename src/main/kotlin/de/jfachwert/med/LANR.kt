@@ -79,11 +79,10 @@ open class LANR
      *
      * @return true, wenn Pruefziffer uebereinstimmt
      */
-    val isValid: Boolean
-        get() {
-            val mod10Verfahren = Mod10Verfahren(4, 9)
-            return mod10Verfahren.isValid(Integer.toString(arztnummer))
-        }
+    override fun isValid(): Boolean {
+        val mod10Verfahren = Mod10Verfahren(4, 9)
+        return mod10Verfahren.isValid(Integer.toString(arztnummer))
+    }
 
     /**
      * Die letzten beiden Ziffern der LANR bilden die Fachgruppe.

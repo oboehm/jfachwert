@@ -46,4 +46,17 @@ interface KFachwert : Serializable, Fachwert {
         throw UnsupportedOperationException("not yet implemented")
     }
 
+    /**
+     * Normalerweise liefert diese Methode 'true' zurueck, da es nicht moeglich
+     * ist, ungueltige Fachwerte zu erstellen. Allerdings kann man auch den
+     * Validator gegen den {@link de.jfachwert.pruefung.NullValidator}
+     * austauschen. In diesem Fall sollte diese Methode 'false' zurueck
+     * liefern, wenn der Fachcwert nicht gueltig ist.
+     *
+     * @return normalerweise true
+     */
+    override fun isValid(): Boolean {
+        return true
+    }
+
 }

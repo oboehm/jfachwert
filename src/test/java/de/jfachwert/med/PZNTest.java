@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 by Oliver Boehm
+ * Copyright (c) 2020-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package de.jfachwert.med;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.pruefung.NoopVerfahren;
+import de.jfachwert.pruefung.NullValidator;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 
@@ -42,8 +43,9 @@ public final class PZNTest extends AbstractFachwertTest<Integer, PZN> {
     }
 
     /**
-     * Das Beispiel dazu stammt aus
-     * https://www.ifaffm.de/mandanten/1/documents/04_ifa_coding_system/IFA-Info_Pr%C3%BCfziffer_PZN_PPN_UDI_DE.pdf
+     * Das Beispiel dazu stammt aus <a href=
+     * "https://www.ifaffm.de/mandanten/1/documents/04_ifa_coding_system/IFA-Info_Pr%C3%BCfziffer_PZN_PPN_UDI_DE.pdf"
+     * >www.ifaffm.de</a>.
      *
      * @return "2758089"
      */
@@ -53,8 +55,9 @@ public final class PZNTest extends AbstractFachwertTest<Integer, PZN> {
     }
 
     /**
-     * Dieser Testfall mit Aspirin stammt aus
-     * https://www.mubk.de/bildungsgaenge/bs/pk/faecher/ws/lf_03/ws_lf_03_011.htm.
+     * Dieser Testfall mit Aspirin stammt aus <a href=
+     * "https://www.mubk.de/bildungsgaenge/bs/pk/faecher/ws/lf_03/ws_lf_03_011.htm"
+     * >www.mubk.de</a>.
      */
     @Test
     public void testPZN7() {
@@ -70,6 +73,12 @@ public final class PZNTest extends AbstractFachwertTest<Integer, PZN> {
     @Test
     public void testInvalidPZN() {
         assertThrows(IllegalArgumentException.class, () -> PZN.of(27580890));
+    }
+
+    @Test
+    public void testInvalid() {
+        PZN invalid = PZN.of("27580890", new NullValidator<>());
+        assertFalse(invalid.isValid());
     }
 
     @Test
