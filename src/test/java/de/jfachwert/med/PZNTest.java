@@ -85,6 +85,7 @@ public final class PZNTest extends AbstractFachwertTest<Integer, PZN> {
     public void testCreateInvalidPZN() {
         PZN invalid = new PZN(1234567890, new NoopVerfahren<>());
         assertEquals(1234567890, invalid.getCode().intValue());
+        assertFalse(invalid.isValid());
     }
 
     /**

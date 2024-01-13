@@ -119,6 +119,7 @@ open class UStIdNr
         }
 
         private fun toLaenderkuerzel(nr: String): String {
+            LengthValidator<String>(7).verify(nr)
             val kuerzel = nr.substring(0, 2).uppercase()
             return if (StringUtils.isAlpha(kuerzel)) {
                 kuerzel

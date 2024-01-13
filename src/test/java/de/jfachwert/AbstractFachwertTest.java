@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,6 +58,17 @@ public abstract class AbstractFachwertTest<T extends Serializable, S extends Abs
     }
 
     /**
+     * Erzeugt eine ungueltigen Code, der zum Erstellen eines Test-Objekts
+     * verwendet wird. Er sollte von abgeleiteten Klassen ueberschrieben
+     * werden, wenn diese Implementierung einen gueltigen Code zurueckliefert.
+     *
+     * @return ""
+     */
+    protected String getInvalidCode() {
+        return "";
+    }
+
+    /**
      * Zum Testen brauchen wir ein Test-Objekt. Dies muss hierueber von den
      * abgeleiteten Unit-Tests bereitgestellt werden. Und zwar muss jedesmal
      * der gleiche Fachwert erzeugt werden, weil sonst der equals-Test nicht
@@ -89,6 +100,11 @@ public abstract class AbstractFachwertTest<T extends Serializable, S extends Abs
     @Test
     public void isValid() {
         assertTrue(createFachwert().isValid());
+    }
+
+    @Test
+    public void suppressInvalid() {
+        assertThrows(IllegalArgumentException.class, () -> createFachwert(getInvalidCode()));
     }
 
 }

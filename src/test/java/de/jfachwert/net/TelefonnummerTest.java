@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,6 @@ import java.util.Optional;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer {@link Telefonnummer}-Klasse.
@@ -51,10 +50,6 @@ public final class TelefonnummerTest extends AbstractFachwertTest<String, Text> 
     public TelefonnummerTest() {
         this.nummer = "+49 811 3216-8";
     }
-
-//    public TelefonnummerTest(String telefonnummer) {
-//        this.nummer = telefonnummer;
-//    }
 
     /**
      * Hier setzen wir immer die gleiche Telefonnumern (Rosis Telefonnummer
@@ -84,7 +79,7 @@ public final class TelefonnummerTest extends AbstractFachwertTest<String, Text> 
      */
     @Override
     protected Telefonnummer createFachwert(String nr) {
-        return Telefonnummer.of(this.nummer);
+        return Telefonnummer.of(nr);
     }
 
     /**
@@ -97,12 +92,9 @@ public final class TelefonnummerTest extends AbstractFachwertTest<String, Text> 
         return this.nummer;
     }
 
-    /**
-     * Eine falsche Telefonnummer sollte zurueckgewiesen werden.
-     */
-    @Test
-    public void testInvalidTelefonnummer() {
-        assertThrows(IllegalArgumentException.class, () -> new Telefonnummer("ABC-" + this.nummer));
+    @Override
+    protected String getInvalidCode() {
+        return "ABC-";
     }
 
     /**

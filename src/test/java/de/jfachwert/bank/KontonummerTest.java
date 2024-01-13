@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2022 by Oliver Boehm
+ * Copyright (c) 2017-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,6 +50,16 @@ public final class KontonummerTest extends AbstractFachwertTest<Long, Kontonumme
     @Override
     protected String getCode() {
         return "0006605605";
+    }
+
+    /**
+     * Eine Kontonnummer darf maximal 10-stellig seiin.
+     *
+     * @return "12345678900"
+     */
+    @Override
+    protected String getInvalidCode() {
+        return "12345678900";
     }
 
     /**

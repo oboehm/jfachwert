@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 by Oli B.
+ * Copyright (c) 2023-2024 by Oli B.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,17 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
 
     @Override
     protected AbstractFachwert<BigInteger, Zeitpunkt> createFachwert(String code) {
-        return Zeitpunkt.of(BigInteger.ZERO);
+        return Zeitpunkt.of(code);
+    }
+
+    @Override
+    protected String getCode() {
+        return "0";
+    }
+
+    @Override
+    protected String getInvalidCode() {
+        return "xxx";
     }
 
     @Test

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 by Oli B.
+ * Copyright (c) 2023-2024 by Oli B.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package de.jfachwert.med
 
 import de.jfachwert.AbstractFachwert
 import de.jfachwert.KSimpleValidator
+import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.NullValidator
 import java.util.*
 
@@ -57,7 +58,7 @@ open class SNOMED
 
     companion object {
         private val WEAK_CACHE = WeakHashMap<String, SNOMED>()
-        private val VALIDATOR: KSimpleValidator<String> = NullValidator()
+        private val VALIDATOR: KSimpleValidator<String> = LengthValidator(1)
         /** Null-Konstante.  */
         @JvmField
         val NULL = SNOMED("", NullValidator())
