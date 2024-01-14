@@ -18,6 +18,7 @@
 package de.jfachwert.med;
 
 import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.pruefung.NullValidator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,8 +40,9 @@ public class BSNRTest extends AbstractFachwertTest<Integer, BSNR> {
     }
 
     /**
-     * Das Beispiel dazu stammt aus
-     * http://media.dav-medien.de/sample/100006566_p__v1.pdf.
+     * Das Beispiel dazu stammt aus <a href=
+     * "http://media.dav-medien.de/sample/100006566_p__v1.pdf"
+     * >Arbeitshilfe I.1</a>.
      *
      * @return "345678975"
      */
@@ -77,6 +79,12 @@ public class BSNRTest extends AbstractFachwertTest<Integer, BSNR> {
     @Test
     public void testIsNotPseudoNummer() {
         assertFalse(BSNR.of("012345678").isPseudoNummer());
+    }
+
+    @Test
+    public void testInvalid() {
+        BSNR bsnr = new BSNR(1234567890, new NullValidator<>());
+        assertFalse(bsnr.isValid());
     }
 
 }

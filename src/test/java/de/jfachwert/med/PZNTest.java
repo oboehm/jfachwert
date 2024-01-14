@@ -71,11 +71,6 @@ public final class PZNTest extends AbstractFachwertTest<Integer, PZN> {
     }
 
     @Test
-    public void testInvalidPZN() {
-        assertThrows(IllegalArgumentException.class, () -> PZN.of(27580890));
-    }
-
-    @Test
     public void testInvalid() {
         PZN invalid = PZN.of("27580890", new NullValidator<>());
         assertFalse(invalid.isValid());

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 by Oliver Boehm
+ * Copyright (c) 2018-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,6 +57,16 @@ open class BSNR
      */
     val isPseudoNummer: Boolean
         get() = code == 179999900
+
+    /**
+     * Diese Methode liefert immer 'true' zurueck. Es sei denn, nan hat den
+     * Default-Validator beim Anlegen der BSNR deaktiviert.
+     *
+     * @return true oder false
+     */
+    override fun isValid(): Boolean {
+        return VALIDATOR.isVald(code)
+    }
 
     /**
      * Die BSNR ist 9-stellig und wird auch neunstellig ausgegeben.
