@@ -18,11 +18,12 @@
 package de.jfachwert.med;
 
 import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.pruefung.NullValidator;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.emptyString;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static patterntesting.runtime.junit.ObjectTester.assertEquals;
 
@@ -77,6 +78,12 @@ public final class SNOMEDTest extends AbstractFachwertTest<String, SNOMED> {
         SNOMED s2 = SNOMED.of("362943005", "Manual method");
         assertEquals(s1, s2);
         assertEquals("Manual method", s2.getDisplay());
+    }
+
+    @Test
+    void testInvalid() {
+        SNOMED invalid = new SNOMED("", new NullValidator<>());
+        assertFalse(invalid.isValid());
     }
 
 }

@@ -51,6 +51,16 @@ open class SNOMED
 
     constructor(code: String, validator: KSimpleValidator<String>) : this(code, "", validator)
 
+    /**
+     * Diese Methode liefert immer 'true' zurueck. Es sei denn, nan hat den
+     * Default-Validator beim Anlegen deaktiviert.
+     *
+     * @return true oder false
+     */
+    override fun isValid(): Boolean {
+        return VALIDATOR.isVald(code)
+    }
+
     val display: String = display
         get(): String {
             return if (field.isEmpty()) this.code else field
