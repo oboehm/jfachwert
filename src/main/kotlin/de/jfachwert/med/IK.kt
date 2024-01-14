@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,6 +59,16 @@ open class IK
     constructor(code: String) : this(code.toInt()) {}
 
     /**
+     * Diese Methode liefert immer 'true' zurueck. Es sei denn, nan hat den
+     * Default-Validator beim Anlegen der IK deaktiviert.
+     *
+     * @return true oder false
+     */
+    override fun isValid(): Boolean {
+        return VALIDATOR.isVald(code)
+    }
+
+    /**
      * Die ersten beiden Ziffern bilden die Klassifikation, die hierueber
      * zurueckgegeben werden kann.
      *
@@ -115,8 +125,8 @@ open class IK
          * Wenn der uebergebene Wert gueltig ist, soll er unveraendert
          * zurueckgegeben werden, damit er anschliessend von der aufrufenden
          * Methode weiterverarbeitet werden kann. Ist der Wert nicht gueltig,
-         * soll eine [ValidationException] geworfen
-         * werden.
+         * soll eine [de.jfachwert.pruefung.exception.ValidationException]
+         * geworfen werden.
          *
          * @param value Wert, der validiert werden soll
          * @return Wert selber, wenn er gueltig ist

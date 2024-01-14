@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 package de.jfachwert.med;
 
 import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.pruefung.NullValidator;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
@@ -107,6 +108,12 @@ public final class IKTest extends AbstractFachwertTest<Integer, IK> {
     @Test
     public void testGetPruefziffer() {
         assertEquals(2, ik.getPruefziffer());
+    }
+
+    @Test
+    public void testInvalid() {
+        IK invalid = new IK(1234567897, new NullValidator<>());
+        assertFalse(invalid.isValid());
     }
 
     @Test
