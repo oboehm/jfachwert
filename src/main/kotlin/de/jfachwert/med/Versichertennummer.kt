@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 by Oli B.
+ * Copyright (c) 2023-2024 by Oli B.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,6 +49,18 @@ open class Versichertennummer
  * @param pzVerfahren das verwendete PruefzifferVerfahren (optional)
  */
 @JvmOverloads constructor(code: String, pzVerfahren: KSimpleValidator<String> = VALIDATOR) : AbstractFachwert<String, Versichertennummer>(code, pzVerfahren) {
+
+    /**
+     * Diese Methode liefert immer 'true' zurueck. Es sei denn, nan hat den
+     * Default-Validator beim Anlegen deaktiviert.
+     *
+     * @return true oder false
+     */
+    override fun isValid(): Boolean {
+        return VALIDATOR.isVald(code)
+    }
+
+
 
     /**
      * Dieser Validator ist fuer die Ueberpruefung einer Versichertennummer

@@ -14,7 +14,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ## [Unreleased]
 ### Added
-- Fachwert-Klassen haben jetzt eine isValid()-Methode (falls man Validator abgeschaltet hat)
+- Fachwert-Klassen haben jetzt eine isValid()-Methode (falls man den Validator abschaltet bzw. austauscht)
 
 ## [5.1.1] - 2024-01-09
 ### Fixed

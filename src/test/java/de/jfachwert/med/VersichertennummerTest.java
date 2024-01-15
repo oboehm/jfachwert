@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 by Oli B.
+ * Copyright (c) 2023-2024 by Oli B.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,10 @@
 package de.jfachwert.med;
 
 import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.pruefung.NullValidator;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -28,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @author oboehm
  * @since 5.1 (23.12.23)
  */
-public final class VersichtennummerTest extends AbstractFachwertTest<String, Versichertennummer> {
+public final class VersichertennummerTest extends AbstractFachwertTest<String, Versichertennummer> {
 
     @Override
     protected Versichertennummer createFachwert(String code) {
@@ -38,7 +40,7 @@ public final class VersichtennummerTest extends AbstractFachwertTest<String, Ver
     /**
      * Liefert eine Test-Versichtennummer als String.
      *
-     * @return "DE41300606010006605605"
+     * @return "A123456780"
      */
     @Override
     protected String getCode() {
@@ -63,6 +65,12 @@ public final class VersichtennummerTest extends AbstractFachwertTest<String, Ver
     @Test
     void testPruefziffer() {
         Versichertennummer.of("X234567891");
+    }
+
+    @Test
+    void testInvalid() {
+        Versichertennummer invalid = new Versichertennummer(getInvalidCode(), new NullValidator<>());
+        assertFalse(invalid.isValid());
     }
 
 }
