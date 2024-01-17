@@ -98,4 +98,16 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
         assertThat(t1, lessThanOrEqualTo(t2));
     }
 
+    @Test
+    void testOfDateString() {
+        Zeitpunkt epoch = Zeitpunkt.of("1970-01-01 00:00:00.000000000");
+        assertEquals(Zeitpunkt.EPOCH, epoch);
+    }
+
+    @Test
+    void toStringAndBack() {
+        Zeitpunkt z = Zeitpunkt.of(BigInteger.ZERO);
+        assertEquals(z, Zeitpunkt.of(z.toString()));
+    }
+
 }

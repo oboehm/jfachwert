@@ -18,12 +18,14 @@
 package de.jfachwert.zeit
 
 import de.jfachwert.AbstractFachwert
+import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import java.math.BigInteger
 import java.sql.Timestamp
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatterBuilder
+import java.time.format.DateTimeParseException
 import java.time.temporal.ChronoField
 import java.util.*
 import java.util.logging.Level
@@ -195,7 +197,22 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
          */
         @JvmStatic
         fun of(code: String): Zeitpunkt {
-            return of(BigInteger(code))
+            try {
+                return of(BigInteger(code))
+            } catch (ex: NumberFormatException) {
+                log.log(Level.FINE, "'$code' ist keine Zahl und wird als Datum behandelt:", ex)
+                return of(toLocalDateTime(code))
+            }
+        }
+
+        private fun toLocalDateTime(code: String): LocalDateTime {
+            //val timePatterns = arrayOf("EEE MMM d HH:mm:ss zzz yyyy", "H:m:s", "H:m", "h:m", "K:m", "k:m")
+            try {
+                val pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.n")
+                return LocalDateTime.parse(code, pattern)
+            } catch (ex: DateTimeParseException) {
+                throw LocalizedIllegalArgumentException(code, "unknown_time_format", ex)
+            }
         }
 
         /**
