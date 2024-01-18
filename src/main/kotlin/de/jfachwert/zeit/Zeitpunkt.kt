@@ -21,7 +21,6 @@ import de.jfachwert.AbstractFachwert
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import java.math.BigInteger
 import java.sql.Timestamp
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -233,31 +232,7 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
                 return of(BigInteger(code))
             } catch (ex: NumberFormatException) {
                 log.log(Level.FINE, "'$code' ist keine Zahl und wird als Datum behandelt:", ex)
-                return of(toLocalDateTime(code))
-            }
-        }
-
-        private fun toLocalDateTime(code: String): LocalDateTime {
-            //val timePatterns = arrayOf("EEE MMM d HH:mm:ss zzz yyyy", "H:m:s", "H:m", "h:m", "K:m", "k:m")
-            val datePatterns = arrayOf(
-                "yyyy-MM-dd", "dd-MMM-yyyy", "dd-MM-yyyy", "yyyy-MMM-dd",
-                "MMM-dd-yyyy", "dd MMM yyyy", "dd MM yyyy", "yyyy MMM dd", "yyyy MM dd", "MMM dd yyyy", "dd.MMM.yyyy",
-                "dd.MM.yyyy", "yyyy.MMM.dd", "MMM.dd.yyyy"
-            )
-            for (dp in datePatterns) {
-                val pattern = DateTimeFormatter.ofPattern(dp)
-                try {
-                    val localDate = LocalDate.parse(code, pattern)
-                    return localDate.atStartOfDay()
-                } catch (ex: DateTimeParseException) {
-                    log.log(Level.FINE, "'$code passt nicht zum Pattern '$pattern':", ex)
-                }
-            }
-            try {
-                val pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd H:m:s.n")
-                return LocalDateTime.parse(code, pattern)
-            } catch (ex: DateTimeParseException) {
-                throw LocalizedIllegalArgumentException(code, "unknown_time_format", ex)
+                return of(dateToNanos(code))
             }
         }
 
@@ -300,25 +275,43 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
         }
 
         private fun dateToNanos(s: String): BigInteger {
+            val datePatterns = arrayOf(
+                "yyyy-MM-dd", "dd-MMM-yyyy", "dd-MM-yyyy", "yyyy-MMM-dd",
+                "MMM-dd-yyyy", "dd MMM yyyy", "dd MM yyyy", "yyyy MMM dd", "yyyy MM dd", "MMM dd yyyy", "dd.MMM.yyyy",
+                "dd.MM.yyyy", "yyyy.MMM.dd", "MMM.dd.yyyy"
+            )
             val dtfb = DateTimeFormatterBuilder()
-                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSSSS"))
-                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSSS"))
-                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSS"))
-                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS"))
-                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSS"))
-                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSS"))
-                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"))
-                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SS"))
-                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"))
-                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+            for (dp in datePatterns) {
+                dtfb
+                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m:s.SSSSSSSSS"))
+                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m:s.SSSSSSSS"))
+                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m:s.SSSSSSS"))
+                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m:s.SSSSSS"))
+                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m:s.SSSSS"))
+                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m:s.SSSS"))
+                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m:s.SSS"))
+                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m:s.SS"))
+                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m:s.S"))
+                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m:s"))
+                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m"))
+                    .appendOptional(DateTimeFormatter.ofPattern("$dp h:m"))
+                    .appendOptional(DateTimeFormatter.ofPattern("$dp K:m"))
+                    .appendOptional(DateTimeFormatter.ofPattern("$dp k:m"))
+                    .appendOptional(DateTimeFormatter.ofPattern(dp))
+            }
+            dtfb
                 .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
                 .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
                 .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
             val formatter = dtfb.toFormatter()
-            val ldt = LocalDateTime.parse(s, formatter)
-            val seconds = ldt.toEpochSecond(ZoneOffset.UTC)
-            return BigInteger.valueOf(seconds).multiply(Zeitdauer.SECOND_IN_NANOS).add(BigInteger.valueOf(ldt.nano.toLong()))
+            try {
+                val ldt = LocalDateTime.parse(s, formatter)
+                val seconds = ldt.toEpochSecond(ZoneOffset.UTC)
+                return BigInteger.valueOf(seconds).multiply(Zeitdauer.SECOND_IN_NANOS)
+                    .add(BigInteger.valueOf(ldt.nano.toLong()))
+            } catch (ex: DateTimeParseException) {
+                throw LocalizedIllegalArgumentException(s, "unknown_time_format", ex)
+            }
         }
 
     }
