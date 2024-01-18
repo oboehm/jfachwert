@@ -28,6 +28,7 @@ import java.time.ZoneOffset;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -72,7 +73,14 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
     @Override
     public void testToString() {
         Zeitpunkt epoch = Zeitpunkt.of(BigInteger.ZERO);
-        String s = epoch.toString();
+        String s = epoch.toLongString();
+        assertThat(s, startsWith("1970-01-01"));
+    }
+
+    @Test
+    public void testToLongString() {
+        Zeitpunkt epoch = Zeitpunkt.of(BigInteger.ZERO);
+        String s = epoch.toLongString();
         assertEquals("1970-01-01 00:00:00.000000000", s);
     }
 
@@ -99,15 +107,22 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
     }
 
     @Test
-    void testOfDateString() {
+    void toStringAndBack() {
+        Zeitpunkt z = Zeitpunkt.of(BigInteger.ZERO);
+        assertEquals(z, Zeitpunkt.of(z.toString()));
+    }
+
+    @Test
+    void testOfDateTimeString() {
         Zeitpunkt epoch = Zeitpunkt.of("1970-01-01 00:00:00.000000000");
         assertEquals(Zeitpunkt.EPOCH, epoch);
     }
 
     @Test
-    void toStringAndBack() {
-        Zeitpunkt z = Zeitpunkt.of(BigInteger.ZERO);
-        assertEquals(z, Zeitpunkt.of(z.toString()));
+    void testOfDateString() {
+        String dateString = "2024-01-17";
+        Zeitpunkt z = Zeitpunkt.of(dateString);
+        assertEquals(dateString, z.toString());
     }
 
 }

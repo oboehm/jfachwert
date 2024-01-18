@@ -21,6 +21,7 @@ import de.jfachwert.AbstractFachwert
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import java.math.BigInteger
 import java.sql.Timestamp
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -147,25 +148,56 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
     }
 
     /**
-     * Zeitpunkt wird als Zeit-/Datumsanage ausgegeben.
+     * Zeitpunkt wird als Zeit-/Datumsangabe ausgegeben.
      *
      * @return Ausgabe aehnlich wie bei Timestamp, aber Nonosekunden-genau
      */
     override fun toString(): String {
-        return toString(ZoneOffset.UTC)
+        return toShortString()
+    }
+
+    /**
+     * Zeitpunkt wird als Zeit-/Datumsangabe ausgegeben.
+     *
+     * @return Ausgabe aehnlich wie bei Timestamp, aber Nonosekunden-genau
+     */
+    fun toLongString(): String {
+        return toString("yyyy-MM-dd HH:mm:ss.n", ZoneOffset.UTC)
+    }
+
+    /**
+     * Wenn der Zeitpunkt der Tagesanfang ist (0:00), wird nur das Datum
+     * ausgegeben. Ansonsten mit Uhrzeit.
+     *
+     * @return String in Kurzform ohne Uhrzeit (wenn keine vorhanden.
+     */
+    fun toShortString(): String {
+        val time = toLocalDateTime().toLocalTime()
+        if (time.nano == 0) {
+            return toString("yyyy-MM-dd")
+        } else {
+            return toLongString()
+        }
     }
 
     /**
      * Zeitpunkt wird als Zeit-/Datumsanage ausgegeben.
      *
-     * @param offset Offset zu UTC
-     * @return Ausgabe aehnlich wie bei Timestamp, aber Nonosekunden-genau
+     * @param pattern Pattern fuer die Ausgabe
+     * @param offset  Offset zu UTC
+     * @return Default-Ausgabe aehnlich wie bei Timestamp, aber Nonosekunden-genau
      */
-    fun toString(offset: ZoneOffset): String {
+    fun toString(pattern : String = "yyyy-MM-dd HH:mm:ss.n", offset: ZoneOffset = ZoneOffset.UTC) : String {
+        val datePattern = pattern.removeSuffix(".n")
         val dtfb = DateTimeFormatterBuilder()
-            .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            .appendOptional(DateTimeFormatter.ofPattern(datePattern))
         val formatter = dtfb.toFormatter()
-        return String.format("%s.%09d", formatter.format(toLocalDateTime(offset)), getNanos())
+        val formattedDate = formatter.format(toLocalDateTime(offset))
+        if (pattern.endsWith(".n")) {
+            return String.format("%s.%09d", formattedDate, getNanos())
+        } else {
+            return formattedDate
+        }
     }
 
 
@@ -207,8 +239,22 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
 
         private fun toLocalDateTime(code: String): LocalDateTime {
             //val timePatterns = arrayOf("EEE MMM d HH:mm:ss zzz yyyy", "H:m:s", "H:m", "h:m", "K:m", "k:m")
+            val datePatterns = arrayOf(
+                "yyyy-MM-dd", "dd-MMM-yyyy", "dd-MM-yyyy", "yyyy-MMM-dd",
+                "MMM-dd-yyyy", "dd MMM yyyy", "dd MM yyyy", "yyyy MMM dd", "yyyy MM dd", "MMM dd yyyy", "dd.MMM.yyyy",
+                "dd.MM.yyyy", "yyyy.MMM.dd", "MMM.dd.yyyy"
+            )
+            for (dp in datePatterns) {
+                val pattern = DateTimeFormatter.ofPattern(dp)
+                try {
+                    val localDate = LocalDate.parse(code, pattern)
+                    return localDate.atStartOfDay()
+                } catch (ex: DateTimeParseException) {
+                    log.log(Level.FINE, "'$code passt nicht zum Pattern '$pattern':", ex)
+                }
+            }
             try {
-                val pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.n")
+                val pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd H:m:s.n")
                 return LocalDateTime.parse(code, pattern)
             } catch (ex: DateTimeParseException) {
                 throw LocalizedIllegalArgumentException(code, "unknown_time_format", ex)
@@ -264,6 +310,8 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
                 .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"))
                 .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SS"))
                 .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"))
+                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
                 .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
                 .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
                 .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
