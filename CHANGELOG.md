@@ -7,7 +7,6 @@ genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
 ## [Planned]
-- Zeitraum-Klasse
 - Speichervergleich BigDecimal zu PackedDecimal
 - Nummer.toShort()
 - Nummer.asOptional(String, Class), z.B. Nummer.asOptional("1", Short.class)
@@ -15,6 +14,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Unreleased]
 ### Added
 - Fachwert-Klassen haben jetzt eine isValid()-Methode (falls man den Validator abschaltet bzw. austauscht)
+- Zeitraum-Klasse
 
 ## [5.1.1] - 2024-01-09
 ### Fixed
