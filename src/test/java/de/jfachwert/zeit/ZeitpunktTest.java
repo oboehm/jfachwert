@@ -85,6 +85,16 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
     }
 
     @Test
+    public void testToShortString() {
+        String s1 = "2024-01-18";
+        String s2 = "2024-01-18 19:20";
+        String s3 = "2024-01-18 19:20:21";
+        assertEquals(s1, Zeitpunkt.of(s1).toShortString());
+        assertEquals(s2, Zeitpunkt.of(s2).toShortString());
+        assertEquals(s3, Zeitpunkt.of(s3).toShortString());
+    }
+
+    @Test
     public void testEpoch() {
         Zeitpunkt epoch = Zeitpunkt.of(LocalDateTime.ofEpochSecond(0, 0, ZoneOffset.UTC));
         assertEquals(Zeitpunkt.EPOCH, epoch);

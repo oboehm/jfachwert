@@ -166,17 +166,25 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
 
     /**
      * Wenn der Zeitpunkt der Tagesanfang ist (0:00), wird nur das Datum
-     * ausgegeben. Ansonsten mit Uhrzeit.
+     * ausgegeben. Ansonsten mit Uhrzeit in Kurzform, d.h. ohne 0-Werte
+     * am Ende.
      *
-     * @return String in Kurzform ohne Uhrzeit (wenn keine vorhanden.
+     * @return String in Kurzform ohne Uhrzeit (wenn keine vorhanden).
      */
     fun toShortString(): String {
-        val time = toLocalDateTime().toLocalTime()
-        if (time.nano == 0) {
-            return toString("yyyy-MM-dd")
-        } else {
-            return toLongString()
+        var s = toLongString()
+        if (!s.endsWith(".000000000")) {
+            return s
         }
+        s = s.substring(0, s.length-10)
+        if (!s.endsWith(":00")) {
+            return s
+        }
+        s = s.substring(0, s.length-3)
+        if (!s.endsWith("00:00")) {
+            return s
+        }
+        return s.substring(0, s.length-5).trim()
     }
 
     /**
