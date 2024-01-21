@@ -34,13 +34,7 @@ open class Zeitraum
 constructor(val von: Zeitpunkt, val bis: Zeitpunkt) : KFachwert {
 
     /**
-     * Zerlegt den uebergebenen String in Name, IBAN und (optional) BIC.
-     * Folgende Heuristiken werden fuer die Zerlegung angewendet:
-     *  * Reihenfolge ist Name, IBAN und BIC, evtl. durch Kommata
-     *    getrennt
-     *  * IBAN wird durch "IBAN" (grossgeschrieben) eingeleitet
-     *  * BIC wird durch "BIC" (grossgeschrieben) eingeleitet,
-     *    ist aber optional.
+     * Zerlegt den uebergebenen String in zwei Zeitpunkte "von" und "bis".
      *
      * @param vonbis z.B. "2024-01-01 - 2024-12-34"
      */
@@ -55,6 +49,15 @@ constructor(val von: Zeitpunkt, val bis: Zeitpunkt) : KFachwert {
     @JsonCreator
     constructor(map: Map<String, Zeitpunkt>) :
             this(map["von"]!!, map["bis"]!!)
+
+    /**
+     * Liefert die Zeitdauer des Zeitraums zurueck.
+     *
+     * @return Zeitdauer
+     */
+    fun getZeitdauer() : Zeitdauer {
+        return Zeitdauer.of(von, bis)
+    }
 
     override fun toString(): String {
         return "$von - $bis"

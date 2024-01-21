@@ -18,6 +18,9 @@
 package de.jfachwert.zeit;
 
 import de.jfachwert.FachwertTest;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit-Tests fuer die {@link Zeitraum}-Klasse.
@@ -30,6 +33,12 @@ public final class ZeitraumTest extends FachwertTest {
     @Override
     protected Zeitraum createFachwert() {
         return Zeitraum.of("2018-01-24 - 2024-01-19");
+    }
+
+    @Test
+    void getZeitdauer() {
+        Zeitdauer zeitdauer = Zeitraum.of("2024-01-01 - 2025-01-01").getZeitdauer();
+        assertEquals("366 Tage", zeitdauer.toString());
     }
 
 }

@@ -123,6 +123,20 @@ open class Zeitdauer(val startTime: Zeitpunkt, val endTime : Zeitpunkt? = null) 
         }
 
         /**
+         * Liefert eine Zeitdauer zurueck.
+         *
+         * @param von Zeitpunkt
+         * @param bis Zeitpunkt
+         * @return die Zeitdauer
+         */
+        @JvmStatic
+        fun of(von: Zeitpunkt, bis: Zeitpunkt): Zeitdauer {
+            val dauer = Zeitdauer(von, bis)
+            val nanos = dauer.getTimeInNanos()
+            return WEAK_CACHE.computeIfAbsent(nanos) { dauer }
+        }
+
+        /**
          * Startet die Zeitmessung.
          *
          * @return aktuelle Zeitdauer
