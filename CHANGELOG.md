@@ -15,6 +15,8 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ### Added
 - Fachwert-Klassen haben jetzt eine isValid()-Methode (falls man den Validator abschaltet bzw. austauscht)
 - Zeitraum-Klasse
+### Breaking Changes
+- Zeitdauer: startTime und endTime sind jetzt private Properties; für Zeiträume gibt es jetzt die Zeitraum-Klasse
 
 ## [5.1.1] - 2024-01-09
 ### Fixed

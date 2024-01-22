@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit
  * @author oboehm
  * @since 5.0 (10.07.2023)
  */
-open class Zeitdauer(val startTime: Zeitpunkt, val endTime : Zeitpunkt? = null) : KFachwert {
+open class Zeitdauer(private val startTime: Zeitpunkt, private val endTime : Zeitpunkt? = null) : KFachwert {
 
     constructor() : this(Zeitpunkt())
 
