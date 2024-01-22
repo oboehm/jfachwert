@@ -56,8 +56,16 @@ open class Zeitdauer(val startTime: Zeitpunkt, val endTime : Zeitpunkt? = null) 
         return getZaehler(getTimeInNanos())
     }
 
+    fun getZaehler(unit: TimeUnit) : BigInteger {
+        return getZaehler(getTimeInNanos(), unit)
+    }
+
     private fun getZaehler(t: BigInteger) : BigInteger {
-        return when(getEinheit(t)) {
+        return getZaehler(t, getEinheit(t))
+    }
+
+    private fun getZaehler(t: BigInteger, unit: TimeUnit) : BigInteger {
+        return when(unit) {
             TimeUnit.NANOSECONDS -> t
             TimeUnit.MICROSECONDS -> t.divide(MICROSECOND_IN_NANOS)
             TimeUnit.MILLISECONDS -> t.divide(MILLISECOND_IN_NANOS)

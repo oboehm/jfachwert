@@ -96,4 +96,10 @@ public final class ZeitdauerTest extends FachwertTest {
         assertEquals(3L, zeitdauer.getTimeInMillis());
     }
 
+    @Test
+    void testGetZaehler() {
+        Zeitdauer zeitdauer = Zeitdauer.of(1, TimeUnit.DAYS);
+        assertEquals(BigInteger.valueOf(24), zeitdauer.getZaehler(TimeUnit.HOURS));
+    }
+
 }

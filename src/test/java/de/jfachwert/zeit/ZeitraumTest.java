@@ -20,6 +20,8 @@ package de.jfachwert.zeit;
 import de.jfachwert.FachwertTest;
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.TimeUnit;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -38,7 +40,7 @@ public final class ZeitraumTest extends FachwertTest {
     @Test
     void getZeitdauer() {
         Zeitdauer zeitdauer = Zeitraum.of("2024-01-01 - 2025-01-01").getZeitdauer();
-        assertEquals("366 Tage", zeitdauer.toString());
+        assertEquals(366, zeitdauer.getZaehler(TimeUnit.DAYS).intValue());
     }
 
 }
