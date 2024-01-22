@@ -11,7 +11,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Nummer.toShort()
 - Nummer.asOptional(String, Class), z.B. Nummer.asOptional("1", Short.class)
 
-## [Unreleased]
+## [5.2.0] - 2024-01-22
 ### Added
 - Fachwert-Klassen haben jetzt eine isValid()-Methode (falls man den Validator abschaltet bzw. austauscht)
 - Zeitraum-Klasse
