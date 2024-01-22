@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit-Tests fuer die {@link Zeitraum}-Klasse.
@@ -41,6 +42,11 @@ public final class ZeitraumTest extends FachwertTest {
     void getZeitdauer() {
         Zeitdauer zeitdauer = Zeitraum.of("2024-01-01 - 2025-01-01").getZeitdauer();
         assertEquals(366, zeitdauer.getZaehler(TimeUnit.DAYS).intValue());
+    }
+
+    @Test
+    void ofInvalid() {
+        assertThrows(IllegalArgumentException.class, () -> Zeitraum.of("invalid"));
     }
 
 }

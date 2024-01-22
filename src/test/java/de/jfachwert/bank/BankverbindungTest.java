@@ -88,4 +88,9 @@ public final class BankverbindungTest extends FachwertTest {
         }
     }
 
+    @Test
+    void ofInvalid() {
+        assertThrows(IllegalArgumentException.class, () -> Bankverbindung.of("Eva Muster"));
+    }
+
 }
