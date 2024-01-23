@@ -4,6 +4,10 @@ package "zeit" {
 
     class Zeitdauer
     class Zeitpunkt
+    class Zeitraum {
+        Zeitpunkt von
+        Zeitpunkt bis
+    }
 
 }
 
