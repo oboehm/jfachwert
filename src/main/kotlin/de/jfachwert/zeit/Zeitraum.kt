@@ -96,12 +96,34 @@ constructor(val von: Zeitpunkt, val bis: Zeitpunkt) : KFachwert {
         @JvmField
         val NULL = Zeitraum(Zeitpunkt.EPOCH, Zeitpunkt.EPOCH)
 
+        /**
+         * Interpretiert den eingegebenen String als Zeitraum
+         *
+         * @param s z.B. "2024-01-01 - 2025-01-01"
+         */
         @JvmStatic
         fun of(s: String): Zeitraum {
             val map = split(s)
             return of(map["von"]!!, map["bis"]!!)
         }
 
+        /**
+         * Liefert einen Zeitraum.
+         *
+         * @param von Start-Zeitpunkt
+         * @param bis Ende.Zeitpunkt
+         */
+        @JvmStatic
+        fun of(von: Date, bis: Date): Zeitraum {
+            return of(Zeitpunkt.of(von), Zeitpunkt.of(bis))
+        }
+
+        /**
+         * Liefert einen Zeitraum.
+         *
+         * @param von Start-Zeitpunkt
+         * @param bis Ende.Zeitpunkt
+         */
         @JvmStatic
         fun of(von: Zeitpunkt, bis: Zeitpunkt): Zeitraum {
             val pair = Pair(von, bis)

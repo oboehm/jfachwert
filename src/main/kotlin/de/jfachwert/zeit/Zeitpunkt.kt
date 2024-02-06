@@ -257,6 +257,18 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
         }
 
         /**
+         * Liefert einen Zeitpunkt zurueck.
+         *
+         * @param t beliebiger Zeitpunkt als Date
+         * @return der Zeitpunkt
+         */
+        @JvmStatic
+        fun of(t: Date): Zeitpunkt {
+            val nanos = BigInteger.valueOf(t.time).multiply(Zeitdauer.MILLISECOND_IN_NANOS)
+            return of(nanos)
+        }
+
+        /**
          * Liefert den aktuellen Zeitpunkt zurueck.
          *
          * @return aktuellen Zeitpunkt

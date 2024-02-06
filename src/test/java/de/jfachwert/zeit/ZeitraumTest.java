@@ -20,6 +20,7 @@ package de.jfachwert.zeit;
 import de.jfachwert.FachwertTest;
 import org.junit.jupiter.api.Test;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -47,6 +48,14 @@ public final class ZeitraumTest extends FachwertTest {
     @Test
     void ofInvalid() {
         assertThrows(IllegalArgumentException.class, () -> Zeitraum.of("invalid"));
+    }
+
+    @Test
+    void ofDate() {
+        Date epoch = new Date(0);
+        Date today = new Date();
+        Zeitraum zeitraum = Zeitraum.of(epoch, today);
+        assertEquals(today.getTime(), zeitraum.getZeitdauer().getTimeInMillis());
     }
 
 }

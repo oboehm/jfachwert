@@ -25,6 +25,7 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Date;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
@@ -133,6 +134,13 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
         String dateString = "2024-01-17";
         Zeitpunkt z = Zeitpunkt.of(dateString);
         assertEquals(dateString, z.toString());
+    }
+
+    @Test
+    void testOfDate() {
+        Date epoch = new Date(0);
+        Zeitpunkt z = Zeitpunkt.of(epoch);
+        assertEquals(Zeitpunkt.EPOCH, z);
     }
 
 }
