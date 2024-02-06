@@ -143,4 +143,11 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
         assertEquals(Zeitpunkt.EPOCH, z);
     }
 
+    @Test
+    void testToDate() {
+        Date now = new Date();
+        Zeitpunkt z = Zeitpunkt.of(now);
+        assertEquals(now, z.toDate());
+    }
+
 }

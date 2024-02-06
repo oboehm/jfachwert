@@ -137,6 +137,15 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
     }
 
     /**
+     * Wandelt den Zeitpunkt in ein Date um.
+     *
+     * @return Date aus java.util
+     */
+    fun toDate() : Date {
+        return Date(getTimeInMillis())
+    }
+
+    /**
      * Wandelt den Zeitpunkt in ein LocalDateTime um.
      *
      * @param offset Offset zu UTC
