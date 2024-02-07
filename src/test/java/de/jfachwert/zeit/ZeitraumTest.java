@@ -21,9 +21,13 @@ import de.jfachwert.FachwertTest;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -65,6 +69,22 @@ public final class ZeitraumTest extends FachwertTest {
         Timestamp t2 = new Timestamp(2);
         Zeitraum zeitraum = Zeitraum.of(t1, t2);
         assertEquals(t2.getTime() - t1.getTime(), zeitraum.getZeitdauer().getTimeInMillis());
+    }
+
+    @Test
+    void ofLocalDate() {
+        LocalDate d1 = LocalDate.EPOCH;
+        LocalDate d2 = LocalDate.now();
+        Zeitraum zeitraum = Zeitraum.of(d1, d2);
+        assertEquals(d2.toEpochDay(), zeitraum.getZeitdauer().getZaehler(TimeUnit.DAYS).longValue());
+    }
+
+    @Test
+    void ofLocalDateTime() {
+        LocalDateTime t1 = LocalDateTime.now();
+        LocalDateTime t2 = LocalDateTime.now();
+        Zeitraum zeitraum = Zeitraum.of(t1, t2);
+        assertThat(zeitraum.getZeitdauer().getTimeInNanos().longValue(), greaterThan(0L));
     }
 
 }
