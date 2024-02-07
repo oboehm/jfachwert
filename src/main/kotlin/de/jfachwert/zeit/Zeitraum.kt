@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import de.jfachwert.KFachwert
 import de.jfachwert.util.ToFachwertSerializer
+import java.sql.Timestamp
 import java.util.*
 
 /**
@@ -115,6 +116,17 @@ constructor(val von: Zeitpunkt, val bis: Zeitpunkt) : KFachwert {
          */
         @JvmStatic
         fun of(von: Date, bis: Date): Zeitraum {
+            return of(Zeitpunkt.of(von), Zeitpunkt.of(bis))
+        }
+
+        /**
+         * Liefert einen Zeitraum.
+         *
+         * @param von Start-Zeitpunkt
+         * @param bis Ende.Zeitpunkt
+         */
+        @JvmStatic
+        fun of(von: Timestamp, bis: Timestamp): Zeitraum {
             return of(Zeitpunkt.of(von), Zeitpunkt.of(bis))
         }
 

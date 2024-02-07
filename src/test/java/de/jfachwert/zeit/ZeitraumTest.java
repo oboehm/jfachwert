@@ -20,6 +20,7 @@ package de.jfachwert.zeit;
 import de.jfachwert.FachwertTest;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -56,6 +57,14 @@ public final class ZeitraumTest extends FachwertTest {
         Date today = new Date();
         Zeitraum zeitraum = Zeitraum.of(epoch, today);
         assertEquals(today.getTime(), zeitraum.getZeitdauer().getTimeInMillis());
+    }
+
+    @Test
+    void ofTimestamp() {
+        Timestamp t1 = new Timestamp(1);
+        Timestamp t2 = new Timestamp(2);
+        Zeitraum zeitraum = Zeitraum.of(t1, t2);
+        assertEquals(t2.getTime() - t1.getTime(), zeitraum.getZeitdauer().getTimeInMillis());
     }
 
 }
