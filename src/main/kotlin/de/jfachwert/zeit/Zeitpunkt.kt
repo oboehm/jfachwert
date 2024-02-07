@@ -21,6 +21,7 @@ import de.jfachwert.AbstractFachwert
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import java.math.BigInteger
 import java.sql.Timestamp
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -48,6 +49,11 @@ import java.util.logging.Logger
  * Die Zeitpunkt-Klasse ist wie alle JFachwert-Klasse immutable, orientiert
  * sich aber ansonsten neben der LocalDateTime-Klasse auch an der Timestamp-
  * Klasse, sodasss sie als Ersatz fuer diese beide Klassen dienen kann.
+ * Sie kann auch fuer die Konvertierung zwichen den verschiedenen Time- und
+ * Date-Klassen verwendet werden:
+ * <pre>
+ *     LocalDate d = Zeitpunkt.of(new Date()).toLocalDate();
+ * </pre>
  *
  * @author oboehm
  * @since 5.0 (18.07.2023)
@@ -128,21 +134,31 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
     }
 
     /**
+     * Wandelt den Zeitpunkt in ein LocalDate um.
+     *
+     * @return LocalDate aus java.time
+     */
+    fun toLocalDate() : LocalDate {
+        return toLocalDate(ZoneOffset.UTC)
+    }
+
+    /**
+     * Wandelt den Zeitpunkt in ein LocalDate um.
+     *
+     * @param offset Offset zu UTC
+     * @return LocalDate aus java.time
+     */
+    fun toLocalDate(offset: ZoneOffset) : LocalDate {
+        return toLocalDateTime(offset).toLocalDate()
+    }
+
+    /**
      * Wandelt den Zeitpunkt in ein LocalDateTime um.
      *
      * @return LocalDateTime aus java.time
      */
     fun toLocalDateTime() : LocalDateTime {
         return toLocalDateTime(ZoneOffset.UTC)
-    }
-
-    /**
-     * Wandelt den Zeitpunkt in ein Date um.
-     *
-     * @return Date aus java.util
-     */
-    fun toDate() : Date {
-        return Date(getTimeInMillis())
     }
 
     /**
@@ -153,6 +169,15 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
      */
     fun toLocalDateTime(offset: ZoneOffset) : LocalDateTime {
         return LocalDateTime.ofEpochSecond(toEpochSecond(), getNanos(), offset)
+    }
+
+    /**
+     * Wandelt den Zeitpunkt in ein Date um.
+     *
+     * @return Date aus java.util
+     */
+    fun toDate() : Date {
+        return Date(getTimeInMillis())
     }
 
     /**
@@ -251,6 +276,17 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
                 log.log(Level.FINE, "'$code' ist keine Zahl und wird als Datum behandelt:", ex)
                 return of(dateToNanos(code))
             }
+        }
+
+        /**
+         * Liefert einen Zeitpunkt zurueck.
+         *
+         * @param t beliebiger Zeitpunkt als LocalDate
+         * @return der Zeitpunkt
+         */
+        @JvmStatic
+        fun of(t: LocalDate): Zeitpunkt {
+            return of(t.atStartOfDay())
         }
 
         /**

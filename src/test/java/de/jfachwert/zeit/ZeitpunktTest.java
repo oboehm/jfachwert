@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
@@ -103,9 +104,30 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
     }
 
     @Test
-    public void testToTimestampe() {
+    public void testToTimestamp() {
         Zeitpunkt t = Zeitpunkt.now();
         assertEquals(t.toTimestamp(), Timestamp.valueOf(t.toLocalDateTime()));
+    }
+
+    @Test
+    void testToDate() {
+        Date now = new Date();
+        Zeitpunkt z = Zeitpunkt.of(now);
+        assertEquals(now, z.toDate());
+    }
+
+    @Test
+    void testToLocalDate() {
+        LocalDate now = LocalDate.now();
+        Zeitpunkt z = Zeitpunkt.of(now);
+        assertEquals(now, z.toLocalDate());
+    }
+
+    @Test
+    void testToLocalDateTime() {
+        LocalDateTime now = LocalDateTime.now();
+        Zeitpunkt z = Zeitpunkt.of(now);
+        assertEquals(now, z.toLocalDateTime());
     }
 
     @Test
@@ -141,13 +163,6 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
         Date epoch = new Date(0);
         Zeitpunkt z = Zeitpunkt.of(epoch);
         assertEquals(Zeitpunkt.EPOCH, z);
-    }
-
-    @Test
-    void testToDate() {
-        Date now = new Date();
-        Zeitpunkt z = Zeitpunkt.of(now);
-        assertEquals(now, z.toDate());
     }
 
 }
