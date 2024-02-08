@@ -91,9 +91,11 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
         String s1 = "2024-01-18";
         String s2 = "2024-01-18 19:20";
         String s3 = "2024-01-18 19:20:21";
+        String s4 = "2024-01-18 19:20:21.234";
         assertEquals(s1, Zeitpunkt.of(s1).toShortString());
         assertEquals(s2, Zeitpunkt.of(s2).toShortString());
         assertEquals(s3, Zeitpunkt.of(s3).toShortString());
+        assertEquals(s4, Zeitpunkt.of(s4).toShortString());
     }
 
     @Test

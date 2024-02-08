@@ -207,10 +207,14 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
      */
     fun toShortString(): String {
         var s = toLongString()
-        if (!s.endsWith(".000000000")) {
+        if (!s.endsWith("000000")) {
             return s
         }
-        s = s.substring(0, s.length-10)
+        s = s.substring(0, s.length-6)
+        if (!s.endsWith(".000")) {
+            return s
+        }
+        s = s.substring(0, s.length-4)
         if (!s.endsWith(":00")) {
             return s
         }
