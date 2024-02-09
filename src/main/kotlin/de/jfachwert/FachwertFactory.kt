@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2023 by Oliver Boehm
+ * Copyright (c) 2018-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -186,6 +186,7 @@ class FachwertFactory private constructor() {
             instance.register(Waehrung::class.java)
             instance.register(IK::class.java)
             instance.register(LANR::class.java)
+            instance.register(ZANR::class.java)
             instance.register(BSNR::class.java)
             instance.register(SNOMED::class.java)
             instance.register(Versichertennummer::class.java)

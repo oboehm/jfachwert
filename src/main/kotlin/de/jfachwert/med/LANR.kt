@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 by Oliver Boehm
+ * Copyright (c) 2018-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,6 +71,16 @@ open class LANR
         get() = code / 100 % 10
 
     /**
+     * Fuer Zahnaerzte gibt es den Ersatzwert "999999991". Fuer diesen Fall
+     * liefert diese Funktion 'true' zurueck.
+     *
+     * @return true oder false
+     */
+    open fun isZahnarzt(): Boolean {
+        return equals(ERSATZWERT_ZAHNARZT)
+    }
+
+    /**
      * Hier wird die 7-stellige Arztnummer ueberprueft, ob die Pruefziffer
      * gueltig ist. Diese wird nach dem Modulo10-Verfahren mit der Gewichtung
      * 4 und 9 ueberprueft. Allerdings wird die Pruefung von den
@@ -125,7 +135,7 @@ open class LANR
 
     companion object {
 
-        private val VALIDATOR = LengthValidator<Int>(4, 9)
+        val VALIDATOR = LengthValidator<Int>(4, 9)
         private val WEAK_CACHE = WeakHashMap<Int, LANR>()
 
         /** Null-Konstante fuer Initialisierungen.  */
@@ -135,6 +145,10 @@ open class LANR
         /** Pseudonummer fuer Bundeswehraerzte, Zahnaerzte und Hebammen.  */
         @JvmField
         val PSEUDO_NUMMER = of(999999900)
+
+        /** Ersatzwert fuer Zahnaerzte */
+        @JvmField
+        val ERSATZWERT_ZAHNARZT = of(999999991)
 
         /**
          * Liefert eine LANR zurueck.

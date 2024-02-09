@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -116,6 +116,18 @@ public class LANRTest extends AbstractFachwertTest<Integer, LANR> {
     @Test
     public void testIsPseudoNummer555555() {
         assertTrue(LANR.of("555555102").isPseudoNummer());
+    }
+
+    @Test
+    public void testIsZahnarzt() {
+        LANR ersatzwert = LANR.of(999999991);
+        assertTrue(ersatzwert.isPseudoNummer());
+        assertTrue(ersatzwert.isZahnarzt());
+    }
+
+    @Test
+    public void testIstKeinZahnarzt() {
+        assertFalse(LANR.of(345678975).isZahnarzt());
     }
 
 }

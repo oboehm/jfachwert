@@ -13,6 +13,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ## [Unreleased]
 ### Added
+- ZANR-Klasse im med-Package
 - Zeitpunkt- und Zeitraum-Klasse akzeptieren Date als of(..)-Parameter
 
 ## [5.2.0] - 2024-01-22

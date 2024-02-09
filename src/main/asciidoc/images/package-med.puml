@@ -8,6 +8,9 @@ package "med" {
     class PZN
     class SNOMED
     class Versichertennummer
+    class ZANR
+
+    LANR <|-- ZANR
 
 }
 
