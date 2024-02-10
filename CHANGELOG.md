@@ -11,12 +11,12 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Nummer.toShort()
 - Nummer.asOptional(String, Class), z.B. Nummer.asOptional("1", Short.class)
 
-## [Unreleased]
+## [5.3.0] -2024-02-10
 ### Added
 - ZANR-Klasse im med-Package
 - Zeitpunkt- und Zeitraum-Klasse akzeptieren Date als of(..)-Parameter
 
-## [5.2.0] - 2024-01-22
+## [5.2] - 2024-01-22
 ### Added
 - Fachwert-Klassen haben jetzt eine isValid()-Methode (falls man den Validator abschaltet bzw. austauscht)
 - Zeitraum-Klasse
@@ -51,37 +51,28 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ---
 
-## [4.5.0] - 2023-05-06
+## [4.5] - 2023-05-06
 ### Changed
 - Bibliothek kann jetzt ohne Abhängigkeit zu `javax.money:money-api` betrieben werden (optional)
 - abhängige Bibliotheken jeweils auf den neuesten Stand gebracht
 
-## [4.4.3] - 2023-01-13
+## [4.4] - 2022-10-14
 ### Added
-- of(..)-Methoden in Bankverbindung ergänzt
-
-## [4.4.2] - 2023-01-09
+- **v4.4.3**: of(..)-Methoden in Bankverbindung ergänzt
 ### Fixed
-- Default-Implementierung der verify-Methode (KSimpleValidator) wandelt wieder `javax.validation.ValidationException` in `IllegalArgumentException` um
-
-## [4.4.1] - 2023-01-08
+- **v4.4.2**: Default-Implementierung der verify-Methode (KSimpleValidator) wandelt wieder `javax.validation.ValidationException` in `IllegalArgumentException` um
+- Encoding-Probleme unter Java 17 behoben
 ### Changed
-- Abhängigkeit zu com.google.code.findbugs:jsr305 entfernt
-- Abhängigkeit zu javax.validation weiter reduziert
-- auf [GitHub Actions](https://github.com/oboehm/jfachwert/actions) umgestellt
-### Security
-* Bump jackson-databind from 2.12.6.1 to 2.13.4.1 by @dependabot in [#17](https://github.com/oboehm/jfachwert/pull/17)
-* Bump commons-text from 1.9 to 1.10.0 by @dependabot in [#18](https://github.com/oboehm/jfachwert/pull/18)
-
-## [4.4.0] - 2022-10-14
-### Changed
+- **v4.4.1**: Abhängigkeit zu com.google.code.findbugs:jsr305 entfernt
+- **v4.4.1**: Abhängigkeit zu javax.validation weiter reduziert
+- **v4.4.1**: auf [GitHub Actions](https://github.com/oboehm/jfachwert/actions) umgestellt
 - Abhängigkeit zu commons-collections4 entfernt
 - Abhängigkeit zu javax.validation für Entfernung vorbereitet
 ### Security
+- **v4.4.1**: Bump jackson-databind from 2.12.6.1 to 2.13.4.1 by @dependabot in [#17](https://github.com/oboehm/jfachwert/pull/17)
+- **v4.4.1**: Bump commons-text from 1.9 to 1.10.0 by @dependabot in [#18](https://github.com/oboehm/jfachwert/pull/18)
 - Abhängigkeit zu commons-text entfernt
   ([CVE-2022-42889](https://github.com/advisories/GHSA-599f-7c49-w659/dependabot))
-### Fixed
-- Encoding-Probleme unter Java 17 behoben
 
 ## [4.3] - 2022-08-27
 ### Added

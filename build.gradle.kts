@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "de.jfachwert"
-version = "5.0.1-SNAPSHOT"
+version = "5.3.0"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
