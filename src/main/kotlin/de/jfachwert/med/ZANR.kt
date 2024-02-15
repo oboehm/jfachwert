@@ -18,6 +18,7 @@
 package de.jfachwert.med
 
 import de.jfachwert.KSimpleValidator
+import de.jfachwert.pruefung.NoopVerfahren
 import de.jfachwert.pruefung.NullValidator
 import java.util.*
 
@@ -62,14 +63,25 @@ open class ZANR
         }
 
         /**
-         * Liefert eine LANR zurueck.
+         * Liefert eine ZANR zurueck.
          *
          * @param code 9-stellige Nummer
-         * @return die LANR
+         * @return die ZANR
          */
         @JvmStatic
         fun of(code: String): ZANR {
             return of(code.toInt())
+        }
+
+        /**
+         * Wandelt eine LANR in eine ZANR.
+         *
+         * @param lanr LANR
+         * @return die ZANR
+         */
+        @JvmStatic
+        fun of(lanr: LANR): ZANR {
+            return ZANR(lanr.code, NoopVerfahren())
         }
 
     }

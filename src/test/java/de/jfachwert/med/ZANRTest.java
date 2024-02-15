@@ -19,7 +19,7 @@ package de.jfachwert.med;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer ZANR.
@@ -43,6 +43,19 @@ public class ZANRTest extends LANRTest {
     @Override
     public void testIstKeinZahnarzt() {
         assertTrue(ZANR.of(345678975).isZahnarzt());
+    }
+
+    @Test
+    public void lanrToZANR() {
+        LANR lanr = LANR.of(345678975);
+        ZANR zanr = ZANR.of(lanr);
+        assertEquals(lanr.getCode(), zanr.getCode());
+    }
+
+    @Test
+    public void nullToZANR() {
+        ZANR zanr = ZANR.of(LANR.NULL);
+        assertFalse(zanr.isValid());
     }
 
 }

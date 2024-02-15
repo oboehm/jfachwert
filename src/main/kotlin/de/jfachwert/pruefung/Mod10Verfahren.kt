@@ -62,7 +62,7 @@ open class Mod10Verfahren(private val gewichtungUngerade: Int, private val gewic
      * @return true oder false
      */
     override fun isValid(wert: String): Boolean {
-        return if (StringUtils.length(wert) < 1) {
+        return if (StringUtils.length(wert) < 2) {
             false
         } else {
             getPruefziffer(wert) == berechnePruefziffer(wert.substring(0, wert.length - 1))
