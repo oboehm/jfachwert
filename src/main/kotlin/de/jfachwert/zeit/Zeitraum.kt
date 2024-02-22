@@ -44,7 +44,7 @@ constructor(val von: Zeitpunkt, val bis: Zeitpunkt) : KFachwert {
     constructor(vonbis: String) : this(split(vonbis))
 
     /**
-     * Erzeugt einen neuen Zeitruam aus der uebergebenen Map.
+     * Erzeugt einen neuen Zeitraum aus der uebergebenen Map.
      *
      * @param map mit den einzelnen Elementen "von" und "bis"
      * "bic".

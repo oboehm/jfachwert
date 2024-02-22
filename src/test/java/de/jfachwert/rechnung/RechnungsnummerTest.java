@@ -21,6 +21,7 @@ import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -48,6 +49,15 @@ public class RechnungsnummerTest extends AbstractFachwertTest<String, Text> {
     @Test
     public void testNotEmpty() {
         assertThrows(IllegalArgumentException.class, () -> Rechnungsnummer.of(""));
+    }
+
+    /**
+     * Testfall fuer/aus Issue #22.
+     */
+    @Test
+    public void testToLong() {
+        Rechnungsnummer nr = Rechnungsnummer.of(4711);
+        assertEquals(4711, nr.toLong());
     }
 
 }

@@ -11,6 +11,13 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Nummer.toShort()
 - Nummer.asOptional(String, Class), z.B. Nummer.asOptional("1", Short.class)
 
+## [Unreleased]
+### Added
+- Rechnungsnummer kann jetzt mit Zahl angegelegt und zurückgegeben werden 
+  ([#22](https://github.com/oboehm/jfachwert/issues/22))
+- ZANR kann jetzt mit LANR erzeugt werden
+  ([#21](https://github.com/oboehm/jfachwert/issues/21))
+
 ## [5.3.0] -2024-02-10
 ### Added
 - ZANR-Klasse im med-Package

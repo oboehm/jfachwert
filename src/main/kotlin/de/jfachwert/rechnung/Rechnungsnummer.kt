@@ -43,6 +43,16 @@ open class Rechnungsnummer
  */
 @JvmOverloads constructor(nummer: String, pruefung: KSimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR) : Text(nummer, pruefung) {
 
+    /**
+     * Oftmals beseteht die Rechnungsnummer nur aus einer Zahl. Hierueber kann
+     * man sich die Rechnungsnzmmer als Zahl zurueckgeben lassen.
+     *
+     * @return Rechnungsnummer als Zahl
+     */
+    fun toLong() : Long {
+        return code.toLong()
+    }
+
     companion object {
 
         private val WEAK_CACHE = WeakHashMap<String, Rechnungsnummer>()
@@ -61,6 +71,18 @@ open class Rechnungsnummer
         fun of(nummer: String): Rechnungsnummer {
             return WEAK_CACHE.computeIfAbsent(nummer) { n: String -> Rechnungsnummer(n) }
         }
+
+        /**
+         * Erzeugt eine Rechnungsnummer.
+         *
+         * @param nummer z.B. 2835042
+         * @return Rechnungsnummer
+         */
+        @JvmStatic
+        fun of(nummer: Long): Rechnungsnummer {
+            return of(nummer.toString())
+        }
+
     }
 
 }
