@@ -19,8 +19,11 @@ package de.jfachwert.zeit
 
 import de.jfachwert.AbstractFachwert
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
+import java.math.BigDecimal
 import java.math.BigInteger
+import java.math.RoundingMode
 import java.sql.Timestamp
+import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -92,6 +95,17 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
     }
 
     /**
+     * Liefert den Zeitpunkt in Jahren zurueck. Auch hier hist der Bezugspunkt
+     * der 1970. Das Namenschema von getTimeInMillis wurde hier beibeihaltn,
+     * sodass auch diese Methode englisch-sprachig benannt ist.
+     *
+     * @return Zeit in Jahren seit 1970
+     */
+    fun getTimeInYears() : Long {
+        return code.divide(Zeitdauer.YEAR_IN_NANOS).toLong()
+    }
+
+    /**
      * Liefert den Nano-Anteil der Sekunde
      *
      * @return Nano-Anteil, von 0 bis 999_999_999
@@ -100,8 +114,24 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
         return code.mod(Zeitdauer.SECOND_IN_NANOS).toInt()
     }
 
+    /**
+     * Liefert die Anzahl der Sekunden seit dem 1.1.1970. Diese Methode
+     * gilt nur fuer "normale" Zeitpunkte. Fuer groessere, weit entfernte
+     * Zeitpunkte sollte man toEpochSecondExact nehmen.
+     *
+     * @return Anzahl Sekunden seit 1.1.1970 als Long-Wert
+     */
     fun toEpochSecond(): Long {
-        return code.divide(Zeitdauer.SECOND_IN_NANOS).toLong()
+        return toEpochSecondExact().toLong()
+    }
+
+    /**
+     * Liefert die Anzahl der Sekunden seit dem 1.1.1970.
+     *
+     * @return Anzahl Sekunden seit 1.1.1970 als BigInteger
+     */
+    fun toEpochSecondExact(): BigInteger {
+        return code.divide(Zeitdauer.SECOND_IN_NANOS)
     }
 
     /**
@@ -168,7 +198,16 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
      * @return LocalDateTime aus java.time
      */
     fun toLocalDateTime(offset: ZoneOffset) : LocalDateTime {
+        if (isOutOfLocalDateTime()) {
+            throw IllegalStateException("Zeitpunkt $code kann nicht auf LocalDateTime abgebildet werden.")
+        }
         return LocalDateTime.ofEpochSecond(toEpochSecond(), getNanos(), offset)
+    }
+
+    private fun isOutOfLocalDateTime(): Boolean {
+        val sec = toEpochSecondExact()
+        return (sec.compareTo(BigInteger.valueOf(Integer.MIN_VALUE.toLong())) < 0)
+                || (sec.compareTo(BigInteger.valueOf(Integer.MAX_VALUE.toLong())) > 0)
     }
 
     /**
@@ -195,7 +234,30 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
      * @return Ausgabe aehnlich wie bei Timestamp, aber Nonosekunden-genau
      */
     fun toLongString(): String {
-        return toString("yyyy-MM-dd HH:mm:ss.n", ZoneOffset.UTC)
+        if (isOutOfLocalDateTime()) {
+            return toStringInYears(getTimeInYears())
+        } else {
+            return toString("yyyy-MM-dd HH:mm:ss.n", ZoneOffset.UTC)
+        }
+    }
+
+    private fun toStringInYears(years: Long): String {
+        var prefix = "in"
+        var jahre = years
+        if (years < 0) {
+            prefix = "vor"
+            jahre = -years
+        }
+        if (jahre < 1_000_000) {
+            return "$prefix $jahre Jahren"
+        }
+        val nf = NumberFormat.getInstance()
+        val mille = BigDecimal.valueOf(jahre).divide(BigDecimal.valueOf(1_000_000), 1, RoundingMode.HALF_DOWN)
+        if (mille.compareTo(BigDecimal.valueOf(1000)) < 0) {
+            return "$prefix " + nf.format(mille) +" Mio. Jahren"
+        }
+        val mrd = mille.divide(BigDecimal.valueOf(1000), 1, RoundingMode.HALF_DOWN)
+        return "$prefix " + nf.format(mrd) + " Mrd. Jahren"
     }
 
     /**
@@ -254,6 +316,12 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
         /** Die Epoche beginnt am 1.1.1970. */
         @JvmField
         val EPOCH = Zeitpunkt(BigInteger.ZERO)
+        /** Der minimale Zeitpunkt steht fuer den Urknall vor 13,8 Mrd. Jahren. */
+        @JvmField
+        val MIN = Zeitpunkt(BigInteger("-435500000000000000000000000"))
+        /** Der maximale Zeitpunkt liegt weit in der Zukunft. */
+        @JvmField
+        val MAX = Zeitpunkt(BigInteger("999999999999999999999999999999"))
 
         /**
          * Liefert einen Zeitpunkt zurueck.

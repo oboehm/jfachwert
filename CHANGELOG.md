@@ -13,6 +13,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ## [Unreleased]
 ### Added
+- Zeitpunkt kann jetzt bis zum Urknall zurückgehen
 - Rechnungsnummer kann jetzt mit Zahl angegelegt und zurückgegeben werden 
   ([#22](https://github.com/oboehm/jfachwert/issues/22))
 - ZANR kann jetzt mit LANR erzeugt werden

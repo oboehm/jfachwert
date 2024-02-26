@@ -162,6 +162,7 @@ open class Zeitdauer(private val startTime: Zeitpunkt, private val endTime : Zei
         val MINUTE_IN_NANOS = BigInteger.valueOf(60_000_000_000L)
         val HOUR_IN_NANOS = BigInteger.valueOf(3_600_000_000_000L)
         val DAY_IN_NANOS = BigInteger.valueOf(86_400_000_000_000L)
+        val YEAR_IN_NANOS = BigInteger.valueOf(31_556_952_000_000_000L)    // 1 Jahr = 365,2425 Tage
 
         private fun toNanoseconds(code: Long, unit: TimeUnit): BigInteger {
             return when(unit) {

@@ -27,11 +27,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.Locale;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Unit-Tests fuer {@link Zeitpunkt}-Klasse.
@@ -165,6 +167,21 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
         Date epoch = new Date(0);
         Zeitpunkt z = Zeitpunkt.of(epoch);
         assertEquals(Zeitpunkt.EPOCH, z);
+    }
+
+    @Test
+    void testMin() {
+        String s = Zeitpunkt.MIN.toString();
+        assertNotNull(s);
+        if (Locale.GERMANY.equals(Locale.getDefault())) {
+            assertEquals("vor 13,8 Mrd. Jahren", s);
+        }
+    }
+
+    @Test
+    void testMax() {
+        String s = Zeitpunkt.MAX.toString();
+        assertNotNull(s);
     }
 
 }
