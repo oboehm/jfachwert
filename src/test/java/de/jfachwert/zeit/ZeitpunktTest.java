@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
@@ -167,6 +168,12 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
         Date epoch = new Date(0);
         Zeitpunkt z = Zeitpunkt.of(epoch);
         assertEquals(Zeitpunkt.EPOCH, z);
+    }
+
+    @Test
+    void testOfTimeUnit() {
+        Zeitpunkt t1 = Zeitpunkt.of(BigInteger.ONE, TimeUnit.DAYS);
+        assertEquals(LocalDate.of(1970, 1, 2), t1.toLocalDate());
     }
 
     @Test

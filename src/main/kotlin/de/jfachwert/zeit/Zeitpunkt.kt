@@ -32,6 +32,7 @@ import java.time.format.DateTimeFormatterBuilder
 import java.time.format.DateTimeParseException
 import java.time.temporal.ChronoField
 import java.util.*
+import java.util.concurrent.TimeUnit
 import java.util.logging.Level
 import java.util.logging.Logger
 
@@ -326,12 +327,24 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
         /**
          * Liefert einen Zeitpunkt zurueck.
          *
-         * @param code beliebige Zahl
+         * @param code Anzahl ns seit 1.1.1970
          * @return der Zeitpunkt
          */
         @JvmStatic
         fun of(code: BigInteger): Zeitpunkt {
             return WEAK_CACHE.computeIfAbsent(code) { n: BigInteger -> Zeitpunkt(n) }
+        }
+
+        /**
+         * Liefert einen Zeitpunkt zurueck.
+         *
+         * @param code Anzahl ns seit 1.1.1970
+         * @param unit Zeiteinheit
+         * @return der Zeitpunkt
+         */
+        @JvmStatic
+        fun of(code: BigInteger, unit: TimeUnit): Zeitpunkt {
+            return of(code.multiply(BigInteger.valueOf(unit.toNanos(1))))
         }
 
         /**
