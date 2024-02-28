@@ -87,4 +87,34 @@ public final class ZeitraumTest extends FachwertTest {
         assertThat(zeitraum.getZeitdauer().getTimeInNanos().longValue(), greaterThan(0L));
     }
 
+    @Test
+    void offenerZeitraumBis() {
+        Zeitraum zeitraum = Zeitraum.of(Zeitpunkt.now(), null);
+        assertEquals(Zeitpunkt.MAX, zeitraum.getBis());
+    }
+
+    @Test
+    void offenerZeitraumVon() {
+        Zeitraum zeitraum = Zeitraum.of(null, LocalDateTime.now());
+        assertEquals(Zeitpunkt.MIN, zeitraum.getVon());
+    }
+
+    @Test
+    void offenerZeitraumLocalDate() {
+        Zeitraum zeitraum = Zeitraum.of(null, LocalDate.now());
+        assertEquals(Zeitpunkt.MIN, zeitraum.getVon());
+    }
+
+    @Test
+    void offenerZeitraumDate() {
+        Zeitraum zeitraum = Zeitraum.of(null, new Date());
+        assertEquals(Zeitpunkt.MIN, zeitraum.getVon());
+    }
+
+    @Test
+    void offenerZeitraumTimestamp() {
+        Zeitraum zeitraum = Zeitraum.of(null, new Timestamp(0L));
+        assertEquals(Zeitpunkt.MIN, zeitraum.getVon());
+    }
+
 }

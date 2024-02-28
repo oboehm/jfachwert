@@ -111,59 +111,72 @@ constructor(val von: Zeitpunkt, val bis: Zeitpunkt) : KFachwert {
         }
 
         /**
-         * Liefert einen Zeitraum.
+         * Liefert einen Zeitraum. Offene Zeitraeume koennen dadurch erzeugt
+         * werden, indem null als Argurment uebergeben wird.
          *
          * @param von Start-Zeitpunkt
          * @param bis Ende.Zeitpunkt
          */
         @JvmStatic
-        fun of(von: Date, bis: Date): Zeitraum {
-            return of(Zeitpunkt.of(von), Zeitpunkt.of(bis))
+        fun of(von: Date?, bis: Date?): Zeitraum {
+            val t1 = if (von != null) Zeitpunkt.of(von) else null
+            val t2 = if (bis != null) Zeitpunkt.of(bis) else null
+            return of(t1, t2)
         }
 
         /**
-         * Liefert einen Zeitraum.
+         * Liefert einen Zeitraum. Offene Zeitraeume koennen dadurch erzeugt
+         * werden, indem null als Argurment uebergeben wird.
          *
          * @param von Start-Zeitpunkt
          * @param bis Ende.Zeitpunkt
          */
         @JvmStatic
-        fun of(von: Timestamp, bis: Timestamp): Zeitraum {
-            return of(Zeitpunkt.of(von), Zeitpunkt.of(bis))
+        fun of(von: Timestamp?, bis: Timestamp?): Zeitraum {
+            val t1 = if (von != null) Zeitpunkt.of(von) else null
+            val t2 = if (bis != null) Zeitpunkt.of(bis) else null
+            return of(t1, t2)
         }
 
         /**
-         * Liefert einen Zeitraum.
+         * Liefert einen Zeitraum. Offene Zeitraeume koennen dadurch erzeugt
+         * werden, indem null als Argurment uebergeben wird.
          *
          * @param von Start-Zeitpunkt
          * @param bis Ende.Zeitpunkt
          */
         @JvmStatic
-        fun of(von: LocalDate, bis: LocalDate): Zeitraum {
-            return of(Zeitpunkt.of(von), Zeitpunkt.of(bis))
+        fun of(von: LocalDate?, bis: LocalDate?): Zeitraum {
+            val t1 = if (von != null) Zeitpunkt.of(von) else null
+            val t2 = if (bis != null) Zeitpunkt.of(bis) else null
+            return of(t1, t2)
         }
 
         /**
-         * Liefert einen Zeitraum.
+         * Liefert einen Zeitraum. Offene Zeitraeume koennen dadurch erzeugt
+         * werden, indem null als Argurment uebergeben wird.
          *
          * @param von Start-Zeitpunkt
          * @param bis Ende.Zeitpunkt
          */
         @JvmStatic
-        fun of(von: LocalDateTime, bis: LocalDateTime): Zeitraum {
-            return of(Zeitpunkt.of(von), Zeitpunkt.of(bis))
+        fun of(von: LocalDateTime?, bis: LocalDateTime?): Zeitraum {
+            val t1 = if (von != null) Zeitpunkt.of(von) else null
+            val t2 = if (bis != null) Zeitpunkt.of(bis) else null
+            return of(t1, t2)
         }
 
         /**
-         * Liefert einen Zeitraum.
+         * Liefert einen Zeitraum. Offene Zeitraeume koennen dadurch erzeugt
+         * werden, indem null als Argurment uebergeben wird.
          *
          * @param von Start-Zeitpunkt
          * @param bis Ende.Zeitpunkt
          */
         @JvmStatic
-        fun of(von: Zeitpunkt, bis: Zeitpunkt): Zeitraum {
-            val pair = Pair(von, bis)
-            return WEAK_CACHE.computeIfAbsent(pair) { Zeitraum(von, bis) }
+        fun of(von: Zeitpunkt?, bis: Zeitpunkt?): Zeitraum {
+            val pair = Pair(von?:Zeitpunkt.MIN, bis?:Zeitpunkt.MAX)
+            return WEAK_CACHE.computeIfAbsent(pair) { Zeitraum(pair.first, pair.second) }
         }
 
         private fun split(vonbis: String) : Map<String, Zeitpunkt> {
