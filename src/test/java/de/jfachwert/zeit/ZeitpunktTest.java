@@ -191,4 +191,24 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
         assertNotNull(s);
     }
 
+    @Test
+    void test500kYears() {
+        Zeitpunkt z = Zeitpunkt.of(BigInteger.valueOf(182621250L), TimeUnit.DAYS);
+        String s = z.toString();
+        assertNotNull(s);
+        if (Locale.GERMANY.equals(Locale.getDefault())) {
+            assertEquals("in 500.000 Jahren", s);
+        }
+    }
+
+    @Test
+    void test5MioYears() {
+        Zeitpunkt z = Zeitpunkt.of(BigInteger.valueOf(1826212500L), TimeUnit.DAYS);
+        String s = z.toString();
+        assertNotNull(s);
+        if (Locale.GERMANY.equals(Locale.getDefault())) {
+            assertEquals("in 5 Mio. Jahren", s);
+        }
+    }
+
 }

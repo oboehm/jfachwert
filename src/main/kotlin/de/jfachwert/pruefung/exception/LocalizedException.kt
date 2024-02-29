@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 by Oliver Boehm
+ * Copyright (c) 2020-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,8 @@ package de.jfachwert.pruefung.exception
 import org.apache.commons.lang3.RegExUtils
 import java.text.MessageFormat
 import java.util.*
+import java.util.logging.Level
+import java.util.logging.Logger
 
 /**
  * In diesem Interface sind die Gemeinsamkeiten aller XxxLocalizedException
@@ -75,6 +77,7 @@ interface LocalizedException {
         return try {
             BUNDLE.getString(key)
         } catch (ex: MissingResourceException) {
+            logger.log(Level.FINE, "resource for $key not found", ex)
             key
         }
     }
@@ -93,7 +96,8 @@ interface LocalizedException {
     }
 
     companion object {
-        @JvmField
-        val BUNDLE = ResourceBundle.getBundle("de.jfachwert.messages")
+        private val logger: Logger = Logger.getLogger(LocalizedException::class.java.name)
+        private val BUNDLE = ResourceBundle.getBundle("de.jfachwert.messages")
     }
+
 }

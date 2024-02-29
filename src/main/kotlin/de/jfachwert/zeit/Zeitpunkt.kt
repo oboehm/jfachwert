@@ -23,6 +23,7 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import java.math.RoundingMode
 import java.sql.Timestamp
+import java.text.MessageFormat
 import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -243,22 +244,22 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
     }
 
     private fun toStringInYears(years: Long): String {
-        var prefix = "in"
         var jahre = years
+        var bundleKey = "years_after"
         if (years < 0) {
-            prefix = "vor"
             jahre = -years
+            bundleKey = "years_before"
         }
         if (jahre < 1_000_000) {
-            return "$prefix $jahre Jahren"
+            return getLocalizedMessage(bundleKey, jahre, "")
         }
         val nf = NumberFormat.getInstance()
         val mille = BigDecimal.valueOf(jahre).divide(BigDecimal.valueOf(1_000_000), 1, RoundingMode.HALF_DOWN)
         if (mille.compareTo(BigDecimal.valueOf(1000)) < 0) {
-            return "$prefix " + nf.format(mille) +" Mio. Jahren"
+            return getLocalizedMessage(bundleKey, nf.format(mille), getLocalizedString("million") + " ")
         }
         val mrd = mille.divide(BigDecimal.valueOf(1000), 1, RoundingMode.HALF_DOWN)
-        return "$prefix " + nf.format(mrd) + " Mrd. Jahren"
+        return getLocalizedMessage(bundleKey, nf.format(mrd), getLocalizedString("billion") + " ")
     }
 
     /**
@@ -308,12 +309,44 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t) {
         }
     }
 
+    /**
+     * Liefert den lokalisierten String aus dem [ResourceBundle]. Falls
+     * dieser nicht existiert wird der Schluessel fuer die Resource selbst
+     * als Rueckgabewert verwendet.
+     *
+     * @param key Resource-Schluessel
+     * @return lokalisierter String
+     */
+    fun getLocalizedString(key: String): String {
+        return try {
+            BUNDLE.getString(key)
+        } catch (ex: MissingResourceException) {
+            logger.log(Level.FINE, "resource for $key not found", ex)
+            key
+        }
+    }
+
+    /**
+     * Diese Methode sollte von [.getLocalizedMessage] aufgerufen
+     * werden, damit das [ResourceBundle] fuer die lokalisierte
+     * Message angezogen wird.
+     *
+     * @param key Eintrag aus messages.properties
+     * @param args die einzelnen Arugmente zum 'key'
+     * @return lokalisierter String
+     */
+    fun getLocalizedMessage(key: String, vararg args: Any?): String {
+        return MessageFormat.format(getLocalizedString(key), *args)
+    }
+
 
 
     companion object {
 
         private val log = Logger.getLogger(Zeitpunkt::class.java.name)
         private val WEAK_CACHE = WeakHashMap<BigInteger, Zeitpunkt>()
+        private val logger: Logger = Logger.getLogger(Zeitpunkt::class.java.name)
+        private val BUNDLE = ResourceBundle.getBundle("de.jfachwert.messages")
         /** Die Epoche beginnt am 1.1.1970. */
         @JvmField
         val EPOCH = Zeitpunkt(BigInteger.ZERO)
