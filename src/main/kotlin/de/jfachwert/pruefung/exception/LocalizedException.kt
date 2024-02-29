@@ -17,11 +17,9 @@
  */
 package de.jfachwert.pruefung.exception
 
+import de.jfachwert.Localized
 import org.apache.commons.lang3.RegExUtils
-import java.text.MessageFormat
 import java.util.*
-import java.util.logging.Level
-import java.util.logging.Logger
 
 /**
  * In diesem Interface sind die Gemeinsamkeiten aller XxxLocalizedException
@@ -36,7 +34,7 @@ import java.util.logging.Logger
  * @author oboehm
  * @since 4.0 (15.03.2020)
  */
-interface LocalizedException {
+interface LocalizedException : Localized {
 
     /**
      * Dies ist eine Hilfsmethode, um aus einer Message den entsprechenden
@@ -64,40 +62,5 @@ interface LocalizedException {
      * @return lokalisierte Beschreibung
      */
     fun getLocalizedMessage(): String
-
-    /**
-     * Liefert den lokalisierten String aus dem [ResourceBundle]. Falls
-     * dieser nicht existiert wird der Schluessel fuer die Resource selbst
-     * als Rueckgabewert verwendet.
-     *
-     * @param key Resource-Schluessel
-     * @return lokalisierter String
-     */
-    fun getLocalizedString(key: String): String {
-        return try {
-            BUNDLE.getString(key)
-        } catch (ex: MissingResourceException) {
-            logger.log(Level.FINE, "resource for $key not found", ex)
-            key
-        }
-    }
-
-    /**
-     * Diese Methode sollte von [.getLocalizedMessage] aufgerufen
-     * werden, damit das [ResourceBundle] fuer die lokalisierte
-     * Message angezogen wird.
-     *
-     * @param key Eintrag aus messages.properties
-     * @param args die einzelnen Arugmente zum 'key'
-     * @return lokalisierter String
-     */
-    fun getLocalizedMessage(key: String, vararg args: Any?): String {
-        return MessageFormat.format(getLocalizedString(key), *args)
-    }
-
-    companion object {
-        private val logger: Logger = Logger.getLogger(LocalizedException::class.java.name)
-        private val BUNDLE = ResourceBundle.getBundle("de.jfachwert.messages")
-    }
 
 }
