@@ -18,6 +18,7 @@
 package de.jfachwert.zeit
 
 import de.jfachwert.KFachwert
+import de.jfachwert.Localized
 import java.math.BigInteger
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -35,11 +36,11 @@ import java.util.concurrent.TimeUnit
  * @author oboehm
  * @since 5.0 (10.07.2023)
  */
-open class Zeitdauer(private val startTime: Zeitpunkt, private val endTime : Zeitpunkt? = null) : KFachwert {
+open class Zeitdauer(private val startTime: Zeitpunkt, private val endTime : Zeitpunkt? = null) : KFachwert, Localized {
 
     constructor() : this(Zeitpunkt())
 
-    constructor(code: Long, unit: TimeUnit) : this(Zeitpunkt.EPOCH, Zeitpunkt.of(toNanoseconds(code, unit)))
+    constructor(code: Long, unit: TimeUnit) : this(Zeitpunkt.EPOCH, Zeitpunkt.of(BigInteger.valueOf(unit.toNanos(code))))
 
     constructor(code: BigInteger) : this(Zeitpunkt.EPOCH, Zeitpunkt.of(code))
 
@@ -108,7 +109,7 @@ open class Zeitdauer(private val startTime: Zeitpunkt, private val endTime : Zei
 
     override fun toString(): String {
         val t = getTimeInNanos()
-        return "${getZaehler(t)} " + BUNDLE.getString(getEinheit(t).toString())
+        return "${getZaehler(t)} " + getLocalizedString(getEinheit(t).toString())
     }
 
 
@@ -126,7 +127,7 @@ open class Zeitdauer(private val startTime: Zeitpunkt, private val endTime : Zei
          */
         @JvmStatic
         fun of(code: Long, unit: TimeUnit): Zeitdauer {
-            val nanos = toNanoseconds(code, unit)
+            val nanos = BigInteger.valueOf(unit.toNanos(code))
             return WEAK_CACHE.computeIfAbsent(nanos) { n: BigInteger -> Zeitdauer(n) }
         }
 
@@ -154,8 +155,6 @@ open class Zeitdauer(private val startTime: Zeitpunkt, private val endTime : Zei
             return Zeitdauer()
         }
 
-        @JvmField
-        val BUNDLE = ResourceBundle.getBundle("de.jfachwert.messages")
         val MICROSECOND_IN_NANOS = BigInteger.valueOf(1_000L)
         val MILLISECOND_IN_NANOS = BigInteger.valueOf(1_000_000L)
         val SECOND_IN_NANOS = BigInteger.valueOf(1_000_000_000L)
@@ -163,18 +162,6 @@ open class Zeitdauer(private val startTime: Zeitpunkt, private val endTime : Zei
         val HOUR_IN_NANOS = BigInteger.valueOf(3_600_000_000_000L)
         val DAY_IN_NANOS = BigInteger.valueOf(86_400_000_000_000L)
         val YEAR_IN_NANOS = BigInteger.valueOf(31_556_952_000_000_000L)    // 1 Jahr = 365,2425 Tage
-
-        private fun toNanoseconds(code: Long, unit: TimeUnit): BigInteger {
-            return when(unit) {
-                TimeUnit.NANOSECONDS -> BigInteger.valueOf(code)
-                TimeUnit.MICROSECONDS -> BigInteger.valueOf(code).multiply(MICROSECOND_IN_NANOS)
-                TimeUnit.MILLISECONDS -> BigInteger.valueOf(code).multiply(MILLISECOND_IN_NANOS)
-                TimeUnit.SECONDS -> BigInteger.valueOf(code).multiply(SECOND_IN_NANOS)
-                TimeUnit.MINUTES -> BigInteger.valueOf(code).multiply(MINUTE_IN_NANOS)
-                TimeUnit.HOURS -> BigInteger.valueOf(code).multiply(HOUR_IN_NANOS)
-                TimeUnit.DAYS -> BigInteger.valueOf(code).multiply(DAY_IN_NANOS)
-            }
-        }
 
     }
 
