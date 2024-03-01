@@ -13,6 +13,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ## [Unreleased]
 ### Added
+- Zeiteinheit für große Einheiten als Ergänzung zu TimeUnit eingeführt
 - Zeitpunkt kann jetzt bis zum Urknall zurückgehen
 - Rechnungsnummer kann jetzt mit Zahl angegelegt und zurückgegeben werden 
   ([#22](https://github.com/oboehm/jfachwert/issues/22))
