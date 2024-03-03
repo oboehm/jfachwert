@@ -43,4 +43,20 @@ class ZeiteinheitTest {
         assertEquals(unit, einheit.toTimeUnit());
     }
 
+    @Test
+    void toNanos() {
+        long d = 7;
+        assertEquals(TimeUnit.DAYS.toNanos(d), Zeiteinheit.DAYS.toNanos(d).longValue());
+    }
+
+    @Test
+    void toNanosWeek() {
+        assertEquals(Zeiteinheit.WEEKS.toNanos(1), Zeiteinheit.DAYS.toNanos(7));
+    }
+
+    @Test
+    void toNanosCentury() {
+        assertEquals(Zeiteinheit.CENTURIES.toNanos(10), Zeiteinheit.MILLENNIA.toNanos(1));
+    }
+
 }

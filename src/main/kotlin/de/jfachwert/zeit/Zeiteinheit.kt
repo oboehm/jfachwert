@@ -18,6 +18,7 @@
 package de.jfachwert.zeit
 
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
+import java.math.BigInteger
 import java.util.concurrent.TimeUnit
 
 /**
@@ -26,49 +27,52 @@ import java.util.concurrent.TimeUnit
  * der Konstanten orientiert sich dabei in TimeUnit, damit es als Ersatz
  * dafuer verwendet werden kann.
  *
+ * Da u.U. mit grossen Zeitraeumen hantiert wird, liefern to toXxx()-Methoden
+ * wie z.B. toNanos() keinen Long sondern BigInteger zurueck.
+ *
  * @author oboehm
  * @since 5.4 (29.02.2024)
  */
-enum class Zeiteinheit {
+enum class Zeiteinheit(private val nanos: BigInteger) {
 
     /** Zeiteinheit fuer Nano-Sekunden .*/
-    NANOSECONDS,
+    NANOSECONDS(BigInteger.ONE),
 
     /** Zeiteinheit fuer Micro-Sekunden. */
-    MICROSECONDS,
+    MICROSECONDS(BigInteger.valueOf(1_000L)),
 
     /** Zeiteinheit fuer Milli-Sekunden. */
-    MILLISECONDS,
+    MILLISECONDS(BigInteger.valueOf(1_000_000L)),
 
     /** Zeiteinheit fuer Sekunden. */
-    SECONDS,
+    SECONDS(BigInteger.valueOf(1_000_000_000L)),
 
     /** Zeiteinheit fuer Minuten. */
-    MINUTES,
+    MINUTES(BigInteger.valueOf(60_000_000_000L)),
 
     /** Zeiteinheit fuer Stunden. */
-    HOURS,
+    HOURS(BigInteger.valueOf(3_600_000_000_000L)),
 
     /** Zeiteinheit fuer Tage. */
-    DAYS,
+    DAYS(BigInteger.valueOf(86_400_000_000_000L)),
 
     /** Zeiteinheit fuer Wochen. */
-    WEEKS,
+    WEEKS(BigInteger.valueOf(604_800_000_000_000L)),
 
-    /** Zeiteinheit fuer Monate. */
-    MONTHS,
+    /** Zeiteinheit fuer Monate (= 1 Jahr / 12). */
+    MONTHS(BigInteger.valueOf(2_629_746_000_000_000L)),
 
-    /** Zeiteinheit fuer Jahre. */
-    YEARS,
+    /** Zeiteinheit fuer Jahre (1 Jahr = 365,2425 Tage). */
+    YEARS(BigInteger.valueOf(31_556_952_000_000_000L)),
 
     /** Zeiteinheit fuer Jahrhunderte. */
-    CENTURIES,
+    CENTURIES(BigInteger.valueOf(3_155_695_200_000_000_000L)),
 
     /** Zeiteinheit fuer Jahrtausende. */
-    MILLENNIA,
+    MILLENNIA(CENTURIES.nanos.multiply(BigInteger.valueOf(10))),
 
     /** Unbekannte Zeiteinheit. */
-    UNBEKANNT;
+    UNBEKANNT(BigInteger.ZERO);
 
     /**
      * Wandelt die Zeiteinheit in eine TimeUnit.
@@ -84,6 +88,16 @@ enum class Zeiteinheit {
             }
         }
         throw LocalizedIllegalArgumentException(this, "keine Umwandlung moeglich")
+    }
+
+    /**
+     * Wandelt die Zahl in Nano-Sekunden um.
+     *
+     * @param duration: umzurechnende Zahl
+     * @return Nano-Sekunden als BigInteger
+     */
+    fun toNanos(duration: Long): BigInteger {
+        return nanos.multiply(BigInteger.valueOf(duration))
     }
 
 
