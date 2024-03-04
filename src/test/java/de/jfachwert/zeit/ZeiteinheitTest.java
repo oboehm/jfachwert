@@ -61,6 +61,16 @@ class ZeiteinheitTest {
     }
 
     @Test
+    void toMicros() {
+        assertEquals(BigInteger.valueOf(1000), Zeiteinheit.MILLISECONDS.toMicros(1));
+    }
+
+    @Test
+    void toMillis() {
+        assertEquals(BigInteger.valueOf(1000), Zeiteinheit.SECONDS.toMillis(1));
+    }
+
+    @Test
     void toSeconds() {
         assertEquals(BigInteger.valueOf(60), Zeiteinheit.MINUTES.toSeconds(1));
     }

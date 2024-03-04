@@ -101,6 +101,26 @@ enum class Zeiteinheit(private val nanos: BigInteger) {
     }
 
     /**
+     * Wandelt die Zahl in Micro-Sekunden um.
+     *
+     * @param duration: umzurechnende Zahl
+     * @return Sekunden als BigInteger
+     */
+    fun toMicros(duration: Long): BigInteger {
+        return nanos.multiply(BigInteger.valueOf(duration)).divide(MICROSECONDS.nanos)
+    }
+
+    /**
+     * Wandelt die Zahl in Milli-Sekunden um.
+     *
+     * @param duration: umzurechnende Zahl
+     * @return Sekunden als BigInteger
+     */
+    fun toMillis(duration: Long): BigInteger {
+        return nanos.multiply(BigInteger.valueOf(duration)).divide(MILLISECONDS.nanos)
+    }
+
+    /**
      * Wandelt die Zahl in Sekunden um.
      *
      * @param duration: umzurechnende Zahl
