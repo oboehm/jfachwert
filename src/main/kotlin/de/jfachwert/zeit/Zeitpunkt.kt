@@ -339,13 +339,26 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
         /**
          * Liefert einen Zeitpunkt zurueck.
          *
-         * @param code Anzahl ns seit 1.1.1970
+         * @param code Anzahl Zeiteinheiten seit 1.1.1970
          * @param unit Zeiteinheit
          * @return der Zeitpunkt
          */
         @JvmStatic
         fun of(code: BigInteger, unit: TimeUnit): Zeitpunkt {
             return of(code.multiply(BigInteger.valueOf(unit.toNanos(1))))
+        }
+
+        /**
+         * Liefert einen Zeitpunkt zurueck.
+         *
+         * @param code Anzahl Zeiteinheiten seit 1.1.1970
+         * @param unit Zeiteinheit
+         * @return der Zeitpunkt
+         * @since 5.4 (04.03.2024)
+         */
+        @JvmStatic
+        fun of(code: BigInteger, unit: Zeiteinheit): Zeitpunkt {
+            return of(code.multiply(unit.toNanos(1)))
         }
 
         /**

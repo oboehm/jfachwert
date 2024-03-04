@@ -177,6 +177,12 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
     }
 
     @Test
+    void testOfZeiteinheit() {
+        BigInteger n = BigInteger.valueOf(365);
+        assertEquals(Zeitpunkt.of(n, TimeUnit.DAYS), Zeitpunkt.of(n, Zeiteinheit.DAYS));
+    }
+
+    @Test
     void testMin() {
         String s = Zeitpunkt.MIN.toString();
         assertNotNull(s);
@@ -193,7 +199,7 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
 
     @Test
     void test500kYears() {
-        Zeitpunkt z = Zeitpunkt.of(BigInteger.valueOf(182621250L), TimeUnit.DAYS);
+        Zeitpunkt z = Zeitpunkt.of(BigInteger.valueOf(500), Zeiteinheit.MILLENNIA);
         String s = z.toString();
         assertNotNull(s);
         if (Locale.GERMANY.equals(Locale.getDefault())) {
@@ -203,7 +209,7 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
 
     @Test
     void test5MioYears() {
-        Zeitpunkt z = Zeitpunkt.of(BigInteger.valueOf(1826212500L), TimeUnit.DAYS);
+        Zeitpunkt z = Zeitpunkt.of(BigInteger.valueOf(5000), Zeiteinheit.MILLENNIA);
         String s = z.toString();
         assertNotNull(s);
         if (Locale.GERMANY.equals(Locale.getDefault())) {
