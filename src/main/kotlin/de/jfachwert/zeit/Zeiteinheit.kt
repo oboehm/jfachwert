@@ -100,6 +100,16 @@ enum class Zeiteinheit(private val nanos: BigInteger) {
         return nanos.multiply(BigInteger.valueOf(duration))
     }
 
+    /**
+     * Wandelt die Zahl in Sekunden um.
+     *
+     * @param duration: umzurechnende Zahl
+     * @return Sekunden als BigInteger
+     */
+    fun toSeconds(duration: Long): BigInteger {
+        return nanos.multiply(BigInteger.valueOf(duration)).divide(SECONDS.nanos)
+    }
+
 
 
     companion object {

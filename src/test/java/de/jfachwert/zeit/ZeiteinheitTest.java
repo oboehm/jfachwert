@@ -19,6 +19,7 @@ package de.jfachwert.zeit;
 
 import org.junit.jupiter.api.Test;
 
+import java.math.BigInteger;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -57,6 +58,11 @@ class ZeiteinheitTest {
     @Test
     void toNanosCentury() {
         assertEquals(Zeiteinheit.CENTURIES.toNanos(10), Zeiteinheit.MILLENNIA.toNanos(1));
+    }
+
+    @Test
+    void toSeconds() {
+        assertEquals(BigInteger.valueOf(60), Zeiteinheit.MINUTES.toSeconds(1));
     }
 
 }
