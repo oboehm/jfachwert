@@ -130,6 +130,36 @@ enum class Zeiteinheit(private val nanos: BigInteger) {
         return nanos.multiply(BigInteger.valueOf(duration)).divide(SECONDS.nanos)
     }
 
+    /**
+     * Wandelt die Zahl in Minuten um.
+     *
+     * @param duration: umzurechnende Zahl
+     * @return Minuten als BigInteger
+     */
+    fun toMinutes(duration: Long): BigInteger {
+        return nanos.multiply(BigInteger.valueOf(duration)).divide(MINUTES.nanos)
+    }
+
+    /**
+     * Wandelt die Zahl in Stunden um.
+     *
+     * @param duration: umzurechnende Zahl
+     * @return Stunden als BigInteger
+     */
+    fun toHours(duration: Long): BigInteger {
+        return nanos.multiply(BigInteger.valueOf(duration)).divide(HOURS.nanos)
+    }
+
+    /**
+     * Wandelt die Zahl in Tage um.
+     *
+     * @param duration: umzurechnende Zahl
+     * @return Tage als BigInteger
+     */
+    fun toDays(duration: Long): BigInteger {
+        return nanos.multiply(BigInteger.valueOf(duration)).divide(DAYS.nanos)
+    }
+
 
 
     companion object {

@@ -75,4 +75,19 @@ class ZeiteinheitTest {
         assertEquals(BigInteger.valueOf(60), Zeiteinheit.MINUTES.toSeconds(1));
     }
 
+    @Test
+    void toMinutes() {
+        assertEquals(BigInteger.valueOf(60), Zeiteinheit.HOURS.toMinutes(1));
+    }
+
+    @Test
+    void toHours() {
+        assertEquals(BigInteger.valueOf(24), Zeiteinheit.DAYS.toHours(1));
+    }
+
+    @Test
+    void toDays() {
+        assertEquals(BigInteger.valueOf(7), Zeiteinheit.WEEKS.toDays(1));
+    }
+
 }
