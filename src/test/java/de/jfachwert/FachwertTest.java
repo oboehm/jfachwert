@@ -122,7 +122,9 @@ public class FachwertTest {
     @Test
     public void testNotFinal() {
         Class<? extends KFachwert> clazz = fachwert.getClass();
-        assertFalse(Modifier.isFinal(clazz.getModifiers()), clazz + " should be not final");
+        if (!clazz.isEnum()) {
+            assertFalse(Modifier.isFinal(clazz.getModifiers()), clazz + " should be not final");
+        }
     }
 
     /**

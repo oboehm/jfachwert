@@ -35,6 +35,7 @@ import de.jfachwert.steuer.UStIdNr
 import de.jfachwert.util.SmallUUID
 import de.jfachwert.util.TinyUUID
 import de.jfachwert.zeit.Zeitdauer
+import de.jfachwert.zeit.Zeiteinheit
 import de.jfachwert.zeit.Zeitpunkt
 import de.jfachwert.zeit.Zeitraum
 import java.io.Serializable
@@ -199,6 +200,7 @@ class FachwertFactory private constructor() {
             instance.register(Zeitdauer::class.java)
             instance.register(Zeitpunkt::class.java)
             instance.register(Zeitraum::class.java)
+            instance.register(Zeiteinheit::class.java)
         }
     }
 

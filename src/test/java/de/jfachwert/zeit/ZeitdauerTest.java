@@ -21,6 +21,7 @@ import de.jfachwert.FachwertTest;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -38,6 +39,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public final class ZeitdauerTest extends FachwertTest {
 
     private static final Logger log = Logger.getLogger(ZeitdauerTest.class.getName());
+
+    @Override
+    protected Zeitdauer createFachwert() {
+        return Zeitdauer.of(Zeitpunkt.EPOCH, Zeitpunkt.of(LocalDate.of(2024, 3, 9)));
+    }
 
     @Test
     void start() {

@@ -17,8 +17,12 @@
  */
 package de.jfachwert.zeit
 
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import de.jfachwert.KFachwert
 import de.jfachwert.Localized
+import de.jfachwert.util.ToFachwertSerializer
 import java.math.BigInteger
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -36,7 +40,8 @@ import java.util.concurrent.TimeUnit
  * @author oboehm
  * @since 5.0 (10.07.2023)
  */
-open class Zeitdauer(private val startTime: Zeitpunkt, private val endTime : Zeitpunkt? = null) : KFachwert, Localized {
+@JsonSerialize(using = ToFachwertSerializer::class)
+open class Zeitdauer(private val von: Zeitpunkt, private val bis : Zeitpunkt? = null) : KFachwert, Localized {
 
     constructor() : this(Zeitpunkt())
 
@@ -50,7 +55,7 @@ open class Zeitdauer(private val startTime: Zeitpunkt, private val endTime : Zei
      * @return neue Zeitdauer mit jetzigem End-Zeitpunkt
      */
     fun stop() : Zeitdauer {
-        return Zeitdauer(startTime, Zeitpunkt.now())
+        return Zeitdauer(von, Zeitpunkt.now())
     }
 
     fun getZaehler() : BigInteger {
@@ -100,7 +105,7 @@ open class Zeitdauer(private val startTime: Zeitpunkt, private val endTime : Zei
     }
 
     fun getTimeInNanos() : BigInteger {
-        return (endTime?:Zeitpunkt()).minus(startTime).getTimeInNanos()
+        return (bis?:Zeitpunkt()).minus(von).getTimeInNanos()
     }
 
     fun getTimeInMillis() : Long {
@@ -110,6 +115,20 @@ open class Zeitdauer(private val startTime: Zeitpunkt, private val endTime : Zei
     override fun toString(): String {
         val t = getTimeInNanos()
         return "${getZaehler(t)} " + getLocalizedString(getEinheit(t).toString())
+    }
+
+    /**
+     * Liefert den von- und bis-Zeitpunkt als Map.
+     *
+     * @return Attribute als Map
+     */
+    override fun toMap(): Map<String, Any> {
+        val map: MutableMap<String, Any> = HashMap()
+        map["von"] = von.getTimeInNanos()
+        if (bis != null) {
+            map["bis"] = bis.getTimeInNanos()
+        }
+        return map
     }
 
 
@@ -143,6 +162,19 @@ open class Zeitdauer(private val startTime: Zeitpunkt, private val endTime : Zei
             val dauer = Zeitdauer(von, bis)
             val nanos = dauer.getTimeInNanos()
             return WEAK_CACHE.computeIfAbsent(nanos) { dauer }
+        }
+
+        /**
+         * Liefert eine Zeitdauer zurueck.
+         *
+         * @param von Zeitpunkt in Nanosekunden
+         * @param bis Zeitpunkt in Nanosekunden
+         * @return die Zeitdauer
+         */
+        @JsonCreator
+        @JvmStatic
+        fun of(@JsonProperty("von") von: BigInteger, @JsonProperty("bis") bis: BigInteger): Zeitdauer {
+            return of(Zeitpunkt.of(von), Zeitpunkt.of(bis))
         }
 
         /**

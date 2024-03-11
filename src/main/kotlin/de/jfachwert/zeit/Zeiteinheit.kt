@@ -17,6 +17,7 @@
  */
 package de.jfachwert.zeit
 
+import de.jfachwert.KFachwert
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import java.math.BigInteger
 import java.util.concurrent.TimeUnit
@@ -33,7 +34,7 @@ import java.util.concurrent.TimeUnit
  * @author oboehm
  * @since 5.4 (29.02.2024)
  */
-enum class Zeiteinheit(private val nanos: BigInteger) {
+enum class Zeiteinheit(private val nanos: BigInteger) : KFachwert {
 
     /** Zeiteinheit fuer Nano-Sekunden .*/
     NANOSECONDS(BigInteger.ONE),

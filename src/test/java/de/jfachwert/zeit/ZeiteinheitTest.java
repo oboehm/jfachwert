@@ -17,6 +17,7 @@
  */
 package de.jfachwert.zeit;
 
+import de.jfachwert.FachwertTest;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
@@ -30,7 +31,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author oboehm
  * @since 5-4 (01.03.24)
  */
-class ZeiteinheitTest {
+class ZeiteinheitTest extends FachwertTest {
+
+    @Override
+    protected Zeiteinheit createFachwert() {
+        return Zeiteinheit.DAYS;
+    }
 
     @Test
     void ofTimeUnit() {
