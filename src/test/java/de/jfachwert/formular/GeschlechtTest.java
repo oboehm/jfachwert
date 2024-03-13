@@ -17,9 +17,9 @@
  */
 package de.jfachwert.formular;
 
-import org.junit.jupiter.api.Test;
-
+import de.jfachwert.FachwertTest;
 import de.jfachwert.pruefung.exception.ValidationException;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -27,7 +27,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Unit-Tests fuer {@link Geschlecht}.
  */
-public class GeschlechtTest {
+public class GeschlechtTest extends FachwertTest {
+
+    @Override
+    protected Geschlecht createFachwert() {
+        return Geschlecht.UNBEKANNT;
+    }
 
     /**
      * Test-Methode fuer {@link Geschlecht#toString()}.

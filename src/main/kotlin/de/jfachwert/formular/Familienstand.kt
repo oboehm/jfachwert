@@ -17,6 +17,7 @@
  */
 package de.jfachwert.formular
 
+import de.jfachwert.KFachwert
 import org.apache.commons.lang3.StringUtils
 
 /**
@@ -42,7 +43,7 @@ import org.apache.commons.lang3.StringUtils
  *
  * @since 2.0
  */
-enum class Familienstand(val schluessel: String, private val text: String) {
+enum class Familienstand(val schluessel: String, private val text: String) : KFachwert {
 
     /** Ledig.  */
     LEDIG("LD", "ledig"),

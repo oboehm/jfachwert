@@ -16,9 +16,9 @@ package de.jfachwert.formular;/*
  * (c)reated 28.08.2017 by oboehm (ob@oasd.de)
  */
 
-import org.junit.jupiter.api.Test;
-
+import de.jfachwert.FachwertTest;
 import de.jfachwert.pruefung.exception.ValidationException;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -29,7 +29,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @author oboehm
  * @since x.x (28.08.2017)
  */
-public final class AnredeTest {
+public final class AnredeTest extends FachwertTest {
+
+    @Override
+    protected Anrede createFachwert() {
+        return Anrede.FIRMA;
+    }
 
     /**
      * Test-Methode fuer {@link Anrede#toString()}.

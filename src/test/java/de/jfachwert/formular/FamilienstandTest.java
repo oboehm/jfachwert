@@ -17,6 +17,7 @@
  */
 package de.jfachwert.formular;
 
+import de.jfachwert.FachwertTest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,7 +27,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  * @author oboehm
  */
-public final class FamilienstandTest {
+public final class FamilienstandTest extends FachwertTest {
+
+    @Override
+    protected Familienstand createFachwert() {
+        return Familienstand.LEDIG;
+    }
 
     /**
      * Testmethode fuer {@link Familienstand#toString()}.

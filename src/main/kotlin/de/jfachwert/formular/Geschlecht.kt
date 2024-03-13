@@ -17,6 +17,7 @@
  */
 package de.jfachwert.formular
 
+import de.jfachwert.KFachwert
 import de.jfachwert.pruefung.AccessValidator.access
 
 /**
@@ -28,7 +29,7 @@ import de.jfachwert.pruefung.AccessValidator.access
  *
  * @since 2.0
  */
-enum class Geschlecht(private val text: String) {
+enum class Geschlecht(private val text: String) : KFachwert {
 
     /** Juristische Person (meist Firmen).  */
     JURISTISCHE_PERSON("juristische Person"),
