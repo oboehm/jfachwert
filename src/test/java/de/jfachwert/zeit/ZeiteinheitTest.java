@@ -108,7 +108,12 @@ class ZeiteinheitTest extends FachwertTest {
 
     @Test
     void toYears() {
-        assertEquals(BigInteger.valueOf(100), Zeiteinheit.CENTURIES.toYears(1));
+        assertEquals(BigInteger.valueOf(10), Zeiteinheit.DECADES.toYears(1));
+    }
+
+    @Test
+    void toDecades() {
+        assertEquals(BigInteger.valueOf(10), Zeiteinheit.CENTURIES.toDecades(1));
     }
 
     @Test

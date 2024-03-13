@@ -67,6 +67,9 @@ enum class Zeiteinheit(private val nanos: BigInteger) : KFachwert {
     YEARS(BigInteger.valueOf(31_556_952_000_000_000L)),
 
     /** Zeiteinheit fuer Jahrhunderte. */
+    DECADES(BigInteger.valueOf(315_569_520_000_000_000L)),
+
+    /** Zeiteinheit fuer Jahrhunderte. */
     CENTURIES(BigInteger.valueOf(3_155_695_200_000_000_000L)),
 
     /** Zeiteinheit fuer Jahrtausende. */
@@ -189,6 +192,16 @@ enum class Zeiteinheit(private val nanos: BigInteger) : KFachwert {
      */
     fun toYears(duration: Long): BigInteger {
         return nanos.multiply(BigInteger.valueOf(duration)).divide(YEARS.nanos)
+    }
+
+    /**
+     * Wandelt die Zahl in Jahrzehnte um.
+     *
+     * @param duration: umzurechnende Zahl
+     * @return Tage als BigInteger
+     */
+    fun toDecades(duration: Long): BigInteger {
+        return nanos.multiply(BigInteger.valueOf(duration)).divide(DECADES.nanos)
     }
 
     /**
