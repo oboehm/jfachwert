@@ -161,6 +161,56 @@ enum class Zeiteinheit(private val nanos: BigInteger) : KFachwert {
         return nanos.multiply(BigInteger.valueOf(duration)).divide(DAYS.nanos)
     }
 
+    /**
+     * Wandelt die Zahl in Wochen um.
+     *
+     * @param duration: umzurechnende Zahl
+     * @return Tage als BigInteger
+     */
+    fun toWeeks(duration: Long): BigInteger {
+        return nanos.multiply(BigInteger.valueOf(duration)).divide(WEEKS.nanos)
+    }
+
+    /**
+     * Wandelt die Zahl in Monate um.
+     *
+     * @param duration: umzurechnende Zahl
+     * @return Tage als BigInteger
+     */
+    fun toMonths(duration: Long): BigInteger {
+        return nanos.multiply(BigInteger.valueOf(duration)).divide(MONTHS.nanos)
+    }
+
+    /**
+     * Wandelt die Zahl in Jahre um.
+     *
+     * @param duration: umzurechnende Zahl
+     * @return Tage als BigInteger
+     */
+    fun toYears(duration: Long): BigInteger {
+        return nanos.multiply(BigInteger.valueOf(duration)).divide(YEARS.nanos)
+    }
+
+    /**
+     * Wandelt die Zahl in Jahrhunderte um.
+     *
+     * @param duration: umzurechnende Zahl
+     * @return Tage als BigInteger
+     */
+    fun toCenturies(duration: Long): BigInteger {
+        return nanos.multiply(BigInteger.valueOf(duration)).divide(CENTURIES.nanos)
+    }
+
+    /**
+     * Wandelt die Zahl in Jahrtausende um.
+     *
+     * @param duration: umzurechnende Zahl
+     * @return Tage als BigInteger
+     */
+    fun toMillenia(duration: Long): BigInteger {
+        return nanos.multiply(BigInteger.valueOf(duration)).divide(MILLENNIA.nanos)
+    }
+
 
 
     companion object {

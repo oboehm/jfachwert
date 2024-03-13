@@ -96,4 +96,29 @@ class ZeiteinheitTest extends FachwertTest {
         assertEquals(BigInteger.valueOf(7), Zeiteinheit.WEEKS.toDays(1));
     }
 
+    @Test
+    void toWeeks() {
+        assertEquals(BigInteger.valueOf(4), Zeiteinheit.MONTHS.toWeeks(1));
+    }
+
+    @Test
+    void toMonths() {
+        assertEquals(BigInteger.valueOf(12), Zeiteinheit.YEARS.toMonths(1));
+    }
+
+    @Test
+    void toYears() {
+        assertEquals(BigInteger.valueOf(100), Zeiteinheit.CENTURIES.toYears(1));
+    }
+
+    @Test
+    void toCenturies() {
+        assertEquals(BigInteger.valueOf(10), Zeiteinheit.MILLENNIA.toCenturies(1));
+    }
+
+    @Test
+    void toMillenia() {
+        assertEquals(BigInteger.valueOf(1), Zeiteinheit.MILLENNIA.toMillenia(1));
+    }
+
 }
