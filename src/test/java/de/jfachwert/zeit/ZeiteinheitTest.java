@@ -123,7 +123,12 @@ class ZeiteinheitTest extends FachwertTest {
 
     @Test
     void toMillenia() {
-        assertEquals(BigInteger.valueOf(1), Zeiteinheit.MILLENNIA.toMillenia(1));
+        assertEquals(BigInteger.valueOf(1_000_000), Zeiteinheit.JAHRMILLIONEN.toMillenia(1));
+    }
+
+    @Test
+    void toJahrmillionen() {
+        assertEquals(BigInteger.valueOf(1), Zeiteinheit.JAHRMILLIONEN.toJahrmillionen(1));
     }
 
 }

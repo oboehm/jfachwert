@@ -75,6 +75,9 @@ enum class Zeiteinheit(private val nanos: BigInteger) : KFachwert {
     /** Zeiteinheit fuer Jahrtausende. */
     MILLENNIA(CENTURIES.nanos.multiply(BigInteger.valueOf(10))),
 
+    /** Zeiteinheit fuer Jahrmillionen. */
+    JAHRMILLIONEN(MILLENNIA.nanos.multiply(BigInteger.valueOf(1_000_000))),
+
     /** Unbekannte Zeiteinheit. */
     UNBEKANNT(BigInteger.ZERO);
 
@@ -222,6 +225,16 @@ enum class Zeiteinheit(private val nanos: BigInteger) : KFachwert {
      */
     fun toMillenia(duration: Long): BigInteger {
         return nanos.multiply(BigInteger.valueOf(duration)).divide(MILLENNIA.nanos)
+    }
+
+    /**
+     * Wandelt die Zahl in Jahrmillionen um.
+     *
+     * @param duration: umzurechnende Zahl
+     * @return Tage als BigInteger
+     */
+    fun toJahrmillionen(duration: Long): BigInteger {
+        return nanos.multiply(BigInteger.valueOf(duration)).divide(JAHRMILLIONEN.nanos)
     }
 
 
