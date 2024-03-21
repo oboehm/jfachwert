@@ -31,8 +31,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.hamcrest.Matchers.startsWith;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -230,6 +229,15 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
         Zeitpunkt t2 = Zeitpunkt.of(2, Zeiteinheit.MILLISECONDS);
         assertFalse(t1.isAfter(t2));
         assertTrue(t2.isAfter(t1));
+    }
+
+    @Test
+    void testCompareTo() {
+        Zeitpunkt t0 = Zeitpunkt.EPOCH;
+        Zeitpunkt t1 = Zeitpunkt.of(1, Zeiteinheit.NANOSECONDS);
+        assertThat(t0.compareTo(t1), lessThan(0));
+        assertThat(t1.compareTo(t0), greaterThan(0));
+        assertEquals(0, t0.compareTo(Zeitpunkt.EPOCH));
     }
 
 }

@@ -156,6 +156,10 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
         return of(code.add(t.code))
     }
 
+    override fun compareTo(other: Zeitpunkt): Int {
+        return code.compareTo(other.code)
+    }
+
     /**
      * Testet, ob der uebergebene Zeitpunkt vor diesem Zeitpunkt liegt.
      *
