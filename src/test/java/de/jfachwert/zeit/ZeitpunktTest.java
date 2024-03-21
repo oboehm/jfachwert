@@ -33,8 +33,7 @@ import java.util.concurrent.TimeUnit;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.hamcrest.Matchers.startsWith;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer {@link Zeitpunkt}-Klasse.
@@ -215,6 +214,22 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
         if (Locale.GERMANY.equals(Locale.getDefault())) {
             assertEquals("in 5 Mio. Jahren", s);
         }
+    }
+
+    @Test
+    void isBefore() {
+        Zeitpunkt t1 = Zeitpunkt.of(1, Zeiteinheit.NANOSECONDS);
+        Zeitpunkt t2 = Zeitpunkt.of(2, Zeiteinheit.NANOSECONDS);
+        assertTrue(t1.isBefore(t2));
+        assertFalse(t2.isBefore(t1));
+    }
+
+    @Test
+    void isAfter() {
+        Zeitpunkt t1 = Zeitpunkt.of(1, Zeiteinheit.MILLISECONDS);
+        Zeitpunkt t2 = Zeitpunkt.of(2, Zeiteinheit.MILLISECONDS);
+        assertFalse(t1.isAfter(t2));
+        assertTrue(t2.isAfter(t1));
     }
 
 }

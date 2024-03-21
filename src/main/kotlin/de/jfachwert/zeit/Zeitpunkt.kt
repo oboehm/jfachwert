@@ -157,6 +157,28 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
     }
 
     /**
+     * Testet, ob der uebergebene Zeitpunkt vor diesem Zeitpunkt liegt.
+     *
+     * @param t: der andere Zeitpunkt
+     * @return true, wenn andere Zeitpunkt davor liegt
+     * @since 5.3
+     */
+    fun isBefore(t: Zeitpunkt) : Boolean {
+        return code.compareTo(t.code) < 0;
+    }
+
+    /**
+     * Testet, ob der uebergebene Zeitpunkt nach diesem Zeitpunkt liegt.
+     *
+     * @param t: der andere Zeitpunkt
+     * @return true, wenn andere Zeitpunkt danach liegt
+     * @since 5.3
+     */
+    fun isAfter(t: Zeitpunkt) : Boolean{
+        return code.compareTo(t.code) > 0;
+    }
+
+    /**
      * Wandelt den Zeitpunkt in einen Timestamp um.
      *
      * @return Timestamp aus java.sql
@@ -359,6 +381,19 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
         @JvmStatic
         fun of(code: BigInteger, unit: Zeiteinheit): Zeitpunkt {
             return of(code.multiply(unit.toNanos(1)))
+        }
+
+        /**
+         * Liefert einen Zeitpunkt zurueck.
+         *
+         * @param code Anzahl Zeiteinheiten seit 1.1.1970
+         * @param unit Zeiteinheit
+         * @return der Zeitpunkt
+         * @since 5.4 (04.03.2024)
+         */
+        @JvmStatic
+        fun of(code: Long, unit: Zeiteinheit): Zeitpunkt {
+            return of(BigInteger.valueOf(code), unit);
         }
 
         /**
