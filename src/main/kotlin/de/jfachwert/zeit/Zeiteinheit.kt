@@ -20,6 +20,9 @@ package de.jfachwert.zeit
 import de.jfachwert.KFachwert
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import java.math.BigInteger
+import java.time.Duration
+import java.time.temporal.Temporal
+import java.time.temporal.TemporalUnit
 import java.util.concurrent.TimeUnit
 
 /**
@@ -34,58 +37,58 @@ import java.util.concurrent.TimeUnit
  * @author oboehm
  * @since 5.4 (29.02.2024)
  */
-enum class Zeiteinheit(private val nanos: BigInteger) : KFachwert {
+enum class Zeiteinheit(private val nanos: BigInteger, private val duration: Duration) : KFachwert, TemporalUnit {
 
     /** Zeiteinheit fuer Nano-Sekunden .*/
-    NANOSECONDS(BigInteger.ONE),
+    NANOSECONDS(BigInteger.ONE, Duration.ofNanos(1)),
 
     /** Zeiteinheit fuer Micro-Sekunden. */
-    MICROSECONDS(BigInteger.valueOf(1_000L)),
+    MICROSECONDS(BigInteger.valueOf(1_000L), Duration.ofNanos(1_000)),
 
     /** Zeiteinheit fuer Milli-Sekunden. */
-    MILLISECONDS(BigInteger.valueOf(1_000_000L)),
+    MILLISECONDS(BigInteger.valueOf(1_000_000L), Duration.ofMillis(1)),
 
     /** Zeiteinheit fuer Sekunden. */
-    SECONDS(BigInteger.valueOf(1_000_000_000L)),
+    SECONDS(BigInteger.valueOf(1_000_000_000L), Duration.ofSeconds(1)),
 
     /** Zeiteinheit fuer Minuten. */
-    MINUTES(BigInteger.valueOf(60_000_000_000L)),
+    MINUTES(BigInteger.valueOf(60_000_000_000L), Duration.ofMinutes(1)),
 
     /** Zeiteinheit fuer Stunden. */
-    HOURS(BigInteger.valueOf(3_600_000_000_000L)),
+    HOURS(BigInteger.valueOf(3_600_000_000_000L), Duration.ofHours(1)),
 
     /** Zeiteinheit fuer halbe Tage. */
-    HALF_DAYS(BigInteger.valueOf(43_200_000_000_000L)),
+    HALF_DAYS(BigInteger.valueOf(43_200_000_000_000L), Duration.ofHours(12)),
 
     /** Zeiteinheit fuer Tage. */
-    DAYS(BigInteger.valueOf(86_400_000_000_000L)),
+    DAYS(BigInteger.valueOf(86_400_000_000_000L), Duration.ofDays(1)),
 
     /** Zeiteinheit fuer Wochen. */
-    WEEKS(BigInteger.valueOf(604_800_000_000_000L)),
+    WEEKS(BigInteger.valueOf(604_800_000_000_000L), Duration.ofDays(7)),
 
     /** Zeiteinheit fuer Monate (= 1 Jahr / 12). */
-    MONTHS(BigInteger.valueOf(2_629_746_000_000_000L)),
+    MONTHS(BigInteger.valueOf(2_629_746_000_000_000L), Duration.ofSeconds(2_629_746)),
 
     /** Zeiteinheit fuer Jahre (1 Jahr = 365,2425 Tage). */
-    YEARS(BigInteger.valueOf(31_556_952_000_000_000L)),
+    YEARS(BigInteger.valueOf(31_556_952_000_000_000L), Duration.ofSeconds(31_556_952)),
 
     /** Zeiteinheit fuer Jahrhunderte. */
-    DECADES(BigInteger.valueOf(315_569_520_000_000_000L)),
+    DECADES(BigInteger.valueOf(315_569_520_000_000_000L), Duration.ofSeconds(315_569_520)),
 
     /** Zeiteinheit fuer Jahrhunderte. */
-    CENTURIES(BigInteger.valueOf(3_155_695_200_000_000_000L)),
+    CENTURIES(BigInteger.valueOf(3_155_695_200_000_000_000L), Duration.ofSeconds(3_155_695_200)),
 
     /** Zeiteinheit fuer Jahrtausende. */
-    MILLENNIA(CENTURIES.nanos.multiply(BigInteger.valueOf(10))),
+    MILLENNIA(CENTURIES.nanos.multiply(BigInteger.valueOf(10)), Duration.ofSeconds(31_556_952_000)),
 
     /** Zeiteinheit fuer Jahrmillionen. */
-    ERAS(MILLENNIA.nanos.multiply(BigInteger.valueOf(1_000_000))),
+    ERAS(MILLENNIA.nanos.multiply(BigInteger.valueOf(1_000_000)), Duration.ofSeconds(31_556_952_000_000_000)),
 
     /** Zeiteinheit fuer die Ewigkeit. */
-    FOREVER(ERAS.nanos.multiply(BigInteger.valueOf(Long.MAX_VALUE))),
+    FOREVER(ERAS.nanos.multiply(BigInteger.valueOf(Long.MAX_VALUE)), Duration.ofSeconds(Long.MAX_VALUE)),
 
     /** Unbekannte Zeiteinheit. */
-    UNBEKANNT(BigInteger.ZERO);
+    UNBEKANNT(BigInteger.ZERO, Duration.ZERO);
 
     /**
      * Wandelt die Zeiteinheit in eine TimeUnit.
@@ -243,6 +246,29 @@ enum class Zeiteinheit(private val nanos: BigInteger) : KFachwert {
         return nanos.multiply(BigInteger.valueOf(duration)).divide(ERAS.nanos)
     }
 
+    override fun getDuration(): Duration {
+        return duration
+    }
+
+    override fun isDurationEstimated(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun isDateBased(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun isTimeBased(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun <R : Temporal?> addTo(temporal: R, amount: Long): R {
+        TODO("Not yet implemented")
+    }
+
+    override fun between(temporal1Inclusive: Temporal?, temporal2Exclusive: Temporal?): Long {
+        TODO("Not yet implemented")
+    }
 
 
     companion object {

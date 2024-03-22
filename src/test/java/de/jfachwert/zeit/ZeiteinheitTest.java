@@ -21,8 +21,11 @@ import de.jfachwert.FachwertTest;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -129,6 +132,13 @@ class ZeiteinheitTest extends FachwertTest {
     @Test
     void toJahrmillionen() {
         assertEquals(BigInteger.valueOf(1), Zeiteinheit.ERAS.toJahrmillionen(1));
+    }
+
+    @Test
+    void getDuration() {
+        Duration eras = Zeiteinheit.ERAS.getDuration();
+        Duration forever = Zeiteinheit.FOREVER.getDuration();
+        assertThat(forever.compareTo(eras), greaterThan(0));
     }
 
 }
