@@ -28,8 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer die {@link Zeitraum}-Klasse.
@@ -115,6 +114,16 @@ public final class ZeitraumTest extends FachwertTest {
     void offenerZeitraumTimestamp() {
         Zeitraum zeitraum = Zeitraum.of(null, new Timestamp(0L));
         assertEquals(Zeitpunkt.MIN, zeitraum.getVon());
+    }
+
+    @Test
+    void testErdzeitalter() {
+        assertTrue(Zeitraum.PRAEKAMBRIUM.isBefore(Zeitraum.PALAEOZOLIKUM));
+        assertTrue(Zeitraum.PALAEOZOLIKUM.isBefore(Zeitraum.MESOZOIKUM));
+        assertTrue(Zeitraum.MESOZOIKUM.isBefore(Zeitraum.KAENOZOIKUM));
+        assertFalse(Zeitraum.PRAEKAMBRIUM.isAfter(Zeitraum.PALAEOZOLIKUM));
+        assertFalse(Zeitraum.PALAEOZOLIKUM.isAfter(Zeitraum.MESOZOIKUM));
+        assertFalse(Zeitraum.MESOZOIKUM.isAfter(Zeitraum.KAENOZOIKUM));
     }
 
 }

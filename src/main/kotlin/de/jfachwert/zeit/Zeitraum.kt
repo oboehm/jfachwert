@@ -27,7 +27,10 @@ import java.time.LocalDateTime
 import java.util.*
 
 /**
- * Die Klasse repraesentiert einen Zeitraum zwischen 2 Zeitpunkten.
+ * Die Klasse repraesentiert einen Zeitraum zwischen 2 Zeitpunkten. Im
+ * Gegensatz zur Zeitdauer-Klasse steht hier das Anfang und Ende eines
+ * Zeitraums im Vordergrund, waehrend die Zeitdauer eher zur Zeitmessung
+ * und zur Berechnung von Zeit-Unterschiede gedacht ist.
  *
  * @author oboehm
  * @since 5.2 (15.01.24)
@@ -52,6 +55,28 @@ constructor(val von: Zeitpunkt, val bis: Zeitpunkt) : KFachwert {
     @JsonCreator
     constructor(map: Map<String, Zeitpunkt>) :
             this(map["von"]!!, map["bis"]!!)
+
+    /**
+     * Testet, ob der uebergebene Zeitraum vor diesem Zeitraum liegt.
+     *
+     * @param zeitraum: der andere Zeitraum
+     * @return true, wenn andere Zeitraum davor liegt
+     * @since 5.3
+     */
+    fun isBefore(zeitraum: Zeitraum) : Boolean {
+        return bis.compareTo(zeitraum.von) >= 0
+    }
+
+    /**
+     * Testet, ob der uebergebene Zeitraum nach diesem Zeitraum liegt.
+     *
+     * @param zeitraum: der andere Zeitraum
+     * @return true, wenn andere Zeitraum danach liegt
+     * @since 5.3
+     */
+    fun isAfter(zeitraum: Zeitraum) : Boolean{
+        return von.compareTo(zeitraum.bis) >= 0
+    }
 
     /**
      * Liefert die Zeitdauer des Zeitraums zurueck.
@@ -98,6 +123,22 @@ constructor(val von: Zeitpunkt, val bis: Zeitpunkt) : KFachwert {
         /** Null-Konstante fuer Initialisierungen.  */
         @JvmField
         val NULL = Zeitraum(Zeitpunkt.EPOCH, Zeitpunkt.EPOCH)
+
+        /** Zeitalter Praekambrium (vor 590 - 4600 Mio Jahren).  */
+        @JvmField
+        val PRAEKAMBRIUM = Zeitraum(Zeitpunkt.of(-4600, Zeiteinheit.JAHRMILLIONEN), Zeitpunkt.of(-590, Zeiteinheit.JAHRMILLIONEN))
+
+        /** Zeitalter Palaeozolikum (vor 240 - 590 Mio Jahren).  */
+        @JvmField
+        val PALAEOZOLIKUM = Zeitraum(Zeitpunkt.of(-590, Zeiteinheit.JAHRMILLIONEN), Zeitpunkt.of(-240, Zeiteinheit.JAHRMILLIONEN))
+
+        /** Zeitalter Mesozoikum (Erdmittelalter, vor 65 - 240 Mio Jahren).  */
+        @JvmField
+        val MESOZOIKUM = Zeitraum(Zeitpunkt.of(-240, Zeiteinheit.JAHRMILLIONEN), Zeitpunkt.of(-65, Zeiteinheit.JAHRMILLIONEN))
+
+        /** Zeitalter Kaenozoikum (Erdneuzeit, vor 65 Jahren bis jetzt).  */
+        @JvmField
+        val KAENOZOIKUM = Zeitraum(Zeitpunkt.of(-65, Zeiteinheit.JAHRMILLIONEN), Zeitpunkt.now())
 
         /**
          * Interpretiert den eingegebenen String als Zeitraum
