@@ -126,19 +126,19 @@ constructor(val von: Zeitpunkt, val bis: Zeitpunkt) : KFachwert {
 
         /** Zeitalter Praekambrium (vor 590 - 4600 Mio Jahren).  */
         @JvmField
-        val PRAEKAMBRIUM = Zeitraum(Zeitpunkt.of(-4600, Zeiteinheit.JAHRMILLIONEN), Zeitpunkt.of(-590, Zeiteinheit.JAHRMILLIONEN))
+        val PRAEKAMBRIUM = Zeitraum(Zeitpunkt.of(-4600, Zeiteinheit.ERAS), Zeitpunkt.of(-590, Zeiteinheit.ERAS))
 
         /** Zeitalter Palaeozolikum (vor 240 - 590 Mio Jahren).  */
         @JvmField
-        val PALAEOZOLIKUM = Zeitraum(Zeitpunkt.of(-590, Zeiteinheit.JAHRMILLIONEN), Zeitpunkt.of(-240, Zeiteinheit.JAHRMILLIONEN))
+        val PALAEOZOLIKUM = Zeitraum(Zeitpunkt.of(-590, Zeiteinheit.ERAS), Zeitpunkt.of(-240, Zeiteinheit.ERAS))
 
         /** Zeitalter Mesozoikum (Erdmittelalter, vor 65 - 240 Mio Jahren).  */
         @JvmField
-        val MESOZOIKUM = Zeitraum(Zeitpunkt.of(-240, Zeiteinheit.JAHRMILLIONEN), Zeitpunkt.of(-65, Zeiteinheit.JAHRMILLIONEN))
+        val MESOZOIKUM = Zeitraum(Zeitpunkt.of(-240, Zeiteinheit.ERAS), Zeitpunkt.of(-65, Zeiteinheit.ERAS))
 
         /** Zeitalter Kaenozoikum (Erdneuzeit, vor 65 Jahren bis jetzt).  */
         @JvmField
-        val KAENOZOIKUM = Zeitraum(Zeitpunkt.of(-65, Zeiteinheit.JAHRMILLIONEN), Zeitpunkt.now())
+        val KAENOZOIKUM = Zeitraum(Zeitpunkt.of(-65, Zeiteinheit.ERAS), Zeitpunkt.now())
 
         /**
          * Interpretiert den eingegebenen String als Zeitraum

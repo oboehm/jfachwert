@@ -54,6 +54,9 @@ enum class Zeiteinheit(private val nanos: BigInteger) : KFachwert {
     /** Zeiteinheit fuer Stunden. */
     HOURS(BigInteger.valueOf(3_600_000_000_000L)),
 
+    /** Zeiteinheit fuer halbe Tage. */
+    HALF_DAYS(BigInteger.valueOf(43_200_000_000_000L)),
+
     /** Zeiteinheit fuer Tage. */
     DAYS(BigInteger.valueOf(86_400_000_000_000L)),
 
@@ -76,7 +79,10 @@ enum class Zeiteinheit(private val nanos: BigInteger) : KFachwert {
     MILLENNIA(CENTURIES.nanos.multiply(BigInteger.valueOf(10))),
 
     /** Zeiteinheit fuer Jahrmillionen. */
-    JAHRMILLIONEN(MILLENNIA.nanos.multiply(BigInteger.valueOf(1_000_000))),
+    ERAS(MILLENNIA.nanos.multiply(BigInteger.valueOf(1_000_000))),
+
+    /** Zeiteinheit fuer die Ewigkeit. */
+    FOREVER(ERAS.nanos.multiply(BigInteger.valueOf(Long.MAX_VALUE))),
 
     /** Unbekannte Zeiteinheit. */
     UNBEKANNT(BigInteger.ZERO);
@@ -234,7 +240,7 @@ enum class Zeiteinheit(private val nanos: BigInteger) : KFachwert {
      * @return Tage als BigInteger
      */
     fun toJahrmillionen(duration: Long): BigInteger {
-        return nanos.multiply(BigInteger.valueOf(duration)).divide(JAHRMILLIONEN.nanos)
+        return nanos.multiply(BigInteger.valueOf(duration)).divide(ERAS.nanos)
     }
 
 
