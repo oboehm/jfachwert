@@ -24,6 +24,8 @@ import java.time.Duration
 import java.time.temporal.Temporal
 import java.time.temporal.TemporalUnit
 import java.util.concurrent.TimeUnit
+import java.util.logging.Level
+import java.util.logging.Logger
 
 /**
  * Im Gegensatz zur TimeUnit-Klasse aus dem JDK deckt Zeiteinheit auch
@@ -37,58 +39,58 @@ import java.util.concurrent.TimeUnit
  * @author oboehm
  * @since 5.4 (29.02.2024)
  */
-enum class Zeiteinheit(private val nanos: BigInteger, private val duration: Duration) : KFachwert, TemporalUnit {
+enum class Zeiteinheit(private val duration: Duration) : KFachwert, TemporalUnit {
 
     /** Zeiteinheit fuer Nano-Sekunden .*/
-    NANOSECONDS(BigInteger.ONE, Duration.ofNanos(1)),
+    NANOSECONDS(Duration.ofNanos(1)),
 
     /** Zeiteinheit fuer Micro-Sekunden. */
-    MICROSECONDS(BigInteger.valueOf(1_000L), Duration.ofNanos(1_000)),
+    MICROSECONDS(Duration.ofNanos(1_000)),
 
     /** Zeiteinheit fuer Milli-Sekunden. */
-    MILLISECONDS(BigInteger.valueOf(1_000_000L), Duration.ofMillis(1)),
+    MILLISECONDS(Duration.ofMillis(1)),
 
     /** Zeiteinheit fuer Sekunden. */
-    SECONDS(BigInteger.valueOf(1_000_000_000L), Duration.ofSeconds(1)),
+    SECONDS(Duration.ofSeconds(1)),
 
     /** Zeiteinheit fuer Minuten. */
-    MINUTES(BigInteger.valueOf(60_000_000_000L), Duration.ofMinutes(1)),
+    MINUTES(Duration.ofMinutes(1)),
 
     /** Zeiteinheit fuer Stunden. */
-    HOURS(BigInteger.valueOf(3_600_000_000_000L), Duration.ofHours(1)),
+    HOURS(Duration.ofHours(1)),
 
     /** Zeiteinheit fuer halbe Tage. */
-    HALF_DAYS(BigInteger.valueOf(43_200_000_000_000L), Duration.ofHours(12)),
+    HALF_DAYS(Duration.ofHours(12)),
 
     /** Zeiteinheit fuer Tage. */
-    DAYS(BigInteger.valueOf(86_400_000_000_000L), Duration.ofDays(1)),
+    DAYS(Duration.ofDays(1)),
 
     /** Zeiteinheit fuer Wochen. */
-    WEEKS(BigInteger.valueOf(604_800_000_000_000L), Duration.ofDays(7)),
+    WEEKS(Duration.ofDays(7)),
 
     /** Zeiteinheit fuer Monate (= 1 Jahr / 12). */
-    MONTHS(BigInteger.valueOf(2_629_746_000_000_000L), Duration.ofSeconds(2_629_746)),
+    MONTHS(Duration.ofSeconds(2_629_746)),
 
     /** Zeiteinheit fuer Jahre (1 Jahr = 365,2425 Tage). */
-    YEARS(BigInteger.valueOf(31_556_952_000_000_000L), Duration.ofSeconds(31_556_952)),
+    YEARS(Duration.ofSeconds(31_556_952)),
 
     /** Zeiteinheit fuer Jahrhunderte. */
-    DECADES(BigInteger.valueOf(315_569_520_000_000_000L), Duration.ofSeconds(315_569_520)),
+    DECADES(Duration.ofSeconds(315_569_520)),
 
     /** Zeiteinheit fuer Jahrhunderte. */
-    CENTURIES(BigInteger.valueOf(3_155_695_200_000_000_000L), Duration.ofSeconds(3_155_695_200)),
+    CENTURIES(Duration.ofSeconds(3_155_695_200)),
 
     /** Zeiteinheit fuer Jahrtausende. */
-    MILLENNIA(CENTURIES.nanos.multiply(BigInteger.valueOf(10)), Duration.ofSeconds(31_556_952_000)),
+    MILLENNIA(Duration.ofSeconds(31_556_952_000)),
 
     /** Zeiteinheit fuer Jahrmillionen. */
-    ERAS(MILLENNIA.nanos.multiply(BigInteger.valueOf(1_000_000)), Duration.ofSeconds(31_556_952_000_000_000)),
+    ERAS(Duration.ofSeconds(31_556_952_000_000_000)),
 
     /** Zeiteinheit fuer die Ewigkeit. */
-    FOREVER(ERAS.nanos.multiply(BigInteger.valueOf(Long.MAX_VALUE)), Duration.ofSeconds(Long.MAX_VALUE)),
+    FOREVER(Duration.ofSeconds(Long.MAX_VALUE)),
 
     /** Unbekannte Zeiteinheit. */
-    UNBEKANNT(BigInteger.ZERO, Duration.ZERO);
+    UNBEKANNT(Duration.ZERO);
 
     /**
      * Wandelt die Zeiteinheit in eine TimeUnit.
@@ -109,141 +111,150 @@ enum class Zeiteinheit(private val nanos: BigInteger, private val duration: Dura
     /**
      * Wandelt die Zahl in Nano-Sekunden um.
      *
-     * @param duration: umzurechnende Zahl
+     * @param n: umzurechnende Zahl
      * @return Nano-Sekunden als BigInteger
      */
-    fun toNanos(duration: Long): BigInteger {
-        return nanos.multiply(BigInteger.valueOf(duration))
+    fun toNanos(n: Long): BigInteger {
+        return toNanos().multiply(BigInteger.valueOf(n))
+    }
+
+    private fun toNanos() : BigInteger {
+        try {
+            return BigInteger.valueOf(duration.toNanos())
+        } catch (ex: ArithmeticException) {
+            logger.log(Level.FINE, "$duration' ist zu gross fuer Nanosekunden:", ex)
+            return BigInteger.valueOf(duration.toSeconds()).multiply(BigInteger.valueOf(1_000_000_000L))
+        }
     }
 
     /**
      * Wandelt die Zahl in Micro-Sekunden um.
      *
-     * @param duration: umzurechnende Zahl
+     * @param n: umzurechnende Zahl
      * @return Sekunden als BigInteger
      */
-    fun toMicros(duration: Long): BigInteger {
-        return nanos.multiply(BigInteger.valueOf(duration)).divide(MICROSECONDS.nanos)
+    fun toMicros(n: Long): BigInteger {
+        return toNanos().multiply(BigInteger.valueOf(n)).divide(MICROSECONDS.toNanos())
     }
 
     /**
      * Wandelt die Zahl in Milli-Sekunden um.
      *
-     * @param duration: umzurechnende Zahl
+     * @param n: umzurechnende Zahl
      * @return Sekunden als BigInteger
      */
-    fun toMillis(duration: Long): BigInteger {
-        return nanos.multiply(BigInteger.valueOf(duration)).divide(MILLISECONDS.nanos)
+    fun toMillis(n: Long): BigInteger {
+        return toNanos().multiply(BigInteger.valueOf(n)).divide(MILLISECONDS.toNanos())
     }
 
     /**
      * Wandelt die Zahl in Sekunden um.
      *
-     * @param duration: umzurechnende Zahl
+     * @param n: umzurechnende Zahl
      * @return Sekunden als BigInteger
      */
-    fun toSeconds(duration: Long): BigInteger {
-        return nanos.multiply(BigInteger.valueOf(duration)).divide(SECONDS.nanos)
+    fun toSeconds(n: Long): BigInteger {
+        return BigInteger.valueOf(duration.toSeconds()).multiply(BigInteger.valueOf(n))
     }
 
     /**
      * Wandelt die Zahl in Minuten um.
      *
-     * @param duration: umzurechnende Zahl
+     * @param n: umzurechnende Zahl
      * @return Minuten als BigInteger
      */
-    fun toMinutes(duration: Long): BigInteger {
-        return nanos.multiply(BigInteger.valueOf(duration)).divide(MINUTES.nanos)
+    fun toMinutes(n: Long): BigInteger {
+        return BigInteger.valueOf(duration.toMinutes()).multiply(BigInteger.valueOf(n))
     }
 
     /**
      * Wandelt die Zahl in Stunden um.
      *
-     * @param duration: umzurechnende Zahl
+     * @param n: umzurechnende Zahl
      * @return Stunden als BigInteger
      */
-    fun toHours(duration: Long): BigInteger {
-        return nanos.multiply(BigInteger.valueOf(duration)).divide(HOURS.nanos)
+    fun toHours(n: Long): BigInteger {
+        return BigInteger.valueOf(duration.toHours()).multiply(BigInteger.valueOf(n))
     }
 
     /**
      * Wandelt die Zahl in Tage um.
      *
-     * @param duration: umzurechnende Zahl
+     * @param n: umzurechnende Zahl
      * @return Tage als BigInteger
      */
-    fun toDays(duration: Long): BigInteger {
-        return nanos.multiply(BigInteger.valueOf(duration)).divide(DAYS.nanos)
+    fun toDays(n: Long): BigInteger {
+        return BigInteger.valueOf(duration.toDays()).multiply(BigInteger.valueOf(n))
     }
 
     /**
      * Wandelt die Zahl in Wochen um.
      *
-     * @param duration: umzurechnende Zahl
+     * @param n: umzurechnende Zahl
      * @return Tage als BigInteger
      */
-    fun toWeeks(duration: Long): BigInteger {
-        return nanos.multiply(BigInteger.valueOf(duration)).divide(WEEKS.nanos)
+    fun toWeeks(n: Long): BigInteger {
+        return toNanos().multiply(BigInteger.valueOf(n)).divide(WEEKS.toNanos())
     }
 
     /**
      * Wandelt die Zahl in Monate um.
      *
-     * @param duration: umzurechnende Zahl
+     * @param n: umzurechnende Zahl
      * @return Tage als BigInteger
      */
-    fun toMonths(duration: Long): BigInteger {
-        return nanos.multiply(BigInteger.valueOf(duration)).divide(MONTHS.nanos)
+    fun toMonths(n: Long): BigInteger {
+        return toNanos().multiply(BigInteger.valueOf(n)).divide(MONTHS.toNanos())
     }
 
     /**
      * Wandelt die Zahl in Jahre um.
      *
-     * @param duration: umzurechnende Zahl
+     * @param n: umzurechnende Zahl
      * @return Tage als BigInteger
      */
-    fun toYears(duration: Long): BigInteger {
-        return nanos.multiply(BigInteger.valueOf(duration)).divide(YEARS.nanos)
+    fun toYears(n: Long): BigInteger {
+        return toNanos().multiply(BigInteger.valueOf(n)).divide(YEARS.toNanos())
     }
 
     /**
      * Wandelt die Zahl in Jahrzehnte um.
      *
-     * @param duration: umzurechnende Zahl
+     * @param n: umzurechnende Zahl
      * @return Tage als BigInteger
      */
-    fun toDecades(duration: Long): BigInteger {
-        return nanos.multiply(BigInteger.valueOf(duration)).divide(DECADES.nanos)
+    fun toDecades(n: Long): BigInteger {
+        return toNanos().multiply(BigInteger.valueOf(n)).divide(DECADES.toNanos())
     }
 
     /**
      * Wandelt die Zahl in Jahrhunderte um.
      *
-     * @param duration: umzurechnende Zahl
+     * @param n: umzurechnende Zahl
      * @return Tage als BigInteger
      */
-    fun toCenturies(duration: Long): BigInteger {
-        return nanos.multiply(BigInteger.valueOf(duration)).divide(CENTURIES.nanos)
+    fun toCenturies(n: Long): BigInteger {
+        return toNanos().multiply(BigInteger.valueOf(n)).divide(CENTURIES.toNanos())
     }
 
     /**
      * Wandelt die Zahl in Jahrtausende um.
      *
-     * @param duration: umzurechnende Zahl
+     * @param n: umzurechnende Zahl
      * @return Tage als BigInteger
      */
-    fun toMillenia(duration: Long): BigInteger {
-        return nanos.multiply(BigInteger.valueOf(duration)).divide(MILLENNIA.nanos)
+    fun toMillenia(n: Long): BigInteger {
+        return toNanos().multiply(BigInteger.valueOf(n)).divide(MILLENNIA.toNanos())
     }
 
     /**
      * Wandelt die Zahl in Jahrmillionen um.
      *
-     * @param duration: umzurechnende Zahl
+     * @param n: umzurechnende Zahl
      * @return Tage als BigInteger
      */
-    fun toJahrmillionen(duration: Long): BigInteger {
-        return nanos.multiply(BigInteger.valueOf(duration)).divide(ERAS.nanos)
+    fun toJahrmillionen(n: Long): BigInteger {
+        return toNanos().multiply(BigInteger.valueOf(n)).divide(ERAS.toNanos())
     }
 
     override fun getDuration(): Duration {
@@ -251,7 +262,7 @@ enum class Zeiteinheit(private val nanos: BigInteger, private val duration: Dura
     }
 
     override fun isDurationEstimated(): Boolean {
-        TODO("Not yet implemented")
+        return duration.toSeconds() < Long.MAX_VALUE
     }
 
     override fun isDateBased(): Boolean {
@@ -272,6 +283,8 @@ enum class Zeiteinheit(private val nanos: BigInteger, private val duration: Dura
 
 
     companion object {
+
+        val logger = Logger.getLogger(Zeiteinheit::class.java.name)
 
         /**
          * Wandelt die uebergebene TimeUnit in eine Zeiteinheit.

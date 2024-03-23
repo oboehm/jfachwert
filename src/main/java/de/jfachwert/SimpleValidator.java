@@ -82,7 +82,7 @@ public interface SimpleValidator<T extends Serializable> extends Serializable {
             validate(value);
             return true;
         } catch (ValidationException ex) {
-            logger.log(Level.FINE, String.format("'%s' ist ungueltig:", value), ex);
+            logger.log(Level.FINE, "'$value' ist ungueltig:", ex);
             return false;
         }
     }

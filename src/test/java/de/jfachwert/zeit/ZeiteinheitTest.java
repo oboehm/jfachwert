@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer Zeiteinheit.
@@ -139,6 +139,12 @@ class ZeiteinheitTest extends FachwertTest {
         Duration eras = Zeiteinheit.ERAS.getDuration();
         Duration forever = Zeiteinheit.FOREVER.getDuration();
         assertThat(forever.compareTo(eras), greaterThan(0));
+    }
+
+    @Test
+    void isDurationEstimated() {
+        assertTrue(Zeiteinheit.MINUTES.isDurationEstimated());
+        assertFalse(Zeiteinheit.FOREVER.isDurationEstimated());
     }
 
 }
