@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -159,6 +160,13 @@ class ZeiteinheitTest extends FachwertTest {
         assertFalse(Zeiteinheit.HALF_DAYS.isDateBased());
         assertTrue(Zeiteinheit.DAYS.isDateBased());
         assertFalse(Zeiteinheit.FOREVER.isDateBased());
+    }
+
+    @Test
+    void addToLocalDate() {
+        LocalDate today = LocalDate.now();
+        LocalDate tomorrorw = today.plusDays(1);
+        assertEquals(tomorrorw, Zeiteinheit.DAYS.addTo(today, 1));
     }
 
 }
