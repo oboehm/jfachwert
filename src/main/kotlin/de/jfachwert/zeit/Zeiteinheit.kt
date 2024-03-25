@@ -22,6 +22,7 @@ import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import java.math.BigInteger
 import java.time.Duration
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.temporal.Temporal
 import java.time.temporal.TemporalUnit
 import java.util.concurrent.TimeUnit
@@ -274,12 +275,13 @@ enum class Zeiteinheit(private val duration: Duration) : KFachwert, TemporalUnit
         return compareTo(DAYS) < 0
     }
 
-    override fun <R : Temporal?> addTo(temporal: R, amount: Long): R {
-        if (temporal is LocalDate) {
-            return temporal.plusDays(toDays(amount).toLong()) as R
-        } else {
-            return temporal!!.plus(amount, this) as R
-        }
+    override fun <R : Temporal> addTo(temporal: R, amount: Long): R {
+        @Suppress("UNCHECKED_CAST")
+        return when (temporal) {
+            is LocalDate -> temporal.plusDays(toDays(amount).toLong())
+            is LocalDateTime -> temporal.plusNanos(toNanos().toLong())
+            else -> temporal.plus(amount, this)
+        } as R
     }
 
     override fun between(temporal1Inclusive: Temporal?, temporal2Exclusive: Temporal?): Long {
