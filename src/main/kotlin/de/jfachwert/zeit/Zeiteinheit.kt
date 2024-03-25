@@ -266,7 +266,7 @@ enum class Zeiteinheit(private val duration: Duration) : KFachwert, TemporalUnit
     }
 
     override fun isDateBased(): Boolean {
-        TODO("Not yet implemented")
+        return isDurationEstimated && compareTo(DAYS) >= 0
     }
 
     override fun isTimeBased(): Boolean {

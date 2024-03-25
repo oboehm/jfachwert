@@ -151,6 +151,14 @@ class ZeiteinheitTest extends FachwertTest {
     void isTimeBased() {
         assertTrue(Zeiteinheit.HALF_DAYS.isTimeBased());
         assertFalse(Zeiteinheit.DAYS.isTimeBased());
+        assertFalse(Zeiteinheit.FOREVER.isTimeBased());
+    }
+
+    @Test
+    void isDateBased() {
+        assertFalse(Zeiteinheit.HALF_DAYS.isDateBased());
+        assertTrue(Zeiteinheit.DAYS.isDateBased());
+        assertFalse(Zeiteinheit.FOREVER.isDateBased());
     }
 
 }
