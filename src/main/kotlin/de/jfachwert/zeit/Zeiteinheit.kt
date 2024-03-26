@@ -21,8 +21,7 @@ import de.jfachwert.KFachwert
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import java.math.BigInteger
 import java.time.Duration
-import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 import java.time.temporal.Temporal
 import java.time.temporal.TemporalUnit
 import java.util.concurrent.TimeUnit
@@ -108,6 +107,32 @@ enum class Zeiteinheit(private val duration: Duration) : KFachwert, TemporalUnit
             }
         }
         throw LocalizedIllegalArgumentException(this, "keine Umwandlung moeglich")
+    }
+
+    /**
+     * Wandelt die Zeiteinheit in eine ChronoUnit.
+     *
+     * @return ChronoUnt
+     */
+    fun toChronoUnit(): ChronoUnit {
+        return when (this) {
+            NANOSECONDS -> ChronoUnit.NANOS
+            MICROSECONDS -> ChronoUnit.MICROS
+            MILLISECONDS -> ChronoUnit.MILLIS
+            SECONDS -> ChronoUnit.SECONDS
+            MINUTES -> ChronoUnit.MINUTES
+            HOURS -> ChronoUnit.HOURS
+            HALF_DAYS -> ChronoUnit.HALF_DAYS
+            DAYS -> ChronoUnit.DAYS
+            WEEKS -> ChronoUnit.WEEKS
+            MONTHS -> ChronoUnit.MONTHS
+            YEARS -> ChronoUnit.YEARS
+            DECADES -> ChronoUnit.DECADES
+            CENTURIES -> ChronoUnit.CENTURIES
+            MILLENNIA -> ChronoUnit.MILLENNIA
+            ERAS -> ChronoUnit.ERAS
+            else -> ChronoUnit.FOREVER
+        }
     }
 
     /**
@@ -277,16 +302,13 @@ enum class Zeiteinheit(private val duration: Duration) : KFachwert, TemporalUnit
 
     override fun <R : Temporal> addTo(temporal: R, amount: Long): R {
         @Suppress("UNCHECKED_CAST")
-        return when (temporal) {
-            is LocalDate -> temporal.plusDays(toDays(amount).toLong())
-            is LocalDateTime -> temporal.plusNanos(toNanos().toLong())
-            else -> temporal.plus(amount, this)
-        } as R
+        return temporal.plus(amount, this.toChronoUnit()) as R
     }
 
-    override fun between(temporal1Inclusive: Temporal?, temporal2Exclusive: Temporal?): Long {
-        TODO("Not yet implemented")
+    override fun between(temporal1Inclusive: Temporal, temporal2Exclusive: Temporal): Long {
+        return temporal1Inclusive.until(temporal2Exclusive, toChronoUnit())
     }
+
 
 
     companion object {

@@ -177,4 +177,12 @@ class ZeiteinheitTest extends FachwertTest {
         assertEquals(tomorrorw, Zeiteinheit.DAYS.addTo(today, 1));
     }
 
+    @Test
+    void between() {
+        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime tomorrorw = today.plusDays(1);
+        assertEquals(24, Zeiteinheit.HOURS.between(today, tomorrorw));
+        assertEquals(-24, Zeiteinheit.HOURS.between(tomorrorw, today));
+    }
+
 }
