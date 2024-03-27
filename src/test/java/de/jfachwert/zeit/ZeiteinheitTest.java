@@ -24,6 +24,7 @@ import java.math.BigInteger;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -46,6 +47,11 @@ class ZeiteinheitTest extends FachwertTest {
     @Test
     void ofTimeUnit() {
         assertEquals(Zeiteinheit.HOURS, Zeiteinheit.of(TimeUnit.HOURS));
+    }
+
+    @Test
+    void ofTemporalUnit() {
+        assertEquals(Zeiteinheit.ERAS, Zeiteinheit.of(ChronoUnit.ERAS));
     }
 
     @Test

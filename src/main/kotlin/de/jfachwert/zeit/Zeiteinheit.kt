@@ -331,6 +331,39 @@ enum class Zeiteinheit(private val duration: Duration) : KFachwert, TemporalUnit
             return UNBEKANNT
         }
 
+        /**
+         * Wandelt die uebergebene TemporalUnit in eine Zeiteinheit.
+         *
+         * @param unit: TemporalUnit
+         * @return Zeiteinheit
+         */
+        @JvmStatic
+        fun of(unit: TemporalUnit): Zeiteinheit {
+            return when (unit) {
+                is Zeiteinheit -> unit
+                is ChronoUnit -> {
+                    when (unit) {
+                        ChronoUnit.NANOS -> NANOSECONDS
+                        ChronoUnit.MICROS -> MICROSECONDS
+                        ChronoUnit.MILLIS -> MILLISECONDS
+                        ChronoUnit.SECONDS -> SECONDS
+                        ChronoUnit.MINUTES -> MINUTES
+                        ChronoUnit.HOURS -> HOURS
+                        ChronoUnit.HALF_DAYS -> HALF_DAYS
+                        ChronoUnit.DAYS -> DAYS
+                        ChronoUnit.WEEKS -> WEEKS
+                        ChronoUnit.MONTHS -> MONTHS
+                        ChronoUnit.YEARS -> YEARS
+                        ChronoUnit.DECADES -> DECADES
+                        ChronoUnit.CENTURIES -> CENTURIES
+                        ChronoUnit.MILLENNIA -> MILLENNIA
+                        ChronoUnit.ERAS -> ERAS
+                        ChronoUnit.FOREVER -> FOREVER
+                    }
+                }
+                else -> UNBEKANNT
+            }
+        }
     }
 
 }

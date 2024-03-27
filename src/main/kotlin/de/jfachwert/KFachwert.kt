@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@ interface KFachwert : Serializable, Fachwert {
      * ist, ungueltige Fachwerte zu erstellen. Allerdings kann man auch den
      * Validator gegen den {@link de.jfachwert.pruefung.NullValidator}
      * austauschen. In diesem Fall sollte diese Methode 'false' zurueck
-     * liefern, wenn der Fachcwert nicht gueltig ist.
+     * liefern, wenn der Fachwert nicht gueltig ist.
      *
      * @return normalerweise true
      */
