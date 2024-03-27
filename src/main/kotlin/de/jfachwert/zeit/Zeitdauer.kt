@@ -24,6 +24,9 @@ import de.jfachwert.KFachwert
 import de.jfachwert.Localized
 import de.jfachwert.util.ToFachwertSerializer
 import java.math.BigInteger
+import java.time.temporal.Temporal
+import java.time.temporal.TemporalAmount
+import java.time.temporal.TemporalUnit
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -41,7 +44,7 @@ import java.util.concurrent.TimeUnit
  * @since 5.0 (10.07.2023)
  */
 @JsonSerialize(using = ToFachwertSerializer::class)
-open class Zeitdauer(private val von: Zeitpunkt, private val bis : Zeitpunkt? = null) : KFachwert, Localized {
+open class Zeitdauer(private val von: Zeitpunkt, private val bis : Zeitpunkt? = null) : KFachwert, Localized, TemporalAmount {
 
     constructor() : this(Zeitpunkt())
 
@@ -66,6 +69,10 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis : Zeitpunkt? = 
         return getZaehler(getTimeInNanos(), unit)
     }
 
+    fun getZaehler(unit: TemporalUnit) : BigInteger {
+        return getZaehler(getTimeInNanos(), unit)
+    }
+
     private fun getZaehler(t: BigInteger) : BigInteger {
         return getZaehler(t, getEinheit(t))
     }
@@ -80,6 +87,11 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis : Zeitpunkt? = 
             TimeUnit.HOURS -> t.divide(HOUR_IN_NANOS)
             TimeUnit.DAYS -> t.divide(DAY_IN_NANOS)
         }
+    }
+
+    private fun getZaehler(t: BigInteger, unit: TemporalUnit) : BigInteger {
+        val zeiteinheit = Zeiteinheit.of(unit)
+        return t.divide(zeiteinheit.toNanos(1))
     }
 
     fun getEinheit(): TimeUnit {
@@ -110,6 +122,22 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis : Zeitpunkt? = 
 
     fun getTimeInMillis() : Long {
         return getTimeInNanos().divide(MILLISECOND_IN_NANOS).toLong()
+    }
+
+    override fun get(unit: TemporalUnit): Long {
+        return getZaehler(unit).toLong()
+    }
+
+    override fun getUnits(): MutableList<TemporalUnit> {
+        TODO("Not yet implemented")
+    }
+
+    override fun addTo(temporal: Temporal?): Temporal {
+        TODO("Not yet implemented")
+    }
+
+    override fun subtractFrom(temporal: Temporal?): Temporal {
+        TODO("Not yet implemented")
     }
 
     override fun toString(): String {
