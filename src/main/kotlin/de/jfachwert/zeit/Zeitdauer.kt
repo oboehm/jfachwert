@@ -78,15 +78,7 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis : Zeitpunkt? = 
     }
 
     private fun getZaehler(t: BigInteger, unit: TimeUnit) : BigInteger {
-        return when(unit) {
-            TimeUnit.NANOSECONDS -> t
-            TimeUnit.MICROSECONDS -> t.divide(MICROSECOND_IN_NANOS)
-            TimeUnit.MILLISECONDS -> t.divide(MILLISECOND_IN_NANOS)
-            TimeUnit.SECONDS -> t.divide(SECOND_IN_NANOS)
-            TimeUnit.MINUTES -> t.divide(MINUTE_IN_NANOS)
-            TimeUnit.HOURS -> t.divide(HOUR_IN_NANOS)
-            TimeUnit.DAYS -> t.divide(DAY_IN_NANOS)
-        }
+        return getZaehler(t, Zeiteinheit.of(unit))
     }
 
     private fun getZaehler(t: BigInteger, unit: TemporalUnit) : BigInteger {
@@ -99,9 +91,9 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis : Zeitpunkt? = 
     }
 
     private fun getEinheit(t: BigInteger) : TimeUnit {
-        return if (t.compareTo(DAY_IN_NANOS.multiply(BigInteger.valueOf(4L))) > 0) {
+        return if (t.compareTo(Zeiteinheit.DAYS.toNanos(4)) > 0) {
             TimeUnit.DAYS
-        } else if (t.compareTo(HOUR_IN_NANOS.multiply(BigInteger.valueOf(5L))) > 0) {
+        } else if (t.compareTo(Zeiteinheit.HOURS.toNanos(5)) > 0) {
             TimeUnit.HOURS
         } else if (t.compareTo(MINUTE_IN_NANOS.multiply(BigInteger.valueOf(5L))) > 0) {
             TimeUnit.MINUTES
