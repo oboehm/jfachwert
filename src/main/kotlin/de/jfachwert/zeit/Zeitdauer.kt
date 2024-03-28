@@ -166,8 +166,20 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis : Zeitpunkt? = 
          */
         @JvmStatic
         fun of(code: Long, unit: TimeUnit): Zeitdauer {
-            val nanos = BigInteger.valueOf(unit.toNanos(code))
-            return WEAK_CACHE.computeIfAbsent(nanos) { n: BigInteger -> Zeitdauer(n) }
+            return of(code, Zeiteinheit.of(unit))
+        }
+
+        /**
+         * Liefert eine Zeitdauer zurueck.
+         *
+         * @param code beliebige Zahl
+         * @param unit Zeiteinheilt
+         * @return die Zeitdauer
+         */
+        @JvmStatic
+        fun of(code: Long, unit: TemporalUnit): Zeitdauer {
+            val zeiteinheit = Zeiteinheit.of(unit)
+            return of(zeiteinheit.toNanos(code))
         }
 
         /**
@@ -180,8 +192,18 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis : Zeitpunkt? = 
         @JvmStatic
         fun of(von: Zeitpunkt, bis: Zeitpunkt): Zeitdauer {
             val dauer = Zeitdauer(von, bis)
-            val nanos = dauer.getTimeInNanos()
-            return WEAK_CACHE.computeIfAbsent(nanos) { dauer }
+            return of(dauer.getTimeInNanos())
+        }
+
+        /**
+         * Liefert eine Zeitdauer zurueck.
+         *
+         * @param nanos Zeit in Nanosekunden
+         * @return die Zeitdauer
+         */
+        @JvmStatic
+        fun of(nanos: BigInteger): Zeitdauer {
+            return WEAK_CACHE.computeIfAbsent(nanos) { n: BigInteger -> Zeitdauer(n) }
         }
 
         /**
