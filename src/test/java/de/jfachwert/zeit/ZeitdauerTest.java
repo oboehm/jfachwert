@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 by Oli B.
+ * Copyright (c) 2023-2024 by Oli B.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -114,6 +114,14 @@ public final class ZeitdauerTest extends FachwertTest {
         assertEquals(4, zeitdauer.get(Zeiteinheit.SECONDS));
         assertEquals(4_000, zeitdauer.get(Zeiteinheit.MILLISECONDS));
         assertEquals(4_000_000_000L, zeitdauer.get(Zeiteinheit.NANOSECONDS));
+    }
+
+    @Test
+    void getEra() {
+        Zeitdauer zeitdauer = Zeitdauer.of(5, Zeiteinheit.ERAS);
+        assertEquals(5, zeitdauer.get(Zeiteinheit.ERAS));
+        assertEquals(5_000, zeitdauer.get(Zeiteinheit.MILLENNIA));
+        assertEquals(5_000_000, zeitdauer.get(Zeiteinheit.YEARS));
     }
 
 }

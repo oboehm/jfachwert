@@ -134,7 +134,8 @@ class ZeiteinheitTest extends FachwertTest {
 
     @Test
     void toMillenia() {
-        assertEquals(BigInteger.valueOf(1_000_000), Zeiteinheit.ERAS.toMillenia(1));
+        assertEquals(BigInteger.valueOf(1_000), Zeiteinheit.ERAS.toMillenia(1));
+        assertEquals(BigInteger.valueOf(1_000_000), Zeiteinheit.ERAS.toYears(1));
     }
 
     @Test

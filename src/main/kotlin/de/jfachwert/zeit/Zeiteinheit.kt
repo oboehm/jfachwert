@@ -85,7 +85,7 @@ enum class Zeiteinheit(private val duration: Duration) : KFachwert, TemporalUnit
     MILLENNIA(Duration.ofSeconds(31_556_952_000)),
 
     /** Zeiteinheit fuer Jahrmillionen. */
-    ERAS(Duration.ofSeconds(31_556_952_000_000_000)),
+    ERAS(Duration.ofSeconds(31_556_952_000_000)),
 
     /** Zeiteinheit fuer die Ewigkeit. */
     FOREVER(Duration.ofSeconds(Long.MAX_VALUE)),
