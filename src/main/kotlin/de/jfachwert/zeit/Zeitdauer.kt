@@ -95,13 +95,13 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis : Zeitpunkt? = 
             TimeUnit.DAYS
         } else if (t.compareTo(Zeiteinheit.HOURS.toNanos(5)) > 0) {
             TimeUnit.HOURS
-        } else if (t.compareTo(MINUTE_IN_NANOS.multiply(BigInteger.valueOf(5L))) > 0) {
+        } else if (t.compareTo(Zeiteinheit.MINUTES.toNanos(5)) > 0) {
             TimeUnit.MINUTES
-        } else if (t.compareTo(SECOND_IN_NANOS.multiply(BigInteger.valueOf(5L))) > 0) {
+        } else if (t.compareTo(Zeiteinheit.SECONDS.toNanos(5)) > 0) {
             TimeUnit.SECONDS
-        } else if (t.compareTo(MILLISECOND_IN_NANOS.multiply(BigInteger.valueOf(5L))) > 0) {
+        } else if (t.compareTo(Zeiteinheit.MILLISECONDS.toNanos(5)) > 0) {
             TimeUnit.MILLISECONDS
-        } else if (t.compareTo(MICROSECOND_IN_NANOS.multiply(BigInteger.valueOf(5L))) > 0) {
+        } else if (t.compareTo(Zeiteinheit.MICROSECONDS.toNanos(5)) > 0) {
             TimeUnit.MICROSECONDS
         } else {
             TimeUnit.NANOSECONDS
@@ -113,7 +113,7 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis : Zeitpunkt? = 
     }
 
     fun getTimeInMillis() : Long {
-        return getTimeInNanos().divide(MILLISECOND_IN_NANOS).toLong()
+        return getTimeInNanos().divide(Zeiteinheit.MILLISECONDS.toNanos(1)).toLong()
     }
 
     override fun get(unit: TemporalUnit): Long {
@@ -206,14 +206,6 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis : Zeitpunkt? = 
         fun start() : Zeitdauer {
             return Zeitdauer()
         }
-
-        val MICROSECOND_IN_NANOS = BigInteger.valueOf(1_000L)
-        val MILLISECOND_IN_NANOS = BigInteger.valueOf(1_000_000L)
-        val SECOND_IN_NANOS = BigInteger.valueOf(1_000_000_000L)
-        val MINUTE_IN_NANOS = BigInteger.valueOf(60_000_000_000L)
-        val HOUR_IN_NANOS = BigInteger.valueOf(3_600_000_000_000L)
-        val DAY_IN_NANOS = BigInteger.valueOf(86_400_000_000_000L)
-        val YEAR_IN_NANOS = BigInteger.valueOf(31_556_952_000_000_000L)    // 1 Jahr = 365,2425 Tage
 
     }
 

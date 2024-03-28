@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 by Oli B.
+ * Copyright (c) 2023-2024 by Oli B.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -93,7 +93,7 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
      * @return Zeit seit 1.1.1970 in ms
      */
     fun getTimeInMillis() : Long {
-        return code.divide(Zeitdauer.MILLISECOND_IN_NANOS).toLong()
+        return code.divide(Zeiteinheit.MILLISECONDS.toNanos(1)).toLong()
     }
 
     /**
@@ -104,7 +104,7 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
      * @return Zeit in Jahren seit 1970
      */
     fun getTimeInYears() : Long {
-        return code.divide(Zeitdauer.YEAR_IN_NANOS).toLong()
+        return code.divide(Zeiteinheit.YEARS.toNanos(1)).toLong()
     }
 
     /**
@@ -113,7 +113,7 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
      * @return Nano-Anteil, von 0 bis 999_999_999
      */
     fun getNanos(): Int {
-        return code.mod(Zeitdauer.SECOND_IN_NANOS).toInt()
+        return code.mod(Zeiteinheit.SECONDS.toNanos(1)).toInt()
     }
 
     /**
@@ -133,7 +133,7 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
      * @return Anzahl Sekunden seit 1.1.1970 als BigInteger
      */
     fun toEpochSecondExact(): BigInteger {
-        return code.divide(Zeitdauer.SECOND_IN_NANOS)
+        return code.divide(Zeiteinheit.SECONDS.toNanos(1))
     }
 
     /**
@@ -168,7 +168,7 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
      * @since 5.3
      */
     fun isBefore(t: Zeitpunkt) : Boolean {
-        return code.compareTo(t.code) < 0;
+        return code.compareTo(t.code) < 0
     }
 
     /**
@@ -179,7 +179,7 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
      * @since 5.3
      */
     fun isAfter(t: Zeitpunkt) : Boolean{
-        return code.compareTo(t.code) > 0;
+        return code.compareTo(t.code) > 0
     }
 
     /**
@@ -397,7 +397,7 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
          */
         @JvmStatic
         fun of(code: Long, unit: Zeiteinheit): Zeitpunkt {
-            return of(BigInteger.valueOf(code), unit);
+            return of(BigInteger.valueOf(code), unit)
         }
 
         /**
@@ -435,7 +435,7 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
          */
         @JvmStatic
         fun of(t: LocalDateTime): Zeitpunkt {
-            return of(BigInteger.valueOf(t.toEpochSecond(ZoneOffset.UTC)).multiply(Zeitdauer.SECOND_IN_NANOS)
+            return of(Zeiteinheit.SECONDS.toNanos(t.toEpochSecond(ZoneOffset.UTC))
                 .add(BigInteger.valueOf(t.nano.toLong())))
         }
 
@@ -447,7 +447,7 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
          */
         @JvmStatic
         fun of(t: Date): Zeitpunkt {
-            val nanos = BigInteger.valueOf(t.time).multiply(Zeitdauer.MILLISECOND_IN_NANOS)
+            val nanos = Zeiteinheit.MILLISECONDS.toNanos(t.time)
             return of(nanos)
         }
 
@@ -463,7 +463,7 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
 
         private fun currentTimeNanos(): BigInteger {
             val now = LocalDateTime.now(ZoneOffset.UTC)
-            return BigInteger.valueOf(now.toEpochSecond(ZoneOffset.UTC)).multiply(Zeitdauer.SECOND_IN_NANOS)
+            return Zeiteinheit.SECONDS.toNanos(now.toEpochSecond(ZoneOffset.UTC))
                 .add(BigInteger.valueOf(now.nano.toLong()))
         }
 
@@ -510,7 +510,7 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
             try {
                 val ldt = LocalDateTime.parse(s, formatter)
                 val seconds = ldt.toEpochSecond(ZoneOffset.UTC)
-                return BigInteger.valueOf(seconds).multiply(Zeitdauer.SECOND_IN_NANOS)
+                return Zeiteinheit.SECONDS.toNanos(seconds)
                     .add(BigInteger.valueOf(ldt.nano.toLong()))
             } catch (ex: DateTimeParseException) {
                 throw LocalizedIllegalArgumentException(s, "unknown_time_format", ex)
