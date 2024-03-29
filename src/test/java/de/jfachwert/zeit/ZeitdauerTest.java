@@ -124,4 +124,10 @@ public final class ZeitdauerTest extends FachwertTest {
         assertEquals(5_000_000, zeitdauer.get(Zeiteinheit.YEARS));
     }
 
+    @Test
+    void getUnitsNanos() {
+        Zeitdauer zeitdauer = Zeitdauer.of(6, Zeiteinheit.NANOSECONDS);
+        assertEquals(1, zeitdauer.getUnits().size());
+    }
+
 }

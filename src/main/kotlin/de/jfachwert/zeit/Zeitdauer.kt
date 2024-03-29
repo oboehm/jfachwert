@@ -44,7 +44,8 @@ import java.util.concurrent.TimeUnit
  * @since 5.0 (10.07.2023)
  */
 @JsonSerialize(using = ToFachwertSerializer::class)
-open class Zeitdauer(private val von: Zeitpunkt, private val bis : Zeitpunkt? = null) : KFachwert, Localized, TemporalAmount {
+open class Zeitdauer(private val von: Zeitpunkt, private val bis: Zeitpunkt? = null) : KFachwert, Localized,
+    TemporalAmount, Comparable<Zeitdauer> {
 
     constructor() : this(Zeitpunkt())
 
@@ -121,7 +122,9 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis : Zeitpunkt? = 
     }
 
     override fun getUnits(): MutableList<TemporalUnit> {
-        TODO("Not yet implemented")
+        val einheit = getEinheit()
+        val units: MutableList<TemporalUnit> = mutableListOf(Zeiteinheit.of(einheit))
+        return units
     }
 
     override fun addTo(temporal: Temporal?): Temporal {
@@ -137,6 +140,10 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis : Zeitpunkt? = 
         return "${getZaehler(t)} " + getLocalizedString(getEinheit(t).toString())
     }
 
+    override fun compareTo(other: Zeitdauer): Int {
+        return getTimeInNanos().compareTo(other.getTimeInNanos())
+    }
+
     /**
      * Liefert den von- und bis-Zeitpunkt als Map.
      *
@@ -149,6 +156,17 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis : Zeitpunkt? = 
             map["bis"] = bis.getTimeInNanos()
         }
         return map
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as Zeitdauer
+        return von.equals(other.von) && Objects.equals(bis, other.bis)
+    }
+
+    override fun hashCode(): Int {
+        return von.hashCode()
     }
 
 
