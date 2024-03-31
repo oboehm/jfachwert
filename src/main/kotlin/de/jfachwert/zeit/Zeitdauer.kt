@@ -87,25 +87,41 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis: Zeitpunkt? = n
         return t.divide(zeiteinheit.toNanos(1))
     }
 
-    fun getEinheit(): TimeUnit {
+    fun getEinheit(): Zeiteinheit {
         return getEinheit(getTimeInNanos())
     }
 
-    private fun getEinheit(t: BigInteger) : TimeUnit {
-        return if (t.compareTo(Zeiteinheit.DAYS.toNanos(4)) > 0) {
-            TimeUnit.DAYS
-        } else if (t.compareTo(Zeiteinheit.HOURS.toNanos(5)) > 0) {
-            TimeUnit.HOURS
-        } else if (t.compareTo(Zeiteinheit.MINUTES.toNanos(5)) > 0) {
-            TimeUnit.MINUTES
+    private fun getEinheit(t: BigInteger) : Zeiteinheit {
+        return if (t.compareTo(Zeiteinheit.ERAS.toNanos(5)) > 0) {
+            return Zeiteinheit.ERAS
+        } else if (t.compareTo(Zeiteinheit.MILLENNIA.toNanos(5)) > 0) {
+            Zeiteinheit.MILLENNIA
+        } else if (t.compareTo(Zeiteinheit.CENTURIES.toNanos(5)) > 0) {
+            Zeiteinheit.CENTURIES
+        } else if (t.compareTo(Zeiteinheit.DECADES.toNanos(5)) > 0) {
+            Zeiteinheit.DECADES
+        } else if (t.compareTo(Zeiteinheit.YEARS.toNanos(5)) > 0) {
+            Zeiteinheit.YEARS
+        } else if (t.compareTo(Zeiteinheit.MONTHS.toNanos(5)) > 0) {
+            Zeiteinheit.MONTHS
+        } else if (t.compareTo(Zeiteinheit.WEEKS.toNanos(5)) > 0) {
+            Zeiteinheit.WEEKS
+        } else if (t.compareTo(Zeiteinheit.DAYS.toNanos(3)) > 0) {
+            Zeiteinheit.DAYS
+        } else if (t.compareTo(Zeiteinheit.HALF_DAYS.toNanos(5)) > 0) {
+            Zeiteinheit.HALF_DAYS
+        } else if (t.compareTo(Zeiteinheit.HOURS.toNanos(3)) > 0) {
+            Zeiteinheit.HOURS
+        } else if (t.compareTo(Zeiteinheit.MINUTES.toNanos(3)) > 0) {
+            Zeiteinheit.MINUTES
         } else if (t.compareTo(Zeiteinheit.SECONDS.toNanos(5)) > 0) {
-            TimeUnit.SECONDS
+            Zeiteinheit.SECONDS
         } else if (t.compareTo(Zeiteinheit.MILLISECONDS.toNanos(5)) > 0) {
-            TimeUnit.MILLISECONDS
+            Zeiteinheit.MILLISECONDS
         } else if (t.compareTo(Zeiteinheit.MICROSECONDS.toNanos(5)) > 0) {
-            TimeUnit.MICROSECONDS
+            Zeiteinheit.MICROSECONDS
         } else {
-            TimeUnit.NANOSECONDS
+            Zeiteinheit.NANOSECONDS
         }
     }
 
@@ -121,10 +137,15 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis: Zeitpunkt? = n
         return getZaehler(unit).toLong()
     }
 
-    override fun getUnits(): MutableList<TemporalUnit> {
+    override fun getUnits(): List<TemporalUnit> {
         val einheit = getEinheit()
-        val units: MutableList<TemporalUnit> = mutableListOf(Zeiteinheit.of(einheit))
-        return units
+        val units: MutableList<TemporalUnit> = mutableListOf()
+        for (e in Zeiteinheit.entries) {
+            if ((e != Zeiteinheit.UNBEKANNT) && (einheit.compareTo(e) >= 0)) {
+                units.add(e)
+            }
+        }
+        return units.toList()
     }
 
     override fun addTo(temporal: Temporal?): Temporal {

@@ -63,8 +63,11 @@ public final class ZeitdauerTest extends FachwertTest {
 
     @Test
     void units() {
-        for (TimeUnit unit : TimeUnit.values()) {
-            Zeitdauer zeitdauer = new Zeitdauer(10, unit);
+        for (Zeiteinheit unit : Zeiteinheit.values()) {
+            if (unit == Zeiteinheit.FOREVER) {
+                break;
+            }
+            Zeitdauer zeitdauer = Zeitdauer.of(6, unit);
             assertEquals(unit, zeitdauer.getEinheit());
         }
     }
@@ -84,9 +87,9 @@ public final class ZeitdauerTest extends FachwertTest {
     @Test
     void testToStringAllUnits() {
         for (TimeUnit unit : TimeUnit.values()) {
-            Zeitdauer zeitdauer = new Zeitdauer(42, unit);
+            Zeitdauer zeitdauer = new Zeitdauer(5, unit);
             String s = zeitdauer.toString();
-            assertThat("42 " + unit, s, containsString("42"));
+            assertThat("5 " + unit, s, containsString("5"));
         }
     }
 
@@ -128,6 +131,12 @@ public final class ZeitdauerTest extends FachwertTest {
     void getUnitsNanos() {
         Zeitdauer zeitdauer = Zeitdauer.of(6, Zeiteinheit.NANOSECONDS);
         assertEquals(1, zeitdauer.getUnits().size());
+    }
+
+    @Test
+    void getUnitsEras() {
+        Zeitdauer zeitdauer = Zeitdauer.of(7, Zeiteinheit.ERAS);
+        assertThat(zeitdauer.getUnits().size(), greaterThan(1));
     }
 
 }
