@@ -24,6 +24,7 @@ import de.jfachwert.KFachwert
 import de.jfachwert.Localized
 import de.jfachwert.util.ToFachwertSerializer
 import java.math.BigInteger
+import java.time.Period
 import java.time.temporal.Temporal
 import java.time.temporal.TemporalAmount
 import java.time.temporal.TemporalUnit
@@ -125,6 +126,10 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis: Zeitpunkt? = n
         }
     }
 
+    fun toPeriod() : Period {
+        return Period.ofDays(getZaehler(Zeiteinheit.DAYS).toInt())
+    }
+
     fun getTimeInNanos() : BigInteger {
         return (bis?:Zeitpunkt()).minus(von).getTimeInNanos()
     }
@@ -148,8 +153,8 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis: Zeitpunkt? = n
         return units.toList()
     }
 
-    override fun addTo(temporal: Temporal?): Temporal {
-        TODO("Not yet implemented")
+    override fun addTo(temporal: Temporal): Temporal {
+        return temporal.plus(this.toPeriod())
     }
 
     override fun subtractFrom(temporal: Temporal?): Temporal {

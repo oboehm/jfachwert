@@ -139,4 +139,11 @@ public final class ZeitdauerTest extends FachwertTest {
         assertThat(zeitdauer.getUnits().size(), greaterThan(1));
     }
 
+    @Test
+    void addTo() {
+        LocalDate today = LocalDate.now();
+        Zeitdauer days = Zeitdauer.of(8, Zeiteinheit.DAYS);
+        assertEquals(today.plusDays(8), days.addTo(today));
+    }
+
 }
