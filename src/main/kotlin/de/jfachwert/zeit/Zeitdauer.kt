@@ -158,8 +158,9 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis: Zeitpunkt? = n
         return temporal.plus(getZaehler().toLong(), einheit.toChronoUnit())
     }
 
-    override fun subtractFrom(temporal: Temporal?): Temporal {
-        TODO("Not yet implemented")
+    override fun subtractFrom(temporal: Temporal): Temporal {
+        val einheit = getEinheit()
+        return temporal.minus(getZaehler().toLong(), einheit.toChronoUnit())
     }
 
     override fun toString(): String {

@@ -154,4 +154,11 @@ public final class ZeitdauerTest extends FachwertTest {
         assertEquals(now.plusHours(9), hours.addTo(now));
     }
 
+    @Test
+    void subtractFromLocalDate() {
+        LocalDate today = LocalDate.now();
+        Zeitdauer days = Zeitdauer.of(10, Zeiteinheit.WEEKS);
+        assertEquals(today.minusWeeks(10), days.subtractFrom(today));
+    }
+
 }
