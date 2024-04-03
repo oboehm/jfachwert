@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -63,7 +64,7 @@ public final class ZeitdauerTest extends FachwertTest {
 
     @Test
     void units() {
-        for (Zeiteinheit unit : Zeiteinheit.values()) {
+        for (Zeiteinheit unit : Zeiteinheit.getEntries()) {
             if (unit == Zeiteinheit.FOREVER) {
                 break;
             }
@@ -140,10 +141,17 @@ public final class ZeitdauerTest extends FachwertTest {
     }
 
     @Test
-    void addTo() {
+    void addToLocalDate() {
         LocalDate today = LocalDate.now();
         Zeitdauer days = Zeitdauer.of(8, Zeiteinheit.DAYS);
         assertEquals(today.plusDays(8), days.addTo(today));
+    }
+
+    @Test
+    void addToLocalDateTime() {
+        LocalDateTime now = LocalDateTime.now();
+        Zeitdauer hours = Zeitdauer.of(9, Zeiteinheit.HOURS);
+        assertEquals(now.plusHours(9), hours.addTo(now));
     }
 
 }
