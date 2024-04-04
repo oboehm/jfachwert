@@ -127,7 +127,17 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis: Zeitpunkt? = n
     }
 
     fun toPeriod() : Period {
-        return Period.ofDays(getZaehler(Zeiteinheit.DAYS).toInt())
+        val einheit = getEinheit()
+        return when (einheit) {
+            Zeiteinheit.WEEKS -> Period.ofWeeks(getZaehler(einheit).toInt())
+            Zeiteinheit.MONTHS -> Period.ofMonths(getZaehler(einheit).toInt())
+            Zeiteinheit.YEARS,
+            Zeiteinheit.DECADES,
+            Zeiteinheit.CENTURIES,
+            Zeiteinheit.MILLENNIA,
+            Zeiteinheit.ERAS -> Period.ofYears(getZaehler(Zeiteinheit.YEARS).toInt())
+            else -> Period.ofDays(getZaehler(Zeiteinheit.DAYS).toInt())
+        }
     }
 
     fun getTimeInNanos() : BigInteger {

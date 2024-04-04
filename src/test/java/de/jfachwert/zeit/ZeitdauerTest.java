@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -159,6 +160,12 @@ public final class ZeitdauerTest extends FachwertTest {
         LocalDate today = LocalDate.now();
         Zeitdauer days = Zeitdauer.of(10, Zeiteinheit.WEEKS);
         assertEquals(today.minusWeeks(10), days.subtractFrom(today));
+    }
+
+    @Test
+    void toPeriod() {
+        Zeitdauer months = Zeitdauer.of(11, Zeiteinheit.MONTHS);
+        assertEquals(Period.ofMonths(11), months.toPeriod());
     }
 
 }
