@@ -26,6 +26,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.Temporal;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -238,6 +239,14 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
         assertThat(t0.compareTo(t1), lessThan(0));
         assertThat(t1.compareTo(t0), greaterThan(0));
         assertEquals(0, t0.compareTo(Zeitpunkt.EPOCH));
+    }
+
+    @Test
+    void plusminus() {
+        Zeitdauer tag = Zeitdauer.of(1, Zeiteinheit.DAYS);
+        Zeitpunkt heute = Zeitpunkt.now();
+        Temporal morgen = heute.plus(tag);
+        assertEquals(heute, morgen.minus(tag));
     }
 
 }

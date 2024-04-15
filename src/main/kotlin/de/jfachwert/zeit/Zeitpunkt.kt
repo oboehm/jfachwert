@@ -31,7 +31,7 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatterBuilder
 import java.time.format.DateTimeParseException
-import java.time.temporal.ChronoField
+import java.time.temporal.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.logging.Level
@@ -64,7 +64,7 @@ import java.util.logging.Logger
  * @since 5.0 (18.07.2023)
  */
 open class Zeitpunkt
-constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localized {
+constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localized, Temporal {
 
     /**
      * Erzeugt einen aktuellen Zeitpunkt.
@@ -245,6 +245,35 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
      */
     fun toDate() : Date {
         return Date(getTimeInMillis())
+    }
+
+    override fun plus(amountToAdd: Long, unit: TemporalUnit): Temporal {
+        val localDateTime = toLocalDateTime().plus(amountToAdd, unit)
+        return of(localDateTime)
+    }
+
+    override fun isSupported(unit: TemporalUnit?): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun isSupported(field: TemporalField?): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun getLong(field: TemporalField?): Long {
+        TODO("Not yet implemented")
+    }
+
+    override fun with(adjuster: TemporalAdjuster?): Temporal {
+        return super.with(adjuster)
+    }
+
+    override fun with(field: TemporalField?, newValue: Long): Temporal {
+        TODO("Not yet implemented")
+    }
+
+    override fun until(endExclusive: Temporal?, unit: TemporalUnit?): Long {
+        TODO("Not yet implemented")
     }
 
     /**
