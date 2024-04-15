@@ -247,13 +247,13 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
         return Date(getTimeInMillis())
     }
 
-    override fun plus(amountToAdd: Long, unit: TemporalUnit): Temporal {
+    override fun plus(amountToAdd: Long, unit: TemporalUnit): Zeitpunkt {
         val localDateTime = toLocalDateTime().plus(amountToAdd, unit)
         return of(localDateTime)
     }
 
-    override fun isSupported(unit: TemporalUnit?): Boolean {
-        TODO("Not yet implemented")
+    override fun isSupported(unit: TemporalUnit): Boolean {
+        return true
     }
 
     override fun isSupported(field: TemporalField?): Boolean {

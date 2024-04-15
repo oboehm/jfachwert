@@ -249,4 +249,13 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
         assertEquals(heute, morgen.minus(tag));
     }
 
+    @Test
+    void isSupportedZeiteinheit() {
+        Zeiteinheit zeiteinheit = Zeiteinheit.YEARS;
+        Zeitpunkt heute = Zeitpunkt.now();
+        assertTrue(heute.isSupported(zeiteinheit));
+        Zeitpunkt morgen = heute.plus(1, zeiteinheit);
+        assertEquals(heute.getTimeInYears() + 1, morgen.getTimeInYears());
+    }
+
 }
