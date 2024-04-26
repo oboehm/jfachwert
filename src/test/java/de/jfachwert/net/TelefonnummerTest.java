@@ -191,4 +191,10 @@ public final class TelefonnummerTest extends AbstractFachwertTest<String, Text> 
         assertEquals("0811", rosisNummer.getVorwahl());
     }
 
+    @Test
+    void toPackedDecimal() {
+        assertEquals("012", Telefonnummer.of("012").toPackedDecimal().toString());
+        assertEquals("012", Telefonnummer.of("(0)12").toPackedDecimal().toString());
+    }
+
 }

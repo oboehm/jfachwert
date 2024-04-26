@@ -19,6 +19,7 @@ package de.jfachwert.net
 
 import de.jfachwert.KSimpleValidator
 import de.jfachwert.Text
+import de.jfachwert.math.PackedDecimal
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.NullValidator
 import de.jfachwert.pruefung.exception.InvalidValueException
@@ -48,8 +49,11 @@ import java.util.regex.Pattern
  * im gleichen Package 'net' wie die EMailAdresse zu finden und nicht in
  * 'comm' (fuer Kommunikation), wie urspruenglich geplant.
  *
- * TODO: Fuer die Speicherung kann auf PackedDecimal umstellen (statt String).
+ * Fuer eine effizente Speicherung von Telefonnummern kann man sich die
+ * Telefonnummer ueber #toPackedDecimal in PackedDecimal umwandeln.
  * Damit laesst sich der Speicherbedarf fuer Telefonnummern halbieren.
+ * Allerdings lassen sich Klammern wie in "+49 (0)811 32 16 8" nicht als
+ * PackedDecimal abspeichern - diese gehen bei der Konvertierung verloren.
  *
  * @author oboehm
  * @since 0.5 (04.09.2017)
@@ -214,6 +218,20 @@ open class Telefonnummer
      */
     fun toURI(): URI {
         return URI.create("tel:" + toDinString().replace(' ', '-'))
+    }
+
+    /**
+     * Fuer eine kompaktere interne Speicherung von Telefonnummer kann auf
+     * PackedDecimal zurueckgegriffen werden, um den Speicherverbrauch zu
+     * halbieren. Allerdings koennen damit mit PackedDecimal keine Klammern
+     * abgespeichert werden, d.h. "+49 (0)811 32 16 8" wird als
+     * "+49 0811 32 16 8" abgespeichert.
+     *
+     * @since 5.4
+     * @return Telefonnummer als PackedDecimal
+     */
+    fun toPackedDecimal() : PackedDecimal {
+        return PackedDecimal.of(code)
     }
 
 
