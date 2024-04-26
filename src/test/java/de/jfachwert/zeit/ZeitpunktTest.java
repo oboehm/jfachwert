@@ -277,4 +277,11 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
         assertEquals(Zeitpunkt.of(time.with(field, 12)), zeitpunkt.with(field, 12));
     }
 
+    @Test
+    void until() {
+        Zeitpunkt heute = Zeitpunkt.now();
+        Zeitpunkt morgen = heute.plus(1, Zeiteinheit.DAYS);
+        assertEquals(24, heute.until(morgen, Zeiteinheit.HOURS));
+    }
+
 }

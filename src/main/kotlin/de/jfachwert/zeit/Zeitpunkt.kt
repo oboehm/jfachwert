@@ -271,8 +271,10 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
         return of(toLocalDateTime().with(field, newValue))
     }
 
-    override fun until(endExclusive: Temporal?, unit: TemporalUnit?): Long {
-        TODO("Not yet implemented")
+    override fun until(endExclusive: Temporal, unit: TemporalUnit): Long {
+        val endZeit = of(endExclusive)
+        val zeiteinheit = Zeiteinheit.of(unit)
+        return toLocalDateTime().until(endZeit.toLocalDateTime(), zeiteinheit.toChronoUnit())
     }
 
     /**
@@ -458,13 +460,17 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
         /**
          * Liefert einen Zeitpunkt zurueck.
          *
-         * @param t beliebiger Zeitpunkt als LocalDateTime
+         * @param t beliebiger Zeitpunkt z.B. als LocalDateTime
          * @return der Zeitpunkt
          */
         @JvmStatic
-        fun of(t: LocalDateTime): Zeitpunkt {
-            return of(Zeiteinheit.SECONDS.toNanos(t.toEpochSecond(ZoneOffset.UTC))
-                .add(BigInteger.valueOf(t.nano.toLong())))
+        fun of(t: Temporal): Zeitpunkt {
+            when (t) {
+                is Zeitpunkt -> return t
+                is LocalDateTime -> return of(Zeiteinheit.SECONDS.toNanos(t.toEpochSecond(ZoneOffset.UTC))
+                    .add(BigInteger.valueOf(t.nano.toLong())))
+            }
+            throw UnsupportedOperationException("$t kann nicht zu Zeitpunkt konvertiert werden")
         }
 
         /**
