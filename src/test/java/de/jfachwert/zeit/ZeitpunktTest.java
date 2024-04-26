@@ -26,7 +26,9 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoField;
 import java.time.temporal.Temporal;
+import java.time.temporal.TemporalField;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -256,6 +258,15 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
         assertTrue(heute.isSupported(zeiteinheit));
         Zeitpunkt morgen = heute.plus(1, zeiteinheit);
         assertEquals(heute.getTimeInYears() + 1, morgen.getTimeInYears());
+    }
+
+    @Test
+    void isSupportedTemoralField() {
+        LocalDateTime time = LocalDateTime.now();
+        Zeitpunkt zeitpunkt = Zeitpunkt.of(time);
+        TemporalField field = ChronoField.NANO_OF_SECOND;
+        assertTrue(zeitpunkt.isSupported(field));
+        assertEquals(time.getLong(field), zeitpunkt.getLong(field));
     }
 
 }

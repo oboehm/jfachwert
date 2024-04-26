@@ -31,7 +31,10 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatterBuilder
 import java.time.format.DateTimeParseException
-import java.time.temporal.*
+import java.time.temporal.ChronoField
+import java.time.temporal.Temporal
+import java.time.temporal.TemporalField
+import java.time.temporal.TemporalUnit
 import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.logging.Level
@@ -256,16 +259,12 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
         return true
     }
 
-    override fun isSupported(field: TemporalField?): Boolean {
-        TODO("Not yet implemented")
+    override fun isSupported(field: TemporalField): Boolean {
+        return toLocalDateTime().isSupported(field)
     }
 
-    override fun getLong(field: TemporalField?): Long {
-        TODO("Not yet implemented")
-    }
-
-    override fun with(adjuster: TemporalAdjuster?): Temporal {
-        return super.with(adjuster)
+    override fun getLong(field: TemporalField): Long {
+        return toLocalDateTime().getLong(field)
     }
 
     override fun with(field: TemporalField?, newValue: Long): Temporal {
