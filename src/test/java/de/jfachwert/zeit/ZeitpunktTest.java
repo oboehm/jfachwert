@@ -269,4 +269,12 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
         assertEquals(time.getLong(field), zeitpunkt.getLong(field));
     }
 
+    @Test
+    void withTemporalField() {
+        LocalDateTime time = LocalDateTime.now();
+        Zeitpunkt zeitpunkt = Zeitpunkt.of(time);
+        TemporalField field = ChronoField.HOUR_OF_DAY;
+        assertEquals(Zeitpunkt.of(time.with(field, 12)), zeitpunkt.with(field, 12));
+    }
+
 }

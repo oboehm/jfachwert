@@ -267,8 +267,8 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
         return toLocalDateTime().getLong(field)
     }
 
-    override fun with(field: TemporalField?, newValue: Long): Temporal {
-        TODO("Not yet implemented")
+    override fun with(field: TemporalField, newValue: Long): Zeitpunkt {
+        return of(toLocalDateTime().with(field, newValue))
     }
 
     override fun until(endExclusive: Temporal?, unit: TemporalUnit?): Long {
