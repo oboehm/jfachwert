@@ -43,16 +43,13 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
   - Versichertennummer (7-Stellig) und [Krankenversichertennummer](https://de.wikipedia.org/wiki/Krankenversichertennummer)
   - systematisierte Nomenklatur der Medizin [SNOMED](https://de.wikipedia.org/wiki/Systematisierte_Nomenklatur_der_Medizin)
 
-## [5.0.1] - 2023-12-17
+## [5.0] - 2023-09-14
 ### Added
-- Zeitdauer-Klasse um getTimeInMillis(), start() und stop() ergänzt
-### Fixed
-- versteckte Abhängigkeit zu javax.validation entfernt
-
-## [5.0.0] - 2023-09-14
-### Added
+- **v5.0.1**: Zeitdauer-Klasse um getTimeInMillis(), start() und stop() ergänzt
 - zeit-Package mit Zeitdauer-Klasse hinzugefügt
 - Text.toPrintable() hinzugefügt
+### Fixed
+- **v5.0.1**: versteckte Abhängigkeit zu javax.validation entfernt
 ### Changed
 - Logging erfolgt maximal im Log-Level FINE und auf Deutsch
 - Logging von behandelten Exceptions (Stacktrace) wird nur im Log-Level FINER ausgegeben
