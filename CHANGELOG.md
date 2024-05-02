@@ -11,7 +11,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Nummer.toShort()
 - Nummer.asOptional(String, Class), z.B. Nummer.asOptional("1", Short.class)
 
-## [Unreleased]
+## [5.4.0] - 2024-05-02
 ### Added
 - Zeiteinheit für große Einheiten als Ergänzung zu TimeUnit eingeführt
 - Zeitpunkt kann jetzt bis zum Urknall zurückgehen
@@ -20,7 +20,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - ZANR kann jetzt mit LANR erzeugt werden
   ([#21](https://github.com/oboehm/jfachwert/issues/21))
 
-## [5.3.0] -2024-02-10
+## [5.3] - 2024-02-10
 ### Added
 - ZANR-Klasse im med-Package
 - Zeitpunkt- und Zeitraum-Klasse akzeptieren Date als of(..)-Parameter
