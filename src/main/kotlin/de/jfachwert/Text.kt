@@ -18,8 +18,6 @@
 package de.jfachwert
 
 import de.jfachwert.pruefung.NullValidator
-import org.apache.commons.lang3.StringUtils
-import java.awt.SystemColor.text
 import java.nio.Buffer
 import java.nio.CharBuffer
 import java.nio.charset.Charset
@@ -90,13 +88,7 @@ open class Text
      * @since 4.1
      */
     fun isPrintable(): Boolean {
-        val printable = {}.javaClass.getResource("printable.txt").readText()
-        for (c in code) {
-            if (!(c.isLetterOrDigit() || c.isWhitespace() || printable.contains(c))) {
-                return false
-            }
-        }
-        return true
+        return Companion.isPrintable(code)
     }
 
     /**
@@ -109,11 +101,11 @@ open class Text
     fun toPrintable(): Text {
         val buf = StringBuilder()
         for (c in code) {
-            if (Text.of(c).isPrintable()) {
+            if (of(c).isPrintable()) {
                 buf.append(c)
             }
         }
-        return Text.of(buf.toString())
+        return of(buf.toString())
     }
 
     /**
@@ -243,6 +235,7 @@ open class Text
         private val LOG = Logger.getLogger(Text::class.java.name)
         private val VALIDATOR: KSimpleValidator<String> = NullValidator()
         private val WEAK_CACHE = WeakHashMap<String, Text>()
+        private val PRINTABLE = {}.javaClass.getResource("printable.txt").readText()
 
         /** Null-Konstante fuer Initialisierungen .  */
         @JvmField
@@ -386,7 +379,12 @@ open class Text
          */
         @JvmStatic
         fun isPrintable(text: String): Boolean {
-            return Text(text).isPrintable()
+            for (c in text) {
+                if (!(c.isLetterOrDigit() || c.isWhitespace() || PRINTABLE.contains(c))) {
+                    return false
+                }
+            }
+            return true
         }
 
         /**

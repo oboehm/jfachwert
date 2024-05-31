@@ -11,6 +11,10 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Nummer.toShort()
 - Nummer.asOptional(String, Class), z.B. Nummer.asOptional("1", Short.class)
 
+## [Unreleased]
+### Changed
+- Optimierung von Text.isPrintable()
+
 ## [5.4.0] - 2024-05-02
 ### Added
 - Zeiteinheit für große Einheiten als Ergänzung zu TimeUnit eingeführt
