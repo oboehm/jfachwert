@@ -11,7 +11,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Nummer.toShort()
 - Nummer.asOptional(String, Class), z.B. Nummer.asOptional("1", Short.class)
 
-## [Unreleased]
+## [5.4.1] - 2024-05-31
 ### Changed
 - Optimierung von Text.isPrintable()
 
@@ -36,12 +36,10 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ### Breaking Changes
 - Zeitdauer: startTime und endTime sind jetzt private Properties; für Zeiträume gibt es jetzt die Zeitraum-Klasse
 
-## [5.1.1] - 2024-01-09
+## [5.1] - 2024-01-09
 ### Fixed
-- führende Nullen bei IKs führen nicht mehr zu Valdierungsfehlern
+- **v5.1.1**: führende Nullen bei IKs führen nicht mehr zu Valdierungsfehlern
   ([#20](https://github.com/oboehm/jfachwert/issues/20))
-
-## [5.1.0] - 2024-01-01
 ### Added
 - med-Package: 
   - Versichertennummer (7-Stellig) und [Krankenversichertennummer](https://de.wikipedia.org/wiki/Krankenversichertennummer)
