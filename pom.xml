@@ -4,7 +4,7 @@
 
   <groupId>de.jfachwert</groupId>
   <artifactId>jfachwert</artifactId>
-  <version>5.4.1</version>
+  <version>5.4.2-SNAPSHOT</version>
   <name>jFachwert</name>
 
   <description>Implementierung einiger Fachwerte nach dem WAM-Ansatz</description>
@@ -583,7 +583,6 @@
                   <sourceDirectory>${basedir}/src/main/asciidoc/de/</sourceDirectory>
                   <outputDirectory>${project.build.directory}/generated-docs/de/</outputDirectory>
                   <sourceDocumentName>index.adoc</sourceDocumentName>
-                  <imagesDir>../images</imagesDir>
                   <attributes>
                     <imagesdir>./images</imagesdir>
                   </attributes>
