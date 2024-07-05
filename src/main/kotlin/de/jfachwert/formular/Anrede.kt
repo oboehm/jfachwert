@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,13 @@ enum class Anrede(private val text: String) : KFachwert {
     FRAEULEIN("Fr\u00e4ulein"),
 
     /** Vereinigung.  */
-    VEREINIGUNG("Vereinigung");
+    VEREINIGUNG("Vereinigung"),
+
+    /** Damen. */
+    DAMEN("Damen"),
+
+    /** Herren. */
+    HERREN("Herren");
 
     /**
      * Als Ergebnis werden die einzelnen Elemente in normaler Schreibweise

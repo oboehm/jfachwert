@@ -11,6 +11,10 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Nummer.toShort()
 - Nummer.asOptional(String, Class), z.B. Nummer.asOptional("1", Short.class)
 
+## [Unreleased]
+### Added
+- Anrede um DAMEN und HERREN ergänzt
+
 ## [5.4.1] - 2024-05-31
 ### Changed
 - Optimierung von Text.isPrintable()
