@@ -11,9 +11,10 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Nummer.toShort()
 - Nummer.asOptional(String, Class), z.B. Nummer.asOptional("1", Short.class)
 
-## [Unreleased]
+## [5.4.2] - 2024-07-07
 ### Added
 - Anrede um DAMEN und HERREN ergänzt
+  ([#24](https://github.com/oboehm/jfachwert/issues/24))
 
 ## [5.4.1] - 2024-05-31
 ### Changed
