@@ -8,7 +8,6 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ## [Planned]
 - Speichervergleich BigDecimal zu PackedDecimal
-- Nummer.toShort()
 - Nummer.asOptional(String, Class), z.B. Nummer.asOptional("1", Short.class)
 
 ## [5.4.2] - 2024-07-07

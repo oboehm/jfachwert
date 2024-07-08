@@ -49,6 +49,12 @@ public final class NummerTest extends FachwertTest {
         assertThrows(IllegalArgumentException.class, () -> new Nummer("TEST"));
     }
 
+    @Test
+    public void testShortValue() {
+        Nummer nummer = new Nummer(42);
+        assertEquals((short) 42, nummer.shortValue());
+    }
+
     /**
      * Test-Methode fuer {@link Nummer#intValue()}.
      */
