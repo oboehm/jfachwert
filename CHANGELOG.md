@@ -11,6 +11,11 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - GeldBetrag & Co in eigenes Modul (wegen Abhängigkeit zu javax.money:money-api)
 - Speichervergleich BigDecimal zu PackedDecimal
 
+## [Unreleased]
+### Fixed
+- fehlende Abhängigkeit von `javax.money:money-api` führt nicht mehr zu fehlerhafter Initialisierung der FachwertFactory-Klasse
+  ([#25](https://github.com/oboehm/jfachwert/issues/25))
+
 ## [5.4.2] - 2024-07-07
 ### Added
 - Anrede um DAMEN und HERREN ergänzt

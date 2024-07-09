@@ -189,8 +189,6 @@ class FachwertFactory private constructor() {
             instance.register(Bruch::class.java)
             instance.register(TinyUUID::class.java)
             instance.register(SmallUUID::class.java)
-            instance.register(Geldbetrag::class.java)
-            instance.register(Waehrung::class.java)
             instance.register(IK::class.java)
             instance.register(LANR::class.java)
             instance.register(ZANR::class.java)
@@ -207,6 +205,14 @@ class FachwertFactory private constructor() {
             instance.register(Zeitpunkt::class.java)
             instance.register(Zeitraum::class.java)
             instance.register(Zeiteinheit::class.java)
+            try {
+                instance.register(Geldbetrag::class.java)
+                instance.register(Waehrung::class.java)
+            } catch (ex: NoClassDefFoundError) {
+                // kann vorkommen, wenn Abhaengigkeit zu javax.money:money-api fehlt
+                log.log(Level.FINE, "Registrierung von Geldbetrag & Waehrung wird ignoriert.")
+                log.log(Level.FINER, "Details:", ex)
+            }
         }
     }
 
