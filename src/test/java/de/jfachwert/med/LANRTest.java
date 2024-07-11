@@ -85,7 +85,9 @@ public class LANRTest extends AbstractFachwertTest<Integer, LANR> {
     @Test
     public void testToString000() {
         String nr = "000456789";
-        assertEquals(nr, LANR.of(nr).toString());
+        LANR lanr = LANR.of(nr);
+        assertEquals(nr, lanr.toString());
+        assertEquals(Integer.parseInt(nr), lanr.getCode());
     }
 
     @Test
