@@ -45,7 +45,7 @@ open class PZN
      *
      * @param code achtstellige Zahl
      */
-    constructor(code: String) : this(toInt(code)) {}
+    constructor(code: String) : this(toInt(code))
 
     /**
      * Diese Methode liefert immer 'true' zurueck. Es sei denn, nan hat den
@@ -63,7 +63,18 @@ open class PZN
      * @return 8-stellige Zeichenkette mit PZN-Prefix
      */
     override fun toString(): String {
-        return String.format("PZN-%08d", code)
+        return "PZN-" + toShortString()
+    }
+
+    /**
+     * Die PZN ist 8-stellig und wird auch achtstellig ausgegeben.
+     * Im Gegensatz zur toString()-Methode wird hier der PZN-Prefix nicht
+     * mit ausgegeben.
+     *
+     * @return 8-stellige Zeichenkette ohne PZN-Prefix
+     */
+    fun toShortString(): String {
+        return String.format("%08d", code)
     }
 
 

@@ -62,6 +62,7 @@ public final class PZNTest extends AbstractFachwertTest<Integer, PZN> {
     @Test
     public void testPZN7() {
         PZN nr = PZN.of(2495052);
+        assertEquals("02495052", nr.toShortString());
         assertEquals("PZN-02495052", nr.toString());
     }
 
