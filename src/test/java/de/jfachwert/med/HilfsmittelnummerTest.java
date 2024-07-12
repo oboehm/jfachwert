@@ -20,7 +20,7 @@ package de.jfachwert.med;
 import de.jfachwert.AbstractFachwertTest;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer {@link Hilfsmittelnummer}-Klasse.
@@ -51,12 +51,28 @@ public class HilfsmittelnummerTest extends AbstractFachwertTest<Long, Hilfsmitte
     }
 
     @Test
+    public void test11stelligeNummer() {
+        assertThrows(IllegalArgumentException.class, () -> Hilfsmittelnummer.of(12345678901L));
+    }
+
+    @Test
     @Override
     public void testToString() {
         String s = "05.07.02.3011";
         Hilfsmittelnummer bandage = Hilfsmittelnummer.of(s);
         assertEquals(s, bandage.toString());
         assertEquals("0507023011", bandage.toShortString());
+    }
+
+    @Test
+    public void testNull() {
+        Hilfsmittelnummer x = Hilfsmittelnummer.NULL;
+        assertNotNull(x.toString());
+    }
+
+    @Test
+    public void testInvalid() {
+        assertFalse(Hilfsmittelnummer.NULL.isValid());
     }
 
 }

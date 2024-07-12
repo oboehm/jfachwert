@@ -21,6 +21,7 @@ package de.jfachwert.med
 import de.jfachwert.AbstractFachwert
 import de.jfachwert.KSimpleValidator
 import de.jfachwert.pruefung.LengthValidator
+import de.jfachwert.pruefung.NullValidator
 import java.util.*
 
 /**
@@ -50,6 +51,16 @@ open  class Hilfsmittelnummer
      * @param code zehnstellige Zahl
      */
     constructor(code: String) : this(toLong(code))
+
+    /**
+     * Diese Methode liefert immer 'true' zurueck. Es sei denn, nan hat den
+     * Default-Validator beim Anlegen der Hilfsmittelnummer deaktiviert.
+     *
+     * @return true oder false
+     */
+    override fun isValid(): Boolean {
+        return VALIDATOR.isVald(code)
+    }
 
     /**
      * Die ersten beiden Ziffern stehen fuer die Produktgruppe
@@ -119,6 +130,9 @@ open  class Hilfsmittelnummer
         /** Default-PZN-Validator. */
         @JvmField
         val VALIDATOR = Validator()
+        /** Null-Konstante.  */
+        @JvmField
+        val NULL = Hilfsmittelnummer(0, NullValidator())
 
         /**
          * Liefert eine Hilfsmittelnummer zurueck.
