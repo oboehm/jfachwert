@@ -200,6 +200,7 @@ class FachwertFactory private constructor() {
             instance.register(Promille::class.java)
             instance.register(Mehrwertsteuer::class.java)
             instance.register(Zinssatz::class.java)
+            instance.register(Hilfsmittelnummer::class.java)
             instance.register(PZN::class.java)
             instance.register(Zeitdauer::class.java)
             instance.register(Zeitpunkt::class.java)

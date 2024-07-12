@@ -5,6 +5,7 @@ package "med" {
     class IK
     class LANR
     class BSNR
+    class Hilfsmittelnummer
     class PZN
     class SNOMED
     class Versichertennummer

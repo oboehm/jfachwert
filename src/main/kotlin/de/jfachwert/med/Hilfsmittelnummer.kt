@@ -1,0 +1,106 @@
+/*
+ * Copyright (c) 2024 by Oliver Boehm
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express orimplied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * (c)reated 12.07.24 by oliver (ob@oasd.de)
+ */
+
+package de.jfachwert.med
+
+import de.jfachwert.AbstractFachwert
+import de.jfachwert.KSimpleValidator
+import de.jfachwert.pruefung.LengthValidator
+import java.util.*
+
+/**
+ * Eine Hilfsmittelnummer ist eine eindeutige Kennzeichnung fuer medizinische
+ * Hilfsmittel im Hilfsmittelverzeichnis der gesetzlichen Krankenkassen in
+ * Deutschland. Diese Nummer dient der Identifikation und Abrechnung von
+ * Hilfsmitteln, wie Prothesen, Rollstuehlen oder Hoergeraeten, die von den
+ * Krankenkassen erstattet werden. Sie ermoeglicht eine standardisierte
+ * Zuordnung und erleichtert die Kommunikation zwischen Herstellern,
+ * Leistungserbringern und Kostentraegern.
+ *
+ * @author Oli B.
+ * @since 5.2 (25.05.2020)
+ */
+open  class Hilfsmittelnummer
+    /**
+     * Erzeugt ein neues Hilfsmittel-Objekt.
+     *
+     * @param code zehnstellige Zahl
+     * @param validator Validator zur Pruefung der Zahl
+     */
+    @JvmOverloads constructor(code: Long, validator: KSimpleValidator<Long> = VALIDATOR) : AbstractFachwert<Long, Hilfsmittelnummer>(code, validator) {
+
+
+
+    companion object {
+
+        private val WEAK_CACHE = WeakHashMap<Long, Hilfsmittelnummer>()
+        /** Default-PZN-Validator. */
+        @JvmField
+        val VALIDATOR = Validator()
+
+        /**
+         * Liefert eine Hilfsmittelnummer zurueck.
+         *
+         * @param code 10-stellige Nummer
+         * @return die Hilfsmittelnummer
+         */
+        @JvmStatic
+        fun of(code: Long): Hilfsmittelnummer {
+            return WEAK_CACHE.computeIfAbsent(code) { n: Long -> Hilfsmittelnummer(n) }
+        }
+
+        /**
+         * Liefert eine Hilfsmittelnummer zurueck.
+         *
+         * @param code 10-stellige Nummer
+         * @return die Hilfsmittelnummer
+         */
+        @JvmStatic
+        fun of(code: String): Hilfsmittelnummer {
+            return of(toLong(code))
+        }
+
+        private fun toLong(s: String): Long {
+            return s.replace(".", "").toLong()
+        }
+
+    }
+
+    class Validator : KSimpleValidator<Long> {
+
+        /**
+         * Wenn der uebergebene Wert gueltig ist, soll er unveraendert
+         * zurueckgegeben werden, damit er anschliessend von der aufrufenden
+         * Methode weiterverarbeitet werden kann. Ist der Wert nicht gueltig,
+         * soll eine [de.jfachwert.pruefung.exception.ValidationException]
+         * geworfen werden.
+         *
+         * @param value Wert, der validiert werden soll
+         * @return Wert selber, wenn er gueltig ist
+         */
+        override fun validate(value: Long): Long {
+            return VALIDATOR10.validate(value)
+        }
+
+        companion object {
+            private val VALIDATOR10 = LengthValidator<Long>(9, 10)
+        }
+
+    }
+
+}

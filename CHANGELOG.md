@@ -13,6 +13,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ## [Unreleased]
 ### Added
+- Hilfsmittelnummer im med-Package hinzugefügt
 - PZN um toShortString() erweitert, der PZN ohne Prefix ausgibt
 
 ## [5.4.3] - 2024-07-09
