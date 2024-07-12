@@ -56,6 +56,7 @@ public class HilfsmittelnummerTest extends AbstractFachwertTest<Long, Hilfsmitte
         String s = "05.07.02.3011";
         Hilfsmittelnummer bandage = Hilfsmittelnummer.of(s);
         assertEquals(s, bandage.toString());
+        assertEquals("0507023011", bandage.toShortString());
     }
 
 }

@@ -101,6 +101,16 @@ open  class Hilfsmittelnummer
             getProduktart(), getProdukt())
     }
 
+    /**
+     * Im Gegensatz zur toString()-Methode wird hier die Hilfsmittelnummer
+     * 10-stellig, aber ohne Trennpunkte ausgegeben.
+     *
+     * @return z.B. "0507023011"
+     */
+    fun toShortString(): String {
+        return String.format("%010d", code)
+    }
+
 
 
     companion object {
