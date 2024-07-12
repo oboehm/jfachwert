@@ -18,6 +18,9 @@
 package de.jfachwert.med;
 
 import de.jfachwert.AbstractFachwertTest;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit-Tests fuer {@link Hilfsmittelnummer}-Klasse.
@@ -45,6 +48,14 @@ public class HilfsmittelnummerTest extends AbstractFachwertTest<Long, Hilfsmitte
     @Override
     protected String getCode() {
         return "18.50.03.2006";
+    }
+
+    @Test
+    @Override
+    public void testToString() {
+        String s = "05.07.02.3011";
+        Hilfsmittelnummer bandage = Hilfsmittelnummer.of(s);
+        assertEquals(s, bandage.toString());
     }
 
 }

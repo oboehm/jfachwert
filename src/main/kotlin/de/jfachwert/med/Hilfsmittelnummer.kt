@@ -44,6 +44,63 @@ open  class Hilfsmittelnummer
      */
     @JvmOverloads constructor(code: Long, validator: KSimpleValidator<Long> = VALIDATOR) : AbstractFachwert<Long, Hilfsmittelnummer>(code, validator) {
 
+    /**
+     * Erzeugt ein neues Hilfsmittel-Objekt.
+     *
+     * @param code zehnstellige Zahl
+     */
+    constructor(code: String) : this(toLong(code))
+
+    /**
+     * Die ersten beiden Ziffern stehen fuer die Produktgruppe
+     *
+     * @return z.B. 18 fuer Kranken- und Behindertenfahrzeuge
+     */
+    fun getProduktgruppe() : Int {
+        return (code / 100_000_000).toInt()
+    }
+
+    /**
+     * Ziffer 3 und 4 steht fuer den Anwendungsort.
+     *
+     * @return z.B. 50 fuer Innenraum und Aussenbereich
+     */
+    fun getAnwendungsort() : Int {
+        return (code / 1_000_000 % 100).toInt()
+    }
+
+    /**
+     * Ziffer 5 und 6 steht fuer die Untergruppe.
+     *
+     * @return z.B. 3 fuer Adaptivrollstuehle
+     */
+    fun getUntergruppe() : Int {
+        return (code / 10_000 % 100).toInt()
+    }
+
+    /**
+     * Ziffer 7 steht fuer die Produktart.
+     *
+     * @return z.B. 2 fuer Spezialrollstuehle
+     */
+    fun getProduktart() : Int {
+        return (code / 1000 % 10).toInt()
+    }
+
+    /**
+     * Die letzten 3 Ziffern dienen der genauen Produktidentifikation.
+     *
+     * @return z.B. 6 fuer Mio Design 2018
+     */
+    fun getProdukt() : Int {
+        return (code % 1000).toInt()
+    }
+
+    override fun toString(): String {
+        return String.format("%02d.%02d.%02d.%d%03d", getProduktgruppe(), getAnwendungsort(), getUntergruppe(),
+            getProduktart(), getProdukt())
+    }
+
 
 
     companion object {
