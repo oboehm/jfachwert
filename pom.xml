@@ -4,7 +4,7 @@
 
   <groupId>de.jfachwert</groupId>
   <artifactId>jfachwert</artifactId>
-  <version>5.4.4-SNAPSHOT</version>
+  <version>5.5.0</version>
   <name>jFachwert</name>
 
   <description>Implementierung einiger Fachwerte nach dem WAM-Ansatz</description>

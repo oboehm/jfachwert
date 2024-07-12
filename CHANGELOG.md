@@ -11,7 +11,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - GeldBetrag & Co in eigenes Modul (wegen Abhängigkeit zu javax.money:money-api)
 - Speichervergleich BigDecimal zu PackedDecimal
 
-## [Unreleased]
+## [5.5.0] - 2024-07-12
 ### Added
 - Hilfsmittelnummer im med-Package hinzugefügt
 - PZN um toShortString() erweitert, der PZN ohne Prefix ausgibt

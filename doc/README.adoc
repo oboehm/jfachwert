@@ -62,7 +62,7 @@ Danach wird "-SNAPSHOT" von der Versions-Nummer entfernt sowie alle SNAPSHOT-Abh
 
 |alle Artefakte bauen (gradle)
 |./gradlew clean build dokkaJavadoc sourceJar
-|ab v6.0 ist der Bau (teilweise) auch mit Gradle möglich.
+|ab v5.0 ist der Bau (teilweise) auch mit Gradle möglich.
 
 |Version in deploy.sh prüfen
 |
