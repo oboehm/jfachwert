@@ -11,6 +11,10 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - GeldBetrag & Co in eigenes Modul (wegen Abhängigkeit zu javax.money:money-api)
 - Speichervergleich BigDecimal zu PackedDecimal
 
+## [Unreleased]
+### Changed
+- Aufteilung in Module zur Verringerung der Abhängigkeiten
+
 ## [5.5.0] - 2024-07-12
 ### Added
 - Hilfsmittelnummer im med-Package hinzugefügt
