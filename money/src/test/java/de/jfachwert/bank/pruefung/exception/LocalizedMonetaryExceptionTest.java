@@ -15,7 +15,7 @@
  *
  * (c)reated 20.07.2018 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.pruefung.exception;
+package de.jfachwert.bank.pruefung.exception;
 
 import de.jfachwert.bank.Geldbetrag;
 import org.junit.jupiter.api.BeforeEach;

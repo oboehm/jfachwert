@@ -18,9 +18,9 @@
 package de.jfachwert.steuer;
 
 import de.jfachwert.FachwertTest;
-import de.jfachwert.bank.Geldbetrag;
 import de.jfachwert.math.Prozent;
 import org.hamcrest.MatcherAssert;
+import org.javamoney.moneta.Money;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.Matchers.greaterThan;
@@ -81,26 +81,26 @@ public final class MehrwertsteuerTest extends FachwertTest {
 
     @Test
     public void testNettoZuBrutto() {
-        Geldbetrag netto = Geldbetrag.of(10);
-        assertEquals(Geldbetrag.of(11.90), mehrwertsteuer.nettoZuBrutto(netto));
+        Money netto = Money.of(10, "EUR");
+        assertEquals(Money.of(11.90, "EUR"), mehrwertsteuer.nettoZuBrutto(netto));
     }
 
     @Test
     public void testBruttoZuNetto() {
-        Geldbetrag brutto = Geldbetrag.of(11.90);
-        assertEquals(Geldbetrag.of(10), mehrwertsteuer.bruttoZuNetto(brutto));
+        Money brutto = Money.of(11.90, "EUR");
+        assertEquals(Money.of(10, "EUR"), mehrwertsteuer.bruttoZuNetto(brutto));
     }
 
     @Test
     public void testBetragVonNetto() {
-        Geldbetrag netto = Geldbetrag.of(10);
-        assertEquals(Geldbetrag.of(1.90), mehrwertsteuer.betragVonNetto(netto));
+        Money netto = Money.of(10, "EUR");
+        assertEquals(Money.of(1.90, "EUR"), mehrwertsteuer.betragVonNetto(netto));
     }
 
     @Test
     public void testBetragVonBrutto() {
-        Geldbetrag brutto = Geldbetrag.of(11.90);
-        assertEquals(Geldbetrag.of(1.90), mehrwertsteuer.betragVonBrutto(brutto));
+        Money brutto = Money.of(11.90, "EUR");
+        assertEquals(Money.of(1.90, "EUR"), mehrwertsteuer.betragVonBrutto(brutto));
     }
 
     @Test

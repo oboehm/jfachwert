@@ -15,8 +15,9 @@
  *
  * (c)reated 12.10.2018 by oboehm (ob@oasd.de)
  */
-package de.jfachwert.pruefung.exception
+package de.jfachwert.bank.pruefung.exception
 
+import de.jfachwert.pruefung.exception.LocalizedException
 import javax.money.format.MonetaryParseException
 
 /**

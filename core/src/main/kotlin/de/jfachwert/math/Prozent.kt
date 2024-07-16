@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2023 by Oliver Boehm
+ * Copyright (c) 2019-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ package de.jfachwert.math
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
 import de.jfachwert.KFachwert
-import de.jfachwert.bank.Geldbetrag.Companion.of
 import java.math.BigDecimal
 import java.util.*
 import java.util.logging.Level
@@ -86,8 +85,7 @@ open class Prozent(val wert: BigDecimal) : AbstractNumber(), KFachwert {
      * @since 4.0
      */
     fun multiply(geldbetrag: MonetaryAmount): MonetaryAmount {
-        val zins = this.multiply(geldbetrag.number.numberValue(BigDecimal::class.java))
-        return of(zins, geldbetrag.currency)
+        return geldbetrag.multiply(toBigDecimal())
     }
 
     /**

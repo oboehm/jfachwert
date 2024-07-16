@@ -10,6 +10,7 @@
 
   <modules>
     <module>core</module>
+    <module>money</module>
   </modules>
 
   <description>Implementierung einiger Fachwerte nach dem WAM-Ansatz</description>

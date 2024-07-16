@@ -15,7 +15,7 @@
  *
  * (c)reated 10.08.2019 by oboehm (ob@jfachwert.de)
  */
-package de.jfachwert.pruefung.exception;
+package de.jfachwert.bank.pruefung.exception;
 
 import org.junit.jupiter.api.Test;
 

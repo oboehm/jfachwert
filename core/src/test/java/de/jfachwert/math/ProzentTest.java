@@ -18,7 +18,7 @@
 package de.jfachwert.math;
 
 import de.jfachwert.FachwertTest;
-import de.jfachwert.bank.Geldbetrag;
+import org.javamoney.moneta.Money;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -91,8 +91,8 @@ public final class ProzentTest extends FachwertTest {
 
     @Test
     public void testMultiplyGeldbetrag() {
-        Geldbetrag kapital = Geldbetrag.of("1000 CHF");
-        assertEquals(Geldbetrag.of("100 CHF"), Prozent.TEN.multiply(kapital));
+        Money kapital = Money.of(1000, "CHF");
+        assertEquals(Money.of(100, "CHF"), Prozent.TEN.multiply(kapital));
     }
 
     @Test

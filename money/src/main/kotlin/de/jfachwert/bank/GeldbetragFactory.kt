@@ -17,9 +17,8 @@
  */
 package de.jfachwert.bank
 
-import de.jfachwert.bank.Geldbetrag
 import de.jfachwert.bank.Geldbetrag.Companion.valueOf
-import de.jfachwert.pruefung.exception.LocalizedMonetaryException
+import de.jfachwert.bank.pruefung.exception.LocalizedMonetaryException
 import java.math.BigDecimal
 import java.math.RoundingMode
 import javax.money.*

@@ -15,8 +15,9 @@
  *
  * (c)reated 10.08.2019 by oboehm (ob@jfachwert.de)
  */
-package de.jfachwert.pruefung.exception
+package de.jfachwert.bank.pruefung.exception
 
+import de.jfachwert.pruefung.exception.LocalizedException
 import org.apache.commons.lang3.StringUtils
 import javax.money.UnknownCurrencyException
 

@@ -199,21 +199,23 @@ class FachwertFactory private constructor() {
             instance.register(Prozent::class.java)
             instance.register(Promille::class.java)
             instance.register(Mehrwertsteuer::class.java)
-            instance.register(Zinssatz::class.java)
+            // TODO: Implementierung ueber Reflektion?
+//            instance.register(Zinssatz::class.java)
             instance.register(Hilfsmittelnummer::class.java)
             instance.register(PZN::class.java)
             instance.register(Zeitdauer::class.java)
             instance.register(Zeitpunkt::class.java)
             instance.register(Zeitraum::class.java)
             instance.register(Zeiteinheit::class.java)
-            try {
-                instance.register(Geldbetrag::class.java)
-                instance.register(Waehrung::class.java)
-            } catch (ex: NoClassDefFoundError) {
-                // kann vorkommen, wenn Abhaengigkeit zu javax.money:money-api fehlt
-                log.log(Level.FINE, "Registrierung von Geldbetrag & Waehrung wird ignoriert.")
-                log.log(Level.FINER, "Details:", ex)
-            }
+            // TODO: Implementierung ueber Reflektion?
+//            try {
+//                instance.register(Geldbetrag::class.java)
+//                instance.register(Waehrung::class.java)
+//            } catch (ex: NoClassDefFoundError) {
+//                // kann vorkommen, wenn Abhaengigkeit zu javax.money:money-api fehlt
+//                log.log(Level.FINE, "Registrierung von Geldbetrag & Waehrung wird ignoriert.")
+//                log.log(Level.FINER, "Details:", ex)
+//            }
         }
     }
 

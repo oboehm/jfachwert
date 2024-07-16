@@ -1,4 +1,4 @@
-package de.jfachwert.pruefung.exception;
+package de.jfachwert.bank.pruefung.exception;
 
 import org.junit.jupiter.api.Test;
 

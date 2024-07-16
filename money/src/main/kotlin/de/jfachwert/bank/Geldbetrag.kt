@@ -25,10 +25,10 @@ import de.jfachwert.bank.Waehrung.Companion.getSymbol
 import de.jfachwert.bank.Waehrung.Companion.toCurrency
 import de.jfachwert.bank.internal.GeldbetragFormatter
 import de.jfachwert.bank.internal.Zahlenwert
+import de.jfachwert.bank.pruefung.exception.LocalizedMonetaryException
 import de.jfachwert.pruefung.NumberValidator
 import de.jfachwert.pruefung.exception.InvalidValueException
 import de.jfachwert.pruefung.exception.LocalizedArithmeticException
-import de.jfachwert.pruefung.exception.LocalizedMonetaryException
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.DecimalFormat

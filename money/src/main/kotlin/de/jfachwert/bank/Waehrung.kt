@@ -21,9 +21,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
 import de.jfachwert.KFachwert
 import de.jfachwert.KSimpleValidator
+import de.jfachwert.bank.pruefung.exception.LocalizedUnknownCurrencyException
 import de.jfachwert.pruefung.NullValidator
 import de.jfachwert.pruefung.exception.InvalidValueException
-import de.jfachwert.pruefung.exception.LocalizedUnknownCurrencyException
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
