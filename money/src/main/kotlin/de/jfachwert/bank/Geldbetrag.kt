@@ -727,7 +727,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
     }
 
     private fun hasSameCurrency(other: MonetaryAmount): Boolean {
-        return getCurrency() == other.currency
+        return Waehrung.of(getCurrency()) == Waehrung.of(other.currency)
     }
 
     private fun checkCurrency(other: MonetaryAmount) {
