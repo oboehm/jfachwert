@@ -58,6 +58,16 @@ class GeldbetragFactory : MonetaryAmountFactory<Geldbetrag> {
     }
 
     /**
+     * Setzt die Waehrung.
+     *
+     * @param currencyCode z.B. "$"
+     * @return die Factory selber
+     */
+    override fun setCurrency(currencyCode: String): GeldbetragFactory {
+        return setCurrency(Waehrung.of(currencyCode))
+    }
+
+    /**
      * Setzt die Nummer fuer den Geldbetrag.
      *
      * @param number Betrag, darf nicht `null` sein.
