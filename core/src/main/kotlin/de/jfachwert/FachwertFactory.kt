@@ -199,23 +199,16 @@ class FachwertFactory private constructor() {
             instance.register(Prozent::class.java)
             instance.register(Promille::class.java)
             instance.register(Mehrwertsteuer::class.java)
-            // TODO: Implementierung ueber Reflektion?
-//            instance.register(Zinssatz::class.java)
             instance.register(Hilfsmittelnummer::class.java)
             instance.register(PZN::class.java)
             instance.register(Zeitdauer::class.java)
             instance.register(Zeitpunkt::class.java)
             instance.register(Zeitraum::class.java)
             instance.register(Zeiteinheit::class.java)
-            // TODO: Implementierung ueber Reflektion?
-//            try {
-//                instance.register(Geldbetrag::class.java)
-//                instance.register(Waehrung::class.java)
-//            } catch (ex: NoClassDefFoundError) {
-//                // kann vorkommen, wenn Abhaengigkeit zu javax.money:money-api fehlt
-//                log.log(Level.FINE, "Registrierung von Geldbetrag & Waehrung wird ignoriert.")
-//                log.log(Level.FINER, "Details:", ex)
-//            }
+            // money-Modul
+            instance.register("de.jfachwert.bank.Geldbetrag")
+            instance.register("de.jfachwert.bank.Waehrung")
+            instance.register("de.jfachwert.bank.Zinssatz")
         }
     }
 
@@ -231,9 +224,25 @@ class FachwertFactory private constructor() {
         try {
             registeredClasses[fachwertClass.simpleName] = fachwertClass
         } catch (ex: NoClassDefFoundError) {
-            log.log(Level.FINE, "Registrierung von $fachwertClass wird ignoriert.")
-            log.log(Level.FINER, "Details:", ex)
+            logIgnoredRegistration(fachwertClass, ex)
         }
+    }
+
+    fun register(classname: String) {
+        try {
+            val fachwertClass = Class.forName(classname) as Class<out KFachwert>
+            register(fachwertClass)
+        } catch (ex: ClassNotFoundException) {
+            logIgnoredRegistration(classname, ex)
+        } catch (ex: NoClassDefFoundError) {
+            // kann auch vorkommen, wenn Abhaengigkeit zu javax.money:money-api fehlt
+            logIgnoredRegistration(classname, ex)
+        }
+    }
+
+    private fun logIgnoredRegistration(fachwertClass: Any, ex: Throwable) {
+        log.log(Level.FINE, "Registrierung von $fachwertClass wird ignoriert.")
+        log.log(Level.FINER, "Details:", ex)
     }
 
     /**
