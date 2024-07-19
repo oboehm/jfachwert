@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -136,7 +136,8 @@ public final class IBANTest extends AbstractFachwertTest<String, IBAN> {
     }
 
     /**
-     * Beispiel stammt aus https://ibanvalidieren.de/beispiele.html.
+     * Beispiel stammt aus <a href="https://ibanvalidieren.de/beispiele.html"
+     * >beispiele</a>.
      */
     @Test
     public void testIbanAT() {
@@ -145,7 +146,8 @@ public final class IBANTest extends AbstractFachwertTest<String, IBAN> {
     }
 
     /**
-     * Beispiel stammt aus https://ibanvalidieren.de/beispiele.html.
+     * Beispiel stammt aus <a href="https://ibanvalidieren.de/beispiele.html"
+     * >beispiele</a>.
      */
     @Test
     public void testIbanCH() {

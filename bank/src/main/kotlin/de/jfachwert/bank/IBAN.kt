@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -134,7 +134,7 @@ open class IBAN
         /**
          * Mit dieser Methode kann man eine IBAN validieren, ohne dass man erst
          * den Konstruktor aufrufen muss. Falls die Pruefziffer nicht stimmt,
-         * wird eine [ValidationException] geworfen, wenn
+         * wird eine ValidationException geworfen, wenn
          * die Laenge nicht uebereinstimmt eine
          * [de.jfachwert.pruefung.exception.InvalidLengthException].
          * Die Laenge liegt zwischen 16 (Belgien) und 34 Zeichen.

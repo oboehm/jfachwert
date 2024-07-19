@@ -17,7 +17,6 @@
  */
 package de.jfachwert
 
-import de.jfachwert.bank.*
 import de.jfachwert.formular.Anrede
 import de.jfachwert.formular.Familienstand
 import de.jfachwert.formular.Geschlecht
@@ -158,11 +157,12 @@ class FachwertFactory private constructor() {
         init {
             instance.register(Text::class.java)
             instance.register(Nummer::class.java)
-            instance.register(Bankverbindung::class.java)
-            instance.register(BIC::class.java)
-            instance.register(BLZ::class.java)
-            instance.register(IBAN::class.java)
-            instance.register(Kontonummer::class.java)
+            // bank-Module
+            instance.register("de.jfachwert.bank.Bankverbindung")
+            instance.register("de.jfachwert.bank.BIC")
+            instance.register("de.jfachwert.bank.BLZ")
+            instance.register("de.jfachwert.bank.IBAN")
+            instance.register("de.jfachwert.bank.Kontonummer")
             instance.register(Anrede::class.java)
             instance.register(Familienstand::class.java)
             instance.register(Geschlecht::class.java)

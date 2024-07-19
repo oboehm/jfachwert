@@ -9,6 +9,7 @@
 
   <modules>
     <module>core</module>
+    <module>bank</module>
     <module>money</module>
     <module>jfachwert</module>
   </modules>
