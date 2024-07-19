@@ -18,6 +18,9 @@
 package de.jfachwert;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.Matchers;
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import patterntesting.runtime.junit.ImmutableTester;
@@ -30,10 +33,7 @@ import java.io.Serializable;
 import java.io.StringWriter;
 import java.lang.reflect.Modifier;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -102,7 +102,7 @@ public class FachwertTest {
      */
     @Test
     public void testSerializable() throws NotSerializableException {
-        assertThat(fachwert, instanceOf(Serializable.class));
+        assertThat(fachwert, IsInstanceOf.instanceOf(Serializable.class));
         SerializableTester.assertSerialization(fachwert);
     }
 
@@ -113,7 +113,8 @@ public class FachwertTest {
     @Test
     public void testToString() {
         String s = fachwert.toString();
-        assertThat("looks like default implementation", s, not(containsString(fachwert.getClass().getName() + "@")));
+        assertThat("looks like default implementation", s, Matchers.not(
+                CoreMatchers.containsString(fachwert.getClass().getName() + "@")));
     }
 
     /**

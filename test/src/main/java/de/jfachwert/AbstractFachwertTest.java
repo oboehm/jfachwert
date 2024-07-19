@@ -17,6 +17,7 @@
  */
 package de.jfachwert;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
@@ -89,7 +90,7 @@ public abstract class AbstractFachwertTest<T extends Serializable, S extends Abs
     @Test
     public void testNoDuplicate() {
         String s1 = getCode();
-        String s2 = new StringBuilder(getCode()).toString();
+        String s2 = getCode();
         assertNotSame(s1, s2);
         AbstractFachwert f1 = createFachwert(s1);
         AbstractFachwert f2 = createFachwert(s2);
@@ -99,7 +100,7 @@ public abstract class AbstractFachwertTest<T extends Serializable, S extends Abs
 
     @Test
     public void isValid() {
-        assertTrue(createFachwert().isValid());
+        Assertions.assertTrue(createFachwert().isValid());
     }
 
     @Test

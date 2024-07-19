@@ -8,7 +8,9 @@
     <version>6.0.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>bank</artifactId>
+  <artifactId>test</artifactId>
+
+  <description>Test-Hilfen fuer die verschiedenen Module</description>
 
   <dependencies>
     <dependency>
@@ -17,10 +19,18 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>de.jfachwert</groupId>
-      <artifactId>test</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.patterntesting</groupId>
+      <artifactId>patterntesting-rt</artifactId>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 
