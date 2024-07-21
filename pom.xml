@@ -11,6 +11,7 @@
     <module>core</module>
     <module>test</module>
     <module>bank</module>
+    <module>formular</module>
     <module>money</module>
     <module>jfachwert</module>
   </modules>
