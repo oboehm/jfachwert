@@ -90,7 +90,7 @@ public abstract class AbstractFachwertTest<T extends Serializable, S extends Abs
     @Test
     public void testNoDuplicate() {
         String s1 = getCode();
-        String s2 = getCode();
+        String s2 = new StringBuilder(getCode()).toString();
         assertNotSame(s1, s2);
         AbstractFachwert f1 = createFachwert(s1);
         AbstractFachwert f2 = createFachwert(s2);
