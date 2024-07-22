@@ -17,7 +17,6 @@
  */
 package de.jfachwert
 
-import de.jfachwert.med.*
 import de.jfachwert.post.*
 import de.jfachwert.pruefung.exception.LocalizedValidationException
 import de.jfachwert.pruefung.exception.ValidationException
@@ -154,18 +153,27 @@ class FachwertFactory private constructor() {
             instance.register("de.jfachwert.formular.Anrede")
             instance.register("de.jfachwert.formular.Familienstand")
             instance.register("de.jfachwert.formular.Geschlecht")
-            // math-Module
+            // math-Modul
             instance.register("de.jfachwert.math.Bruch")
             instance.register("de.jfachwert.math.Nummer")
             instance.register("de.jfachwert.math.PackedDecimal")
             instance.register("de.jfachwert.math.Prozent")
             instance.register("de.jfachwert.math.Promille")
-            // net-Module
+            // med-Modul
+            instance.register("de.jfachwert.med.BSNR")
+            instance.register("de.jfachwert.med.Hilfsmittelnummer")
+            instance.register("de.jfachwert.med.IK")
+            instance.register("de.jfachwert.med.LANR")
+            instance.register("de.jfachwert.med.PZN")
+            instance.register("de.jfachwert.med.SNOMED")
+            instance.register("de.jfachwert.med.Versichertennummer")
+            instance.register("de.jfachwert.med.ZANR")
+            // net-Modul
             instance.register("de.jfachwert.net.ChatAccount")
             instance.register("de.jfachwert.net.Domainname")
             instance.register("de.jfachwert.net.EMailAdresse")
             instance.register("de.jfachwert.net.Telefonnummer")
-            // steuer-Module
+            // steuer-Modul
             instance.register("de.jfachwert.steuer.Mehrwertsteuer")
             instance.register("de.jfachwert.steuer.SteuerIdNr")
             instance.register("de.jfachwert.steuer.Steuernummer")
@@ -184,15 +192,7 @@ class FachwertFactory private constructor() {
             instance.register(Referenznummer::class.java)
             instance.register(TinyUUID::class.java)
             instance.register(SmallUUID::class.java)
-            instance.register(IK::class.java)
-            instance.register(LANR::class.java)
-            instance.register(ZANR::class.java)
-            instance.register(BSNR::class.java)
-            instance.register(SNOMED::class.java)
-            instance.register(Versichertennummer::class.java)
             instance.register(Name::class.java)
-            instance.register(Hilfsmittelnummer::class.java)
-            instance.register(PZN::class.java)
             instance.register(Zeitdauer::class.java)
             instance.register(Zeitpunkt::class.java)
             instance.register(Zeitraum::class.java)

@@ -35,6 +35,11 @@
     </dependency>
     <dependency>
       <groupId>de.jfachwert</groupId>
+      <artifactId>med</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>de.jfachwert</groupId>
       <artifactId>net</artifactId>
       <version>${project.version}</version>
     </dependency>
