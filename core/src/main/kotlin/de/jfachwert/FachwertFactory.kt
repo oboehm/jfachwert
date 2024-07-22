@@ -17,20 +17,11 @@
  */
 package de.jfachwert
 
-import de.jfachwert.math.*
 import de.jfachwert.med.*
-import de.jfachwert.net.ChatAccount
-import de.jfachwert.net.Domainname
-import de.jfachwert.net.EMailAdresse
-import de.jfachwert.net.Telefonnummer
 import de.jfachwert.post.*
 import de.jfachwert.pruefung.exception.LocalizedValidationException
 import de.jfachwert.pruefung.exception.ValidationException
 import de.jfachwert.rechnung.*
-import de.jfachwert.steuer.Mehrwertsteuer
-import de.jfachwert.steuer.SteuerIdNr
-import de.jfachwert.steuer.Steuernummer
-import de.jfachwert.steuer.UStIdNr
 import de.jfachwert.util.SmallUUID
 import de.jfachwert.util.TinyUUID
 import de.jfachwert.zeit.Zeitdauer
@@ -153,20 +144,32 @@ class FachwertFactory private constructor() {
         // Problem).
         init {
             instance.register(Text::class.java)
-            instance.register(Nummer::class.java)
             // bank-Module
             instance.register("de.jfachwert.bank.Bankverbindung")
             instance.register("de.jfachwert.bank.BIC")
             instance.register("de.jfachwert.bank.BLZ")
             instance.register("de.jfachwert.bank.IBAN")
             instance.register("de.jfachwert.bank.Kontonummer")
+            // formular-Module
             instance.register("de.jfachwert.formular.Anrede")
             instance.register("de.jfachwert.formular.Familienstand")
             instance.register("de.jfachwert.formular.Geschlecht")
-            instance.register(ChatAccount::class.java)
-            instance.register(Domainname::class.java)
-            instance.register(EMailAdresse::class.java)
-            instance.register(Telefonnummer::class.java)
+            // math-Module
+            instance.register("de.jfachwert.math.Bruch")
+            instance.register("de.jfachwert.math.Nummer")
+            instance.register("de.jfachwert.math.PackedDecimal")
+            instance.register("de.jfachwert.math.Prozent")
+            instance.register("de.jfachwert.math.Promille")
+            // net-Module
+            instance.register("de.jfachwert.net.ChatAccount")
+            instance.register("de.jfachwert.net.Domainname")
+            instance.register("de.jfachwert.net.EMailAdresse")
+            instance.register("de.jfachwert.net.Telefonnummer")
+            // steuer-Module
+            instance.register("de.jfachwert.steuer.Mehrwertsteuer")
+            instance.register("de.jfachwert.steuer.SteuerIdNr")
+            instance.register("de.jfachwert.steuer.Steuernummer")
+            instance.register("de.jfachwert.steuer.UStIdNr")
             instance.register(Adressat::class.java)
             instance.register(Adresse::class.java)
             instance.register(Anschrift::class.java)
@@ -179,11 +182,6 @@ class FachwertFactory private constructor() {
             instance.register(Rechnungsmonat::class.java)
             instance.register(Rechnungsnummer::class.java)
             instance.register(Referenznummer::class.java)
-            instance.register(SteuerIdNr::class.java)
-            instance.register(Steuernummer::class.java)
-            instance.register(UStIdNr::class.java)
-            instance.register(PackedDecimal::class.java)
-            instance.register(Bruch::class.java)
             instance.register(TinyUUID::class.java)
             instance.register(SmallUUID::class.java)
             instance.register(IK::class.java)
@@ -193,9 +191,6 @@ class FachwertFactory private constructor() {
             instance.register(SNOMED::class.java)
             instance.register(Versichertennummer::class.java)
             instance.register(Name::class.java)
-            instance.register(Prozent::class.java)
-            instance.register(Promille::class.java)
-            instance.register(Mehrwertsteuer::class.java)
             instance.register(Hilfsmittelnummer::class.java)
             instance.register(PZN::class.java)
             instance.register(Zeitdauer::class.java)

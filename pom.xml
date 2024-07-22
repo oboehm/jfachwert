@@ -12,7 +12,10 @@
     <module>test</module>
     <module>bank</module>
     <module>formular</module>
+    <module>math</module>
     <module>money</module>
+    <module>net</module>
+    <module>steuer</module>
     <module>jfachwert</module>
   </modules>
 

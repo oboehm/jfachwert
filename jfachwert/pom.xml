@@ -20,7 +20,27 @@
     </dependency>
     <dependency>
       <groupId>de.jfachwert</groupId>
+      <artifactId>formular</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>de.jfachwert</groupId>
+      <artifactId>math</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>de.jfachwert</groupId>
       <artifactId>money</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>de.jfachwert</groupId>
+      <artifactId>net</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>de.jfachwert</groupId>
+      <artifactId>steuer</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>
