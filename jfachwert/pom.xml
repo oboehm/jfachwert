@@ -50,6 +50,11 @@
     </dependency>
     <dependency>
       <groupId>de.jfachwert</groupId>
+      <artifactId>rechnung</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>de.jfachwert</groupId>
       <artifactId>steuer</artifactId>
       <version>${project.version}</version>
     </dependency>

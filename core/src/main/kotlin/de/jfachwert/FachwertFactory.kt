@@ -19,7 +19,6 @@ package de.jfachwert
 
 import de.jfachwert.pruefung.exception.LocalizedValidationException
 import de.jfachwert.pruefung.exception.ValidationException
-import de.jfachwert.rechnung.*
 import de.jfachwert.util.SmallUUID
 import de.jfachwert.util.TinyUUID
 import de.jfachwert.zeit.Zeitdauer
@@ -189,12 +188,13 @@ class FachwertFactory private constructor() {
             instance.register("de.jfachwert.post.Ort")
             instance.register("de.jfachwert.post.PLZ")
             instance.register("de.jfachwert.post.Postfach")
-            instance.register(Artikelnummer::class.java)
-            instance.register(Bestellnummer::class.java)
-            instance.register(Kundennummer::class.java)
-            instance.register(Rechnungsmonat::class.java)
-            instance.register(Rechnungsnummer::class.java)
-            instance.register(Referenznummer::class.java)
+            // rechnung-Modul
+            instance.register("de.jfachwert.rechnung.Artikelnummer")
+            instance.register("de.jfachwert.rechnung.Bestellnummer")
+            instance.register("de.jfachwert.rechnung.Kundennummer")
+            instance.register("de.jfachwert.rechnung.Rechnungsmonat")
+            instance.register("de.jfachwert.rechnung.Rechnungsnummer")
+            instance.register("de.jfachwert.rechnung.Referenznummer")
             instance.register(TinyUUID::class.java)
             instance.register(SmallUUID::class.java)
             instance.register(Zeitdauer::class.java)
