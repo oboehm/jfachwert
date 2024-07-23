@@ -37,7 +37,7 @@ import java.util.logging.Logger
  */
 @JsonSerialize(using = ToFachwertSerializer::class)
 open class Anschrift private constructor(
-        val adressat: Adressat, private val adresse: Adresse?, private val postfach: Postfach?) : KFachwert {
+    val adressat: Adressat, private val adresse: Adresse?, private val postfach: Postfach?) : KFachwert {
 
     /**
      * Zerlegt die uebergebene Anschrift in Adressat und Adresse oder Postfach,

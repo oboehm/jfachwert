@@ -17,7 +17,6 @@
  */
 package de.jfachwert
 
-import de.jfachwert.post.*
 import de.jfachwert.pruefung.exception.LocalizedValidationException
 import de.jfachwert.pruefung.exception.ValidationException
 import de.jfachwert.rechnung.*
@@ -159,6 +158,10 @@ class FachwertFactory private constructor() {
             instance.register("de.jfachwert.math.PackedDecimal")
             instance.register("de.jfachwert.math.Prozent")
             instance.register("de.jfachwert.math.Promille")
+            // money-Modul
+            instance.register("de.jfachwert.bank.Geldbetrag")
+            instance.register("de.jfachwert.bank.Waehrung")
+            instance.register("de.jfachwert.bank.Zinssatz")
             // med-Modul
             instance.register("de.jfachwert.med.BSNR")
             instance.register("de.jfachwert.med.Hilfsmittelnummer")
@@ -178,12 +181,14 @@ class FachwertFactory private constructor() {
             instance.register("de.jfachwert.steuer.SteuerIdNr")
             instance.register("de.jfachwert.steuer.Steuernummer")
             instance.register("de.jfachwert.steuer.UStIdNr")
-            instance.register(Adressat::class.java)
-            instance.register(Adresse::class.java)
-            instance.register(Anschrift::class.java)
-            instance.register(Ort::class.java)
-            instance.register(PLZ::class.java)
-            instance.register(Postfach::class.java)
+            // post-Modul
+            instance.register("de.jfachwert.post.Adressat")
+            instance.register("de.jfachwert.post.Adresse")
+            instance.register("de.jfachwert.post.Anschrift")
+            instance.register("de.jfachwert.post.Name")
+            instance.register("de.jfachwert.post.Ort")
+            instance.register("de.jfachwert.post.PLZ")
+            instance.register("de.jfachwert.post.Postfach")
             instance.register(Artikelnummer::class.java)
             instance.register(Bestellnummer::class.java)
             instance.register(Kundennummer::class.java)
@@ -192,15 +197,10 @@ class FachwertFactory private constructor() {
             instance.register(Referenznummer::class.java)
             instance.register(TinyUUID::class.java)
             instance.register(SmallUUID::class.java)
-            instance.register(Name::class.java)
             instance.register(Zeitdauer::class.java)
             instance.register(Zeitpunkt::class.java)
             instance.register(Zeitraum::class.java)
             instance.register(Zeiteinheit::class.java)
-            // money-Modul
-            instance.register("de.jfachwert.bank.Geldbetrag")
-            instance.register("de.jfachwert.bank.Waehrung")
-            instance.register("de.jfachwert.bank.Zinssatz")
         }
     }
 

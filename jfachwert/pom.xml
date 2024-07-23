@@ -45,6 +45,11 @@
     </dependency>
     <dependency>
       <groupId>de.jfachwert</groupId>
+      <artifactId>post</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>de.jfachwert</groupId>
       <artifactId>steuer</artifactId>
       <version>${project.version}</version>
     </dependency>

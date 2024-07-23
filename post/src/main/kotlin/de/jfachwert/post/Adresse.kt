@@ -46,7 +46,8 @@ import java.util.regex.Pattern
 @JsonSerialize(using = ToFachwertSerializer::class)
 open class Adresse
 @JvmOverloads constructor(
-        val ort: Ort, private val strasse: String, private val hausnummer: String, validator: KSimpleValidator<String> = VALIDATOR) : KFachwert {
+    val ort: Ort, private val strasse: String, private val hausnummer: String, validator: KSimpleValidator<String> = VALIDATOR
+) : KFachwert {
 
     /**
      * Zerlegt die uebergebene Adresse in ihre Einzelteile und baut daraus die

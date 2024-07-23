@@ -16,6 +16,7 @@
     <module>money</module>
     <module>med</module>
     <module>net</module>
+    <module>post</module>
     <module>steuer</module>
     <module>jfachwert</module>
   </modules>
