@@ -58,6 +58,11 @@
       <artifactId>steuer</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>de.jfachwert</groupId>
+      <artifactId>zeit</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 
 </project>

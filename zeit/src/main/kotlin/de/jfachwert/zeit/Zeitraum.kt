@@ -216,7 +216,7 @@ constructor(val von: Zeitpunkt, val bis: Zeitpunkt) : KFachwert {
          */
         @JvmStatic
         fun of(von: Zeitpunkt?, bis: Zeitpunkt?): Zeitraum {
-            val pair = Pair(von?:Zeitpunkt.MIN, bis?:Zeitpunkt.MAX)
+            val pair = Pair(von?: Zeitpunkt.MIN, bis?: Zeitpunkt.MAX)
             return WEAK_CACHE.computeIfAbsent(pair) { Zeitraum(pair.first, pair.second) }
         }
 

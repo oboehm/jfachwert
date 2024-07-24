@@ -50,7 +50,10 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis: Zeitpunkt? = n
 
     constructor() : this(Zeitpunkt())
 
-    constructor(code: Long, unit: TimeUnit) : this(Zeitpunkt.EPOCH, Zeitpunkt.of(BigInteger.valueOf(unit.toNanos(code))))
+    constructor(code: Long, unit: TimeUnit) : this(
+        Zeitpunkt.EPOCH,
+        Zeitpunkt.of(BigInteger.valueOf(unit.toNanos(code)))
+    )
 
     constructor(code: BigInteger) : this(Zeitpunkt.EPOCH, Zeitpunkt.of(code))
 
@@ -141,7 +144,7 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis: Zeitpunkt? = n
     }
 
     fun getTimeInNanos() : BigInteger {
-        return (bis?:Zeitpunkt()).minus(von).getTimeInNanos()
+        return (bis?: Zeitpunkt()).minus(von).getTimeInNanos()
     }
 
     fun getTimeInMillis() : Long {

@@ -21,10 +21,6 @@ import de.jfachwert.pruefung.exception.LocalizedValidationException
 import de.jfachwert.pruefung.exception.ValidationException
 import de.jfachwert.util.SmallUUID
 import de.jfachwert.util.TinyUUID
-import de.jfachwert.zeit.Zeitdauer
-import de.jfachwert.zeit.Zeiteinheit
-import de.jfachwert.zeit.Zeitpunkt
-import de.jfachwert.zeit.Zeitraum
 import java.io.Serializable
 import java.lang.reflect.InvocationTargetException
 import java.util.*
@@ -141,6 +137,8 @@ class FachwertFactory private constructor() {
         // Problem).
         init {
             instance.register(Text::class.java)
+            instance.register(TinyUUID::class.java)
+            instance.register(SmallUUID::class.java)
             // bank-Module
             instance.register("de.jfachwert.bank.Bankverbindung")
             instance.register("de.jfachwert.bank.BIC")
@@ -195,12 +193,11 @@ class FachwertFactory private constructor() {
             instance.register("de.jfachwert.rechnung.Rechnungsmonat")
             instance.register("de.jfachwert.rechnung.Rechnungsnummer")
             instance.register("de.jfachwert.rechnung.Referenznummer")
-            instance.register(TinyUUID::class.java)
-            instance.register(SmallUUID::class.java)
-            instance.register(Zeitdauer::class.java)
-            instance.register(Zeitpunkt::class.java)
-            instance.register(Zeitraum::class.java)
-            instance.register(Zeiteinheit::class.java)
+            // zeit-Modul
+            instance.register("de.jfachwert.zeit.Zeitdauer")
+            instance.register("de.jfachwert.zeit.Zeitpunkt")
+            instance.register("de.jfachwert.zeit.Zeitraum")
+            instance.register("de.jfachwert.zeit.Zeiteinheit")
         }
     }
 

@@ -19,6 +19,7 @@
     <module>post</module>
     <module>rechnung</module>
     <module>steuer</module>
+    <module>zeit</module>
     <module>jfachwert</module>
   </modules>
 

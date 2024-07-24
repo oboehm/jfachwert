@@ -467,7 +467,8 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
         fun of(t: Temporal): Zeitpunkt {
             when (t) {
                 is Zeitpunkt -> return t
-                is LocalDateTime -> return of(Zeiteinheit.SECONDS.toNanos(t.toEpochSecond(ZoneOffset.UTC))
+                is LocalDateTime -> return of(
+                    Zeiteinheit.SECONDS.toNanos(t.toEpochSecond(ZoneOffset.UTC))
                     .add(BigInteger.valueOf(t.nano.toLong())))
             }
             throw UnsupportedOperationException("$t kann nicht zu Zeitpunkt konvertiert werden")
