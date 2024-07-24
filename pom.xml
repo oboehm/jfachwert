@@ -13,8 +13,8 @@
     <module>domains/bank</module>
     <module>domains/formular</module>
     <module>domains/math</module>
+    <module>domains/med</module>
     <module>money</module>
-    <module>med</module>
     <module>net</module>
     <module>post</module>
     <module>rechnung</module>
