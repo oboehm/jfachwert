@@ -10,7 +10,7 @@
   <modules>
     <module>core</module>
     <module>test</module>
-    <module>bank</module>
+    <module>domains/bank</module>
     <module>domains/formular</module>
     <module>math</module>
     <module>money</module>
