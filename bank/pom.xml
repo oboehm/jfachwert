@@ -23,9 +23,28 @@
     </dependency>
     <dependency>
       <groupId>de.jfachwert</groupId>
+      <artifactId>money</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>de.jfachwert</groupId>
       <artifactId>test</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.money</groupId>
+      <artifactId>money-api</artifactId>
+      <type>jar</type>
+      <version>1.1</version>
+      <optional>true</optional>
+      <exclusions>
+        <exclusion>
+          <groupId>org.javamoney.moneta</groupId>
+          <artifactId>moneta-core</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 
