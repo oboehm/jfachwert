@@ -15,7 +15,7 @@
     <module>domains/math</module>
     <module>domains/med</module>
     <module>domains/money</module>
-    <module>net</module>
+    <module>domains/net</module>
     <module>post</module>
     <module>rechnung</module>
     <module>steuer</module>
