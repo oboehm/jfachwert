@@ -18,7 +18,7 @@
     <module>domains/net</module>
     <module>domains/post</module>
     <module>domains/rechnung</module>
-    <module>steuer</module>
+    <module>domains/steuer</module>
     <module>zeit</module>
     <module>jfachwert</module>
   </modules>
