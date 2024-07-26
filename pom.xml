@@ -19,7 +19,7 @@
     <module>domains/post</module>
     <module>domains/rechnung</module>
     <module>domains/steuer</module>
-    <module>zeit</module>
+    <module>domains/zeit</module>
     <module>jfachwert</module>
   </modules>
 
