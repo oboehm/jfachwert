@@ -7,13 +7,12 @@ genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
 ## [Planned]
-- Aufteilung in Module zur Verringerung der Abhängigkeiten
-- GeldBetrag & Co in eigenes Modul (wegen Abhängigkeit zu javax.money:money-api)
 - Speichervergleich BigDecimal zu PackedDecimal
 
 ## [Unreleased]
 ### Changed
 - Aufteilung in Module zur Verringerung der Abhängigkeiten
+- GeldBetrag & Co in eigenes Modul (wegen Abhängigkeit zu javax.money:money-api)
 
 ## [5.5.0] - 2024-07-12
 ### Added

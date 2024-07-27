@@ -42,6 +42,11 @@ Jetzt kann man die Argumente nicht mehr verwechseln, weil sonst der Compiler mec
 
 ## Aktueller Stand
 
+In Version 6 wurden die einzelnen Packages auf Module aufgeteilt.
+Damit müssen nicht mehr alle Klassen eingebunden werden.
+Damit könne auch die Abhängikgeiten reduziert werden, wenn z.B. die Geldbetrag-Klasse aus dem nicht-Modul nicht benötigt werden.
+Dann entfällt auch die Abhängigkeit zu [javax.money:money-api](https://mvnrepository.com/artifact/javax.money/money-api).
+
 Mit Version 5 wurde die Abhängigkeit zum javax.validation-Package entfernt.
 Damit ist neben der Kotlin-Standard-Lib nur noch [commons-lang3](https://commons.apache.org/proper/commons-lang/) zum Betrieb notwendig.
 Auch wurde der Build-Prozess von Maven auf [Gradle](https://gradle.org/) umgestellt.
