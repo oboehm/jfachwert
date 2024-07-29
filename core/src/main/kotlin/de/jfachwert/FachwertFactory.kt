@@ -145,6 +145,7 @@ class FachwertFactory private constructor() {
             instance.register("de.jfachwert.bank.BLZ")
             instance.register("de.jfachwert.bank.IBAN")
             instance.register("de.jfachwert.bank.Kontonummer")
+            instance.register("de.jfachwert.bank.Zinssatz")
             // formular-Module
             instance.register("de.jfachwert.formular.Anrede")
             instance.register("de.jfachwert.formular.Familienstand")
@@ -156,9 +157,8 @@ class FachwertFactory private constructor() {
             instance.register("de.jfachwert.math.Prozent")
             instance.register("de.jfachwert.math.Promille")
             // money-Modul
-            instance.register("de.jfachwert.bank.Geldbetrag")
-            instance.register("de.jfachwert.bank.Waehrung")
-            instance.register("de.jfachwert.bank.Zinssatz")
+            instance.register("de.jfachwert.money.Geldbetrag")
+            instance.register("de.jfachwert.money.Waehrung")
             // med-Modul
             instance.register("de.jfachwert.med.BSNR")
             instance.register("de.jfachwert.med.Hilfsmittelnummer")

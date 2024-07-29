@@ -13,6 +13,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ### Changed
 - Aufteilung in Module zur Verringerung der Abhängigkeiten
 - GeldBetrag & Co in eigenes Modul (wegen Abhängigkeit zu javax.money:money-api)
+- Package von Geldbetrag & Waehrung ist jetzt `de.jfachwert.money`
 
 ## [5.5.0] - 2024-07-12
 ### Added

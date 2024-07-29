@@ -1,3 +1,3 @@
 # Setup fuer Integrationstests der Geldbetrag-Klasse.
 # Dies wird fuer das TCK zum JSR354 benoetigt.
-de.jfachwert.bank.GeldbetragIT
+de.jfachwert.money.GeldbetragIT

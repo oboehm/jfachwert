@@ -19,6 +19,7 @@ package de.jfachwert.bank;
 
 import de.jfachwert.FachwertTest;
 import de.jfachwert.math.Prozent;
+import de.jfachwert.money.Geldbetrag;
 import org.junit.jupiter.api.Test;
 
 import java.time.Period;
