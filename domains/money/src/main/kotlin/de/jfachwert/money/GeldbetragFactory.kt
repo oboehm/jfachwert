@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 by Oliver Boehm
+ * Copyright (c) 2018-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import javax.money.*
  * @author oboehm
  * @since 1.0 (30.07.2018)
  */
-class GeldbetragFactory : MonetaryAmountFactory<Geldbetrag> {
+open class GeldbetragFactory : MonetaryAmountFactory<Geldbetrag> {
 
     private var number: Number = BigDecimal.ZERO
     private var currency: CurrencyUnit? = null
@@ -181,7 +181,7 @@ class GeldbetragFactory : MonetaryAmountFactory<Geldbetrag> {
 
     /**
      * Der maximale [MonetaryContext] schraenkt den Wertebereich eines
-     * Geldbetrags nicth ein. D.h. es gibt keine obere und untere Grenze.
+     * Geldbetrags nicht ein. D.h. es gibt keine obere und untere Grenze.
      *
      * @return maximaler [MonetaryContext].
      */

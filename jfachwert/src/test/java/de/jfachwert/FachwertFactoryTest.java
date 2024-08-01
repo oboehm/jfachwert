@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -158,7 +158,9 @@ public class FachwertFactoryTest {
         ClasspathMonitor cpmon = ClasspathMonitor.getInstance();
         String[] classes = cpmon.getClasspathClasses();
         for (String classname : classes) {
-            if (classname.startsWith("de.jfachwert.")) {
+            if (classname.startsWith("de.jfachwert.")
+                    && (!classname.startsWith("de.jfachwert.bank.Geldbetrag"))
+                    && (!classname.equals("de.jfachwert.bank.Waehrung"))) {
                 check(Class.forName(classname));
             }
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2024 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,13 +33,14 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author oboehm
  */
-public final class GeldbetragFactoryTest {
+public class GeldbetragFactoryTest {
 
-    private static final Logger LOG = Logger.getLogger(Geldbetrag.class.getName());
-    private final GeldbetragFactory factory = new GeldbetragFactory();
+    private static final Logger LOG = Logger.getLogger(GeldbetragFactoryTest.class.getName());
+    protected GeldbetragFactory factory;
     
     @BeforeEach
     public void setUpFactory() {
+        factory = new GeldbetragFactory();
         factory.setCurrency(Waehrung.DEFAULT);
     }
 
