@@ -47,12 +47,13 @@ konfiguriert ist:
 |Schritt |Kommandos |Anmerkung
 
 |auf Release-Branch wechseln
-|`git checkout release/5.x`
+|`git checkout release/6.x`
 |Die folgenden Schritte sollten auf dem Release-Branch erfolgen, weil dort das
 letzte Release abgelegt wird.
 
 |Release starten
 |`git merge develop`
+`mvn versions:set; mvn versions:commit`
 |Änderungen des aktuellen develop-Branches auf den master-Branch bringen.
 Danach wird "-SNAPSHOT" von der Versions-Nummer entfernt sowie alle SNAPSHOT-Abhängkeiten.
 

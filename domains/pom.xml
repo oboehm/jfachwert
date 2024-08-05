@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>de.jfachwert</groupId>
+    <artifactId>jfachwert-parent</artifactId>
+    <version>6.0.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>domains</artifactId>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>bank</module>
+    <module>formular</module>
+    <module>math</module>
+    <module>med</module>
+    <module>money</module>
+    <module>net</module>
+    <module>post</module>
+    <module>rechnung</module>
+    <module>steuer</module>
+    <module>zeit</module>
+  </modules>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.jetbrains.dokka</groupId>
+        <artifactId>dokka-maven-plugin</artifactId>
+        <version>${kotlin.version}</version>
+        <executions>
+          <execution>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>javadoc</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <sourceDirectories>
+            <dir>src/main/kotlin</dir>
+          </sourceDirectories>          <!-- Default: ${project.basedir}/target/dokka -->
+          <outputDir>${project.basedir}/target/site/apidocs</outputDir>
+          <!-- Used for linking to JDK, default: 6 -->
+          <jdkVersion>8</jdkVersion>
+          <dokkaPlugins>
+            <plugin>
+              <groupId>org.jetbrains.dokka</groupId>
+              <artifactId>kotlin-as-java-plugin</artifactId>
+              <version>${kotlin.version}</version>
+            </plugin>
+          </dokkaPlugins>
+          <sourceLinks>
+            <link>
+              <path>${project.basedir}</path>
+              <url>https://github.com/oboehm/jfachwert/blob/master</url>
+              <lineSuffix>#L</lineSuffix>
+            </link>
+          </sourceLinks>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+</project>
