@@ -55,10 +55,6 @@ tasks.register("sourceJar", Jar::class) {
     duplicatesStrategy = DuplicatesStrategy.WARN
 }
 
-tasks.dokkaJavadoc {
-    outputDirectory = file("build/apidocs")
-}
-
 // s. https://asciidoctor.github.io/asciidoctor-gradle-plugin/development-3.x/user-guide/
 tasks.asciidoctor {
     sourceDir("src/main/asciidoc/de/")
