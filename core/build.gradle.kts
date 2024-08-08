@@ -6,10 +6,6 @@ plugins {
     id("org.asciidoctor.jvm.convert") version "3.3.2"
 }
 
-group = "de.jfachwert"
-version = "6.0.0-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_11
-
 repositories {
     mavenCentral()
 }
