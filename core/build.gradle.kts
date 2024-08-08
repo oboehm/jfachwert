@@ -99,3 +99,5 @@ sourceSets {
         }
     }
 }
+
+description = "core"
