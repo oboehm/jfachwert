@@ -4,6 +4,7 @@ plugins {
     kotlin("jvm") version "1.9.0"
     id("org.jetbrains.dokka") version "1.9.10"
     id("org.asciidoctor.jvm.convert") version "3.3.2"
+    id("de.jfachwert.java-conventions")
 }
 
 repositories {
