@@ -34,6 +34,8 @@ dependencies {
     testImplementation("org.slf4j:slf4j-api:2.0.9")
 }
 
+java.sourceCompatibility = JavaVersion.VERSION_11
+
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")

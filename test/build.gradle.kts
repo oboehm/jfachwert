@@ -6,7 +6,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.9.0"
-    //id("de.jfachwert.java-conventions")
+    id("de.jfachwert.java-conventions")
 }
 
 repositories {
