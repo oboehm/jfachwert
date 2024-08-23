@@ -6,6 +6,9 @@
 //    `java-library`
 //    `maven-publish`
 //}
+plugins {
+    id("org.jetbrains.kotlin.jvm")
+}
 
 repositories {
     mavenLocal()
