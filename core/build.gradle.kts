@@ -1,7 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") //version "1.9.0"
     id("org.jetbrains.dokka") version "1.9.10"
     id("org.asciidoctor.jvm.convert") version "3.3.2"
     id("de.jfachwert.java-conventions")
@@ -29,8 +28,6 @@ dependencies {
     testImplementation("org.patterntesting:patterntesting-rt:2.3.0")
     testImplementation("org.slf4j:slf4j-api:2.0.9")
 }
-
-java.sourceCompatibility = JavaVersion.VERSION_11
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
