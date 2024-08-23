@@ -8,10 +8,6 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "de.jfachwert"
-version = "6.0.0-SNAPSHOT"
-//java.sourceCompatibility = JavaVersion.VERSION_11
-
 repositories {
     // Use the plugin portal to apply community plugins in convention plugins.
     gradlePluginPortal()
