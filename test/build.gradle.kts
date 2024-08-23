@@ -9,10 +9,6 @@ plugins {
     id("de.jfachwert.java-conventions")
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     implementation(project(":core"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib")

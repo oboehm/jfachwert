@@ -7,10 +7,6 @@ plugins {
     id("de.jfachwert.java-conventions")
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     api("javax.money:money-api:1.1")

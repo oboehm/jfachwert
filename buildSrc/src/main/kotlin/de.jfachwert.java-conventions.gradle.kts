@@ -6,14 +6,12 @@
 //    `java-library`
 //    `maven-publish`
 //}
-//
-//repositories {
-//    mavenLocal()
-//    maven {
-//        url = uri("https://repo.maven.apache.org/maven2/")
-//    }
-//}
-//
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
 //dependencies {
 //    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.20")
 //    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
