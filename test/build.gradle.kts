@@ -2,7 +2,6 @@
  * Diese Datei wurde ueber 'gradle init' erstellt und dann manuell nach und
  * nach angepasst.
  */
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("de.jfachwert.java-conventions")
@@ -30,13 +29,6 @@ dependencies {
     }
     implementation("org.patterntesting:patterntesting-rt:2.3.0")
     testImplementation("org.slf4j:slf4j-api:2.0.9")
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "11"
-    }
 }
 
 tasks.test {
