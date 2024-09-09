@@ -27,10 +27,6 @@ dependencies {
     testImplementation("org.slf4j:slf4j-api:2.0.9")
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
-
 // Define the source JAR task
 tasks.register("sourceJar", Jar::class) {
     archiveClassifier.set("sources")

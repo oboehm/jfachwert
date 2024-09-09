@@ -42,10 +42,10 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 //tasks.withType<JavaCompile>() {
 //    options.encoding = "UTF-8"
 //}
-//
-//tasks.named<Test>("test") {
-//    useTestNG()
-//}
+
+tasks.test {
+    useJUnitPlatform()
+}
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
