@@ -1,4 +1,7 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 /*
  * Diese Datei wurde ueber 'gradle init' erstellt und dann manuell nach und
  * nach angepasst.
@@ -40,6 +43,11 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 
 tasks.test {
     useJUnitPlatform()
+    testLogging {
+        // set options for log level LIFECYCLE
+        events(TestLogEvent.FAILED, TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.STANDARD_OUT)
+        exceptionFormat = TestExceptionFormat.FULL
+    }
 }
 
 tasks.withType<KotlinCompile> {
