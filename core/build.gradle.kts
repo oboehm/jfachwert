@@ -9,7 +9,6 @@ dependencies {
     api("org.apache.commons:commons-lang3:3.13.0")
     // optional dependency
     compileOnly("com.fasterxml.jackson.core:jackson-databind:2.15.2")
-    testImplementation("org.hamcrest:hamcrest:2.2")
 }
 
 // Define the source JAR task

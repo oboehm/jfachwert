@@ -14,10 +14,12 @@ repositories {
 }
 
 dependencies {
+    compileOnly("com.fasterxml.jackson.core:jackson-databind:2.15.2")
     testImplementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.0")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
     testImplementation("org.junit.platform:junit-platform-commons:1.10.0")
+    testImplementation("org.hamcrest:hamcrest:2.2")
     testImplementation("org.slf4j:slf4j-api:2.0.7")
     testImplementation("org.patterntesting:patterntesting-rt:2.3.0")
 }
