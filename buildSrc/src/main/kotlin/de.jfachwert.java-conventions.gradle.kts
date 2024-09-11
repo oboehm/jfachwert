@@ -45,7 +45,7 @@ tasks.test {
     useJUnitPlatform()
     testLogging {
         // set options for log level LIFECYCLE
-        events(TestLogEvent.FAILED, TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.STANDARD_OUT)
+        events(TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR)
         exceptionFormat = TestExceptionFormat.FULL
     }
 }
