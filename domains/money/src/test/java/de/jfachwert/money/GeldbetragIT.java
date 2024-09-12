@@ -110,6 +110,7 @@ public class GeldbetragIT implements JSR354TestConfiguration {
      */
     @Test
     @SkipTestOn(javaVersion = "21")
+    @Disabled("wegen zu starker Test-Abhaengigkeit zur Java-Version deaktiviert")
     public void runTCK() throws IOException {
         ServiceLoader.load(GeldbetragIT.class);
         TCKRunner.main();
