@@ -9,9 +9,10 @@ plugins {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":math"))
     testImplementation(project(":test"))
     compileOnly("javax.money:money-api:1.1")
     testImplementation("org.javamoney:moneta-bp:1.4.1")
 }
 
-description = "math"
+description = "steuer"
