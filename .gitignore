@@ -15,7 +15,7 @@ hs_err_pid*
 # Project Files
 .idea
 *.iml
-/.resourceCache/
 /build/
 /.gradle/
 **/build/
+**/.resourceCache/
