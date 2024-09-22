@@ -12,7 +12,15 @@ plugins {
     signing
 }
 
+group = "de.jfachwert"
+version = "6.0.0-SNAPSHOT"
+java.sourceCompatibility = JavaVersion.VERSION_11
+extra["isReleaseVersion"] = !version.toString().endsWith("SNAPSHOT")
+
 signing {
+    setRequired({
+        (project.extra["isReleaseVersion"] as Boolean) && gradle.taskGraph.hasTask("publish")
+    })
     sign(configurations.runtimeElements.get())
 }
 
@@ -31,10 +39,6 @@ dependencies {
     testImplementation("org.slf4j:slf4j-api:2.0.7")
     testImplementation("org.patterntesting:patterntesting-rt:2.3.0")
 }
-
-group = "de.jfachwert"
-version = "6.0.0-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_11
 
 //publishing {
 //    publications.create<MavenPublication>("maven") {
