@@ -1,3 +1,4 @@
+
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -36,6 +37,7 @@ val repositories = arrayOf(
 repositories {
     mavenLocal()
     mavenCentral()
+    jcenter()
     repositories.forEach { maven(it) }
 }
 
@@ -58,13 +60,6 @@ val sourcesJar by tasks.registering(Jar::class) {
     archiveClassifier.set("sources")
     from(kotlin.sourceSets.main.get().kotlin)
 }
-
-//val javadocJar by tasks.creating(Jar::class) {
-//    group = JavaBasePlugin.DOCUMENTATION_GROUP
-//    description = "Assembles Javadoc JAR"
-//    archiveClassifier.set("javadoc")
-//    from(tasks.named("dokkaHtml"))
-//}
 
 // ------------------------------------------------------ Kotlin, testing & dokka
 

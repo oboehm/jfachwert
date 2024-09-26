@@ -27,3 +27,12 @@ project(":net").projectDir = file("domains/net")
 project(":rechnung").projectDir = file("domains/rechnung")
 project(":steuer").projectDir = file("domains/steuer")
 project(":zeit").projectDir = file("domains/zeit")
+
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        jcenter()
+        maven("https://dl.bintray.com/kotlin/kotlin-eap")
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev")
+    }
+}
