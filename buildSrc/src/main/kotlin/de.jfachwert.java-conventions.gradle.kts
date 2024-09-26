@@ -52,7 +52,41 @@ dependencies {
     testImplementation("org.patterntesting:patterntesting-rt:2.3.0")
 }
 
+// ------------------------------------------------------ source & javadoc
 
+val sourcesJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("sources")
+    from(kotlin.sourceSets.main.get().kotlin)
+}
+
+//val javadocJar by tasks.creating(Jar::class) {
+//    group = JavaBasePlugin.DOCUMENTATION_GROUP
+//    description = "Assembles Javadoc JAR"
+//    archiveClassifier.set("javadoc")
+//    from(tasks.named("dokkaHtml"))
+//}
+
+// ------------------------------------------------------ Kotlin, testing & dokka
+
+tasks {
+    test {
+        useJUnitPlatform()
+        testLogging {
+            // set options for log level LIFECYCLE
+            events(TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR)
+            exceptionFormat = TestExceptionFormat.FULL
+        }
+    }
+
+    withType<KotlinCompile> {
+        kotlinOptions {
+            freeCompilerArgs = listOf("-Xjsr305=strict")
+            jvmTarget = "11"
+        }
+    }
+}
+
+// ------------------------------------------------------ sign & publish
 
 java.sourceCompatibility = JavaVersion.VERSION_11
 extra["isReleaseVersion"] = !version.toString().endsWith("SNAPSHOT")
@@ -73,19 +107,3 @@ signing {
 //tasks.withType<JavaCompile>() {
 //    options.encoding = "UTF-8"
 //}
-
-tasks.test {
-    useJUnitPlatform()
-    testLogging {
-        // set options for log level LIFECYCLE
-        events(TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR)
-        exceptionFormat = TestExceptionFormat.FULL
-    }
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "11"
-    }
-}
