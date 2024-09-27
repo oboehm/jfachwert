@@ -95,6 +95,7 @@ tasks {
     // ./gradlew assemble
     artifacts {
         archives(sourceJar)
+        archives(javadocJar)
         archives(jar)
     }
 }
@@ -116,12 +117,6 @@ signing {
     sign(publishing.publications)
 }
 
-//publishing {
-//    publications.create<MavenPublication>("maven") {
-//        from(components["java"])
-//    }
-//}
-
 publishing {
     publications {
         create<MavenPublication>("maven") {
@@ -130,7 +125,7 @@ publishing {
             version = project.version.toString()
             from(components["kotlin"])
             artifact(tasks["sourceJar"])
-            //artifact(tasks["javadocJar"])
+            artifact(tasks["javadocJar"])
             pom {
                 name.set(project.name)
                 description.set(Meta.desc)
