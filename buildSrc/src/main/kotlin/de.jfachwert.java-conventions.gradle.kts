@@ -37,7 +37,6 @@ val repositories = arrayOf(
 repositories {
     mavenLocal()
     mavenCentral()
-    jcenter()
     repositories.forEach { maven(it) }
 }
 
@@ -56,11 +55,18 @@ dependencies {
 
 // ------------------------------------------------------ source & javadoc
 
-val sourcesJar by tasks.registering(Jar::class) {
+val sourceJar by tasks.registering(Jar::class) {
     archiveClassifier.set("sources")
     from(kotlin.sourceSets.main.get().kotlin)
     DuplicatesStrategy.WARN
 }
+
+//val javadocJar by tasks.creating(Jar::class) {
+//    group = JavaBasePlugin.DOCUMENTATION_GROUP
+//    description = "Assembles Javadoc JAR"
+//    archiveClassifier.set("javadoc")
+//    from(tasks.named("dokkaHtml"))
+//}
 
 // ------------------------------------------------------ Kotlin, testing & dokka
 
@@ -87,13 +93,13 @@ tasks {
 
     // ./gradlew assemble
     artifacts {
-        archives(sourcesJar)
+        archives(sourceJar)
         archives(jar)
     }
 }
 
 // workaround for "Entry de/jfachwert/Fachwert.java is a duplicate..."
-tasks.named<org.gradle.jvm.tasks.Jar>("sourcesJar") {
+tasks.named<org.gradle.jvm.tasks.Jar>("sourceJar") {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
@@ -106,7 +112,6 @@ signing {
     setRequired({
         (project.extra["isReleaseVersion"] as Boolean) && gradle.taskGraph.hasTask("publish")
     })
-    //sign(configurations.runtimeElements.get())
     sign(publishing.publications)
 }
 
@@ -123,7 +128,7 @@ publishing {
             artifactId = project.name
             version = project.version.toString()
             from(components["kotlin"])
-            artifact(tasks["sourcesJar"])
+            artifact(tasks["sourceJar"])
             //artifact(tasks["javadocJar"])
             pom {
                 name.set(project.name)

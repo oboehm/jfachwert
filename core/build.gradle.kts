@@ -11,13 +11,6 @@ dependencies {
     compileOnly("com.fasterxml.jackson.core:jackson-databind:2.15.2")
 }
 
-// Define the source JAR task
-tasks.register("sourceJar", Jar::class) {
-    archiveClassifier.set("sources")
-    from(sourceSets.main.get().allSource)
-    duplicatesStrategy = DuplicatesStrategy.WARN
-}
-
 // s. https://asciidoctor.github.io/asciidoctor-gradle-plugin/development-3.x/user-guide/
 tasks.asciidoctor {
     sourceDir("src/main/asciidoc/de/")
