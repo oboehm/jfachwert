@@ -59,6 +59,7 @@ dependencies {
 val sourcesJar by tasks.registering(Jar::class) {
     archiveClassifier.set("sources")
     from(kotlin.sourceSets.main.get().kotlin)
+    DuplicatesStrategy.WARN
 }
 
 // ------------------------------------------------------ Kotlin, testing & dokka
@@ -79,6 +80,21 @@ tasks {
             jvmTarget = "11"
         }
     }
+
+    withType<JavaCompile>() {
+        options.encoding = "UTF-8"
+    }
+
+    // ./gradlew assemble
+    artifacts {
+        archives(sourcesJar)
+        archives(jar)
+    }
+}
+
+// workaround for "Entry de/jfachwert/Fachwert.java is a duplicate..."
+tasks.named<org.gradle.jvm.tasks.Jar>("sourcesJar") {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 // ------------------------------------------------------ sign & publish
@@ -90,7 +106,8 @@ signing {
     setRequired({
         (project.extra["isReleaseVersion"] as Boolean) && gradle.taskGraph.hasTask("publish")
     })
-    sign(configurations.runtimeElements.get())
+    //sign(configurations.runtimeElements.get())
+    sign(publishing.publications)
 }
 
 //publishing {
@@ -98,7 +115,43 @@ signing {
 //        from(components["java"])
 //    }
 //}
-//
-//tasks.withType<JavaCompile>() {
-//    options.encoding = "UTF-8"
-//}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = project.group.toString()
+            artifactId = project.name
+            version = project.version.toString()
+            from(components["kotlin"])
+            artifact(tasks["sourcesJar"])
+            //artifact(tasks["javadocJar"])
+            pom {
+                name.set(project.name)
+                description.set(Meta.desc)
+                url.set("https://github.com/${Meta.githubRepo}")
+                licenses {
+                    license {
+                        name.set(Meta.license)
+                        url.set("https://opensource.org/licenses/Apache-2.0")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("oboehm")
+                        name.set("Oli B.")
+                        organization.set("JUGS")
+                        organizationUrl.set("ob@jfachwert.de")
+                    }
+                }
+                scm {
+                    url.set("https://github.com/${Meta.githubRepo}.git")
+                    connection.set("scm:git:git://github.com/${Meta.githubRepo}.git")
+                    developerConnection.set("scm:git:git://github.com/#${Meta.githubRepo}.git")
+                }
+                issueManagement {
+                    url.set("https://github.com/${Meta.githubRepo}/issues")
+                }
+            }
+        }
+    }
+}
