@@ -1,7 +1,11 @@
 plugins {
-    id("org.jetbrains.dokka") version "1.9.10"
+    id("org.jetbrains.dokka")
     id("org.asciidoctor.jvm.convert") version "3.3.2"
     id("de.jfachwert.java-conventions")
+}
+
+subprojects {
+    apply(plugin = "org.jetbrains.dokka")
 }
 
 dependencies {

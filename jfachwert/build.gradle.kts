@@ -4,6 +4,7 @@
  */
 
 plugins {
+    id("org.jetbrains.dokka")
     id("de.jfachwert.java-conventions")
 }
 

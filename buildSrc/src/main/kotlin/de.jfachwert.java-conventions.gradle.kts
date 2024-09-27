@@ -5,7 +5,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /*
  * Diese Datei wurde ueber 'gradle init' erstellt und dann manuell nach und
- * nach angepasst.
+ * nach angepasst. Als Vorlage diente dabei u.a.
+ * https://github.com/patternfly-kotlin/patternfly-kotlin
  */
 
 group = "de.jfachwert"
@@ -61,12 +62,12 @@ val sourceJar by tasks.registering(Jar::class) {
     DuplicatesStrategy.WARN
 }
 
-//val javadocJar by tasks.creating(Jar::class) {
-//    group = JavaBasePlugin.DOCUMENTATION_GROUP
-//    description = "Assembles Javadoc JAR"
-//    archiveClassifier.set("javadoc")
-//    from(tasks.named("dokkaHtml"))
-//}
+val javadocJar by tasks.creating(Jar::class) {
+    group = JavaBasePlugin.DOCUMENTATION_GROUP
+    description = "Assembles Javadoc JAR"
+    archiveClassifier.set("javadoc")
+    from(tasks.named("dokkaHtml"))
+}
 
 // ------------------------------------------------------ Kotlin, testing & dokka
 

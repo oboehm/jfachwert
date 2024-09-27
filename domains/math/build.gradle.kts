@@ -4,14 +4,15 @@
  */
 
 plugins {
+    id("org.jetbrains.dokka")
     id("de.jfachwert.java-conventions")
 }
 
 dependencies {
     implementation(project(":core"))
     testImplementation(project(":test"))
-    compileOnly("javax.money:money-api:1.1")
     testImplementation("org.javamoney:moneta-bp:1.4.1")
+    compileOnly("javax.money:money-api:1.1")
 }
 
 description = "math"

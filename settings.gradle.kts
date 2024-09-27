@@ -29,6 +29,9 @@ project(":steuer").projectDir = file("domains/steuer")
 project(":zeit").projectDir = file("domains/zeit")
 
 pluginManagement {
+    plugins {
+        id("org.jetbrains.dokka") version "1.9.20"
+    }
     repositories {
         gradlePluginPortal()
     }
