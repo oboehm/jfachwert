@@ -73,9 +73,14 @@ mit der Versionsnummer im POM übereinstimmt. Auch letzte Änderungen wie z.B.
 die Anpassung des Release-Datums in link:../CHANGELOG.md[CHANGELOG.md]
 können noch vorgenommen werden.
 
-|Release deployen
+|Release deployen (Maven)
 |`sh src/script/deploy.sh`
 |Damit werden die Artefakte signiert und nach https://oss.sonatype.org/[oss.sonatype.org] hochgeladen.
+
+|Release deployen (Gradle)
+|./gradlew publishToSonatype
+|Damit werden die Artefakte nach https://oss.sonatype.org/[oss.sonatype.org] hochgeladen.
+Die Task funktioniert auch für Snapshots, sodass im Vorfeld das Hochladen ins https://oss.sonatype.org/content/repositories/snapshots/de/jfachwert/[Snapshot-Repo] getestet werden kann.
 
 |Release freigeben
 |https://oss.sonatype.org/[oss.sonatype.org]

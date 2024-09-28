@@ -31,6 +31,8 @@ project(":zeit").projectDir = file("domains/zeit")
 pluginManagement {
     plugins {
         id("org.jetbrains.dokka") version "1.9.20"
+        id("com.vanniktech.maven.publish") version "0.29.0"
+        id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
     }
     repositories {
         gradlePluginPortal()

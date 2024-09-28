@@ -16,8 +16,6 @@ object Meta {
     const val desc = "Implementierung einiger Fachwerte nach dem WAM-Ansatz"
     const val license = "Apache-2.0"
     const val githubRepo = "oboehm/jfachwert"
-    const val release = "https://s01.oss.sonatype.org/service/local/"
-    const val snapshot = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
 }
 
 // ------------------------------------------------------ plugins
@@ -88,7 +86,7 @@ tasks {
         }
     }
 
-    withType<JavaCompile>() {
+    withType<JavaCompile> {
         options.encoding = "UTF-8"
     }
 
