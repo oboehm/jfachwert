@@ -78,17 +78,12 @@ Die Task funktioniert auch für Snapshots, sodass im Vorfeld das Hochladen ins h
 |Unter https://github.com/oboehm/jfachwert/tags[Tags] "Add release notes" selektieren und Release-Notes erstellen
 oder/und mit link:release-notes.adoc[Release-Notes] verlinken
 
-|Site-Generierung
-|`mvn site`
-|Damit werden die Maven-Reports gebaut, die anschliessend auf die Projektseite
-http://jfachwert.de/[jFachwert.de] hochgeladen werden sollten.
-
 |Architektur-Dokumentation
-|`mvn -Pdoc generate-resources` (_alternativ_: `./gradlew asciidoctor`)
+|`./gradlew asciidoctor`
 |Damit wird die Architektur-Dokumentation generiert, die in seiner Rohfassung unter
 https://github.com/oboehm/jfachwert/tree/develop/src/main/asciidoc[src/main/asciidoc] zu finden ist.
 Zur erfolgreichen Generierung muss https://www.graphviz.org/[GraphViz] auf dem Rechner installiert sein.
-Danach wird target/generated-docs auf http://jfachwert.de/generated-docs/[jFachwert.de/generated-docs] hochgeladen.
+Danach wird link:../build/generated-docs/[build/generated-docs] auf http://jfachwert.de/[jFachwert.de/generated-docs] hochgeladen.
 
 |auf master- und develop-Branch mergen
 |`git checkout master` ...

@@ -11,11 +11,44 @@ plugins {
     signing
 }
 
+// s. https://asciidoctor.github.io/asciidoctor-gradle-plugin/development-3.x/user-guide/
+tasks.asciidoctor {
+    sourceDir("src/main/asciidoc/de/")
+    setOutputDir("build/generated-docs")
+    sources(delegateClosureOf<PatternSet> {
+        include("index.adoc")
+    })
+    resources(delegateClosureOf<CopySpec> {
+        from("src/main/asciidoc/images") {
+            include("**/*.jpg", "**/*.gif", "**/*.png")
+            exclude("**/.txt")
+        }
+        into("./images")
+    })
+    baseDirFollowsSourceDir()
+}
+
+// s. https://github.com/asciidoctor/asciidoctor-gradle-plugin/blob/master/docs/src/docs/asciidoc/parts/asciidoctor-diagram.adoc
+asciidoctorj {
+    modules {
+        diagram.use()
+        diagram.version("2.2.13")
+    }
+    options(mapOf("header_footer" to true))
+    attributes(
+        mapOf(
+            "revnumber"    to "${project.version}",
+            "revdate"      to "2024",
+            "organization" to "oli b."
+        )
+    )
+}
+
 // ./gradlew publishToSonatype
 // check https://oss.sonatype.org/content/repositories/snapshots/de/jfachwert/
 nexusPublishing {
     repositories {
-        sonatype() {
+        sonatype {
             // credentials see ~/.gradle/gradle.properties
             // username.set("xxxxxxxx")
             // password.set("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
