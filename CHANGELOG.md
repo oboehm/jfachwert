@@ -9,11 +9,14 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Planned]
 - Speichervergleich BigDecimal zu PackedDecimal
 
-## [Unreleased]
+## [6.0.0] - 2024-09-29
 ### Changed
 - Aufteilung in Module zur Verringerung der Abhängigkeiten
+- Umstellung auf Gradle zum Bau und Deployment
 - GeldBetrag & Co in eigenes Modul (wegen Abhängigkeit zu javax.money:money-api)
 - Package von Geldbetrag & Waehrung ist jetzt `de.jfachwert.money`
+
+---
 
 ## [5.5.0] - 2024-07-12
 ### Added

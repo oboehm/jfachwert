@@ -53,31 +53,14 @@ letzte Release abgelegt wird.
 
 |Release starten
 |`git merge develop`
-`mvn versions:set; mvn versions:commit`
-|Änderungen des aktuellen develop-Branches auf den master-Branch bringen.
-Danach wird "-SNAPSHOT" von der Versions-Nummer entfernt sowie alle SNAPSHOT-Abhängkeiten.
-
-|alle Artefakte bauen (maven)
-|mvn clean install dokka:javadocJar source:jar gpg:sign -Dgpg.passphrase=xx
-|Die Artefakte werden anschliessend deploy't.
+|Änderungen des aktuellen develop-Branches auf den release-Branch bringen.
+Danach "-SNAPSHOT" von der Version in link:../buildSrc/src/main/kotlin/de.jfachwert.java-conventions.gradle.kts[de.jfachwert.java-conventions.gradle.kts] entfernen.
 
 |alle Artefakte bauen (gradle)
 |./gradlew clean assemble sign
-|ab v5.0 ist der Bau (teilweise) auch mit Gradle möglich.
+|ab v6 ist der Bau nur noch mit Gradle möglich, da das maven-dokka-plugin keine Maven-Module unterstützt
 
-|Version in deploy.sh prüfen
-|
-|Wichtig für das Deployment nach https://oss.sonatype.org/[oss.sonatype.org] ist,
-das die Versionsnummer im Deploy-Skript "src/script/deploy.sh"
-mit der Versionsnummer im POM übereinstimmt. Auch letzte Änderungen wie z.B.
-die Anpassung des Release-Datums in link:../CHANGELOG.md[CHANGELOG.md]
-können noch vorgenommen werden.
-
-|Release deployen (Maven)
-|`sh src/script/deploy.sh`
-|Damit werden die Artefakte signiert und nach https://oss.sonatype.org/[oss.sonatype.org] hochgeladen.
-
-|Release deployen (Gradle)
+|Release deployen (gradle)
 |./gradlew publishToSonatype
 |Damit werden die Artefakte nach https://oss.sonatype.org/[oss.sonatype.org] hochgeladen.
 Die Task funktioniert auch für Snapshots, sodass im Vorfeld das Hochladen ins https://oss.sonatype.org/content/repositories/snapshots/de/jfachwert/[Snapshot-Repo] getestet werden kann.

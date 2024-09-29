@@ -10,7 +10,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
  */
 
 group = "de.jfachwert"
-version = "6.0.0-SNAPSHOT"
+version = "6.0.0"
 
 object Meta {
     const val desc = "Implementierung einiger Fachwerte nach dem WAM-Ansatz"
