@@ -17,25 +17,33 @@
  */
 package de.jfachwert.bank
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
+import de.jfachwert.KFachwert
 import de.jfachwert.KSimpleValidator
-import de.jfachwert.money.Waehrung
 import de.jfachwert.money.pruefung.exception.LocalizedUnknownCurrencyException
+import de.jfachwert.pruefung.NullValidator
+import de.jfachwert.pruefung.exception.InvalidValueException
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
+import javax.money.CurrencyContext
 import javax.money.CurrencyUnit
+import javax.money.UnknownCurrencyException
 
 /**
- * Diese Klasse wurde ins money-Package verschoben. Sie ist nur noch aus
+ * Diese Klasse wurde ins money-Package kopiert. Sie ist nur noch aus
  * Kompatibiltaetsgruenden fuer eine Uebergangszeit im bank-Package.
  *
  * @deprecated: durch de.jfachwert.money.Waehrung ersetzt
  */
-class Waehrung(code: Currency, validator: KSimpleValidator<Currency>) :
-    de.jfachwert.money.Waehrung(code, validator) {
+@JsonSerialize(using = ToStringSerializer::class)
+open class Waehrung protected constructor(code: Currency, validator: KSimpleValidator<Currency>) : KFachwert, Comparable<CurrencyUnit>, CurrencyUnit {
 
     companion object {
+
         private val log = Logger.getLogger(Waehrung::class.java.name)
+        private val CACHE: MutableMap<String, Waehrung> = WeakHashMap()
         private val VALIDATOR: KSimpleValidator<String> = Validator()
 
         /** Default-Waehrung, die durch die Landeseinstellung (Locale) vorgegeben wird.  */
@@ -64,7 +72,8 @@ class Waehrung(code: Currency, validator: KSimpleValidator<Currency>) :
          */
         @JvmStatic
         fun of(currency: Currency): Waehrung {
-            return Waehrung(currency)
+            val key = currency.currencyCode
+            return CACHE.computeIfAbsent(key) { _: String? -> Waehrung(currency) }
         }
 
         /**
@@ -191,6 +200,153 @@ class Waehrung(code: Currency, validator: KSimpleValidator<Currency>) :
                 return Currency.getAvailableCurrencies().iterator().next()
             }
 
+        init {
+            CACHE[DEFAULT_CURRENCY.currencyCode] = DEFAULT
+        }
+    }
+
+    /**
+     * Liefert die Waehrung als Currency zurueck.
+     *
+     * @return Waehrung als Currency
+     */
+    val code: Currency
+
+    /**
+     * Darueber kann eine Waehrung angelegt werden.
+     *
+     * @param code z.B. "EUR"
+     */
+    constructor(code: String) : this(toCurrency(code))
+
+    /**
+     * Darueber kann eine Waehrung angelegt werden.
+     *
+     * @param code Waehrung
+     */
+    constructor(code: Currency) : this(code, NullValidator<Currency>())
+
+    /**
+     * Liefert die Currency zurueck.
+     *
+     * @return die Currency aus java.util.
+     */
+    val currency: Currency
+        get() = code
+
+    /**
+     * Liefert den Waehrungscode.
+     *
+     * @return z.B. "EUR"
+     */
+    override fun getCurrencyCode(): String {
+        return code.currencyCode
+    }
+
+    /**
+     * Liefert den numerischen Waehrungscode.
+     *
+     * @return z.B. 978 fuer EUro
+     */
+    override fun getNumericCode(): Int {
+        return code.numericCode
+    }
+
+    /**
+     * Liefert die Anzahl der Nachkommastellen einer Waehrung.
+     *
+     * @return meist 2, manchmal 0
+     */
+    override fun getDefaultFractionDigits(): Int {
+        return code.defaultFractionDigits
+    }
+
+    override fun getContext(): CurrencyContext {
+        throw UnsupportedOperationException("not yet implemented")
+    }
+
+    /**
+     * Liefert das Waehrungssymbol.
+     *
+     * @return z.B. "$"
+     */
+    val symbol: String
+        get() = code.symbol
+
+    /**
+     * Zum Vergleich wird der Waehrungscode herangezogen und alphabetisch
+     * verglichen.
+     *
+     * @param other die andere Waerhung
+     * @return eine negative Zahl wenn die ander Waehrung alphabetisch
+     * danach kommt.
+     */
+    override fun compareTo(other: CurrencyUnit): Int {
+        return currencyCode.compareTo(other.currencyCode)
+    }
+
+    /**
+     * Zwei Waehrungen sind nur dann gleich, wenn sie vom gleichen Typ sind .
+     *
+     * @param other zu vergleichender Waehrung
+     * @return true bei Gleichheit
+     * @see java.lang.Object.equals
+     */
+    override fun equals(other: Any?): Boolean {
+        if (other !is Waehrung) {
+            return false
+        }
+        return code == other.code
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    override fun hashCode(): Int {
+        return code.hashCode()
+    }
+
+    /**
+     * Als toString-Implementierung wird der Waehrungscode ausgegeben.
+     *
+     * @return z.B. "EUR"
+     */
+    override fun toString(): String {
+        return currencyCode
+    }
+
+    init {
+        this.code = validator.verify(code)
+    }
+
+
+
+    /**
+     * Dieser Validator ist fuer die Ueberpruefung von Waehrungen vorgesehen.
+     *
+     * @since 3.0
+     */
+    class Validator : KSimpleValidator<String> {
+
+        /**
+         * Wenn der uebergebene Waehrungsstring gueltig ist, wird er
+         * unveraendert zurueckgegeben, damit er anschliessend von der
+         * aufrufenden Methode weiterverarbeitet werden kann. Ist der Wert
+         * nicht gueltig, wird eine [ValidationException] geworfen.
+         *
+         * @param value Waehrungs-String, der validiert wird
+         * @return Wert selber, wenn er gueltig ist
+         */
+        override fun validate(value: String): String {
+            try {
+                toCurrency(value)
+            } catch (ex: IllegalArgumentException) {
+                throw InvalidValueException(value, "currency")
+            } catch (ex: UnknownCurrencyException) {
+                throw InvalidValueException(value, "currency")
+            }
+            return value
+        }
     }
 
 }

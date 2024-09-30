@@ -25,7 +25,7 @@ import de.jfachwert.FachwertTest;
 class WaehrungTest extends FachwertTest {
 
     @Override
-    protected de.jfachwert.money.Waehrung createFachwert() {
+    protected de.jfachwert.bank.Waehrung createFachwert() {
         return Waehrung.of("EUR");
     }
 

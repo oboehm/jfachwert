@@ -23,7 +23,7 @@ import org.javamoney.tck.TestUtils;
 import org.javamoney.tck.tests.internal.TestCurrencyUnit;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import patterntesting.runtime.annotation.SkipTestOn;
+import patterntesting.runtime.annotation.RunTestOn;
 import patterntesting.runtime.junit.ObjectTester;
 import patterntesting.runtime.junit.extension.SmokeTestExtension;
 
@@ -133,7 +133,7 @@ class WaehrungTest extends FachwertTest {
      * Fehler nicht mehr auf.
      */
     @Test
-    @SkipTestOn(javaVersion = "21")
+    @RunTestOn(javaVersion = "11")
     public void testImmutableWithTck() {
         TestUtils.testImmutable("4.2.1", Waehrung.class);
     }
