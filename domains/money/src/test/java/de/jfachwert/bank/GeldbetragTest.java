@@ -19,8 +19,6 @@ package de.jfachwert.bank;
 
 import de.jfachwert.FachwertTest;
 
-import java.math.BigDecimal;
-
 /**
  * Unit-Tests fuer {@link Geldbetrag}-Klasse.
  *
@@ -30,7 +28,7 @@ class GeldbetragTest extends FachwertTest {
 
     @Override
     protected Geldbetrag createFachwert() {
-        return new Geldbetrag(BigDecimal.ONE);
+        return Geldbetrag.of("1 EUR");
     }
 
 }

@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GeldbetragFactoryTest {
 
     private static final Logger LOG = Logger.getLogger(GeldbetragFactoryTest.class.getName());
-    protected GeldbetragFactory factory;
+    private GeldbetragFactory factory;
     
     @BeforeEach
     public void setUpFactory() {

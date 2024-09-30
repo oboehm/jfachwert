@@ -18,18 +18,29 @@
 package de.jfachwert.bank;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit-Tests fuer {@link GeldbetragFactory}-Klasse.
  *
  * @author oboehm
  */
-public class GeldbetragFactoryTest extends de.jfachwert.money.GeldbetragFactoryTest {
+public class GeldbetragFactoryTest {
+
+    private GeldbetragFactory factory;
 
     @BeforeEach
     public void setUpFactory() {
         factory = new GeldbetragFactory();
         factory.setCurrency(Waehrung.DEFAULT);
+    }
+
+    @Test
+    public void testCreate() {
+        Geldbetrag zero = factory.create();
+        assertEquals(Geldbetrag.ZERO, zero);
     }
 
 }
