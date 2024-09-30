@@ -9,17 +9,17 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":bank"))
-    implementation(project(":formular"))
-    implementation(project(":math"))
-    implementation(project(":money"))
-    implementation(project(":med"))
-    implementation(project(":net"))
-    implementation(project(":post"))
-    implementation(project(":rechnung"))
-    implementation(project(":steuer"))
-    implementation(project(":zeit"))
+    api(project(":core"))
+    api(project(":bank"))
+    api(project(":formular"))
+    api(project(":math"))
+    api(project(":money"))
+    api(project(":med"))
+    api(project(":net"))
+    api(project(":post"))
+    api(project(":rechnung"))
+    api(project(":steuer"))
+    api(project(":zeit"))
 }
 
 description = "jFachwert"

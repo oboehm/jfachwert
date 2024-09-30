@@ -44,8 +44,8 @@ asciidoctorj {
     )
 }
 
-// ./gradlew publishToSonatype
-// check https://oss.sonatype.org/content/repositories/snapshots/de/jfachwert/
+// ./gradlew publishToSonatype   -> check https://oss.sonatype.org/content/repositories/snapshots/de/jfachwert/
+// ./gradlew publishToMavenLocal -> check local maven repo at ~/.m2/repository/de/jfachwert
 nexusPublishing {
     repositories {
         sonatype {
