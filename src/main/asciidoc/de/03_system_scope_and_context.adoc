@@ -11,5 +11,5 @@ So heißt es im Deutschen _Kontonummer_ und nicht [.line-through]#_AccountNumber
 
 === Technischer Kontext
 
-jFachwert benötigt mindestens Java 8 und verwendet http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true[Optional] für optionale Parameter und Rückgabewerte.
-Damit sind _null_ als Parameter nicht erlaubt und können auch nicht als Rückgabewert vorkommen.
+jFachwert benötigt mindestens Java 11 oder Kotlin 1.9 und verwendet http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true[Optional] für optionale Parameter und Rückgabewerte.
+Auch schon vor der Umstellung auf Kotlin waren _null_ als Parameter nicht erlaubt und können auch nicht als Rückgabewert vorkommen.

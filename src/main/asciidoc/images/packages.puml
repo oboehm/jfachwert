@@ -2,8 +2,9 @@
 
 package "jfachwert" {
 
-    package "util" {
+    package "zeit" {
     }
+
 
     package "med" {
     }
@@ -29,7 +30,11 @@ package "jfachwert" {
     package "bank" {
     }
 
-    package "pruefung" {
+    frame "core" {
+        package "util" {
+        }
+        package "pruefung" {
+        }
     }
 
     bank ..> pruefung
@@ -40,6 +45,7 @@ package "jfachwert" {
     net ..> pruefung
     med ..> pruefung
     math ..> pruefung
+    zeit ..> pruefung
 
 }
 

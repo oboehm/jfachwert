@@ -25,11 +25,11 @@ Prinzipiell bieten sich dabei folgende Verfahren an:
 * Erzeugung über statische of(..)-Methode
 
 Builder-Pattern bieten sich eher dann dafür an, wenn die Erzeugung eines Objekts komplexer ist.
-Da Fachwerte aber tendenziell einfach aufgebaut sind und oft nur mit einem Argument für den Konstruktor auskommen, wird nur der Konstruktor für die Erzeugung eines Objekts angeboten.
+Da Fachwerte aber tendenziell einfach aufgebaut sind und oft nur mit einem Argument für den Konstruktor auskommen, wird der Konstruktor für die Erzeugung eines Objekts angeboten.
 
-Die Erzeugung über eine statische of(..)-Methode hat den Vorteil, dass Objekte, die oft benötigt werden, in einem Cache vorgehalten werden können.
-Dies beschleunigt die Erzeugung von Objekten, vor allem aber reduziert es den Speicherverbrauch.
-Deswegen werden ab v1.2 bereits erzeugte Objekte in einen Cache gelegt, um Duplikate zu vermeiden.
+Empfohlen wird aber, Fachwerte über die statische of(..)-Methode zu erzeugen, die bereits ab v1.2 angeboten wurde.
+Damit werden mehrfache Fachwerte mit gleichen Werten vermieden, da bereits erstellte Fachwerte in einem Cache vorgehalten werden.
+Dies beschleunigt nicht nur die Erzeugung von Fachwerten, sondern reduziert auch den Speicherverbrauch.
 
 
 
@@ -41,9 +41,9 @@ Um den Konstruktor übersichtlich zu halten, werden die Prüfung in eigene Valid
 Auch sind Prüfziffer-Verfahren, die zur Erkennung fehlerhafter Fachwerte dienen, eine Art der Validierung.
 Deswegen befinden sich Validatoren und Prüfziffer-Verfahren im selben Package.
 
-Viele Klassen bieten auch eine statische validate-Methode an, um auch ohne Kreierung von Fachwerten eine Überprüfung der Parameter durchführen zu können.
+Viele Klassen bieten auch eine statische validate-Methode an, um ohne Kreierung von Fachwerten eine Überprüfung der Parameter durchführen zu können.
 Mit Umstellung auf Kotlin in v4.0 ist die validate-Methode in ein Companion-Objekt gewandert.
-Druch ändert sich der Aufruf von `UStdIdNr.validate("DE136695970")` in `UStIdNr.Companion.validate("DE136695970")`.
+Dadurch ändert sich der Aufruf von `UStdIdNr.validate("DE136695970")` in `UStIdNr.Companion.validate("DE136695970")`.
 
 IMPORTANT: Ab jFachwert 1.0 wird jetzt eine IllegalArgumentException (und nicht mehr eine ValidationException) geworfen, wenn die Validierung im Konstruktor fehlschlägt.
 Damit verhält sich jFachwert jetzt so, wie man es von anderen Konstruktoren gewohnt ist.

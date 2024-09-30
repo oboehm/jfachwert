@@ -33,8 +33,9 @@ Diese Bibliothek greift die Idee von damals (s.o.) wieder auf, ist aber nicht au
 * wenig externe Abhängigkeiten
 
 Im März 2017 wurde jfachwert im Maven-Repository aufgenommen (https://issues.sonatype.org/browse/OSSRH-28810[OSSRH-29910]).
-Die Bibliothek setzt auf Java 8 auf.
-Ab Oktober 2019 wurde die die Bibliothek auf Kotlin umgestellt, während die JUnit-Tests in Java verblieben (um die Kompatibilität mit Java sicherzustellen).
+Die Bibliothek setzte usprünglich auf Java 8 auf.
+Ab Oktober 2019 wurde die Bibliothek mit v4 auf Kotlin umgestellt, während die JUnit-Tests in Java verblieben (um die Kompatibilität mit Java sicherzustellen).
+Inzwischen ist Java 11 Mindestvoraussetzung für jFachwert.
 
 
 === Qualitätsziele
@@ -44,6 +45,7 @@ Ab Oktober 2019 wurde die die Bibliothek auf Kotlin umgestellt, während die JUn
 ** automatische Tests (angestrebte Testabdeckung: > 70%)
 * ungültige Werte sollen zurückgewiesen werden
 * sauberes Exception-Handling
+* kleiner Footprint
 
 
 

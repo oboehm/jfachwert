@@ -4,9 +4,9 @@
 
 === Technische Randbedingungen
 
-Ursprünglich setzte jFachwert auf Java 8 auf, wurde aber ab Oktober 2019 auf *Kotlin* umgstellt.
-Dennoch sollte jFachwert sowohl mit Java 8 und Java 11 laufen.
-Dies wird durch JUnit-Tests sichergestellt, die in Java verblieben sind und die mit Java 8 und Java 11 ausgeführt werden.
+Ursprünglich setzte jFachwert auf Java 8 auf, wurde aber ab Oktober 2019 auf *Kotlin* und später (Januar 2022) auf Java 11 umgestellt. Inzwischen ist die Entwicklungsumgebung Java 21.
+Dennoch sollte jFachwert sowohl mit Java 11 laufen.
+Dies wird durch JUnit-Tests sichergestellt, die in Java verblieben sind und die im CI-Prozess (GitHub Actions) mit Java 11 ausgeführt werden.
 
 Die Abhängigkeiten zu anderen Bibliotheken werden auf ein Minimum reduziert.
 Dies erleichtert den Einsatz von jFachwert für andere Projekte.
