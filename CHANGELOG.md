@@ -9,9 +9,9 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Planned]
 - Speichervergleich BigDecimal zu PackedDecimal
 
-## [Unreleased]
-
-- Kompatibilität zur alten Geldbetrag-Klassen im money-Modul erhöt
+## [6.0.1] - 2024-09-30
+### Fixed
+- Kompatibilität zur alten Geldbetrag-Klassen aus dem bank-Package (jetzt: money-Modul) erhöht
 - transitive Abhängigkeiten zu Modulen in de.jfachwert:jfachwert
 
 
