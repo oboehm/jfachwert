@@ -8,8 +8,8 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":math"))
+    api(project(":core"))
+    api(project(":math"))
     implementation(project(":post"))
     testImplementation(project(":test"))
 }

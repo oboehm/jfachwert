@@ -9,8 +9,8 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":math"))
+    api(project(":core"))
+    api(project(":math"))
     testImplementation(project(":test"))
     testImplementation("org.javamoney:moneta-bp:1.4.1")
     compileOnly("javax.money:money-api:1.1")

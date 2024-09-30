@@ -8,8 +8,8 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":math"))
+    api(project(":core"))
+    api(project(":math"))
     implementation("javax.money:money-api:1.1")
     testImplementation(project(":money"))
     testImplementation(project(":test"))
