@@ -14,7 +14,7 @@ include::../images/packages.puml[]
 
 Enthaltene Bausteine::
 
-Die einzelnen Klassen sind in fachliche Packages aufgeteilt.
+Die einzelnen Klassen sind in fachliche Packages aufgeteilt, die jeweils in einem gleichnamigen Modul gebündelt sind:
 
 .Packages
 [cols="1,4" options="header"]
@@ -23,6 +23,9 @@ Die einzelnen Klassen sind in fachliche Packages aufgeteilt.
 
 |bank
 |alles, was mit Banken zu tun hat wie `IBAN`, `BIC` oder `Kontonummer`
+
+|money
+|hier liegt der `GeldBetrag` und andere Klassen wie `Waehrung`, die das Money-API implementieren
 
 |steuer
 |das Finanzamt lässt grüßen - hier sind Fachwerte wie `Steuernummer` und `UStIdNr` defniert
@@ -49,7 +52,8 @@ Die einzelnen Klassen sind in fachliche Packages aufgeteilt.
 |Fachwerte für den Umgang mit Zeitangaben
 |===
 
-Das pruefung-Package enthält Klassen zur Validierung und zu verschiedenen Pruefzifferverfahren.
+Klassen und Interfaces wie z.B. `Fachwert` bzw. `KFachwert`, die für all diese Packages die Basis sind, liegen im core-Modul.
+Hier liegt auch das pruefung-Package, das Klassen zur Validierung und verschiedene `PruefzifferVerfahren`.
 So enthalten manche Fachwerte wie `IBAN` eine Pruefziffer, um Fehleingaben zu erkennen.
 
 [IMPORTANT]
@@ -70,7 +74,15 @@ include::../images/package-bank.puml[]
 Mit dem bank-Package hat alles angefangen.
 Die Fachwerte in diesem Paket repräsentieren Konzepte, die im Bank-Umfeld typischerweise anzutreffen sind.
 
-Die `Geldbetrag` und `Waehrung`-Klasse implementiert dabei die aktuelle Money-API 1.1 und wurde gegen das aktuelle TCK getestet.
+
+==== money
+
+["plantuml", "package-money", "svg"]
+------------------------------------------------
+include::../images/package-money.puml[]
+------------------------------------------------
+
+Die `Geldbetrag` und `Waehrung`-Klasse implementiert die aktuelle Money-API 1.1 und wurde gegen das aktuelle TCK getestet.
 Aus diesem Grund wurde die GeldbetragFactory hinzugefügt, die vom TCK zum Aufsetzen der Tests verwendet wird.
 
 
@@ -145,6 +157,8 @@ Das util-Package ist mit v0.7 hinzugekommen.
 Es enthält im Wesentliche die TinyUUID- und SmallUUID-Klasse, die die gleiche Funktionalität wie die UUID-Klasse hat.
 Lediglich die toString()-Methode liefert eine kompaktere Schreibweise (22 bzw. 25 Zeichen) als die UUID-Klasse (36 Zeichen).
 
+Das util-Package befindets sich im core-Modul.
+
 
 ==== formular
 
@@ -175,7 +189,7 @@ include::../images/package-zeit.puml[]
 ------------------------------------------------
 
 Das zeit-Package ist mit v5 hinzugekommen.
-Die darin enthalt Zeitdauer-Klasse eignet u.a. für die Zeitmessung von Berechnungen:
+Die darin enthalt Zeitdauer-Klasse eignet sich u.a. für die Zeitmessung von Berechnungen:
 
 [source,java]
 ----
@@ -202,6 +216,8 @@ Dazu gehoeren:
 * Prüf-Verfahren
 * Validatoren
 * Exceptions
+
+Das pruefung-Packge befindet sich im Modul `util`.
 
 
 ==== Validatoren
@@ -247,6 +263,11 @@ Geldbetrag vereinfacht den Umgang mit der Erzeugung von MonetaryAmount-Instanzen
 * statische valueOf-Methoden (anlog zur BigDecimal-Klasse),
 * statische of-Methoden (analog zur Money-Klasse)
 
+Mit v6 wurde die Geldbetrag aus dem bank-Packag in ein eigenes money-Modul verschoben.
+Damit änderte sich auch das Package zu `de.jfachwwert.money`.
+Damit konnte die Abhängigkeit zur Money-API reduziert werden.
+Es hatte sich herausgestellt, dass die Geldbetrag-Klasse relativ selten benötigt wird.
+
 
 ==== ... als Alternative zu BigDecimal
 
@@ -256,9 +277,9 @@ So gibt es auch hier eine valueOf()-Methode, die eine Zahl in einen Geldbetrag u
 
 ==== ... als Alternative zur Money-Klasse
 
-["plantuml", "package-bank-geldbetrag", "svg"]
+["plantuml", "package-money", "svg"]
 ------------------------------------------------
-include::../images/package-bank-geldbetrag.puml[]
+include::../images/package-money.puml[]
 ------------------------------------------------
 
 Die GeldbetragFactory ist durch JSR 354 vorgegeben, ebendso die Waehrung-Klasse.

@@ -5,7 +5,6 @@ package "jfachwert" {
     package "zeit" {
     }
 
-
     package "med" {
     }
 
@@ -27,6 +26,9 @@ package "jfachwert" {
     package "formular" {
     }
 
+    package "money" {
+    }
+
     package "bank" {
     }
 
@@ -38,6 +40,7 @@ package "jfachwert" {
     }
 
     bank ..> pruefung
+    money ..> pruefung
     formular ..> pruefung
     steuer ..> pruefung
     post ..> pruefung

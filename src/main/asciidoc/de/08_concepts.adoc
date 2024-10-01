@@ -16,5 +16,5 @@ Für diese Fachwerte werden die Gemeinsamkeiten in AbstractFachwert zusammengefa
 
 Validierung von Fachwerten findet im Konstruktor statt.
 Zur Unterstützung gibt es eine Reihe von Validatoren und Prüfziffer-Verfahren, die im `pruefung`-Package zu finden sind.
-Will man die Validierung direkt ausführen, bitten die meisten Klassen eine validate-Methode im Companion-Objekt an.
+Will man die Validierung direkt ausführen, bieten die meisten Klassen eine validate-Methode im Companion-Objekt an.
 Ansonsten kann man für die Validierung auch direkt auf die Validatoren zugreifen.

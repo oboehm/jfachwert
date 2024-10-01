@@ -1,6 +1,6 @@
 @startuml
 
-package "de.fachwert.bank" {
+package "de.jfachwert.money" {
 
     class GeldbetragFactory
     class Waehrung

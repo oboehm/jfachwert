@@ -1,24 +1,28 @@
 @startuml
 
-package "pruefung" {
+frame "core" {
 
-    class AccessValidator
-    class EMailValidator
-    class LengthValidator
-    class Mod11Verfahren
-    class Mod10Verfahren
-    class LuhnVerfahren
-    class NoopVerfahren
-    class NullValidator
-    class NumberValidator
-    class TelefonnummerValidator
+    package "pruefung" {
 
-    package "exception" {
-        class IllegalLengthException
-        class InvalidValueException
-        class LocalizedValueException
-        class NullValueException
-        class PruefzifferException
+        class AccessValidator
+        class EMailValidator
+        class LengthValidator
+        class Mod11Verfahren
+        class Mod10Verfahren
+        class LuhnVerfahren
+        class NoopVerfahren
+        class NullValidator
+        class NumberValidator
+        class TelefonnummerValidator
+
+        package "exception" {
+            class IllegalLengthException
+            class InvalidValueException
+            class LocalizedValueException
+            class NullValueException
+            class PruefzifferException
+        }
+
     }
 
 }

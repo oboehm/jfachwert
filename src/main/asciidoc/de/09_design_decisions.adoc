@@ -6,7 +6,7 @@
 === Keine `null`-Werte
 
 Ein Grund für die Migration auf Kotlin war die Unterbindung von null-Werten.
-Damit kann schon auf Aufruf-Ebene schon garantiert werden, dass null-Werte nicht weitergegeben werden, sondern sofort zum Fehler führen ("fail fast").
+Damit kann schon auf Aufruf-Ebene garantiert werden, dass null-Werte nicht weitergegeben werden, sondern sofort zum Fehler führen ("fail fast").
 
 
 === NULL-Konstanten
@@ -17,7 +17,7 @@ Damit können Variablen mit diesem Wert vorbelegt werden.
 
 === Kein Logging / Minimale Abhängigkeiten
 
-Um nicht von einem bestimmten Log-Framework abhängig zu sein, wurde auf Logging weitgehend verzichtet.
+Um nicht von einem bestimmten Log-Framework abhängig zu sein, wird auf Logging weitgehend verzichtet.
 Das bedeutet, dass in einem Falle eines Fehlers oder fehlerhaften Aufrufs eine hilfreiche Exception ausgelöst wird.
 Diese Exception stellt alle Informationen zur Verfügung, um die Ursache des Fehlers zu finden.
 Exceptions, die abgefangen und behandelt werden, werden ueber das Logging-Framework des JDKs protokolliert.
@@ -28,9 +28,11 @@ Die einzigen Abhängigkeiten, die in Kauf genommen werden, sind:
 
 * kotlin-stdlib: diese Bibliothek kam durch die Umstellung auf Kotlin in v4 hinzu
 * commons-lang3: diese Bibliothek ist bereits als Abhängigkeit vieler anderer Bibliotheken vorhanden
-* validation-api: Basis-Bibliothek für Validierung (wird mit v5 entfernt)
-* money-api (JSR 354): diese API sowie einige weitere Bibliotheken dazu sind optional, da sie Java 9 Bestandteil des JDKs sind.
-  Evtl. müssen sie unter Java 8 als Dependency mit aufgeführt werden, wenn diese Funktionalität benötigt wird.
+* validation-api: Basis-Bibliothek für Validierung (nur bis v5)
+* money-api (JSR 354): diese API sowie einige weitere Bibliotheken sollten ab Java 9 Bestandteil des JDKs sein.
+  Tatsächlich müssen sie immer noch als Dependency aufgeführt werden.
+  Deswegen wurde mit v6 die Bibliothek in verschiedene Unterbibliotheken aufgeilt.
+  Damit kann diese API-Lib weggelassen werden, wenn kein Umgang mit Geldbeträgen benötigt wird.
 
 Mit v4.4 wurde die Abhänigkeit zu commons-text und commons-collections4 wieder entfernt, da Kotlin hierfür genügend Unterstützung anbietet, um die fehlende Funktionalität selbst zu implementieren.
 Auch wurde die `ValidationException` aus der validation-api-Bibliothek durch eine gleichnamige Exception aus `de.jfachwert.pruefung.exception` ersetzt, um die Abhängigkeit zu JavaEE zu vermeiden.

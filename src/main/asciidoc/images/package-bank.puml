@@ -1,13 +1,13 @@
 @startuml
 
-package "de.fachwert" {
+package "de.jfachwert" {
 
     interface Fachwert
     class AbstractFachwert
 
 }
 
-package "de.fachwert.bank" {
+package "de.jfachwert.bank" {
 
     class Kontonummer
     class IBAN
@@ -17,9 +17,6 @@ package "de.fachwert.bank" {
         IBAN iban
         BIC bic
     }
-    class Geldbetrag
-    class GeldbetragFactory
-    class Waehrung
     class Zinssatz
 
 }
@@ -31,15 +28,14 @@ AbstractFachwert <|-- IBAN
 AbstractFachwert <|-- BLZ
 AbstractFachwert <|-- BIC
 Fachwert <|.. Bankverbindung
-Fachwert <|.. Geldbetrag
-Fachwert <|.. Waehrung
 Fachwert <|.. Zinssatz
 
 interface javax.money.MonetaryAmount #white
 
-javax.money.MonetaryAmount <|.. Geldbetrag
-Geldbetrag -- Waehrung
-GeldbetragFactory .. Geldbetrag
-GeldbetragFactory .. Waehrung
+javax.money.MonetaryAmount <.. Zinssatz
+
+class de.jfachwert.math.Prozent
+
+de.jfachwert.math.Prozent <.. Zinssatz
 
 @enduml
