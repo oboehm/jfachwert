@@ -11,5 +11,5 @@ Bei fehlerhaften Aufrufen wird eine aussagekräftige Exception geworfen, aus der
 Durch den Fokus auf Validierung und Optimierung des Speicherverbrauchs spielt Performance eine untergeordnete Rolle.
 Dies ist bei der Generierung vieler Objekte zu beachten.
 
-Durch die Umstellung auf Kotlin in v4 kann es zu Kompatibiltaetsproblemen mit v3 kommen.
+Durch die Umstellung auf Kotlin in v4 kann es zu Kompatibiltätsproblemen mit v3 kommen.
 Dieses Risiko wird durch zusätztliche Tests mit Demo-Klassen (die aus Projekten wie https://github.com/oboehm/gdv.xport[gdv.xport] stammen) reduziert.

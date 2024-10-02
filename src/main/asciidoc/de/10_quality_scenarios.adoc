@@ -20,7 +20,7 @@ image:../images/Q.png[Qualitätsanforderungen]
 |Performance
 |
 |Performance spielt eine untergeordnete Rolle beim Anlegen von Objekten.
-Wichtiger ist, dass nur valide Objekte erzeugt werden können.
+Stattdessen wurde auf einen minimalen Footprint der erzeugten Objekte geachtet.
 
 |Zuverlässigkeit
 |Testabdeckung

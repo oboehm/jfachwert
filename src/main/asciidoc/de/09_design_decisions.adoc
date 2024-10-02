@@ -51,8 +51,8 @@ Jede Klasse besitzt einen Konstruktor, der als letztes Argument einen Validator 
 Damit ist sichergestellt, dass
 
 * nur gültige Fachwerte erzeugt werden können,
-* der Validator von der abgeleiteten Klasse ver- oder entschärft werden kann (je nach Anforderung).
-
+* der Validator von der abgeleiteten Klasse ver- oder entschärft werden kann (je nach Anforderung),
+* der Validator bewusst über der `NoopValidator` deaktiviert werden muss.
 
 
 === Minimaler Footprint
@@ -61,14 +61,14 @@ Mit v2.0 wurde mit einer Reihen von Massnahmen der Speicherverbrauch reduziert:
 
 * Minimierung der Anzahl interner Attribute
 * Verwendung nativer Datentypen (soweit sinnvoll und möglich)
-* Verwendung von PackedDecimal (soweit sinnvoll und möglich)
+* Verwendung von `PackedDecimal` (soweit sinnvoll und möglich)
 * Reduzierung von Duplikaten durch Einführung einer of-Methode zusammen mit Caching (s.u.).
 
 Der minimale Footprint wird teilweise durch eine aufwendigere Objekt-Erzeugung oder/und Methoden-Zugriff erkauft.
 Dies kann evtl. bei Massenverarbeitung zum Flaschenhals werden.
 Hier kann man aber durch parallele Zugriffe entgegensteuern.
 
-Damit sind Fachwerte auch für große Datenmengen geeignet, die im Hauptspeicher gehalten und parallel verarbeitet werden sollen.
+Damit sind Fachwerte speziell für große Datenmengen geeignet, die im Hauptspeicher gehalten und parallel verarbeitet werden sollen.
 
 
 
@@ -82,7 +82,7 @@ Mit der Einführung des math-Package in v0.6 wurde of bei einigen Klassen eine s
 * erhöhte Lesbarkeit
 
 Dies lohnt sich vor allem für Objekte, die immer den gleichen Werte oder nur einige Werte haben (z.B. Rechnungsmonat).
-Dies kann bei sehr vielen Objekten einen spürbaren Rückgang des Speicherverbraucs bedeuten.
+Dies kann bei sehr vielen Objekten einen spürbaren Rückgang des Speicherverbrauchs bedeuten.
 
 Bei Klassen, die Ähnlichkeiten zur Number-Klasse haben (wie z.B. Geldbetrag), wird zusätzlich zur of-Methode eine valueOf-Methode bereitgestellt, analog zur valueOf-Methode der Number-Klasse.
 
@@ -132,11 +132,13 @@ Gründe für eine eigene Implementierung waren:
 Der letzte Punkt ist auch der Grund, warum die Geldbetrag-Klasse zusätzlich zur of(..)-Methoden auch valueOf(..)-Methoden besitzen.
 Dabei werden die gleichen Parameter wie bei BigDecimal akzeptiert.
 
+Ab v6 liegt die Geldbetrag- und verwandte Klassen im money-Package. Für eine Übergangszeit sind sie auch noch im bank-Package vorhanden, wo sie vorher beiheimatet waren. Mit v7 werden sie aber entfernt werden.
+
 
 ==== JSR 354 - Technical Compatibiliy Kit (TCK)
 
 Auf GitHub gibt es unter https://github.com/JavaMoney/jsr354-tck[JavaMoney/jsr354-tck] ein TCK, das zur Verifizierung der korrekten Implementierung herangeogen wird.
-Resultat des TCKs war u.a. die `GeldbetragFactory`-Klasse, aber auch andere Klassen, die nur für den internen Gebrauch gedacht sind und dementsprechend auch unter `de.jfachwert.bank.internal` abgelegt wurden.
+Resultat des TCKs war u.a. die `GeldbetragFactory`-Klasse, aber auch andere Klassen, die nur für den internen Gebrauch gedacht sind und dementsprechend auch unter `de.jfachwert.money.internal` abgelegt wurden.
 Aufgerufen wird das TCK über den Integrationstest `GeldbetragIT`.
 
 Aktuell schlägt ein Test mit dem TCK fehl.
