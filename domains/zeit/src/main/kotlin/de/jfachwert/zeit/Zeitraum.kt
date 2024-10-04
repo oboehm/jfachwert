@@ -37,7 +37,7 @@ import java.util.*
  */
 @JsonSerialize(using = ToFachwertSerializer::class)
 open class Zeitraum
-constructor(val von: Zeitpunkt, val bis: Zeitpunkt) : KFachwert {
+constructor(val von: Zeitpunkt = Zeitpunkt.MIN, val bis: Zeitpunkt = Zeitpunkt.MAX) : KFachwert {
 
     /**
      * Zerlegt den uebergebenen String in zwei Zeitpunkte "von" und "bis".
@@ -218,6 +218,26 @@ constructor(val von: Zeitpunkt, val bis: Zeitpunkt) : KFachwert {
         fun of(von: Zeitpunkt?, bis: Zeitpunkt?): Zeitraum {
             val pair = Pair(von?: Zeitpunkt.MIN, bis?: Zeitpunkt.MAX)
             return WEAK_CACHE.computeIfAbsent(pair) { Zeitraum(pair.first, pair.second) }
+        }
+
+        /**
+         * Liefert einen Zeitraum vom gegebenen Start-Zeitpunkt.
+         *
+         * @param start Start-Zeitpunkt
+         */
+        @JvmStatic
+        fun von(start: Zeitpunkt): Zeitraum {
+            return of(start, Zeitpunkt.MAX)
+        }
+
+        /**
+         * Liefert einen Zeitraum bis zum gegebenen End-Zeitpunkt.
+         *
+         * @param end End-Zeitpunkt
+         */
+        @JvmStatic
+        fun bis(end: Zeitpunkt): Zeitraum {
+            return of(Zeitpunkt.MIN, end)
         }
 
         private fun split(vonbis: String) : Map<String, Zeitpunkt> {

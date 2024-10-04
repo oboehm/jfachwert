@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author oboehm
  * @since 5.2 (19.01.24)
  */
-public final class ZeitraumTest extends FachwertTest {
+final class ZeitraumTest extends FachwertTest {
 
     @Override
     protected Zeitraum createFachwert() {
@@ -87,15 +87,21 @@ public final class ZeitraumTest extends FachwertTest {
     }
 
     @Test
-    void offenerZeitraumBis() {
-        Zeitraum zeitraum = Zeitraum.of(Zeitpunkt.now(), null);
+    void offenerZeitraumVon() {
+        Zeitpunkt now = Zeitpunkt.now();
+        Zeitraum zeitraum = Zeitraum.of(now, null);
         assertEquals(Zeitpunkt.MAX, zeitraum.getBis());
+        Zeitraum von = Zeitraum.von(now);
+        assertEquals(zeitraum, von);
     }
 
     @Test
-    void offenerZeitraumVon() {
-        Zeitraum zeitraum = Zeitraum.of(null, LocalDateTime.now());
+    void offenerZeitraumBis() {
+        Zeitpunkt now = Zeitpunkt.now();
+        Zeitraum zeitraum = Zeitraum.of(null, now);
         assertEquals(Zeitpunkt.MIN, zeitraum.getVon());
+        Zeitraum bis = Zeitraum.bis(now);
+        assertEquals(zeitraum, bis);
     }
 
     @Test

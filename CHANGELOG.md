@@ -9,6 +9,11 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Planned]
 - Speichervergleich BigDecimal zu PackedDecimal
 
+## [Unreleased]
+### Added
+- weitere Unterstützung für offene Zeiträume
+  ([#23](https://github.com/oboehm/jfachwert/issues/23))
+
 ## [6.0.1] - 2024-09-30
 ### Fixed
 - Kompatibilität zur alten Geldbetrag-Klassen aus dem bank-Package (jetzt: money-Modul) erhöht
