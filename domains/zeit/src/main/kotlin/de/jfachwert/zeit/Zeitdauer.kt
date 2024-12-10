@@ -268,6 +268,18 @@ open class Zeitdauer(private val von: Zeitpunkt, private val bis: Zeitpunkt? = n
         /**
          * Liefert eine Zeitdauer zurueck.
          *
+         * @param millis Zeit in Millisekunden
+         * @return die Zeitdauer
+         * @since 6.1
+         */
+        @JvmStatic
+        fun of(millis: Long): Zeitdauer {
+            return of(millis, TimeUnit.MILLISECONDS)
+        }
+
+        /**
+         * Liefert eine Zeitdauer zurueck.
+         *
          * @param von Zeitpunkt in Nanosekunden
          * @param bis Zeitpunkt in Nanosekunden
          * @return die Zeitdauer

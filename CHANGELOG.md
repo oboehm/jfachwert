@@ -13,6 +13,8 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ### Added
 - weitere Unterstützung für offene Zeiträume
   ([#23](https://github.com/oboehm/jfachwert/issues/23))
+- Zeitdauer.of(long) hinzugefügt
+
 
 ## [6.0.1] - 2024-09-30
 ### Fixed

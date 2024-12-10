@@ -103,7 +103,7 @@ public final class ZeitdauerTest extends FachwertTest {
 
     @Test
     void testTimeInMillis() {
-        Zeitdauer zeitdauer = Zeitdauer.of(3, TimeUnit.MILLISECONDS);
+        Zeitdauer zeitdauer = Zeitdauer.of(3);
         assertEquals(3L, zeitdauer.getTimeInMillis());
     }
 
