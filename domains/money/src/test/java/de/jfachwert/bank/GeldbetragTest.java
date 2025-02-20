@@ -18,6 +18,9 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.FachwertTest;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit-Tests fuer {@link Geldbetrag}-Klasse.
@@ -29,6 +32,13 @@ class GeldbetragTest extends FachwertTest {
     @Override
     protected Geldbetrag createFachwert() {
         return Geldbetrag.of("1 EUR");
+    }
+
+    @Test
+    void toCent() {
+        long cents = 12345L;
+        Geldbetrag betrag = Geldbetrag.fromCent(cents);
+        assertEquals(cents, betrag.toCent());
     }
 
 }

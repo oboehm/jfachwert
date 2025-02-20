@@ -9,6 +9,10 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Planned]
 - Speichervergleich BigDecimal zu PackedDecimal
 
+## [Unreleased]
+### Added
+- Geldbetrag.toCent() hinzugefügt
+
 ## [6.0.2] - 2025-01-02
 ### Added
 - weitere Unterstützung für offene Zeiträume
