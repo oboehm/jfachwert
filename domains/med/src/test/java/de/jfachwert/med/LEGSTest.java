@@ -70,6 +70,13 @@ public class LEGSTest extends AbstractFachwertTest<String, LEGS> {
     }
 
     @Test
+    public void testFormatted() {
+        LEGS legs = LEGS.of("91 02 999");
+        assertEquals("91 02 999", legs.getFormatted());
+        assertEquals("9102999", legs.getUnformatted());
+    }
+
+    @Test
     public void testTK() {
         LEGS legs = LEGS.of("15 02 B05");
         assertEquals("B05", legs.getTK());

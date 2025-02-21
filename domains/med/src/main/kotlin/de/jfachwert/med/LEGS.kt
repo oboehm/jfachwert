@@ -41,6 +41,24 @@ open class LEGS
 @JvmOverloads constructor(code: String, validator: KSimpleValidator<String> = VALIDATOR) : AbstractFachwert<String, LEGS>(code, validator) {
 
     /**
+     * Liefert die LEGS formattiert mit Leerzeichen zurueck
+     *
+     * @return formatierte LEGS, z.B. "81 02 999"
+     */
+    val formatted: String
+        get() {
+            return code.substring(0, 2) + " " + code.substring(2, 4) + " " + getTK()
+        }
+
+    /**
+     * Liefert die unformattierte LEGS.
+     *
+     * @return unformattierte LEGS
+     */
+    val unformatted: String
+        get() = code
+
+    /**
      * Liefert das Tarifkennzeichen (TK).
      *
      * @return 3-stellige Vertragsnummer, z.B. "B05"
@@ -94,17 +112,6 @@ open class LEGS
         @JvmStatic
         fun of(code: String): LEGS {
             return WEAK_CACHE.computeIfAbsent(code) { s: String -> LEGS(s) }
-        }
-
-        /**
-         * Ueberprueft die uebergebenen Nummer, ob sie 7-stellig und eine
-         * korrekte LEGS darstellt.
-         *
-         * @param nummer 7-stelliger Schluessel
-         * @return der Schluessel selbst zur Weiterverarbeitung
-         */
-        fun validate(nummer: String): String {
-            return VALIDATOR.validate(nummer)
         }
 
     }
