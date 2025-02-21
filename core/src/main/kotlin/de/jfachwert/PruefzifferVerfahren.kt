@@ -60,7 +60,7 @@ interface PruefzifferVerfahren<T : Serializable> : KSimpleValidator<T> {
      * @param wert Fachwert oder gekapselter Wert
      * @return true oder false
      */
-    fun isValid(wert: T): Boolean {
+    override fun isValid(wert: T): Boolean {
         val pruefziffer = getPruefziffer(wert)
         return pruefziffer == berechnePruefziffer(wert)
     }

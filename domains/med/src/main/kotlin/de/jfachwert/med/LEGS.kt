@@ -82,7 +82,7 @@ open class LEGS
      * @return normalerweise 'true'
      */
     override fun isValid(): Boolean {
-        return VALIDATOR.isVald(code)
+        return VALIDATOR.isValid(code)
     }
 
     /**

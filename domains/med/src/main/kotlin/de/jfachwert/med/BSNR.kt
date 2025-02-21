@@ -65,7 +65,7 @@ open class BSNR
      * @return true oder false
      */
     override fun isValid(): Boolean {
-        return VALIDATOR.isVald(code)
+        return VALIDATOR.isValid(code)
     }
 
     /**

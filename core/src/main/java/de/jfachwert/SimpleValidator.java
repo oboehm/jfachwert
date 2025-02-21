@@ -77,7 +77,7 @@ public interface SimpleValidator<T extends Serializable> extends Serializable {
      * @param value Wert, der geprueft wird
      * @return true oder false
      */
-    default boolean isVald(T value) {
+    default boolean isValid(T value) {
         try {
             validate(value);
             return true;
@@ -85,6 +85,19 @@ public interface SimpleValidator<T extends Serializable> extends Serializable {
             logger.log(Level.FINE, "'$value' ist ungueltig:", ex);
             return false;
         }
+    }
+
+    /**
+     * Diese Methode hatte bis v6 einen Schreibfehler und ist deswegen jetzt
+     * deprecated.
+     *
+     * @param value Wert, der geprueft wird
+     * @return true oder false
+     * @deprecated wegen Schreibfehler
+     */
+    @Deprecated
+    default boolean isVald(T value) {
+        return isValid(value);
     }
 
     /**
