@@ -47,7 +47,7 @@ open class LEGS
      */
     val formatted: String
         get() {
-            return code.substring(0, 2) + " " + code.substring(2, 4) + " " + getTK()
+            return code.substring(0, 2) + " " + code.substring(2, 4) + " " + code.substring(4)
         }
 
     /**
@@ -59,12 +59,21 @@ open class LEGS
         get() = code
 
     /**
+     * Liefert den Abrechnungscode (AC).
+     *
+     * @return 2-stelliger Abrechnungscode, z.B. "01B05"
+     */
+    open fun getAC() : String {
+        return code.substring(0, 2)
+    }
+
+    /**
      * Liefert das Tarifkennzeichen (TK).
      *
-     * @return 3-stellige Vertragsnummer, z.B. "B05"
+     * @return 5-stellige Vertragsnummer, z.B. "01B05"
      */
     open fun getTK() : String {
-        return code.substring(4)
+        return code.substring(2)
     }
 
     /**

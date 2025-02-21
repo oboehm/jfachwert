@@ -77,9 +77,15 @@ public class LEGSTest extends AbstractFachwertTest<String, LEGS> {
     }
 
     @Test
+    public void testAC() {
+        LEGS legs = LEGS.of("15 02 B05");
+        assertEquals("15", legs.getAC());
+    }
+
+    @Test
     public void testTK() {
         LEGS legs = LEGS.of("15 02 B05");
-        assertEquals("B05", legs.getTK());
+        assertEquals("02B05", legs.getTK());
     }
 
     @Test
