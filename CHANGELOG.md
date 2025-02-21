@@ -11,6 +11,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ## [Unreleased]
 ### Added
+- LEGS (Leistungserbringergruppenschlüssel) in med-Package hinzugefügt
 - Geldbetrag.toCent() hinzugefügt
 
 ## [6.0.2] - 2025-01-02

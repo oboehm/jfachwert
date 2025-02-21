@@ -164,6 +164,7 @@ class FachwertFactory private constructor() {
             instance.register("de.jfachwert.med.Hilfsmittelnummer")
             instance.register("de.jfachwert.med.IK")
             instance.register("de.jfachwert.med.LANR")
+            instance.register("de.jfachwert.med.LEGS")
             instance.register("de.jfachwert.med.PZN")
             instance.register("de.jfachwert.med.SNOMED")
             instance.register("de.jfachwert.med.Versichertennummer")
