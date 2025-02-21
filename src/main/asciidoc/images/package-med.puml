@@ -4,6 +4,7 @@ package "med" {
 
     class IK
     class LANR
+    class LEGS
     class BSNR
     class Hilfsmittelnummer
     class PZN
