@@ -694,7 +694,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
      * @since 6.1
      */
     fun getBetrag(): BigDecimal {
-        return betrag.setScale(2, RoundingMode.HALF_UP);
+        return betrag.setScale(2, RoundingMode.HALF_UP)
     }
 
     /**
@@ -1037,6 +1037,19 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
         @JvmStatic
         fun valueOf(value: Number, currency: String): Geldbetrag {
             return valueOf(value, toCurrency(currency))
+        }
+
+        /**
+         * Wandelt den angegebenen MonetaryAmount in einen Geldbetrag um. Als
+         * Default-Waehrung wird dabei der EURO genommen
+         *
+         * @param value Wert des andere Geldbetrags
+         * @return ein Geldbetrag
+         * @since 6.1
+         */
+        @JvmStatic
+        fun of(value: Number): Geldbetrag {
+            return valueOf(value, Waehrung.EUR)
         }
 
         /**

@@ -18,6 +18,7 @@
 package de.jfachwert.money;
 
 import de.jfachwert.FachwertTest;
+import de.jfachwert.pruefung.exception.ValidationException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import patterntesting.runtime.junit.ObjectTester;
@@ -26,7 +27,6 @@ import javax.money.MonetaryAmount;
 import javax.money.MonetaryContext;
 import javax.money.MonetaryException;
 import javax.money.NumberValue;
-import de.jfachwert.pruefung.exception.ValidationException;
 import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Locale;
@@ -626,6 +626,11 @@ public final class GeldbetragTest extends FachwertTest {
         Geldbetrag betrag = Geldbetrag.of(Geldbetrag.ONE.divide(3).multiply(3));
         assertEquals(Geldbetrag.ONE, betrag);
         assertEquals(BigDecimal.ONE.setScale(2), betrag.getBetrag());
+    }
+
+    @Test
+    public void testOf() {
+        assertEquals(Geldbetrag.of(BigDecimal.ONE), Geldbetrag.of(BigDecimal.ONE, Waehrung.EUR));
     }
 
 }
