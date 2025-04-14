@@ -9,7 +9,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Planned]
 - Speichervergleich BigDecimal zu PackedDecimal
 
-## [Unreleased]
+## [6.1.0] - 2025-04-14
 ### Added
 - LEGS (Leistungserbringergruppenschlüssel) in med-Package hinzugefügt
 - Geldbetrag.toCent() und Geldbetrag.getBetrag() hinzugefügt
