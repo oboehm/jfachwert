@@ -12,7 +12,8 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Unreleased]
 ### Added
 - LEGS (Leistungserbringergruppenschlüssel) in med-Package hinzugefügt
-- Geldbetrag.toCent() hinzugefügt
+- Geldbetrag.toCent() und Geldbetrag.getBetrag() hinzugefügt
+- Geldbetrag.ONE und Geldbetrag.TEN als Konstanten hinzugefügt
 ### Fixed
 - Typo in `SimpleValidator.isValid(..)` korrigiert
   ([#26](https://github.com/oboehm/jfachwert/issues/26))

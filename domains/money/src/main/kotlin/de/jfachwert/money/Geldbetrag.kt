@@ -687,6 +687,17 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
     }
 
     /**
+     * Waehrend #getNumber() den Nachkommawert auf 4 Stellen ausgibt, gibt
+     * diese Methode den Betrag auf 2 Nachkommastellen gerundet aus.
+     *
+     * @return Betrag mit 2 Nachkommastellen
+     * @since 6.1
+     */
+    fun getBetrag(): BigDecimal {
+        return betrag.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    /**
      * Liefert nur die Zahl als 'double' zurueck. Sie entspricht der
      * gleichnamigen Methode aus [BigDecimal].
      *
@@ -850,6 +861,14 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
         /** Da 0-Betraege relativ haeufig vorkommen, spendieren wir dafuer eine eigene Konstante.  */
         @JvmField
         val ZERO = Geldbetrag(BigDecimal.ZERO)
+
+        /** Analog zu BigDecimal.ONE spendieren wir auch dafuer eine Konstante (1 EUR). */
+        @JvmField
+        val ONE = Geldbetrag(BigDecimal.ONE)
+
+        /** Analog zu BigDecimal.TEN spendieren wir auch dafuer eine Konstante (10 EUR). */
+        @JvmField
+        val TEN = Geldbetrag(BigDecimal.TEN)
 
         /** Der minimale Betrag, den wir unterstuetzen.  */
         @JvmField

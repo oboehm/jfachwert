@@ -621,4 +621,11 @@ public final class GeldbetragTest extends FachwertTest {
         assertTrue(zero.isNegativeOrZero());
     }
 
+    @Test
+    public void testGetBetrag() {
+        Geldbetrag betrag = Geldbetrag.of(Geldbetrag.ONE.divide(3).multiply(3));
+        assertEquals(Geldbetrag.ONE, betrag);
+        assertEquals(BigDecimal.ONE.setScale(2), betrag.getBetrag());
+    }
+
 }
