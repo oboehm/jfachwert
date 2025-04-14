@@ -63,7 +63,7 @@ Danach "-SNAPSHOT" von der Version in link:../buildSrc/src/main/kotlin/de.jfachw
 |Release deployen (gradle)
 |./gradlew publishToSonatype
 |Damit werden die Artefakte nach https://oss.sonatype.org/[oss.sonatype.org] hochgeladen.
-Die Task funktioniert auch für Snapshots, sodass im Vorfeld das Hochladen ins https://oss.sonatype.org/content/repositories/snapshots/de/jfachwert/[Snapshot-Repo] getestet werden kann.
+Die Task funktioniert auch für Snapshots, sodass im Vorfeld das Hochladen ins https://oss.sonatype.org/content/repositories/snapshots/de/jfachwert/[Snapshot-Repo] getestet werden kann (Einstellungen in $HOME/.gradle.properties für sonatype-nexus-staging prüfen!).
 
 |Release freigeben
 |https://oss.sonatype.org/[oss.sonatype.org]
