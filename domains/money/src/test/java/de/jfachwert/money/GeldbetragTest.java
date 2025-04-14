@@ -274,6 +274,13 @@ public final class GeldbetragTest extends FachwertTest {
         assertEquals(Geldbetrag.fromCent(52), Geldbetrag.valueOf(0.52, Waehrung.EUR));
     }
 
+    @Test
+    void toCent() {
+        long cents = 12345L;
+        Geldbetrag betrag = Geldbetrag.fromCent(cents);
+        assertEquals(cents, betrag.toCent());
+    }
+
     /**
      * Testmethode fuer {@link Geldbetrag#isGreaterThan(MonetaryAmount)} und
      * {@link Geldbetrag#isGreaterThanOrEqualTo(MonetaryAmount)}.

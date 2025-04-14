@@ -771,6 +771,18 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
     }
 
     /**
+     * Liefert den Betrag in Cent zurueck. Strenggenommen macht der Name nur
+     * Sinn fuer Waehrungen wie EURO, die Cents als Untergliederund liefern,
+     * tatsaechlich liefert diese Methode auch fuer andere Waehrungen ein
+     * Ergebnis zurueck.
+     *
+     * @return z.B. 500 bei 5 Euro
+     */
+    fun toCent(): Long {
+        return this.betrag.movePointRight(2).longValueExact()
+    }
+
+    /**
      * Gibt den Betrag in Kurz-Format aus: ohne Nachkommastellen und mit dem
      * Waehrungssymbol.
      *
