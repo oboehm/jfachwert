@@ -92,7 +92,7 @@ constructor(min: BigDecimal = INFINITE.negate(), max: BigDecimal = INFINITE) : K
      * @return normalisiert, z.B. "1234.5"
      */
     fun normalize(value: String): String {
-        if (!value.matches("[\\d,.]+([eE]\\d+)?".toRegex())) {
+        if (!value.matches("[+-]?[\\d,.]+([eE]\\d+)?".toRegex())) {
             throw InvalidValueException(value, NUMBER)
         }
         val locale = guessLocale(value)
@@ -133,7 +133,7 @@ constructor(min: BigDecimal = INFINITE.negate(), max: BigDecimal = INFINITE) : K
         val INFINITE = BigDecimal.valueOf(Long.MAX_VALUE)
 
         private fun guessLocale(value: String): Locale {
-            return if (value.matches("\\d+(\\.\\d{3})*(,\\d+)?".toRegex())) Locale.GERMAN else Locale.ENGLISH
+            return if (value.matches("[+-]?\\d+(\\.\\d{3})*(,\\d+)?".toRegex())) Locale.GERMAN else Locale.ENGLISH
         }
 
     }

@@ -63,7 +63,8 @@ class GeldbetragFormatter private constructor(private val context: AmountFormatC
         }
 
         private fun findCurrencyString(parts: Array<String>): String {
-            if (!StringUtils.isNumericSpace(parts[0])) {
+            parts[0].matches(Regex("[0-9]+"))
+            if (!StringUtils.isNumericSpace(parts[0]) && !parts[0].matches(Regex("[+-]+"))) {
                 return parts[0]
             }
             return if (!StringUtils.isNumericSpace(parts[parts.size - 1])) {

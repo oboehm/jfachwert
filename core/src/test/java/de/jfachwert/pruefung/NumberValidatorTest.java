@@ -65,9 +65,22 @@ public class NumberValidatorTest {
         checkValidateFormatted(Locale.GERMAN);
     }
 
+    /**
+     * Hier testen wir, ob {@link NumberValidator#validate(String)} auch mit
+     * negativen Zahlen klarkommt.
+     */
+    @Test
+    public void testValidateFormattedNegativ() {
+        checkValidateFormatted(Locale.GERMAN, BigDecimal.valueOf(-1000.23));
+    }
+
     private void checkValidateFormatted(Locale locale) {
         BigDecimal number = BigDecimal.valueOf(2000.34);
-        Object[] args = { number };
+        checkValidateFormatted(locale, number);
+    }
+
+    private void checkValidateFormatted(Locale locale, BigDecimal number) {
+        Object[] args = {number};
         String formatted = new MessageFormat("{0}", locale).format(args);
         String validated = validator.validate(formatted);
         assertEquals(number, new BigDecimal(validated));

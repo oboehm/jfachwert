@@ -12,7 +12,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     api("org.apache.commons:commons-lang3:3.17.0")
     // optional dependency
-    compileOnly("com.fasterxml.jackson.core:jackson-databind:2.18.2")
+    compileOnly("com.fasterxml.jackson.core:jackson-databind:2.19.0")
 }
 
 sourceSets {

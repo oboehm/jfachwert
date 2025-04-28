@@ -633,4 +633,10 @@ public final class GeldbetragTest extends FachwertTest {
         assertEquals(Geldbetrag.of(BigDecimal.ONE), Geldbetrag.of(BigDecimal.ONE, Waehrung.EUR));
     }
 
+    @Test
+    public void testOf10EurFuffzig() {
+        Geldbetrag zehnFuffzig = Geldbetrag.of("-10,50 EUR");
+        assertEquals(Geldbetrag.fromCent(-1050), zehnFuffzig);
+    }
+
 }
