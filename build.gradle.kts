@@ -38,7 +38,7 @@ asciidoctorj {
     attributes(
         mapOf(
             "revnumber"    to "${project.version}",
-            "revdate"      to "2024",
+            "revdate"      to "2025",
             "organization" to "oli b."
         )
     )
