@@ -9,6 +9,12 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Planned]
 - Speichervergleich BigDecimal zu PackedDecimal
 
+
+## [6.1.1] - 2025-04-28
+### Fixed
+- Validierung negativer Beträge
+  ([#27](https://github.com/oboehm/jfachwert/issues/27))
+
 ## [6.1.0] - 2025-04-14
 ### Added
 - LEGS (Leistungserbringergruppenschlüssel) in med-Package hinzugefügt
