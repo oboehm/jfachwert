@@ -116,6 +116,12 @@ public final class TextTest extends FachwertTest {
     }
 
     @Test
+    public void testTrim() {
+        Text hello = Text.of("\u00A0 hello world \u00A0 ");
+        assertEquals(Text.of("hello world"), hello.trim());
+    }
+
+    @Test
     public void testReplaceUmlaute() {
         Text gruesse = Text.of("Gr\u00fc\u00dfe").replaceUmlaute();
         assertEquals(Text.of("Gruesse"), gruesse);

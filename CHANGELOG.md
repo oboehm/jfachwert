@@ -10,6 +10,10 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Speichervergleich BigDecimal zu PackedDecimal
 
 
+## [Unreleased]
+### Added
+- Text.trim(), das auch geschützte Leerzeichen entfernt
+
 ## [6.1.1] - 2025-04-28
 ### Fixed
 - Validierung negativer Beträge

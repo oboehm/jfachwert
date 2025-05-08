@@ -70,6 +70,17 @@ open class Text
     }
 
     /**
+     * Diese trim-Methode beruecksichtigt auch geschuetzte Leerzeichen
+     * (non-braking spaces).
+     *
+     * @return Text ohne Leerzeichen am Anfang und Ende
+     * @since 6.2
+     */
+    fun trim(): Text {
+        return of(trim(code))
+    }
+
+    /**
      * Ersetzt Umlaute und scharfes 'S'.
      *
      * @return Text ohne Umlaut und scharfem 's'
@@ -309,6 +320,19 @@ open class Text
                 }
             }
             return costs[b.length]
+        }
+
+        /**
+         * Im Gegensatz zur normalen trim-Methode werden hier auch geschuetzte
+         * Leerzeichen (non-braking spaces) beruecksichtigt.
+         *
+         * @param text Text mit Leerzeichen am Anfaung und Ende
+         * @return Text ohne Leerzeichen
+         * @since 6.2
+         */
+        @JvmStatic
+        fun trim(text: String): String {
+            return text.trim(' ', '\t', '\r', '\n', '\u00A0')
         }
 
         /**
