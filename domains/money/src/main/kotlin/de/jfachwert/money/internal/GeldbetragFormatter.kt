@@ -17,6 +17,7 @@
  */
 package de.jfachwert.money.internal
 
+import de.jfachwert.Text
 import de.jfachwert.money.Geldbetrag
 import de.jfachwert.money.Geldbetrag.Companion.of
 import de.jfachwert.money.Waehrung
@@ -110,7 +111,7 @@ class GeldbetragFormatter private constructor(private val context: AmountFormatC
             val formatter = getFormatter(context.locale)
             formatter.minimumFractionDigits = fractionDigits
             formatter.maximumFractionDigits = fractionDigits
-            val s = formatter.format(amount.number) + " " + currency
+            val s = formatter.format(amount.number) + '\u00A0' + currency
             appendable.append(s)
         }
     }
@@ -146,7 +147,7 @@ class GeldbetragFormatter private constructor(private val context: AmountFormatC
         var cry = Waehrung.DEFAULT_CURRENCY
         val currencyString = findCurrencyString(parts)
         return try {
-            trimmed = StringUtils.remove(trimmed, currencyString).trim { it <= ' ' }
+            trimmed = Text.trim(StringUtils.remove(trimmed, currencyString))
             val n = BigDecimal(NumberValidator().validate(trimmed))
             if (StringUtils.isNotEmpty(currencyString)) {
                 cry = toCurrency(currencyString)

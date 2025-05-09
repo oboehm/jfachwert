@@ -13,6 +13,9 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Unreleased]
 ### Added
 - Text.trim(), das auch geschützte Leerzeichen entfernt
+### Fixed
+- Geldbetrag.toString() verwendet geschütztes Leerzeichen
+  ([#28](https://github.com/oboehm/jfachwert/issues/28))
 
 ## [6.1.1] - 2025-04-28
 ### Fixed

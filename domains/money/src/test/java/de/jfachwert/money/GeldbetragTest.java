@@ -549,13 +549,14 @@ public final class GeldbetragTest extends FachwertTest {
         Geldbetrag betrag = Geldbetrag.valueOf(Double.valueOf("1E2"), Waehrung.of("EUR"));
         String s = betrag.toString();
         assertThat(s, startsWith("100"));
+        char nbsp = '\u00A0';
         switch (Locale.getDefault().getLanguage()) {
             case "de":
             case "fr":
-                assertEquals("100,00 EUR", s);
+                assertEquals("100,00" + nbsp + "EUR", s);
                 break;
             case "en":
-                assertEquals("100.00 EUR", s);
+                assertEquals("100.00" + nbsp + "EUR", s);
                 break;
         }
     }
@@ -637,6 +638,13 @@ public final class GeldbetragTest extends FachwertTest {
     public void testOf10EurFuffzig() {
         Geldbetrag zehnFuffzig = Geldbetrag.of("-10,50 EUR");
         assertEquals(Geldbetrag.fromCent(-1050), zehnFuffzig);
+    }
+
+    @Test
+    public void testOfBetragWithNbsp() {
+        char nbsp = '\u00A0';
+        Geldbetrag betrag = Geldbetrag.of("47,11" + nbsp + "EUR");
+        assertEquals(Geldbetrag.fromCent(4711), betrag);
     }
 
 }
