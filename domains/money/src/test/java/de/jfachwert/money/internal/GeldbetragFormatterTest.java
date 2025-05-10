@@ -92,6 +92,14 @@ public final class GeldbetragFormatterTest {
     }
 
     @Test
+    public void testPrintUsingShortFormatter() throws IOException {
+        GeldbetragFormatter shortFormatter = GeldbetragFormatter.of("$#");
+        Appendable appendable = new StringBuilder();
+        shortFormatter.print(appendable, Geldbetrag.of("12.34 USD"));
+        assertEquals("$12", appendable.toString());
+    }
+
+    @Test
     public void testGetContext() {
         AmountFormatContext context = formatter.getContext();
         assertNotNull(context);

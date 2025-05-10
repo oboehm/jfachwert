@@ -32,6 +32,7 @@ import java.io.IOException
 import java.math.BigDecimal
 import java.text.NumberFormat
 import java.util.*
+import javax.money.CurrencyUnit
 import javax.money.MonetaryAmount
 import javax.money.MonetaryAmountFactory
 import javax.money.format.AmountFormatContext
@@ -46,21 +47,31 @@ import javax.money.format.MonetaryParseException
  * @author oliver (ob@aosd.de)
  * @since 1.0.1 (12.10.18)
  */
-class GeldbetragFormatter private constructor(private val context: AmountFormatContext) : MonetaryAmountFormat {
+class GeldbetragFormatter private constructor(
+    private val context: AmountFormatContext,
+    private val pattern: String = "#.##"  + '\u00A0' + "$$$") : MonetaryAmountFormat {
 
     companion object {
 
         private val MAPPED_LOCALES: MutableMap<Locale, Locale> = HashMap()
+        private val DEFAULT_CONTEXT = AmountFormatContextBuilder.of("jfachwert")
+            .setLocale(Locale.getDefault()).build()
 
         @JvmStatic
         fun of(locale: Locale): GeldbetragFormatter {
             val mapped: Locale = MAPPED_LOCALES.getOrDefault(locale, locale)
-            return GeldbetragFormatter(AmountFormatContextBuilder.of("jfachwert").setLocale(mapped).build())
+            val context = AmountFormatContextBuilder.of("jfachwert").setLocale(mapped).build()
+            return of(context)
         }
 
         @JvmStatic
         fun of(context: AmountFormatContext): GeldbetragFormatter {
             return GeldbetragFormatter(context)
+        }
+
+        @JvmStatic
+        fun of(pattern: String): GeldbetragFormatter {
+            return GeldbetragFormatter(DEFAULT_CONTEXT, pattern)
         }
 
         private fun findCurrencyString(parts: Array<String>): String {
@@ -106,13 +117,39 @@ class GeldbetragFormatter private constructor(private val context: AmountFormatC
     @Throws(IOException::class)
     override fun print(appendable: Appendable, amount: MonetaryAmount) {
         val currency = amount.currency
-        val fractionDigits = currency.defaultFractionDigits
+        val fractionDigits = getFractionDigits(currency)
+        val currencyString = getCurrencyString(currency)
         synchronized(context) {
             val formatter = getFormatter(context.locale)
             formatter.minimumFractionDigits = fractionDigits
             formatter.maximumFractionDigits = fractionDigits
-            val s = formatter.format(amount.number) + '\u00A0' + currency
+            var s = formatter.format(amount.number)
+            s = pattern.replace("#\\.?#*".toRegex(), s)
+            s = s.replace("$$$", "$").replace("$", currencyString)
             appendable.append(s)
+        }
+    }
+
+    private fun getFractionDigits(currency: CurrencyUnit) : Int {
+        val numberPattern = pattern.replace("[^#\\.]".toRegex(), "")
+        if (numberPattern.contains('.')) {
+            val fractionDigits = numberPattern.substringAfter('.').length
+            if (currency.defaultFractionDigits < fractionDigits) {
+                return currency.defaultFractionDigits
+            } else {
+                return fractionDigits
+            }
+        } else {
+            return 0
+        }
+    }
+
+    private fun getCurrencyString(cu: CurrencyUnit): String {
+        if (pattern.contains("$$$")) {
+            return cu.currencyCode
+        } else {
+            val currency = Currency.getInstance(cu.currencyCode)
+            return currency.getSymbol(context.locale)
         }
     }
 
