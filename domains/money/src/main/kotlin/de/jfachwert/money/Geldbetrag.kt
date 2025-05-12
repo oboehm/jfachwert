@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
 import de.jfachwert.KFachwert
 import de.jfachwert.KSimpleValidator
-import de.jfachwert.money.Waehrung.Companion.getSymbol
 import de.jfachwert.money.Waehrung.Companion.toCurrency
 import de.jfachwert.money.internal.GeldbetragFormatter
 import de.jfachwert.money.internal.Zahlenwert
@@ -800,7 +799,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
      * @return z.B. "$19"
      */
     fun toShortString(): String {
-        return getSymbol(currency) + betrag.setScale(0, RoundingMode.HALF_UP)
+        return format("$#")
     }
 
     /**
