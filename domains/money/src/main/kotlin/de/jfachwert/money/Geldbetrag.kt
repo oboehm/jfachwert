@@ -826,6 +826,32 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
         return formatter.format(betrag) + " " + currency
     }
 
+    /**
+     * Falls die diversen toXxxString()-Methoden nicht ausreichen, kann
+     * man hier das Format selbst bestimmen. Folgende 'pattern' sind fuer
+     * den Betrag moeglich:
+     * <ul>
+     * <li>#      - 1</li>
+     * <li>#.##   - 1,23</li>
+     * <li>#.#### - 1,2345</li>
+     * </ul>
+     * Diese Format fuer die Nummer kann dann noch mit dem Muster fuer die
+     * Waehrung kombiniert werden (hier demonstriert am Beispiel des
+     * US-Dollars):
+     * <ul>
+     * <li>$   - $</li>
+     * <li>$$$ - USD</li>
+     * </ul>
+     *
+     * @param pattern z.B. "#.## $$$"
+     * @return z.B. "1,23 EUR"
+     * @since 6.2
+     */
+    fun format(pattern: String): String {
+        val formatter = GeldbetragFormatter.of(pattern)
+        return formatter.format(this)
+    }
+
 
 
     /**

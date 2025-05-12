@@ -586,6 +586,24 @@ public final class GeldbetragTest extends FachwertTest {
         }
     }
 
+    @Test
+    public void testFormat() {
+        Geldbetrag betrag = Geldbetrag.of("1,234 USD");
+        assertEquals("$1", betrag.format("$#"));
+        switch (Locale.getDefault().getLanguage()) {
+            case "de":
+                assertEquals("1,23\tUSD", betrag.format("#.##\t$$$"));
+                assertEquals("1,2340 USD", betrag.format("#.#### $$$"));
+                assertEquals("1,23$", betrag.format("#.##$"));
+                break;
+            case "en":
+                assertEquals("1.23\tUSD", betrag.format("#.##\t$$$"));
+                assertEquals("1.2340 USD", betrag.format("#.#### $$$"));
+                assertEquals("1.23$", betrag.format("#.##$"));
+                break;
+        }
+    }
+
     /**
      * Test-Methode fuer {@link Geldbetrag.Validator}.
      */

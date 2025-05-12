@@ -134,11 +134,7 @@ class GeldbetragFormatter private constructor(
         val numberPattern = pattern.replace("[^#\\.]".toRegex(), "")
         if (numberPattern.contains('.')) {
             val fractionDigits = numberPattern.substringAfter('.').length
-            if (currency.defaultFractionDigits < fractionDigits) {
-                return currency.defaultFractionDigits
-            } else {
-                return fractionDigits
-            }
+            return fractionDigits
         } else {
             return 0
         }

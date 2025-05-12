@@ -100,6 +100,21 @@ public final class GeldbetragFormatterTest {
     }
 
     @Test
+    public void testPrintUsingLongFormatter() throws IOException {
+        GeldbetragFormatter shortFormatter = GeldbetragFormatter.of("#.#### $$$");
+        Appendable appendable = new StringBuilder();
+        shortFormatter.print(appendable, Geldbetrag.of(new BigDecimal("12.345"), "EUR"));
+        switch (Locale.getDefault().getLanguage()) {
+            case "de":
+                assertEquals("12,3450 EUR", appendable.toString());
+                break;
+            case "en":
+                assertEquals("12.3450 EUR", appendable.toString());
+                break;
+        }
+    }
+
+    @Test
     public void testGetContext() {
         AmountFormatContext context = formatter.getContext();
         assertNotNull(context);
