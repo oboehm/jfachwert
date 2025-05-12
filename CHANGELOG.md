@@ -10,9 +10,10 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Speichervergleich BigDecimal zu PackedDecimal
 
 
-## [Unreleased]
+## [6.2.0] - 2025-05-12
 ### Added
 - Text.trim(), das auch geschützte Leerzeichen entfernt
+- Geldbetrag.format(..) zur Steuerung der String-Ausgabe
 ### Fixed
 - Geldbetrag.toString() verwendet geschütztes Leerzeichen
   ([#28](https://github.com/oboehm/jfachwert/issues/28))
@@ -53,27 +54,20 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ---
 
-## [5.5.0] - 2024-07-12
+## [5.5] - 2024-07-12
 ### Added
 - Hilfsmittelnummer im med-Package hinzugefügt
 - PZN um toShortString() erweitert, der PZN ohne Prefix ausgibt
 
-## [5.4.3] - 2024-07-09
+## [5.4] - 2024-07-09
 ### Fixed
-- fehlende Abhängigkeit von `javax.money:money-api` führt nicht mehr zu fehlerhafter Initialisierung der FachwertFactory-Klasse
+- **v5.4.3**: fehlende Abhängigkeit von `javax.money:money-api` führt nicht mehr zu fehlerhafter Initialisierung der FachwertFactory-Klasse
   ([#25](https://github.com/oboehm/jfachwert/issues/25))
-
-## [5.4.2] - 2024-07-07
-### Added
-- Anrede um DAMEN und HERREN ergänzt
-  ([#24](https://github.com/oboehm/jfachwert/issues/24))
-
-## [5.4.1] - 2024-05-31
 ### Changed
-- Optimierung von Text.isPrintable()
-
-## [5.4.0] - 2024-05-02
+- **v5.4.1**: Optimierung von Text.isPrintable()
 ### Added
+- **v5.4.2**: Anrede um DAMEN und HERREN ergänzt
+  ([#24](https://github.com/oboehm/jfachwert/issues/24))
 - Zeiteinheit für große Einheiten als Ergänzung zu TimeUnit eingeführt
 - Zeitpunkt kann jetzt bis zum Urknall zurückgehen
 - Rechnungsnummer kann jetzt mit Zahl angegelegt und zurückgegeben werden 
