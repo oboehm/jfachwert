@@ -99,7 +99,7 @@ open class Text
      * @since 4.1
      */
     fun isPrintable(): Boolean {
-        return Companion.isPrintable(code)
+        return isPrintable(code)
     }
 
     /**
@@ -134,7 +134,7 @@ open class Text
      * @since 4.2
      */
     fun detectCharset(): Charset {
-        return Companion.detectCharset(code)
+        return detectCharset(code)
     }
 
     /**
@@ -145,7 +145,7 @@ open class Text
      * @since 4.2
      */
     fun detectCharsets(): Collection<Charset> {
-        return Companion.detectCharsets(code)
+        return detectCharsets(code)
     }
 
     /**
@@ -158,7 +158,7 @@ open class Text
      * @since 4.2
      */
     fun isCharset(cs: Charset) : Boolean {
-        return Companion.isCharset(code, cs)
+        return isCharset(code, cs)
     }
 
     /**
@@ -254,13 +254,19 @@ open class Text
 
         /**
          * Liefert einen Text zurueck.
+         * <p>
+         * Anmerkung: der uebergebene Text wird kopiert, weil sonst die
+         * verwendete WeakHashMap eine StrongReference daraus macht
+         * (s. Issue #29).
+         * </p>
          *
          * @param text darf nicht null sein
          * @return Text
          */
         @JvmStatic
         fun of(text: String): Text {
-            return WEAK_CACHE.computeIfAbsent(text) { s: String -> Text(s) }
+            val copy = String(text.toCharArray())
+            return WEAK_CACHE.computeIfAbsent(copy) { s: String -> Text(s) }
         }
 
         /**

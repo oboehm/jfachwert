@@ -10,6 +10,11 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Speichervergleich BigDecimal zu PackedDecimal
 
 
+## [Unreleased]
+### Fixed
+- fehlerhaftes Caching in Text.of(..) korrigiert 
+  ([#29](https://github.com/oboehm/jfachwert/issues/29))
+
 ## [6.2.0] - 2025-05-12
 ### Added
 - Text.trim(), das auch geschützte Leerzeichen entfernt
