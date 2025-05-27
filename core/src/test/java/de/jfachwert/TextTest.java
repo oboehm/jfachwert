@@ -29,7 +29,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.ref.WeakReference;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -118,11 +117,9 @@ public final class TextTest extends FachwertTest {
 
     /**
      * Testfall fuer Issue #29.
-     *
-     * @throws InterruptedException bei Stoerungen
      */
     @Test
-    public void testOfCaching() throws InterruptedException {
+    public void testOfCaching() {
         Text t0 = Text.of("hello");
         Text t1 = Text.of("hello");
         assertSame(t0, t1);
@@ -131,18 +128,6 @@ public final class TextTest extends FachwertTest {
         } else {
             LOG.info("GC wurde nicht durchgefuehrt.");
         }
-    }
-
-    private static boolean forceGC() throws InterruptedException {
-        Object key = new Object();
-        WeakReference<Object> weakKeyRef = new WeakReference<>(key);
-        assertNotNull(weakKeyRef.get());
-        key = null;
-        for (int i = 0; i < 10 && weakKeyRef.get() != null; i++) {
-            System.gc();
-            Thread.sleep(10);
-        }
-        return weakKeyRef.get() == null;
     }
 
     @Test

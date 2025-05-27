@@ -28,7 +28,10 @@ import java.io.IOException;
 import java.io.NotSerializableException;
 import java.io.Serializable;
 import java.io.StringWriter;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Modifier;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -55,6 +58,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class FachwertTest {
 
+    private static final Logger LOG = Logger.getLogger(FachwertTest.class.getName());
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private KFachwert fachwert;
 
@@ -181,6 +185,29 @@ public class FachwertTest {
         } catch (IOException ex) {
             throw new IllegalArgumentException("could not unmarshall '" + json + "' to " + clazz, ex);
         }
+    }
+
+    /**
+     * Loest die Garbage Collection aus. Leider laesst sie sich nicht
+     * erzwingen, so dass der Erfolg des Aufrufs ueber den Rueckgabewert
+     * angezeigt wird.
+     *
+     * @return true, falls GC ausgeloest wurde
+     */
+    protected static boolean forceGC() {
+        Object key = new Object();
+        WeakReference<Object> weakKeyRef = new WeakReference<>(key);
+        assertNotNull(weakKeyRef.get());
+        key = null;
+        try {
+            for (int i = 0; i < 10 && weakKeyRef.get() != null; i++) {
+                System.gc();
+                Thread.sleep(10);
+            }
+        } catch (InterruptedException ex) {
+            LOG.log(Level.WARNING, "Das Warten auf den GC wurde abgebrochen:", ex);
+        }
+        return weakKeyRef.get() == null;
     }
 
 }
