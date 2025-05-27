@@ -120,7 +120,8 @@ open class LEGS
          */
         @JvmStatic
         fun of(code: String): LEGS {
-            return WEAK_CACHE.computeIfAbsent(code) { s: String -> LEGS(s) }
+            val copy = String(code.toCharArray())
+            return WEAK_CACHE.computeIfAbsent(copy) { s: String -> LEGS(String(s.toCharArray())) }
         }
 
     }

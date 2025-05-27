@@ -81,14 +81,15 @@ open class SNOMED
          */
         @JvmStatic
         fun of(code: String): SNOMED {
-            return WEAK_CACHE.computeIfAbsent(code) { c: String -> SNOMED(c) }
+            val copy = String(code.toCharArray())
+            return WEAK_CACHE.computeIfAbsent(copy) { c: String -> SNOMED(String(c.toCharArray())) }
         }
 
         @JvmStatic
         fun of(code: String, display: String): SNOMED {
-            var s = WEAK_CACHE.computeIfAbsent(code) { c: String -> SNOMED(c, display) }
+            var s = WEAK_CACHE.computeIfAbsent(code) { c: String -> SNOMED(String(c.toCharArray()), display) }
             if (!display.equals(s.display)) {
-                s = SNOMED(code, display)
+                s = SNOMED(String(code.toCharArray()), display)
                 WEAK_CACHE.put(code, s)
             }
             return s

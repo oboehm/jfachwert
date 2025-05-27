@@ -112,7 +112,8 @@ open class Versichertennummer
          */
         @JvmStatic
         fun of(code: String): Versichertennummer {
-            return WEAK_CACHE.computeIfAbsent(code) { c: String -> Versichertennummer(c) }
+            val copy = String(code.toCharArray())
+            return WEAK_CACHE.computeIfAbsent(copy) { c: String -> Versichertennummer(String(c.toCharArray())) }
         }
     }
 
