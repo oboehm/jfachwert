@@ -87,7 +87,8 @@ open class Adressat
          */
         @JvmStatic
         fun of(name: String): Adressat {
-            return WEAK_CACHE.computeIfAbsent(name) { s: String -> Adressat(s) }
+            val copy = String(name.toCharArray())
+            return WEAK_CACHE.computeIfAbsent(copy) { s: String -> Adressat(String(s.toCharArray())) }
         }
 
     }

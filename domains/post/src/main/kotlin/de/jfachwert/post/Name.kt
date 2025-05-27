@@ -183,7 +183,8 @@ open class Name
          */
         @JvmStatic
         fun of(name: String): Name {
-            return WEAK_CACHE.computeIfAbsent(name) { s: String -> Name(s) }
+            val copy = String(name.toCharArray())
+            return WEAK_CACHE.computeIfAbsent(copy) { s: String -> Name(s) }
         }
 
         private fun normalize(name: Name): Name {

@@ -389,7 +389,8 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
          */
         @JvmStatic
         fun of(code: BigInteger): Zeitpunkt {
-            return WEAK_CACHE.computeIfAbsent(code) { n: BigInteger -> Zeitpunkt(n) }
+            val copy = BigInteger(code.toByteArray())
+            return WEAK_CACHE.computeIfAbsent(copy) { n: BigInteger -> Zeitpunkt(BigInteger(n.toByteArray())) }
         }
 
         /**
