@@ -58,7 +58,8 @@ open class Artikelnummer
          */
         @JvmStatic
         fun of(nummer: String): Artikelnummer {
-            return WEAK_CACHE.computeIfAbsent(nummer) { n: String -> Artikelnummer(n) }
+            val copy = String(nummer.toCharArray())
+            return WEAK_CACHE.computeIfAbsent(copy) { n: String -> Artikelnummer(String(n.toCharArray())) }
         }
     }
 
