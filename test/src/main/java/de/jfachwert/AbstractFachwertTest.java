@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,6 +39,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author <a href="ob@aosd.de">oliver</a>
  */
 public abstract class AbstractFachwertTest<T extends Serializable, S extends AbstractFachwert<T, S>> extends FachwertTest {
+
+    private static final Logger LOG = Logger.getLogger(AbstractFachwertTest.class.getName());
 
     /**
      * Zum Testen erstellen wir hierueber ein Test-Objekt.
@@ -96,6 +99,22 @@ public abstract class AbstractFachwertTest<T extends Serializable, S extends Abs
         AbstractFachwert f2 = createFachwert(s2);
         assertSame(f1.getCode(), f2.getCode());
         assertSame(f1, f2);
+    }
+
+    /**
+     * Testfall fuer Issue #29. Hiermit wird ueberprueft, dass nach Aufruf
+     * des GCs auch der verwendete WeakCache auch tatsaechlich aufgeraeumt
+     * wurde.
+     */
+    @Test
+    public void testOfCaching() {
+        String s = getCode();
+        AbstractFachwert f = createFachwert(s);
+        if (forceGC()) {
+            assertNotSame(f, createFachwert(s));
+        } else {
+            LOG.info("GC wurde nicht durchgefuehrt.");
+        }
     }
 
     @Test

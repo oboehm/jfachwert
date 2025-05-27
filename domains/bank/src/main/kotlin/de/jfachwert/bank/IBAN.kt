@@ -173,7 +173,8 @@ open class IBAN
          */
         @JvmStatic
         fun of(code: String): IBAN {
-            return WEAK_CACHE.computeIfAbsent(code) { iban: String -> IBAN(iban) }
+            val copy = String(code.toCharArray())
+            return WEAK_CACHE.computeIfAbsent(copy) { iban: String -> IBAN(String(iban.toCharArray())) }
         }
 
         /**

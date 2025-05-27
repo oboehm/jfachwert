@@ -84,13 +84,19 @@ open class BIC
 
         /**
          * Liefert eine BIC zurueck.
+         * <p>
+         * Anmerkung: der uebergebene Text wird kopiert, weil sonst die
+         * verwendete WeakHashMap eine StrongReference daraus macht
+         * (s. Issue #29).
+         * </p>
          *
          * @param code eine 11- oder 14-stellige BIC
          * @return Text
          */
         @JvmStatic
         fun of(code: String): BIC {
-            return WEAK_CACHE.computeIfAbsent(code) { n: String -> BIC(n) }
+            val copy = String(code.toCharArray())
+            return WEAK_CACHE.computeIfAbsent(copy) { n: String -> BIC(n) }
         }
 
         /**

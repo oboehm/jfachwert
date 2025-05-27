@@ -163,7 +163,8 @@ open class BLZ
          */
         @JvmStatic
         fun of(code: String): BLZ {
-            return WEAK_CACHE.computeIfAbsent(code) { n: String -> BLZ(n) }
+            val copy = String(code.toCharArray())
+            return WEAK_CACHE.computeIfAbsent(copy) { n: String -> BLZ(n) }
         }
     }
 
