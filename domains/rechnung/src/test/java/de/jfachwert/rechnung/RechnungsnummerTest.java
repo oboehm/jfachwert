@@ -42,6 +42,11 @@ public class RechnungsnummerTest extends AbstractFachwertTest<String, Text> {
         return Rechnungsnummer.of(nr);
     }
 
+    @Override
+    protected String getCode() {
+        return "000002835042";
+    }
+
     /**
      * Eine leere Rechnungsnummer macht keinen Sinn und sollte deswegen nicht
      * angelegt werden koennen.

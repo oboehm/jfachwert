@@ -69,7 +69,8 @@ open class Rechnungsnummer
          */
         @JvmStatic
         fun of(nummer: String): Rechnungsnummer {
-            return WEAK_CACHE.computeIfAbsent(nummer) { n: String -> Rechnungsnummer(n) }
+            val copy = String(nummer.toCharArray())
+            return WEAK_CACHE.computeIfAbsent(copy) { n: String -> Rechnungsnummer(n) }
         }
 
         /**
