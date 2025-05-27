@@ -79,7 +79,10 @@ open class SteuerIdNr
          * @return SteuerIdNr
          */
         @JvmStatic
-        fun of(idNr: String): SteuerIdNr = WEAK_CACHE.computeIfAbsent(idNr) { nr -> SteuerIdNr(nr) }
+        fun of(idNr: String): SteuerIdNr {
+            val copy = String(idNr.toCharArray())
+            return WEAK_CACHE.computeIfAbsent(copy) { nr -> SteuerIdNr(nr) }
+        }
 
         /**
          * Eine SteuerId muss genau 11 Stellen besitzen.

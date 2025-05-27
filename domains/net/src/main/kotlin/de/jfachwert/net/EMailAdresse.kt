@@ -165,7 +165,8 @@ open class EMailAdresse
          */
         @JvmStatic
         fun of(name: String): EMailAdresse {
-            return WEAK_CACHE.computeIfAbsent(name) { emailAdresse: String -> EMailAdresse(emailAdresse) }
+            val copy = String(name.toCharArray())
+            return WEAK_CACHE.computeIfAbsent(copy) { emailAdresse: String -> EMailAdresse(emailAdresse) }
         }
     }
 

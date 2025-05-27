@@ -83,7 +83,8 @@ open class UStIdNr
          */
         @JvmStatic
         fun of(nr: String): UStIdNr {
-            return WEAK_CACHE.computeIfAbsent(nr, Function(::UStIdNr))
+            val copy = String(nr.toCharArray())
+            return WEAK_CACHE.computeIfAbsent(copy, Function(::UStIdNr))
         }
 
         private fun selectPruefzifferVerfahrenFor(nr: String): PruefzifferVerfahren<String> {

@@ -293,7 +293,8 @@ open class Telefonnummer
          */
         @JvmStatic
         fun of(nummer: String): Telefonnummer {
-            return WEAK_CACHE.computeIfAbsent(nummer) { n: String -> Telefonnummer(n) }
+            val copy = String(nummer.toCharArray())
+            return WEAK_CACHE.computeIfAbsent(copy) { n: String -> Telefonnummer(n) }
         }
 
         private fun normalize(nummer: String): String {

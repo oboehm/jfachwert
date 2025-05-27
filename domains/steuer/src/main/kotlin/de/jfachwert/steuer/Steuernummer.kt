@@ -136,7 +136,10 @@ open class Steuernummer
          * @return Steuernummer
          */
         @JvmStatic
-        fun of(nr: String): Steuernummer = WEAK_CACHE.computeIfAbsent(nr) { n -> Steuernummer(n) }
+        fun of(nr: String): Steuernummer {
+            val copy = String(nr.toCharArray())
+            return WEAK_CACHE.computeIfAbsent(copy) { n -> Steuernummer(n) }
+        }
 
         /**
          * Die Steuernummer muss zwischen 10 und 13 Stellen lang sein und die

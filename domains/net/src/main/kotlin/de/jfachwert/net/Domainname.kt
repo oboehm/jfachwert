@@ -121,7 +121,8 @@ open class Domainname
          */
         @JvmStatic
         fun of(name: String): Domainname {
-            return WEAK_CACHE.computeIfAbsent(name) { s: String -> Domainname(s) }
+            val copy = String(name.toCharArray())
+            return WEAK_CACHE.computeIfAbsent(copy) { s: String -> Domainname(s) }
         }
 
         /**
