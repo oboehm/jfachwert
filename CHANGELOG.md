@@ -10,7 +10,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Speichervergleich BigDecimal zu PackedDecimal
 
 
-## [Unreleased]
+## [6.2.1] - 2025-05-27
 ### Fixed
 - fehlerhaftes Caching in Text.of(..) und anderen Fachwerten korrigiert 
   ([#29](https://github.com/oboehm/jfachwert/issues/29))
