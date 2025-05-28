@@ -121,10 +121,10 @@ public final class TextTest extends FachwertTest {
     @Test
     public void testOfCaching() {
         Text t0 = Text.of("hello");
-        Text t1 = Text.of("hello");
-        assertSame(t0, t1);
         if (forceGC()) {
-            assertNotSame(t0, Text.of("hello"));
+            Text t1 = Text.of("hello");
+            assertNotSame(t0, t1);
+            assertEquals(t0, t1);
         } else {
             LOG.info("GC wurde nicht durchgefuehrt.");
         }

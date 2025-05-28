@@ -27,7 +27,7 @@ import java.util.*
  * SNOMED (Systematized Nomenclature of Medicine) ist eine Familie
  * medizinischer Terminologiesysteme. Urspruenglich als Nomenklatur konzipiert
  * ist die neueste – und derzeit einzige weiter gepflegte – Version SNOMED CT
- * (Clinical Technology) die Grundlage dieser Implementierung ist.
+ * (Clinical Technology) die Grundlage dieser Implementierung.
  *
  * Zum Nachschlagen eines SNOMED-Werts kann https://browser.ihtsdotools.org/
  * verwendet werden. So liefert

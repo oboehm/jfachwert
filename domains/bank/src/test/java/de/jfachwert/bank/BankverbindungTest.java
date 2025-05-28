@@ -22,6 +22,8 @@ import de.jfachwert.KFachwert;
 import org.junit.jupiter.api.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
+import java.util.logging.Logger;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,6 +32,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit-Tests fuer {@link Bankverbindung}-Klasse.
  */
 public final class BankverbindungTest extends FachwertTest {
+
+    private static final Logger LOG = Logger.getLogger(BankverbindungTest.class.getName());
 
     @Override
     protected KFachwert createFachwert() {
@@ -63,6 +67,18 @@ public final class BankverbindungTest extends FachwertTest {
         Bankverbindung b2 = Bankverbindung.of("Max Muster, IBAN DE41300606010006605605");
         assertEquals(b1, b2);
         assertSame(b1, b2);
+    }
+
+    @Test
+    public void testOfStringCaching() {
+        Bankverbindung b1 = Bankverbindung.of("Max Muster, IBAN DE41300606010006605605");
+        if (forceGC()) {
+            Bankverbindung b2 = Bankverbindung.of("Max Muster, IBAN DE41300606010006605605");
+            assertNotSame(b1, b2);
+            assertEquals(b1, b2);
+        } else {
+            LOG.info("GC wurde nicht durchgefuehrt.");
+        }
     }
 
     /**

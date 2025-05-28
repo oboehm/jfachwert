@@ -82,7 +82,8 @@ open class Zinssatz(val prozent: Prozent) : KFachwert, Comparable<Zinssatz> {
          */
         @JvmStatic
         fun of(satz: Prozent): Zinssatz {
-            return WEAK_CACHE.computeIfAbsent(satz, Function(::Zinssatz))
+            val copy = Prozent(satz.wert)
+            return WEAK_CACHE.computeIfAbsent(copy) { p: Prozent -> Zinssatz(Prozent(p.wert)) }
         }
 
         /**

@@ -23,6 +23,7 @@ import de.jfachwert.money.Geldbetrag;
 import org.junit.jupiter.api.Test;
 
 import java.time.Period;
+import java.util.logging.Logger;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
@@ -35,6 +36,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author oboehm
  */
 public final class ZinssatzTest extends FachwertTest {
+
+    private static final Logger LOG = Logger.getLogger(ZinssatzTest.class.getName());
 
     /**
      * Zum Testen brauchen wir ein Test-Objekt. Dies muss hierueber von den
@@ -68,6 +71,19 @@ public final class ZinssatzTest extends FachwertTest {
     @Test
     public void testOf() {
         assertSame(Zinssatz.of(Prozent.ZERO), Zinssatz.of(Prozent.ZERO));
+    }
+
+    @Test
+    public void testOfCaching() {
+        Prozent mwst = Prozent.of("19%");
+        Zinssatz z1 = Zinssatz.of(mwst);
+        if (forceGC()) {
+            Zinssatz z2 = Zinssatz.of(mwst);
+            assertNotSame(z1, z2);
+            assertEquals(z1, z2);
+        } else {
+            LOG.info("GC wurde nicht durchgefuehrt.");
+        }
     }
 
     @Test

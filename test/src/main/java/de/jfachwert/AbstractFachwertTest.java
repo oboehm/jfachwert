@@ -109,9 +109,11 @@ public abstract class AbstractFachwertTest<T extends Serializable, S extends Abs
     @Test
     public void testOfCaching() {
         String s = getCode();
-        AbstractFachwert f = createFachwert(s);
+        AbstractFachwert f1 = createFachwert(s);
         if (forceGC()) {
-            assertNotSame(f, createFachwert(s));
+            AbstractFachwert f2 = createFachwert(s);
+            assertNotSame(f1, f2);
+            assertEquals(f1, f2);
         } else {
             LOG.info("GC wurde nicht durchgefuehrt.");
         }
