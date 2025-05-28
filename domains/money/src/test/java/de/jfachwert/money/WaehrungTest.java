@@ -77,6 +77,14 @@ class WaehrungTest extends FachwertTest {
     }
 
     @Test
+    public void testOfCaching() {
+        Currency cu = Currency.getInstance("EUR");
+        Waehrung w1 = Waehrung.of(cu);
+        Waehrung w2 = Waehrung.of(cu);
+        assertSame(w1, w2);
+    }
+
+    @Test
     public void testOfEuroMitBetrag() {
         Waehrung euro = Waehrung.of("EUR10.50");
         assertEquals(Waehrung.EUR, euro);

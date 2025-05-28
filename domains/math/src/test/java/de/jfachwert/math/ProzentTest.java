@@ -69,6 +69,7 @@ public final class ProzentTest extends FachwertTest {
             LOG.info("GC wurde nicht durchgefuehrt.");
         }
     }
+
     @Test
     public void testOfInvalid() {
         assertThrows(IllegalArgumentException.class, () -> Prozent.of("x"));

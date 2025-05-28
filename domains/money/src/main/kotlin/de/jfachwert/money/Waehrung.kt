@@ -45,7 +45,7 @@ open class Waehrung protected constructor(code: Currency, validator: KSimpleVali
     companion object {
 
         private val log = Logger.getLogger(Waehrung::class.java.name)
-        private val CACHE: MutableMap<String, Waehrung> = WeakHashMap()
+        private val CACHE: MutableMap<String, Waehrung> = HashMap()
         private val VALIDATOR: KSimpleValidator<String> = Validator()
 
         /** Default-Waehrung, die durch die Landeseinstellung (Locale) vorgegeben wird.  */
@@ -343,9 +343,9 @@ open class Waehrung protected constructor(code: Currency, validator: KSimpleVali
             try {
                 toCurrency(value)
             } catch (ex: IllegalArgumentException) {
-                throw InvalidValueException(value, "currency")
+                throw InvalidValueException(value, "currency", ex)
             } catch (ex: UnknownCurrencyException) {
-                throw InvalidValueException(value, "currency")
+                throw InvalidValueException(value, "currency", ex)
             }
             return value
         }
