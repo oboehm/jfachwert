@@ -87,7 +87,7 @@ open class SNOMED
 
         @JvmStatic
         fun of(code: String, display: String): SNOMED {
-            var s = WEAK_CACHE.computeIfAbsent(code) { c: String -> SNOMED(String(c.toCharArray()), display) }
+            var s = of(code)
             if (!display.equals(s.display)) {
                 s = SNOMED(String(code.toCharArray()), display)
                 WEAK_CACHE.put(code, s)

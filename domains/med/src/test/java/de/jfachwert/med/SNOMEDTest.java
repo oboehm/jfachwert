@@ -21,10 +21,11 @@ import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.pruefung.NullValidator;
 import org.junit.jupiter.api.Test;
 
+import java.util.logging.Logger;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 import static patterntesting.runtime.junit.ObjectTester.assertEquals;
 
 /**
@@ -34,6 +35,8 @@ import static patterntesting.runtime.junit.ObjectTester.assertEquals;
  * @since 5.1 (27.12.23)
  */
 public final class SNOMEDTest extends AbstractFachwertTest<String, SNOMED> {
+
+    private static final Logger LOG = Logger.getLogger(SNOMEDTest.class.getName());
 
     @Override
     protected SNOMED createFachwert(String code) {
@@ -78,6 +81,18 @@ public final class SNOMEDTest extends AbstractFachwertTest<String, SNOMED> {
         SNOMED s2 = SNOMED.of("362943005", "Manual method");
         assertEquals(s1, s2);
         assertEquals("Manual method", s2.getDisplay());
+    }
+
+    @Test
+    void ofWithDisplayCaching() {
+        SNOMED s1 = SNOMED.of("362943005", "Manual method");
+        SNOMED s2 = SNOMED.of("362943005", "Manual method");
+        assertSame(s1, s2);
+        if (forceGC()) {
+            assertNotSame(s1, SNOMED.of("362943005", "Manual method"));
+        } else {
+            LOG.info("GC wurde nicht durchgefuehrt.");
+        }
     }
 
     @Test
