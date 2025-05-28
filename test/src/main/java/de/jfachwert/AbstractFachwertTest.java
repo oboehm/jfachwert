@@ -119,7 +119,7 @@ public abstract class AbstractFachwertTest<T extends Serializable, S extends Abs
 
     @Test
     public void isValid() {
-        Assertions.assertTrue(createFachwert().isValid());
+        assertTrue(createFachwert().isValid());
     }
 
     @Test
