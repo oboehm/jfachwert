@@ -21,6 +21,7 @@ import de.jfachwert.FachwertTest;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,6 +31,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author oboehm
  */
 public final class PromilleTest extends FachwertTest {
+
+    private static final Logger LOG = Logger.getLogger(PromilleTest.class.getName());
 
     /**
      * Zum Testen verwenden wir 0,8 Promille.
@@ -45,6 +48,22 @@ public final class PromilleTest extends FachwertTest {
     public void testOf() {
         Promille p = Promille.of("2 °/oo");
         assertEquals(Promille.of(BigDecimal.valueOf(2)), p);
+    }
+
+    @Test
+    public void testOfCaching() {
+        BigDecimal n = new BigDecimal("0.8");
+        Promille p1 = Promille.of(n);
+        Promille p2 = Promille.of(n);
+        assertEquals(p1, p2);
+        assertSame(p1, p2);
+        if (forceGC()) {
+            Promille p3 = Promille.of(n);
+            assertNotSame(p1, p3);
+            assertEquals(p1, p3);
+        } else {
+            LOG.info("GC wurde nicht durchgefuehrt.");
+        }
     }
 
     @Test

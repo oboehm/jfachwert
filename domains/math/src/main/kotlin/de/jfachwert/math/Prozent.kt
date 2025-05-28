@@ -179,7 +179,8 @@ open class Prozent(val wert: BigDecimal) : AbstractNumber(), KFachwert {
          */
         @JvmStatic
         fun of(wert: BigDecimal): Prozent {
-            return WEAK_CACHE.computeIfAbsent(wert) { w: BigDecimal -> Prozent(w) }
+            val copy = BigDecimal(wert.toString())
+            return WEAK_CACHE.computeIfAbsent(copy) { w: BigDecimal -> Prozent(BigDecimal(w.toString())) }
         }
 
     }

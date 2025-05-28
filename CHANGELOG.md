@@ -12,6 +12,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ##[Unreleased]
 ### Fixed
 - fehlerhaftes Caching von Zinssatz im bank-Package korrigiert
+- fehlerhaftes Caching von Prozent und Promille im math-Package korrigiert
 - fehlerhaftes Caching von SNOMED im med-Package korrigiert
 
 ## [6.2.1] - 2025-05-27

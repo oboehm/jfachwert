@@ -127,7 +127,8 @@ open class Promille : Prozent {
          */
         @JvmStatic
         fun of(wert: BigDecimal): Promille {
-            return WEAK_CACHE.computeIfAbsent(wert) { w: BigDecimal -> Promille(w) }
+            val copy = BigDecimal(wert.toString())
+            return WEAK_CACHE.computeIfAbsent(copy) { w: BigDecimal -> Promille(BigDecimal(w.toString())) }
         }
 
     }

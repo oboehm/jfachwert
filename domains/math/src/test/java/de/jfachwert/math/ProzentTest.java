@@ -22,6 +22,7 @@ import org.javamoney.moneta.Money;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.logging.Logger;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -34,6 +35,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author oboehm
  */
 public final class ProzentTest extends FachwertTest {
+
+    private static final Logger LOG = Logger.getLogger(ProzentTest.class.getName());
 
     /**
      * Zum Testen verwenden wir 10 Prozent.
@@ -51,6 +54,21 @@ public final class ProzentTest extends FachwertTest {
         assertEquals(Prozent.of(BigDecimal.valueOf(19)), mwst);
     }
 
+    @Test
+    public void testOfCaching() {
+        BigDecimal n = BigDecimal.valueOf(5);
+        Prozent p1 = Prozent.of(n);
+        Prozent p2 = Prozent.of(n);
+        assertEquals(p1, p2);
+        assertSame(p1, p2);
+        if (forceGC()) {
+            Prozent p3 = Prozent.of(n);
+            assertNotSame(p1, p3);
+            assertEquals(p1, p3);
+        } else {
+            LOG.info("GC wurde nicht durchgefuehrt.");
+        }
+    }
     @Test
     public void testOfInvalid() {
         assertThrows(IllegalArgumentException.class, () -> Prozent.of("x"));
