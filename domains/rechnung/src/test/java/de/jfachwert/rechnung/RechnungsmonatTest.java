@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.logging.Logger;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -36,6 +37,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public final class RechnungsmonatTest extends FachwertTest {
 
+    private static final Logger LOG = Logger.getLogger(RechnungsmonatTest.class.getName());
     private static final Rechnungsmonat JAN_2016 = new Rechnungsmonat("1/2016");
     private static final Rechnungsmonat DEZ_2016 = new Rechnungsmonat("12/2016");
     private static final Rechnungsmonat JAN_2017 = new Rechnungsmonat("1/2017");
@@ -231,6 +233,20 @@ public final class RechnungsmonatTest extends FachwertTest {
         assertSame(m1, m2);
         assertSame(m2, m3);
         assertSame(m3, m4);
+    }
+
+    @Test
+    public void testOfCaching() {
+        Rechnungsmonat m1 = Rechnungsmonat.of(5, 2025);
+        Rechnungsmonat m2 = Rechnungsmonat.of(5, 2025);
+        assertSame(m1, m2);
+        if (forceGC()) {
+            Rechnungsmonat m3 = Rechnungsmonat.of(5, 2025);
+            assertNotSame(m1, m3);
+            assertEquals(m1, m3);
+        } else {
+            LOG.info("GC wurde nicht durchgefuehrt.");
+        }
     }
 
     @Test

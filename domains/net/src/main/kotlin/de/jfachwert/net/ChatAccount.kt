@@ -173,7 +173,8 @@ open class ChatAccount(val chatDienst: ChatDienst, private val dienstName: Strin
          */
         @JvmStatic
         fun of(name: String): ChatAccount {
-            return WEAK_CACHE.computeIfAbsent(name) { chatAccount: String -> ChatAccount(chatAccount) }
+            val copy = String(name.toCharArray())
+            return WEAK_CACHE.computeIfAbsent(copy) { chatAccount: String -> ChatAccount(chatAccount) }
         }
 
     }

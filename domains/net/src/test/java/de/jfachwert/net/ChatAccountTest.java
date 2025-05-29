@@ -1,5 +1,5 @@
 package de.jfachwert.net;/*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2025 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,10 @@ package de.jfachwert.net;/*
 import de.jfachwert.FachwertTest;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.logging.Logger;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 /**
  * Unit-Tests fuer {@link ChatAccount}-Klasse.
@@ -28,6 +30,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @author oliver (ob@jfachwert.de)
  */
 public final class ChatAccountTest extends FachwertTest {
+
+    private static final Logger LOG = Logger.getLogger(ChatAccountTest.class.getName());
 
     /**
      * Zum Testen brauchen wir ein Test-Objekt. Dies muss hierueber von den
@@ -75,6 +79,21 @@ public final class ChatAccountTest extends FachwertTest {
     public void testOf() {
         ChatAccount jabber = ChatAccount.of("Jabber: bob@example.com");
         assertEquals(ChatDienst.JABBER, jabber.getChatDienst());
+    }
+
+    @Test
+    public void testOfCaching() {
+        String s = "bsky: oboehm";
+        ChatAccount a1 = ChatAccount.of(s);
+        ChatAccount a2 = ChatAccount.of(s);
+        assertSame(a1, a2);
+        if (forceGC()) {
+            ChatAccount a3 = ChatAccount.of(s);
+            assertNotSame(a1, a3);
+            assertEquals(a1, a3);
+        } else {
+            LOG.info("GC wurde nicht durchgefuehrt.");
+        }
     }
 
     /**
