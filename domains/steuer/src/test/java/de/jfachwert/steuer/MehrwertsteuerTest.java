@@ -23,6 +23,8 @@ import org.hamcrest.MatcherAssert;
 import org.javamoney.moneta.Money;
 import org.junit.jupiter.api.Test;
 
+import java.util.logging.Logger;
+
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThan;
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,6 +36,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public final class MehrwertsteuerTest extends FachwertTest {
 
+    private static final Logger LOG = Logger.getLogger(MehrwertsteuerTest.class.getName());
     private final Mehrwertsteuer mehrwertsteuer = Mehrwertsteuer.DE_NORMAL;
 
     /**
@@ -66,6 +69,21 @@ public final class MehrwertsteuerTest extends FachwertTest {
     public void testOf() {
         Prozent p = Prozent.of("19%");
         assertSame(Mehrwertsteuer.of(p), Mehrwertsteuer.of(p));
+    }
+
+    @Test
+    public void testOfCaching() {
+        Prozent p = Prozent.of("7%");
+        Mehrwertsteuer m1 = Mehrwertsteuer.of(p);
+        Mehrwertsteuer m2 = Mehrwertsteuer.of(p);
+        assertSame(m1, m2);
+        if (forceGC()) {
+            Mehrwertsteuer m3 = Mehrwertsteuer.of(p);
+            assertNotSame(m1, m3);
+            assertEquals(m1, m3);
+        } else {
+            LOG.info("GC wurde nicht durchgefuehrt.");
+        }
     }
 
     /**

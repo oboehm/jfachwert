@@ -23,7 +23,6 @@ import de.jfachwert.KFachwert
 import de.jfachwert.math.Prozent
 import java.math.BigDecimal
 import java.util.*
-import java.util.function.Function
 import javax.money.MonetaryAmount
 
 /**
@@ -83,7 +82,8 @@ open class Mehrwertsteuer (val prozent: Prozent) : KFachwert, Comparable<Mehrwer
          */
         @JvmStatic
         fun of(satz: Prozent): Mehrwertsteuer {
-            return WEAK_CACHE.computeIfAbsent(satz, Function(::Mehrwertsteuer))
+            val copy = Prozent(satz.wert)
+            return WEAK_CACHE.computeIfAbsent(copy) { p: Prozent -> Mehrwertsteuer(Prozent(p.wert)) }
         }
 
     }
