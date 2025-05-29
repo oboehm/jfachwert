@@ -9,7 +9,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Planned]
 - Speichervergleich BigDecimal zu PackedDecimal
 
-##[Unreleased]
+## [6.2.2] - 2025-05-29
 ### Fixed
 - fehlerhaftes Caching von Zinssatz im bank-Package korrigiert
 - fehlerhaftes Caching von Prozent und Promille im math-Package korrigiert
