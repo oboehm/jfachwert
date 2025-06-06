@@ -11,7 +11,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ## [Unreleased]
 ### [Fixed]
-- Postfach-Validierung entschärft
+- Postfach-Validierung entschärft, Postfach ohne Ort jetzt auch erlaubt
   ([#30](https://github.com/oboehm/jfachwert/issues/30))
 
 ## [6.2.2] - 2025-05-29

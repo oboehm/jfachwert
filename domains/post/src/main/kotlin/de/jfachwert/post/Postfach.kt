@@ -57,7 +57,7 @@ open class Postfach : KFachwert {
      * Zerlegt den uebergebenen String in seine Einzelteile und validiert sie.
      * Folgende Heuristiken werden fuer die Zerlegung herangezogen:
      *
-     *  * Format ist "Postfach, Ort" oder nur "Ort" (mit PLZ)
+     *  * Format ist "Postfach, Ort", nur "Ort" (mit PLZ) oder nur "Postfach"
      *  * Postfach ist vom Ort durch Komma oder Zeilenvorschub getrennt
      *
      * @param postfach z.B. "Postfach 98765, 12345 Entenhausen"
@@ -85,7 +85,7 @@ open class Postfach : KFachwert {
      * @param nummer z.B. "12 34 56"
      * @param ort Ort mit Postleitzahl
      */
-    constructor(nummer: String, ort: String) : this(toNumber(nummer), Ort(ort))
+    constructor(nummer: String, ort: String) : this(toNumber(nummer), toOrt(ort))
 
     /**
      * Erzeugt ein neues Postfach.
@@ -213,7 +213,12 @@ open class Postfach : KFachwert {
      */
     override fun toString(): String {
         return if (getNummer().isPresent) {
-            "Postfach " + nummerFormatted + ", " + ort
+            val s = "Postfach $nummerFormatted"
+            if (ort === Ort.NULL) {
+                return s
+            } else {
+                return s + ", $ort"
+            }
         } else {
             ort.toString()
         }
@@ -311,7 +316,11 @@ open class Postfach : KFachwert {
             } else if (lines.size > 2) {
                 throw InvalidValueException(postfach, "post_office_box")
             }
-            return splitted
+            if (splitted[1].contains("\\s".toRegex())) {
+                return splitted
+            } else {
+                return arrayOf(splitted[1], "")
+            }
         }
 
         private fun toNumber(number: String): Optional<BigInteger> {
@@ -323,6 +332,14 @@ open class Postfach : KFachwert {
                 Optional.of(BigInteger(unformatted))
             } catch (nfe: NumberFormatException) {
                 throw InvalidValueException(number, "number", nfe)
+            }
+        }
+
+        private fun toOrt(ort: String): Ort {
+            if (StringUtils.isBlank(ort)) {
+                return Ort.NULL
+            } else {
+                return Ort(ort)
             }
         }
 

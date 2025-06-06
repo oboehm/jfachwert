@@ -116,4 +116,10 @@ public final class PostfachTest extends FachwertTest {
         assertEquals(postfach.getNummer(), Optional.empty());
     }
 
+    @Test
+    public void testPostfach6stellig() {
+        Postfach postfach = Postfach.of("123456");
+        assertThat(postfach.toString().replaceAll(" ", ""), containsString("123456"));
+    }
+
 }
