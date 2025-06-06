@@ -22,12 +22,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import de.jfachwert.KFachwert
 import de.jfachwert.pruefung.exception.InvalidValueException
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
+import de.jfachwert.pruefung.exception.ValidationException
 import de.jfachwert.util.ToFachwertSerializer
 import org.apache.commons.lang3.RegExUtils
 import org.apache.commons.lang3.StringUtils
 import java.math.BigInteger
 import java.util.*
-import de.jfachwert.pruefung.exception.ValidationException
 
 /**
  * Ein Postfach besteht aus einer Nummer ohne fuehrende Nullen und einer
@@ -62,9 +62,9 @@ open class Postfach : KFachwert {
      *
      * @param postfach z.B. "Postfach 98765, 12345 Entenhausen"
      */
-    constructor(postfach: String) : this(split(postfach)) {}
+    constructor(postfach: String) : this(split(postfach))
 
-    private constructor(postfach: Array<String>) : this(postfach[0], postfach[1]) {}
+    private constructor(postfach: Array<String>) : this(postfach[0], postfach[1])
 
     /**
      * Erzeugt ein Postfach ohne Postfachnummer. D.h. die PLZ des Ortes
@@ -85,7 +85,7 @@ open class Postfach : KFachwert {
      * @param nummer z.B. "12 34 56"
      * @param ort Ort mit Postleitzahl
      */
-    constructor(nummer: String, ort: String) : this(toNumber(nummer), Ort(ort)) {}
+    constructor(nummer: String, ort: String) : this(toNumber(nummer), Ort(ort))
 
     /**
      * Erzeugt ein neues Postfach.
@@ -94,8 +94,7 @@ open class Postfach : KFachwert {
      * "nummer".
      */
     @JsonCreator
-    constructor(map: Map<String, String>) : this(toNumber(map["nummer"]!!), Ort(PLZ.of(map["plz"]!!), map["ortsname"]!!)) {
-    }
+    constructor(map: Map<String, String>) : this(toNumber(map["nummer"]!!), Ort(PLZ.of(map["plz"]!!), map["ortsname"]!!))
 
     /**
      * Erzeugt ein Postfach.
@@ -103,7 +102,7 @@ open class Postfach : KFachwert {
      * @param nummer positive Zahl ohne fuehrende Null
      * @param ort gueltiger Ort mit PLZ
      */
-    constructor(nummer: Long, ort: Ort) : this(BigInteger.valueOf(nummer), ort) {}
+    constructor(nummer: Long, ort: Ort) : this(BigInteger.valueOf(nummer), ort)
 
     /**
      * Erzeugt ein Postfach.
@@ -294,10 +293,13 @@ open class Postfach : KFachwert {
         @JvmStatic
         fun validate(postfach: String) {
             val lines = split(postfach)
-            toNumber(lines[0])
-            val ort = Ort(lines[1])
-            if (!ort.pLZ.isPresent) {
-                throw InvalidValueException(postfach, "postal_code")
+            if (toNumber(lines[0]).isEmpty) {
+                if (toNumber(lines[1]).isEmpty) {
+                    val ort = Ort(lines[1])
+                    if (!ort.pLZ.isPresent) {
+                        throw InvalidValueException(postfach, "postal_code")
+                    }
+                }
             }
         }
 

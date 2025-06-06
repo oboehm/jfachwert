@@ -17,9 +17,9 @@ package de.jfachwert.post;/*
  */
 
 import de.jfachwert.FachwertTest;
+import de.jfachwert.pruefung.exception.ValidationException;
 import org.junit.jupiter.api.Test;
 
-import de.jfachwert.pruefung.exception.ValidationException;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -90,6 +90,14 @@ public final class PostfachTest extends FachwertTest {
     public void testValidate() {
         String postfach = "Postfach 12 34 56\n12350 Musterdorf";
         Postfach.validate(postfach);
+    }
+
+    /**
+     * Testfall fuer #30.
+     */
+    @Test
+    public void testValidate6stellig() {
+        Postfach.validate("123456");
     }
 
     /**
