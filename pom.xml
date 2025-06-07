@@ -4,7 +4,7 @@
 
   <groupId>de.jfachwert</groupId>
   <artifactId>jfachwert-parent</artifactId>
-  <version>6.2.3-SNAPSHOT</version>
+  <version>6.3.0</version>
   <packaging>pom</packaging>
 
   <modules>
