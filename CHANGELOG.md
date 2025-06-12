@@ -9,8 +9,12 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Planned]
 - Speichervergleich BigDecimal zu PackedDecimal
 
+## [Unreleased]
+### Added
+- Prozent.of(double) hinzugefügt
+
 ## [6.3.0] - 2025-06-07
-### [Fixed]
+### Fixed
 - Postfach-Validierung entschärft, Postfach ohne Ort jetzt auch erlaubt
   ([#30](https://github.com/oboehm/jfachwert/issues/30))
 

@@ -55,6 +55,13 @@ public final class ProzentTest extends FachwertTest {
     }
 
     @Test
+    public void testOfDouble() {
+        Prozent p1 = Prozent.of(1.25);
+        Prozent p2 = Prozent.of("1.25");
+        assertEquals(p1, p2);
+    }
+
+    @Test
     public void testOfCaching() {
         BigDecimal n = BigDecimal.valueOf(5);
         Prozent p1 = Prozent.of(n);

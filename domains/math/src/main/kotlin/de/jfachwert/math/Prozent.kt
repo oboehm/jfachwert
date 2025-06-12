@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
 import de.jfachwert.KFachwert
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -161,12 +162,25 @@ open class Prozent(val wert: BigDecimal) : AbstractNumber(), KFachwert {
          * Diese Methode lohnt sich daher, wenn man immer denselben Prozent-Wert
          * erzeugen will, um die Anzahl der Objekte gering zu halten.
          *
-         * @param wert z.B. "19%"
+         * @param wert z.B. 19%
          * @return "19%" als Prozent-Objekt
          */
         @JvmStatic
         fun of(wert: Long): Prozent {
             return of(BigDecimal.valueOf(wert))
+        }
+
+        /**
+         * Die of-Methode liefert fuer dieselbe Zahl immer dasselbe Objekt zurueck.
+         * Diese Methode lohnt sich daher, wenn man immer denselben Prozent-Wert
+         * erzeugen will, um die Anzahl der Objekte gering zu halten.
+         *
+         * @param wert z.B. 1.5
+         * @return "1.50%" als Prozent-Objekt
+         */
+        @JvmStatic
+        fun of(wert: Double): Prozent {
+            return of(BigDecimal.valueOf(wert).setScale(2, RoundingMode.HALF_UP))
         }
 
         /**
