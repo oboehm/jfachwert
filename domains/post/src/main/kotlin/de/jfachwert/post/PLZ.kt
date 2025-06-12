@@ -254,7 +254,7 @@ open class PLZ : Text {
          */
         @JvmStatic
         fun of(plz: String): PLZ {
-            return WEAK_CACHE.computeIfAbsent(plz) { s: String -> PLZ(s) }
+            return WEAK_CACHE.computeIfAbsent(plz) { s: String -> PLZ(String(s.toCharArray())) }
         }
 
         private fun hasLandeskennung(plz: String): Boolean {
