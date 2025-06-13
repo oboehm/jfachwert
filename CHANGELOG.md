@@ -9,7 +9,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Planned]
 - Speichervergleich BigDecimal zu PackedDecimal
 
-## [Unreleased]
+## [6.3.1] - 2025-06-13
 ### Added
 - Prozent.of(double) und Promille.of(double) hinzugefügt
 - Konstanten Prozent.HUNDRED und Promille.THOUSAND hinzugefügt

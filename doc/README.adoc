@@ -34,6 +34,7 @@ Entwickelt wird nach der GitFlow-Branching-Strategie. D.h. die eigentliche
 Entwicklung findet auf dem
 https://github.com/oboehm/jfachwert/tree/develop[develop]-Zweig
 statt.
+GIT-Commits orientieren sich dabei an https://www.conventionalcommits.org/de/[Conventional Commits].
 
 
 === Release bauen
