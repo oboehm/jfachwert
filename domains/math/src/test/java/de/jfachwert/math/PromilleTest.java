@@ -87,7 +87,7 @@ public final class PromilleTest extends FachwertTest {
 
     @Test
     public void testToBigDecimal() {
-        assertEquals(BigDecimal.ONE, new Promille(1000).toBigDecimal());
+        assertEquals(BigDecimal.ONE, Promille.THOUSAND.toBigDecimal());
     }
 
     @Test

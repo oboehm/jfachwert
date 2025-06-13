@@ -55,6 +55,11 @@ public final class ProzentTest extends FachwertTest {
     }
 
     @Test
+    public void testOfString() {
+        assertEquals(Prozent.of("1.2%"), Prozent.of("1,2%"));
+    }
+
+    @Test
     public void testOfDouble() {
         Prozent p1 = Prozent.of(1.25);
         Prozent p2 = Prozent.of("1.25");
@@ -130,7 +135,7 @@ public final class ProzentTest extends FachwertTest {
 
     @Test
     public void testToNumber() {
-        assertEquals(Prozent.of("1.2%"), Prozent.of("1,2%"));
+        assertEquals(1, Prozent.HUNDRED.toInt());
     }
 
 }
