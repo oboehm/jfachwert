@@ -51,6 +51,13 @@ public final class PromilleTest extends FachwertTest {
     }
 
     @Test
+    public void testOfDouble() {
+        Promille p1 = Promille.of(1.25);
+        Promille p2 = Promille.of("1.25");
+        assertEquals(p1, p2);
+    }
+
+    @Test
     public void testOfCaching() {
         BigDecimal n = new BigDecimal("0.8");
         Promille p1 = Promille.of(n);

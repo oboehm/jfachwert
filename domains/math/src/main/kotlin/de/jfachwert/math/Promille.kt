@@ -19,6 +19,7 @@ package de.jfachwert.math
 
 import org.apache.commons.lang3.StringUtils
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.*
 
 /**
@@ -86,6 +87,10 @@ open class Promille : Prozent {
         @JvmField
         val TEN = of(BigDecimal.TEN)
 
+        /** Konstante fuer "1000 Promillle".  */
+        @JvmField
+        val THOUSAND = of(1000)
+
         /**
          * Die of-Methode liefert fuer dieselbe Zahl immer dasselbe Objekt zurueck.
          * Diese Methode lohnt sich daher, wenn man immer denselben Promille-Wert
@@ -129,6 +134,19 @@ open class Promille : Prozent {
         fun of(wert: BigDecimal): Promille {
             val copy = BigDecimal(wert.toString())
             return WEAK_CACHE.computeIfAbsent(copy) { w: BigDecimal -> Promille(BigDecimal(w.toString())) }
+        }
+
+        /**
+         * Die of-Methode liefert fuer dieselbe Zahl immer dasselbe Objekt zurueck.
+         * Diese Methode lohnt sich daher, wenn man immer denselben Promille-Wert
+         * erzeugen will, um die Anzahl der Objekte gering zu halten.
+         *
+         * @param wert z.B. 0.8
+         * @return "0.8 °/oo" als Promille-Objekt
+         */
+        @JvmStatic
+        fun of(wert: Double): Promille {
+            return of(BigDecimal.valueOf(wert).setScale(2, RoundingMode.HALF_UP))
         }
 
     }

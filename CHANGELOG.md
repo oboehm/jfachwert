@@ -11,7 +11,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ## [Unreleased]
 ### Added
-- Prozent.of(double) hinzugefügt
+- Prozent.of(double) und Promille.of(double) hinzugefügt
 
 ## [6.3.0] - 2025-06-07
 ### Fixed

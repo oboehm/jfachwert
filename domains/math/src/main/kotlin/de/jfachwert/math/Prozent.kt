@@ -133,6 +133,10 @@ open class Prozent(val wert: BigDecimal) : AbstractNumber(), KFachwert {
         @JvmField
         val TEN = of(BigDecimal.TEN)
 
+        /** Konstante fuer "100%".  */
+        @JvmField
+        val HUNDRED = of(100)
+
         private fun toNumber(wert: String): BigDecimal {
             val number = wert.split("%").toTypedArray()[0].trim { it <= ' ' }
             return try {
