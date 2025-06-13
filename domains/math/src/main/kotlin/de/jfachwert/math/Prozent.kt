@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
 import de.jfachwert.KFachwert
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.text.NumberFormat
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -100,7 +101,8 @@ open class Prozent(val wert: BigDecimal) : AbstractNumber(), KFachwert {
     }
 
     override fun toString(): String {
-        return wert.toString() + "%"
+        val nf = NumberFormat.getNumberInstance()
+        return nf.format(wert) + "%"
     }
 
     override fun equals(other: Any?): Boolean {

@@ -12,6 +12,9 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Unreleased]
 ### Added
 - Prozent.of(double) und Promille.of(double) hinzugefügt
+- Konstanten Prozent.HUNDRED und Promille.THOUSAND hinzugefügt
+### Fixed
+- Caching von PLZ.of(..) korrigiert
 
 ## [6.3.0] - 2025-06-07
 ### Fixed

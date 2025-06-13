@@ -221,7 +221,7 @@ open class Nummer(code: String) : AbstractNumber(), KFachwert {
      */
     class Validator : KSimpleValidator<String> {
         /**
-         * Wenn die uebergebene Waehrungsstring gueltig ist, wird sie
+         * Wenn die uebergebene Zeichenkette gueltig ist, wird sie
          * unveraendert zurueckgegeben, damit sie anschliessend von der
          * aufrufenden Methode weiterverarbeitet werden kann. Ist der Wert
          * nicht gueltig, wird eine [InvalidValueException] geworfen.
@@ -233,7 +233,7 @@ open class Nummer(code: String) : AbstractNumber(), KFachwert {
             return try {
                 BigInteger(value).toString()
             } catch (nfe: NumberFormatException) {
-                throw InvalidValueException(value, "number")
+                throw InvalidValueException(value, "number", nfe)
             }
         }
     }

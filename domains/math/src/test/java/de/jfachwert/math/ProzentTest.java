@@ -22,6 +22,7 @@ import org.javamoney.moneta.Money;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.Locale;
 import java.util.logging.Logger;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -128,9 +129,18 @@ public final class ProzentTest extends FachwertTest {
 
     @Test
     public void testToString() {
-        String s = Prozent.of("30 %").toString();
+        Prozent p = Prozent.of(30.25);
+        String s = p.toString();
         assertThat(s, containsString("30"));
         assertThat(s, endsWith("%"));
+        switch (Locale.getDefault().getLanguage()) {
+            case "de":
+                assertEquals("30,25%", s);
+                break;
+            case "en":
+                assertEquals("30.25%", s);
+                break;
+        }
     }
 
     @Test

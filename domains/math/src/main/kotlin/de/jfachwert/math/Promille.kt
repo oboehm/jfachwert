@@ -20,6 +20,7 @@ package de.jfachwert.math
 import org.apache.commons.lang3.StringUtils
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.text.NumberFormat
 import java.util.*
 
 /**
@@ -65,7 +66,8 @@ open class Promille : Prozent {
     }
 
     override fun toString(): String {
-        return wert.toString() + Character.toString(PROMILLE_ZEICHEN)
+        val nf = NumberFormat.getNumberInstance()
+        return nf.format(wert) + Character.toString(ZEICHEN)
     }
 
 
@@ -73,7 +75,10 @@ open class Promille : Prozent {
     companion object {
 
         private val WEAK_CACHE = WeakHashMap<BigDecimal, Promille>()
-        private const val PROMILLE_ZEICHEN = '\u2030'
+
+        /** Konstante fuer Promille-Zeichen.  */
+        @JvmField
+        val ZEICHEN = '\u2030'
 
         /** Konstante fuer "0 Promille".  */
         @JvmField
@@ -105,7 +110,7 @@ open class Promille : Prozent {
         }
 
         private fun toNumber(s: String): BigDecimal {
-            val number = StringUtils.replaceChars(s, "°/o$PROMILLE_ZEICHEN", "").trim { it <= ' ' }
+            val number = StringUtils.replaceChars(s, "°/o$ZEICHEN", "").trim { it <= ' ' }
             return BigDecimal(number)
         }
 

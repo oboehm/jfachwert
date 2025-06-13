@@ -21,8 +21,12 @@ import de.jfachwert.FachwertTest;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.Locale;
 import java.util.logging.Logger;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.endsWith;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -109,6 +113,22 @@ public final class PromilleTest extends FachwertTest {
     public void testMultiply() {
         Promille p = Promille.of(2);
         assertEquals(BigDecimal.valueOf(0.006), p.multiply(3));
+    }
+
+    @Test
+    public void testToString() {
+        Promille p = Promille.of(30.25);
+        String s = p.toString();
+        assertThat(s, containsString("30"));
+        assertThat(s, endsWith(String.valueOf(Promille.ZEICHEN)));
+        switch (Locale.getDefault().getLanguage()) {
+            case "de":
+                assertEquals("30,25" + Promille.ZEICHEN, s);
+                break;
+            case "en":
+                assertEquals("30.25" + Promille.ZEICHEN, s);
+                break;
+        }
     }
 
 }
