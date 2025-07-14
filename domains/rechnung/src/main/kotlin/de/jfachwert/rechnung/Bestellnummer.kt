@@ -58,7 +58,7 @@ open class Bestellnummer
          */
         @JvmStatic
         fun of(nummer: String): Bestellnummer {
-            return WEAK_CACHE.computeIfAbsent(nummer) { n: String -> Bestellnummer(n) }
+            return WEAK_CACHE.computeIfAbsent(nummer) { n: String -> Bestellnummer(String(n.toCharArray())) }
         }
     }
 

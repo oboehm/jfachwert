@@ -9,6 +9,10 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Planned]
 - Speichervergleich BigDecimal zu PackedDecimal
 
+## [Unreleased]
+### Fixed
+- Caching von Bestellnummer.of(..) korrigiert
+
 ## [6.3.1] - 2025-06-13
 ### Added
 - Prozent.of(double) und Promille.of(double) hinzugefügt
