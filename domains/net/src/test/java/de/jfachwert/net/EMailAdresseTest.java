@@ -21,6 +21,8 @@ import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
 import de.jfachwert.post.Name;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -82,6 +84,22 @@ public final class EMailAdresseTest extends AbstractFachwertTest<String, Text> {
     @Test
     public void testGetName() {
         assertEquals(Name.of("O. Boehm"), EMailAdresse.of("o.boehm@optica.de").getName());
+    }
+
+    /**
+     * Testfaelle fuer Issue #32.
+     */
+    @ParameterizedTest
+    @ValueSource(strings = {"johnsmith@example.com",
+            "<johnsmith@example.com>",
+            "\"John Smith\" <johnsmith@example.com>",
+            "John-Smith <johnsmith@example.com>",
+            "\"Smith, John\" <johnsmith@example.com>"
+    })
+    public void testAnzeigenamenAndEmail(String emailAdresse) {
+        EMailAdresse smith =  EMailAdresse.of(emailAdresse);
+        assertEquals("johnsmith@example.com", smith.getEmail());
+        assertEquals(Domainname.of("example.com"), smith.getDomainPart());
     }
 
 }

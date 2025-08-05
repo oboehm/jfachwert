@@ -54,6 +54,22 @@ open class EMailAdresse
 @JvmOverloads constructor(emailAdresse: String, validator: KSimpleValidator<String> = VALIDATOR) : Text(validator.verify(emailAdresse)) {
 
     /**
+     * Hierueber wird die eigentliche E-Mail-Adresse ohne den Anzeigename
+     * (display name).
+     *
+     * return z.B. "max@mustermann.de"
+     * @since 6.4
+     */
+    val email: String
+        get() {
+            if (code.contains('<')) {
+                return code.substringAfter('<').substringBefore('>').trim()
+            } else {
+                return code
+            }
+        }
+
+    /**
      * Als Local Part wird der Teil einer E-Mail-Adresse bezeichnet, der die
      * Adresse innerhalb der Domain des E-Mail-Providers eindeutig bezeichnet.
      * Typischerweise entspricht der Lokalteil dem Benutzernamen (haeufig ein
@@ -73,7 +89,7 @@ open class EMailAdresse
      * @return z.B. "fachwert.de"
      */
     val domainPart: Domainname
-        get() = Domainname(StringUtils.substringAfterLast(code, "@"))
+        get() = Domainname(StringUtils.substringAfterLast(email, "@"))
 
     /**
      * Liefert den Namensanteil der Email-Adresse als [Name] zurueck.
@@ -106,9 +122,9 @@ open class EMailAdresse
 
     /**
      * Die Klasse EMailValidator validiert vornehmlich E-Mail-Adressen.
-     * Urspruenglich war er eine separate Klasse, mit v2.2 wurde er anolog
-     * zu den anderen Validatoren zur entsprechenden Klasse als innere Klasse
-     * verschoben.
+     * Urspruenglich war der Validator eine separate Klasse, mit v2.2 wurde er
+     * anolog zu den anderen Validatoren zur entsprechenden Klasse als innere
+     * Klasse verschoben.
      *
      * @author oboehm
      * @since 0.3 (27.06.2017)
@@ -136,7 +152,7 @@ open class EMailAdresse
         /**
          * Fuehrt ein Pattern-basierte Pruefung der uebegebenen E-Mail-Adresse
          * durch. Schlaegt die Pruefung fehl, wird eine
-         * [ValidationException] geworfen.
+         * [InvalidValueException] geworfen.
          *
          * @param value zu pruefende E-Mail-Adresse
          * @return die validierte E-Mail-Adresse (zur Weiterverarbeitung)
