@@ -10,6 +10,10 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Speichervergleich BigDecimal zu PackedDecimal
 
 ## [Unreleased]
+### Added
+- Anzeigennamen (display name) in E-Mail-Adressen wird unterstützt 
+  ([#32](https://github.com/oboehm/jfachwert/issues/32))
+
 ### Fixed
 - Caching von Bestellnummer.of(..) korrigiert
 
