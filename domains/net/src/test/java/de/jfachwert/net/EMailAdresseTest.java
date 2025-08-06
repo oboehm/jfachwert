@@ -101,6 +101,8 @@ public final class EMailAdresseTest extends AbstractFachwertTest<String, Text> {
         assertEquals(Domainname.of("example.com"), smith.getDomainPart());
         assertEquals("johnsmith",  smith.getLocalPart());
         assertNotNull(smith.getDisplayname());
+        assertEquals(emailAdresse, smith.toLongString());
+        assertEquals("johnsmith@example.com", smith.toShortString());
     }
 
     @Test

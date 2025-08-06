@@ -62,10 +62,10 @@ open class EMailAdresse
      */
     val email: String
         get() {
-            if (code.contains('<')) {
-                return code.substringAfter('<').substringBefore('>').trim()
+            return if (code.contains('<')) {
+                code.substringAfter('<').substringBefore('>').trim()
             } else {
-                return code
+                code
             }
         }
 
@@ -79,10 +79,10 @@ open class EMailAdresse
      */
     val displayname: String
         get() {
-            if (code.contains('<')) {
-                return code.substringBefore('<').trim()
+            return if (code.contains('<')) {
+                code.substringBefore('<').trim()
             } else {
-                return ""
+                ""
             }
         }
 
@@ -133,6 +133,28 @@ open class EMailAdresse
 
     private fun capitalize(word: String): String {
         return word.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+    }
+
+    /**
+     * Bei der verkuerzten Darstellung wird der Anzeigename (display name)
+     * weggelassen.
+     *
+     * @return die eigentliche E-Mail-Adresse
+     * @since 6.4
+     */
+    fun toShortString(): String {
+        return email
+    }
+
+    /**
+     * Dies ist die normale Darstellung einer E-Mail-Adresse, inklusiv dem
+     * Anzeigenamen.
+     *
+     * @return E-Mail-Adresse mit Anzeigename
+     * @since 6.4
+     */
+    fun toLongString(): String {
+        return toString()
     }
 
 
