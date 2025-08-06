@@ -24,8 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Teests fuer de.jfachwert.net.EMailAdresse.
@@ -96,10 +95,18 @@ public final class EMailAdresseTest extends AbstractFachwertTest<String, Text> {
             "John-Smith <johnsmith@example.com>",
             "\"Smith, John\" <johnsmith@example.com>"
     })
-    public void testAnzeigenamenAndEmail(String emailAdresse) {
+    public void testDisplaynameAndEmail(String emailAdresse) {
         EMailAdresse smith =  EMailAdresse.of(emailAdresse);
         assertEquals("johnsmith@example.com", smith.getEmail());
         assertEquals(Domainname.of("example.com"), smith.getDomainPart());
+        assertEquals("johnsmith",  smith.getLocalPart());
+        assertNotNull(smith.getDisplayname());
+    }
+
+    @Test
+    public void testGetDisplayname() {
+        EMailAdresse smith = EMailAdresse.of("John-Smith <johnsmith@example.com>");
+        assertEquals("John-Smith", smith.getDisplayname());
     }
 
 }

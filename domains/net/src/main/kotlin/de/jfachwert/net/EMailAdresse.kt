@@ -70,6 +70,23 @@ open class EMailAdresse
         }
 
     /**
+     * Der Anzeigename (displayname) ist der Anteil in
+     * "M. Mustermann <max@mustermann>", der vor der eigentlichen Email-Adresse
+     * angegeben werden kann.
+     *
+     * return z.B. "M.Mustermann"
+     * @since 6.4
+     */
+    val displayname: String
+        get() {
+            if (code.contains('<')) {
+                return code.substringBefore('<').trim()
+            } else {
+                return ""
+            }
+        }
+
+    /**
      * Als Local Part wird der Teil einer E-Mail-Adresse bezeichnet, der die
      * Adresse innerhalb der Domain des E-Mail-Providers eindeutig bezeichnet.
      * Typischerweise entspricht der Lokalteil dem Benutzernamen (haeufig ein
@@ -78,7 +95,7 @@ open class EMailAdresse
      * @return z.B. "Max.Mustermann"
      */
     val localPart: String
-        get() = StringUtils.substringBeforeLast(code, "@")
+        get() = StringUtils.substringBeforeLast(email, "@")
 
     /**
      * Der Domain Part, der hinter dem @-Zeichen steht und fuer den die
