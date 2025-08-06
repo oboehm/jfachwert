@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2025 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package de.jfachwert.math;
 
 import de.jfachwert.FachwertTest;
 import org.junit.jupiter.api.Test;
+import patterntesting.runtime.junit.SerializableTester;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -235,7 +236,7 @@ public final class PackedDecimalTest extends FachwertTest {
      * Testmethode fuer {@link PackedDecimal#setScale(int, RoundingMode)}.
      */
     @Test
-    public void testSetScaleRoundningMode() {
+    public void testSetScaleRoundingMode() {
         assertEquals(PackedDecimal.TEN, PackedDecimal.valueOf("10.49").setScale(0, RoundingMode.HALF_UP));
     }
 
@@ -295,6 +296,16 @@ public final class PackedDecimalTest extends FachwertTest {
         PackedDecimal a = PackedDecimal.of(1234);
         PackedDecimal b = PackedDecimal.of("1234");
         assertSame(a, b);
+    }
+
+    @Test
+    public void testMemVerbrauch() {
+        String number = "123456789012345678901234567890123456789012345678901234567890";
+        BigDecimal big = new BigDecimal(number);
+        PackedDecimal packed = PackedDecimal.valueOf(number);
+        int bigSize = SerializableTester.getSizeOf(big);
+        int packedSize = SerializableTester.getSizeOf(packed);
+        assertThat(packedSize, lessThan(bigSize));
     }
 
 }

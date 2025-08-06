@@ -92,6 +92,18 @@ import java.util.logging.Logger
  * Fachwert-Klassen intern verwendet, kann aber auch fuer eigene Zwecke
  * verwendet werden.
  *
+ * Die Ablage von PackedDecimal-Objekte ist kompakter als [BigDecimal].
+ * Bei einer 10-stelligen Zahl wurden folgende Groessen ermittelt:
+ * <ul>
+ *   <li>170 Bytes fuer PackedDecimal</li>
+ *   <li>294 Bytes fuer BigDecimal</li>
+ * </ul>
+ * Bei einer 100-stelligen Zahl wurden folgende Groessen ermittelt:
+ * <ul>
+ *   <li>215 Bytes fuer PackedDecimal</li>
+ *   <li>332 Bytes fuer BigDecimal</li>
+ * </ul>
+ *
  * @author oboehm
  * @since 0.6 (29.03.2018)
  */
