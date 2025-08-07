@@ -70,6 +70,36 @@ Hier kann man aber durch parallele Zugriffe entgegensteuern.
 
 Damit sind Fachwerte speziell für große Datenmengen geeignet, die im Hauptspeicher gehalten und parallel verarbeitet werden sollen.
 
+==== Footprint PackedDecimal
+
+Generell hat PackedDecimal einen kleineren Footprint als BigDecimal.
+Dies gilt auch im Vergleich zu BigInteger.
+Erst ab Zahlen mit mehr als 500 Stellen hat BigInteger einen leicht geringeren Speicherverbrauch.
+
+|===
+|Zahl |BigDecimal |BigInteger |PackedDecimal
+
+|1-stellig
+|291
+|203
+|166
+
+|10-stellig
+|294
+|206
+|170
+
+|100-stellig
+|332
+|244
+|215
+
+|500-stellig
+|498
+|410
+|415
+|===
+
 
 
 ==== of-Methode (valueOf)

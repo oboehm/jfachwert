@@ -18,11 +18,14 @@
 package de.jfachwert.math;
 
 import de.jfachwert.FachwertTest;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import patterntesting.runtime.junit.SerializableTester;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.util.logging.Logger;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -34,6 +37,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author oboehm
  */
 public final class PackedDecimalTest extends FachwertTest {
+
+    private static final Logger log = Logger.getLogger(PackedDecimalTest.class.getName());
 
     /**
      * Zum Testen nehmen wir eine Zahl mit fuehrender Null.
@@ -50,7 +55,7 @@ public final class PackedDecimalTest extends FachwertTest {
      * reingesteckt hat.
      */
     @Test
-    public void testToString() {
+    public void testToString007() {
         PackedDecimal agent = new PackedDecimal("007");
         assertEquals("007", agent.toString());
     }
@@ -299,13 +304,25 @@ public final class PackedDecimalTest extends FachwertTest {
     }
 
     @Test
+    @Disabled("nur zur Messung des Speicherverbrauchs")
     public void testMemVerbrauch() {
-        String number = "123456789012345678901234567890123456789012345678901234567890";
-        BigDecimal big = new BigDecimal(number);
-        PackedDecimal packed = PackedDecimal.valueOf(number);
-        int bigSize = SerializableTester.getSizeOf(big);
-        int packedSize = SerializableTester.getSizeOf(packed);
-        assertThat(packedSize, lessThan(bigSize));
+        for (int n : new int[]{1, 10, 100, 200, 300, 400, 500}) {
+            StringBuilder number = new StringBuilder("1");
+            for (int i = 1; i < n; i++) {
+                number.append('0');
+            }
+            BigInteger bigInt = new BigInteger(number.toString());
+            BigDecimal bigDec = new BigDecimal(number.toString());
+            PackedDecimal packed = PackedDecimal.valueOf(number.toString());
+            int bigIntSize = SerializableTester.getSizeOf(bigInt);
+            int bigDecSize = SerializableTester.getSizeOf(bigDec);
+            int packedSize = SerializableTester.getSizeOf(packed);
+            log.info("Memory-Verbrauch: BigInteger: " + bigIntSize +
+                    " Bytes /\tBigDecimal: " + bigDecSize +
+                    " Bytes /\tPackedDecimal: " + packedSize + " Bytes (" +
+                    number.length() + "-stellig)");
+            assertThat(packedSize, lessThan(bigDecSize));
+        }
     }
 
 }
