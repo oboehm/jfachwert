@@ -1,7 +1,6 @@
 
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /*
  * Diese Datei wurde ueber 'gradle init' erstellt und dann manuell nach und
@@ -79,11 +78,8 @@ tasks {
         }
     }
 
-    withType<KotlinCompile> {
-        kotlinOptions {
-            freeCompilerArgs = listOf("-Xjsr305=strict")
-            jvmTarget = "11"
-        }
+    kotlin {
+        jvmToolchain(11)
     }
 
     withType<JavaCompile> {
