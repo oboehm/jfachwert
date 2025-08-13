@@ -13,7 +13,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Speichervergleich BigDecimal zu PackedDecimal
 
 ### Fixed
-- Caching von Bestellnummer.of(..) korrigiert
+- Caching von Bestellnummer.of(..) und Kundennummer.of(..) korrigiert
 
 ## [6.3.1] - 2025-06-13
 ### Added

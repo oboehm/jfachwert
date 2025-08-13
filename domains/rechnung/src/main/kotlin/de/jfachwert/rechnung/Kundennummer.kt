@@ -21,6 +21,7 @@ import de.jfachwert.KSimpleValidator
 import de.jfachwert.Text
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.NullValidator
+import jdk.internal.joptsimple.internal.Strings
 import java.util.*
 
 /**
@@ -59,7 +60,7 @@ open class Kundennummer
          */
         @JvmStatic
         fun of(nummer: String): Kundennummer {
-            return WEAK_CACHE.computeIfAbsent(nummer) { n: String -> Kundennummer(n) }
+            return WEAK_CACHE.computeIfAbsent(nummer) { n: String -> Kundennummer(String(n.toCharArray())) }
         }
     }
 
