@@ -22,6 +22,7 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.NumberFormat
 import java.util.*
+import java.util.logging.Logger
 
 /**
  * Die Klasse Prozent steht fuer den Tausendsten Teil einer Zahl.
@@ -74,6 +75,7 @@ open class Promille : Prozent {
 
     companion object {
 
+        private val log = Logger.getLogger(Promille::class.java.name)
         private val WEAK_CACHE = WeakHashMap<BigDecimal, Promille>()
 
         /** Konstante fuer Promille-Zeichen.  */
@@ -111,7 +113,13 @@ open class Promille : Prozent {
 
         private fun toNumber(s: String): BigDecimal {
             val number = StringUtils.replaceChars(s, "°/o$ZEICHEN", "").trim { it <= ' ' }
-            return BigDecimal(number)
+            try {
+                return BigDecimal(number)
+            } catch (ex: NumberFormatException) {
+                log.fine("'$number' is not a number, trying it with another locale: $ex")
+                val format = NumberFormat.getInstance(Locale.getDefault())
+                return BigDecimal(format.parse(number).toString())
+            }
         }
 
         /**
