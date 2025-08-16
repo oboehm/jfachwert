@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 by Oliver Boehm
+ * Copyright (c) 2019-2025 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author oboehm
  */
-public final class PromilleTest extends FachwertTest {
+final class PromilleTest extends FachwertTest {
 
     private static final Logger LOG = Logger.getLogger(PromilleTest.class.getName());
 
@@ -79,7 +79,7 @@ public final class PromilleTest extends FachwertTest {
 
     @Test
     public void testOfInvalid() {
-        assertThrows(IllegalArgumentException.class, () -> Prozent.of("1.2.3"));
+        assertThrows(IllegalArgumentException.class, () -> Promille.of("x1.2.3"));
     }
 
     @Test

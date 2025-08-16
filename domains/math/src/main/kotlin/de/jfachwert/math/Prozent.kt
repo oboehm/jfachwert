@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2024 by Oliver Boehm
+ * Copyright (c) 2019-2025 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.NumberFormat
 import java.util.*
-import java.util.logging.Level
 import java.util.logging.Logger
 import javax.money.MonetaryAmount
 
@@ -141,13 +140,7 @@ open class Prozent(val wert: BigDecimal) : AbstractNumber(), KFachwert {
 
         private fun toNumber(wert: String): BigDecimal {
             val number = wert.split("%").toTypedArray()[0].trim { it <= ' ' }
-            return try {
-                BigDecimal(number)
-            } catch (ex: NumberFormatException) {
-                log.log(Level.FINE, "$number ist keine normale Nummer.")
-                log.log(Level.FINER, "Details:", ex)
-                BigDecimal(number.replace(',', '.'))
-            }
+            return AbstractNumber.toBigDecimal(number)
         }
 
         /**

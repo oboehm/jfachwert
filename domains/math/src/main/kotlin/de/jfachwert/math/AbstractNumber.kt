@@ -19,7 +19,12 @@ package de.jfachwert.math
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import de.jfachwert.math.internal.ToNumberSerializer
+
 import java.math.BigDecimal
+import java.text.NumberFormat
+import java.text.ParseException
+import java.util.Locale
+import java.util.logging.Logger
 
 /**
  * In dieser Klasse sind die gemeinsame Implementierung der abstrakten
@@ -117,4 +122,28 @@ abstract class AbstractNumber : Number(), Comparable<AbstractNumber> {
     override fun compareTo(other: AbstractNumber): Int {
         return this.toBigDecimal().compareTo(other.toBigDecimal())
     }
+
+
+
+    companion object {
+
+        private val log = Logger.getLogger(AbstractNumber::class.java.name)
+
+        fun toBigDecimal(number: String): BigDecimal {
+            try {
+                return BigDecimal(number)
+            } catch (nfe: NumberFormatException) {
+                log.fine("'$number' is not a number, trying it with another locale: $nfe")
+                try {
+                    val format = NumberFormat.getInstance(Locale.getDefault())
+                    return BigDecimal(format.parse(number).toString())
+                } catch (ex: ParseException) {
+                    nfe.initCause(ex)
+                    throw nfe
+                }
+            }
+        }
+
+    }
+
 }

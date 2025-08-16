@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019, 2020 by Oliver Boehm
+ * Copyright (c) 2019-2025 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,7 +75,6 @@ open class Promille : Prozent {
 
     companion object {
 
-        private val log = Logger.getLogger(Promille::class.java.name)
         private val WEAK_CACHE = WeakHashMap<BigDecimal, Promille>()
 
         /** Konstante fuer Promille-Zeichen.  */
@@ -113,13 +112,7 @@ open class Promille : Prozent {
 
         private fun toNumber(s: String): BigDecimal {
             val number = StringUtils.replaceChars(s, "°/o$ZEICHEN", "").trim { it <= ' ' }
-            try {
-                return BigDecimal(number)
-            } catch (ex: NumberFormatException) {
-                log.fine("'$number' is not a number, trying it with another locale: $ex")
-                val format = NumberFormat.getInstance(Locale.getDefault())
-                return BigDecimal(format.parse(number).toString())
-            }
+            return toBigDecimal(number)
         }
 
         /**
