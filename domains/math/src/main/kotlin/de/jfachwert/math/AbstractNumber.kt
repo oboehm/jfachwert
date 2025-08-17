@@ -134,6 +134,9 @@ abstract class AbstractNumber : Number(), Comparable<AbstractNumber> {
                 return BigDecimal(number)
             } catch (nfe: NumberFormatException) {
                 log.fine("'$number' is not a number, trying it with another locale: $nfe")
+                if (number.contains(",")) {
+                    return toBigDecimal(number.replace(',', '.'))
+                }
                 try {
                     val format = NumberFormat.getInstance(Locale.getDefault())
                     return BigDecimal(format.parse(number).toString())
