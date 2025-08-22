@@ -61,12 +61,24 @@ Danach "-SNAPSHOT" von der Version in link:../buildSrc/src/main/kotlin/de.jfachw
 |./gradlew -Dorg.gradle.jvmargs="-Xmx768m -XX:MaxMetaspaceSize=512m" clean assemble sign
 |ab v6 ist der Bau nur noch mit Gradle möglich, da das maven-dokka-plugin keine Maven-Module unterstützt
 
-|Release deployen (gradle)
+|Release lokal deployen (gradle)
+|./gradlew publishToMavenLocal
+|Damit werden die Artifkate lokal nach $HOME/.m2/repository/de/jfachwert kopiert
+
+|Bundle für Upload erstellen (manuell)
+|`./gradlew generateChecksums`
+
+`cd $HOME/.m2/repository; tar czvf ~/Downloads/jfachwert.tgz `find de/jfachwert -name "\*-6.5.0*"``
+|Check-Summen für manuelles Upload erstellen, danach Tar-File erstellen und über https://central.sonatype.com/publishing hochladen
+
+|Release automatisch deployen (gradle)
 |./gradlew publishToSonatype
 |Damit werden die Artefakte nach https://oss.sonatype.org/[oss.sonatype.org] hochgeladen.
 Die Task funktioniert auch für Snapshots, sodass im Vorfeld das Hochladen ins https://oss.sonatype.org/content/repositories/snapshots/de/jfachwert/[Snapshot-Repo] getestet werden kann (Einstellungen in $HOME/.gradle/gradle.properties für sonatype-nexus-staging prüfen!).
 
-|Release freigeben
+NOTE: funktioniert nicht mehr seit der Umstellung auf https://central.sonatype.com/[central.sonatype.com]
+
+|Release freigeben (alt)
 |https://oss.sonatype.org/[oss.sonatype.org]
 |"Staging Repositories" selektieren, danach "Close", "Refresh" und "Release".
 
