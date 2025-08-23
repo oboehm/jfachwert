@@ -71,7 +71,7 @@ Danach "-SNAPSHOT" von der Version in link:../buildSrc/src/main/kotlin/de.jfachw
 `cd $HOME/.m2/repository; tar czvf ~/Downloads/jfachwert.tgz `find de/jfachwert -name "\*-6.5.0*"``
 |Check-Summen für manuelles Upload erstellen, danach Tar-File erstellen und über https://central.sonatype.com/publishing hochladen
 
-|Release automatisch deployen (gradle)
+|Release automatisch deployen (alt)
 |./gradlew publishToSonatype
 |Damit werden die Artefakte nach https://oss.sonatype.org/[oss.sonatype.org] hochgeladen.
 Die Task funktioniert auch für Snapshots, sodass im Vorfeld das Hochladen ins https://oss.sonatype.org/content/repositories/snapshots/de/jfachwert/[Snapshot-Repo] getestet werden kann (Einstellungen in $HOME/.gradle/gradle.properties für sonatype-nexus-staging prüfen!).
