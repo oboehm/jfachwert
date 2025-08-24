@@ -44,7 +44,7 @@ Jetzt kann man die Argumente nicht mehr verwechseln, weil sonst der Compiler mec
 
 In Version 6 wurden die einzelnen Packages auf Module aufgeteilt.
 Damit müssen nicht mehr alle Klassen eingebunden werden.
-Damit könne auch die Abhängikgeiten reduziert werden, wenn z.B. die Geldbetrag-Klasse aus dem nicht-Modul nicht benötigt werden.
+Damit könne auch die Abhängigkeiten reduziert werden, wenn z.B. die Geldbetrag-Klasse aus dem nicht-Modul nicht benötigt werden.
 Dann entfällt auch die Abhängigkeit zu [javax.money:money-api](https://mvnrepository.com/artifact/javax.money/money-api).
 
 Mit Version 5 wurde die Abhängigkeit zum javax.validation-Package entfernt.

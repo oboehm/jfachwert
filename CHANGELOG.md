@@ -6,7 +6,11 @@ Es ersetzt die **Release Notes** aus den Anfangstagen von jFachwert und orientie
 genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
-## [Unreleased]
+## [6.5.0] - 2025-08-24
+### Changed
+- Build-Prozess auf Kotlin 2 umgestellt
+- Deployment auf https://central.sonatype.com umgestellt
+
 ### Added
 - Anzeigennamen (display name) in E-Mail-Adressen wird unterstützt 
   ([#32](https://github.com/oboehm/jfachwert/issues/32))
@@ -14,6 +18,9 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ### Fixed
 - Caching von Bestellnummer.of(..) und Kundennummer.of(..) korrigiert
+
+### Removed
+- Konfiguration für Travis-Build
 
 ## [6.3.1] - 2025-06-13
 ### Added
