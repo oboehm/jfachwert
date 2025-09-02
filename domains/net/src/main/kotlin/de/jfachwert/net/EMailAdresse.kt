@@ -126,7 +126,12 @@ open class EMailAdresse
         val parts = word.split(delimiter)
         var capitalized = ""
         for (s in parts) {
-            capitalized += capitalize(s) + ' '
+            capitalized += capitalize(s)
+            if (s.length == 1) {
+                capitalized += ". "
+            } else {
+                capitalized += " "
+            }
         }
         return capitalized.trim()
     }

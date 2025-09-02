@@ -82,7 +82,9 @@ public final class EMailAdresseTest extends AbstractFachwertTest<String, Text> {
 
     @Test
     public void testGetName() {
-        assertEquals(Name.of("O. Boehm"), EMailAdresse.of("o.boehm@optica.de").getName());
+        EMailAdresse mailAdresse = EMailAdresse.of("o.boehm@optica.de");
+        assertEquals(Name.of("O. Boehm"), mailAdresse.getName());
+        assertEquals("O.", mailAdresse.getName().getVorname());
     }
 
     /**
