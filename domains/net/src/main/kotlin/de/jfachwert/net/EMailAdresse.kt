@@ -162,6 +162,22 @@ open class EMailAdresse
         return toString()
     }
 
+    /**
+     * Beim Vergleich zweier EMailAdressen wird der Displayname nicht
+     * beruecksichtigt.
+     *
+     * @return true, wenn die eigentliche EMail-Adresse uebereinstimmt.
+     */
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is EMailAdresse) return false
+        if (email != other.email) return false
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return email.hashCode()
+    }
 
 
     /**

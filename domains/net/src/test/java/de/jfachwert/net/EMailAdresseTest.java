@@ -23,6 +23,7 @@ import de.jfachwert.post.Name;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import patterntesting.runtime.junit.ObjectTester;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -105,6 +106,13 @@ public final class EMailAdresseTest extends AbstractFachwertTest<String, Text> {
         assertNotNull(smith.getDisplayname());
         assertEquals(emailAdresse, smith.toLongString());
         assertEquals("johnsmith@example.com", smith.toShortString());
+    }
+
+    @Test
+    public void testEqualsDisplayname() {
+        EMailAdresse smith = EMailAdresse.of("j.smith@example.com");
+        EMailAdresse john = EMailAdresse.of("John Smith <j.smith@example.com>");
+        ObjectTester.assertEquals(smith, john);
     }
 
     @Test
