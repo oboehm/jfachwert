@@ -87,8 +87,19 @@ open class Adressat
          */
         @JvmStatic
         fun of(name: String): Adressat {
-            val copy = String(name.toCharArray())
-            return WEAK_CACHE.computeIfAbsent(copy) { s: String -> Adressat(String(s.toCharArray())) }
+            return of(Name.of(name))
+        }
+
+        /**
+         * Liefert einen Adressat mit dem angegebenen Namen.
+         *
+         * @param name z.B. "Mustermann, Max"
+         * @return Addressat mit dem angegebenen Namen
+         */
+        @JvmStatic
+        fun of(name: Name): Adressat {
+            val s = String(name.toString().toCharArray())
+            return WEAK_CACHE.computeIfAbsent(s) { s: String -> Adressat(s) }
         }
 
     }

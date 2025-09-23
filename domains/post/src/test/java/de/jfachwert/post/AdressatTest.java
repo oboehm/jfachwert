@@ -21,8 +21,7 @@ import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer {@link Adressat}-Klasse.
@@ -61,6 +60,14 @@ public final class AdressatTest extends AbstractFachwertTest<String, Text> {
     @Test
     public void testOf() {
         assertEquals(mustermann, Adressat.of(mustermann.toString()));
+    }
+
+    @Test
+    public void testOfString() {
+        Adressat a = Adressat.of("James  Bond");
+        Adressat b = Adressat.of("Bond, James");
+        assertEquals(a, b);
+        assertSame(a, b);
     }
 
     /**
