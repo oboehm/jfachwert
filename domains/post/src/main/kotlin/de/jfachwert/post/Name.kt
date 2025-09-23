@@ -99,6 +99,28 @@ open class Name
         }
 
     /**
+     * Legt einen neues Objekt mit dem angegeben Vornamen an.
+     *
+     * @param vorname: neuer Vorname
+     * @return neuer Name
+     * @since 6.6
+     */
+    fun withVorname(vorname: String): Name {
+        return of(vorname, nachname)
+    }
+
+    /**
+     * Legt einen neues Objekt mit dem angegeben Nachnamen an.
+     *
+     * @param nachname: neuer Nachname
+     * @return neuer Name
+     * @since 6.6
+     */
+    fun withNachname(nachname: String): Name {
+        return of(vorname, nachname)
+    }
+
+    /**
      * Liefert 'true' zurueck, falls ein Vorname im abgespeicherten Namen
      * enthalten ist.
      *
@@ -163,7 +185,6 @@ open class Name
     }
 
 
-
     companion object {
 
         private val WEAK_CACHE = WeakHashMap<String, Name>()
@@ -183,8 +204,35 @@ open class Name
          */
         @JvmStatic
         fun of(name: String): Name {
-            val copy = String(name.toCharArray())
-            return WEAK_CACHE.computeIfAbsent(copy) { s: String -> Name(s) }
+            val normalized = normalize(name)
+            return WEAK_CACHE.computeIfAbsent(normalized) { s: String -> Name(s) }
+        }
+
+        private fun normalize(name: String): String {
+            val s = name.replace(Regex("\\s+"), " ").trim()
+            if (s.contains(',')) {
+                return s
+            }
+            if (s.contains(' ')) {
+                return s.substringAfterLast(' ') + ", " + s.substringBeforeLast(' ')
+            } else {
+                return s
+            }
+        }
+
+        /**
+         * Erzeugt einen neuen Namen, falls er noch nicht existiert. Falls er
+         * bereits existiert, wird dieser zurueckgegeben, um Duplikate zu
+         * vermeiden.
+         *
+         * @param vorname, z.B. "Donald"
+         * @param nachname, z.B. "Duck"
+         * @return Name
+         * @since 6.6
+         */
+        @JvmStatic
+        fun of(vorname: String, nachname: String): Name {
+            return of("$nachname, $vorname")
         }
 
         private fun normalize(name: Name): Name {

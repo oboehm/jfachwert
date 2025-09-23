@@ -148,4 +148,26 @@ public final class NameTest extends AbstractFachwertTest<String, Text> {
         assertThat(ewing.getNamensListe(), contains("J.", "R.", "Ewing"));
     }
 
+    @Test
+    public void testOfString() {
+        Name a = Name.of("James  Gosling");
+        Name b = Name.of("Gosling, James");
+        assertEquals(a, b);
+        assertSame(a, b);
+    }
+
+    @Test
+    public void testOfStringString() {
+        Name dagobart = Name.of("Dagobert", "Duck");
+        assertEquals("Dagobert", dagobart.getVorname());
+        assertEquals("Duck", dagobart.getNachname());
+    }
+
+    @Test
+    public void testWith() {
+        Name donald = Name.of("Donald Duck");
+        assertEquals(Name.of("Dagobert Duck"), donald.withVorname("Dagobert"));
+        assertEquals(Name.of("Donald T."), donald.withNachname("T."));
+    }
+
 }
