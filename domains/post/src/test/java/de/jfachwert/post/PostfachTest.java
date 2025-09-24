@@ -20,6 +20,7 @@ import de.jfachwert.FachwertTest;
 import de.jfachwert.pruefung.exception.ValidationException;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigInteger;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -120,6 +121,15 @@ public final class PostfachTest extends FachwertTest {
     public void testPostfach6stellig() {
         Postfach postfach = Postfach.of("123456");
         assertThat(postfach.toString().replaceAll(" ", ""), containsString("123456"));
+    }
+
+    @Test
+    public void testWith() {
+        Postfach postfach = Postfach.of("666 Nirwana");
+        BigInteger n = BigInteger.valueOf(123);
+        assertEquals(n, postfach.withNummer(n).getNummer().get());
+        Ort ort = Ort.of("012345 Nirgendwo");
+        assertEquals(ort, postfach.withOrt(ort).getOrt());
     }
 
 }

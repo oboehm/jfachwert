@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2025 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,9 +34,7 @@ import java.util.*
  * Postleitzahl mit Ortsangabe. Die Nummer selbst ist optional, wenn die
  * durch die Postleitzahl bereits das Postfach abgebildet wird.
  *
- *
  * Im Englischen wird das Postfach oft als POB (Post Office Box) bezeichnet.
- *
  *
  * @author oboehm
  * @since 0.2 (19.06.2017)
@@ -182,6 +180,32 @@ open class Postfach : KFachwert {
      */
     val ortsname: String
         get() = ort.name
+
+    /**
+     * Legt ein neues Objekt mit neuem Ort an.
+     *
+     * @param neu: neuer Ort
+     * @return neues Postfach
+     * @since 6.6
+     */
+    fun withOrt(neu: Ort) : Postfach {
+        if (nummer == null) {
+            return Postfach(neu)
+        } else {
+            return of(nummer, ort)
+        }
+    }
+
+    /**
+     * Legt ein neues Objekt mit neuer Nummer an.
+     *
+     * @param neu: neuer Ort
+     * @return neues Postfach
+     * @since 6.6
+     */
+    fun withNummer(neu: BigInteger) : Postfach {
+        return of(neu, ort)
+    }
 
     /**
      * Zwei Postfaecher sind gleich, wenn sie die gleiche Attribute haben.
