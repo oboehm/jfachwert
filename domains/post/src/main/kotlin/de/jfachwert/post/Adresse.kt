@@ -134,7 +134,7 @@ open class Adresse
         get() = StringUtils.deleteWhitespace(hausnummer)
 
     /**
-     * Legt einen neues Objekt mit dem angegeben Ort an.
+     * Legt ein neues Objekt mit dem angegeben Ort an.
      *
      * @param neu: neuer Ort
      * @return neue Adresse
@@ -145,7 +145,7 @@ open class Adresse
     }
 
     /**
-     * Legt einen neues Objekt mit der angegeben Strasse an.
+     * Legt ein neues Objekt mit der angegeben Strasse an.
      *
      * @param neu: neue Strasse
      * @return neue Adresse

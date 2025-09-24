@@ -99,7 +99,7 @@ open class Name
         }
 
     /**
-     * Legt einen neues Objekt mit dem angegeben Vornamen an.
+     * Legt ein neues Objekt mit dem angegeben Vornamen an.
      *
      * @param vorname: neuer Vorname
      * @return neuer Name
@@ -110,7 +110,7 @@ open class Name
     }
 
     /**
-     * Legt einen neues Objekt mit dem angegeben Nachnamen an.
+     * Legt ein neues Objekt mit dem angegeben Nachnamen an.
      *
      * @param nachname: neuer Nachname
      * @return neuer Name

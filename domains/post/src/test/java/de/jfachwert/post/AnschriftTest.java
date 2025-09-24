@@ -94,4 +94,15 @@ public final class AnschriftTest extends FachwertTest {
         assertEquals(new Postfach("Postfach 12 34 56\n12350 Musterdorf"), musterfirma.getPostfach());
     }
 
+    @Test
+    public void testWith() {
+        Anschrift anschrift = createFachwert();
+        Adressat adressat = Adressat.of("Jonny Depp");
+        assertEquals(adressat, anschrift.withAdressat(adressat).getAdressat());
+        Postfach postfach = Postfach.of("Postfach 4711, 12345 Cologne");
+        assertEquals(postfach, anschrift.withPostfach(postfach).getPostfach());
+        Adresse adresse = Adresse.of("12345 Cologne, Turmstrasse 2");
+        assertEquals(adresse, anschrift.withAdresse(adresse).getAdresse());
+    }
+
 }

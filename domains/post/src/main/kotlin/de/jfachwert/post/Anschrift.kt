@@ -136,6 +136,43 @@ open class Anschrift private constructor(
     }
 
     /**
+     * Legt ein neues Objekt mit neuem Adressaten an.
+     *
+     * @param neu: neuer Adresse
+     * @return neue Anschrift
+     * @since 6.6
+     */
+    fun withAdressat(neu: Adressat) : Anschrift {
+        if (postfach !== null) {
+            return of(neu, postfach)
+        } else {
+            return of(neu, adresse!!)
+        }
+    }
+
+    /**
+     * Legt ein neues Objekt mit neuem Postfach an.
+     *
+     * @param neu: neues Postfach
+     * @return neue Anschrift
+     * @since 6.6
+     */
+    fun withPostfach(neu: Postfach) : Anschrift {
+        return of(adressat, neu)
+    }
+
+    /**
+     * Legt ein neues Objekt mit neuer Adresse an.
+     *
+     * @param neu: neu Adresse
+     * @return neue Anschrift
+     * @since 6.6
+     */
+    fun withAdresse(neu: Adresse) : Anschrift {
+        return of(adressat, neu)
+    }
+
+    /**
      * Zwei Anschriften sind gleich, wenn sie den gleichen Namen und die
      * gleiche Adresse besitzen. Dabei spielt es keine Rolle, ob der Name
      * gross- oder kleingeschrieben ist.
