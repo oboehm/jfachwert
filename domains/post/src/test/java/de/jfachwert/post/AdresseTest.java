@@ -253,5 +253,13 @@ public final class AdresseTest extends FachwertTest {
         assertEquals("Badstr.", adresse.getStrasse());
         assertEquals("2", adresse.getHausnummer());
     }
+
+    @Test
+    public void testWith() {
+        Ort ort = Ort.of("23456 Monopoly");
+        assertEquals(ort, adresse.withOrt(ort).getOrt());
+        assertEquals("Highway", adresse.withStrasse("Highway").getStrasse());
+        assertEquals("2b",  adresse.withHausnummer("2b").getHausnummer());
+    }
     
 }

@@ -8,7 +8,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ## [Unreleased]
 ### Added
-- Name-Klasse um withXxx-Methoden ergänzt
+- Name-Klasse und andere Klassen im post-Package um withXxx-Methoden ergänzt
 ### Fixed
 - bei "j.smith@example.com" als EMailAdresse wird als Vorname jetzt "J." zurückgegeben (mit ".")
 

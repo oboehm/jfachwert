@@ -134,6 +134,39 @@ open class Adresse
         get() = StringUtils.deleteWhitespace(hausnummer)
 
     /**
+     * Legt einen neues Objekt mit dem angegeben Ort an.
+     *
+     * @param neu: neuer Ort
+     * @return neue Adresse
+     * @since 6.6
+     */
+    fun withOrt(neu: Ort) : Adresse {
+        return of(neu, strasse, hausnummer)
+    }
+
+    /**
+     * Legt einen neues Objekt mit der angegeben Strasse an.
+     *
+     * @param neu: neue Strasse
+     * @return neue Adresse
+     * @since 6.6
+     */
+    fun withStrasse(neu: String) : Adresse {
+        return of(ort, neu, hausnummer)
+    }
+
+    /**
+     * Legt einen neues Objekt mit neuer Hausnummer an.
+     *
+     * @param neu: neue Hausnummer
+     * @return neue Adresse
+     * @since 6.6
+     */
+    fun withHausnummer(neu: String) : Adresse {
+        return of(ort, strasse, neu)
+    }
+
+    /**
      * Hier wird eine logischer Vergleich mit der anderen Adresse
      * durchgefuehrt. So wird nicht zwischen Gross- und Kleinschreibung
      * unterschieden und z.B. "Badstrasse" und "Badstr." werden als
