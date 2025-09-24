@@ -84,6 +84,32 @@ open class Ort
         }
 
     /**
+     * Legt ein neues Objekt mit neuem Namen an.
+     *
+     * @param neu: neuer Name
+     * @return neuer Ort
+     * @since 6.6
+     */
+    fun withName(neu: String) : Ort {
+        if (plz !== null) {
+            return of(plz, neu)
+        } else {
+            return of(neu)
+        }
+    }
+
+    /**
+     * Legt ein neues Objekt mit neuer PLZ an.
+     *
+     * @param neu: neues PLZ
+     * @return neuer Ort
+     * @since 6.6
+     */
+    fun withPLZ(neu: PLZ) : Ort {
+        return of(neu, name)
+    }
+
+    /**
      * Hier wird ein logischer Vergleich vorgenommen, ob der andere Ort
      * der gleiche Ort ist. Kennzeichnend dafuer ist die PLZ. Solange die
      * PLZ die gleiche ist, darf der Ort unterschiedlich geschrieben sein

@@ -169,4 +169,12 @@ public class OrtTest extends FachwertTest {
         assertThrows(IllegalArgumentException.class, () -> new Ort(""));
     }
 
+    @Test
+    public void testWith() {
+        Ort dresden = new Ort("D-01099 Dresden");
+        assertEquals("Dresden/Neustadt", dresden.withName("Dresden/Neustadt").getName());
+        PLZ plz = PLZ.of("01099");
+        assertEquals(plz, dresden.withPLZ(plz).getPLZ().get());
+    }
+
 }
