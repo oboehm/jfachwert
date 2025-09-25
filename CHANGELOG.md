@@ -11,6 +11,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Name-Klasse und andere Klassen im post-Package um withXxx-Methoden ergänzt
 ### Fixed
 - bei "j.smith@example.com" als EMailAdresse wird als Vorname jetzt "J." zurückgegeben (mit ".")
+- Caching von Referenznummer.of(..) korrigiert
 
 ## [6.5.0] - 2025-08-24
 ### Changed

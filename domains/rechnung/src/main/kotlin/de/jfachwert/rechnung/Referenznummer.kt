@@ -59,7 +59,8 @@ open class Referenznummer
          */
         @JvmStatic
         fun of(nummer: String): Referenznummer {
-            return WEAK_CACHE.computeIfAbsent(nummer) { n: String -> Referenznummer(n) }
+            val copy = String(nummer.toCharArray())
+            return WEAK_CACHE.computeIfAbsent(copy) { n: String -> Referenznummer(String(n.toCharArray())) }
         }
     }
 
