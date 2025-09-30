@@ -81,7 +81,8 @@ open class Rechnungsmonat : KFachwert, Comparable<Rechnungsmonat> {
     constructor(monat: String) {
         val parts = monat.split("/").toTypedArray()
         monate = if (parts.size == 2 && isDigit(parts[0]) && isDigit(parts[1])) {
-            asMonate(verify(MONTH, parts[0], VALID_MONTH_RANGE), verify(YEAR, parts[1], VALID_YEAR_RANGE))
+            //asMonate(verify(MONTH, parts[0], VALID_MONTH_RANGE), verify(YEAR, parts[1], VALID_YEAR_RANGE))
+            asMonate(parts[0].toInt(), parts[1].toInt())
         } else {
             val date = toLocalDate(monat)
             asMonate(date.monthValue, date.year)
@@ -399,6 +400,9 @@ open class Rechnungsmonat : KFachwert, Comparable<Rechnungsmonat> {
 
         @JvmStatic
         private fun asMonate(monat: Int, jahr: Int): Short {
+            if ((monat > 999) && (jahr < 13)) {
+                return asMonate(jahr, monat)
+            }
             verify(MONTH, monat, VALID_MONTH_RANGE)
             verify(YEAR, jahr, VALID_YEAR_RANGE)
             return (jahr * 12 + monat - 1).toShort()
@@ -521,11 +525,6 @@ open class Rechnungsmonat : KFachwert, Comparable<Rechnungsmonat> {
                 }
             }
             throw InvalidValueException(monat, MONTH, ex)
-        }
-
-        private fun verify(context: String, value: String, range: Range<Int>): Int {
-            val number = value.toInt()
-            return verify(context, number, range)
         }
 
         private fun verify(context: String, number: Int, range: Range<Int>): Int {

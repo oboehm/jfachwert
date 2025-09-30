@@ -236,6 +236,14 @@ public final class RechnungsmonatTest extends FachwertTest {
     }
 
     @Test
+    void testOfString() {
+        Rechnungsmonat mmjjjj = Rechnungsmonat.of("09/2025");
+        Rechnungsmonat jjjjmm = Rechnungsmonat.of("2025/09");
+        assertEquals(mmjjjj, jjjjmm);
+        assertSame(mmjjjj, jjjjmm);
+    }
+
+    @Test
     public void testOfCaching() {
         Rechnungsmonat m1 = Rechnungsmonat.of(5, 2025);
         Rechnungsmonat m2 = Rechnungsmonat.of(5, 2025);

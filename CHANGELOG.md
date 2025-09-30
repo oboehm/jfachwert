@@ -12,6 +12,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ### Fixed
 - bei "j.smith@example.com" als EMailAdresse wird als Vorname jetzt "J." zurückgegeben (mit ".")
 - Caching von Referenznummer.of(..) korrigiert
+- Rechnungsmonat kann jetzt auch als "2025/09" angegeben werden
 
 ## [6.5.0] - 2025-08-24
 ### Changed
