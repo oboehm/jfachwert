@@ -68,7 +68,7 @@ Danach "-SNAPSHOT" von der Version in link:../buildSrc/src/main/kotlin/de.jfachw
 |Bundle für Upload erstellen (manuell)
 |`./gradlew generateChecksums`
 
-`cd $HOME/.m2/repository; tar czvf ~/Downloads/jfachwert.tgz `find de/jfachwert -name "\*-6.5.0*"``
+`cd $HOME/.m2/repository; tar czvf ~/Downloads/jfachwert.tgz `find de/jfachwert -name "\*-6.5.1*"``
 |Check-Summen für manuelles Upload erstellen, danach Tar-File erstellen und über https://central.sonatype.com/publishing hochladen
 
 |Release automatisch deployen (alt)
