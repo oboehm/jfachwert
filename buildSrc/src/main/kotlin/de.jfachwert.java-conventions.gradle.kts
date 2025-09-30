@@ -27,15 +27,17 @@ plugins {
 
 // ------------------------------------------------------ repositories
 
-val repositories = arrayOf(
-    "https://oss.sonatype.org/content/repositories/snapshots/",
-    "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-)
-
 repositories {
     mavenLocal()
     mavenCentral()
-    repositories.forEach { maven(it) }
+    maven {
+        name = "ossrh-staging-api"
+        url = uri("https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/")
+        credentials {
+            username = findProperty("sonatypeUsername") as String?
+            password = findProperty("sonatypePassword") as String?
+        }
+    }
 }
 
 // ------------------------------------------------------ dependencies
