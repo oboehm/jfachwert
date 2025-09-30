@@ -11,16 +11,6 @@
     <module>core</module>
     <module>test</module>
     <module>domains</module>
-<!--    <module>domains/bank</module>-->
-<!--    <module>domains/formular</module>-->
-<!--    <module>domains/math</module>-->
-<!--    <module>domains/med</module>-->
-<!--    <module>domains/money</module>-->
-<!--    <module>domains/net</module>-->
-<!--    <module>domains/post</module>-->
-<!--    <module>domains/rechnung</module>-->
-<!--    <module>domains/steuer</module>-->
-<!--    <module>domains/zeit</module>-->
     <module>jfachwert</module>
   </modules>
 
