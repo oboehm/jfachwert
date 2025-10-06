@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019, 2020 by Oliver Boehm
+ * Copyright (c) 2019-2025 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -236,7 +236,12 @@ open class Name
         }
 
         private fun normalize(name: Name): Name {
-            return of(name.replaceUmlaute().toString().replace("-", " ").trim { it <= ' ' })
+            val s = name.replaceUmlaute().toString().replace("-", " ").trim { it <= ' ' }
+            if (s.isBlank()) {
+                return NULL
+            } else {
+                return of(s)
+            }
         }
 
         private fun isEquals(a: Name, b: Name): Boolean {

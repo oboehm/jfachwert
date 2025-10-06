@@ -170,4 +170,16 @@ public final class NameTest extends AbstractFachwertTest<String, Text> {
         assertEquals(Name.of("Donald T."), donald.withNachname("T."));
     }
 
+    @Test
+    public void testTrim() {
+        Name daisy = Name.of(" Daisy ", " Mouse ");
+        assertEquals("Daisy", daisy.getVorname());
+        assertEquals("Mouse", daisy.getNachname());
+    }
+
+    @Test
+    public void testEqualsWithNull() {
+        assertNotEquals(Name.of("James Bond"), Name.NULL);
+    }
+
 }
