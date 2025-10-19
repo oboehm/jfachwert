@@ -6,6 +6,7 @@
 import java.security.MessageDigest
 
 plugins {
+    id("org.jreleaser") version "1.16.0"
     id("maven-publish")
     id("signing")
     id("io.github.gradle-nexus.publish-plugin") version "2.0.0"

@@ -9,7 +9,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
  */
 
 group = "de.jfachwert"
-version = "6.5.2-SNAPSHOT"
+version = "6.5.2-M1"
 
 object Meta {
     const val desc = "Implementierung einiger Fachwerte nach dem WAM-Ansatz"
@@ -147,6 +147,26 @@ publishing {
                 }
                 issueManagement {
                     url.set("https://github.com/${Meta.githubRepo}/issues")
+                }
+            }
+        }
+    }
+}
+
+// ---
+
+jreleaser {
+    signing {
+        active = 'ALWAYS'
+        armored = true
+    }
+    deploy {
+        maven {
+            mavenCentral {
+                sonatype {
+                    active = 'ALWAYS'
+                    url = 'https://central.sonatype.com/api/v1/publisher'
+                    stagingRepository('target/staging-deploy')
                 }
             }
         }
