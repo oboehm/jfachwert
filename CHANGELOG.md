@@ -9,6 +9,8 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Unreleased]
 ### Added
 - Hilfsmittelnummer.formatted()/.unformatted() hinzugefügt (med-Modul)
+
+## [6.5.2] - 2025-10-19
 ### Fixed
 - Name.equals(..) funktioniert jetzt auch bei NULL-Konstante
 
