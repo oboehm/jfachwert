@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 by Oliver Boehm
+ * Copyright (c) 2024,2025 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -108,8 +108,7 @@ open  class Hilfsmittelnummer
     }
 
     override fun toString(): String {
-        return String.format("%02d.%02d.%02d.%d%03d", getProduktgruppe(), getAnwendungsort(), getUntergruppe(),
-            getProduktart(), getProdukt())
+        return formatted()
     }
 
     /**
@@ -119,6 +118,29 @@ open  class Hilfsmittelnummer
      * @return z.B. "0507023011"
      */
     fun toShortString(): String {
+        return unformatted()
+    }
+
+    /**
+     * Liefert die Hilfsmittelnummer formatiert mit Trennzeichen zwischen
+     * den einzelnen Abschnitten.
+     *
+     * @return z.B. "05.07.02.3011"
+     * @since 6.6
+     */
+    fun formatted(): String {
+        return String.format("%02d.%02d.%02d.%d%03d", getProduktgruppe(), getAnwendungsort(), getUntergruppe(),
+            getProduktart(), getProdukt())
+    }
+
+    /**
+     * Liefert die Hilfsmittelnummer unformatiert als 10-stellige Nummer,
+     * ohne Trennzeichen.
+     *
+     * @return z.B. "0507023011"
+     * @since 6.6
+     */
+    fun unformatted(): String {
         return String.format("%010d", code)
     }
 

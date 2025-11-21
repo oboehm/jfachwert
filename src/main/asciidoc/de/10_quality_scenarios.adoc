@@ -15,7 +15,7 @@ image:../images/Q.png[Qualitätsanforderungen]
 
 |Funktionalität
 |Erweiterbarkeit
-|Falls die vorhanden Funktionalität nicht ausreicht, sollten Fachwerte erweitert werden können.
+|Falls die vorhandene Funktionalität nicht ausreicht, sollten Fachwerte erweitert werden können.
 
 |Performance
 |

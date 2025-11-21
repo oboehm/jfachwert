@@ -7,6 +7,8 @@ genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
 ## [Unreleased]
+### Added
+- Hilfsmittelnummer.formatted()/.unformatted() hinzugefügt (med-Modul)
 ### Fixed
 - Name.equals(..) funktioniert jetzt auch bei NULL-Konstante
 
