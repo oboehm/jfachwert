@@ -385,7 +385,9 @@ open class Text
                 '\u00a1' -> return "!"
                 '\u00a3' -> return "GBP"
                 '\u00a5' -> return "JPY"
+                '\u00ae' -> return "(R)"
                 '\u00bf' -> return "?"
+                '\u2122' -> return "(TM)"
                 else -> return replaceSpecialChar(c, StandardCharsets.ISO_8859_1)
             }
         }
@@ -583,6 +585,7 @@ open class Text
                 '\u2014', '\u2013', '\u2212' -> return "-"
                 '\u201c', '\u201e', '\u00ab', '\u00bb' -> return "\""
                 '\u00b4', '\u2018', '\u201a' -> return "'"
+                '\u2122' -> return "\u00d4"
                 else -> return c.toString()
             }
         }
