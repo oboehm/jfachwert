@@ -580,6 +580,9 @@ open class Text
                 '\u20aa' -> return "ILS"
                 '\u20ab' -> return "VND"
                 '\u20b9' -> return "INR"
+                '\u2014', '\u2013', '\u2212' -> return "-"
+                '\u201c', '\u201e', '\u00ab', '\u00bb' -> return "\""
+                '\u00b4', '\u2018', '\u201a' -> return "'"
                 else -> return c.toString()
             }
         }

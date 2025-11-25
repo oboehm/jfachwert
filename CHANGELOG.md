@@ -9,6 +9,8 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Unreleased]
 ### Added
 - Hilfsmittelnummer.formatted()/.unformatted() hinzugefügt (med-Modul)
+### Fixed
+- Anführungsstriche und Gedankenstriche werden bei der Text-Konvertierung in andere Zeichensätze ersetzt
 
 ## [6.5.2] - 2025-10-19
 ### Fixed
