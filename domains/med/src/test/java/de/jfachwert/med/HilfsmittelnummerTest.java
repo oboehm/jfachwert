@@ -47,7 +47,7 @@ public class HilfsmittelnummerTest extends AbstractFachwertTest<Long, Hilfsmitte
      */
     @Override
     protected String getCode() {
-        return "18.50.03.2006";
+        return "18.50.03.2.006";
     }
 
     @Test
@@ -58,9 +58,8 @@ public class HilfsmittelnummerTest extends AbstractFachwertTest<Long, Hilfsmitte
     @Test
     @Override
     public void testToString() {
-        String s = "05.07.02.3011";
-        Hilfsmittelnummer bandage = Hilfsmittelnummer.of(s);
-        assertEquals(s, bandage.toString());
+        Hilfsmittelnummer bandage = Hilfsmittelnummer.of(5,7,2,3,11);
+        assertEquals("05.07.02.3.011", bandage.toString());
         assertEquals("0507023011", bandage.toShortString());
     }
 

@@ -132,14 +132,14 @@ public final class TextTest extends FachwertTest {
 
     @Test
     public void testTrim() {
-        Text hello = Text.of("\u00A0 hello world \u00A0 ");
+        Text hello = Text.of("\u00A0 hello world \u00A0 \u2000 \u200b");
         assertEquals(Text.of("hello world"), hello.trim());
     }
 
     @Test
     public void testReplaceUmlaute() {
-        Text gruesse = Text.of("Gr\u00fc\u00dfe").replaceUmlaute();
-        assertEquals(Text.of("Gruesse"), gruesse);
+        Text gruesse = Text.of("F\u0308hle Gr\u00fc\u00dfe").replaceUmlaute();
+        assertEquals(Text.of("Fuehle Gruesse"), gruesse);
     }
 
     @Test
@@ -189,6 +189,21 @@ public final class TextTest extends FachwertTest {
         long t1 = System.nanoTime();
         LOG.info("replaceUmlaute started ended after " + (t1 - t0) / 1000000.0 + " ms");
         assertThat (r, not(containsString("W\u00e4hrung")));
+    }
+
+    @Test
+    public void testReplaceSonderzeichen() throws IOException {
+        String printable = FileUtils.readFileToString(new File("src/main/resources/de/jfachwert/printable.txt"), StandardCharsets.UTF_8);
+        String replaced = Text.replaceSonderzeichen(printable);
+        File target = new File("target/ascii.txt");
+        FileUtils.writeStringToFile(target, replaced, StandardCharsets.ISO_8859_1);
+        assertEquals(replaced, FileUtils.readFileToString(target, StandardCharsets.ISO_8859_1));
+    }
+
+    @Test
+    public void testReplaceBlanks() {
+        String withBlanks = "a\u2002b\u00A0c\u200bd\u2000e";
+        assertEquals("a b c d e", Text.replaceSonderzeichen(withBlanks));
     }
 
     @Test
@@ -313,11 +328,21 @@ public final class TextTest extends FachwertTest {
         assertEquals("B\u00c3\u00b6hm", Text.convert("B\u00f6hm", StandardCharsets.ISO_8859_1));
     }
 
-    @DisplayName("Sonderzeichen ersetzen")
+    @DisplayName("Orte mit Sonderzeichen ersetzen")
     @ParameterizedTest(name = "{index}: {0}")
     @MethodSource("encodingParameters")
     void testOfCharset(Charset charset) throws IOException {
         checkOf(charset);
+    }
+
+    @DisplayName("Sonderzeichen ersetzen")
+    @ParameterizedTest(name = "{index}: {0}")
+    @MethodSource("encodingParameters")
+    void testOfSonderzeichen(Charset charset) throws IOException {
+        List<String> lines = FileUtils.readLines(new File("src/test/resources/de/jfachwert/UTF-8.txt"), StandardCharsets.UTF_8);
+        for (String s : lines) {
+            checkOf(s, charset);
+        }
     }
 
     @Test

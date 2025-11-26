@@ -129,7 +129,7 @@ open  class Hilfsmittelnummer
      * @since 6.6
      */
     fun formatted(): String {
-        return String.format("%02d.%02d.%02d.%d%03d", getProduktgruppe(), getAnwendungsort(), getUntergruppe(),
+        return String.format("%02d.%02d.%02d.%d.%03d", getProduktgruppe(), getAnwendungsort(), getUntergruppe(),
             getProduktart(), getProdukt())
     }
 
@@ -165,6 +165,22 @@ open  class Hilfsmittelnummer
         @JvmStatic
         fun of(code: Long): Hilfsmittelnummer {
             return WEAK_CACHE.computeIfAbsent(code) { n: Long -> Hilfsmittelnummer(n) }
+        }
+
+        /**
+         * Liefert eine Hilfsmittelnummer zurueck.
+         *
+         * @param produktgruppe: Produktgruppe, 2-stellig
+         * @param ort:           Anwendungsort, 2-stellig
+         * @param untergruppe:   Untergruppe, 2-stellig
+         * @param art:           Anwendungsart, 1-stellig
+         * @param produkt:       Produkt, 3-stellig
+         * @return die Hilfsmittelnummer
+         * @since 6.6
+         */
+        @JvmStatic
+        fun of(produktgruppe: Int, ort: Int, untergruppe: Int, art: Int, produkt: Int): Hilfsmittelnummer {
+            return of(String.format("%02d%02d%02d%d%03d", produktgruppe, ort, untergruppe, art, produkt))
         }
 
         /**

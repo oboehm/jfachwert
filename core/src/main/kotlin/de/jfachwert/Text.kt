@@ -91,6 +91,16 @@ open class Text
     }
 
     /**
+     * Ersetzt Sonderzeichen durch ihr Gegenstueck oder eine Ersatzdarstellung..
+     *
+     * @return Text ohne Sonderzeichen
+     * @since 6.6
+     */
+    fun replaceSonderzeichen(): Text {
+        return of(replaceSonderzeichen(code))
+    }
+
+    /**
      * Dient zur Abfrage, ob ein Text nur gueltige (druckbare) Zeichen
      * enthaelt. Ist dies nicht der Fall, koennte ein Encoding-Problem
      * vorliegen.
@@ -338,12 +348,15 @@ open class Text
          */
         @JvmStatic
         fun trim(text: String): String {
-            return text.trim(' ', '\t', '\r', '\n', '\u00A0')
+            return text.trim(' ', '\t', '\r', '\n', '\u00A0', '\u2000', '\u200b')
         }
 
         /**
-         * Ersetzt Umlaute und scharfes 'S'. Diese Methode wurde als statische
-         * Methode herausgezogen, da sie an anderen Stellen benoetigt werden.
+         * Ersetzt Umlaute und scharfes 'S'. Auch Accents von Umlauten werden
+         * entfernt und einige Sonderzeichen, die nicht in allen gaengigen
+         * Zeichensaetzen wie Latin15 vorhanden sind, werden durch ihr
+         * Gegeenstueck ersetzt (z.B. die verschiendenen Arten von
+         * Gaensefusschen durch '"').
          *
          * Mit v2.2.2 wurde die Methode optimiert, da der alte Ansatz mit
          * [String.replace] sich als Flaschenhals
@@ -365,11 +378,43 @@ open class Text
             return buffer.toString().trim { it <= ' ' }
         }
 
+        /**
+         * Ersetzt einige Sonderzeichen, die nicht in allen gaengigen
+         * Zeichensaetzen wie Latin15 vorhanden sind. So werden aus
+         * den verschiedenen Arten von Gaensefuesschen ein '"'.
+         *
+         * @param text Text (mit Sonderzeichen)
+         * @return Text ohne Sonderzeichen
+         * @since 6.6
+         */
+        @JvmStatic
+        fun replaceSonderzeichen(text: String): String {
+            val zeichen = text.toCharArray()
+            val buffer = CharBuffer.allocate(zeichen.size * 2)
+            for (c in zeichen) {
+                buffer.put(replaceSpecialChar(c))
+            }
+            rewind(buffer)
+            return buffer.toString().trim { it <= ' ' }
+        }
+
+//        private fun replaceForAscii(c: Char): String {
+//            when (c) {
+//                '\u00a1' -> return "!"
+//                '\u00a3' -> return "GBP"
+//                '\u00a5' -> return "JPY"
+//                '\u00ae' -> return "(R)"
+//                '\u00bf' -> return "?"
+//
+//                else -> return replaceUmlaut(c)
+//            }
+//        }
+
         private fun replaceUmlaut(c: Char) : String {
             when (c) {
                 '\u00e4' -> return "ae"
                 '\u00f6' -> return "oe"
-                '\u00fc' -> return "ue"
+                '\u00fc', '\u0308' -> return "ue"
                 '\u00df' -> return "ss"
                 '\u00c4' -> return "Ae"
                 '\u00d6' -> return "Oe"
@@ -382,13 +427,111 @@ open class Text
                 '\u00c9', '\u00c8', '\u00ca' -> return "E"
                 '\u00d3', '\u00d2', '\u00d4' -> return "O"
                 '\u00da', '\u00d9', '\u00db' -> return "U"
+                else -> return replaceSpecialChar(c)
+            }
+        }
+
+        private fun replaceSpecialChar(c: Char) : String {
+            when (c) {
                 '\u00a1' -> return "!"
                 '\u00a3' -> return "GBP"
                 '\u00a5' -> return "JPY"
                 '\u00ae' -> return "(R)"
                 '\u00bf' -> return "?"
+                '\u2000', '\u200b' -> return " "
                 '\u2122' -> return "(TM)"
+                '\u2260' -> return "!="
                 else -> return replaceSpecialChar(c, StandardCharsets.ISO_8859_1)
+            }
+        }
+
+        // hier behandeln wir das Mormonenalphabet
+        // s.a. https://de.wikipedia.org/wiki/Unicodeblock_Mormonenalphabet
+        private fun replaceDeseretChar(c: Char) : String {
+            when (c) {
+                // grosses Mormonen-Alphabet
+                '\udc00' -> return "I"
+                '\udc01' -> return "E"
+                '\udc02' -> return "A"
+                '\udc03' -> return "Ah"
+                '\udc04' -> return "O"
+                '\udc05' -> return "Oo"
+                '\udc06' -> return "I"
+                '\udc07' -> return "E"
+                '\udc08' -> return "A"
+                '\udc09' -> return "Ah"
+                '\udc0a' -> return "O"
+                '\udc0b' -> return "Oo"
+                '\udc0c' -> return "Ay"
+                '\udc0d' -> return "Ow"
+                '\udc0e' -> return "Wu"
+                '\udc0f' -> return "Yee"
+                '\udc10' -> return "H"
+                '\udc11' -> return "Pee"
+                '\udc12' -> return "Bee"
+                '\udc13' -> return "Tee"
+                '\udc14' -> return "Dee"
+                '\udc15' -> return "Chee"
+                '\udc16' -> return "Jee"
+                '\udc17' -> return "Kay"
+                '\udc18' -> return "Gay"
+                '\udc19' -> return "Ef"
+                '\udc1a' -> return "Vee"
+                '\udc1b' -> return "Eth"
+                '\udc1c' -> return "Thee"
+                '\udc1d' -> return "Es"
+                '\udc1e' -> return "Zee"
+                '\udc1f' -> return "Esh"
+                '\udc20' -> return "Zhee"
+                '\udc21' -> return "Er"
+                '\udc22' -> return "El"
+                '\udc23' -> return "Em"
+                '\udc24' -> return "En"
+                '\udc25' -> return "Eng"
+                '\udc26' -> return "Oi"
+                '\udc27' -> return "Ew"
+                // kleines Mormonen-Alphabet
+                '\udc28' -> return "i"
+                '\udc29' -> return "e"
+                '\udc2a' -> return "a"
+                '\udc2b' -> return "ah"
+                '\udc2c' -> return "o"
+                '\udc2d' -> return "oo"
+                '\udc2e' -> return "i"
+                '\udc2f' -> return "e"
+                '\udc30' -> return "a"
+                '\udc31' -> return "ah"
+                '\udc32' -> return "o"
+                '\udc33' -> return "oo"
+                '\udc34' -> return "ay"
+                '\udc35' -> return "ow"
+                '\udc36' -> return "wu"
+                '\udc37' -> return "yee"
+                '\udc38' -> return "h"
+                '\udc39' -> return "pee"
+                '\udc3a' -> return "bee"
+                '\udc3b' -> return "tee"
+                '\udc3c' -> return "dee"
+                '\udc3d' -> return "chee"
+                '\udc3e' -> return "jee"
+                '\udc3f' -> return "kay"
+                '\udc40' -> return "gay"
+                '\udc41' -> return "ef"
+                '\udc42' -> return "vee"
+                '\udc43' -> return "eth"
+                '\udc44' -> return "thee"
+                '\udc45' -> return "es"
+                '\udc46' -> return "zee"
+                '\udc47' -> return "esh"
+                '\udc48' -> return "zhee"
+                '\udc49' -> return "er"
+                '\udc4a' -> return "el"
+                '\udc4b' -> return "em"
+                '\udc4c' -> return "en"
+                '\udc4d' -> return "eng"
+                '\udc4e' -> return "oi"
+                '\udc4f' -> return "ew"
+                else -> return "\ud801" + c
             }
         }
 
@@ -545,8 +688,16 @@ open class Text
         fun replaceSpecialChars(value: String, encoding: Charset): String {
             val zeichen = value.toCharArray()
             val buffer = CharBuffer.allocate(zeichen.size * 2)
-            for (c in zeichen) {
-                buffer.put(replaceSpecialChar(c, encoding))
+            var i = 0;
+            while (i < zeichen.size) {
+                val c = zeichen[i]
+                if (c == '\ud801') {
+                    i++
+                    buffer.put(replaceDeseretChar(zeichen[i]))
+                } else {
+                    buffer.put(replaceSpecialChar(c, encoding))
+                }
+                i++
             }
             rewind(buffer)
             return buffer.toString().trim { it <= ' ' }
@@ -577,15 +728,21 @@ open class Text
                 '\u0141', '\u0142' -> return "l"
                 '\u0144' -> return "n"
                 '\u017e', '\u017a' -> return "z"
+                '\u0308' -> return "\u00fc"
                 '\u0e3f' -> return "THB"
+                '\u041c' -> return "M"
+                '\u0421' -> return "C"
                 '\u20a9' -> return "KRW"
                 '\u20aa' -> return "ILS"
                 '\u20ab' -> return "VND"
                 '\u20b9' -> return "INR"
                 '\u2014', '\u2013', '\u2212' -> return "-"
-                '\u201c', '\u201e', '\u00ab', '\u00bb' -> return "\""
+                '\u201c', '\u201d', '\u201e', '\u00ab', '\u00bb' -> return "\""
                 '\u00b4', '\u2018', '\u201a' -> return "'"
                 '\u2122' -> return "\u00d4"
+                '\u2264' -> return "<="
+                '\u2265' -> return ">="
+                //'\u00b1' -> return "+/-"
                 else -> return c.toString()
             }
         }
