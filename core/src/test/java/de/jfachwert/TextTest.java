@@ -202,8 +202,8 @@ public final class TextTest extends FachwertTest {
 
     @Test
     public void testReplaceBlanks() {
-        String withBlanks = "a\u2002b\u00A0c\u200bd\u2000e";
-        assertEquals("a b c d e", Text.replaceSonderzeichen(withBlanks));
+        Text withBlanks = Text.of("a\u2002b\u00A0c\u200bd\u2000e");
+        assertEquals(Text.of("a b c d e"), withBlanks.replaceSonderzeichen());
     }
 
     @Test

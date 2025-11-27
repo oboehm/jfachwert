@@ -398,17 +398,18 @@ open class Text
             return buffer.toString().trim { it <= ' ' }
         }
 
-//        private fun replaceForAscii(c: Char): String {
-//            when (c) {
-//                '\u00a1' -> return "!"
-//                '\u00a3' -> return "GBP"
-//                '\u00a5' -> return "JPY"
-//                '\u00ae' -> return "(R)"
-//                '\u00bf' -> return "?"
-//
-//                else -> return replaceUmlaut(c)
-//            }
-//        }
+        // Hier werden 8-Bit-Sonderzeichen ersetzt, dessen erstes Bit
+        // gesetzt ist.
+        private fun replaceNonAscii(c: Char): String {
+            when (c) {
+                '\u00a1' -> return "!"
+                '\u00a3' -> return "GBP"
+                '\u00a5' -> return "JPY"
+                '\u00ae' -> return "(R)"
+                '\u00bf' -> return "?"
+                else -> return replaceUmlaut(c)
+            }
+        }
 
         private fun replaceUmlaut(c: Char) : String {
             when (c) {
@@ -433,11 +434,6 @@ open class Text
 
         private fun replaceSpecialChar(c: Char) : String {
             when (c) {
-                '\u00a1' -> return "!"
-                '\u00a3' -> return "GBP"
-                '\u00a5' -> return "JPY"
-                '\u00ae' -> return "(R)"
-                '\u00bf' -> return "?"
                 '\u2000', '\u200b' -> return " "
                 '\u2122' -> return "(TM)"
                 '\u2260' -> return "!="
@@ -688,7 +684,7 @@ open class Text
         fun replaceSpecialChars(value: String, encoding: Charset): String {
             val zeichen = value.toCharArray()
             val buffer = CharBuffer.allocate(zeichen.size * 2)
-            var i = 0;
+            var i = 0
             while (i < zeichen.size) {
                 val c = zeichen[i]
                 if (c == '\ud801') {
@@ -708,7 +704,7 @@ open class Text
                 return " "
             }
             when (encoding.name()) {
-                StandardCharsets.US_ASCII.name() -> return replaceUmlaut(c)
+                StandardCharsets.US_ASCII.name() -> return replaceNonAscii(c)
                 "IBM850",
                 StandardCharsets.ISO_8859_1.name() ->
                     when (c) {
