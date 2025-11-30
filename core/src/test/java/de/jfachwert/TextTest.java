@@ -137,9 +137,11 @@ public final class TextTest extends FachwertTest {
     }
 
     @Test
-    public void testReplaceUmlaute() {
-        Text gruesse = Text.of("F\u0308hle Gr\u00fc\u00dfe").replaceUmlaute();
-        assertEquals(Text.of("Fuehle Gruesse"), gruesse);
+    public void testReplaceUmlaute() throws IOException {
+        List<String> lines = FileUtils.readLines(new File("src/test/resources/de/jfachwert/umlaute.txt"),
+                StandardCharsets.UTF_8);
+        Text replaced = Text.of(lines.get(0)).replaceUmlaute();
+        assertEquals(Text.of(lines.get(1)), replaced);
     }
 
     @Test
