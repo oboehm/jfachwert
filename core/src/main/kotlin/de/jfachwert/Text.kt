@@ -22,7 +22,6 @@ import java.nio.Buffer
 import java.nio.CharBuffer
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
-import java.text.Normalizer
 import java.util.*
 import java.util.logging.Logger
 
@@ -349,7 +348,7 @@ open class Text
          */
         @JvmStatic
         fun trim(text: String): String {
-            return text.trim(' ', '\t', '\r', '\n', '\u00A0', '\u2000', '\u200b')
+            return text.trim(' ', '\t', '\r', '\n', '\u00a0', '\u2000', '\u2002', '\u200b')
         }
 
         /**
@@ -393,7 +392,8 @@ open class Text
             val zeichen = text.toCharArray()
             val buffer = CharBuffer.allocate(zeichen.size * 2)
             for (c in zeichen) {
-                buffer.put(replaceSpecialChar(c))
+                //buffer.put(replaceSpecialChar(c))
+                buffer.put(replaceNonAscii(c))
             }
             rewind(buffer)
             return buffer.toString().trim { it <= ' ' }
@@ -406,41 +406,46 @@ open class Text
                 '\u00a1' -> return "!"
                 '\u00a3' -> return "GBP"
                 '\u00a5' -> return "JPY"
+                '\u00e7' -> return "c"
+                '\u00a0' -> return " "
                 '\u00ae' -> return "(R)"
                 '\u00bf' -> return "?"
-                else -> return replaceUmlaut(c)
+                '\u00f1' -> return "n"
+                else -> {
+                    val latin = replaceSpecialCharLatin15(c)
+                    val buffer = StringBuilder()
+                    for (ch in latin) {
+                        buffer.append(replaceUmlaut(ch))
+                    }
+                    return buffer.toString()
+                }
             }
         }
 
         private fun replaceUmlaut(c: Char) : String {
             when (c) {
                 '\u00e4' -> return "ae"
-                '\u00f6' -> return "oe"
-                '\u00fc' -> return "ue"
+                '\u00f6', '\u0151' -> return "oe"
+                '\u00fc', '\u0171' -> return "ue"
                 '\u00df' -> return "ss"
                 '\u00c4' -> return "Ae"
                 '\u00d6' -> return "Oe"
                 '\u00dc' -> return "Ue"
-                '\u00e1', '\u00e0', '\u00e2' -> return "a"
+                '\u00e1', '\u00e0', '\u00e2', '\u00e3' -> return "a"
                 '\u00e9', '\u00e8', '\u00ea', '\u00eb' -> return "e"
                 '\u00ed' -> return "i"
                 '\u00f3', '\u00f2', '\u00f4' -> return "o"
-                '\u00fa', '\u00f9', '\u00fb', '\u016f' -> return "u"
-                '\u00c1', '\u00c0', '\u00c2' -> return "A"
+                '\u00fa', '\u00f9', '\u00fb' -> return "u"
+                '\u00c1', '\u00c0', '\u00c2', '\u00c6' -> return "A"
                 '\u00c9', '\u00c8', '\u00ca' -> return "E"
                 '\u00d3', '\u00d2', '\u00d4' -> return "O"
                 '\u00da', '\u00d9', '\u00db' -> return "U"
-                '\u0308' -> return ""
-                else -> return Normalizer.normalize(replaceSpecialChar(c), Normalizer.Form.NFD)
-            }
-        }
-
-        private fun replaceSpecialChar(c: Char) : String {
-            when (c) {
-                '\u2000', '\u200b' -> return " "
-                '\u2122' -> return "(TM)"
-                '\u2260' -> return "!="
-                else -> return replaceSpecialChar(c, StandardCharsets.ISO_8859_1)
+                '\u0152' -> return "OE"
+                '\u01fc' -> return "AE"
+                '\u016f' -> return "u"
+                '\u0300', '\u0301', '\u0303', '\u0308', '\u030b' -> return ""
+                //else -> return replaceSpecialChar(c)
+                else -> return c.toString()
             }
         }
 
@@ -719,15 +724,22 @@ open class Text
             }
         }
 
+        /**
+         * Hier werden alle Zeichen > u00ff ersetzt.
+         */
         private fun replaceSpecialCharLatin15(c: Char): String {
             when (c) {
                 '\u011b' -> return "e"
                 '\u015b', '\u0161' -> return "s"
                 '\u0107', '\u010d' -> return "c"
-                '\u0141', '\u0142' -> return "l"
+                '\u0141', '\u0142' -> return "L"
                 '\u0144' -> return "n"
+                '\u0152' -> return "OE"
+                '\u016f' -> return "u"
                 '\u017e', '\u017a' -> return "z"
-                '\u0308' -> return "\u00fc"
+                '\u01fc' -> return "AE"
+                '\u20ac' -> return "EUR"
+                '\u0300', '\u0301', '\u0303', '\u0308', '\u030b' -> return ""
                 '\u0e3f' -> return "THB"
                 '\u041c' -> return "M"
                 '\u0421' -> return "C"
@@ -738,10 +750,11 @@ open class Text
                 '\u2014', '\u2013', '\u2212' -> return "-"
                 '\u201c', '\u201d', '\u201e', '\u00ab', '\u00bb' -> return "\""
                 '\u00b4', '\u2018', '\u201a' -> return "'"
-                '\u2122' -> return "\u00d4"
+                '\u2000', '\u2002', '\u200b' -> return " "
+                '\u2122' -> return "(TM)"
+                '\u2260' -> return "!="
                 '\u2264' -> return "<="
                 '\u2265' -> return ">="
-                //'\u00b1' -> return "+/-"
                 else -> return c.toString()
             }
         }

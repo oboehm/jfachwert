@@ -138,9 +138,17 @@ public final class TextTest extends FachwertTest {
 
     @Test
     public void testReplaceUmlaute() throws IOException {
-        List<String> lines = FileUtils.readLines(new File("src/test/resources/de/jfachwert/umlaute.txt"),
-                StandardCharsets.UTF_8);
+        File refFile = new File("src/test/resources/de/jfachwert/umlaute.txt");
+        List<String> lines = FileUtils.readLines(refFile, StandardCharsets.UTF_8);
         Text replaced = Text.of(lines.get(0)).replaceUmlaute();
+        assertEquals(Text.of(lines.get(1)), replaced);
+    }
+
+    @Test
+    public void testReplaceSonderzeichen() throws IOException {
+        File refFile = new File("src/test/resources/de/jfachwert/sonderzeichen.txt");
+        List<String> lines = FileUtils.readLines(refFile, StandardCharsets.UTF_8);
+        Text replaced = Text.of(lines.get(0)).replaceSonderzeichen();
         assertEquals(Text.of(lines.get(1)), replaced);
     }
 
@@ -194,7 +202,7 @@ public final class TextTest extends FachwertTest {
     }
 
     @Test
-    public void testReplaceSonderzeichen() throws IOException {
+    public void testReplacePrintable() throws IOException {
         String printable = FileUtils.readFileToString(new File("src/main/resources/de/jfachwert/printable.txt"), StandardCharsets.UTF_8);
         String replaced = Text.replaceSonderzeichen(printable);
         File target = new File("target/ascii.txt");
