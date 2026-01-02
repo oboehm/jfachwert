@@ -41,7 +41,7 @@
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
-        <version>2.19.0</version>
+        <version>2.20.1</version>
       </dependency>
       <dependency>
         <groupId>org.junit.jupiter</groupId>
@@ -382,18 +382,17 @@
         </configuration>
       </plugin>
 
-      <!--
-          Maven Site Plugin
-          call 'mvn site:site' to generate web site
-          see http://maven.apache.org/plugins/maven-site-plugin/examples/creating-content.html
-      -->
+      <!-- call 'mvn versions:display-dependency-updates' to see upates -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>3.12.1</version>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <version>2.20.1</version>
         <configuration>
-          <locales>de</locales>
-          <outputEncoding>UTF-8</outputEncoding>
+          <ignoredVersions>
+            <ignoredVersion>.*-alpha.*</ignoredVersion>
+            <ignoredVersion>.*-beta.*</ignoredVersion>
+            <ignoredVersion>.*-M.*</ignoredVersion>
+          </ignoredVersions>
         </configuration>
       </plugin>
 
