@@ -46,27 +46,27 @@
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter</artifactId>
-        <version>6.0.1</version>
+        <version>5.10.0</version>
       </dependency>
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-api</artifactId>
-        <version>6.0.1</version>
+        <version>5.10.0</version>
       </dependency>
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-engine</artifactId>
-        <version>6.0.1</version>
+        <version>5.10.0</version>
       </dependency>
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-params</artifactId>
-        <version>6.0.1</version>
+        <version>5.10.0</version>
       </dependency>
       <dependency>
         <groupId>org.junit.platform</groupId>
         <artifactId>junit-platform-commons</artifactId>
-        <version>6.0.1</version>
+        <version>1.10.0</version>
       </dependency>
       <dependency>
         <groupId>org.hamcrest</groupId>
@@ -173,7 +173,7 @@
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <version>7.11.0</version>
+      <version>7.8.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -304,33 +304,33 @@
       </plugin>
 
       <!-- avoid lib conflicts -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-enforcer-plugin</artifactId>
-            <version>3.4.1</version>
-            <executions>
-                <execution>
-                    <id>enforce</id>
-                    <goals>
-                        <goal>enforce</goal>
-                    </goals>
-                    <configuration>
-                        <fail>false</fail>
-                        <rules>
-                            <requireMavenVersion>
-                                <version>3.2.4</version>
-                            </requireMavenVersion>
-                            <requireJavaVersion>
-                                <version>${java.version}</version>
-                            </requireJavaVersion>
-                            <dependencyConvergence/>
-                        </rules>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>3.4.1</version>
+        <executions>
+          <execution>
+            <id>enforce</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <fail>false</fail>
+              <rules>
+                <requireMavenVersion>
+                  <version>3.2.4</version>
+                </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>${java.version}</version>
+                </requireJavaVersion>
+                <dependencyConvergence/>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
-        <!-- JUnit Testing -->
+      <!-- JUnit Testing -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
