@@ -402,8 +402,12 @@ public final class TextTest extends FachwertTest {
         }
         File encodedFile = new File(targetDir, charset + ".txt");
         FileUtils.writeStringToFile(encodedFile, text.toString(), charset);
-        String loaded = FileUtils.readFileToString(encodedFile, charset);
-        assertEquals(text.toString(), loaded, "Charset " + charset);
+        List<String> loaded = FileUtils.readLines(encodedFile, charset);
+        String[] textLines = text.toString().split("\n");
+        assertEquals(loaded.size(), textLines.length);
+        for (int i = 0; i < loaded.size(); i++) {
+            assertEquals(loaded.get(i), textLines[i], "Charset " + charset);
+        }
     }
 
     @DisplayName("Konvertierung")
