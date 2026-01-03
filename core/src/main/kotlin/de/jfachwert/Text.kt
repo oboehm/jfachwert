@@ -411,6 +411,7 @@ open class Text
                 '\u00ae' -> return "(R)"
                 '\u00bf' -> return "?"
                 '\u00f1' -> return "n"
+                '\u20b1' -> return "PHP"
                 else -> {
                     val latin = replaceSpecialCharLatin15(c)
                     val buffer = StringBuilder()
