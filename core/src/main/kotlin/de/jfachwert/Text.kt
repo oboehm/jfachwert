@@ -348,7 +348,7 @@ open class Text
          */
         @JvmStatic
         fun trim(text: String): String {
-            return text.trim(' ', '\t', '\r', '\n', '\u00a0', '\u2000', '\u2002', '\u200b')
+            return text.trim(' ', '\t', '\r', '\n', '\u00a0', '\u2000', '\u2002', '\u200b', '\u202f')
         }
 
         /**

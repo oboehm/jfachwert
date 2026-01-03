@@ -132,7 +132,7 @@ public final class TextTest extends FachwertTest {
 
     @Test
     public void testTrim() {
-        Text hello = Text.of("\u00A0 hello world \u00A0 \u2000 \u200b");
+        Text hello = Text.of("\u00A0 hello world \u00A0 \u2000 \u200b \u202f");
         assertEquals(Text.of("hello world"), hello.trim());
     }
 
