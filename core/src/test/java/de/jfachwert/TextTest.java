@@ -373,7 +373,13 @@ public final class TextTest extends FachwertTest {
     void testEncodingWaehrungen(Charset charset) throws IOException {
         StringBuilder buf = new StringBuilder();
         for (Currency c : Currency.getAvailableCurrencies()) {
-            buf.append(c.getCurrencyCode()).append('\t').append(c.getSymbol()).append('\n');
+            String symbol = c.getSymbol();
+            buf.append(c.getCurrencyCode()).append('\t').append(symbol)
+                    .append('\t');
+            for (char ch : symbol.toCharArray()) {
+                buf.append(String.format("\\u%04x", (int) ch));
+            }
+            buf.append('\n');
         }
         checkOf(buf.toString(), charset);
     }
