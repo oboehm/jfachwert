@@ -290,6 +290,8 @@ public final class TextTest extends FachwertTest {
 
     @Test
     public void testIsPrintableCurrencies() {
+        String currencySign = "\u00A4";
+        assertTrue(Text.isPrintable(currencySign), currencySign);
         for (Currency c : Currency.getAvailableCurrencies()) {
             String s = String.format("%s: %s (%s)", c.getCurrencyCode(), c.getSymbol(), c);
             assertTrue(Text.of(s).isPrintable(), s);
