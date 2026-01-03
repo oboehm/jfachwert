@@ -408,10 +408,10 @@ open class Text
                 '\u00a5' -> return "JPY"
                 '\u00e7' -> return "c"
                 '\u00a0' -> return " "
+                '\u00a4' -> return "XXX"
                 '\u00ae' -> return "(R)"
                 '\u00bf' -> return "?"
                 '\u00f1' -> return "n"
-                '\u20b1' -> return "PHP"
                 else -> {
                     val latin = replaceSpecialCharLatin15(c)
                     val buffer = StringBuilder()
@@ -737,6 +737,7 @@ open class Text
                 '\u017e', '\u017a' -> return "z"
                 '\u01fc' -> return "AE"
                 '\u20ac' -> return "EUR"
+                '\u20b1' -> return "PHP"
                 '\u0300', '\u0301', '\u0303', '\u0308', '\u030b' -> return ""
                 '\u0e3f' -> return "THB"
                 '\u041c' -> return "M"
