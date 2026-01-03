@@ -10,6 +10,8 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ### Added
 - Hilfsmittelnummer.formatted()/.unformatted() hinzugefügt (med-Modul)
 - Text.replaceSonderzeichen()
+### Changed
+- Newline und Tabs bleiben jetzt in Text.of(..) erhalten
 ### Fixed
 - Formattierung Hilfsmittelnummer
 - Anführungsstriche und Gedankenstriche werden bei der Text-Konvertierung in andere Zeichensätze ersetzt
