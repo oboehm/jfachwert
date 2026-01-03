@@ -137,6 +137,13 @@ public final class TextTest extends FachwertTest {
     }
 
     @Test
+    public void testReplaceWhitespaces() {
+        Text hello = Text.of("a\u00A0b\u00A0c\u2000d\u200be\u202ff");
+        assertEquals("a b c d e f",
+                hello.convertTo(StandardCharsets.US_ASCII, StandardCharsets.UTF_8).toString());
+    }
+
+    @Test
     public void testReplaceUmlaute() throws IOException {
         File refFile = new File("src/test/resources/de/jfachwert/umlaute.txt");
         List<String> lines = FileUtils.readLines(refFile, StandardCharsets.UTF_8);

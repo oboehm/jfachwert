@@ -748,7 +748,7 @@ open class Text
                 '\u2014', '\u2013', '\u2212' -> return "-"
                 '\u201c', '\u201d', '\u201e', '\u00ab', '\u00bb' -> return "\""
                 '\u00b4', '\u2018', '\u201a' -> return "'"
-                '\u2000', '\u2002', '\u200b' -> return " "
+                '\u2000', '\u2002', '\u200b', '\u202f' -> return " "
                 '\u2122' -> return "(TM)"
                 '\u2260' -> return "!="
                 '\u2264' -> return "<="
