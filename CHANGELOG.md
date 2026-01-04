@@ -6,7 +6,7 @@ Es ersetzt die **Release Notes** aus den Anfangstagen von jFachwert und orientie
 genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
-## [Unreleased]
+## [6.6.0] - 2026-01-04
 ### Added
 - Hilfsmittelnummer.formatted()/.unformatted() hinzugefügt (med-Modul)
 - Text.replaceSonderzeichen()
@@ -91,20 +91,14 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Typo in `SimpleValidator.isValid(..)` korrigiert
   ([#26](https://github.com/oboehm/jfachwert/issues/26))
 
-## [6.0.2] - 2025-01-02
+## [6.0] - 2025-01-02
 ### Added
-- weitere Unterstützung für offene Zeiträume
+- **v6.0.2**: weitere Unterstützung für offene Zeiträume
   ([#23](https://github.com/oboehm/jfachwert/issues/23))
-- Zeitdauer.of(long) hinzugefügt
-
-
-## [6.0.1] - 2024-09-30
+- **v6.0.2**: Zeitdauer.of(long) hinzugefügt
 ### Fixed
-- Kompatibilität zur alten Geldbetrag-Klassen aus dem bank-Package (jetzt: money-Modul) erhöht
-- transitive Abhängigkeiten zu Modulen in de.jfachwert:jfachwert
-
-
-## [6.0.0] - 2024-09-29
+- **v6.0.1**: Kompatibilität zur alten Geldbetrag-Klassen aus dem bank-Package (jetzt: money-Modul) erhöht
+- **v6.0.1**: transitive Abhängigkeiten zu Modulen in de.jfachwert:jfachwert
 ### Changed
 - Aufteilung in Module zur Verringerung der Abhängigkeiten
 - Umstellung auf Gradle zum Bau und Deployment
