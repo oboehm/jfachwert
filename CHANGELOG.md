@@ -12,6 +12,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Text.replaceSonderzeichen()
 ### Changed
 - Newline und Tabs bleiben jetzt in Text.of(..) erhalten
+- Update auf JUnit 6
 ### Fixed
 - Formattierung Hilfsmittelnummer
 - Anführungsstriche und Gedankenstriche werden bei der Text-Konvertierung in andere Zeichensätze ersetzt
