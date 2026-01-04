@@ -45,9 +45,11 @@ repositories {
 dependencies {
     compileOnly("com.fasterxml.jackson.core:jackson-databind:2.20.1")
     testImplementation("com.fasterxml.jackson.core:jackson-databind:2.20.1")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.0")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
-    testImplementation("org.junit.platform:junit-platform-commons:1.10.0")
+    testImplementation(platform("org.junit:junit-bom:6.0.1"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.junit.jupiter:junit-jupiter-params")
+    testImplementation("org.junit.platform:junit-platform-launcher")
     testImplementation("org.hamcrest:hamcrest:3.0")
     testImplementation("org.slf4j:slf4j-api:2.0.17")
     testImplementation("org.patterntesting:patterntesting-rt:2.5.1")
@@ -81,7 +83,13 @@ tasks {
     }
 
     kotlin {
-        jvmToolchain(11)
+        jvmToolchain(17)
+    }
+
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(17))
+        }
     }
 
     withType<JavaCompile> {
@@ -103,7 +111,6 @@ tasks.named<org.gradle.jvm.tasks.Jar>("sourceJar") {
 
 // ------------------------------------------------------ sign & publish
 
-java.sourceCompatibility = JavaVersion.VERSION_11
 extra["isReleaseVersion"] = !version.toString().endsWith("SNAPSHOT")
 
 signing {
