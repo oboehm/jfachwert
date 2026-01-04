@@ -39,6 +39,8 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * Unit-Tests fuer {@link Text}-Klasse.
@@ -408,6 +410,7 @@ public final class TextTest extends FachwertTest {
     }
 
     private void checkOf(String content, Charset charset) throws IOException {
+        assumeFalse(charset.toString().equals(System.getProperty("skip.encoding.test")), "test is skipped for " + charset);
         Text text = Text.of(content, charset);
         File targetDir = new File("target", SystemUtils.JAVA_VERSION);
         if (targetDir.mkdir()) {
