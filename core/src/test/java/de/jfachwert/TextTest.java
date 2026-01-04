@@ -419,7 +419,7 @@ public final class TextTest extends FachwertTest {
         String[] textLines = text.toString().split("\n");
         assertEquals(loaded.size(), textLines.length);
         for (int i = 0; i < loaded.size(); i++) {
-            assertEquals(loaded.get(i), textLines[i], "Charset " + charset);
+            assertEquals(textLines[i], loaded.get(i), "Charset " + charset);
         }
     }
 
