@@ -6,6 +6,11 @@ Es ersetzt die **Release Notes** aus den Anfangstagen von jFachwert und orientie
 genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
+## [Planned]
+- Arc42-Doku überarbeiten
+- Gradle-Files überarbeiten (Deprecated-Aufrufe raus)
+- auf Gradle 9 und Kotlin 2.3 aktualisieren
+
 ## [6.6.0] - 2026-01-04
 ### Added
 - Hilfsmittelnummer.formatted()/.unformatted() hinzugefügt (med-Modul)
