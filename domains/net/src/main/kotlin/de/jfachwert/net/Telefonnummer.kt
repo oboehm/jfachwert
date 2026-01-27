@@ -179,7 +179,7 @@ open class Telefonnummer
      *
      * @return z.B. "+49301234567"
      */
-    fun toShortString(): String {
+    override fun toShortString(): String {
         return RegExUtils.removeAll(code, "[ \t+-/]|(\\(0\\))")
     }
 
