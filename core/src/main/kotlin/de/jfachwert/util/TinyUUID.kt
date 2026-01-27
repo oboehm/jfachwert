@@ -135,7 +135,7 @@ open class TinyUUID(uuid: UUID) : AbstractFachwert<UUID, TinyUUID>(uuid) {
      *
      * @return 22 Zeichen, z.B. "ix9de14vQgGKwXZUaruCzw"
      */
-    open fun toShortString(): String {
+    override fun toShortString(): String {
         val s = Base64.getEncoder().withoutPadding().encodeToString(toBytes())
         return s.replace('/', '_').replace('+', '-')
     }
@@ -145,7 +145,7 @@ open class TinyUUID(uuid: UUID) : AbstractFachwert<UUID, TinyUUID>(uuid) {
      *
      * @return z.B. "4e8108fa-e517-41bd-8372-a828843030ba"
      */
-    fun toLongString(): String {
+    override fun toLongString(): String {
         return uUID.toString()
     }
 

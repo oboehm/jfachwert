@@ -126,7 +126,7 @@ open class PLZ : Text {
      *
      * @return z.B. "D70839"
      */
-    fun toShortString(): String {
+    override fun toShortString(): String {
         return code
     }
 
@@ -136,7 +136,7 @@ open class PLZ : Text {
      *
      * @return z.B. "D-70839"
      */
-    fun toLongString(): String {
+    override fun toLongString(): String {
         var plz = code
         if (this.hasLandeskennung()) {
             plz = toLongString(plz)

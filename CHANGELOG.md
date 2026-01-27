@@ -11,6 +11,10 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Gradle-Files überarbeiten (Deprecated-Aufrufe raus)
 - auf Gradle 9 und Kotlin 2.3 aktualisieren
 
+##[Unreleased]
+### Added
+- toShortString()- und toLongString()-Methode für alle Fachwerte
+
 ## [6.6.0] - 2026-01-04
 ### Added
 - Hilfsmittelnummer.formatted()/.unformatted() hinzugefügt (med-Modul)

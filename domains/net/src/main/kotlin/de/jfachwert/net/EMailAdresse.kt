@@ -147,7 +147,7 @@ open class EMailAdresse
      * @return die eigentliche E-Mail-Adresse
      * @since 6.4
      */
-    fun toShortString(): String {
+    override fun toShortString(): String {
         return email
     }
 
@@ -158,7 +158,7 @@ open class EMailAdresse
      * @return E-Mail-Adresse mit Anzeigename
      * @since 6.4
      */
-    fun toLongString(): String {
+    override fun toLongString(): String {
         return toString()
     }
 

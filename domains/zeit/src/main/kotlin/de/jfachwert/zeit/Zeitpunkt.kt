@@ -291,7 +291,7 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
      *
      * @return Ausgabe aehnlich wie bei Timestamp, aber Nonosekunden-genau
      */
-    fun toLongString(): String {
+    override fun toLongString(): String {
         if (isOutOfLocalDateTime()) {
             return toStringInYears(getTimeInYears())
         } else {
@@ -325,7 +325,7 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
      *
      * @return String in Kurzform ohne Uhrzeit (wenn keine vorhanden).
      */
-    fun toShortString(): String {
+    override fun toShortString(): String {
         var s = toLongString()
         if (!s.endsWith("000000")) {
             return s

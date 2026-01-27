@@ -764,7 +764,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
      *
      * @return z.B. "$19"
      */
-    fun toShortString(): String {
+    override fun toShortString(): String {
         return getSymbol(currency) + betrag.setScale(0, RoundingMode.HALF_UP)
     }
 
@@ -784,7 +784,7 @@ open class Geldbetrag @JvmOverloads constructor(betrag: Number, currency: Curren
      *
      * @return z.B. "19.0012 USD"
      */
-    fun toLongString(): String {
+    override fun toLongString(): String {
         val formatter = DecimalFormat.getInstance()
         formatter.minimumFractionDigits = context.maxScale
         formatter.minimumFractionDigits = context.maxScale

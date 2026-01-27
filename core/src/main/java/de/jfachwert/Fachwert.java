@@ -62,5 +62,29 @@ public interface Fachwert extends Serializable {
     default boolean isValid() {
         return true;
     }
-    
+
+    /**
+     * Falls Fachwerte eine Kurz-Darstellung zulassen, bekommt man diese ueber
+     * diese Methode. Ansonsten liefert sie das gleiche Ergebnis wie die
+     * toString()-Methode.
+     *
+     * @return ein kurze String-Repraesentation
+     * @since 6.7
+     */
+    default String toShortString() {
+        return toString();
+    }
+
+    /**
+     * Falls Fachwerte eine Lang-Darstellung zulassen, bekommt man diese ueber
+     * diese Methode. Ansonsten liefert sie das gleiche Ergebnis wie die
+     * toString()-Methode.
+     *
+     * @return ein ausfuehrlichere String-Repraesentation
+     * @since 6.7
+     */
+    default String toLongString() {
+        return toString();
+    }
+
 }
