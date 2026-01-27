@@ -73,7 +73,7 @@ open class PZN
      *
      * @return 8-stellige Zeichenkette ohne PZN-Prefix
      */
-    fun toShortString(): String {
+    override fun toShortString(): String {
         return String.format("%08d", code)
     }
 

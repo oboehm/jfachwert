@@ -229,7 +229,7 @@ open class Adresse
      *
      * @return z.B. "12345 Entenhausen, Gansstr. 23"
      */
-    fun toShortString(): String {
+    override fun toShortString(): String {
         return ort.toString() + ", " + strasseKurz + " " + hausnummerKurz
     }
 

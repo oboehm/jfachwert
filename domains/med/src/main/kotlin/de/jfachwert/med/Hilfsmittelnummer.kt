@@ -117,7 +117,7 @@ open  class Hilfsmittelnummer
      *
      * @return z.B. "0507023011"
      */
-    fun toShortString(): String {
+    override fun toShortString(): String {
         return unformatted()
     }
 
