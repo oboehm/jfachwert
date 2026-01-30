@@ -19,7 +19,10 @@ package de.jfachwert.zeit;
 
 import de.jfachwert.AbstractFachwert;
 import de.jfachwert.AbstractFachwertTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
@@ -157,11 +160,20 @@ public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpu
         assertEquals(Zeitpunkt.EPOCH, epoch);
     }
 
-    @Test
-    void testOfDateString() {
-        String dateString = "2024-01-17";
+    @DisplayName("Datum/Zeit-Parsing")
+    @ParameterizedTest(name = "{index}: {0}")
+    @ValueSource(strings = {"2026-01-27", "27-01-2026"})
+    void testOfDateString(String dateString) {
         Zeitpunkt z = Zeitpunkt.of(dateString);
-        assertEquals(dateString, z.toString());
+        assertEquals(LocalDate.of(2026, 1, 27), z.toLocalDate());
+    }
+
+    @DisplayName("Datum/Zeit-MMM")
+    @ParameterizedTest(name = "{index}: {0}")
+    @ValueSource(strings = {"27-Jan-2026", "27-Jan-2026 11:55"})
+    void testOfDateMMM(String dateString) {
+        Zeitpunkt z = Zeitpunkt.of(dateString);
+        assertEquals(LocalDate.of(2026, 1, 27), z.toLocalDate());
     }
 
     @Test

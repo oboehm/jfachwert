@@ -514,6 +514,13 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
         }
 
         private fun dateToNanos(s: String): BigInteger {
+            val ldt = toLocalDateTime(s)
+            val seconds = ldt.toEpochSecond(ZoneOffset.UTC)
+            return Zeiteinheit.SECONDS.toNanos(seconds)
+                .add(BigInteger.valueOf(ldt.nano.toLong()))
+        }
+
+        private fun toLocalDateTime(s: String): LocalDateTime {
             val datePatterns = arrayOf(
                 "yyyy-MM-dd", "dd-MMM-yyyy", "dd-MM-yyyy", "yyyy-MMM-dd",
                 "MMM-dd-yyyy", "dd MMM yyyy", "dd MM yyyy", "yyyy MMM dd", "yyyy MM dd", "MMM dd yyyy", "dd.MMM.yyyy",
@@ -544,13 +551,73 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
                 .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
             val formatter = dtfb.toFormatter()
             try {
-                val ldt = LocalDateTime.parse(s, formatter)
-                val seconds = ldt.toEpochSecond(ZoneOffset.UTC)
-                return Zeiteinheit.SECONDS.toNanos(seconds)
-                    .add(BigInteger.valueOf(ldt.nano.toLong()))
+                return LocalDateTime.parse(s, formatter)
             } catch (ex: DateTimeParseException) {
-                throw LocalizedIllegalArgumentException(s, "unknown_time_format", ex)
+                log.finer("'$s' wurde (noch) nicht als gueltiges Datum erkannt (${ex.localizedMessage})")
+                log.log(Level.FINEST, "Details:", ex)
+                return parseLocalDateTime(s)
             }
+        }
+
+        private fun parseLocalDateTime(s: String): LocalDateTime {
+            val mmmPatterns = arrayOf(
+                "dd-MMM-yyyy", "yyyy-MMM-dd", "MMM-dd-yyyy", "dd MMM yyyy", "yyyy MMM dd",
+                "MMM dd yyyy", "dd.MMM.yyyy", "yyyy.MMM.dd", "MMM.dd.yyyy"
+            )
+            val timePatterns = arrayOf(
+                "H:m:s.SSSSSSSSS",
+                "H:m:s.SSSSSSSS",
+                "H:m:s.SSSSSSS",
+                "H:m:s.SSSSSS",
+                "H:m:s.SSSSS",
+                "H:m:s.SSSS",
+                "H:m:s.SSS",
+                "H:m:s.SS",
+                "H:m:s.S",
+                "H:m:s",
+                "H:m",
+                "h:m",
+                "K:m",
+                "k:m"
+            )
+            val locales = arrayOf(Locale.ENGLISH, Locale.GERMAN)
+            for (mp in mmmPatterns) {
+                for (tp in timePatterns) {
+                    for (l in locales) {
+                        val dtf = DateTimeFormatter.ofPattern("$mp $tp", l)
+                        try {
+                            return LocalDateTime.parse(s, dtf)
+                        } catch (ex: DateTimeParseException) {
+                            log.finer("'$s' passt nicht zu Muster '$mp $tp' ($l).")
+                            log.log(Level.FINEST, "Details:", ex)
+                        }
+                    }
+                }
+            }
+            // TODO: try also DateTimeFormatter.ISO_LOCAL_DATE_TIME
+            val date = toLocalDate(s)
+            return date.atStartOfDay()
+        }
+
+        private fun toLocalDate(s: String): LocalDate {
+            val mmmPatterns = arrayOf(
+                "dd-MMM-yyyy", "yyyy-MMM-dd", "MMM-dd-yyyy", "dd MMM yyyy", "yyyy MMM dd",
+                "MMM dd yyyy", "dd.MMM.yyyy", "yyyy.MMM.dd", "MMM.dd.yyyy"
+            )
+            val locales = arrayOf(Locale.ENGLISH, Locale.GERMAN)
+            for (pattern in mmmPatterns) {
+                for (l in locales) {
+                    val dtf = DateTimeFormatter.ofPattern(pattern, l)
+                    try {
+                        return LocalDate.parse(s, dtf)
+                    } catch (ex: DateTimeParseException) {
+                        log.finer("'$s' passt nicht zu Muster '$pattern' ($l).")
+                        log.log(Level.FINEST, "Details:", ex)
+                    }
+                }
+            }
+            // TODO: try also DateTimeFormatter.ISO_LOCAL_DATE
+            throw LocalizedIllegalArgumentException(s, "unknown_time_format")
         }
 
     }
