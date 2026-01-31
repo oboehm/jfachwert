@@ -600,24 +600,38 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
         }
 
         private fun toLocalDate(s: String): LocalDate {
+            val mmmFormatter = getLocalDateFormatters()
+            for (formatter in mmmFormatter) {
+                try {
+                    return LocalDate.parse(s, formatter)
+                } catch (ex: DateTimeParseException) {
+                    log.finer("'$s' passt nicht zu $formatter'.")
+                    log.log(Level.FINEST, "Details:", ex)
+                }
+            }
+            throw LocalizedIllegalArgumentException(s, "unknown_time_format")
+        }
+
+        private fun getLocalDateFormatters(): List<DateTimeFormatter> {
+            val mmmFormatter = mutableListOf(
+                DateTimeFormatter.ISO_LOCAL_DATE,
+                DateTimeFormatter.ISO_DATE,
+                DateTimeFormatter.ISO_OFFSET_DATE,
+                DateTimeFormatter.ISO_ORDINAL_DATE,
+                DateTimeFormatter.ISO_WEEK_DATE,
+                DateTimeFormatter.BASIC_ISO_DATE
+            )
             val mmmPatterns = arrayOf(
                 "dd-MMM-yyyy", "yyyy-MMM-dd", "MMM-dd-yyyy", "dd MMM yyyy", "yyyy MMM dd",
                 "MMM dd yyyy", "dd.MMM.yyyy", "yyyy.MMM.dd", "MMM.dd.yyyy"
             )
-            val locales = arrayOf(Locale.ENGLISH, Locale.GERMAN)
             for (pattern in mmmPatterns) {
-                for (l in locales) {
+                for (l in Locale.getAvailableLocales()) {
                     val dtf = DateTimeFormatter.ofPattern(pattern, l)
-                    try {
-                        return LocalDate.parse(s, dtf)
-                    } catch (ex: DateTimeParseException) {
-                        log.finer("'$s' passt nicht zu Muster '$pattern' ($l).")
-                        log.log(Level.FINEST, "Details:", ex)
-                    }
+                    mmmFormatter.add(dtf)
                 }
             }
-            // TODO: try also DateTimeFormatter.ISO_LOCAL_DATE
-            throw LocalizedIllegalArgumentException(s, "unknown_time_format")
+            return mmmFormatter
         }
 
     }
