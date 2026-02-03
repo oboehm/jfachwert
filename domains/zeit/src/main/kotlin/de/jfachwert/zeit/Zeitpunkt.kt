@@ -560,9 +560,10 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
         }
 
         private fun parseLocalDateTime(s: String): LocalDateTime {
-            val mmmPatterns = arrayOf(
-                "dd-MMM-yyyy", "yyyy-MMM-dd", "MMM-dd-yyyy", "dd MMM yyyy", "yyyy MMM dd",
-                "MMM dd yyyy", "dd.MMM.yyyy", "yyyy.MMM.dd", "MMM.dd.yyyy"
+            val formatter = mutableListOf(
+                DateTimeFormatter.ISO_LOCAL_DATE_TIME,
+                DateTimeFormatter.ISO_DATE_TIME,
+                DateTimeFormatter.ISO_OFFSET_DATE_TIME
             )
             val timePatterns = arrayOf(
                 "H:m:s.SSSSSSSSS",
@@ -580,27 +581,29 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
                 "K:m",
                 "k:m"
             )
-            val locales = arrayOf(Locale.ENGLISH, Locale.GERMAN)
-            for (mp in mmmPatterns) {
-                for (tp in timePatterns) {
-                    for (l in locales) {
-                        val dtf = DateTimeFormatter.ofPattern("$mp $tp", l)
-                        try {
-                            return LocalDateTime.parse(s, dtf)
-                        } catch (ex: DateTimeParseException) {
-                            log.finer("'$s' passt nicht zu Muster '$mp $tp' ($l).")
-                            log.log(Level.FINEST, "Details:", ex)
-                        }
-                    }
+            formatter.addAll(getLocalDateFormatters(timePatterns))
+            for (dtf in formatter) {
+                try {
+                    return LocalDateTime.parse(s, dtf)
+                } catch (ex: DateTimeParseException) {
+                    log.finer("'$s' passt nicht zu $dtf.")
+                    log.log(Level.FINEST, "Details:", ex)
                 }
             }
-            // TODO: try also DateTimeFormatter.ISO_LOCAL_DATE_TIME
             val date = toLocalDate(s)
             return date.atStartOfDay()
         }
 
         private fun toLocalDate(s: String): LocalDate {
-            val mmmFormatter = getLocalDateFormatters()
+            val mmmFormatter = mutableListOf(
+                DateTimeFormatter.ISO_LOCAL_DATE,
+                DateTimeFormatter.ISO_DATE,
+                DateTimeFormatter.ISO_OFFSET_DATE,
+                DateTimeFormatter.ISO_ORDINAL_DATE,
+                DateTimeFormatter.ISO_WEEK_DATE,
+                DateTimeFormatter.BASIC_ISO_DATE
+            )
+            mmmFormatter.addAll(getLocalDateFormatters(arrayOf("")))
             for (formatter in mmmFormatter) {
                 try {
                     return LocalDate.parse(s, formatter)
@@ -612,23 +615,18 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
             throw LocalizedIllegalArgumentException(s, "unknown_time_format")
         }
 
-        private fun getLocalDateFormatters(): List<DateTimeFormatter> {
-            val mmmFormatter = mutableListOf(
-                DateTimeFormatter.ISO_LOCAL_DATE,
-                DateTimeFormatter.ISO_DATE,
-                DateTimeFormatter.ISO_OFFSET_DATE,
-                DateTimeFormatter.ISO_ORDINAL_DATE,
-                DateTimeFormatter.ISO_WEEK_DATE,
-                DateTimeFormatter.BASIC_ISO_DATE
-            )
+        private fun getLocalDateFormatters(timePatterns: Array<String>): List<DateTimeFormatter> {
+            val mmmFormatter = mutableListOf<DateTimeFormatter>()
             val mmmPatterns = arrayOf(
                 "dd-MMM-yyyy", "yyyy-MMM-dd", "MMM-dd-yyyy", "dd MMM yyyy", "yyyy MMM dd",
                 "MMM dd yyyy", "dd.MMM.yyyy", "yyyy.MMM.dd", "MMM.dd.yyyy"
             )
+            //val locales = arrayOf(Locale.ENGLISH, Locale.GERMAN)
             for (pattern in mmmPatterns) {
-                for (l in Locale.getAvailableLocales()) {
-                    val dtf = DateTimeFormatter.ofPattern(pattern, l)
-                    mmmFormatter.add(dtf)
+                for (p in timePatterns) {
+                    for (l in Locale.getAvailableLocales()) {
+                        mmmFormatter.add(DateTimeFormatter.ofPattern("$pattern $p".trim(), l))
+                    }
                 }
             }
             return mmmFormatter
