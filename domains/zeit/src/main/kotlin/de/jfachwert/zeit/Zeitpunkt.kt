@@ -371,6 +371,22 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
 
         private val log = Logger.getLogger(Zeitpunkt::class.java.name)
         private val WEAK_CACHE = WeakHashMap<BigInteger, Zeitpunkt>()
+        private val TIME_PATTERNS = arrayOf(
+            "H:m:s.SSSSSSSSS",
+            "H:m:s.SSSSSSSS",
+            "H:m:s.SSSSSSS",
+            "H:m:s.SSSSSS",
+            "H:m:s.SSSSS",
+            "H:m:s.SSSS",
+            "H:m:s.SSS",
+            "H:m:s.SS",
+            "H:m:s.S",
+            "H:m:s",
+            "H:m",
+            "h:m",
+            "K:m",
+            "k:m"
+        )
         /** Die Epoche beginnt am 1.1.1970. */
         @JvmField
         val EPOCH = Zeitpunkt(BigInteger.ZERO)
@@ -528,22 +544,10 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
             )
             val dtfb = DateTimeFormatterBuilder()
             for (dp in datePatterns) {
-                dtfb
-                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m:s.SSSSSSSSS"))
-                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m:s.SSSSSSSS"))
-                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m:s.SSSSSSS"))
-                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m:s.SSSSSS"))
-                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m:s.SSSSS"))
-                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m:s.SSSS"))
-                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m:s.SSS"))
-                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m:s.SS"))
-                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m:s.S"))
-                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m:s"))
-                    .appendOptional(DateTimeFormatter.ofPattern("$dp H:m"))
-                    .appendOptional(DateTimeFormatter.ofPattern("$dp h:m"))
-                    .appendOptional(DateTimeFormatter.ofPattern("$dp K:m"))
-                    .appendOptional(DateTimeFormatter.ofPattern("$dp k:m"))
-                    .appendOptional(DateTimeFormatter.ofPattern(dp))
+                for (tmPttrn in TIME_PATTERNS) {
+                    dtfb.appendOptional(DateTimeFormatter.ofPattern("$dp $tmPttrn"))
+                }
+                dtfb.appendOptional(DateTimeFormatter.ofPattern(dp))
             }
             dtfb
                 .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
@@ -565,23 +569,7 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
                 DateTimeFormatter.ISO_DATE_TIME,
                 DateTimeFormatter.ISO_OFFSET_DATE_TIME
             )
-            val timePatterns = arrayOf(
-                "H:m:s.SSSSSSSSS",
-                "H:m:s.SSSSSSSS",
-                "H:m:s.SSSSSSS",
-                "H:m:s.SSSSSS",
-                "H:m:s.SSSSS",
-                "H:m:s.SSSS",
-                "H:m:s.SSS",
-                "H:m:s.SS",
-                "H:m:s.S",
-                "H:m:s",
-                "H:m",
-                "h:m",
-                "K:m",
-                "k:m"
-            )
-            formatter.addAll(getLocalDateFormatters(timePatterns))
+            formatter.addAll(getLocalDateFormatters(TIME_PATTERNS))
             for (dtf in formatter) {
                 try {
                     return LocalDateTime.parse(s, dtf)
