@@ -609,10 +609,10 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
                 "dd-MMM-yyyy", "yyyy-MMM-dd", "MMM-dd-yyyy", "dd MMM yyyy", "yyyy MMM dd",
                 "MMM dd yyyy", "dd.MMM.yyyy", "yyyy.MMM.dd", "MMM.dd.yyyy"
             )
-            //val locales = arrayOf(Locale.ENGLISH, Locale.GERMAN)
             for (pattern in mmmPatterns) {
                 for (p in timePatterns) {
-                    for (l in Locale.getAvailableLocales()) {
+                    //for (l in Locale.getAvailableLocales()) {
+                    for (l in arrayOf(Locale.ENGLISH, Locale.GERMAN)) {
                         mmmFormatter.add(DateTimeFormatter.ofPattern("$pattern $p".trim(), l))
                     }
                 }
