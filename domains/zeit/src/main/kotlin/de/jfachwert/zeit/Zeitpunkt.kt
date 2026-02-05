@@ -538,9 +538,7 @@ constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localize
 
         private fun toLocalDateTime(s: String): LocalDateTime {
             val datePatterns = arrayOf(
-                "yyyy-MM-dd", "dd-MMM-yyyy", "dd-MM-yyyy", "yyyy-MMM-dd",
-                "MMM-dd-yyyy", "dd MMM yyyy", "dd MM yyyy", "yyyy MMM dd", "yyyy MM dd", "MMM dd yyyy", "dd.MMM.yyyy",
-                "dd.MM.yyyy", "yyyy.MMM.dd", "MMM.dd.yyyy"
+                "yyyy-MM-dd", "dd-MM-yyyy", "dd MM yyyy", "yyyy MM dd", "dd.MM.yyyy"
             )
             val dtfb = DateTimeFormatterBuilder()
             for (dp in datePatterns) {
