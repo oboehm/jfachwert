@@ -14,6 +14,8 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ##[Unreleased]
 ### Added
 - toShortString()- und toLongString()-Methode für alle Fachwerte
+### Fixed
+- Zeitpunkt.of(..) kommt mit mehr Datumsformaten klar
 
 ## [6.6.0] - 2026-01-04
 ### Added
