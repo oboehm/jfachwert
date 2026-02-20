@@ -128,6 +128,17 @@ public final class NameTest extends AbstractFachwertTest<String, Text> {
         ObjectTester.assertEquals(karl, karlheinz);
     }
 
+    /**
+     * Unit-Test fuer Issue #33.
+     */
+    @Test
+    void testEqualsNull() {
+        Name nobody = Name.of("Nobody");
+        assertNotEquals(Name.NULL, nobody);
+        assertNotEquals(nobody, Name.NULL);
+        assertEquals(Name.NULL, Name.NULL);
+    }
+
     @Test
     public void testMMustermann() {
         Name mustermann = Name.of("M. Mustermann");
@@ -175,11 +186,6 @@ public final class NameTest extends AbstractFachwertTest<String, Text> {
         Name daisy = Name.of(" Daisy ", " Mouse ");
         assertEquals("Daisy", daisy.getVorname());
         assertEquals("Mouse", daisy.getNachname());
-    }
-
-    @Test
-    public void testEqualsWithNull() {
-        assertNotEquals(Name.of("James Bond"), Name.NULL);
     }
 
 }
