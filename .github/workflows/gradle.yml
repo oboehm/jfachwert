@@ -35,4 +35,4 @@ jobs:
         with:
           arguments: assemble asciidoctor
         env:
-          GRADLE_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=2g -Dorg.gradle.parallel=false"
+          GRADLE_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=3g -Dorg.gradle.parallel=false"
