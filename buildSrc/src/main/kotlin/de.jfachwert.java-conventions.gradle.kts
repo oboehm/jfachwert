@@ -63,7 +63,7 @@ val sourceJar by tasks.registering(Jar::class) {
     DuplicatesStrategy.WARN
 }
 
-val javadocJar by tasks.creating(Jar::class) {
+val javadocJar by tasks.registering(Jar::class) {
     group = JavaBasePlugin.DOCUMENTATION_GROUP
     description = "Assembles Javadoc JAR"
     archiveClassifier.set("javadoc")
