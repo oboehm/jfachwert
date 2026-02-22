@@ -57,14 +57,15 @@ public interface SimpleValidator<T extends Serializable> extends Serializable {
      */
     T validate(T value);
 
+    @SuppressWarnings("unchecked")
     default Object validateObject(Object value) {
+        if (value == null) {
+            throw new NullValueException();
+        }
         try {
             return validate((T) value);
         } catch (ClassCastException ex) {
             logger.log(Level.FINE, "cannot cast " + value, ex);
-        }
-        if (value == null) {
-            throw new NullValueException();
         }
         return value;
     }
