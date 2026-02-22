@@ -1,6 +1,6 @@
 plugins {
     id("org.jetbrains.dokka")
-    id("org.asciidoctor.jvm.convert") version "3.3.2"
+    id("org.asciidoctor.jvm.convert") version "4.0.2"
     id("de.jfachwert.java-conventions")
 }
 

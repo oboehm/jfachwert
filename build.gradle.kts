@@ -10,7 +10,7 @@ plugins {
     id("signing")
     id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
     id("org.jetbrains.dokka")
-    id("org.asciidoctor.jvm.convert") version "3.3.2"
+    id("org.asciidoctor.jvm.convert") version "4.0.2"
     id("de.jfachwert.java-conventions")
     signing
 }
