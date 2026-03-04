@@ -43,9 +43,9 @@ repositories {
 // ------------------------------------------------------ dependencies
 
 dependencies {
-    compileOnly("com.fasterxml.jackson.core:jackson-databind:2.20.1")
-    testImplementation("com.fasterxml.jackson.core:jackson-databind:2.20.1")
-    testImplementation(platform("org.junit:junit-bom:6.0.1"))
+    compileOnly("com.fasterxml.jackson.core:jackson-databind:2.21.1")
+    testImplementation("com.fasterxml.jackson.core:jackson-databind:2.21.1")
+    testImplementation(platform("org.junit:junit-bom:5.12.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
     testImplementation("org.junit.jupiter:junit-jupiter-params")
@@ -83,12 +83,12 @@ tasks {
     }
 
     kotlin {
-        jvmToolchain(17)
+        jvmToolchain(11)
     }
 
     java {
         toolchain {
-            languageVersion.set(JavaLanguageVersion.of(17))
+            languageVersion.set(JavaLanguageVersion.of(11))
         }
     }
 

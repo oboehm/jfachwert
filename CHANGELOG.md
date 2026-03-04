@@ -12,10 +12,13 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - auf Gradle 9 und Kotlin 2.3 aktualisieren
 
 ##[Unreleased]
+### Changed
+- Update auf Kotlin 2.1
 ### Added
 - toShortString()- und toLongString()-Methode für alle Fachwerte
 ### Fixed
 - Zeitpunkt.of(..) kommt mit mehr Datumsformaten klar
+- Java-11-kompatibel (Downgrade auf JUnit 5)
 
 ## [6.6.0] - 2026-01-04
 ### Added
