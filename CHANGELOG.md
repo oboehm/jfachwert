@@ -11,7 +11,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Gradle-Files überarbeiten (Deprecated-Aufrufe raus)
 - auf Gradle 9 und Kotlin 2.3 aktualisieren
 
-##[Unreleased]
+##[6.6.1] - 2026-03-04
 ### Changed
 - Update auf Kotlin 2.1
 ### Added
@@ -91,17 +91,14 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Geldbetrag.toString() verwendet geschütztes Leerzeichen
   ([#28](https://github.com/oboehm/jfachwert/issues/28))
 
-## [6.1.1] - 2025-04-28
-### Fixed
-- Validierung negativer Beträge
-  ([#27](https://github.com/oboehm/jfachwert/issues/27))
-
-## [6.1.0] - 2025-04-14
+## [6.1] - 2025-04-28
 ### Added
 - LEGS (Leistungserbringergruppenschlüssel) in med-Package hinzugefügt
 - Geldbetrag.toCent() und Geldbetrag.getBetrag() hinzugefügt
 - Geldbetrag.ONE und Geldbetrag.TEN als Konstanten hinzugefügt
 ### Fixed
+- **v6.1.1**: Validierung negativer Beträge
+  ([#27](https://github.com/oboehm/jfachwert/issues/27))
 - Typo in `SimpleValidator.isValid(..)` korrigiert
   ([#26](https://github.com/oboehm/jfachwert/issues/26))
 
