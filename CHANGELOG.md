@@ -11,7 +11,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Gradle-Files überarbeiten (Deprecated-Aufrufe raus)
 - auf Gradle 9 und Kotlin 2.3 aktualisieren
 
-##[6.6.1] - 2026-03-04
+## [6.6.1] - 2026-03-04
 ### Changed
 - Update auf Kotlin 2.1
 ### Added
@@ -71,23 +71,17 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Postfach-Validierung entschärft, Postfach ohne Ort jetzt auch erlaubt
   ([#30](https://github.com/oboehm/jfachwert/issues/30))
 
-## [6.2.2] - 2025-05-29
-### Fixed
-- fehlerhaftes Caching von Zinssatz im bank-Package korrigiert
-- fehlerhaftes Caching von Prozent und Promille im math-Package korrigiert
-- fehlerhaftes Caching von SNOMED im med-Package korrigiert
-- fehlerhaftes Caching von Mehrwertsteuer im steuer-Package korrigiert
-
-## [6.2.1] - 2025-05-27
-### Fixed
-- fehlerhaftes Caching in Text.of(..) und anderen Fachwerten korrigiert 
-  ([#29](https://github.com/oboehm/jfachwert/issues/29))
-
-## [6.2.0] - 2025-05-12
+## [6.2] - 2025-05-12
 ### Added
 - Text.trim(), das auch geschützte Leerzeichen entfernt
 - Geldbetrag.format(..) zur Steuerung der String-Ausgabe
 ### Fixed
+- **v6.2.2**: fehlerhaftes Caching von Zinssatz im bank-Package korrigiert
+- **v6.2.2**: fehlerhaftes Caching von Prozent und Promille im math-Package korrigiert
+- **v6.2.2**: fehlerhaftes Caching von SNOMED im med-Package korrigiert
+- **v6.2.2**: fehlerhaftes Caching von Mehrwertsteuer im steuer-Package korrigiert
+- **v6.2.1**: fehlerhaftes Caching in Text.of(..) und anderen Fachwerten korrigiert 
+  ([#29](https://github.com/oboehm/jfachwert/issues/29))
 - Geldbetrag.toString() verwendet geschütztes Leerzeichen
   ([#28](https://github.com/oboehm/jfachwert/issues/28))
 
