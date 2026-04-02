@@ -727,6 +727,7 @@ open class Text
          */
         private fun replaceSpecialCharLatin15(c: Char): String {
             when (c) {
+                '\u011a' -> return "E"
                 '\u011b' -> return "e"
                 '\u015a', '\u0160' -> return "S"
                 '\u015b', '\u0161' -> return "s"
@@ -736,11 +737,16 @@ open class Text
                 '\u0107', '\u010d' -> return "c"
                 '\u0141' -> return "L"
                 '\u0142' -> return "l"
+                '\u0143' -> return "N"
                 '\u0144' -> return "n"
                 '\u0152' -> return "OE"
+                '\u0153' -> return "oe"
+                '\u016e' -> return "U"
                 '\u016f' -> return "u"
-                '\u017e', '\u017a' -> return "z"
+                '\u0179', '\u017d' -> return "Z"
+                '\u017a', '\u017e' -> return "z"
                 '\u01fc' -> return "AE"
+                '\u01fd' -> return "ae"
                 '\u20ac' -> return "EUR"
                 '\u20b1' -> return "PHP"
                 '\u0300', '\u0301', '\u0303', '\u0308', '\u030b' -> return ""
