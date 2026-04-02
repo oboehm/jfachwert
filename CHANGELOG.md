@@ -11,6 +11,10 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Gradle-Files überarbeiten (Deprecated-Aufrufe raus)
 - auf Gradle 9 und Kotlin 2.3 aktualisieren
 
+## [Unreleased]
+### Fixed
+- weitere polnische Sonderzeichen für Text-Konvertierung nach ASCII berücksichtigt
+
 ## [6.6.1] - 2026-03-04
 ### Changed
 - Update auf Kotlin 2.1
