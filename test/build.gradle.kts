@@ -13,7 +13,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("org.junit.jupiter:junit-jupiter:5.10.0")
     implementation("org.hamcrest:hamcrest:2.2")
-    implementation("org.patterntesting:patterntesting-rt:2.3.0")
+    implementation("org.patterntesting:patterntesting-rt:2.6.0")
     api("javax.money:money-api:1.1")
     // optional dependency
     compileOnly("com.fasterxml.jackson.core:jackson-databind:2.15.2")
