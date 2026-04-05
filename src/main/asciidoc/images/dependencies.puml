@@ -6,14 +6,60 @@ folder "commons" {
 
 }
 
-[jfachwert.jar] ..> commons
+frame "domains" {
+    [jfachwert/bank.jar]
+    [jfachwert/formular.jar]
+    [jfachwert/math.jar]
+    [jfachwert/med.jar]
+    [jfachwert/money.jar]
+    [jfachwert/net.jar]
+    [jfachwert/post.jar]
+    [jfachwert/rechnung.jar]
+    [jfachwert/steuer.jar]
+    [jfachwert/zeit.jar]
+}
 
-[jfachwert.jar] ..> [kotlin-stdlib.jar]
+[jfachwert/core.jar] ..> commons
 
-[jfachwert.jar] ..> [money-api.jar]
+[jfachwert/core.jar] ..> [kotlin-stdlib.jar]
+
+[jfachwert/bank.jar] ..> [jfachwert/core.jar]
+[jfachwert/bank.jar] ..> [jfachwert/math.jar]
+[jfachwert/bank.jar] ..> [jfachwert/money.jar]
+
+[jfachwert/formular.jar] ..> [jfachwert/core.jar]
+
+[jfachwert/math.jar] ..> [jfachwert/core.jar]
+[jfachwert/math.jar] ..> [money-api.jar]
+
+[jfachwert/med.jar] ..> [jfachwert/core.jar]
+
+[jfachwert/money.jar] ..> [jfachwert/core.jar]
+[jfachwert/money.jar] ..> [jfachwert/math.jar]
+[jfachwert/money.jar] ..> [money-api.jar]
+
+[jfachwert/net.jar] ..> [jfachwert/core.jar]
+[jfachwert/net.jar] ..> [jfachwert/math.jar]
+[jfachwert/net.jar] ..> [jfachwert/post.jar]
+
+[jfachwert/post.jar] ..> [jfachwert/core.jar]
+
+[jfachwert/rechnung.jar] ..> [jfachwert/core.jar]
+
+[jfachwert/steuer.jar] ..> [jfachwert/core.jar]
+[jfachwert/steuer.jar] ..> [jfachwert/math.jar]
+[jfachwert/steuer.jar] ..> [money-api.jar]
+
+[jfachwert/zeit.jar] ..> [jfachwert/core.jar]
 
 [commons-lang3.jar] #White
 [kotlin-stdlib.jar] #White
 [money-api.jar] #Lightgrey
+
+frame "test" {
+    [jfachwert/test.jar]
+}
+
+domains ..> test
 
 @enduml

@@ -11,11 +11,13 @@ include::../images/dependencies.puml[]
 
 === JAR-Datei
 
-jFachwert wird als JAR-Datei ins http://search.maven.org[zentrale Maven-Repository] hochgeladen.
-Dort kann sie über folgende Maven-Koordinaten als Abhängigkeit in ein Projekt hinzugefügt werden:
+Die einzelnen Domains von jFachwert werden als JAR-Dateien unter der GroupID "de.jfachwert" ins http://search.maven.org[zentrale Maven-Repository] hochgeladen.
+Dort können sie über foldenden Maven-Kooridnaten als Abhängigkeit in ein Projekt hinzugefügt werden:
 
   <groupId>de.jfachwert</groupId>
-  <artifactId>jfachwert</artifactId>
+  <artifactId>bank</artifactId>
+
+Analog zu "bank" können auch andere Domain-Bereiche verwendet werden.
 
 
 === Abhängigkeiten
