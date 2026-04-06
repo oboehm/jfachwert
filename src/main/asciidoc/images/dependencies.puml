@@ -1,11 +1,5 @@
 @startuml
 
-folder "commons" {
-
-    [commons-lang3.jar]
-
-}
-
 frame "domains" {
     [jfachwert/bank.jar]
     [jfachwert/formular.jar]
@@ -19,7 +13,7 @@ frame "domains" {
     [jfachwert/zeit.jar]
 }
 
-[jfachwert/core.jar] ..> commons
+[jfachwert/core.jar] ..>     [commons-lang3.jar]
 
 [jfachwert/core.jar] ..> [kotlin-stdlib.jar]
 
@@ -48,7 +42,6 @@ frame "domains" {
 
 [jfachwert/steuer.jar] ..> [jfachwert/core.jar]
 [jfachwert/steuer.jar] ..> [jfachwert/math.jar]
-[jfachwert/steuer.jar] ..> [money-api.jar]
 
 [jfachwert/zeit.jar] ..> [jfachwert/core.jar]
 
