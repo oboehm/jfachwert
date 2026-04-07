@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 by Oliver Boehm
+ * Copyright (c) 2018-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -182,6 +182,19 @@ open class Text
      */
     fun convertTo(toEncoding: Charset, fromEncoding: Charset = detectCharset()) : Text {
         return of(convert(code, toEncoding, fromEncoding))
+    }
+
+    /**
+     * Limitiert einen String auf das gewuenschte Encoding.
+     * Im Gegensatz zu convert(..) wird hier der String nicht in ein
+     * anderes Encoding umgewandelt, sondern nur auf die Zeichen
+     * beschraaenkt, die das gewuenschte Encoding aufnehmen kann.
+     *
+     * @param encoding gewuenschtes Encoding
+     * @since 6.7
+     */
+    fun limitTo(encoding: Charset): Text {
+        return of(limitTo(code, encoding))
     }
 
     /**
@@ -689,6 +702,21 @@ open class Text
             return String(x.toByteArray(fromEncoding), toEncoding)
         }
 
+        /**
+         * Limitiert einen String auf das gewuenschte Encoding.
+         * Im Gegensatz zu convert(..) wird hier der String nicht in ein
+         * anderes Encoding umgewandelt, sondern nur auf die Zeichen
+         * beschraaenkt, die das gewuenschte Encoding aufnehmen kann.
+         *
+         * @param value Text
+         * @param encoding gewuenschtes Encoding
+         * @since 6.7
+         */
+        @JvmStatic
+        fun limitTo(value: String, encoding: Charset): String {
+            return convert(convert(value, encoding), StandardCharsets.UTF_8)
+        }
+
         @JvmStatic
         fun replaceSpecialChars(value: String, encoding: Charset): String {
             val zeichen = value.toCharArray()
@@ -757,7 +785,7 @@ open class Text
                 '\u20aa' -> return "ILS"
                 '\u20ab' -> return "VND"
                 '\u20b9' -> return "INR"
-                '\u2014', '\u2013', '\u2212' -> return "-"
+                '\u2010', '\u2011', '\u2012', '\u2013', '\u2014', '\u2212' -> return "-"
                 '\u201c', '\u201d', '\u201e', '\u00ab', '\u00bb' -> return "\""
                 '\u00b4', '\u2018', '\u201a' -> return "'"
                 '\u2000', '\u2002', '\u200b', '\u202f' -> return " "

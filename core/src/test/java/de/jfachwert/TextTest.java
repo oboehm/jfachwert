@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * Unit-Tests fuer {@link Text}-Klasse.
@@ -347,6 +346,11 @@ public final class TextTest extends FachwertTest {
     @Test
     public void testConvertToLatin1() {
         assertEquals("B\u00c3\u00b6hm", Text.convert("B\u00f6hm", StandardCharsets.ISO_8859_1));
+    }
+
+    @Test
+    public void testLimitTo() {
+        assertEquals(Text.of("\u00ae\u00fcgen(TM)"), Text.of("\u00ae\u00fcgen\u2122").limitTo(StandardCharsets.ISO_8859_1));
     }
 
     @DisplayName("Orte mit Sonderzeichen ersetzen")
