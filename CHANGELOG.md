@@ -7,15 +7,16 @@ genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
 ## [Planned]
+- Support für Jackson 3
 - Arc42-Doku überarbeiten
 - Gradle-Files überarbeiten (Deprecated-Aufrufe raus)
 - auf Gradle 9 und Kotlin 2.3 aktualisieren
 
-[Unreleased]
+## [6.6.3] . 2026-04-07
 ### Added
 - Text um limitTo(..)-Methode ergänzt
 
-## [6.6.2] -2026-04-05
+## [6.6.2] - 2026-04-05
 ### Fixed
 - weitere polnische Sonderzeichen für Text-Konvertierung nach ASCII berücksichtigt
 
