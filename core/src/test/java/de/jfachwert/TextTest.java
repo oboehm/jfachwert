@@ -439,6 +439,15 @@ public final class TextTest extends FachwertTest {
         assertEquals(text, Text.convert(converted, StandardCharsets.UTF_8, charset));
     }
 
+    @ParameterizedTest(name = "{index}: {0}")
+    @MethodSource("encodingParameters")
+    void testLimitTo(Charset charset) {
+        String text = "H\u00e4llo W\u00f6rld\u2122";
+        String limited =  Text.limitTo(text, charset);
+        String converted = Text.convert(limited, StandardCharsets.UTF_8);
+        assertEquals(limited, converted);
+    }
+
     @DisplayName("Charset-Erkennung")
     @ParameterizedTest(name = "{index}: {0}")
     @MethodSource("encodingParameters")

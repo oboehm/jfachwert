@@ -714,7 +714,7 @@ open class Text
          */
         @JvmStatic
         fun limitTo(value: String, encoding: Charset): String {
-            return convert(convert(value, encoding), StandardCharsets.UTF_8)
+            return convert(convert(value, encoding, StandardCharsets.UTF_8), StandardCharsets.UTF_8)
         }
 
         @JvmStatic
