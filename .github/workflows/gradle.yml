@@ -22,10 +22,10 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      ORG_GRADLE_JVMARGS: "-Xms4g -Xmx6g -XX:MaxMetaspaceSize=4g"
       ORG_GRADLE_WORKERS_MAX: 2
       ORG_GRADLE_PARALLEL: "false"
       ORG_GRADLE_DAEMON: "false"
+      GRADLE_OPTS: "-Xms4g -Xmx6g -XX:MaxMetaspaceSize=4g"
 
     steps:
       - uses: actions/checkout@v4
