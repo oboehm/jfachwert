@@ -12,6 +12,10 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Gradle-Files überarbeiten (Deprecated-Aufrufe raus)
 - auf Gradle 9 und Kotlin 2.3 aktualisieren
 
+## [Unreleased]
+### Fixed
+- fehlende Zeichen aus Latin‑Extended‑A und -B für Text-Konvertierung ergänzt
+
 ## [6.6.3] . 2026-04-07
 ### Added
 - Text um limitTo(..)-Methode ergänzt
