@@ -68,7 +68,7 @@ Danach "-SNAPSHOT" von der Version in link:../buildSrc/src/main/kotlin/de.jfachw
 |Bundle für Upload erstellen (manuell)
 |`./gradlew generateChecksums`
 
-`cd $HOME/.m2/repository; tar czvf ~/Downloads/jfachwert.tgz `find de/jfachwert -name "\*-6.6.3*"``
+`cd $HOME/.m2/repository; tar czvf ~/Downloads/jfachwert.tgz `find de/jfachwert -name "\*-6.6.4*"``
 |Check-Summen für manuelles Upload erstellen, danach Tar-File erstellen und über https://central.sonatype.com/publishing hochladen
 
 |Release automatisch deployen (alt)
@@ -84,7 +84,7 @@ NOTE: funktioniert nicht mehr seit der Umstellung auf https://central.sonatype.c
 
 |Einchecken + Tag vergeben
 |`git commit` ...
-|NamensKonvention für Tag ist `jfachwert-x.x.x`
+|NamensKonvention für Tag ist `jfachwert-6.6.4`
 
 |Release-Notes erstellen
 |https://github.com/oboehm/jfachwert/releases[releases]
