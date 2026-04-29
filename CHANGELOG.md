@@ -15,6 +15,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Unreleased]
 ### Fixed
 - fehlende Zeichen aus Latin‑Extended‑A und -B für Text-Konvertierung ergänzt
+- erneut Downgrade auf Java-11
 
 ## [6.6.3] . 2026-04-07
 ### Added
