@@ -9,7 +9,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
  */
 
 group = "de.jfachwert"
-version = "6.6.5"
+version = "6.6.6-SNAPSHOT"
 
 object Meta {
     const val desc = "Implementierung einiger Fachwerte nach dem WAM-Ansatz"
