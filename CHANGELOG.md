@@ -12,7 +12,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Gradle-Files überarbeiten (Deprecated-Aufrufe raus)
 - auf Gradle 9 und Kotlin 2.3 aktualisieren
 
-## [Unreleased]
+## [6.6.5] - 2026-04-30
 ### Changed
 - erneut Downgrade auf Java-11
 
