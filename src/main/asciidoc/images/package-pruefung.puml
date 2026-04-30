@@ -16,9 +16,10 @@ frame "core" {
         class TelefonnummerValidator
 
         package "exception" {
+            class ValidationException
+            class LocalizedValidationException
             class IllegalLengthException
             class InvalidValueException
-            class LocalizedValueException
             class NullValueException
             class PruefzifferException
         }
@@ -29,9 +30,10 @@ frame "core" {
 
 LuhnVerfahren <|-- Mod10Verfahren
 
-LocalizedValueException <|-- IllegalLengthException
-LocalizedValueException <|-- InvalidValueException
-LocalizedValueException <|-- NullValueException
-LocalizedValueException <|-- PruefzifferException
+LocalizedValidationException -up-|> ValidationException
+LocalizedValidationException <|-- IllegalLengthException
+LocalizedValidationException <|-- InvalidValueException
+LocalizedValidationException <|-- NullValueException
+LocalizedValidationException <|-- PruefzifferException
 
 @enduml

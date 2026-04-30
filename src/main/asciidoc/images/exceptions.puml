@@ -1,7 +1,8 @@
 @startuml
 
-package de.jfachwert.pruefung {
+package de.jfachwert.pruefung.exception {
 
+    class ValidationException
     class LocalizedValidationException
     class PruefzifferException
     class IllegalLengthException

@@ -228,7 +228,10 @@ include::../images/validatoren.puml[]
 ------------------------------------------------
 
 Alle Validatoren implementieren das 'SimpleValidator'-Interface.
-Im Falle, dass die validate-Methode fehlschlägt, wird eine `javax.validation.ValidationException` geworfen.
+Im Falle, dass die validate-Methode fehlschlägt, wird eine eigene `ValidationException` (Package `de.jfachwert.pruefung.exception`) geworfen.
+
+Anmerkung: bis v4.4 wurde eine `javax.validation.ValidationException` geworfen.
+Diese wurde ab v4.5 durch `de.jfachwert.pruefung.exception.ValidationException` ersetzt, um die externe Abhängigkeit zu `javax.validation` zu entfernen.
 
 
 ==== Prüfverfahren
