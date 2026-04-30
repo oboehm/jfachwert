@@ -52,7 +52,7 @@ dependencies {
     testImplementation("org.junit.platform:junit-platform-launcher")
     testImplementation("org.hamcrest:hamcrest:3.0")
     testImplementation("org.slf4j:slf4j-api:2.0.17")
-    testImplementation("org.patterntesting:patterntesting-rt:2.6.0")
+    testImplementation("org.patterntesting:patterntesting-rt:2.5.1")
 }
 
 // ------------------------------------------------------ source & javadoc
