@@ -43,15 +43,15 @@ repositories {
 // ------------------------------------------------------ dependencies
 
 dependencies {
-    compileOnly("com.fasterxml.jackson.core:jackson-databind:2.21.1")
-    testImplementation("com.fasterxml.jackson.core:jackson-databind:2.21.1")
+    compileOnly("com.fasterxml.jackson.core:jackson-databind:2.21.3")
+    testImplementation("com.fasterxml.jackson.core:jackson-databind:2.21.3")
     testImplementation(platform("org.junit:junit-bom:5.12.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
     testImplementation("org.junit.jupiter:junit-jupiter-params")
     testImplementation("org.junit.platform:junit-platform-launcher")
     testImplementation("org.hamcrest:hamcrest:3.0")
-    testImplementation("org.slf4j:slf4j-api:2.0.17")
+    testImplementation("org.slf4j:slf4j-api:2.0.18")
     testImplementation("org.patterntesting:patterntesting-rt:2.5.1")
 }
 
