@@ -184,6 +184,14 @@ open class Name
         return super.equals(other)
     }
 
+    /**
+     * Ab v6.6.6 wird nicht mehr zuerst der Nachname ausgegeben,
+     * sondern der komplette Namen, beginnend mit dem Vornamen.
+     */
+    override fun toString(): String {
+        return vorname + " " + nachname
+    }
+
 
     companion object {
 

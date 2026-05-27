@@ -188,4 +188,11 @@ public final class NameTest extends AbstractFachwertTest<String, Text> {
         assertEquals("Mouse", daisy.getNachname());
     }
 
+    @Test
+    @Override
+    public void testToString() {
+        String mozart = "Wolfgang A. Mozart";
+        assertEquals(mozart, Name.of(mozart).toString());
+    }
+
 }
