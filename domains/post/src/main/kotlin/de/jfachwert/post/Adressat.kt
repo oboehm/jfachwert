@@ -69,6 +69,10 @@ open class Adressat
             }
         }
 
+    override fun toString(): String {
+        return code
+    }
+
 
 
     companion object {
@@ -99,7 +103,7 @@ open class Adressat
         @JvmStatic
         fun of(name: Name): Adressat {
             val s = String(name.toString().toCharArray())
-            return WEAK_CACHE.computeIfAbsent(s) { s: String -> Adressat(s) }
+            return WEAK_CACHE.computeIfAbsent(s) { s: String -> Adressat(String(s.toCharArray())) }
         }
 
     }
