@@ -189,10 +189,9 @@ public final class NameTest extends AbstractFachwertTest<String, Text> {
     }
 
     @Test
-    @Override
-    public void testToString() {
+    public void testToShortString() {
         String mozart = "Wolfgang A. Mozart";
-        assertEquals(mozart, Name.of(mozart).toString());
+        assertEquals(mozart, Name.of(mozart).toShortString());
     }
 
 }

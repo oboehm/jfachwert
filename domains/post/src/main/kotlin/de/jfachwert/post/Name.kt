@@ -187,8 +187,9 @@ open class Name
     /**
      * Ab v6.6.6 wird nicht mehr zuerst der Nachname ausgegeben,
      * sondern der komplette Namen, beginnend mit dem Vornamen.
+     * Ab v6.6.7 wurde die Methode dann in toShortString() umbenannt.
      */
-    override fun toString(): String {
+    override fun toShortString(): String {
         return vorname + " " + nachname
     }
 
