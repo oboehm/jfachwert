@@ -755,6 +755,10 @@ open class Text
          */
         private fun replaceSpecialCharLatin15(c: Char): String {
             return when (c) {
+                // --------- Latin-1 Supplement (U+0080 .. U+00FF) ---- https://www.compart.com/en/unicode/block/U+0080
+                '\u00bc' -> "1/4"
+                '\u00bd' -> "1/2"
+                '\u00be' -> "3/4"
                 // --------- Latin‑Extended‑A (U+0100 .. U+017F) ------ https://www.compart.com/en/unicode/block/U+0100
                 '\u0100', '\u0102', '\u0104' -> "A"
                 '\u0101', '\u0103', '\u0105' -> "a"
