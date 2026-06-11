@@ -37,6 +37,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -118,6 +119,20 @@ public class FachwertTest {
         String s = fachwert.toString();
         assertThat("looks like default implementation", s, Matchers.not(
                 CoreMatchers.containsString(fachwert.getClass().getName() + "@")));
+    }
+
+    @Test
+    public void testToShortString() {
+        String string = fachwert.toString();
+        String shortString = fachwert.toShortString();
+        assertThat(shortString.length(), lessThanOrEqualTo(string.length()));
+    }
+
+    @Test
+    public void testToLongString() {
+        String string = fachwert.toString();
+        String longString = fachwert.toLongString();
+        assertThat(longString.length(), greaterThanOrEqualTo(string.length()));
     }
 
     /**

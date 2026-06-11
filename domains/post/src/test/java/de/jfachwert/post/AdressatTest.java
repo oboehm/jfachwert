@@ -43,6 +43,11 @@ public final class AdressatTest extends AbstractFachwertTest<String, Text> {
         return Adressat.of(code);
     }
 
+    @Override
+    protected String getCode() {
+        return "Max Mustermann";
+    }
+
     /**
      * Null-Adressat soll nicht erzeugt werden koennen. Normalerweise
      * wuerden wir hier eine IllegalArgumentException erwarten, aber Kotlin 1.4
