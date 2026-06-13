@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2023 by Oliver Boehm
+ * Copyright (c) 2018-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
 import javax.money.CurrencyContext
+import javax.money.CurrencyContextBuilder
 import javax.money.CurrencyUnit
 import javax.money.UnknownCurrencyException
 
@@ -264,7 +265,7 @@ open class Waehrung protected constructor(code: Currency, validator: KSimpleVali
     }
 
     override fun getContext(): CurrencyContext {
-        throw UnsupportedOperationException("not yet implemented")
+        return CurrencyContextBuilder.of("jfachwert").build()
     }
 
     /**
@@ -334,7 +335,7 @@ open class Waehrung protected constructor(code: Currency, validator: KSimpleVali
          * Wenn der uebergebene Waehrungsstring gueltig ist, wird er
          * unveraendert zurueckgegeben, damit er anschliessend von der
          * aufrufenden Methode weiterverarbeitet werden kann. Ist der Wert
-         * nicht gueltig, wird eine [ValidationException] geworfen.
+         * nicht gueltig, wird eine [InvalidValueException] geworfen.
          *
          * @param value Waehrungs-String, der validiert wird
          * @return Wert selber, wenn er gueltig ist

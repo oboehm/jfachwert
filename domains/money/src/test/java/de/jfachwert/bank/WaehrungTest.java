@@ -18,6 +18,9 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.FachwertTest;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Unit-Tests fuer {@link Waehrung}-Klasse.
@@ -27,6 +30,12 @@ class WaehrungTest extends FachwertTest {
     @Override
     protected de.jfachwert.bank.Waehrung createFachwert() {
         return Waehrung.of("EUR");
+    }
+
+    @Test
+    void getContext() {
+        Waehrung waehrung = createFachwert();
+        assertNotNull(waehrung.getContext());
     }
 
 }

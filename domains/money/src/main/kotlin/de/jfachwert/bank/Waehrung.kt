@@ -28,6 +28,7 @@ import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
 import javax.money.CurrencyContext
+import javax.money.CurrencyContextBuilder
 import javax.money.CurrencyUnit
 import javax.money.UnknownCurrencyException
 
@@ -262,7 +263,7 @@ open class Waehrung protected constructor(code: Currency, validator: KSimpleVali
     }
 
     override fun getContext(): CurrencyContext {
-        throw UnsupportedOperationException("not yet implemented")
+        return CurrencyContextBuilder.of("jfachwert").build()
     }
 
     /**

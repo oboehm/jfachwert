@@ -15,7 +15,11 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Unreleased]
 ### Changed
 - Funktionalität von Name.toString() nach Name.toShortString() verschoben
-
+### Fixed
+- Brüche wie "½" werden für ASCII oder ISO-8859-1 nach "1/2" konvertiert
+  ([#34](https://github.com/oboehm/jfachwert/issues/34))
+- Modul money: Waehrung.getContext() implementiert
+  ([#35](https://github.com/oboehm/jfachwert/issues/35))
 
 ## [6.6.6]
 ### Changed
