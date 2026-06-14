@@ -17,8 +17,8 @@
  */
 package de.jfachwert.steuer
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
+import tools.jackson.databind.annotation.JsonSerialize
+import tools.jackson.databind.ser.std.ToStringSerializer
 import de.jfachwert.KFachwert
 import de.jfachwert.math.Prozent
 import java.math.BigDecimal

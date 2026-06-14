@@ -18,7 +18,7 @@
 package de.jfachwert.zeit
 
 import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import tools.jackson.databind.annotation.JsonSerialize
 import de.jfachwert.KFachwert
 import de.jfachwert.util.ToFachwertSerializer
 import java.sql.Timestamp

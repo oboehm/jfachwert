@@ -16,7 +16,7 @@ dependencies {
     implementation("org.patterntesting:patterntesting-rt:2.5.1")
     api("javax.money:money-api:1.1")
     // optional dependency
-    compileOnly("com.fasterxml.jackson.core:jackson-databind:2.15.2")
+    compileOnly("tools.jackson.core:jackson-databind:3.1.4")
     testImplementation("org.mutabilitydetector:MutabilityDetector:0.10.6")
     testImplementation("org.javamoney:moneta-bp:1.4.1")
     testImplementation("org.javamoney:javamoney-tck:1.1") {

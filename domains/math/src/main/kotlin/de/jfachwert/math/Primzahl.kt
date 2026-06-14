@@ -17,6 +17,7 @@
  */
 package de.jfachwert.math
 
+import com.fasterxml.jackson.annotation.JsonCreator
 import de.jfachwert.KFachwert
 import java.lang.ref.SoftReference
 import java.math.BigInteger
@@ -155,6 +156,18 @@ open class Primzahl private constructor(private val value: Int) : Number(), KFac
         @JvmField
         val DREI = Primzahl(3)
         private var refPrimzahlen = SoftReference(initPrimzahlen())
+
+        /**
+         * Liefert eine Primzahl zurueck.
+         *
+         * @param value numerischer Wert
+         * @return Primzahl
+         */
+        @JvmStatic
+        @JsonCreator
+        fun of(value: Int): Primzahl {
+            return Primzahl(value)
+        }
 
         private fun initPrimzahlen(): MutableList<Primzahl> {
             val primzahlen: MutableList<Primzahl> = CopyOnWriteArrayList()

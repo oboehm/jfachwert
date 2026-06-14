@@ -17,7 +17,7 @@
  */
 package de.jfachwert.math
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import tools.jackson.databind.annotation.JsonSerialize
 import de.jfachwert.math.internal.ToNumberSerializer
 
 import java.math.BigDecimal

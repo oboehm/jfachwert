@@ -17,7 +17,7 @@
  */
 package de.jfachwert;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsInstanceOf;
@@ -27,7 +27,6 @@ import patterntesting.runtime.junit.ImmutableTester;
 import patterntesting.runtime.junit.ObjectTester;
 import patterntesting.runtime.junit.SerializableTester;
 
-import java.io.IOException;
 import java.io.NotSerializableException;
 import java.io.Serializable;
 import java.io.StringWriter;
@@ -182,7 +181,7 @@ public class FachwertTest {
             OBJECT_MAPPER.writeValue(writer, obj);
             writer.close();
             return writer.toString();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             throw new IllegalArgumentException("could not marshal " + obj + " to JSON string", ex);
         }
     }
@@ -198,7 +197,7 @@ public class FachwertTest {
     protected static <T> T unmarshal(final String json, final Class<T> clazz) {
         try {
             return OBJECT_MAPPER.readValue(json, clazz);
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             throw new IllegalArgumentException("could not unmarshall '" + json + "' to " + clazz, ex);
         }
     }

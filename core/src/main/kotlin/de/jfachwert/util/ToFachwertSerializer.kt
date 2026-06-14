@@ -17,45 +17,29 @@
  */
 package de.jfachwert.util
 
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.databind.ser.std.StdSerializer
+import tools.jackson.core.JsonGenerator
+import tools.jackson.databind.SerializationContext
+import tools.jackson.databind.ser.std.StdSerializer
 import de.jfachwert.KFachwert
-import java.io.IOException
 
 /**
  * Die Klasse serialisiert Fachwerte nach und von JSON. Damit die
- * Serialisierung funktioniert, muss
- * <pre>
- * &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
- * &lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;
- * </pre>
- * als Abhaengigkeit eingebunden werden.
+ * Serialisierung funktioniert, muss jackson-databind als
+ * Abhaengigkeit eingebunden werden.
  *
  * @author oboehm
  * @since 1.0
  */
 class ToFachwertSerializer @JvmOverloads constructor(t: Class<KFachwert> = KFachwert::class.java) : StdSerializer<KFachwert>(t) {
 
-    /**
-     * Fuer die Serialisierung wird der uebergebenen Fachwert nach seinen
-     * einzelnen Elementen aufgeteilt und serialisiert.
-     *
-     * @param fachwert Fachwert
-     * @param jgen Json-Generator
-     * @param provider Provider
-     * @throws IOException sollte nicht auftreten
-     */
-    @Throws(IOException::class)
-    override fun serialize(fachwert: KFachwert, jgen: JsonGenerator, provider: SerializerProvider) {
+    override fun serialize(fachwert: KFachwert, jgen: JsonGenerator, provider: SerializationContext) {
         serialize(fachwert.toMap(), jgen, provider)
     }
 
-    @Throws(IOException::class)
-    private fun serialize(map: Map<String, Any>, jgen: JsonGenerator, provider: SerializerProvider) {
+    private fun serialize(map: Map<String, Any>, jgen: JsonGenerator, provider: SerializationContext) {
         jgen.writeStartObject()
         for ((key, value) in map) {
-            jgen.writeObjectField(key, value)
+            jgen.writePOJOProperty(key, value)
         }
         jgen.writeEndObject()
     }
