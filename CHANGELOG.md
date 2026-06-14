@@ -11,7 +11,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Gradle-Files überarbeiten (Deprecated-Aufrufe raus)
 - auf Gradle 9 und Kotlin 2.3 aktualisieren
 
-## [Unreleased]
+## [6.7.0] - 2026-16-14
 ### Changed
 - Support für JSON-Serialisierung basiert auf Jackson 3
 - Bau mit Java 17, aber weiterhin Unterstützung von Java 11
@@ -22,7 +22,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Modul money: Waehrung.getContext() implementiert
   ([#35](https://github.com/oboehm/jfachwert/issues/35))
 
-## [6.6.6]
+## [6.6.6] - 2026-05-28
 ### Changed
 - Reihenfolge der Ausgabe in Name.toString() geändert (zuerst Vorname)
 
@@ -90,15 +90,12 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ### Removed
 - Konfiguration für Travis-Build
 
-## [6.3.1] - 2025-06-13
+## [6.3] - 2025-06-07
 ### Added
-- Prozent.of(double) und Promille.of(double) hinzugefügt
-- Konstanten Prozent.HUNDRED und Promille.THOUSAND hinzugefügt
+- **v6.3.1**: Prozent.of(double) und Promille.of(double) hinzugefügt
+- **v6.3.1**: Konstanten Prozent.HUNDRED und Promille.THOUSAND hinzugefügt
 ### Fixed
-- Caching von PLZ.of(..) korrigiert
-
-## [6.3.0] - 2025-06-07
-### Fixed
+- **v6.3.1**: Caching von PLZ.of(..) korrigiert
 - Postfach-Validierung entschärft, Postfach ohne Ort jetzt auch erlaubt
   ([#30](https://github.com/oboehm/jfachwert/issues/30))
 
