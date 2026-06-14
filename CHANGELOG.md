@@ -7,13 +7,14 @@ genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
 ## [Planned]
-- Support für Jackson 3
 - Arc42-Doku überarbeiten
 - Gradle-Files überarbeiten (Deprecated-Aufrufe raus)
 - auf Gradle 9 und Kotlin 2.3 aktualisieren
 
 ## [Unreleased]
 ### Changed
+- Support für JSON-Serialisierung basiert auf Jackson 3
+- Bau mit Java 17, aber weiterhin Unterstützung von Java 11
 - Funktionalität von Name.toString() nach Name.toShortString() verschoben
 ### Fixed
 - Brüche wie "½" werden für ASCII oder ISO-8859-1 nach "1/2" konvertiert

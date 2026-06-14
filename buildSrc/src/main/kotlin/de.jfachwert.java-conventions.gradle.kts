@@ -1,6 +1,8 @@
 
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 /*
  * Diese Datei wurde ueber 'gradle init' erstellt und dann manuell nach und
@@ -55,6 +57,12 @@ dependencies {
     testImplementation("org.patterntesting:patterntesting-rt:2.5.1")
 }
 
+// ------------------------------------------------------ Kotlin & Java target
+
+kotlin {
+    jvmToolchain(17)
+}
+
 // ------------------------------------------------------ source & javadoc
 
 val sourceJar by tasks.registering(Jar::class) {
@@ -82,18 +90,21 @@ tasks {
         }
     }
 
-    kotlin {
-        jvmToolchain(17)
-    }
-
     java {
         toolchain {
             languageVersion.set(JavaLanguageVersion.of(17))
         }
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    withType<KotlinJvmCompile> {
+        compilerOptions.jvmTarget.set(JvmTarget.JVM_11)
     }
 
     withType<JavaCompile> {
         options.encoding = "UTF-8"
+        options.release.set(11)
     }
 
     // ./gradlew assemble
