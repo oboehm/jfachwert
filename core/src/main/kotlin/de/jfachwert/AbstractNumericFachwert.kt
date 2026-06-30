@@ -26,4 +26,49 @@ abstract class AbstractNumericFachwert<T : Number, S : AbstractNumericFachwert<T
         return code.toInt()
     }
 
+    /**
+     * Liefert den internen numerischen Code als long-Wert zurueck.
+     *
+     * @return long-Wert des Codes
+     */
+    fun longValue(): Long {
+        return code.toLong()
+    }
+
+    /**
+     * Liefert den internen numerischen Code als float-Wert zurueck.
+     *
+     * @return float-Wert des Codes
+     */
+    fun floatValue(): Float {
+        return code.toFloat()
+    }
+
+    /**
+     * Liefert den internen numerischen Code als double-Wert zurueck.
+     *
+     * @return double-Wert des Codes
+     */
+    fun doubleValue(): Double {
+        return code.toDouble()
+    }
+
+    /**
+     * Liefert den internen numerischen Code als byte-Wert zurueck.
+     *
+     * @return byte-Wert des Codes
+     */
+    fun byteValue(): Byte {
+        return code.toByte()
+    }
+
+    /**
+     * Liefert den internen numerischen Code als short-Wert zurueck.
+     *
+     * @return short-Wert des Codes
+     */
+    fun shortValue(): Short {
+        return code.toShort()
+    }
+
 }

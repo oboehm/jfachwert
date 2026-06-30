@@ -44,8 +44,37 @@ public abstract class AbstractNumericFachwertTest<T extends Number, S extends Ab
     @Test
     public void testIntValue() {
         AbstractNumericFachwert<T, S> fachwert = createNumericFachwert();
-        int expected = fachwert.getCode().intValue();
-        assertEquals(expected, fachwert.intValue());
+        assertEquals(fachwert.getCode().intValue(), fachwert.intValue());
+    }
+
+    @Test
+    public void testLongValue() {
+        AbstractNumericFachwert<T, S> fachwert = createNumericFachwert();
+        assertEquals(fachwert.getCode().longValue(), fachwert.longValue());
+    }
+
+    @Test
+    public void testFloatValue() {
+        AbstractNumericFachwert<T, S> fachwert = createNumericFachwert();
+        assertEquals(fachwert.getCode().floatValue(), fachwert.floatValue(), 0.001f);
+    }
+
+    @Test
+    public void testDoubleValue() {
+        AbstractNumericFachwert<T, S> fachwert = createNumericFachwert();
+        assertEquals(fachwert.getCode().doubleValue(), fachwert.doubleValue(), 0.001);
+    }
+
+    @Test
+    public void testByteValue() {
+        AbstractNumericFachwert<T, S> fachwert = createNumericFachwert();
+        assertEquals(fachwert.getCode().byteValue(), fachwert.byteValue());
+    }
+
+    @Test
+    public void testShortValue() {
+        AbstractNumericFachwert<T, S> fachwert = createNumericFachwert();
+        assertEquals(fachwert.getCode().shortValue(), fachwert.shortValue());
     }
 
 }
