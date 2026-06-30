@@ -11,6 +11,10 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Gradle-Files überarbeiten (Deprecated-Aufrufe raus)
 - auf Gradle 9 und Kotlin 2.3 aktualisieren
 
+## [Unreleased]
+### Added
+- AbstractNumericFachwert für die Unterstützung numerischer Fachwerte eingeführt
+
 ## [6.7.0] - 2026-16-14
 ### Changed
 - Support für JSON-Serialisierung basiert auf Jackson 3

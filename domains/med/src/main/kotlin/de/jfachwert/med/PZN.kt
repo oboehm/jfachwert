@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2024 by Oliver Boehm
+ * Copyright (c) 2020-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 
 package de.jfachwert.med
 
-import de.jfachwert.AbstractFachwert
+import de.jfachwert.AbstractNumericFachwert
 import de.jfachwert.KSimpleValidator
 import de.jfachwert.PruefzifferVerfahren
 import de.jfachwert.pruefung.LengthValidator
@@ -38,7 +38,7 @@ open class PZN
  * @param code achtstellige Zahl
  * @param validator Validator zur Pruefung der Zahl
  */
-@JvmOverloads constructor(code: Int, validator: KSimpleValidator<Int> = VALIDATOR) : AbstractFachwert<Int, PZN>(code, validator) {
+@JvmOverloads constructor(code: Int, validator: KSimpleValidator<Int> = VALIDATOR) : AbstractNumericFachwert<Int, PZN>(code, validator) {
 
     /**
      * Erzeugt ein neues PZN-Objekt.

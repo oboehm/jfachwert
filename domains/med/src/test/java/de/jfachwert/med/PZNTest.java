@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2024 by Oliver Boehm
+ * Copyright (c) 2020-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
  */
 package de.jfachwert.med;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.AbstractNumericFachwertTest;
 import de.jfachwert.pruefung.NoopVerfahren;
 import de.jfachwert.pruefung.NullValidator;
 import org.hamcrest.MatcherAssert;
@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Unit-Tests fuer {@link PZN}-Klasse.
  */
-public final class PZNTest extends AbstractFachwertTest<Integer, PZN> {
+public final class PZNTest extends AbstractNumericFachwertTest<Integer, PZN> {
 
     /**
      * Erzeugt eine PZN zum Testen.
