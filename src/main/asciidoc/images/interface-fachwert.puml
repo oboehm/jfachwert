@@ -1,6 +1,9 @@
 @startuml
 
 interface Fachwert << @Immutable >> {
+    boolean isValid()
+    String toShortString()
+    String toLongString()
 }
 interface Serializable #white
 

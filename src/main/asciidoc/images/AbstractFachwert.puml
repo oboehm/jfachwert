@@ -5,9 +5,21 @@ abstract class AbstractFachwert<T> {
     T code
 
     T getCode()
+    boolean isValid()
     int hashCode()
     boolean equals(Object other)
     String toString()
+
+}
+
+abstract class AbstractNumericFachwert<T extends Number> extends AbstractFachwert {
+
+    int intValue()
+    long longValue()
+    float floatValue()
+    double doubleValue()
+    byte byteValue()
+    short shortValue()
 
 }
 
