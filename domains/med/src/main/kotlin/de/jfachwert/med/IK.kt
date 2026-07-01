@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2024 by Oliver Boehm
+ * Copyright (c) 2018-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
  */
 package de.jfachwert.med
 
-import de.jfachwert.AbstractFachwert
+import de.jfachwert.AbstractNumericFachwert
 import de.jfachwert.KSimpleValidator
 import de.jfachwert.PruefzifferVerfahren
 import de.jfachwert.pruefung.LengthValidator
@@ -49,7 +49,7 @@ open class IK
  * @param code      Institutionskennzeichen (mit Pruefziffer), z.B. 260326822
  * @param validator Validator zur Pruefung der Zahl
  */
-@JvmOverloads constructor(code: Int, validator: KSimpleValidator<Int> = VALIDATOR) : AbstractFachwert<Int, IK>(code, validator) {
+@JvmOverloads constructor(code: Int, validator: KSimpleValidator<Int> = VALIDATOR) : AbstractNumericFachwert<Int, IK>(code, validator) {
 
     /**
      * Erzeugt ein neues IK-Objekt.

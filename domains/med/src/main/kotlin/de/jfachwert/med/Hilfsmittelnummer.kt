@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024,2025 by Oliver Boehm
+ * Copyright (c) 2024-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 
 package de.jfachwert.med
 
-import de.jfachwert.AbstractFachwert
+import de.jfachwert.AbstractNumericFachwert
 import de.jfachwert.KSimpleValidator
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.NullValidator
@@ -43,7 +43,7 @@ open  class Hilfsmittelnummer
      * @param code zehnstellige Zahl
      * @param validator Validator zur Pruefung der Zahl
      */
-    @JvmOverloads constructor(code: Long, validator: KSimpleValidator<Long> = VALIDATOR) : AbstractFachwert<Long, Hilfsmittelnummer>(code, validator) {
+    @JvmOverloads constructor(code: Long, validator: KSimpleValidator<Long> = VALIDATOR) : AbstractNumericFachwert<Long, Hilfsmittelnummer>(code, validator) {
 
     /**
      * Erzeugt ein neues Hilfsmittel-Objekt.

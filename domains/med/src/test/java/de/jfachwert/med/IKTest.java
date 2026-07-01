@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2024 by Oliver Boehm
+ * Copyright (c) 2018-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,11 @@
  */
 package de.jfachwert.med;
 
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.AbstractNumericFachwertTest;
 import de.jfachwert.pruefung.NullValidator;
+import de.jfachwert.pruefung.exception.ValidationException;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
-
-import de.jfachwert.pruefung.exception.ValidationException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Unit-Tests fuer {@link IK}-Klasse.
  */
-public final class IKTest extends AbstractFachwertTest<Integer, IK> {
+public final class IKTest extends AbstractNumericFachwertTest<Integer, IK> {
 
     private final IK ik = IK.of("260326822");
 
