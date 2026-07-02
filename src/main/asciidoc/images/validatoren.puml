@@ -11,20 +11,24 @@ package de.jfachwert {
 package de.jfachwert.pruefung {
 
     class AccessValidator
-    class EMailValidator
     class LengthValidator
     class NullValidator
     class NumberValidator
-    class TelefonnummerValidator
 
+}
+
+package de.jfachwert.net {
+    set namespaceSeparator none
+    class EMailAdresse.Validator
+    class Telefonnummer.Validator
 }
 
 SimpleValidator -up-|> Serializable
 SimpleValidator <|-- AccessValidator
-SimpleValidator <|-- EMailValidator
 SimpleValidator <|-- LengthValidator
 SimpleValidator <|-- NullValidator
 SimpleValidator <|-- NumberValidator
-SimpleValidator <|-- TelefonnummerValidator
+SimpleValidator <|-- EMailAdresse.Validator
+SimpleValidator <|-- Telefonnummer.Validator
 
 @enduml
