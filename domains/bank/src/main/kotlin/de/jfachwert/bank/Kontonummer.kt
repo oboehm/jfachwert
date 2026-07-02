@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
  */
 package de.jfachwert.bank
 
-import de.jfachwert.AbstractFachwert
+import de.jfachwert.AbstractNumericFachwert
 import de.jfachwert.KSimpleValidator
 import de.jfachwert.pruefung.exception.InvalidLengthException
 import de.jfachwert.pruefung.exception.InvalidValueException
@@ -39,7 +39,7 @@ open class Kontonummer
  * @param nr        Kontnummer als Zahl
  * @param validator fuer die Pruefung
  */
-@JvmOverloads constructor(nr: Long, validator: KSimpleValidator<Long> = VALIDATOR) : AbstractFachwert<Long, Kontonummer>(nr, validator) {
+@JvmOverloads constructor(nr: Long, validator: KSimpleValidator<Long> = VALIDATOR) : AbstractNumericFachwert<Long, Kontonummer>(nr, validator) {
 
     /**
      * Hierueber wird eine neue Kontonummer angelegt.
@@ -68,17 +68,17 @@ open class Kontonummer
         /**
          * Eine gueltige Kontonummer beginnt bei 1 und hat maximal 10 Stellen.
          *
-         * @param kontonr die Kontonummer
+         * @param value die Kontonummer
          * @return die validierte Kontonummer zur Weiterverabeitung
          */
-        override fun validate(kontonr: Long): Long {
-            if (kontonr < 1) {
-                throw InvalidValueException(kontonr, "account_number")
+        override fun validate(value: Long): Long {
+            if (value < 1) {
+                throw InvalidValueException(value, "account_number")
             }
-            if (kontonr > 9999999999L) {
-                throw InvalidLengthException(java.lang.Long.toString(kontonr), 1, 10)
+            if (value > 9999999999L) {
+                throw InvalidLengthException(java.lang.Long.toString(value), 1, 10)
             }
-            return kontonr
+            return value
         }
 
         /**
