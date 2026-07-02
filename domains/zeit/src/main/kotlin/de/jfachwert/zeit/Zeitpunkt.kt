@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2024 by Oli B.
+ * Copyright (c) 2023-2026 by Oli B.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
  */
 package de.jfachwert.zeit
 
-import de.jfachwert.AbstractFachwert
+import de.jfachwert.AbstractNumericFachwert
 import de.jfachwert.Localized
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import java.math.BigDecimal
@@ -67,7 +67,7 @@ import java.util.logging.Logger
  * @since 5.0 (18.07.2023)
  */
 open class Zeitpunkt
-constructor(t: BigInteger): AbstractFachwert<BigInteger, Zeitpunkt>(t), Localized, Temporal {
+constructor(t: BigInteger): AbstractNumericFachwert<BigInteger, Zeitpunkt>(t), Localized, Temporal {
 
     /**
      * Erzeugt einen aktuellen Zeitpunkt.

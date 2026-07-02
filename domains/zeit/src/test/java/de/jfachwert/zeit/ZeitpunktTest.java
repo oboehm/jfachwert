@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2024 by Oli B.
+ * Copyright (c) 2023-2026 by Oli B.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 package de.jfachwert.zeit;
 
 import de.jfachwert.AbstractFachwert;
-import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.AbstractNumericFachwertTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -45,7 +45,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author oboehm
  */
-public final class ZeitpunktTest extends AbstractFachwertTest<BigInteger, Zeitpunkt> {
+public final class ZeitpunktTest extends AbstractNumericFachwertTest<BigInteger, Zeitpunkt> {
 
     @Override
     protected AbstractFachwert<BigInteger, Zeitpunkt> createFachwert(String code) {
