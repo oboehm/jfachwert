@@ -44,7 +44,7 @@ Jetzt kann man die Argumente nicht mehr verwechseln, weil sonst der Compiler mec
 
 In Version 6 wurden die einzelnen Packages auf Module aufgeteilt.
 Damit müssen nicht mehr alle Klassen eingebunden werden.
-Damit könne auch die Abhängigkeiten reduziert werden, wenn z.B. die Geldbetrag-Klasse aus dem nicht-Modul nicht benötigt werden.
+Damit könne auch die Abhängigkeiten reduziert werden, wenn z.B. die Geldbetrag-Klasse aus dem money-Modul nicht benötigt werden.
 Dann entfällt auch die Abhängigkeit zu [javax.money:money-api](https://mvnrepository.com/artifact/javax.money/money-api).
 
 Mit Version 5 wurde die Abhängigkeit zum javax.validation-Package entfernt.
@@ -66,8 +66,8 @@ Auch bei internen String-Attributen wurden Duplikate durch die Aufruf der `Strin
 
 Mit 1.0 wurde ein stabiler Stand erreicht, den man produktiv in eigenen Projekten einsetzen kann.
 Man profitiert dabei von sprechenderen Methoden-Parametern, die nicht
-mehr verwechselt werden koennen. Wer Ideen fuer weitere Fachwerte hat, darf gerne mitmachen - sei es durch Code,
-sei es durch Dokumentation oder einem schoenen Icon, oder sei es durch Anregungen und konstruktive Kritik.
+mehr verwechselt werden können. Wer Ideen fuer weitere Fachwerte hat, darf gerne mitmachen - sei es durch Code,
+sei es durch Dokumentation oder einem schönen Icon, oder sei es durch Anregungen und konstruktive Kritik.
 
 So gab es bereits in Version 0.0.2 eine einfache [IBAN](http://jfachwert.de/apidocs/de/jfachwert/bank/IBAN.html)- und 
 [BIC](http://jfachwert.de/apidocs/de/jfachwert/bank/BIC.html)-Klasse, die im 
@@ -81,7 +81,7 @@ unter folgenden Koordinaten zu finden ist:
 
 Ab 0.1 kamen dann weitere [Bank-Klassen](http://jfachwert.de/apidocs/de/jfachwert/bank/package-summary.html)
 sowie Packages fuer steuerliche oder postalische Klassen hinzu.
-Mit 0.5 kam die FachwertFactory hinzu, mit der nicht nur beiliebige Fachwert-Klassen erzeugt werden koennen,
+Mit 0.5 kam die FachwertFactory hinzu, mit der nicht nur beiliebige Fachwert-Klassen erzeugt werden können,
 sondern die auch zur Validierung eingesetzt werden kann.
 Und auch die Architektur wurde nach [arc42](src/main/asciidoc/README.adoc) dokumentiert.
 Die weitere Geschichte ist in den [Release Notes](doc/release-notes.adoc) nachzulesen.
@@ -90,8 +90,8 @@ Die weitere Geschichte ist in den [Release Notes](doc/release-notes.adoc) nachzu
 # Ziele
 
 Ziel dieser Bibliothek ist es, fuer den deutschsprachigen Raum alle wichtigen Datentypen bereitzustellen, die man
-sonst immer wieder selbst implementieren muesste. Mir ist klar, dass damit nicht alle Sonderfaelle abgedeckt werden
-koennen - deswegen sind die Klassen auch nicht 'final', sondern koennen erweitert werden.
+sonst immer wieder selbst implementieren muesste. Mir ist klar, dass damit nicht alle Sonderfälle abgedeckt werden
+koennen - deswegen sind die Klassen auch nicht 'final', sondern können erweitert werden.
 
 ---
 
