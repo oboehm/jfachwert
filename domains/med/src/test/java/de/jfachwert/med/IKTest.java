@@ -19,6 +19,7 @@ package de.jfachwert.med;
 
 import de.jfachwert.AbstractNumericFachwertTest;
 import de.jfachwert.pruefung.NullValidator;
+import de.jfachwert.pruefung.exception.PruefzifferException;
 import de.jfachwert.pruefung.exception.ValidationException;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
@@ -60,6 +61,12 @@ public final class IKTest extends AbstractNumericFachwertTest<Integer, IK> {
     @Test
     public void testIllegalIK() {
         assertThrows(IllegalArgumentException.class, () -> IK.of(263456789));
+    }
+
+    @Test
+    public void testValidateStrict() {
+        IK.Validator validator = new IK.Validator();
+        assertThrows(PruefzifferException.class, () -> validator.validateStrict(123456789));
     }
 
     /**

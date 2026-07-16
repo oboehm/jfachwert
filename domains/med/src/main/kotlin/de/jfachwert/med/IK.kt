@@ -119,7 +119,7 @@ open class IK
      *
      * @since 2.2
      */
-    class Validator : KSimpleValidator<Int> {
+    open class Validator : KSimpleValidator<Int> {
 
         /**
          * Wenn der uebergebene Wert gueltig ist, soll er unveraendert
@@ -127,6 +127,17 @@ open class IK
          * Methode weiterverarbeitet werden kann. Ist der Wert nicht gueltig,
          * soll eine [de.jfachwert.pruefung.exception.ValidationException]
          * geworfen werden.
+         *
+         * Die Pruefziffer wird nur fuer die Klassifiation 26 (Krankenhaeuser
+         * und Krankenhausapotheken und 34 (Orthopaedieschuhmacher und
+         * Orthopaeden) ueberprueft. Theoretisch gilt die Pruefung
+         * auch fuer andere Klassifikationen, dort wurden aber auch IKs
+         * mit fehlerhafter Pruefziffer vergeben. Zusaetzlich werden spezielle
+         * IKs von der Pruefung ausgenommen, da diese oft fuer andere
+         * Dinge verwendet werden:
+         * <ul>
+         *     <li>xx9999999: wird gerne als Markierung verwendet</li>
+         * </ul>
          *
          * @param value Wert, der validiert werden soll
          * @return Wert selber, wenn er gueltig ist
@@ -142,6 +153,19 @@ open class IK
         private fun isSpezialIK(n: Int): Boolean {
             val klass = n / 10000000
             return klass != 26 && klass != 34 || n % 10000000 == 9999999
+        }
+
+        /**
+         * Im Gegensatz zur #validate-Methode wird hier die Pruefziffer fuer
+         * alle Klassifikationen ueberprueft.
+         *
+         * @param value Wert, der validiert werden soll
+         * @return Wert selber, wenn er gueltig ist
+         * @since 6.8
+         */
+        fun validateStrict(value: Int): Int {
+            MOD10.validate(Integer.toString(value))
+            return validate(value)
         }
 
         companion object {
