@@ -12,6 +12,7 @@
     <module>test</module>
     <module>domains</module>
     <module>jfachwert</module>
+    <module>validation</module>
   </modules>
 
   <description>Implementierung einiger Fachwerte nach dem WAM-Ansatz</description>

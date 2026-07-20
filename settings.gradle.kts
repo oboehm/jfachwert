@@ -5,6 +5,7 @@
 
 rootProject.name = "jfachwert-parent"
 include(":core")
+include(":validation")
 include(":test")
 include(":math")
 include(":money")
