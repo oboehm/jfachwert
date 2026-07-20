@@ -5,7 +5,6 @@
 
 rootProject.name = "jfachwert-parent"
 include(":core")
-include(":validation")
 include(":test")
 include(":math")
 include(":money")
@@ -17,6 +16,7 @@ include(":net")
 include(":rechnung")
 include(":steuer")
 include(":zeit")
+include(":validation")
 include(":jfachwert")
 project(":math").projectDir = file("domains/math")
 project(":money").projectDir = file("domains/money")

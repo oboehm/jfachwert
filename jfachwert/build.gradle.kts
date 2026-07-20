@@ -20,6 +20,7 @@ dependencies {
     api(project(":rechnung"))
     api(project(":steuer"))
     api(project(":zeit"))
+    api(project(":validation"))
 }
 
 description = "jFachwert"

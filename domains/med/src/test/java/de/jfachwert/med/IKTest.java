@@ -59,6 +59,11 @@ public final class IKTest extends AbstractNumericFachwertTest<Integer, IK> {
     }
 
     @Test
+    public void testGetCode() {
+        assertEquals(getCode(), ik.getCode().toString());
+    }
+
+    @Test
     public void testIllegalIK() {
         assertThrows(IllegalArgumentException.class, () -> IK.of(263456789));
     }
