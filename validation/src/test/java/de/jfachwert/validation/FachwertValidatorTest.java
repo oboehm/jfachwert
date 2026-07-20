@@ -17,9 +17,14 @@
  */
 package de.jfachwert.validation;
 
+import de.jfachwert.Fachwert;
+import de.jfachwert.Text;
+import jakarta.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Die Klasse FachwertValidatorTest ...
@@ -31,7 +36,9 @@ public class FachwertValidatorTest {
     @Test
     void testValidate() {
         FachwertValidator validator = new FachwertValidator();
-        assertNotNull(validator);
+        Fachwert fachwert = Text.of("Test");
+        Set<ConstraintViolation<Fachwert>> violations = validator.validate(fachwert);
+        assertTrue(violations.isEmpty());
     }
 
 }
