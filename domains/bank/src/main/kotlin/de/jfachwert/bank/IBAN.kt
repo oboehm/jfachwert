@@ -125,6 +125,10 @@ open class IBAN
             return Kontonummer(iban.substring(12))
         }
 
+    override fun isValid(): Boolean {
+        return VALIDATOR.isValid(code)
+    }
+
     /**
      * Dieser Validator ist fuer die Ueberpruefung von IBANS vorgesehen.
      *

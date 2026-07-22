@@ -19,11 +19,14 @@ package de.jfachwert.validation;
 
 import de.jfachwert.Fachwert;
 import de.jfachwert.Text;
+import de.jfachwert.bank.IBAN;
+import de.jfachwert.pruefung.NullValidator;
 import jakarta.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -33,12 +36,21 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class FachwertValidatorTest {
 
+    private final FachwertValidator validator = new FachwertValidator();
+
     @Test
     void testValidate() {
-        FachwertValidator validator = new FachwertValidator();
         Fachwert fachwert = Text.of("Test");
         Set<ConstraintViolation<Fachwert>> violations = validator.validate(fachwert);
         assertTrue(violations.isEmpty());
+    }
+
+    @Test
+    void testValidateWithViolations() {
+        Fachwert invalid = new IBAN("DE4711", new NullValidator<>());
+        assertFalse(invalid.isValid());
+        Set<ConstraintViolation<Fachwert>> violations = validator.validate(invalid);
+        assertFalse(violations.isEmpty());
     }
 
 }

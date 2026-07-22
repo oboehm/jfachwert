@@ -1,8 +1,9 @@
 package de.jfachwert.validation
 
+import de.jfachwert.Fachwert
 import jakarta.validation.ConstraintViolation
-import jakarta.validation.executable.ExecutableValidator
 import jakarta.validation.Validator
+import jakarta.validation.executable.ExecutableValidator
 import jakarta.validation.metadata.BeanDescriptor
 
 /**
@@ -10,12 +11,19 @@ import jakarta.validation.metadata.BeanDescriptor
  * und validiert Fachwerte auf Basis des internen Validierungsmechanismus.
  *
  * @author oboehm
- * @since 6.1
+ * @since 6.8
  */
 class FachwertValidator : Validator {
 
-    override fun <T : Any> validate(`object`: T, vararg groups: Class<*>): Set<ConstraintViolation<T>> {
+    override fun <T : Any> validate(obj: T, vararg groups: Class<*>): Set<ConstraintViolation<T>> {
         return emptySet()
+    }
+
+    fun validate(fachwert: Fachwert, vararg groups: Class<*>): Set<ConstraintViolation<Fachwert>> {
+        if (fachwert.isValid) {
+            return emptySet()
+        }
+        return setOf(FachwertConstraintViolation(fachwert))
     }
 
     override fun <T : Any> validateProperty(`object`: T, propertyName: String, vararg groups: Class<*>): Set<ConstraintViolation<T>> {
