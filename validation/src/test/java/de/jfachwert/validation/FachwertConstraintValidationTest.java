@@ -37,7 +37,7 @@ class FachwertConstraintValidationTest {
         Fachwert invalid = new IBAN("XX0815", new NullValidator<>());
         FachwertConstraintViolation violation = new FachwertConstraintViolation(invalid);
         String message = violation.getMessage();
-        assertThat(message, containsString(invalid.toString()));
+        assertThat(message, containsString(invalid.toLongString()));
     }
 
 }

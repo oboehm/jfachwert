@@ -32,7 +32,7 @@ import jakarta.validation.metadata.ConstraintDescriptor
  */
 class FachwertConstraintViolation @JvmOverloads constructor(
     private val rootBean: Fachwert,
-    private val message: String = rootBean.toString()
+    private val message: String = rootBean.toLongString()
 ) : ConstraintViolation<Fachwert> {
 
     override fun getMessage(): String = message

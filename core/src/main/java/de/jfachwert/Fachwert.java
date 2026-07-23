@@ -84,7 +84,7 @@ public interface Fachwert extends Serializable {
      * @since 6.7
      */
     default String toLongString() {
-        return toString();
+        return getClass().getSimpleName() + " " + this;
     }
 
 }
