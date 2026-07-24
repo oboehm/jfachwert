@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,6 +50,10 @@ open class BIC
  * @param validator zum Pruefen der BIC (optional)
  */
 @JvmOverloads constructor(code: String, validator: KSimpleValidator<String> = VALIDATOR) : Text(code, validator) {
+
+    override fun isValid(): Boolean {
+        return VALIDATOR.isValid(code)
+    }
 
     /**
      * Dieser Validator ist fuer die Ueberpruefung von BICs vorgesehen.

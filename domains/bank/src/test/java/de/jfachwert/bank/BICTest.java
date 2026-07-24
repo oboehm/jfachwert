@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2022 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,9 @@ package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
-import org.junit.jupiter.api.Test;
-
+import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.exception.ValidationException;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -76,6 +76,12 @@ public final class BICTest extends AbstractFachwertTest<String, Text> {
     @Test
     public void testValidate() {
         assertThrows(ValidationException.class, () -> new BIC.Validator().validate("GENODEF1J  "));
+    }
+
+    @Test
+    public void testInvalid() {
+        BIC invalid = new BIC("GENODEF1J", new NullValidator<>());
+        assertFalse(invalid.isValid());
     }
 
     /**
