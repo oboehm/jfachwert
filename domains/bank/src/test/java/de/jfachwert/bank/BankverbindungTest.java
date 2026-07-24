@@ -19,6 +19,7 @@ package de.jfachwert.bank;
 
 import de.jfachwert.FachwertTest;
 import de.jfachwert.KFachwert;
+import de.jfachwert.pruefung.NullValidator;
 import org.junit.jupiter.api.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
@@ -37,7 +38,7 @@ public final class BankverbindungTest extends FachwertTest {
 
     @Override
     protected KFachwert createFachwert() {
-        return new Bankverbindung("Max Muster", new IBAN("DE41300606010006605605"), new BIC("GENODEF1JEV"));
+        return new Bankverbindung("Max Muster", IBAN.of("DE41300606010006605605"), BIC.of("GENODEF1JEV"));
     }
 
     /**
@@ -45,8 +46,8 @@ public final class BankverbindungTest extends FachwertTest {
      */
     @Test
     public void testEqualsOhneBic() {
-        Bankverbindung one = new Bankverbindung("Ohne Bic", new IBAN("DE41300606010006605605"));
-        Bankverbindung anotherOne = new Bankverbindung("Ohne Bic", new IBAN("DE41300606010006605605"));
+        Bankverbindung one = new Bankverbindung("Ohne Bic", IBAN.of("DE41300606010006605605"));
+        Bankverbindung anotherOne = new Bankverbindung("Ohne Bic", IBAN.of("DE41300606010006605605"));
         ObjectTester.assertEquals(one, anotherOne);
     }
 
@@ -107,6 +108,12 @@ public final class BankverbindungTest extends FachwertTest {
     @Test
     void ofInvalid() {
         assertThrows(IllegalArgumentException.class, () -> Bankverbindung.of("Eva Muster"));
+    }
+
+    @Test
+    void isInvalid() {
+        Bankverbindung invalid = new Bankverbindung("Theo Tester", new IBAN("AB0123", new NullValidator<>()));
+        assertFalse(invalid.isValid());
     }
 
 }
