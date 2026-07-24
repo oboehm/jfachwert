@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,10 @@ package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.math.PackedDecimal;
+import de.jfachwert.pruefung.NullValidator;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Test fuer {@link BLZ}-Klasse.
@@ -59,6 +59,12 @@ public final class BLZTest extends AbstractFachwertTest<PackedDecimal, BLZ> {
     @Test
     public void testInvalidBLZ() {
         assertThrows(IllegalArgumentException.class, () -> new BLZ("0x10"));
+    }
+
+    @Test
+    public void testInvalid() {
+        BLZ invalid = new BLZ("99", new NullValidator<>());
+        assertFalse(invalid.isValid());
     }
 
     /**
