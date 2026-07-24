@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -112,8 +112,13 @@ public final class BankverbindungTest extends FachwertTest {
 
     @Test
     void isInvalid() {
-        Bankverbindung invalid = new Bankverbindung("Theo Tester", new IBAN("AB0123", new NullValidator<>()));
+        Bankverbindung invalid = new Bankverbindung("Theo Tester", new IBAN("AB0123", new NullValidator<>()), BIC.NULL, new NullValidator<>());
         assertFalse(invalid.isValid());
+    }
+
+    @Test
+    void createInvalid() {
+        assertThrows(IllegalArgumentException.class, () -> new Bankverbindung("Theo Tester", new IBAN("AB0123", new NullValidator<>())));
     }
 
 }

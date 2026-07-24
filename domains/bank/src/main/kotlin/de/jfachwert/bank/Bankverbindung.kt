@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,6 +75,12 @@ open class Bankverbindung
     @JsonCreator
     constructor(map: Map<String, String>) :
             this(Objects.toString(map["kontoinhaber"], ""), IBAN(map["iban"]!!), BIC(map["bic"]!!))
+
+    init {
+        this.iban = iban
+        this.bic = bic
+        validator.verify(Triple(kontoinhaber, iban, bic))
+    }
 
     /**
      * Da die BIC bei Inlands-Ueberweisungen optional ist, wird sie hier als
@@ -191,11 +197,6 @@ open class Bankverbindung
             return value
         }
 
-    }
-
-    init {
-        this.iban = iban
-        this.bic = bic
     }
 
 }
