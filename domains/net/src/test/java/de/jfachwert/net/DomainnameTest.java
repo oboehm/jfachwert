@@ -19,10 +19,10 @@ package de.jfachwert.net;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
+import de.jfachwert.pruefung.NullValidator;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer {@link Domainname}-Klasse.
@@ -98,6 +98,17 @@ public class DomainnameTest extends AbstractFachwertTest<String, Text> {
     @Test
     public void testGetFourthLevelDomain() {
         assertThrows(IllegalArgumentException.class, () -> domainName.getLevelDomain(4));
+    }
+
+    @Test
+    public void testInvalidDomainname() {
+        assertThrows(IllegalArgumentException.class, () -> Domainname.of("a..b"));
+    }
+
+    @Test
+    public void testInvalid() {
+        Domainname invalid = new Domainname("a..b", new NullValidator<>());
+        assertFalse(invalid.isValid());
     }
 
 }
