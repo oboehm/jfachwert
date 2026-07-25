@@ -59,6 +59,14 @@ open class Kontonummer
         return String.format("%010d", code)
     }
 
+    override fun toShortString(): String {
+        return String.format("%d", code)
+    }
+
+    override fun isValid(): Boolean {
+        return VALIDATOR.isValid(code)
+    }
+
     /**
      * Dieser Validator ist fuer die Ueberpruefung von Kontonummern vorgesehen.
      *

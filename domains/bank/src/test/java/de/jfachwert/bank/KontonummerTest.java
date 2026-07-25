@@ -18,10 +18,10 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractNumericFachwertTest;
+import de.jfachwert.pruefung.NullValidator;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer {@link Kontonummer}-Klasse.
@@ -79,6 +79,13 @@ public final class KontonummerTest extends AbstractNumericFachwertTest<Long, Kon
         assertEquals("0006605605", Kontonummer.of("6605605").toString());
     }
 
+    @Override
+    @Test
+    public void testToShortString() {
+        Kontonummer sechsstellig = Kontonummer.of("6605605");
+        assertEquals("6605605", sechsstellig.toShortString());
+    }
+
     /**
      * Dieser Test ueberprueft das Fehlerhandling bei fehlerhafter Erzeugung.
      */
@@ -90,6 +97,12 @@ public final class KontonummerTest extends AbstractNumericFachwertTest<Long, Kon
     @Test
     public void testNegativeKontonummer() {
         assertThrows(IllegalArgumentException.class, () -> new Kontonummer(-1));
+    }
+
+    @Test
+    public void testInvalid() {
+        Kontonummer tooBig = new Kontonummer(123456789000L, new NullValidator<>());
+        assertFalse(tooBig.isValid());
     }
 
 }
