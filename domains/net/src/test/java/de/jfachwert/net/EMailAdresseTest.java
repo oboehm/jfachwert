@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2022 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ package de.jfachwert.net;
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
 import de.jfachwert.post.Name;
+import de.jfachwert.pruefung.NullValidator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -62,7 +63,13 @@ public final class EMailAdresseTest extends AbstractFachwertTest<String, Text> {
      */
     @Test
     public void testInvalidEmailAdresse() {
-        assertThrows(IllegalArgumentException.class, () -> new EMailAdresse("gibts.net"));
+        assertThrows(IllegalArgumentException.class, () -> EMailAdresse.of("gibts.net"));
+    }
+
+    @Test
+    public void testInvalid() {
+        EMailAdresse invalid = new EMailAdresse("gibts.net", new NullValidator<>());
+        assertFalse(invalid.isValid());
     }
 
     /**
