@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 by Oliver Boehm
+ * Copyright (c) 2018-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ open class Adressat
  * @param name      z.B. "Mustermann, Max"
  * @param validator Validator fuer die Ueberpruefung des Namens
  */
-@JvmOverloads constructor(name: String, validator: KSimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR) : Name(name, validator) {
+@JvmOverloads constructor(name: String, validator: KSimpleValidator<String> = VALIDATOR) : Name(name, validator) {
 
     /**
      * Der Name ist der Teil vor dem Komma (bei Personen). Bei Firmen ist
@@ -73,10 +73,15 @@ open class Adressat
         return code
     }
 
+    override fun isValid(): Boolean {
+        return VALIDATOR.isValid(code)
+    }
+
 
 
     companion object {
 
+        private val VALIDATOR: KSimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR
         private val WEAK_CACHE = WeakHashMap<String, Adressat>()
 
         /** Null-Konstante fuer Initialisierungen.  */
