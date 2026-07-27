@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2024 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package de.jfachwert.net;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
+import de.jfachwert.pruefung.NullValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,6 +34,7 @@ import java.util.Optional;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * Unit-Tests fuer {@link Telefonnummer}-Klasse.
@@ -195,6 +197,12 @@ public final class TelefonnummerTest extends AbstractFachwertTest<String, Text> 
     void toPackedDecimal() {
         assertEquals("012", Telefonnummer.of("012").toPackedDecimal().toString());
         assertEquals("012", Telefonnummer.of("(0)12").toPackedDecimal().toString());
+    }
+
+    @Test
+    void testInvalid() {
+        Telefonnummer invalid = new Telefonnummer("+49 30 123456789101", new NullValidator<>());
+        assertFalse(invalid.isValid());
     }
 
 }

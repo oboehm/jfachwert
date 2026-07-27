@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import de.jfachwert.pruefung.NullValidator
 import de.jfachwert.pruefung.exception.InvalidValueException
 import org.apache.commons.lang3.RegExUtils
 import org.apache.commons.lang3.StringUtils
+import org.apache.commons.lang3.Strings
 import java.net.URI
 import java.util.*
 import java.util.regex.Pattern
@@ -87,7 +88,7 @@ open class Telefonnummer
     val inlandsnummer: Telefonnummer
         get() = if (laenderkennzahl.isPresent) {
             var nummer = code.substring(3).trim { it <= ' ' }
-            if (StringUtils.startsWithAny(nummer, "1", "2", "3", "4", "5", "6", "7", "8", "9")) {
+            if (Strings.CS.startsWithAny(nummer, "1", "2", "3", "4", "5", "6", "7", "8", "9")) {
                 nummer = "0$nummer"
             }
             Telefonnummer(nummer)
@@ -234,6 +235,9 @@ open class Telefonnummer
         return PackedDecimal.of(code)
     }
 
+    override fun isValid(): Boolean {
+        return VALIDATOR.isValid(code)
+    }
 
 
     /**
