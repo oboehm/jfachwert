@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 package de.jfachwert.post;
 
 import de.jfachwert.FachwertTest;
+import de.jfachwert.pruefung.NullValidator;
 import org.junit.jupiter.api.Test;
 import patterntesting.runtime.junit.ObjectTester;
 
@@ -91,6 +92,12 @@ public final class AdresseTest extends FachwertTest {
     @Test
     public void testInvalidAdresse() {
         assertThrows(IllegalArgumentException.class, () -> Adresse.of(entenhausen, "", ""));
+    }
+
+    @Test
+    public void testInvalid() {
+        Adresse invalid = new Adresse(Ort.NULL, "", "", new NullValidator<>());
+        assertFalse(invalid.isValid());
     }
 
     /**

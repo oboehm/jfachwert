@@ -17,8 +17,6 @@
  */
 package de.jfachwert.post
 
-import tools.jackson.databind.annotation.JsonSerialize
-import tools.jackson.databind.ser.std.ToStringSerializer
 import de.jfachwert.KFachwert
 import de.jfachwert.KSimpleValidator
 import de.jfachwert.Text
@@ -27,6 +25,8 @@ import de.jfachwert.pruefung.NullValidator
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import de.jfachwert.pruefung.exception.ValidationException
 import org.apache.commons.lang3.StringUtils
+import tools.jackson.databind.annotation.JsonSerialize
+import tools.jackson.databind.ser.std.ToStringSerializer
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -176,7 +176,7 @@ open class Ort
 
     companion object {
 
-        private val VALIDATOR: KSimpleValidator<String> = LengthValidator(1)
+        val VALIDATOR: KSimpleValidator<String> = LengthValidator(1)
         private val log = Logger.getLogger(Ort::class.java.name)
 
         /** Null-Wert fuer Initialisierung.  */

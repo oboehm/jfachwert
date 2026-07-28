@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 package de.jfachwert.post
 
 import com.fasterxml.jackson.annotation.JsonCreator
-import tools.jackson.databind.annotation.JsonSerialize
 import de.jfachwert.KFachwert
 import de.jfachwert.KSimpleValidator
 import de.jfachwert.Text
@@ -30,6 +29,8 @@ import de.jfachwert.pruefung.exception.ValidationException
 import de.jfachwert.util.ToFachwertSerializer
 import org.apache.commons.lang3.RegExUtils
 import org.apache.commons.lang3.StringUtils
+import org.apache.commons.lang3.Strings
+import tools.jackson.databind.annotation.JsonSerialize
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -46,7 +47,10 @@ import java.util.regex.Pattern
 @JsonSerialize(using = ToFachwertSerializer::class)
 open class Adresse
 @JvmOverloads constructor(
-    val ort: Ort, private val strasse: String, private val hausnummer: String, validator: KSimpleValidator<String> = VALIDATOR
+    val ort: Ort,
+    private val strasse: String,
+    private val hausnummer: String,
+    validator: KSimpleValidator<Triple<Ort, String, String>> = VALIDATOR
 ) : KFachwert {
 
     /**
@@ -111,7 +115,7 @@ open class Adresse
      */
     val strasseKurz: String
         get() = if (PATTERN_STRASSE.matcher(strasse).matches()) {
-            strasse.substring(0, StringUtils.lastIndexOfIgnoreCase(strasse, "stra") + 3) + '.'
+            strasse.substring(0, Strings.CI.lastIndexOf(strasse, "stra") + 3) + '.'
         } else {
             strasse
         }
@@ -247,12 +251,39 @@ open class Adresse
         return map
     }
 
+    override fun isValid(): Boolean {
+        return VALIDATOR.isValid(Triple(ort, strasse, hausnummer))
+    }
 
+    class Validator : KSimpleValidator<Triple<Ort, String, String>> {
+
+        override fun validate(value: Triple<Ort, String, String>): Triple<Ort, String, String> {
+            Ort.VALIDATOR.validate(value.first.toString())
+            if (StringUtils.isBlank(value.second)) {
+                throw InvalidValueException(value.second, "street")
+            }
+            validate(value.first, value.second, value.third, LengthValidator<String>(1))
+            return value
+        }
+
+        private fun validate(ort: Ort, strasse: String, hausnummer: String, validator: KSimpleValidator<String>) {
+            if (!ort.pLZ.isPresent) {
+                throw InvalidValueException(ort, "postal_code")
+            }
+            validator.validate(strasse)
+            if (StringUtils.isNotBlank(strasse) && StringUtils.isNotBlank(hausnummer) &&
+                Character.isDigit(strasse.trim { it <= ' ' }[0]) && Character.isLetter(hausnummer.trim { it <= ' ' }[0]) &&
+                strasse.length < hausnummer.length) {
+                throw InvalidValueException("$strasse $hausnummer", "values_exchanged")
+            }
+        }
+
+    }
 
     companion object {
 
         private val log = Logger.getLogger(Adresse::class.java.name)
-        private val VALIDATOR: KSimpleValidator<String> = LengthValidator(1)
+        private val VALIDATOR: KSimpleValidator<Triple<Ort, String, String>> = Validator()
         private val PATTERN_STRASSE = Pattern.compile(".*(?i)tra(ss|[\u00dfe])e$")
 
         /** Null-Konstante.  */
@@ -316,9 +347,9 @@ open class Adresse
             return of(ort, strasse, Integer.toString(hausnummer))
         }
 
-        private fun verify(ort: Ort, strasse: String, hausnummer: String, validator: KSimpleValidator<String>) {
+        private fun verify(ort: Ort, strasse: String, hausnummer: String, validator: KSimpleValidator<Triple<Ort, String, String>>) {
             try {
-                validate(ort, strasse, hausnummer, validator)
+                validator.validate(Triple(ort, strasse, hausnummer))
             } catch (ex: ValidationException) {
                 throw LocalizedIllegalArgumentException(ex)
             }
@@ -332,22 +363,7 @@ open class Adresse
          * @param hausnummer die Hausnummer
          */
         fun validate(ort: Ort, strasse: String, hausnummer: String) {
-            if (StringUtils.isBlank(strasse)) {
-                throw InvalidValueException(strasse, "street")
-            }
-            validate(ort, strasse, hausnummer, VALIDATOR)
-        }
-
-        private fun validate(ort: Ort, strasse: String, hausnummer: String, validator: KSimpleValidator<String>) {
-            if (!ort.pLZ.isPresent) {
-                throw InvalidValueException(ort, "postal_code")
-            }
-            validator.validate(strasse)
-            if (StringUtils.isNotBlank(strasse) && StringUtils.isNotBlank(hausnummer) &&
-                    Character.isDigit(strasse.trim { it <= ' ' }[0]) && Character.isLetter(hausnummer.trim { it <= ' ' }[0]) &&
-                    strasse.length < hausnummer.length) {
-                throw InvalidValueException("$strasse $hausnummer", "values_exchanged")
-            }
+            VALIDATOR.validate(Triple(ort, strasse, hausnummer))
         }
 
         /**
