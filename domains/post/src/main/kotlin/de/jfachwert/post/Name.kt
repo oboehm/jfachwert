@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2025 by Oliver Boehm
+ * Copyright (c) 2019-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -193,11 +193,16 @@ open class Name
         return vorname + " " + nachname
     }
 
+    override fun isValid(): Boolean {
+        return VALIDATOR.isValid(code)
+    }
+
+
 
     companion object {
 
         private val WEAK_CACHE = WeakHashMap<String, Name>()
-        private val VALIDATOR: KSimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR
+        val VALIDATOR: KSimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR
 
         /** Null-Wert fuer Initialisierung.  */
         @JvmField
