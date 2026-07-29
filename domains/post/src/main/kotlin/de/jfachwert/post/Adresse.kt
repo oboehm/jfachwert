@@ -283,7 +283,7 @@ open class Adresse
     companion object {
 
         private val log = Logger.getLogger(Adresse::class.java.name)
-        private val VALIDATOR: KSimpleValidator<Triple<Ort, String, String>> = Validator()
+        val VALIDATOR: KSimpleValidator<Triple<Ort, String, String>> = Validator()
         private val PATTERN_STRASSE = Pattern.compile(".*(?i)tra(ss|[\u00dfe])e$")
 
         /** Null-Konstante.  */

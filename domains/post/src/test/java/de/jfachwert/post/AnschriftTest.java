@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +18,12 @@
 package de.jfachwert.post;
 
 import de.jfachwert.FachwertTest;
+import de.jfachwert.pruefung.NullValidator;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Teests fuer de.jfachwert.post.Anschrift.
@@ -103,6 +103,12 @@ public final class AnschriftTest extends FachwertTest {
         assertEquals(postfach, anschrift.withPostfach(postfach).getPostfach());
         Adresse adresse = Adresse.of("12345 Cologne, Turmstrasse 2");
         assertEquals(adresse, anschrift.withAdresse(adresse).getAdresse());
+    }
+
+    @Test
+    public void testInvalid() {
+        Anschrift invalid = new Anschrift(Adressat.NULL, null, Postfach.NULL, new NullValidator<>());
+        assertFalse(invalid.isValid());
     }
 
 }

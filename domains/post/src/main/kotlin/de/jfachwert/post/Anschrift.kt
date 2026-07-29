@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +18,14 @@
 package de.jfachwert.post
 
 import com.fasterxml.jackson.annotation.JsonCreator
-import tools.jackson.databind.annotation.JsonSerialize
 import de.jfachwert.KFachwert
+import de.jfachwert.KSimpleValidator
+import de.jfachwert.pruefung.NullValidator
 import de.jfachwert.pruefung.exception.InvalidValueException
 import de.jfachwert.pruefung.exception.ValidationException
 import de.jfachwert.util.ToFachwertSerializer
 import org.apache.commons.lang3.StringUtils
+import tools.jackson.databind.annotation.JsonSerialize
 import java.util.logging.Level
 import java.util.logging.Logger
 
@@ -36,8 +38,12 @@ import java.util.logging.Logger
  * @since 0.2 (12.05.2017)
  */
 @JsonSerialize(using = ToFachwertSerializer::class)
-open class Anschrift private constructor(
-    val adressat: Adressat, private val adresse: Adresse?, private val postfach: Postfach?) : KFachwert {
+open class Anschrift @JvmOverloads constructor(
+    val adressat: Adressat,
+    private val adresse: Adresse?,
+    private val postfach: Postfach?,
+    validator: KSimpleValidator<Triple<Adressat, Adresse?, Postfach?>> = VALIDATOR
+) : KFachwert {
 
     /**
      * Zerlegt die uebergebene Anschrift in Adressat und Adresse oder Postfach,
@@ -79,15 +85,7 @@ open class Anschrift private constructor(
     constructor(name: Adressat, postfach: Postfach?) : this(name, null, postfach) {}
 
     init {
-        if (adresse == null) {
-            if (postfach == null) {
-                throw InvalidValueException("post_office_box")
-            }
-        } else {
-            if (postfach != null) {
-                throw InvalidValueException(adresse, ADDRESS)
-            }
-        }
+        validator.validate(Triple(adressat, adresse, postfach))
     }
 
     /**
@@ -221,14 +219,43 @@ open class Anschrift private constructor(
 
 
 
+    override fun isValid(): Boolean {
+        return VALIDATOR.isValid(Triple(adressat, adresse, postfach))
+    }
+
+    class Validator : KSimpleValidator<Triple<Adressat, Adresse?, Postfach?>> {
+
+        override fun validate(value: Triple<Adressat, Adresse?, Postfach?>): Triple<Adressat, Adresse?, Postfach?> {
+            Adressat.VALIDATOR.validate(value.first.code)
+            if (value.second == null) {
+                if (value.third == null) {
+                    throw InvalidValueException("post_office_box")
+                } else if (value.third?.isValid() == false) {
+                    throw InvalidValueException(value.third!!, "post_office_box")
+                }
+            } else {
+                if (value.second?.isValid() == false) {
+                    throw InvalidValueException(value.second!!, ADDRESS)
+                } else if (value.third != null) {
+                    throw InvalidValueException(value.second!!, ADDRESS)
+                }
+            }
+            return value
+        }
+
+    }
+
+
+
     companion object {
 
         private val log = Logger.getLogger(Anschrift::class.java.name)
+        val VALIDATOR: KSimpleValidator<Triple<Adressat, Adresse?, Postfach?>> = Validator()
         private const val ADDRESS = "address"
 
         /** Null-Wert fuer Initialisierung.  */
         @JvmField
-        val NULL = Anschrift(Adressat.NULL, Adresse.NULL)
+        val NULL = Anschrift(Adressat.NULL, Adresse.NULL, null, NullValidator())
 
         /**
          * Zerlegt die uebergebene Anschrift in Adressat und Adresse oder Postfach,

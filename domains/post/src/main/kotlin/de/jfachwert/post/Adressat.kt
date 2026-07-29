@@ -81,7 +81,7 @@ open class Adressat
 
     companion object {
 
-        private val VALIDATOR: KSimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR
+        val VALIDATOR: KSimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR
         private val WEAK_CACHE = WeakHashMap<String, Adressat>()
 
         /** Null-Konstante fuer Initialisierungen.  */
