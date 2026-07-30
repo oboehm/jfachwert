@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -170,6 +170,10 @@ open class Ort
         } else {
             plz.toString() + " " + name
         }
+    }
+
+    override fun isValid(): Boolean {
+        return VALIDATOR.isValid(name)
     }
 
 
