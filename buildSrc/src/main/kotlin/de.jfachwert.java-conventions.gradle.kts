@@ -107,12 +107,6 @@ tasks {
         options.release.set(11)
     }
 
-    // ./gradlew assemble
-    artifacts {
-        archives(sourceJar)
-        archives(javadocJar)
-        archives(jar)
-    }
 }
 
 // workaround for "Entry de/jfachwert/Fachwert.java is a duplicate..."
