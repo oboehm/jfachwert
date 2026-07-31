@@ -240,9 +240,9 @@ open class Postfach : KFachwert {
         return if (getNummer().isPresent) {
             val s = "Postfach $nummerFormatted"
             if (ort === Ort.NULL) {
-                return s
+                s
             } else {
-                return s + ", $ort"
+                s + ", $ort"
             }
         } else {
             ort.toString()
@@ -278,8 +278,14 @@ open class Postfach : KFachwert {
                 if (nummer.compareTo(BigInteger.ONE) < 0) {
                     throw InvalidValueException(nummer, "number")
                 }
+                if (value.second == Ort.NULL) {
+                    return value
+                }
             }
             Ort.VALIDATOR.validate(value.second.name)
+            if (!value.second.pLZ.isPresent) {
+                throw InvalidValueException(value.second, "postal_code")
+            }
             return value
         }
 
@@ -397,10 +403,7 @@ open class Postfach : KFachwert {
          * @param ort       Ort mit PLZ
          */
         fun validate(nummer: BigInteger, ort: Ort) {
-            if (nummer.compareTo(BigInteger.ONE) < 0) {
-                throw InvalidValueException(nummer, "number")
-            }
-            validate(ort)
+            VALIDATOR.validate(Pair(nummer, ort))
         }
 
         private fun verify(nummer: BigInteger, ort: Ort) {

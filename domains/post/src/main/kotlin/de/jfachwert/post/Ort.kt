@@ -123,8 +123,8 @@ open class Ort
         if (other !is Ort) {
             return false
         }
-        val thisName = Text.replaceUmlaute(name)
-        val otherName = Text.replaceUmlaute(other.name)
+        val thisName = Text.replaceUmlaute(name) + " "
+        val otherName = Text.replaceUmlaute(other.name) + " "
         return if (plz == null || other.plz == null) {
             thisName.equals(otherName, ignoreCase = true)
         } else {
