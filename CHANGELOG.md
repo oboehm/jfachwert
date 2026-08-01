@@ -13,6 +13,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Unreleased]
 ### Added
 - eigenes validation-Modul für Support von Jakarta-Validation
+- SBOM-Unterstützung
 - validateStrict(..)-Methode im IK.Validator, die fuer alle Klassifikationen die Pruefziffer ueberprueft
 
 ## [6.7.1] - 2026-07-02

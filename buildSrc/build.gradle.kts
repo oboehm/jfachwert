@@ -16,4 +16,5 @@ repositories {
 
 dependencies {
     implementation(libs.kotlin.gradle.plugin)
+    implementation(libs.cyclonedx.bom.gradle.plugin)
 }

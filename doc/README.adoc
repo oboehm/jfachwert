@@ -62,7 +62,7 @@ Danach "-SNAPSHOT" von der Version in link:../buildSrc/src/main/kotlin/de.jfachw
 |ab v6 ist der Bau nur noch mit Gradle möglich, da das maven-dokka-plugin keine Maven-Module unterstützt
 
 |Release lokal deployen (gradle)
-|./gradlew publishToMavenLocal
+|./gradlew publishToMavenLocal --no-configuration-cache
 |Damit werden die Artifkate `sourceJar`, `javadocJar` und `jar` erstellt und lokal nach $HOME/.m2/repository/de/jfachwert kopiert
 
 |Bundle für Upload erstellen (manuell)
@@ -72,7 +72,7 @@ Danach "-SNAPSHOT" von der Version in link:../buildSrc/src/main/kotlin/de.jfachw
 |Check-Summen für manuelles Upload erstellen, danach Tar-File erstellen und über https://central.sonatype.com/publishing hochladen
 
 |Release automatisch deployen (alt)
-|./gradlew publishToSonatype
+|./gradlew publishToSonatype --no-configuration-cache
 |Damit werden die Artefakte nach https://oss.sonatype.org/[oss.sonatype.org] hochgeladen.
 Die Task funktioniert auch für Snapshots, sodass im Vorfeld das Hochladen ins https://oss.sonatype.org/content/repositories/snapshots/de/jfachwert/[Snapshot-Repo] getestet werden kann (Einstellungen in $HOME/.gradle/gradle.properties für sonatype-nexus-staging prüfen!).
 

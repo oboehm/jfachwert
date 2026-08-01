@@ -3,6 +3,7 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
+import org.cyclonedx.gradle.CyclonedxDirectTask
 
 /*
  * Diese Datei wurde ueber 'gradle init' erstellt und dann manuell nach und
@@ -25,6 +26,7 @@ plugins {
     kotlin("jvm")   // alternativ: id("org.jetbrains.kotlin.jvm")
     `maven-publish`
     signing
+    id("org.cyclonedx.bom")
 }
 
 // ------------------------------------------------------ repositories
@@ -90,6 +92,10 @@ tasks {
         }
     }
 
+    assemble {
+        dependsOn("cyclonedxDirectBom")
+    }
+
     java {
         toolchain {
             languageVersion.set(JavaLanguageVersion.of(17))
@@ -134,6 +140,10 @@ publishing {
             from(components["kotlin"])
             artifact(tasks["sourceJar"])
             artifact(tasks["javadocJar"])
+            // SBOMs (CycloneDX) mit Classifier 'cyclonedx' publizieren - wie beim Maven-Build
+            val cyclonedxBom = tasks.named<CyclonedxDirectTask>("cyclonedxDirectBom")
+            artifact(cyclonedxBom.flatMap { it.jsonOutput }) { classifier = "cyclonedx" }
+            artifact(cyclonedxBom.flatMap { it.xmlOutput }) { classifier = "cyclonedx" }
             pom {
                 name.set(project.name)
                 description.set(Meta.desc)

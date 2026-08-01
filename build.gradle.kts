@@ -15,6 +15,13 @@ plugins {
     signing
 }
 
+// Aggregierte SBOM (CycloneDX) aller Module im Root erzeugen.
+// Die SBOMs pro Modul (cyclonedxDirectBom) und das Anhaengen an die
+// Publikation sind im Konventions-Plugin (buildSrc) konfiguriert.
+tasks.named("assemble") {
+    dependsOn("cyclonedxBom")
+}
+
 // s. https://asciidoctor.github.io/asciidoctor-gradle-plugin/development-3.x/user-guide/
 tasks.asciidoctor {
     sourceDir("src/main/asciidoc/de/")
