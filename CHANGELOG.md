@@ -15,6 +15,8 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - eigenes validation-Modul für Support von Jakarta-Validation
 - SBOM-Unterstützung
 - validateStrict(..)-Methode im IK.Validator, die fuer alle Klassifikationen die Pruefziffer ueberprueft
+### Fixed
+- spezielle Hochkommatas (aus General Punctuation) für ASCII oder ISO-8859-1 nach `'` bzw. `"` konvertiert
 
 ## [6.7.1] - 2026-07-02
 ### Added
