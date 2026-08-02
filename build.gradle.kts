@@ -96,7 +96,7 @@ subprojects {
             if (!artifactsDir.exists()) return@doLast
 
             artifactsDir.walkTopDown()
-                .filter { it.isFile && (it.extension in listOf("jar", "pom")) }
+                .filter { it.isFile && (it.extension in listOf("jar", "pom", "xml", "json")) }
                 .forEach { file ->
                     val md5File = File(file.absolutePath + ".md5")
                     val sha1File = File(file.absolutePath + ".sha1")
@@ -111,7 +111,7 @@ subprojects {
             val mavenLocalRepo = File(System.getProperty("user.home"), ".m2/repository/de/jfachwert")
             if (mavenLocalRepo.exists()) {
                 mavenLocalRepo.walkTopDown()
-                    .filter { it.isFile && (it.extension in listOf("jar", "pom", "module")) }
+                    .filter { it.isFile && (it.extension in listOf("jar", "pom", "module", "xml", "json")) }
                     .forEach { file ->
                         val md5File = File(file.absolutePath + ".md5")
                         val sha1File = File(file.absolutePath + ".sha1")

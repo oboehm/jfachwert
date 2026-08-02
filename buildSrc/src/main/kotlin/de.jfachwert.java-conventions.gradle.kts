@@ -12,7 +12,7 @@ import org.cyclonedx.gradle.CyclonedxDirectTask
  */
 
 group = "de.jfachwert"
-version = "6.7.2-SNAPSHOT"
+version = "6.8.0"
 
 object Meta {
     const val desc = "Implementierung einiger Fachwerte nach dem WAM-Ansatz"

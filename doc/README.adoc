@@ -58,7 +58,7 @@ letzte Release abgelegt wird.
 Danach "-SNAPSHOT" von der Version in link:../buildSrc/src/main/kotlin/de.jfachwert.java-conventions.gradle.kts[de.jfachwert.java-conventions.gradle.kts] entfernen.
 
 |alle Artefakte bauen (gradle)
-|./gradlew -Dorg.gradle.jvmargs="-Xmx768m -XX:MaxMetaspaceSize=512m" clean assemble jar sourceJar javadocJar sign
+|./gradlew -Dorg.gradle.jvmargs="-Xmx768m -XX:MaxMetaspaceSize=512m" clean assemble jar sourceJar javadocJar sign --no-configuration-cache
 |ab v6 ist der Bau nur noch mit Gradle möglich, da das maven-dokka-plugin keine Maven-Module unterstützt
 
 |Release lokal deployen (gradle)
@@ -66,9 +66,9 @@ Danach "-SNAPSHOT" von der Version in link:../buildSrc/src/main/kotlin/de.jfachw
 |Damit werden die Artifkate `sourceJar`, `javadocJar` und `jar` erstellt und lokal nach $HOME/.m2/repository/de/jfachwert kopiert
 
 |Bundle für Upload erstellen (manuell)
-|`./gradlew generateChecksums`
+|`./gradlew generateChecksums --no-configuration-cache`
 
-`cd $HOME/.m2/repository; tar czvf ~/Downloads/jfachwert.tgz `find de/jfachwert -name "\*-6.7.1*"``
+`cd $HOME/.m2/repository; tar czvf ~/Downloads/jfachwert.tgz `find de/jfachwert -name "\*-6.8.0*"``
 |Check-Summen für manuelles Upload erstellen, danach Tar-File erstellen und über https://central.sonatype.com/publishing hochladen
 
 |Release automatisch deployen (alt)
@@ -84,7 +84,7 @@ NOTE: funktioniert nicht mehr seit der Umstellung auf https://central.sonatype.c
 
 |Einchecken + Tag vergeben
 |`git commit` ...
-|NamensKonvention für Tag ist `jfachwert-6.7.1`
+|NamensKonvention für Tag ist `jfachwert-6.8.0`
 
 |Release-Notes erstellen
 |https://github.com/oboehm/jfachwert/releases[releases]
