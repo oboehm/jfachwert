@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,6 +74,10 @@ open class Domainname
             name.append(parts[i])
         }
         return Domainname(name.toString())
+    }
+
+    override fun isValid(): Boolean {
+        return VALIDATOR.isValid(code)
     }
 
 

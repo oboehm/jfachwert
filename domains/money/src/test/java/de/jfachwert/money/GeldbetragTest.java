@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 by Oliver Boehm
+ * Copyright (c) 2018-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -72,7 +72,7 @@ public final class GeldbetragTest extends FachwertTest {
     }
 
     /**
-     * Illegale Betraege sollte nicht akzeptiert werden.
+     * Illegale Betraege sollten nicht akzeptiert werden.
      */
     @Test
     public void testInvalidGeldbetrag() {

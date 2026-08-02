@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Oliver Boehm
+ * Copyright (c) 2018-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package de.jfachwert.post;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
+import de.jfachwert.pruefung.NullValidator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -99,6 +100,12 @@ public final class AdressatTest extends AbstractFachwertTest<String, Text> {
     public void testGetVornameFromFirma() {
         Adressat ichAG = new Adressat("Ich AG");
         assertThrows(RuntimeException.class, ichAG::getVorname);
+    }
+
+    @Test
+    public void testInvalid() {
+        Adressat invalid = new Adressat("", new NullValidator<>());
+        assertFalse(invalid.isValid());
     }
 
 }

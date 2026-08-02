@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,14 @@
 package de.jfachwert.bank
 
 import com.fasterxml.jackson.annotation.JsonCreator
-import tools.jackson.databind.annotation.JsonSerialize
 import de.jfachwert.KFachwert
+import de.jfachwert.KSimpleValidator
+import de.jfachwert.pruefung.LengthValidator
+import de.jfachwert.pruefung.NullValidator
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import de.jfachwert.util.ToFachwertSerializer
 import org.apache.commons.lang3.StringUtils
+import tools.jackson.databind.annotation.JsonSerialize
 import java.util.*
 
 /**
@@ -36,10 +39,16 @@ import java.util.*
 @JsonSerialize(using = ToFachwertSerializer::class)
 open class Bankverbindung
 
-@JvmOverloads constructor(val kontoinhaber: String, iban: IBAN, bic: BIC? = null) : KFachwert {
+@JvmOverloads constructor(
+    val kontoinhaber: String,
+    iban: IBAN,
+    bic: BIC? = null,
+    validator: KSimpleValidator<Triple<String, IBAN, BIC?>> = VALIDATOR
+) : KFachwert {
 
     val iban: IBAN
     private val bic: BIC?
+    private val validator: KSimpleValidator<Triple<String, IBAN, BIC?>> = validator
 
     /**
      * Zerlegt den uebergebenen String in Name, IBAN und (optional) BIC.
@@ -66,6 +75,12 @@ open class Bankverbindung
     @JsonCreator
     constructor(map: Map<String, String>) :
             this(Objects.toString(map["kontoinhaber"], ""), IBAN(map["iban"]!!), BIC(map["bic"]!!))
+
+    init {
+        this.iban = iban
+        this.bic = bic
+        validator.verify(Triple(kontoinhaber, iban, bic))
+    }
 
     /**
      * Da die BIC bei Inlands-Ueberweisungen optional ist, wird sie hier als
@@ -118,13 +133,29 @@ open class Bankverbindung
         return map
     }
 
+    override fun isValid(): Boolean {
+        return VALIDATOR.isValid(Triple(kontoinhaber, iban, bic))
+    }
+
+    class Validator : KSimpleValidator<Triple<String, IBAN, BIC?>> {
+        override fun validate(value: Triple<String, IBAN, BIC?>): Triple<String, IBAN, BIC?> {
+            LengthValidator<String>(1).validate(value.first)
+            IBAN.Validator().validate(value.second.toString())
+            if (value.third != null) {
+                BIC.Validator().validate(value.third.toString())
+            }
+            return value
+        }
+    }
+
     companion object {
 
         private val WEAK_CACHE = WeakHashMap<Triple<String, IBAN, BIC?>, Bankverbindung>()
+        private val VALIDATOR: KSimpleValidator<Triple<String, IBAN, BIC?>> = Validator()
 
         /** Null-Konstante fuer Initialisierungen.  */
         @JvmField
-        val NULL = Bankverbindung("", IBAN.NULL, BIC.NULL)
+        val NULL = Bankverbindung("", IBAN.NULL, BIC.NULL, NullValidator())
 
         @JvmStatic
         fun of(s: String): Bankverbindung {
@@ -166,11 +197,6 @@ open class Bankverbindung
             return value
         }
 
-    }
-
-    init {
-        this.iban = iban
-        this.bic = bic
     }
 
 }

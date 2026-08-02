@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,6 @@
  */
 package de.jfachwert.post
 
-import tools.jackson.databind.annotation.JsonSerialize
-import tools.jackson.databind.ser.std.ToStringSerializer
 import de.jfachwert.KFachwert
 import de.jfachwert.KSimpleValidator
 import de.jfachwert.Text
@@ -27,6 +25,8 @@ import de.jfachwert.pruefung.NullValidator
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import de.jfachwert.pruefung.exception.ValidationException
 import org.apache.commons.lang3.StringUtils
+import tools.jackson.databind.annotation.JsonSerialize
+import tools.jackson.databind.ser.std.ToStringSerializer
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -123,8 +123,8 @@ open class Ort
         if (other !is Ort) {
             return false
         }
-        val thisName = Text.replaceUmlaute(name)
-        val otherName = Text.replaceUmlaute(other.name)
+        val thisName = Text.replaceUmlaute(name) + " "
+        val otherName = Text.replaceUmlaute(other.name) + " "
         return if (plz == null || other.plz == null) {
             thisName.equals(otherName, ignoreCase = true)
         } else {
@@ -172,11 +172,15 @@ open class Ort
         }
     }
 
+    override fun isValid(): Boolean {
+        return VALIDATOR.isValid(name)
+    }
+
 
 
     companion object {
 
-        private val VALIDATOR: KSimpleValidator<String> = LengthValidator(1)
+        val VALIDATOR: KSimpleValidator<String> = LengthValidator(1)
         private val log = Logger.getLogger(Ort::class.java.name)
 
         /** Null-Wert fuer Initialisierung.  */

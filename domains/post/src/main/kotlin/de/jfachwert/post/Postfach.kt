@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2025 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +18,15 @@
 package de.jfachwert.post
 
 import com.fasterxml.jackson.annotation.JsonCreator
-import tools.jackson.databind.annotation.JsonSerialize
 import de.jfachwert.KFachwert
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.pruefung.exception.InvalidValueException
 import de.jfachwert.pruefung.exception.LocalizedIllegalArgumentException
 import de.jfachwert.pruefung.exception.ValidationException
 import de.jfachwert.util.ToFachwertSerializer
 import org.apache.commons.lang3.RegExUtils
 import org.apache.commons.lang3.StringUtils
+import tools.jackson.databind.annotation.JsonSerialize
 import java.math.BigInteger
 import java.util.*
 
@@ -239,9 +240,9 @@ open class Postfach : KFachwert {
         return if (getNummer().isPresent) {
             val s = "Postfach $nummerFormatted"
             if (ort === Ort.NULL) {
-                return s
+                s
             } else {
-                return s + ", $ort"
+                s + ", $ort"
             }
         } else {
             ort.toString()
@@ -263,10 +264,38 @@ open class Postfach : KFachwert {
         return map
     }
 
+    override fun isValid(): Boolean {
+        return VALIDATOR.isValid(Pair(nummer, ort))
+    }
+
+
+
+    class Validator : KSimpleValidator<Pair<BigInteger?, Ort>> {
+
+        override fun validate(value: Pair<BigInteger?, Ort>): Pair<BigInteger?, Ort> {
+            if (value.first != null) {
+                val nummer = value.first!!
+                if (nummer.compareTo(BigInteger.ONE) < 0) {
+                    throw InvalidValueException(nummer, "number")
+                }
+                if (value.second == Ort.NULL) {
+                    return value
+                }
+            }
+            Ort.VALIDATOR.validate(value.second.name)
+            if (!value.second.pLZ.isPresent) {
+                throw InvalidValueException(value.second, "postal_code")
+            }
+            return value
+        }
+
+    }
+
 
 
     companion object {
 
+        val VALIDATOR: KSimpleValidator<Pair<BigInteger?, Ort>> = Validator()
         /** Null-Konstante fuer Initialisierungen.  */
         @JvmField
         val NULL = Postfach(Ort.NULL)
@@ -374,10 +403,7 @@ open class Postfach : KFachwert {
          * @param ort       Ort mit PLZ
          */
         fun validate(nummer: BigInteger, ort: Ort) {
-            if (nummer.compareTo(BigInteger.ONE) < 0) {
-                throw InvalidValueException(nummer, "number")
-            }
-            validate(ort)
+            VALIDATOR.validate(Pair(nummer, ort))
         }
 
         private fun verify(nummer: BigInteger, ort: Ort) {

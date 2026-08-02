@@ -2,7 +2,9 @@
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
 
 [versions]
-kotlin-gradle-plugin = "2.0.0"
+kotlin-gradle-plugin = "2.4.10"
+cyclonedx-bom-gradle-plugin = "3.3.0"
 
 [libraries]
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-gradle-plugin" }
+cyclonedx-bom-gradle-plugin = { module = "org.cyclonedx.bom:org.cyclonedx.bom.gradle.plugin", version.ref = "cyclonedx-bom-gradle-plugin" }

@@ -1,5 +1,5 @@
-package de.jfachwert.post;/*
- * Copyright (c) 2017 by Oliver Boehm
+/*
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@ package de.jfachwert.post;/*
  *
  * (c)reated 21.02.2017 by oboehm (ob@oasd.de)
  */
+package de.jfachwert.post;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
@@ -22,8 +23,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer die PLZ-Klasse.
@@ -72,11 +72,16 @@ public class PLZTest extends AbstractFachwertTest<String, Text> {
 
     /**
      * Weltweit sind die Postleitzahlen zwischen 3 und 10 Zeichen lang.
-     * Quelle: https://de.wikipedia.org/wiki/Postleitzahl
+     * Quelle: <a href="https://de.wikipedia.org/wiki/Postleitzahl">Wikipedia</a>
      */
     @Test
     public void testInvalidPLZ() {
         assertThrows(IllegalArgumentException.class, () -> new PLZ("12"));
+    }
+
+    @Test
+    public void testInvalid() {
+        assertFalse(PLZ.NULL.isValid());
     }
 
     /**

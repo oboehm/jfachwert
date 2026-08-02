@@ -18,10 +18,11 @@
 package de.jfachwert.bank;
 
 import de.jfachwert.AbstractFachwertTest;
+import de.jfachwert.pruefung.NullValidator;
 import de.jfachwert.pruefung.exception.InvalidLengthException;
+import de.jfachwert.pruefung.exception.ValidationException;
 import org.junit.jupiter.api.Test;
 
-import de.jfachwert.pruefung.exception.ValidationException;
 import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -162,6 +163,12 @@ public final class IBANTest extends AbstractFachwertTest<String, IBAN> {
     public void validateInvalidLength() {
         IBAN.Validator v = new IBAN.Validator();
         assertThrows(InvalidLengthException.class, () -> v.validate("DE196000000001349870"));
+    }
+
+    @Test
+    public void isInvalid() {
+        IBAN invalid = new IBAN("DE4711", new NullValidator<>());
+        assertFalse(invalid.isValid());
     }
 
 }

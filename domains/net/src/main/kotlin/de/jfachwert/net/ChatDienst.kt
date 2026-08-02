@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,6 +51,12 @@ enum class ChatDienst constructor(val chatName: String, val validator: KSimpleVa
     /** Yahoo Messanger.  */
     YAHOO("Yahoo"),
 
+    /** Blue Sky */
+    BSKY("Blue Sky"),
+
+    /** Mastodon */
+    MASTODON("Mastodon"),
+
     /** Sonstiger Messanger.  */
     SONSTIGER("sonstiger");
 
@@ -75,7 +81,7 @@ enum class ChatDienst constructor(val chatName: String, val validator: KSimpleVa
          */
         @JvmStatic
         fun of(dienst: String?): ChatDienst {
-            for (cd in values()) {
+            for (cd in entries) {
                 if (cd.toString().equals(dienst, ignoreCase = true)) {
                     return cd
                 }

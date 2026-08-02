@@ -1,5 +1,5 @@
-package de.jfachwert.post;/*
- * Copyright (c) 2017 by Oliver Boehm
+/*
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@ package de.jfachwert.post;/*
  *
  * (c)reated 21.02.2017 by oboehm (ob@oasd.de)
  */
+package de.jfachwert.post;
 
 import de.jfachwert.FachwertTest;
 import de.jfachwert.pruefung.exception.ValidationException;
@@ -26,8 +27,7 @@ import java.util.Optional;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer die {@link Postfach}-Klasse.
@@ -109,6 +109,11 @@ public final class PostfachTest extends FachwertTest {
         String postfach = "Postfach abc\n12350 Musterdorf";
         assertThrows(ValidationException.class, () -> Postfach.validate(postfach));
     }
+
+    @Test
+    public void testInvalid() {
+        assertFalse(Postfach.NULL.isValid());
+    }
     
     @Test
     public void testPostfachString() {
@@ -120,7 +125,7 @@ public final class PostfachTest extends FachwertTest {
     @Test
     public void testPostfach6stellig() {
         Postfach postfach = Postfach.of("123456");
-        assertThat(postfach.toString().replaceAll(" ", ""), containsString("123456"));
+        assertThat(postfach.toString().replace(" ", ""), containsString("123456"));
     }
 
     @Test
