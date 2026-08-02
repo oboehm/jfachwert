@@ -92,7 +92,7 @@ NOTE: funktioniert nicht mehr seit der Umstellung auf https://central.sonatype.c
 oder/und mit link:release-notes.adoc[Release-Notes] verlinken
 
 |Architektur-Dokumentation
-|`./gradlew asciidoctor`
+|`./gradlew asciidoctor --no-configuration-cache`
 |Damit wird die Architektur-Dokumentation generiert, die in seiner Rohfassung unter
 https://github.com/oboehm/jfachwert/tree/develop/src/main/asciidoc[src/main/asciidoc] zu finden ist.
 Zur erfolgreichen Generierung muss https://www.graphviz.org/[GraphViz] auf dem Rechner installiert sein.
