@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,10 +40,15 @@ open class Artikelnummer
  * @param nummer   z.B. "000002835042"
  * @param pruefung Pruefverfahren
  */
-@JvmOverloads constructor(nummer: String, pruefung: KSimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR) : Text(nummer, pruefung) {
+@JvmOverloads constructor(nummer: String, pruefung: KSimpleValidator<String> = VALIDATOR) : Text(nummer, pruefung) {
+
+    override fun isValid(): Boolean {
+        return VALIDATOR.isValid(code)
+    }
 
     companion object {
 
+        val VALIDATOR: KSimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR
         private val WEAK_CACHE = WeakHashMap<String, Artikelnummer>()
 
         /** Null-Konstante fuer Initialisierungen.  */
