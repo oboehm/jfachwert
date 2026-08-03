@@ -18,3 +18,7 @@ Validierung von Fachwerten findet im Konstruktor statt.
 Zur Unterstützung gibt es eine Reihe von Validatoren und Prüfziffer-Verfahren, die im `pruefung`-Package zu finden sind.
 Will man die Validierung direkt ausführen, bieten die meisten Klassen eine validate-Methode im Companion-Objekt an.
 Ansonsten kann man für die Validierung auch direkt auf die Validatoren zugreifen.
+
+Für die Einbindung in Jakarta-Validierung-Umgebungen (Bean Validation) gibt es mit v6.8 das eigene validation-Modul.
+Der dort enthaltene `FachwertValidator` implementiert das `jakarta.validation.Validator`-Interface und validiert Fachwerte über deren `isValid`-Eigenschaft.
+Ungültige Fachwerte werden dabei als `FachwertConstraintViolation` gemeldet.

@@ -48,11 +48,20 @@ frame "domains" {
 [commons-lang3.jar] #White
 [kotlin-stdlib.jar] #White
 [money-api.jar] #Lightgrey
+[jakarta.validation-api.jar] #Lightgrey
 
 frame "test" {
     [jfachwert/test.jar]
 }
 
 domains ..> test
+
+frame "validation" {
+    [jfachwert/validation.jar]
+}
+
+validation ..> "domains"
+[jfachwert/validation.jar] ..> [jfachwert/core.jar]
+[jfachwert/validation.jar] ..> [jakarta.validation-api.jar]
 
 @enduml

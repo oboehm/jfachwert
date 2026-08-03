@@ -50,11 +50,16 @@ Die einzelnen Klassen sind in fachliche Packages aufgeteilt, die jeweils in eine
 
 |zeit
 |Fachwerte für den Umgang mit Zeitangaben
+
+|validation
+|Unterstützung der Jakarta-Validierungs-API (Bean Validation) für die Validierung von Fachwerten, z.B. über den `FachwertValidator`
 |===
 
 Klassen und Interfaces wie z.B. `Fachwert` bzw. `KFachwert`, die für all diese Packages die Basis sind, liegen im core-Modul.
 Hier liegt auch das pruefung-Package, das Klassen zur Validierung und verschiedene `PruefzifferVerfahren`.
 So enthalten manche Fachwerte wie `IBAN` eine Pruefziffer, um Fehleingaben zu erkennen.
+
+Anders als die fachlichen Packages ist das validation-Package ein technisches Modul, das mit v6.8 hinzugekommen ist.
 
 [IMPORTANT]
 --
@@ -201,8 +206,6 @@ Die darin enthalt Zeitdauer-Klasse eignet sich u.a. für die Zeitmessung von Ber
 ----
 
 
-
-
 === Prüfungen und Exceptions
 
 ["plantuml", "package-pruefung", "svg"]
@@ -254,6 +257,21 @@ include::../images/exceptions.puml[]
 
 Um eine sprachabhängige Fehlermeldung über https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html#getLocalizedMessage--[getLocalizedMessage()] bereitzustellen, sind alle Exceptions von `LocalizedValidationException` abgeleitet.
 Die Fehlermeldungen und Begriffe sind dabei als ResourceBundle in den Dateien "messages.properties" und "messages_de.properties" abgelegt.
+
+
+
+=== Jakarta Validation
+
+["plantuml", "package-validation", "svg"]
+------------------------------------------------
+include::../images/package-validation.puml[]
+------------------------------------------------
+
+Das validation-Modul ist mit v6.8 hinzugekommen.
+Es enthält den `FachwertValidator`, der das `jakarta.validation.Validator`-Interface implementiert und Fachwerte auf Basis des internen Validierungsmechanismus (im core-Modul) validiert.
+Ungültige Fachwerte werden dabei als `FachwertConstraintViolation` gemeldet, die das `ConstraintViolation`-Interface von Jakarta Validation implementiert.
+
+Damit lassen sich Fachwerte auch über die Standard-API von Jakarta Validation (Bean Validation) in Frameworks einbinden, die auf dieser API aufsetzen.
 
 
 

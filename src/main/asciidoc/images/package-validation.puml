@@ -1,0 +1,17 @@
+@startuml
+
+package "validation" {
+
+    class FachwertValidator
+    class FachwertConstraintViolation
+
+}
+
+interface "jakarta.validation.Validator"
+interface "jakarta.validation.ConstraintViolation"
+
+FachwertValidator ..|> "jakarta.validation.Validator"
+FachwertConstraintViolation ..|> "jakarta.validation.ConstraintViolation"
+FachwertValidator ..> FachwertConstraintViolation
+
+@enduml

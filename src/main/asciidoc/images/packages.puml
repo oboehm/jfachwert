@@ -32,6 +32,9 @@ package "jfachwert" {
     package "bank" {
     }
 
+    package "validation" {
+    }
+
     frame "core" {
         package "util" {
         }
@@ -49,6 +52,7 @@ package "jfachwert" {
     med ..> pruefung
     math ..> pruefung
     zeit ..> pruefung
+    validation ..> pruefung
 
 }
 

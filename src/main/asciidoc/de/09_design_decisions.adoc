@@ -28,7 +28,7 @@ Die einzigen Abhängigkeiten, die in Kauf genommen werden, sind:
 
 * kotlin-stdlib: diese Bibliothek kam durch die Umstellung auf Kotlin in v4 hinzu
 * commons-lang3: diese Bibliothek ist bereits als Abhängigkeit vieler anderer Bibliotheken vorhanden
-* validation-api: Basis-Bibliothek für Validierung (nur bis v5)
+* validation-api: Basis-Bibliothek für Validierung (nur bis v5); ab v6.8 wird `jakarta.validation-api` wieder benötigt, aber nur im eigenen validation-Modul
 * money-api (JSR 354): diese API sowie einige weitere Bibliotheken sollten ab Java 9 Bestandteil des JDKs sein.
   Tatsächlich müssen sie immer noch als Dependency aufgeführt werden.
   Deswegen wurde mit v6 die Bibliothek in verschiedene Unterbibliotheken aufgeilt.
@@ -37,6 +37,9 @@ Die einzigen Abhängigkeiten, die in Kauf genommen werden, sind:
 Mit v4.4 wurde die Abhänigkeit zu commons-text und commons-collections4 wieder entfernt, da Kotlin hierfür genügend Unterstützung anbietet, um die fehlende Funktionalität selbst zu implementieren.
 Auch wurde die `ValidationException` aus der validation-api-Bibliothek durch eine gleichnamige Exception aus `de.jfachwert.pruefung.exception` ersetzt, um die Abhängigkeit zu JavaEE zu vermeiden.
 Andernfalls hätte diese Abhängigkeit auf JakartaEE geändert werden müssen.
+
+Mit v6.8 wurde die Abhängigkeit zu `jakarta.validation-api` wieder aufgenommen, allerdings isoliert im eigenen validation-Modul.
+Damit bleibt der Rest von jFachwert frei von dieser Abhängigkeit; wer die Jakarta-Validierungs-API nicht benötigt, lässt das validation-Modul einfach weg.
 
 
 === Ableitung möglich
