@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2022 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -49,5 +50,10 @@ public class BestellnummerTest extends AbstractFachwertTest<String, Text> {
     public void testNotEmpty() {
         assertThrows(IllegalArgumentException.class, () -> Bestellnummer.of(""));
     }
-    
+
+    @Test
+    public void testInvalid() {
+        assertFalse(Bestellnummer.NULL.isValid());
+    }
+
 }
