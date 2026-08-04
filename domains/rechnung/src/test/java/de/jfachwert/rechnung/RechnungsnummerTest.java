@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2022 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,7 @@ import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer {@link Rechnungsnummer}-Klasse.
@@ -63,6 +62,11 @@ public class RechnungsnummerTest extends AbstractFachwertTest<String, Text> {
     public void testToLong() {
         Rechnungsnummer nr = Rechnungsnummer.of(4711);
         assertEquals(4711, nr.toLong());
+    }
+
+    @Test
+    public void testInvalid() {
+        assertFalse(Rechnungsnummer.NULL.isValid());
     }
 
 }
