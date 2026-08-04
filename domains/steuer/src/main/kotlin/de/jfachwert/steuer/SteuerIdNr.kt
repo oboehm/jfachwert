@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,6 +48,10 @@ open class SteuerIdNr
      * @param idNr 11-stellige Zahl
      */
     constructor(idNr: String) : this(idNr, VALIDATOR)
+
+    override fun isValid(): Boolean {
+        return VALIDATOR.isValid(code)
+    }
 
     /**
      * Eigener Validator fuer die SteuerIdNr-Validierung.

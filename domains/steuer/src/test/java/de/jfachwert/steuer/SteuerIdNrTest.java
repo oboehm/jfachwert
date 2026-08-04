@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,10 @@
  */
 package de.jfachwert.steuer;
 
+import de.jfachwert.pruefung.NullValidator;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -64,6 +66,13 @@ public final class SteuerIdNrTest extends SteuernummerTest {
     @Test
     public void testSteuerIdNrZuLang() {
         assertThrows(IllegalArgumentException.class, () -> new SteuerIdNr("1121081508150"));
+    }
+
+    @Test
+    @Override
+    public void testInvalid() {
+        SteuerIdNr invalid = new SteuerIdNr("12365489750", new NullValidator<>());
+        assertFalse(invalid.isValid());
     }
 
 }
