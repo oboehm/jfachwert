@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import de.jfachwert.KSimpleValidator
 import de.jfachwert.Text
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.NullValidator
-import jdk.internal.joptsimple.internal.Strings
 import java.util.*
 
 /**
@@ -42,10 +41,15 @@ open class Kundennummer
  * @param kundennummer die Kundennummer, z.B. "100.059"
  * @param pruefung     Pruefverfahren
  */
-@JvmOverloads constructor(kundennummer: String, pruefung: KSimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR) : Text(kundennummer, pruefung) {
+@JvmOverloads constructor(kundennummer: String, pruefung: KSimpleValidator<String> = VALIDATOR) : Text(kundennummer, pruefung) {
+
+    override fun isValid(): Boolean {
+        return VALIDATOR.isValid(code)
+    }
 
     companion object {
 
+        val VALIDATOR: KSimpleValidator<String> = LengthValidator.NOT_EMPTY_VALIDATOR
         private val WEAK_CACHE = WeakHashMap<String, Kundennummer>()
 
         /** Null-Konstante fuer Initialisierungen.  */
