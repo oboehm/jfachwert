@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,7 @@ import de.jfachwert.math.PackedDecimal;
 import de.jfachwert.pruefung.NoopVerfahren;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Tests fuer die {@link Steuernummer}-Klasse.
@@ -65,13 +64,18 @@ public class SteuernummerTest extends AbstractFachwertTest<PackedDecimal, Steuer
     }
 
     /**
-     * Das Beispiel fuer diesen Test stammt aus
-     * https://de.wikipedia.org/wiki/Steuernummer.
+     * Das Beispiel fuer diesen Test stammt aus <a href=
+     * "https://de.wikipedia.org/wiki/Steuernummer">Wikipedia</a>.
      */
     @Test
     public void testGetPruefziffer() {
         Steuernummer nr = Steuernummer.of("1121081508150");
         assertEquals(0, nr.getPruefziffer());
+    }
+
+    @Test
+    public void testInvalid() {
+        assertFalse(Steuernummer.NULL.isValid());
     }
 
 }

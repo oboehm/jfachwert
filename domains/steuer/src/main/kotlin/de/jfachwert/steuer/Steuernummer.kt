@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,8 @@
 package de.jfachwert.steuer
 
 import de.jfachwert.AbstractFachwert
-import de.jfachwert.PruefzifferVerfahren
 import de.jfachwert.KSimpleValidator
+import de.jfachwert.PruefzifferVerfahren
 import de.jfachwert.math.PackedDecimal
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.Mod11Verfahren
@@ -74,6 +74,11 @@ open class Steuernummer
      */
     val pruefziffer: Int
         get() = VALIDATOR.getPruefziffer(this.code)
+
+    override fun isValid(): Boolean {
+        return VALIDATOR.isValid(code)
+    }
+
 
 
     /**
