@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,13 +19,12 @@ package de.jfachwert.steuer;
 
 import de.jfachwert.AbstractFachwertTest;
 import de.jfachwert.Text;
+import de.jfachwert.pruefung.exception.ValidationException;
 import org.junit.jupiter.api.Test;
 
-import de.jfachwert.pruefung.exception.ValidationException;
 import java.util.Locale;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit-Test fuer {@link UStIdNr}-Klasse.
@@ -81,6 +80,11 @@ public final class UStIdNrTest extends AbstractFachwertTest<String, Text> {
     @Test
     public void testGetLand() {
         assertEquals(new Locale("DE"), new UStIdNr("DE136695976").getLand());
+    }
+
+    @Test
+    public void testInvalid() {
+        assertFalse(UStIdNr.NULL.isValid());
     }
 
 }

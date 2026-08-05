@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 by Oliver Boehm
+ * Copyright (c) 2017-2026 by Oliver Boehm
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,13 @@
  */
 package de.jfachwert.steuer
 
+import de.jfachwert.KSimpleValidator
 import de.jfachwert.PruefzifferVerfahren
 import de.jfachwert.Text
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.Mod11Verfahren
 import de.jfachwert.pruefung.NoopVerfahren
+import de.jfachwert.pruefung.NullValidator
 import de.jfachwert.pruefung.exception.InvalidValueException
 import org.apache.commons.lang3.StringUtils
 
@@ -45,7 +47,8 @@ open class UStIdNr
      *
      * @param nr          die Umsatzsteuer-IdNr.
      * @param pzVerfahren das verwendete PruefzifferVerfahren
-     */(nr: String, pzVerfahren: PruefzifferVerfahren<String> = selectPruefzifferVerfahrenFor(nr)) : Text(verify(nr, pzVerfahren)) {
+     */
+    (nr: String, pzVerfahren: KSimpleValidator<String> = VALIDATOR) : Text(nr, pzVerfahren) {
 
     /**
      * Liefert das Land, zu dem die IBAN gehoert.
@@ -62,12 +65,47 @@ open class UStIdNr
      *
      * @param nr, z.B. "DE999999999"
      */
-    constructor(nr: String): this(nr, selectPruefzifferVerfahrenFor(nr))
+    constructor(nr: String): this(nr, VALIDATOR)
+
+    override fun isValid(): Boolean {
+        return VALIDATOR.isValid(code)
+    }
+
+    /**
+     * Dieser Validator ist fuer die Ueberpruefung der Umsatzsteuer-IdNr vorgesehen.
+     *
+     * @since 6.8.1
+     */
+    class Validator : KSimpleValidator<String> {
+
+        override fun validate(value: String): String {
+            val verfahren: PruefzifferVerfahren<String> = selectPruefzifferVerfahrenFor(value)
+            val unformatted = StringUtils.remove(value, ' ')
+            LengthValidator.validate(unformatted, 7, 14)
+            verfahren.validate(unformatted.substring(2))
+            return unformatted
+        }
+
+        private fun selectPruefzifferVerfahrenFor(nr: String): PruefzifferVerfahren<String> {
+            val laenderkuerzel = toLaenderkuerzel(nr)
+            var verfahren: PruefzifferVerfahren<String>? = PRUEFZIFFER_VERFAHREN[laenderkuerzel]
+            if (verfahren == null) {
+                verfahren = NoopVerfahren()
+            }
+            return verfahren
+        }
+
+    }
 
     companion object {
 
+        val VALIDATOR: KSimpleValidator<String> = Validator()
         private val PRUEFZIFFER_VERFAHREN = HashMap<String, PruefzifferVerfahren<String>>()
         private val WEAK_CACHE = WeakHashMap<String, UStIdNr>()
+
+        /** Null-Konstante fuer Initialisierungen .  */
+        @JvmField
+        val NULL = UStIdNr("", NullValidator())
 
         init {
             PRUEFZIFFER_VERFAHREN["DE"] = Mod11Verfahren(8)
@@ -87,15 +125,6 @@ open class UStIdNr
             return WEAK_CACHE.computeIfAbsent(copy, Function(::UStIdNr))
         }
 
-        private fun selectPruefzifferVerfahrenFor(nr: String): PruefzifferVerfahren<String> {
-            val laenderkuerzel = toLaenderkuerzel(nr)
-            var verfahren: PruefzifferVerfahren<String>? = PRUEFZIFFER_VERFAHREN[laenderkuerzel]
-            if (verfahren == null) {
-                verfahren = NoopVerfahren()
-            }
-            return verfahren
-        }
-
         /**
          * Eine Umsatzsteuer-Id beginnt mit der Laenderkennung (2 Zeichen), gefolgt
          * von maximal 12 alphanumerischen Zeichen. Bei dieser wird, je nach Land, die
@@ -109,14 +138,7 @@ open class UStIdNr
          * @since 0.2.0
          */
         fun validate(nr: String): String {
-            return selectPruefzifferVerfahrenFor(nr).validate(nr)
-        }
-
-        private fun verify(nr: String, verfahren: PruefzifferVerfahren<String>): String {
-            val unformatted = StringUtils.remove(nr, ' ')
-            LengthValidator.verify(unformatted, 7, 14)
-            verfahren.verify(unformatted.substring(2))
-            return unformatted
+            return VALIDATOR.validate(nr)
         }
 
         private fun toLaenderkuerzel(nr: String): String {
