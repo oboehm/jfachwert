@@ -10,6 +10,10 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Gradle-Files überarbeiten (Deprecated-Aufrufe raus)
 - auf Gradle 9 und Kotlin 2.3 aktualisieren
 
+## [Unreleased]
+### Added
+- validation-Modul um FachwertConstraintValidator ergänzt
+
 ## [6.8.0] - 2026-08-02
 ### Added
 - eigenes validation-Modul für Support von Jakarta-Validation

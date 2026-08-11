@@ -25,7 +25,6 @@ import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.Test;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Proxy;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -53,27 +52,7 @@ class FachwertConstraintValidatorTest {
     }
 
     private ConstraintValidatorContext context() {
-        return (ConstraintValidatorContext) Proxy.newProxyInstance(
-                ConstraintValidatorContext.class.getClassLoader(),
-                new Class<?>[]{ConstraintValidatorContext.class},
-                (context, method, args) -> {
-                    if ("buildConstraintViolationWithTemplate".equals(method.getName())) {
-                        return violationBuilder(context);
-                    }
-                    return null;
-                });
-    }
-
-    private ConstraintValidatorContext.ConstraintViolationBuilder violationBuilder(Object context) {
-        return (ConstraintValidatorContext.ConstraintViolationBuilder) Proxy.newProxyInstance(
-                ConstraintValidatorContext.class.getClassLoader(),
-                new Class<?>[]{ConstraintValidatorContext.ConstraintViolationBuilder.class},
-                (builder, method, args) -> {
-                    if ("addConstraintViolation".equals(method.getName())) {
-                        return context;
-                    }
-                    return null;
-                });
+        return new FachwertConstraintValidatorContext();
     }
 
 }
