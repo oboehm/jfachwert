@@ -2,6 +2,7 @@ package de.jfachwert.validation
 
 import de.jfachwert.Fachwert
 import jakarta.validation.ConstraintViolation
+import jakarta.validation.ValidationException
 import jakarta.validation.Validator
 import jakarta.validation.executable.ExecutableValidator
 import jakarta.validation.metadata.BeanDescriptor
@@ -16,6 +17,10 @@ import jakarta.validation.metadata.BeanDescriptor
 class FachwertValidator : Validator {
 
     override fun <T : Any> validate(obj: T, vararg groups: Class<*>): Set<ConstraintViolation<T>> {
+        if (obj is Fachwert) {
+            @Suppress("UNCHECKED_CAST")
+            return validate(obj, *groups) as Set<ConstraintViolation<T>>
+        }
         return emptySet()
     }
 
@@ -35,15 +40,19 @@ class FachwertValidator : Validator {
     }
 
     override fun getConstraintsForClass(clazz: Class<*>): BeanDescriptor {
-        throw UnsupportedOperationException("getConstraintsForClass noch nicht implementiert")
+        return FachwertBeanDescriptor(clazz)
     }
 
     override fun <T : Any> unwrap(type: Class<T>): T {
-        throw UnsupportedOperationException("unwrap noch nicht implementiert")
+        if (type.isInstance(this)) {
+            @Suppress("UNCHECKED_CAST")
+            return this as T
+        }
+        throw ValidationException("unwrap($type) nicht unterstuetzt")
     }
 
     override fun forExecutables(): ExecutableValidator {
-        throw UnsupportedOperationException("forExecutables noch nicht implementiert")
+        return FachwertExecutableValidator()
     }
 
 }

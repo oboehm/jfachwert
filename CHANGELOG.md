@@ -12,7 +12,7 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 
 ## [Unreleased]
 ### Added
-- validation-Modul um FachwertConstraintValidator ergänzt
+- validation-Modul um FachwertConstraintValidator und fehlende Stubs ergänzt
 
 ## [6.8.0] - 2026-08-02
 ### Added

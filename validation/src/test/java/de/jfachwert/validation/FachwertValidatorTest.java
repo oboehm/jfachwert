@@ -22,11 +22,19 @@ import de.jfachwert.Text;
 import de.jfachwert.bank.IBAN;
 import de.jfachwert.pruefung.NullValidator;
 import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ValidationException;
+import jakarta.validation.executable.ExecutableValidator;
+import jakarta.validation.metadata.BeanDescriptor;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -51,6 +59,56 @@ public class FachwertValidatorTest {
         assertFalse(invalid.isValid());
         Set<ConstraintViolation<Fachwert>> violations = validator.validate(invalid);
         assertFalse(violations.isEmpty());
+    }
+
+    @Test
+    void testValidateGenericWithInvalidFachwert() {
+        Fachwert invalid = new IBAN("DE4711", new NullValidator<>());
+        Set<ConstraintViolation<Object>> violations = validator.validate((Object) invalid);
+        assertFalse(violations.isEmpty());
+    }
+
+    @Test
+    void testValidateGenericWithPlainObject() {
+        Set<ConstraintViolation<Object>> violations = validator.validate(new Object());
+        assertTrue(violations.isEmpty());
+    }
+
+    @Test
+    void testValidateProperty() {
+        Set<ConstraintViolation<Object>> violations = validator.validateProperty(new Object(), "value");
+        assertTrue(violations.isEmpty());
+    }
+
+    @Test
+    void testValidateValue() {
+        Set<ConstraintViolation<Object>> violations = validator.validateValue(Object.class, "value", "test");
+        assertTrue(violations.isEmpty());
+    }
+
+    @Test
+    void testGetConstraintsForClass() {
+        BeanDescriptor descriptor = validator.getConstraintsForClass(IBAN.class);
+        assertEquals(IBAN.class, descriptor.getElementClass());
+        assertFalse(descriptor.hasConstraints());
+        assertFalse(descriptor.isBeanConstrained());
+    }
+
+    @Test
+    void testUnwrap() {
+        assertSame(validator, validator.unwrap(FachwertValidator.class));
+    }
+
+    @Test
+    void testUnwrapUnsupportedType() {
+        assertThrows(ValidationException.class, () -> validator.unwrap(String.class));
+    }
+
+    @Test
+    void testForExecutables() {
+        ExecutableValidator executableValidator = validator.forExecutables();
+        assertNotNull(executableValidator);
+        assertInstanceOf(FachwertExecutableValidator.class, executableValidator);
     }
 
 }
