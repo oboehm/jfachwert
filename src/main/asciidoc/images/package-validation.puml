@@ -3,15 +3,55 @@
 package "validation" {
 
     class FachwertValidator
+    class FachwertValidatorFactory
+    class FachwertValidatorContext
+    class FachwertBeanDescriptor
+    class FachwertExecutableValidator
+
+    class FachwertConstraintValidator
+    class FachwertConstraintValidatorContext
+    class FachwertConstraintValidatorFactory
     class FachwertConstraintViolation
+
+    class FachwertClockProvider
+    class FachwertMessageInterpolator
+    class FachwertParameterNameProvider
+    class FachwertTraversableResolver
 
 }
 
 interface "jakarta.validation.Validator"
+interface "jakarta.validation.ValidatorFactory"
+interface "jakarta.validation.ValidatorContext"
+interface "jakarta.validation.metadata.BeanDescriptor"
+interface "jakarta.validation.executable.ExecutableValidator"
+interface "jakarta.validation.ConstraintValidator"
+interface "jakarta.validation.ConstraintValidatorContext"
+interface "jakarta.validation.ConstraintValidatorFactory"
 interface "jakarta.validation.ConstraintViolation"
+interface "jakarta.validation.ClockProvider"
+interface "jakarta.validation.MessageInterpolator"
+interface "jakarta.validation.ParameterNameProvider"
+interface "jakarta.validation.TraversableResolver"
 
 FachwertValidator ..|> "jakarta.validation.Validator"
+FachwertValidatorFactory ..|> "jakarta.validation.ValidatorFactory"
+FachwertValidatorContext ..|> "jakarta.validation.ValidatorContext"
+FachwertBeanDescriptor ..|> "jakarta.validation.metadata.BeanDescriptor"
+FachwertExecutableValidator ..|> "jakarta.validation.executable.ExecutableValidator"
+FachwertConstraintValidator ..|> "jakarta.validation.ConstraintValidator"
+FachwertConstraintValidatorContext ..|> "jakarta.validation.ConstraintValidatorContext"
+FachwertConstraintValidatorFactory ..|> "jakarta.validation.ConstraintValidatorFactory"
 FachwertConstraintViolation ..|> "jakarta.validation.ConstraintViolation"
+FachwertClockProvider ..|> "jakarta.validation.ClockProvider"
+FachwertMessageInterpolator ..|> "jakarta.validation.MessageInterpolator"
+FachwertParameterNameProvider ..|> "jakarta.validation.ParameterNameProvider"
+FachwertTraversableResolver ..|> "jakarta.validation.TraversableResolver"
+
+FachwertValidatorFactory ..> FachwertValidator : erzeugt
+FachwertValidatorFactory ..> FachwertValidatorContext : usingContext()
 FachwertValidator ..> FachwertConstraintViolation
+FachwertValidator ..> FachwertConstraintValidator
+FachwertConstraintValidator ..> FachwertConstraintValidatorContext
 
 @enduml

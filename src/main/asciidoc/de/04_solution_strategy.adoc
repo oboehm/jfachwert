@@ -42,6 +42,7 @@ Auch sind Prüfziffer-Verfahren, die zur Erkennung fehlerhafter Fachwerte dienen
 Deswegen befinden sich Validatoren und Prüfziffer-Verfahren im selben Package.
 
 Mit dem validation-Modul, das mit v6.8 hinzugekommen ist, steht zusätzlich ein `FachwertValidator` zur Verfügung, der das `jakarta.validation.Validator`-Interface implementiert.
+Erzeugt wird dieser über die `FachwertValidatorFactory`, die das `ValidatorFactory`-Interface implementiert.
 Damit können Fachwerte auch über die Standard-API von Jakarta Validation (Bean Validation) validiert werden.
 
 Viele Klassen bieten auch eine statische validate-Methode an, um ohne Kreierung von Fachwerten eine Überprüfung der Parameter durchführen zu können.

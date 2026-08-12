@@ -52,7 +52,7 @@ Die einzelnen Klassen sind in fachliche Packages aufgeteilt, die jeweils in eine
 |Fachwerte für den Umgang mit Zeitangaben
 
 |validation
-|Unterstützung der Jakarta-Validierungs-API (Bean Validation) für die Validierung von Fachwerten, z.B. über den `FachwertValidator`
+|Unterstützung der Jakarta-Validierungs-API (Bean Validation) für die Validierung von Fachwerten, z.B. über den `FachwertValidator` und die `FachwertValidatorFactory`
 |===
 
 Klassen und Interfaces wie z.B. `Fachwert` bzw. `KFachwert`, die für all diese Packages die Basis sind, liegen im core-Modul.
@@ -270,6 +270,15 @@ include::../images/package-validation.puml[]
 Das validation-Modul ist mit v6.8 hinzugekommen.
 Es enthält den `FachwertValidator`, der das `jakarta.validation.Validator`-Interface implementiert und Fachwerte auf Basis des internen Validierungsmechanismus (im core-Modul) validiert.
 Ungültige Fachwerte werden dabei als `FachwertConstraintViolation` gemeldet, die das `ConstraintViolation`-Interface von Jakarta Validation implementiert.
+
+Der `FachwertValidator` kann über die `FachwertValidatorFactory` erzeugt werden, die das `ValidatorFactory`-Interface implementiert.
+Über `usingContext()` liefert die Factory einen `FachwertValidatorContext` (`ValidatorContext`), über den z.B. ein eigener `ClockProvider` oder `MessageInterpolator` konfiguriert werden kann.
+Dafür stehen mit `FachwertClockProvider`, `FachwertMessageInterpolator`, `FachwertConstraintValidatorFactory`, `FachwertParameterNameProvider` und `FachwertTraversableResolver` minimale Implementierungen der entsprechenden Jakarta-Interfaces zur Verfügung.
+
+Für die Einbindung in eigene Constraint-Annotationen gibt es den `FachwertConstraintValidator`, der das `ConstraintValidator`-Interface implementiert und bei einer ungültigen Validierung über den `FachwertConstraintValidatorContext` (`ConstraintValidatorContext`) eine eigene Fehlermeldung aufbaut.
+
+Daneben implementiert das Modul mit `FachwertBeanDescriptor` (`BeanDescriptor`) und `FachwertExecutableValidator` (`ExecutableValidator`) weitere Interfaces der Jakarta-Validierungs-API.
+Da Fachwerte ihre Constraints nicht über Annotationen deklarieren, sondern intern über `isValid` validieren, liefern diese minimalen Implementierungen aktuell keine Constraints bzw. Violations.
 
 Damit lassen sich Fachwerte auch über die Standard-API von Jakarta Validation (Bean Validation) in Frameworks einbinden, die auf dieser API aufsetzen.
 
