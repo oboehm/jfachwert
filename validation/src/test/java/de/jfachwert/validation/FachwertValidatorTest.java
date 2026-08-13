@@ -21,6 +21,7 @@ import de.jfachwert.Fachwert;
 import de.jfachwert.Text;
 import de.jfachwert.bank.IBAN;
 import de.jfachwert.pruefung.NullValidator;
+import de.jfachwert.validation.executable.FachwertExecutableValidator;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ValidationException;
 import jakarta.validation.executable.ExecutableValidator;
@@ -29,13 +30,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Die Klasse FachwertValidatorTest ...

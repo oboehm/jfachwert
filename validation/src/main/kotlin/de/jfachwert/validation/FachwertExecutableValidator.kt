@@ -13,14 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * (c)reated 11.08.2026 by oboehm (ob@jfachwert.de)
+ * (c)reated 13.08.2026 by oboehm (ob@jfachwert.de)
  */
 package de.jfachwert.validation
-
-import jakarta.validation.ConstraintViolation
-import jakarta.validation.executable.ExecutableValidator
-import java.lang.reflect.Constructor
-import java.lang.reflect.Method
 
 /**
  * Eine minimale Implementierung des ExecutableValidator-Interface von Jakarta.
@@ -30,33 +25,8 @@ import java.lang.reflect.Method
  *
  * @author oboehm
  * @since 6.8.1
+ * @deprecated ins executable-Package verschoben
  */
-class FachwertExecutableValidator : ExecutableValidator {
-
-    override fun <T : Any> validateParameters(
-        `object`: T,
-        method: Method,
-        parameterValues: Array<Any?>,
-        vararg groups: Class<*>
-    ): Set<ConstraintViolation<T>> = emptySet()
-
-    override fun <T : Any> validateReturnValue(
-        `object`: T,
-        method: Method,
-        returnedValue: Any?,
-        vararg groups: Class<*>
-    ): Set<ConstraintViolation<T>> = emptySet()
-
-    override fun <T : Any> validateConstructorParameters(
-        constructor: Constructor<out T>,
-        parameterValues: Array<Any?>,
-        vararg groups: Class<*>
-    ): Set<ConstraintViolation<T>> = emptySet()
-
-    override fun <T : Any> validateConstructorReturnValue(
-        constructor: Constructor<out T>,
-        constructedObject: T,
-        vararg groups: Class<*>
-    ): Set<ConstraintViolation<T>> = emptySet()
-
+@Deprecated(message = "nach executable verschoben")
+class FachwertExecutableValidator : de.jfachwert.validation.executable.FachwertExecutableValidator() {
 }

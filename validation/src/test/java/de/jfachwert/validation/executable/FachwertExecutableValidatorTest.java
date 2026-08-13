@@ -15,7 +15,7 @@
  *
  * (c)reated 11.08.2026 by oboehm (ob@jfachwert.de)
  */
-package de.jfachwert.validation;
+package de.jfachwert.validation.executable;
 
 import jakarta.validation.executable.ExecutableValidator;
 import org.junit.jupiter.api.Test;

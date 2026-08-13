@@ -10,6 +10,10 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 - Gradle-Files überarbeiten (Deprecated-Aufrufe raus)
 - auf Gradle 9 und Kotlin 2.3 aktualisieren
 
+## [Unreleased]
+### Changed
+- Klassen im validation-Modul an Packagestrukutur von `jakarta.validaion-api` angepasst
+
 ## [6.8.1] - 2026-08-12
 ### Added
 - validation-Modul um FachwertValidatorFactory, FachwertConstraintValidator und fehlende Stubs ergänzt
