@@ -24,7 +24,7 @@ package de.jfachwert.validation
  * Violations.
  *
  * @author oboehm
- * @since 6.8.1
+ * @since 6.8.2
  * @deprecated ins executable-Package verschoben
  */
 @Deprecated(message = "nach executable verschoben")

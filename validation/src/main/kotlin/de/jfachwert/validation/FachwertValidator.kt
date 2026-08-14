@@ -2,6 +2,7 @@ package de.jfachwert.validation
 
 import de.jfachwert.Fachwert
 import de.jfachwert.validation.executable.FachwertExecutableValidator
+import de.jfachwert.validation.metadata.FachwertBeanDescriptor
 import jakarta.validation.ConstraintViolation
 import jakarta.validation.ValidationException
 import jakarta.validation.Validator

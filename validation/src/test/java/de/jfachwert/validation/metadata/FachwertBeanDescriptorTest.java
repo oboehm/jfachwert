@@ -15,7 +15,7 @@
  *
  * (c)reated 11.08.2026 by oboehm (ob@jfachwert.de)
  */
-package de.jfachwert.validation;
+package de.jfachwert.validation.metadata;
 
 import de.jfachwert.bank.IBAN;
 import jakarta.validation.metadata.BeanDescriptor;

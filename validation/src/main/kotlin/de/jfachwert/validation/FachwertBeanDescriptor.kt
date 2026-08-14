@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2026 by Oliver Boehm
+ * Copyright (c) 2026 by Oli B.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -9,23 +9,13 @@
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express orimplied.
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * (c)reated 11.08.2026 by oboehm (ob@jfachwert.de)
+ * (c)reated 13.08.26 by oboehm (ob@oasd.de)
  */
 package de.jfachwert.validation
-
-import jakarta.validation.metadata.BeanDescriptor
-import jakarta.validation.metadata.ConstraintDescriptor
-import jakarta.validation.metadata.ConstructorDescriptor
-import jakarta.validation.metadata.ElementDescriptor
-import jakarta.validation.metadata.MethodDescriptor
-import jakarta.validation.metadata.MethodType
-import jakarta.validation.metadata.PropertyDescriptor
-import jakarta.validation.metadata.Scope
-import java.lang.annotation.ElementType
 
 /**
  * Eine minimale Implementierung des BeanDescriptor-Interface von Jakarta.
@@ -35,41 +25,10 @@ import java.lang.annotation.ElementType
  *
  * @author oboehm
  * @since 6.8.1
+ * @deprecated ins metadata-Package verschoben
  */
-class FachwertBeanDescriptor(
-    private val elementClass: Class<*>
-) : BeanDescriptor {
-
-    override fun isBeanConstrained(): Boolean = false
-
-    override fun getConstraintsForProperty(propertyName: String): PropertyDescriptor? = null
-
-    override fun getConstrainedProperties(): Set<PropertyDescriptor> = emptySet()
-
-    override fun getConstraintsForMethod(name: String, vararg parameterTypes: Class<*>): MethodDescriptor? = null
-
-    override fun getConstrainedMethods(methodType: MethodType, vararg methodTypes: MethodType): Set<MethodDescriptor> =
-        emptySet()
-
-    override fun getConstraintsForConstructor(vararg parameterTypes: Class<*>): ConstructorDescriptor? = null
-
-    override fun getConstrainedConstructors(): Set<ConstructorDescriptor> = emptySet()
-
-    override fun hasConstraints(): Boolean = false
-
-    override fun getElementClass(): Class<*> = elementClass
-
-    override fun getConstraintDescriptors(): Set<ConstraintDescriptor<*>> = emptySet()
-
-    override fun findConstraints(): ElementDescriptor.ConstraintFinder =
-        object : ElementDescriptor.ConstraintFinder {
-            override fun unorderedAndMatchingGroups(vararg groups: Class<*>): ElementDescriptor.ConstraintFinder = this
-            override fun lookingAt(scope: Scope): ElementDescriptor.ConstraintFinder = this
-            override fun declaredOn(vararg elementTypes: ElementType): ElementDescriptor.ConstraintFinder = this
-            override fun getConstraintDescriptors(): Set<ConstraintDescriptor<*>> = emptySet()
-            override fun hasConstraints(): Boolean = false
-        }
-
-    override fun toString(): String = "FachwertBeanDescriptor(elementClass=$elementClass)"
-
+@Deprecated(message = "nach metadata verschoben")
+class FachwertBeanDescriptor(elementClass: Class<*>) : de.jfachwert.validation.metadata.FachwertBeanDescriptor(
+    elementClass
+) {
 }
