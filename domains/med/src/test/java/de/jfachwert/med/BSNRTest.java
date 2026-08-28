@@ -72,6 +72,12 @@ public class BSNRTest extends AbstractNumericFachwertTest<Integer, BSNR> {
     }
 
     @Test
+    public void testGetBereich() {
+        BSNR krankenhaus = BSNR.of(750000001);
+        assertEquals(75, krankenhaus.getBereich());
+    }
+
+    @Test
     public void testIsPseudoNummer() {
         assertTrue(BSNR.PSEUDO_NUMMER.isPseudoNummer());
     }

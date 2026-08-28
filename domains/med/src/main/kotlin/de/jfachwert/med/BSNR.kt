@@ -49,6 +49,25 @@ open class BSNR
     constructor(code: String) : this(code.toInt()) {}
 
     /**
+     * Die ersten 2 Ziffern einer regulaeren neunstelligen BSNR kennzeichnen
+     * grundsaetzlich den Bereich der zustaendigen Kassenaerztlichen
+     * Vereinigung (KV). Sie sind also ein regionales Ordnungsmerkmal,
+     * keine Facharzt- oder Praxisartkennung.
+     * <p>
+     * Es gibt reservierte Sonderbereiche, bei denen das Praefix eine besondere
+     * Versorgungsform kennzeichnet:
+     * <ul>
+     *  <li>00: ambulante spezialfachaerztliche Versorgung (ASV)</li>
+     *  <li>75: Krankenhaus-Betriebsstaette für das Entlassmanagement</li>
+     * </ul>
+     * </p>
+     *
+     * @return 2-stelliger Bereich
+     */
+    val bereich: Int
+        get() = code / 10000000;
+
+    /**
      * Laut Wikipedia ist "179999900" eine Pseudo-Nummer. In diesem Fall gibt
      * diese Methode "true" zurueck.
      *
