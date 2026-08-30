@@ -89,6 +89,7 @@ public final class LuhnVerfahrenTest extends AbstractPruefzifferVerfahrenTest<St
     @Test
     public void testOtherVersicherungsnummer() {
         String versNr = "X234567891";
+        assertEquals("1", MOD10.getPruefziffer(versNr));
         assertTrue(MOD10.isValid(versNr));
     }
 

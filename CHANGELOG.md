@@ -13,6 +13,8 @@ Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Pa
 ## [Unreleased]
 ### Changed
 - Klassen im validation-Modul an Packagestrukutur von `jakarta.validaion-api` angepasst
+### Fixed
+- Prüfung der Prüfziffer für IK jetzt nicht mehr auf 26xxxxxxx und 34xxxxxxx beschränkt
 
 ## [6.8.1] - 2026-08-12
 ### Added

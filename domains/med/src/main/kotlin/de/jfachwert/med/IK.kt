@@ -23,6 +23,8 @@ import de.jfachwert.PruefzifferVerfahren
 import de.jfachwert.pruefung.LengthValidator
 import de.jfachwert.pruefung.LuhnVerfahren
 import de.jfachwert.pruefung.NullValidator
+import de.jfachwert.pruefung.exception.LocalizedValidationException
+import de.jfachwert.pruefung.exception.ValidationException
 import java.util.*
 
 /**
@@ -100,7 +102,7 @@ open class IK
      * @return Ziffer zwischen 0 und 9
      */
     val pruefziffer: Int
-        get() = code / 100000000
+        get() = code % 10
 
     /**
      * Die LANR ist 9-stellig und wird auch neunstellig ausgegeben.
@@ -145,14 +147,25 @@ open class IK
         override fun validate(value: Int): Int {
             val n = VALIDATOR9.validate(value)
             if (!isSpezialIK(n)) {
-                MOD10.validate(Integer.toString(n))
+                try {
+                    MOD10.validate(String.format("%09d", value).substring(2))
+                } catch (ex: ValidationException) {
+                    throw LocalizedValidationException("IK $value: ${ex.localizedMessage}", ex)
+                }
             }
             return n
         }
 
+        /**
+         * Klassifikation 97 bis 00 sind reserviert zur verwaltungsinternen
+         * freien Verwendung. Klassifikation unterhalb von 10 sind nicht
+         * vergeben.
+         * xx9999999 wird gerne zur Markierung genommen. Deswegen wird sie
+         * auch als "spezial" angesehen.
+         */
         private fun isSpezialIK(n: Int): Boolean {
             val klass = n / 10000000
-            return klass != 26 && klass != 34 || n % 10000000 == 9999999
+            return klass < 10 || klass >= 97 || n % 10000000 == 9999999
         }
 
         /**
@@ -164,7 +177,7 @@ open class IK
          * @since 6.8
          */
         fun validateStrict(value: Int): Int {
-            MOD10.validate(Integer.toString(value))
+            MOD10.validate(String.format("%09d", value).substring(2))
             return validate(value)
         }
 

@@ -46,7 +46,7 @@ open class LocalizedValidationException : ValidationException, LocalizedExceptio
 
     /**
      * Im Gegensatz `getMessage()` wird hier die Beschreibung auf deutsch
-     * zurueckgegeben, wenn die Loacale auf Deutsch steht.
+     * zurueckgegeben, wenn die Locale auf Deutsch steht.
      *
      * @return lokalisierte Beschreibung
      */

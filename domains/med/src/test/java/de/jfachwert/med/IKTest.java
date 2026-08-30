@@ -74,6 +74,12 @@ public final class IKTest extends AbstractNumericFachwertTest<Integer, IK> {
         assertThrows(PruefzifferException.class, () -> validator.validateStrict(123456789));
     }
 
+    @Test
+    public void testValidateStrictWithOtherKlassifikation() {
+        IK.Validator validator = new IK.Validator();
+        assertEquals(210000000, validator.validateStrict(210000000));
+    }
+
     /**
      * Test fuer Issue #20.
      */
