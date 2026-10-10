@@ -92,7 +92,7 @@ subprojects {
 
         doLast {
             // .md5- / .sha1-Dateien unter build/libs
-            val artifactsDir = buildDir.resolve("libs")
+            val artifactsDir = layout.buildDirectory.dir("libs").get().asFile
             if (!artifactsDir.exists()) return@doLast
 
             artifactsDir.walkTopDown()

@@ -1,9 +1,9 @@
 
+import org.cyclonedx.gradle.CyclonedxDirectTask
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
-import org.cyclonedx.gradle.CyclonedxDirectTask
 
 /*
  * Diese Datei wurde ueber 'gradle init' erstellt und dann manuell nach und
@@ -70,7 +70,6 @@ kotlin {
 val sourceJar by tasks.registering(Jar::class) {
     archiveClassifier.set("sources")
     from(kotlin.sourceSets.main.get().kotlin)
-    DuplicatesStrategy.WARN
 }
 
 val javadocJar by tasks.registering(Jar::class) {
@@ -100,8 +99,6 @@ tasks {
         toolchain {
             languageVersion.set(JavaLanguageVersion.of(17))
         }
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
     }
 
     withType<KotlinJvmCompile> {
