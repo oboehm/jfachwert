@@ -1,5 +1,6 @@
 
 import org.cyclonedx.gradle.CyclonedxDirectTask
+import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -13,6 +14,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 group = "de.jfachwert"
 version = "6.8.2-SNAPSHOT"
+description = project.name
 
 object Meta {
     const val desc = "Implementierung einiger Fachwerte nach dem WAM-Ansatz"
@@ -27,6 +29,7 @@ plugins {
     `maven-publish`
     signing
     id("org.cyclonedx.bom")
+    id("org.jetbrains.dokka")
 }
 
 // ------------------------------------------------------ repositories
@@ -46,17 +49,22 @@ repositories {
 
 // ------------------------------------------------------ dependencies
 
+// Version-Catalog (gradle/libs.versions.toml) zentral nutzen. In
+// Precompiled-Script-Plugins ist kein `libs`-Accessor verfuegbar, daher
+// wird der Katalog ueber die VersionCatalogsExtension aufgeloest.
+val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+
 dependencies {
-    compileOnly("tools.jackson.core:jackson-databind:3.1.4")
-    testImplementation("tools.jackson.core:jackson-databind:3.1.4")
-    testImplementation(platform("org.junit:junit-bom:5.14.4"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine")
-    testImplementation("org.junit.jupiter:junit-jupiter-params")
-    testImplementation("org.junit.platform:junit-platform-launcher")
-    testImplementation("org.hamcrest:hamcrest:3.0")
-    testImplementation("org.slf4j:slf4j-api:2.0.18")
-    testImplementation("org.patterntesting:patterntesting-rt:2.5.1")
+    compileOnly(libs.findLibrary("jackson-databind").get())
+    testImplementation(libs.findLibrary("jackson-databind").get())
+    testImplementation(platform(libs.findLibrary("junit-bom").get()))
+    testImplementation(libs.findLibrary("junit-jupiter").get())
+    testImplementation(libs.findLibrary("junit-jupiter-engine").get())
+    testImplementation(libs.findLibrary("junit-jupiter-params").get())
+    testImplementation(libs.findLibrary("junit-platform-launcher").get())
+    testImplementation(libs.findLibrary("hamcrest").get())
+    testImplementation(libs.findLibrary("slf4j-api").get())
+    testImplementation(libs.findLibrary("patterntesting-rt").get())
 }
 
 // ------------------------------------------------------ Kotlin & Java target

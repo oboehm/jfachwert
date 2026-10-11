@@ -4,7 +4,35 @@
 [versions]
 kotlin-gradle-plugin = "2.4.10"
 cyclonedx-bom-gradle-plugin = "3.3.0"
+dokka-gradle-plugin = "1.9.20"
+jackson = "3.1.4"
+commons-lang3 = "3.20.0"
+junit = "5.14.4"
+hamcrest = "3.0"
+slf4j = "2.0.18"
+patterntesting = "2.5.1"
+money-api = "1.1"
+moneta = "1.4.1"
+javamoney-tck = "1.1"
+jakarta-validation = "3.1.0"
+mutability-detector = "0.10.6"
 
 [libraries]
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-gradle-plugin" }
 cyclonedx-bom-gradle-plugin = { module = "org.cyclonedx.bom:org.cyclonedx.bom.gradle.plugin", version.ref = "cyclonedx-bom-gradle-plugin" }
+dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka-gradle-plugin" }
+jackson-databind = { module = "tools.jackson.core:jackson-databind", version.ref = "jackson" }
+commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commons-lang3" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
+junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+patterntesting-rt = { module = "org.patterntesting:patterntesting-rt", version.ref = "patterntesting" }
+javax-money = { module = "javax.money:money-api", version.ref = "money-api" }
+moneta-bp = { module = "org.javamoney:moneta-bp", version.ref = "moneta" }
+javamoney-tck = { module = "org.javamoney:javamoney-tck", version.ref = "javamoney-tck" }
+jakarta-validation = { module = "jakarta.validation:jakarta.validation-api", version.ref = "jakarta-validation" }
+mutabilitydetector = { module = "org.mutabilitydetector:MutabilityDetector", version.ref = "mutability-detector" }

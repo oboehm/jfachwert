@@ -4,12 +4,10 @@
  */
 
 plugins {
-    id("org.jetbrains.dokka")
-    id("de.jfachwert.java-conventions")
+    id("de.jfachwert.domain-conventions")
 }
 
 dependencies {
-    api(project(":core"))
     api(project(":bank"))
     api(project(":formular"))
     api(project(":math"))

@@ -1,34 +1,8 @@
 plugins {
-    id("org.jetbrains.dokka")
-    id("org.asciidoctor.jvm.convert") version "4.0.2"
+    id("org.asciidoctor.jvm.convert")
     id("de.jfachwert.java-conventions")
 }
 
-subprojects {
-    apply(plugin = "org.jetbrains.dokka")
-}
-
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib")
-    api("org.apache.commons:commons-lang3:3.20.0")
-    // optional dependency
-    compileOnly("tools.jackson.core:jackson-databind:3.1.4")
+    api(libs.commons.lang3)
 }
-
-sourceSets {
-    main {
-        kotlin {
-            srcDir("src/main/kotlin")
-        }
-        java {
-            srcDir("src/main/java")
-        }
-    }
-    test {
-        java {
-            srcDir("src/test/java")
-        }
-    }
-}
-
-description = "core"

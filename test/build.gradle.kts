@@ -4,26 +4,21 @@
  */
 
 plugins {
-    id("org.jetbrains.dokka")
     id("de.jfachwert.java-conventions")
 }
 
 dependencies {
     implementation(project(":core"))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib")
-    implementation("org.junit.jupiter:junit-jupiter:5.10.0")
-    implementation("org.hamcrest:hamcrest:2.2")
-    implementation("org.patterntesting:patterntesting-rt:2.5.1")
-    api("javax.money:money-api:1.1")
-    // optional dependency
-    compileOnly("tools.jackson.core:jackson-databind:3.1.4")
-    testImplementation("org.mutabilitydetector:MutabilityDetector:0.10.6")
-    testImplementation("org.javamoney:moneta-bp:1.4.1")
-    testImplementation("org.javamoney:javamoney-tck:1.1") {
+    implementation(platform(libs.junit.bom))
+    implementation(libs.junit.jupiter)
+    implementation(libs.hamcrest)
+    implementation(libs.patterntesting.rt)
+    api(libs.javax.money)
+    testImplementation(libs.mutabilitydetector)
+    testImplementation(libs.moneta.bp)
+    testImplementation(libs.javamoney.tck) {
         exclude(group = "org.javamoney", module = "moneta")
         exclude(group = "org.mutabilitydetector", module = "MutabilityDetector")
     }
-    testImplementation("org.slf4j:slf4j-api:2.0.9")
+    testImplementation(libs.slf4j.api)
 }
-
-description = "test"

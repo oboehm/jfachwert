@@ -6,13 +6,9 @@
 import java.security.MessageDigest
 
 plugins {
-    id("maven-publish")
-    id("signing")
-    id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
-    id("org.jetbrains.dokka")
-    id("org.asciidoctor.jvm.convert") version "4.0.2"
+    id("io.github.gradle-nexus.publish-plugin")
+    id("org.asciidoctor.jvm.convert")
     id("de.jfachwert.java-conventions")
-    signing
 }
 
 // Aggregierte SBOM (CycloneDX) aller Module im Root erzeugen.
@@ -55,9 +51,7 @@ asciidoctorj {
     )
 }
 
-signing {
-    sign(publishing.publications["maven"])
-}
+// Signieren und Publishing sind im Konventions-Plugin (buildSrc) konfiguriert.
 
 // ./gradlew publishToSonatype   -> check https://oss.sonatype.org/content/repositories/snapshots/de/jfachwert/
 // ./gradlew publishToMavenLocal -> check local maven repo at ~/.m2/repository/de/jfachwert
