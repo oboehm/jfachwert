@@ -75,12 +75,12 @@ kotlin {
 
 // ------------------------------------------------------ source & javadoc
 
-val sourceJar by tasks.registering(Jar::class) {
+val sourceJar = tasks.register<Jar>("sourceJar") {
     archiveClassifier.set("sources")
     from(kotlin.sourceSets.main.get().kotlin)
 }
 
-val javadocJar by tasks.registering(Jar::class) {
+val javadocJar = tasks.register<Jar>("javadocJar") {
     group = JavaBasePlugin.DOCUMENTATION_GROUP
     description = "Assembles Javadoc JAR"
     archiveClassifier.set("javadoc")

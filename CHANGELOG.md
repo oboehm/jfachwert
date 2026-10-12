@@ -7,12 +7,12 @@ genauso wie an [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Aus Gründen der Übersichtlichkeit sind bei älteren Versionen die einzelnen Patch-Versionen nicht extra aufgeführt, sondern in der Minor-Version.
 
 ## [Planned]
-- Gradle-Files überarbeiten (Deprecated-Aufrufe raus)
-- auf Gradle 9 und Kotlin 2.3 aktualisieren
+- auf Gradle 10 aktualisieren
 
 ## [Unreleased]
 ### Changed
 - Klassen im validation-Modul an Packagestrukutur von `jakarta.validaion-api` angepasst
+- von Gradle 8 auf Gradle 9 aktualisiert
 ### Fixed
 - Prüfung der Prüfziffer für IK jetzt nicht mehr auf 26xxxxxxx und 34xxxxxxx beschränkt
 
